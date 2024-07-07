@@ -4,7 +4,7 @@ import {Logo_animate} from "./Logo_animate";
 
 const Splash: React.FC = () => {
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center ">
+    <div className="w-full h-screen flex flex-col justify-center items-center bg-primary">
       <Logo_animate />
       <LoadingIcon
         icon="bars"
