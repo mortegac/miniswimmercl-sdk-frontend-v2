@@ -1,0 +1,111 @@
+import { lazy } from "react";
+// import { Navigate, useLocation } from "react-router-dom";
+
+import {
+    PUBLIC,
+    PRIVATE,
+    LEADS,
+    STUDENTS, 
+    LOCATIONS, 
+    COURSES,
+    PAYMENTS,
+    TICKETS,
+    NEW_EXPENSE, 
+    EXPENSES, 
+    INCOME
+   
+  } from "./paths";
+  
+  import Layout from "../themes";
+  
+  const Dashboard = lazy(() => import("../pages/private/Dashboard"));
+  const Leads = lazy(() => import("../pages/private/Leads"));
+  const Students = lazy(() => import("../pages/private/Students"));
+  const Locations = lazy(() => import("../pages/private/Locations"));
+  const Courses = lazy(() => import("../pages/private/Payments"));
+  const Payments = lazy(() => import("../pages/private/Locations"));
+  const Tickets = lazy(() => import("../pages/private/Tickets"));
+  const Expenses = lazy(() => import("../pages/private/Expenses"));
+  const NewExpenses = lazy(() => import("../pages/private/NewExpenses"));
+  const Income = lazy(() => import("../pages/private/Income"));
+
+  export function PrivateValidation() {
+    // const { isAuthenticated, ...auth } = useAppSelector(selectAuth);
+    // const rutas = useAppSelector(selectSideMenu);
+    // const location = useLocation();
+    // const prevUrl = location.state?.from ?? PUBLIC;
+  
+    // if (!isAuthenticated) {
+    //   return <Navigate to={prevUrl} state={{ from: location }} />;
+    // }
+    
+    return (
+        <>
+          {/* <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          /> */}
+          <Layout />
+        </>
+      );
+    }
+  
+    // return <Navigate to={"/"} state={{ from: location }} />;
+//   }
+  
+export const privateRoutes = {
+    path: PRIVATE,
+    element: <PrivateValidation />,
+    children: [
+        {
+          path: PRIVATE,
+          element: <Dashboard />,
+        },
+        {
+          path: LEADS,
+          element: <Leads />,
+        },
+        {
+          path: STUDENTS,
+          element: <Students />,
+        },
+        {
+          path: LOCATIONS,
+          element: <Locations />,
+        },
+        {
+          path: COURSES,
+          element: <Courses />,
+        },
+        {
+          path: PAYMENTS,
+          element: <Payments />,
+        },
+        {
+          path: TICKETS,
+          element: <Tickets />,
+        },
+        {
+          path: NEW_EXPENSE,
+          element: <NewExpenses />,
+        },
+        {
+          path: EXPENSES,
+          element: <Expenses />,
+        },
+        {
+          path: INCOME,
+          element: <Income />,
+        },
+      
+        
+      ],
+  };
