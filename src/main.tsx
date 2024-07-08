@@ -14,6 +14,30 @@ import  { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports.js';
 Amplify.configure(awsExports);
 
+
+
+import { CookieStorage } from 'aws-amplify/utils';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+type SameSite = 'strict' | 'lax' | 'none';
+interface CookieStorageOptions {
+  domain: string;
+  expires: number;
+  secure: boolean;
+  sameSite: SameSite;
+}
+
+const cookieOptions: CookieStorageOptions = {
+  domain: 'app.miniswimmer.cl',
+  expires: 365, // número de días
+  secure: true,
+  sameSite: 'strict' // o 'lax' o 'none'
+};
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new CookieStorage(cookieOptions));
+
+
+
+
 // ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 //   <BrowserRouter>
 //     <Provider store={store}>

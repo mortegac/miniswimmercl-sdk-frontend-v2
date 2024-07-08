@@ -1,7 +1,6 @@
 import { Component, ErrorInfo } from 'react';
 
-
-import errorIllustration from "./assets/images/error-illustration.svg";
+import {ErrorIllustration} from "./assets/images/error-illustration";
 import Button from "@/components/Base/Button";
 interface Props {
   children: React.ReactNode;
@@ -45,12 +44,8 @@ class ErrorBoundary extends Component<Props, State> {
         <div className="container">
           {/* BEGIN: Error Page */}
           <div className="flex flex-col items-center justify-center h-screen text-center error-page lg:flex-row lg:text-left">
-            <div className="-intro-x lg:mr-20">
-              <img
-                alt="Photo"
-                className="w-[450px] h-48 lg:h-auto"
-                src={errorIllustration}
-              />
+            <div className="-intro-x lg:mt-20">
+              <ErrorIllustration/>
             </div>
             <div className="mt-10 text-white lg:mt-0">
               <div className="font-medium intro-x text-8xl">500</div>

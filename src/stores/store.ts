@@ -6,6 +6,9 @@ import themeReducer from "./themeSlice";
 import compactMenuReducer from "./compactMenuSlice";
 import pageLoaderReducer from "./pageLoaderSlice";
 
+import authReducer from "./Users/slice";
+
+
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
@@ -14,6 +17,8 @@ export const store = configureStore({
     theme: themeReducer,
     compactMenu: compactMenuReducer,
     pageLoader: pageLoaderReducer,
+    
+    auth: authReducer,
   },
 });
 

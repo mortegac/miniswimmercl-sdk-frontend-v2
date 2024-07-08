@@ -7,19 +7,17 @@ import { signInWithRedirect} from "aws-amplify/auth";
 import { CookieStorage } from 'aws-amplify/utils';
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
-// import logoGoogle from "../../../assets/images/logo-google.svg";
-import logoColor from "../../../assets/images/logo-color.svg";
-import swimmer from "../../../assets/images/swimmer.svg";
+// import logoColorGoogle from "../../../assets/images/logoColor-google.svg";
+import {LogoColor} from "../../../assets/images/logoColor";
+import {Swimmer} from "../../../assets/images/swimmer";
 
-// import Splash from "../../../components/Splash";
+import Splash from "@/components/Splash";
 
 // import { Loading } from "../../../components/LoadingIcon";
 import Button from "@/components/Base/Button";
 
-// import { useAppSelector, useAppDispatch } from "../../../store/hooks";
-// import { selectAuth } from "../../../store/Users/users.slice";
-// import {getAuthUser} from "../../../store/Users/users.slice"
-
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { selectAuth, getAuthUser} from "@/stores/Users/slice";
 
 
 type SameSite = 'strict' | 'lax' | 'none';
@@ -57,7 +55,10 @@ function Main() {
   
   // const user = useAppSelector(selectAuth);
   // const { isAuthenticated } = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
   
+  const user = useAppSelector(selectAuth);
+  const { isAuthenticated } = useAppSelector(selectAuth);
  
  
   
@@ -69,7 +70,7 @@ function Main() {
         case "signInWithRedirect":
           console.log("Sign in with redirect");
           
-          // dispatch(getAuthUser());
+          dispatch(getAuthUser());
           
           break;
         case "signInWithRedirect_failure":
@@ -83,7 +84,7 @@ function Main() {
           // setLoading(false)
           break;
         case "signedOut":
-          console.log("Se ha hecho logout");
+          console.log("Se ha hecho logoColorut");
           // setLoading(false)
           break;
         case "signedIn":
@@ -93,14 +94,14 @@ function Main() {
       }
     });
 
-    // dispatch(getAuthUser());
+    dispatch(getAuthUser());
     
     return unsubscribe;
   }, []);
   
-  // if (isAuthenticated || user.status === "loading") {
-  //   return <Splash />;
-  // }
+  if (isAuthenticated || user.status === "loading") {
+    return <Splash />;
+  }
   return (
     <>
 <div className="bg-primary">
@@ -108,8 +109,8 @@ function Main() {
         <div className="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full">
           <div className="bg-white border border-gray-300 rounded-lg p-12 pt-8 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
           <div className="flex justify-center">
-          {/* <span>isAuthenticated = {JSON.stringify(isAuthenticated)}</span> */}
-          <img src={logoColor} className="mb-8"/>
+          <LogoColor/>
+          <span>isAuthenticated = {JSON.stringify(isAuthenticated)}</span>
           </div>
 
             <form className="space-y-4" action="/api/auth/google-sign-in" 
@@ -139,7 +140,7 @@ function Main() {
                   className="w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB]  px-12 py-4 border-[1px] border-[#F194EE] "
                   onClick={() => signInWithRedirect({ provider: "Google", customState: "shopping-cart" })}
                 >                 
-                  {/* <img src={logoGoogle} /> */}
+                  {/* <img src={logoColorGoogle} /> */}
                   <svg className="w-8" viewBox="0 0 533.5 544.3">
                     <path
                         d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z"
@@ -162,7 +163,7 @@ function Main() {
             {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
           </div>
           <div className="lg:h-[400px] md:h-[300px] max-md:mt-8 block lg:block max-md:hidden">
-            <img src={swimmer} />
+          <Swimmer/>
           </div>
         </div>
       </div>

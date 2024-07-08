@@ -1,3 +1,7 @@
+
+
+import { signOut } from "aws-amplify/auth";
+
 import "@/assets/css/vendors/simplebar.css";
 import "@/assets/css/themes/echo.css";
 import { Transition } from "react-transition-group";
@@ -524,8 +528,9 @@ function Main() {
                       Mi Perfil
                     </Menu.Item>
                     <Menu.Item
-                      onClick={() => {
-                        navigate("login");
+                      onClick={async() => {
+                        await signOut()
+                        navigate("auth");
                       }}
                     >
                       <Lucide icon="Power" className="w-4 h-4 mr-2" />

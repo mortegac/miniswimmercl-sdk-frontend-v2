@@ -1,5 +1,9 @@
 import { lazy } from "react";
-// import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+
+
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { selectAuth, getAuthUser} from "@/stores/Users/slice";
 
 import {
     PUBLIC,
@@ -30,16 +34,16 @@ import {
   const Income = lazy(() => import("../pages/private/Income"));
 
   export function PrivateValidation() {
-    // const { isAuthenticated, ...auth } = useAppSelector(selectAuth);
-    // const rutas = useAppSelector(selectSideMenu);
-    // const location = useLocation();
-    // const prevUrl = location.state?.from ?? PUBLIC;
+    const { isAuthenticated, ...auth } = useAppSelector(selectAuth);
+    const location = useLocation();
+    const prevUrl = location.state?.from ?? PUBLIC;
   
-    // if (!isAuthenticated) {
-    //   return <Navigate to={prevUrl} state={{ from: location }} />;
-    // }
+    if (!isAuthenticated) {
+      return <Navigate to={prevUrl} state={{ from: location }} />;
+    }
     
-    return (
+    if (location.pathname == "/") {
+      return (
         <>
           {/* <ToastContainer
             position="top-right"
@@ -58,8 +62,8 @@ import {
       );
     }
   
-    // return <Navigate to={"/"} state={{ from: location }} />;
-//   }
+    return <Navigate to={"/"} state={{ from: location }} />;
+  }
   
 export const privateRoutes = {
     path: PRIVATE,

@@ -201,7 +201,7 @@ function Main(props: MainProps) {
                                 >
                                   <div className="w-6 h-6 overflow-hidden border-2 rounded-full image-fit zoom-in border-slate-200/70 box">
                                     <img
-                                      alt="Tailwise - Admin Dashboard Template"
+                                      alt="Miniswimmer"
                                       src={faker.photo}
                                     />
                                   </div>
@@ -282,7 +282,7 @@ function Main(props: MainProps) {
                                 >
                                   <div className="w-6 h-6 overflow-hidden border-2 rounded-full image-fit zoom-in border-slate-200/70 box">
                                     <img
-                                      alt="Tailwise - Admin Dashboard Template"
+                                      alt="Miniswimmer"
                                       src={faker.images[0].path}
                                     />
                                   </div>

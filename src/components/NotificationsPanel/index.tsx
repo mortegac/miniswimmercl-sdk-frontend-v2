@@ -48,7 +48,7 @@ function Main(props: MainProps) {
                   <div>
                     <div className="overflow-hidden border-2 rounded-full w-11 h-11 image-fit border-slate-200/70">
                       <img
-                        alt="Tailwise - Admin Dashboard Template"
+                        alt="Miniswimmer"
                         src={users.fakeUsers()[0].photo}
                       />
                     </div>
@@ -63,19 +63,19 @@ function Main(props: MainProps) {
                         <div className="grid grid-cols-3 overflow-hidden rounded-[0.6rem]">
                           <div className="h-12 sm:h-16 overflow-hidden border image-fit border-slate-100 saturate-[.6] hover:saturate-100 cursor-pointer">
                             <img
-                              alt="Tailwise - Admin Dashboard Template"
+                              alt="Miniswimmer"
                               src={faker.images[0]}
                             />
                           </div>
                           <div className="h-12 sm:h-16 overflow-hidden border image-fit border-slate-100 saturate-[.6] hover:saturate-100 cursor-pointer">
                             <img
-                              alt="Tailwise - Admin Dashboard Template"
+                              alt="Miniswimmer"
                               src={faker.images[1]}
                             />
                           </div>
                           <div className="h-12 sm:h-16 overflow-hidden border image-fit border-slate-100 saturate-[.6] hover:saturate-100 cursor-pointer">
                             <img
-                              alt="Tailwise - Admin Dashboard Template"
+                              alt="Miniswimmer"
                               src={faker.images[2]}
                             />
                           </div>

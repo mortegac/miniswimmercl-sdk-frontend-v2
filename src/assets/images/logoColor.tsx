@@ -1,3 +1,4 @@
+export const LogoColor = () =>
   <svg width="235" height="178" viewBox="0 0 235 178" fill="none" xmlns="http://www.w3.org/2000/svg">
     <mask id="path-1-outside-1_339_4144" maskUnits="userSpaceOnUse" x="5" y="31" width="103" height="54" fill="black">
     <rect fill="white" x="5" y="31" width="103" height="54"/>

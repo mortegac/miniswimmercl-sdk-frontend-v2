@@ -223,7 +223,7 @@ function Main() {
                 <div className="mt-1 text-lg font-medium">Invoicing</div>
                 <div className="mt-1 leading-relaxed text-slate-600">
                   Send an invoice or estimate in minutes. Customers can pay with
-                  cards or Tailwise.
+                  cards or Miniswimmer.
                 </div>
               </div>
               <div className="flex flex-col w-full gap-3 sm:w-auto sm:flex-row md:ml-auto">
