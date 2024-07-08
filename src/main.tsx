@@ -11,13 +11,19 @@ import Router from "./router";
 import "./assets/css/app.css";
 
 import  { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports.js';
-Amplify.configure(awsExports);
-
-
-
 import { CookieStorage } from 'aws-amplify/utils';
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import awsExports from './aws-exports.js';
+if (process.env.NODE_ENV === "development") {
+  awsExports.oauth.redirectSignIn = "http://localhost:5173/";
+  awsExports.oauth.redirectSignOut = "http://localhost:5173/";
+} else {
+  awsExports.oauth.redirectSignIn = "https://app.miniswimmer.cl/";
+  awsExports.oauth.redirectSignOut = "https://app.miniswimmer.cl/";
+}
+
+Amplify.configure(awsExports);
+
 type SameSite = 'strict' | 'lax' | 'none';
 interface CookieStorageOptions {
   domain: string;
@@ -27,24 +33,13 @@ interface CookieStorageOptions {
 }
 
 const cookieOptions: CookieStorageOptions = {
-  domain: 'app.miniswimmer.cl',
+  domain: process.env.NODE_ENV === "development" ?'localhost':'app.miniswimmer.cl',
   expires: 365, // número de días
   secure: true,
   sameSite: 'strict' // o 'lax' o 'none'
 };
 
 cognitoUserPoolsTokenProvider.setKeyValueStorage(new CookieStorage(cookieOptions));
-
-
-
-
-// ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-//   <BrowserRouter>
-//     <Provider store={store}>
-//       <Router />
-//     </Provider>
-//     <ScrollToTop />
-//   </BrowserRouter>
   
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
