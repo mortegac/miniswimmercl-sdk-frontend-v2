@@ -42,7 +42,7 @@ import {
       return <Navigate to={prevUrl} state={{ from: location }} />;
     }
     
-    if (location.pathname == "/") {
+    // if (location.pathname == "/") {
       return (
         <>
           {/* <ToastContainer
@@ -60,9 +60,9 @@ import {
           <Layout />
         </>
       );
-    }
+    // }
   
-    return <Navigate to={"/"} state={{ from: location }} />;
+    // return <Navigate to={"/"} state={{ from: location }} />;
   }
   
 export const privateRoutes = {

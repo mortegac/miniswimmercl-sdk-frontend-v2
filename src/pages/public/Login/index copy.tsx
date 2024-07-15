@@ -1,37 +1,135 @@
 
 import { useEffect } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Hub } from "aws-amplify/utils";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import clsx from "clsx";
 
+// import { fetchUserAttributes } from 'aws-amplify/auth';
+// import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
+import { signInWithRedirect} from "aws-amplify/auth";
+import { CookieStorage } from 'aws-amplify/utils';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+
+// import logoColorGoogle from "../../../assets/images/logoColor-google.svg";
 import {LogoColor} from "../../../assets/images/logoColor";
 import {Swimmer} from "../../../assets/images/swimmer";
 
-import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { selectAuth, getAuthUser, getLoginUser} from "@/stores/Users/slice";
-
-
-
-
 import Splash from "@/components/Splash";
+
+// import { Loading } from "../../../components/LoadingIcon";
 import Button from "@/components/Base/Button";
 import { FormInput, FormLabel } from "@/components/Base/Form";
 
-const AddUserSchema = yup.object().shape({
-  email: yup.string().required("debes colocar tu email."),
-  password: yup.string().required("debes colocar tu contraseña"),
-});
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { selectAuth, getAuthUser} from "@/stores/Users/slice";
+
+
+type SameSite = 'strict' | 'lax' | 'none';
+interface CookieStorageOptions {
+  domain: string;
+  expires: number;
+  secure: boolean;
+  sameSite: SameSite;
+}
+
+const cookieOptions: CookieStorageOptions = {
+  domain: 'localhost',
+  expires: 365, // número de días
+  secure: true,
+  sameSite: 'strict' // o 'lax' o 'none'
+};
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(new CookieStorage(cookieOptions));
+
 
 interface LoginFormInputs {
   email: string;
   password: string;
 }
 
+const AddUserSchema = yup.object().shape({
+  email: yup.string().required("debes colocar tu email."),
+  password: yup.string().required("debes colocar tu contraseña"),
+});
+
+interface ErrorTypes {
+  [key: string]: string;
+}
+const typeOfError: ErrorTypes = {
+  // eslint-disable-next-line no-useless-computed-key
+  [""]: "",
+  // [""]: "Error desconocido, consulte con su administrador",
+  ["PasswordResetRequiredExceptionon"]:
+    "Usuario desabilitado, consulte con su administrador",
+  ["UserNotFoundException"]: "Usuario o password incorrecta", //No existe el usuario
+  ["NotAuthorizedException"]: "El Email o la Password son incorrectos",
+  ["InvalidParameterException"]: "Valores ingresados no son válidos",
+  ["InvalidPasswordException"]: "Valores ingresados no son válidos",
+  ["UsernameExistsException"]:
+    "Debe activar su cuenta ingresando el código enviado a su email",
+};
+
 function Main() {
+  // type AuthUserWithEmail = AuthUser & { email?: string };
+  // const [user, setUser] = useState<AuthUserWithEmail | null>(null);
+  // const [loading, setLoading] = useState<Boolean>(false);
+
+  // const [error, setError] = useState<string | null>(null);
+  // const [customState, setCustomState] = useState<any | null>(null);
+  
+  // const dispatch = useAppDispatch();
+  
+  // const user = useAppSelector(selectAuth);
+  // const { isAuthenticated } = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
+  
   const user = useAppSelector(selectAuth);
+  const { isAuthenticated } = useAppSelector(selectAuth);
+ 
+ 
+  
+  // useEffect(() => {
+  //   const unsubscribe = Hub.listen("auth", ({ payload }) => {
+  //     console.log("GOOGLE-PAYLOAD >>> ", payload)
+  //     switch (payload.event) {
+  //       case "signInWithRedirect":
+  //         console.log("Sign in with redirect");
+          
+  //         dispatch(getAuthUser());
+          
+  //         break;
+  //       case "signInWithRedirect_failure":
+  //         // setError("An error has occurred during the OAuth flow.");
+  //         console.log("Error en signin with redirect");
+  //         // setLoading(false)
+  //         break;
+  //       case "customOAuthState":
+  //         // setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
+  //         console.log("Custom OAuth State fixed");
+  //         // setLoading(false)
+  //         break;
+  //       case "signedOut":
+  //         console.log("Se ha hecho logoColorut");
+  //         // setLoading(false)
+  //         break;
+  //       case "signedIn":
+  //         console.log("Se ha hecho signIn");
+  //         // setLoading(false)
+  //         break;
+  //     }
+  //   });
+
+  //   dispatch(getAuthUser());
+    
+  //   return unsubscribe;
+  // }, []);
+  
+  if (isAuthenticated || user.status === "loading") {
+    return <Splash />;
+  }
+  
   
   const {
     register,
@@ -45,23 +143,18 @@ function Main() {
   const onSubmit = async (data: LoginFormInputs) => {
     const { email, password } = data;
     console.log(errors);
-    const request = await dispatch(getLoginUser({ email, password }));
+    // const request = await dispatch(getLoginUser({ email, password }));
   };
-  
-  if (user.isAuthenticated || user.status === "loading") {
-    return <Splash />;
-  }
   
   return (
     <>
-    {user.isAuthenticated && redirect("/")}
-    <div className="bg-primary">
+<div className="bg-primary">
       <div className="min-h-screen flex fle-col items-center justify-center py-6 px-4">
         <div className="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full">
           <div className="bg-white border border-gray-300 rounded-lg p-12 pt-8 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
           <div className="flex justify-center">
           <LogoColor/>
-          {/* <span>isAuthenticated = {JSON.stringify(isAuthenticated)}</span> */}
+          <span>isAuthenticated = {JSON.stringify(isAuthenticated)}</span>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -88,7 +181,7 @@ function Main() {
                     {errors.email && (
                       <div className="mt-2 text-danger">
                         {typeof errors.email.message === "string" &&
-                          "* Campo obligatorio"}
+                          "* El campo es obligatorio"}
                       </div>
                     )}
                   </div>
@@ -115,7 +208,7 @@ function Main() {
                     {errors.password && (
                       <div className="mt-2 text-danger">
                         {typeof errors.password.message === "string" &&
-                          "* Campo obligatorio"}
+                          "* El campo es obligatorio"}
                       </div>
                     )}
                   </div>
@@ -142,28 +235,53 @@ function Main() {
                     {/* {typeOfError[errorMessage || ""]} */}
                   </div>
                   <div className="text-center intro-x xl:mt-8 xl:text-left">
-                  <Button
-                  rounded
-                  
-                  type="submit"           
-                  className="mb-6 w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB]  px-12 py-4 border-[1px] border-[#F194EE] "
-                  // onClick={() => signInWithRedirect({ provider: "Google", customState: "shopping-cart" })}
-                >                 
-                  <span className="ml-2 text-white text-lg">Ingresar</span>
-                </Button>  
-                
-                   
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-full px-4 py-3 align-top xl:w-32 xl:mr-3"
+                    >
+                      Login
+                    </Button>
+
+                    {/* <Link to={REGISTER}>
+                      <Button
+                        variant="outline-secondary"
+                        className="w-full px-4 py-3 mt-3 align-top xl:w-32 xl:mt-0 border-0"
+                      >
+                        Registrarse
+                      </Button>
+                    </Link> */}
                   </div>
                 </form>
-                             
+                
+                
+                
+            {/* <form className="space-y-4" action="/api/auth/google-sign-in" 
+        method="GET" >
+              <div className="mb-8 text-center">
+                <p className="text-gray-500 text-lg mt-4 leading-relaxed">Ingrese utilizando tu cuenta de google
+</p>
+              </div> */}
+
+              {/* { loading && <Loading /> } */}
+              
+
+  {/* <Button
+    rounded
+    variant="primary" 
+      type="button"                  
+      className="w-full px-12 py-4 border-[1px] border-primary "
+      onClick={() => signOut()}
+  >
+    <span className="ml-2 text-white text-lg">Sign Out</span>
+  </Button> */}
+             
                 <div className="flex flex-col items-center">
                   <Button
                   rounded
-                  variant="outline-secondary"
                   type="button"                  
-                  className="w-full px-12 py-4 border-[1px] border-[#F194EE] "
-                  // className="w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB]  px-12 py-4 border-[1px] border-[#F194EE] "
-                  // onClick={() => signInWithRedirect({ provider: "Google", customState: "shopping-cart" })}
+                  className="w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB]  px-12 py-4 border-[1px] border-[#F194EE] "
+                  onClick={() => signInWithRedirect({ provider: "Google", customState: "shopping-cart" })}
                 >                 
                   {/* <img src={logoColorGoogle} /> */}
                   <svg className="w-8" viewBox="0 0 533.5 544.3">
@@ -180,7 +298,7 @@ function Main() {
                         d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z"
                         fill="#ea4335" />
                 </svg>
-                  <span className="ml-4 text-primary text-lg">Continua con Google</span>
+                  <span className="ml-2 text-white text-lg">Continua con Google</span>
                 </Button>                        
                 </div>
        

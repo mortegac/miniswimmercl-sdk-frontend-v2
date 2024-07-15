@@ -1,5 +1,6 @@
 html {
     body {
+        background-color: #AE5EAB;
         letter-spacing: theme("letterSpacing.wide");
         font-size: theme("fontSize.sm");
         -webkit-font-smoothing: antialiased;

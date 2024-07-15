@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchAuthUser} from "./services"
+import {fetchAuthUser, handleLogin} from "./services"
 
 import { Roles } from "../Roles/types";
 import { UserPermissions } from "../UserPermissions/types";
@@ -31,6 +31,17 @@ export const initialState: UserState = {
 };
 
 
+
+export const getLoginUser = createAsyncThunk(
+  "auth/userLogin",
+  async (params: { password: string; email: string }, thunkAPI) => {
+    try {
+      return await handleLogin(params);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const getAuthUser = createAsyncThunk(
   "auth/user",
@@ -66,19 +77,52 @@ export const authSlice = createSlice({
         state.status = "idle";
         
         console.log("---getUser --action---", action)
-        // state.isAuthenticated = action?.payload?.isAuthenticated || false;
         action.payload
         state.isAuthenticated = action?.payload?.id ? true:false;
         state.name = action?.payload?.name || "";
         state.email = action?.payload?.email || "";
-
-        // state.UserPermissions = action?.payload?.Permission || [];
-        // if (action?.payload?.Role !== undefined) {
-        //   state.Roles = action.payload.Roles;
-        // }
-        // state.firstLogin = action?.payload?.firstLogin || false;
-        // state.step = "login";
       })
+      
+      
+      
+      // LOGIN
+      .addCase(getLoginUser.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getLoginUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getLoginUser.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        console.log("---getUser --action---", action)
+        action.payload
+        state.isAuthenticated = objPayload?.userId ? true:false;
+        state.name = action?.payload?.name || "";
+        state.email = action?.payload?.email || "";
+      })
+      
+      // GET LOGIN USER
+      // .addCase(getLoginUser.rejected, (state, action) => {
+      //   const objPayload: any = action.payload;
+      //   console.log(">>>action-payload>>>", action.payload);
+      //   state.status = "failed";
+      //   state.errorMessage = objPayload.errorMessage;
+      // })
+      // .addCase(getLoginUser.pending, (state) => {
+      //   state.status = "loading";
+      // })
+      // .addCase(getLoginUser.fulfilled, (state, action) => {
+      //   state.status = "idle";
+      //   state.isAuthenticated = action?.payload?.isAuthenticated || false;
+      //   state.name = action?.payload?.name || "";
+      //   state.email = action?.payload?.email || "";
+      //   state.firstLogin = action?.payload?.firstLogin || false;
+      //   state.step = "login";
+      // })
     
   },
 });
