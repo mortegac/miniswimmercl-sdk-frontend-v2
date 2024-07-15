@@ -26,6 +26,7 @@ function Main() {
           <div className="flex flex-col box px-8 py-4">
             <div className="overflow-auto xl:overflow-visible flex justify-cenmter items-center">
               LISTADO
+            
             </div>
             
           </div>

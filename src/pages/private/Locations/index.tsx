@@ -1,6 +1,31 @@
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import _ from "lodash";
+import LocationsCard from "./components/LocationsCard";
+
+
+// <LocationsCard data={{  id: "",
+//   name: "La Reina",
+//   typeOfLocation: "",
+//   status: ""}}
+// />
+
+
+const data:any=[
+  { id: "uno", name: "La Reina", typeOfLocation: "", status: "approved"},
+  { id: "dos", name: "Vitacura", typeOfLocation: "", status: "approved"},
+  { id: "tres", name: "La Dehesa", typeOfLocation: "", status: "approved"},
+]
+function Content(props: any) {
+  // const { data } = props;
+  return (
+    <div className="grid grid-cols-12 gap-6">
+      {Array.isArray(data) &&
+        data.map((item: any, i: number) => <LocationsCard data={item} />)}
+    </div>
+  );
+}
+
 
 function Main() {
   return (
@@ -21,11 +46,13 @@ function Main() {
             </Button>
           </div>
         </div>
-        <div className="flex flex-col gap-8 mt-3.5 mt-8">
+        <div className="flex flex-col gap-8 mt-8">
        
-          <div className="flex flex-col box px-8 py-4">
+          <div className="flex flex-col px-8 py-4">
             <div className="overflow-auto xl:overflow-visible flex justify-cenmter items-center">
-              LISTADO
+              
+             <Content />
+             
             </div>
             
           </div>
