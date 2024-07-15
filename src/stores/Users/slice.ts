@@ -99,7 +99,7 @@ export const authSlice = createSlice({
         state.status = "idle";
         
         console.log("---getUser --action---", action)
-        action.payload
+        
         state.isAuthenticated = objPayload?.userId ? true:false;
         state.name = action?.payload?.name || "";
         state.email = action?.payload?.email || "";

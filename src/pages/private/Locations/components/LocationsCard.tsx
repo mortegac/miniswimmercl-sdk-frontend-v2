@@ -1,110 +1,33 @@
 import React, { useState, useId } from "react";
-import { Link } from "react-router-dom";
-// import Lucide from "@/components/Base/Lucide";
-import Button from "@/components/Base/Button";
-// import Button from "../../../../base-components/Button";
-// import Lucide from "../../../../base-components/Lucide";
+// import { Link } from "react-router-dom";
 
-// import IconTypeOfdata from "../../../../components/Icondatas";
+import { Location } from '../../../../stores/Locations/types';
 
-interface Location {
-  id: string;
-  name: string;
-  typeOfLocation: string;  
-  status: string;
-
-}
 
 interface Props {
-  data: Location;
+  location: Location;
+  
 }
 
-const typeOfName: any = {
-  // eslint-disable-next-line no-useless-computed-key
-  [""]: "",
-  ["data_is_missing"]: "Falta Información",
-  ["approved"]: "😎  - HOMOLOGADO -",
-  // ["approved"]: "🤟🏼  Vehiculo Homolado",
-  // ["approved"]: "👍  Vehiculo Homolado",
-  // ["approved"]: "✅  Vehiculo Homolado",
-  // ["approved"]: "🎉  Vehiculo Homolado",
-  ["in_progress"]: "Vehiculo en revisión",
-  ["pre_entered"]: "Preingresado",
-};
-
-const typeOfStepNumber: any = {
-  // eslint-disable-next-line no-useless-computed-key
-  [0]: 1,
-  [1]: 1,
-  [2]: 1,
-  [3]: 2,
-  [4]: 2,
-  [5]: 3,
-  [6]: 3,
-  [7]: 4,
-  [8]: 4,
-  [9]: 5,
-};
-const typeOfStep: any = {
-  // eslint-disable-next-line no-useless-computed-key
-  [0]: "Información general - Parte 1",
-  [1]: "Información general - Parte 1",
-  [2]: "Información general - Parte 2",
-  [3]: "Información de electromovilidad - Parte 1",
-  [4]: "Información de electromovilidad - Parte 2",
-  [5]: "Información de seguridad - Parte 1",
-  [6]: "Información de seguridad - Parte 2",
-  [7]: "Información de comercial - Parte 1",
-  [8]: "Información de comercial - Parte 2",
-  [9]: "Test con cargadores eléctricos",
-  [10]: "En proceso de homologación",
-
-};
-
-
-const typeOfStyle: any = {
-  // eslint-disable-next-line no-useless-computed-key
-  [""]: "",
-  ["data_is_missing"]: "bg-red-100 text-slate-400 font-light",
-  ["approved"]: "bg-green-100 text-slate-400 font-light",
-  ["in_progress"]: "bg-yellow-100 text-slate-400 font-light",
-  ["pre_entered"]: "text-slate-400 font-light",
-};
-const typeOfdata: any = {
-  // eslint-disable-next-line no-useless-computed-key
-  [""]: "",
-  ["truckmore3500"]: "Camión +3500 KG",
-  ["truckless3500"]: "Camión -3500 KG",
-  ["truck"]: "Camioneta",
-  ["tractortruck"]: "Tracto Camión",
-  ["taxibus"]: "Taxibus",
-  ["suv"]: "SUV",
-  ["sedancar"]: "Sedán",
-  ["passengervan"]: "Van de Pasajeros",
-  ["minibus"]: "MiniBus",
-  ["cargovan"]: "Van de carga",
-  ["cargoutility"]: "Utilitario de carga",
-  ["bus"]: "Bus",
-};
-
-const dataCard: React.FC<Props> = ({ data }) => {
+const dataCard: React.FC<Props> = ({location}) => {
   const id = useId();
-  const [buttonModalPreview, setButtonModalPreview] = useState(false);
-
-  const isModalOpen = (newValue: boolean) => {
-    setButtonModalPreview(newValue);
-  };
+  const schedules:any = location.schedules
 
   return (
     <>
-      <Link
+      {/* <pre>{JSON.stringify(location, null, 2)}</pre> */}
+      {/* <Link
         to="/data-detail"
         state={{ id: data.id }}
-        className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
-      >
+        className=" "
+      > */}
         <div
-          key={`${id}-${data.id}`}
-          className=" min-w-96"
+          key={`${id}-${location.id}`}
+          className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y"
+        >
+        <div
+          key={`${id}-${location.id}`}
+          className=" min-w-96 h-full"
           // onClick={(event: React.MouseEvent) => {
           //   event.preventDefault();
           //   alert("hiu");
@@ -114,23 +37,17 @@ const dataCard: React.FC<Props> = ({ data }) => {
         >
           <div>
             <div
-              className={`p-5 box h-64 hover:scale-210 hover:bg-slate-200 cursor-pointer`}
+              // className={`p-5 box h-[680px] hover:scale-210 hover:bg-slate-200 cursor-pointer`}
+              className={`p-5 box h-[680px] hover:scale-210 cursor-pointer`}
             >
-              {/* <div className="flex items-center justify-between">
-                <Button
-                  // variant="soft-success"
-                  rounded
-                  className={`${
-                    typeOfStyle[data?.status]
-                  } w-full mb-2 mr-1 px-6`}
-                >
-                  {typeOfName[data?.status]}
-                </Button>
-              </div> */}
+              <div className="flex items-center justify-center my-4">
+                <div className="flex justify-center items-center flex-col  text-slate-500">
+                  <h2 className="text-lg font-thin uppercase text-primary">{location.name}</h2>
+                </div>
+              </div>
 
               <div className="flex flex-row border-1">
-                <div className="flex flex-col items-center justify-center p-4 border-r-4">
-                  {/* <IconTypeOfdata type={data?.typeOfdata || ""} /> */}
+                <div className="flex flex-col items-center justify-center p-4 h-40 border-r-4">
                   <svg width="90" height="81" viewBox="0 0 90 81" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M38.4497 60.582H44.9999V75.4772H38.4497V60.582Z" fill="white"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M44.1632 61.4187H39.2864V74.6405H44.1632V61.4187ZM38.4497 60.582V75.4772H44.9999V60.582H38.4497Z" fill="#595959"/>
@@ -176,53 +93,65 @@ const dataCard: React.FC<Props> = ({ data }) => {
 <path d="M9.31623 68.6281C7.35877 68.6281 5.49348 67.9124 4.03487 66.6002L3.98065 66.5513C2.58711 65.2988 1.67615 63.5853 1.42673 61.7255C1.1773 59.871 1.5894 57.9895 2.59253 56.4116L8.17754 47.0797C8.4107 46.6893 8.83364 46.4453 9.29454 46.4453C9.75544 46.4453 10.1784 46.6893 10.4115 47.0797L16.2189 56.8291C16.2243 56.8399 16.2297 56.8508 16.2406 56.8616C17.0648 58.3419 17.3847 60.0174 17.1732 61.7038C16.9617 63.3901 16.2297 64.9247 15.0585 66.1555C13.6324 67.6575 11.7021 68.5305 9.63073 68.6118C9.5277 68.6227 9.41926 68.6281 9.31623 68.6281ZM9.29454 50.2898L4.81569 57.7617C4.81027 57.7726 4.79942 57.7834 4.794 57.7943C3.38419 59.9957 3.76918 62.8642 5.7158 64.6102L5.77002 64.659C6.78942 65.5753 8.05825 66.0308 9.32165 66.0308C10.726 66.0308 12.1196 65.4723 13.1715 64.3661C14.7711 62.6798 15.0964 60.1801 13.974 58.1467L9.29454 50.2898Z" fill="#595959"/>
 </svg>
 
-                  <p className="mt-2 text-slate-500 font-light">
-                    {/* {data?.typeOfdata || " "} */}
-                    {typeOfdata[data?.typeOfLocation]}
-                    
-                  </p>
+                  {/* <p className="mt-2 text-slate-500 font-light"></p> */}
                 </div>
                 <div className="flex flex-col items-center justify-center p-6">
-                <h2 className="text-base font-medium intro-y sm:text-xl">
-                {data.name}
-                  </h2>
-                
-                  {/* <h2 className="text-base font-medium intro-y sm:text-xl">
-                    {data?.idBrand || "-"}
-                  </h2>
-                  <span className="text-slate-500">
-                    {data?.idModel || "-"}
-                  </span> */}
+                  <h2 className="text-2xl font-medium">{location.city}</h2>
+                  <div className="flex flex-row justify-start items-start w-full mt-2">
+                    <i className="h-full flex flex-row  mr-4">
+                      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.99992 9.4463C6.57992 9.4463 5.41992 8.29297 5.41992 6.8663C5.41992 5.43964 6.57992 4.29297 7.99992 4.29297C9.41992 4.29297 10.5799 5.4463 10.5799 6.87297C10.5799 8.29964 9.41992 9.4463 7.99992 9.4463ZM7.99992 5.29297C7.13326 5.29297 6.41992 5.99964 6.41992 6.87297C6.41992 7.7463 7.12659 8.45297 7.99992 8.45297C8.87326 8.45297 9.57992 7.7463 9.57992 6.87297C9.57992 5.99964 8.86659 5.29297 7.99992 5.29297Z" fill="#AE5EAB"/>
+                        <path d="M8.00012 15.172C7.01345 15.172 6.02012 14.7987 5.24678 14.0587C3.28012 12.1654 1.10678 9.14536 1.92678 5.55203C2.66678 2.29203 5.51345 0.832031 8.00012 0.832031C8.00012 0.832031 8.00012 0.832031 8.00678 0.832031C10.4935 0.832031 13.3401 2.29203 14.0801 5.5587C14.8934 9.15203 12.7201 12.1654 10.7534 14.0587C9.98012 14.7987 8.98678 15.172 8.00012 15.172ZM8.00012 1.83203C6.06012 1.83203 3.56678 2.86536 2.90678 5.77203C2.18678 8.91203 4.16012 11.6187 5.94678 13.332C7.10012 14.4454 8.90678 14.4454 10.0601 13.332C11.8401 11.6187 13.8134 8.91203 13.1068 5.77203C12.4401 2.86536 9.94012 1.83203 8.00012 1.83203Z" fill="#AE5EAB"/>
+                      </svg>  
+                    </i>
+                    {location.address}
+                  </div>
+                  
                 </div>
               </div>
 
               <div className="w-full border-t border-dashed border-slate-200/60 my-2"></div>
 
-              <div className="flex items-end text-slate-500">
+              {/* <div className="flex items-end text-slate-500">
                 <div className="flex items-end justify-center w-full">
-                  <p className="text-green-500 flex flex-col items-center justify-center">
-                    {/* <p className="text-slate-400 font-light">
-                      Paso actual: {typeOfStepNumber[data?.currentStep]}
-                    </p> */}
-{/* 
-                    <p className="text-primary font-light">
-                      {typeOfStep[data?.currentStep || 1]}
-                    </p> */}
+                  <p className="text-green-500 flex flex-col items-center justify-center">sdsd
                   </p>
                 </div>
-              </div>
-
-              {/* <div className="w-full border-t border-solid border-slate-200/60 my-4"></div> */}
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center text-slate-500">
-                  <></>
+              </div> */}
+              <div className="flex items-center justify-center">
+                <div className="flex justify-center items-center flex-col  text-slate-500">
+                  
+                  <div className="flex flex-row justify-start items-start w-full mt-2">
+                    <i className="h-full flex flex-row  mr-4">
+                      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.6333 15.1654C10.8799 15.1654 10.0866 14.9854 9.26659 14.6387C8.46659 14.2987 7.65992 13.832 6.87325 13.2654C6.09325 12.692 5.33992 12.052 4.62659 11.352C3.91992 10.6387 3.27992 9.88536 2.71325 9.11203C2.13992 8.31203 1.67992 7.51203 1.35325 6.7387C1.00659 5.91203 0.833252 5.11203 0.833252 4.3587C0.833252 3.8387 0.926585 3.34536 1.10659 2.88536C1.29325 2.41203 1.59325 1.97203 1.99992 1.59203C2.51325 1.08536 3.09992 0.832031 3.72659 0.832031C3.98659 0.832031 4.25325 0.892031 4.47992 0.998698C4.73992 1.1187 4.95992 1.2987 5.11992 1.5387L6.66659 3.7187C6.80659 3.91203 6.91325 4.0987 6.98659 4.28536C7.07325 4.48536 7.11992 4.68536 7.11992 4.8787C7.11992 5.13203 7.04659 5.3787 6.90659 5.61203C6.80659 5.79203 6.65325 5.98536 6.45992 6.1787L6.00659 6.65203C6.01325 6.67203 6.01992 6.68536 6.02659 6.6987C6.10659 6.8387 6.26659 7.0787 6.57325 7.4387C6.89992 7.81203 7.20659 8.15203 7.51325 8.46536C7.90659 8.85203 8.23325 9.1587 8.53992 9.41203C8.91992 9.73203 9.16659 9.89203 9.31325 9.96536L9.29992 9.9987L9.78659 9.5187C9.99325 9.31203 10.1933 9.1587 10.3866 9.0587C10.7533 8.83203 11.2199 8.79203 11.6866 8.98536C11.8599 9.0587 12.0466 9.1587 12.2466 9.2987L14.4599 10.872C14.7066 11.0387 14.8866 11.252 14.9933 11.5054C15.0933 11.7587 15.1399 11.992 15.1399 12.2254C15.1399 12.5454 15.0666 12.8654 14.9266 13.1654C14.7866 13.4654 14.6133 13.7254 14.3933 13.9654C14.0133 14.3854 13.5999 14.6854 13.1199 14.8787C12.6599 15.0654 12.1599 15.1654 11.6333 15.1654ZM3.72659 1.83203C3.35992 1.83203 3.01992 1.99203 2.69325 2.31203C2.38659 2.5987 2.17325 2.91203 2.03992 3.25203C1.89992 3.5987 1.83325 3.96536 1.83325 4.3587C1.83325 4.9787 1.97992 5.65203 2.27325 6.34536C2.57325 7.05203 2.99325 7.78536 3.52659 8.5187C4.05992 9.25203 4.66659 9.96536 5.33325 10.6387C5.99992 11.2987 6.71992 11.912 7.45992 12.452C8.17992 12.9787 8.91992 13.4054 9.65325 13.712C10.7933 14.1987 11.8599 14.312 12.7399 13.9454C13.0799 13.8054 13.3799 13.592 13.6533 13.2854C13.8066 13.1187 13.9266 12.9387 14.0266 12.7254C14.1066 12.5587 14.1466 12.3854 14.1466 12.212C14.1466 12.1054 14.1266 11.9987 14.0733 11.8787C14.0533 11.8387 14.0133 11.7654 13.8866 11.6787L11.6733 10.1054C11.5399 10.012 11.4199 9.94536 11.3066 9.8987C11.1599 9.8387 11.0999 9.7787 10.8733 9.9187C10.7399 9.98536 10.6199 10.0854 10.4866 10.2187L9.97992 10.7187C9.71992 10.972 9.31992 11.032 9.01325 10.9187L8.83325 10.8387C8.55992 10.692 8.23992 10.4654 7.88659 10.1654C7.56659 9.89203 7.21992 9.57203 6.79992 9.1587C6.47325 8.82536 6.14659 8.47203 5.80659 8.0787C5.49325 7.71203 5.26659 7.3987 5.12659 7.1387L5.04659 6.9387C5.00659 6.78536 4.99325 6.6987 4.99325 6.60536C4.99325 6.36536 5.07992 6.15203 5.24659 5.98536L5.74659 5.46536C5.87992 5.33203 5.97992 5.20536 6.04659 5.09203C6.09992 5.00536 6.11992 4.93203 6.11992 4.86536C6.11992 4.81203 6.09992 4.73203 6.06659 4.65203C6.01992 4.54536 5.94659 4.42536 5.85325 4.2987L4.30659 2.11203C4.23992 2.0187 4.15992 1.95203 4.05992 1.90536C3.95325 1.8587 3.83992 1.83203 3.72659 1.83203ZM9.29992 10.0054L9.19325 10.4587L9.37325 9.99203C9.33992 9.98536 9.31325 9.99203 9.29992 10.0054Z" fill="#AE5EAB"/>
+                        <path d="M12.3333 6.5013C12.06 6.5013 11.8333 6.27464 11.8333 6.0013C11.8333 5.7613 11.5933 5.2613 11.1933 4.83464C10.8 4.41464 10.3667 4.16797 10 4.16797C9.72667 4.16797 9.5 3.9413 9.5 3.66797C9.5 3.39464 9.72667 3.16797 10 3.16797C10.6467 3.16797 11.3267 3.51464 11.92 4.14797C12.4733 4.7413 12.8333 5.46797 12.8333 6.0013C12.8333 6.27464 12.6067 6.5013 12.3333 6.5013Z" fill="#AE5EAB"/>
+                        <path d="M14.6667 6.4987C14.3933 6.4987 14.1667 6.27203 14.1667 5.9987C14.1667 3.6987 12.3 1.83203 10 1.83203C9.72667 1.83203 9.5 1.60536 9.5 1.33203C9.5 1.0587 9.72667 0.832031 10 0.832031C12.8467 0.832031 15.1667 3.15203 15.1667 5.9987C15.1667 6.27203 14.94 6.4987 14.6667 6.4987Z" fill="#AE5EAB"/>
+                      </svg>
+                    </i>
+                    <span className="font-light">{location.phone}</span>
+                  </div>
+                  
                 </div>
               </div>
+              <div className="w-full border-t border-dashed border-primary my-2 mt-4"></div>
+                      
+              <h2 className="font-light mt-4 ">Cursos vigentes</h2>
+              <div className="flex flex-wrap justify-center mt-4 overflow-y-auto h-72 bg-[#F7F7F7] py-4 -px-4 rounded-2xl">
+                {Array.isArray(schedules?.items) &&
+                  schedules?.items.map((schedule: any, i: number) => 
+                  <div className="text-center w-2/5 box px-4 py-6 m-2 bg-[#EBEFF4]">
+                    <h2 className="uppercase">{schedule.day} {schedule.startHour}</h2>
+                    <span className="uppercase text-center font-thin">{schedule?.course?.title || ""}</span>
+                  </div>)}
+              </div>
+              
+    
             </div>
           </div>
         </div>
-      </Link>
+        </div>
+      {/* </Link> */}
     </>
   );
 };

@@ -1,0 +1,73 @@
+// ** Redux Imports
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+
+import {fetchData} from "./services"
+import {Location, emptyLocation} from "./types"
+
+
+
+export interface UserState {
+  status: "idle" | "loading" | "failed";
+ location: Location;
+ locations: Location[];
+ errorMessage:string;
+}
+
+export const initialState: UserState = {
+  status: "idle",
+  location: emptyLocation,
+  locations: [emptyLocation],
+  errorMessage:"",
+};
+
+
+
+
+export const getLocations = createAsyncThunk(
+  "locations/list",
+  async () => {
+    try {
+      
+      const response:any = await fetchData();
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH LOCATIONS", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+export const locationSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // GET LOCATIONS
+      .addCase(getLocations.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getLocations.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getLocations.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        console.log("---getLocations --action---", objPayload)
+        state.locations = objPayload?.items || [];
+        
+      })
+      
+      
+    
+  },
+});
+
+export const selectLocation = (state: RootState) => state.location;
+
+export default locationSlice.reducer;

@@ -7,6 +7,9 @@ import compactMenuReducer from "./compactMenuSlice";
 import pageLoaderReducer from "./pageLoaderSlice";
 
 import authReducer from "./Users/slice";
+import locationReducer from "./Locations/slice";
+import studentReducer from "./Students/slice";
+import courseReducer from "./Courses/slice";
 
 
 export const store = configureStore({
@@ -19,6 +22,9 @@ export const store = configureStore({
     pageLoader: pageLoaderReducer,
     
     auth: authReducer,
+    location: locationReducer,
+    student: studentReducer,
+    course: courseReducer,
   },
 });
 
