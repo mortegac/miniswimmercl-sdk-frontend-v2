@@ -26,7 +26,7 @@ import {
   const Leads = lazy(() => import("../pages/private/Leads"));
   const Students = lazy(() => import("../pages/private/Students"));
   const Locations = lazy(() => import("../pages/private/Locations"));
-  const Courses = lazy(() => import("../pages/private/Payments"));
+  const Courses = lazy(() => import("../pages/private/Courses"));
   const Payments = lazy(() => import("../pages/private/Locations"));
   const Tickets = lazy(() => import("../pages/private/Tickets"));
   const Expenses = lazy(() => import("../pages/private/Expenses"));
