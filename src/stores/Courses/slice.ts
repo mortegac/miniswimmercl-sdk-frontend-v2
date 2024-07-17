@@ -58,7 +58,22 @@ export const CourseSlice = createSlice({
         state.status = "idle";
         
         // console.log("---getCourses --action---", objPayload)
-        state.courses = objPayload?.items || [];
+         
+        const sortedArray = objPayload?.items.sort((a:any, b:any) => {
+          // Primero, comparamos por locationCoursesId
+          if (a.locationCoursesId < b.locationCoursesId) return -1;
+          if (a.locationCoursesId > b.locationCoursesId) return 1;
+          
+          // Si locationCoursesId es igual, comparamos por AgeGroupType
+          if (a.AgeGroupType < b.AgeGroupType) return -1;
+          if (a.AgeGroupType > b.AgeGroupType) return 1;
+          
+          // Si ambos son iguales, no cambiamos el orden
+          return 0;
+        });
+  
+        // state.courses = objPayload?.items || [];
+        state.courses = sortedArray || [];
         
       })
       

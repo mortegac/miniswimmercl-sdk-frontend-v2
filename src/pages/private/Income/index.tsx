@@ -9,7 +9,14 @@ import Table from "@/components/Base/Table";
 import clsx from "clsx";
 import _ from "lodash";
 
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { setBreadcrumb } from '@/stores/breadcrumb';
+
+
+
 function Main() {
+  const dispatch = useAppDispatch();
+  dispatch(setBreadcrumb({first:"Listado de ingresos", firstURL:"income"}));
   return (
     <div className="grid grid-cols-12 gap-y-10 gap-x-6">
       <div className="col-span-12">

@@ -5,8 +5,12 @@ import Button from "@/components/Base/Button";
 
 
 import LocationsCard from "./components/LocationsCard";
-import { useAppSelector, useAppDispatch } from "../../../stores/hooks";
-import { getLocations, selectLocation } from "../../../stores/Locations/slice";
+
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { setBreadcrumb } from '@/stores/breadcrumb';
+import { getLocations, selectLocation } from "@/stores/Locations/slice";
+
+
 
 
 // import location from '@/assets/json/location.json';
@@ -35,9 +39,11 @@ function Content(props: any) {
 
 function Main() {
   
+  
   const {locations, status } = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
   
+  dispatch(setBreadcrumb({first:"Listado de sedes", firstURL:"locations"}));
   
   useEffect(() => { (async () => await dispatch(getLocations()))(); }, []);
 

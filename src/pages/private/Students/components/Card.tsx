@@ -3,6 +3,9 @@ import React, { useState, useEffect, useId } from "react";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
+import Alert from "@/components/Base/Alert";
+import { Tab } from "@/components/Base/Headless";
+
 import {Sessions} from "./Sessions";
 
 import { Student } from '../../../../stores/Students/types';
@@ -17,75 +20,7 @@ export const SvgNone: React.FC<{ color: string }> = ({ color }) => (
   <path d="M79.9013 26.2854C78.9738 23.048 72.3068 14.3845 70.5 11.5C70 10.5 66.4166 11.126 67.2659 8.15712C65.3825 8.69306 62.424 14.7165 67.2659 8.15712C67.8825 11.6931 65.2717 9.4607 67.2659 8.15712C61.0275 3.59848 52.769 0 44.9997 0C36.2441 0 27.7879 3.1603 21.1885 8.89888C20.635 9.38029 20.5764 10.2195 21.0578 10.773C21.5394 11.3268 22.3785 11.3849 22.9319 10.9037C29.0477 5.58556 36.8849 2.65675 44.9997 2.65675C51.6375 2.65675 57.9643 4.55208 63.4413 8.15712C58.8016 9.85036 53.8926 10.7728 48.8974 10.8672C48.1639 10.881 47.5805 11.4869 47.5943 12.2204C47.6081 12.9538 48.2052 13.5393 48.9475 13.5234C57.9015 13.3546 63.0202 16.3898 70.5 11.5C69.5 10 70.5 11 70.5 11.5C65.9562 27.3849 58.1995 34.6531 41.7518 34.9687L11.3799 34.9756C11.677 27.4777 14.4768 20.2645 19.3421 14.5358C19.8169 13.9766 19.7485 13.1384 19.1894 12.6635C18.6302 12.1885 17.7919 12.2568 17.3169 12.816C13.9634 16.7646 11.5204 21.3674 10.1082 26.2856C4.4892 26.2415 0 30.7822 0 36.3047C0 41.8097 4.4575 46.3263 10.0289 46.3262C10.0535 46.3262 10.0781 46.324 10.1027 46.3239C13.5254 58.2272 22.8878 67.6399 34.7601 71.1362C28.8451 74.7423 24.9942 81.1066 24.9942 88.3101V89.3555C24.9942 90.0891 25.589 90.6838 26.3226 90.6838H63.6778C64.4116 90.6838 65.0061 90.0891 65.0061 89.3555V88.3101C65.0061 84.2418 63.775 80.4352 61.6519 77.2593C61.2442 76.6493 60.4194 76.4856 59.8094 76.8932C59.1996 77.3009 59.0355 78.1257 59.4433 78.7357C59.8269 79.3098 60.1739 79.9098 60.4863 80.5251C58.8744 81.8659 57.0741 83.1387 55.227 84.2384C54.8248 84.478 54.5782 84.9116 54.5782 85.3797V88.0271H35.4198V85.3785C35.4198 84.9102 35.1733 84.4766 34.7711 84.2371C32.9239 83.1372 31.1237 81.8643 29.5119 80.5237C31.5681 76.487 35.0369 73.6835 38.0291 72.4242C39.3306 74.9831 41.4996 77.1222 44.3736 78.659C44.7651 78.8684 45.2349 78.8684 45.6264 78.659C48.4866 77.1296 50.6482 75.0026 51.9516 72.4585C53.4688 73.1225 54.8813 73.9954 56.1593 75.0701C56.721 75.5421 57.5589 75.4697 58.0309 74.9082C58.5029 74.3468 58.4305 73.5088 57.869 73.0366C57.029 72.3303 56.137 71.7021 55.2031 71.1471C67.0929 67.6595 76.4711 58.2396 79.8974 46.324C79.9219 46.3242 79.9465 46.3263 79.9709 46.3263C85.5482 46.3263 90 41.8044 90 36.3049C90.0002 30.7633 85.494 26.2468 79.9013 26.2854ZM9.44263 43.649C5.61903 43.3637 2.65675 40.1361 2.65675 36.3045C2.65675 32.471 5.62311 29.2416 9.44883 28.9595C8.9522 31.3617 8.69573 33.8221 8.69555 36.3044C8.69573 38.8199 8.95326 41.2764 9.44263 43.649ZM57.2346 86.1272C58.7309 85.2005 60.1886 84.1714 61.5416 83.0916C62.0492 84.6838 62.3198 86.3365 62.3469 88.0271H57.2346V86.1272ZM32.7631 86.1259V88.0271H27.6531C27.6802 86.3367 27.9506 84.684 28.4584 83.0917C29.8105 84.1711 31.2675 85.1994 32.7631 86.1259ZM74.2279 19.627C76.8995 24.2981 78.4019 29.5289 78.6194 34.9345C73.6156 34.6556 68.7757 32.8461 64.726 29.7422C68.4681 26.9384 71.6618 23.5204 74.2279 19.627ZM45.0001 75.9622C43.3724 74.9911 42.0573 73.7848 41.1012 72.3988C42.3823 72.5363 43.6827 72.6087 44.9997 72.6087C46.3166 72.6087 47.6168 72.5365 48.8977 72.399C47.942 73.7851 46.6273 74.9915 45.0001 75.9622ZM44.9997 69.952C26.8913 69.952 12.0808 55.5722 11.381 37.6322L41.7652 37.6253C41.7734 37.6253 41.7817 37.6253 41.79 37.6251C49.2121 37.4852 56.2826 35.3191 62.4505 31.3283C67.0919 35.1076 72.7555 37.3012 78.6208 37.5957C77.9394 55.5527 63.1209 69.952 44.9997 69.952ZM80.5586 43.6444C81.0475 41.2732 81.3046 38.8185 81.3046 36.3047C81.3046 33.8185 81.0524 31.36 80.5591 28.9604C84.3818 29.2468 87.3436 32.473 87.3436 36.3047C87.3434 40.1214 84.4192 43.3373 80.5586 43.6444Z" fill="#475066"/>
   </svg>
 );
-//   <svg
-//     width="92"
-//     height="59"
-//     viewBox="0 0 92 59"
-//     fill="none"
-//     xmlns="http://www.w3.org/2000/svg"
-//   >
-//     <path
-//       d="M1 6.67082V44.2457C1 45.7497 1.75288 47.1921 3.09301 48.2556C4.43314 49.3191 6.25075 49.9165 8.14599 49.9165H61.4408V6.67082C61.4408 5.16683 60.6879 3.72443 59.3478 2.66095C58.0076 1.59746 56.19 1 54.2948 1H8.14599C6.25075 1 4.43314 1.59746 3.09301 2.66095C1.75288 3.72443 1 5.16683 1 6.67082Z"
-//       fill="#BBBBBB"
-//       fill-opacity="0.6"
-//     />
-//     <path
-//       d="M1 6.67082V44.2457C1 45.7497 1.75288 47.1921 3.09301 48.2556C4.43314 49.3191 6.25075 49.9165 8.14599 49.9165H61.4408V6.67082C61.4408 5.16683 60.6879 3.72443 59.3478 2.66095C58.0076 1.59746 56.19 1 54.2948 1H8.14599C6.25075 1 4.43314 1.59746 3.09301 2.66095C1.75288 3.72443 1 5.16683 1 6.67082Z"
-//       stroke="#090909"
-//       stroke-opacity="0.6"
-//       stroke-linecap="round"
-//       stroke-linejoin="round"
-//     />
-//     <path
-//       d="M61.4514 48.854H83.8541C84.7925 48.854 85.7217 48.7073 86.5887 48.4223C87.4557 48.1373 88.2435 47.7196 88.9071 47.193C89.5706 46.6664 90.097 46.0413 90.4561 45.3533C90.8152 44.6653 91.0001 43.9278 91.0001 43.1831V27.8436L61.4514 27.8379V48.854Z"
-//       fill="#BBBBBB"
-//       fill-opacity="0.6"
-//     />
-//     <path
-//       d="M61.4514 48.8614H83.8541C84.7925 48.8614 85.7217 48.7147 86.5887 48.4297C87.4557 48.1447 88.2435 47.727 88.9071 47.2005C89.5706 46.6739 90.097 46.0487 90.4561 45.3607C90.8152 44.6727 91.0001 43.9353 91.0001 43.1906V27.8397L61.4514 27.834V48.8501V48.8614Z"
-//       stroke="#090909"
-//       stroke-opacity="0.6"
-//       stroke-linecap="round"
-//       stroke-linejoin="round"
-//     />
-//     <path
-//       d="M91.0001 26.1672L81.0529 10.0054C80.4661 9.04969 79.5527 8.24415 78.4168 7.68063C77.2809 7.11712 75.9682 6.81833 74.6286 6.81836H61.4514V27.8401L91.0001 27.8458V26.1672Z"
-//       fill="white"
-//       fill-opacity="0.6"
-//     />
-//     <path
-//       d="M91.0001 26.1672L81.0529 10.0054C80.4661 9.04969 79.5527 8.24415 78.4168 7.68063C77.2809 7.11712 75.9682 6.81833 74.6286 6.81836H61.4514V27.8401L91.0001 27.8458V26.1672Z"
-//       stroke="#090909"
-//       stroke-opacity="0.6"
-//       stroke-linecap="round"
-//       stroke-linejoin="round"
-//     />
-//     <path
-//       d="M13.8638 50.0825C13.8638 51.1221 14.1218 52.1515 14.6231 53.112C15.1245 54.0725 15.8593 54.9452 16.7856 55.6803C17.712 56.4154 18.8117 56.9985 20.022 57.3963C21.2323 57.7942 22.5295 57.999 23.8396 57.999C25.1496 57.999 26.4468 57.7942 27.6571 57.3963C28.8675 56.9985 29.9672 56.4154 30.8935 55.6803C31.8199 54.9452 32.5547 54.0725 33.056 53.112C33.5573 52.1515 33.8154 51.1221 33.8154 50.0825C33.8154 49.0429 33.5573 48.0135 33.056 47.053C32.5547 46.0925 31.8199 45.2198 30.8935 44.4847C29.9672 43.7496 28.8675 43.1665 27.6571 42.7686C26.4468 42.3708 25.1496 42.166 23.8396 42.166C22.5295 42.166 21.2323 42.3708 20.022 42.7686C18.8117 43.1665 17.712 43.7496 16.7856 44.4847C15.8593 45.2198 15.1245 46.0925 14.6231 47.053C14.1218 48.0135 13.8638 49.0429 13.8638 50.0825Z"
-//       fill="white"
-//       fill-opacity="0.6"
-//     />
-//     <path
-//       d="M13.8638 50.0825C13.8638 51.1221 14.1218 52.1515 14.6231 53.112C15.1245 54.0725 15.8593 54.9452 16.7856 55.6803C17.712 56.4154 18.8117 56.9985 20.022 57.3963C21.2323 57.7942 22.5295 57.999 23.8396 57.999C25.1496 57.999 26.4468 57.7942 27.6571 57.3963C28.8675 56.9985 29.9672 56.4154 30.8935 55.6803C31.8199 54.9452 32.5547 54.0725 33.056 53.112C33.5573 52.1515 33.8154 51.1221 33.8154 50.0825C33.8154 49.0429 33.5573 48.0135 33.056 47.053C32.5547 46.0925 31.8199 45.2198 30.8935 44.4847C29.9672 43.7496 28.8675 43.1665 27.6571 42.7686C26.4468 42.3708 25.1496 42.166 23.8396 42.166C22.5295 42.166 21.2323 42.3708 20.022 42.7686C18.8117 43.1665 17.712 43.7496 16.7856 44.4847C15.8593 45.2198 15.1245 46.0925 14.6231 47.053C14.1218 48.0135 13.8638 49.0429 13.8638 50.0825Z"
-//       stroke="#090909"
-//       stroke-opacity="0.6"
-//       stroke-linecap="round"
-//       stroke-linejoin="round"
-//     />
-//     <path
-//       d="M59.147 50.0825C59.147 52.1821 60.198 54.1956 62.0688 55.6803C63.9396 57.1649 66.477 57.999 69.1228 57.999C71.7685 57.999 74.3059 57.1649 76.1767 55.6803C78.0476 54.1956 79.0986 52.1821 79.0986 50.0825C79.0986 49.0429 78.8405 48.0135 78.3392 47.053C77.8379 46.0925 77.1031 45.2198 76.1767 44.4847C75.2504 43.7496 74.1507 43.1665 72.9403 42.7686C71.73 42.3708 70.4328 42.166 69.1228 42.166C67.8127 42.166 66.5155 42.3708 65.3052 42.7686C64.0949 43.1665 62.9952 43.7496 62.0688 44.4847C61.1425 45.2198 60.4077 46.0925 59.9063 47.053C59.405 48.0135 59.147 49.0429 59.147 50.0825Z"
-//       fill="white"
-//       fill-opacity="0.6"
-//     />
-//     <path
-//       d="M59.147 50.0825C59.147 52.1821 60.198 54.1956 62.0688 55.6803C63.9396 57.1649 66.477 57.999 69.1228 57.999C71.7685 57.999 74.3059 57.1649 76.1767 55.6803C78.0476 54.1956 79.0986 52.1821 79.0986 50.0825C79.0986 49.0429 78.8405 48.0135 78.3392 47.053C77.8379 46.0925 77.1031 45.2198 76.1767 44.4847C75.2504 43.7496 74.1507 43.1665 72.9403 42.7686C71.73 42.3708 70.4328 42.166 69.1228 42.166C67.8127 42.166 66.5155 42.3708 65.3052 42.7686C64.0949 43.1665 62.9952 43.7496 62.0688 44.4847C61.1425 45.2198 60.4077 46.0925 59.9063 47.053C59.405 48.0135 59.147 49.0429 59.147 50.0825Z"
-//       stroke="#090909"
-//       stroke-opacity="0.6"
-//       stroke-linecap="round"
-//       stroke-linejoin="round"
-//     />
-//   </svg>
-// );
+
 export const SvgFemale: React.FC<{ color: string }> = ({ color }) => (
 <svg width="90" height="102" viewBox="0 0 90 102" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M37.5409 99.9182H28.5943L19.761 87.6108C22.6472 79.6159 27.6627 76.6602 27.6627 76.6602H48.8649L37.5409 99.9182Z" fill="#FD8B9B"/>
@@ -183,16 +118,13 @@ function calcularEdad(fechaNacimientoString: string): { años: number; meses: nu
 
 
 interface Props {
-  students?: Student;
-  // session?: any;
-  
+  students?: Student;  
 }
 
 const Card: React.FC<Props> = ({students}) => {
   const id = useId();
    const [flag, setFlag] = useState(false);
-  // const {status } = useAppSelector(selectSessionDetails);
-  
+
   const IcoSvg = typeOfGender[String(students?.gender)] || typeOfGender[""];
   
   const relationships:any = students?.relationships
@@ -202,17 +134,7 @@ const Card: React.FC<Props> = ({students}) => {
   function changeName(name:string){
     return typeOfRelationship[String(name)] || typeOfRelationship[""];
   }
-  
-  
-  
-  // const dispatch = useAppDispatch();
-  
-  
-  // useEffect(() => { (async () => await dispatch(getSessionDetails({ 
-  //   studentId: students?.id,
-  //   // status: "ACTIVE"
-  // })))(); }, []);
-
+ 
   function contarSessionDetailsIds(data: any): number {
     return Array.isArray(data.items) && data.items.reduce((count: number, item: any) => {
       if (item.sessionDetails && Array.isArray(item.sessionDetails.items)) {
@@ -237,26 +159,27 @@ const Card: React.FC<Props> = ({students}) => {
         className=" min-w-96 h-full"
       >
         <div>
-          <div className={`p-5 box h-[350px] hover:scale-210 hover:bg-slate-200 cursor-pointer`}>
-            <div className="flex items-center justify-center my-4">
+          <div className={`p-5 box h-[350px] cursor-pointer`}>
+            <div className="flex items-center justify-center my-2">
               <div className="flex justify-center items-center flex-col  text-slate-500">
-                {/* <span>{students?.id}</span> */}
-                <h2 className="text-lg font-thin uppercase text-primary">{students?.name}{" "}{students?.lastName}{" "}{students?.middleName}</h2>
+                <h2 className="text-lg font-medium uppercase text-primary">{students?.name}{" "}{students?.lastName}{" "}{students?.middleName}</h2>
               </div>
             </div>
 
             <div className="flex flex-row border-1">
-              <div className="flex flex-col items-center justify-center p-4 h-40 border-r-4">
+              <div className="flex flex-col items-center justify-center p-4 h-48 border-r-4">
               <IcoSvg color="#C6C6C6" />
               </div>
               
-              <div className="flex flex-col items-center justify-center p-6">
-                <span className=" uppercase font-thin">{
+              <div className="flex flex-col items-center justify-center px-6">
+              <Alert variant="soft-secondary" className="flex items-center justify-center rounded-full mb-2 w-full">
+                <div className=" uppercase font-thin text-slate-900">{
                   edad.años > 100 ? "SIN EDAD":`${edad.años} años, ${edad.meses} meses`}
-                </span>
+                </div>
+              </Alert>
                 {Array.isArray(relationships?.items) &&
                   relationships?.items.map((relationship: any, i: number) => 
-                    <h2 className="mt-2 font-thin"><b className="">{changeName(relationship.relationType)}</b> {relationship.user.name} </h2>)}
+                    <h2 className="mt-2 font-thin">{changeName(relationship.relationType)}:{" "}<b className="">{relationship.user.name}</b> </h2>)}
                 
                   <div className="w-full border-t border-dashed border-primary my-2 mt-4"></div>                   
                 <div className="flex flex-row justify-start items-start w-full mt-4">
@@ -280,7 +203,7 @@ const Card: React.FC<Props> = ({students}) => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between items-start flex-row  text-slate-500">
+            <div className="flex justify-between items-start flex-row  text-slate-500 mt-6">
               
                 <div className="w-1/2 flex flex-row justify-start items-start ">
                   <i className="h-full flex flex-row  mr-2">
@@ -291,7 +214,6 @@ const Card: React.FC<Props> = ({students}) => {
                   </i>
                   {students?.placeOfResidence}
                 </div> 
-                {/* <div className=" px-4 flex flex-row justify-center items-center bg-primary rounded-full"> */}
                 {numberSessions > 0 &&
                 <Button
                     rounded
@@ -306,22 +228,9 @@ const Card: React.FC<Props> = ({students}) => {
                 </Button>
                 }
             </div>
-            <div className="w-full h-12 border-gray-400 flex flex-col justify-end items-start text-right">
-                
-                
-              {/* { status === "loading" &&   <LoadingIcon
-                  color="white"
-                  icon="oval"
-                  className="w-10 h-10 mt-10"
-                />}
-            { status === "idle" && <Sessions studentId={students?.id}/>} */}
-            
-                
-            </div>
           </div>
         </div>
       </div>
-              {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre> */}
       </div>
        )}
        {flag && ( 
@@ -329,14 +238,62 @@ const Card: React.FC<Props> = ({students}) => {
         key={`${id}-${students?.id}`}
         className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y"
         >
+      
+          
+          
+          
           <div
             key={`${id}-${students?.id}`}
             className=" min-w-96 h-full"
           >
-           <div className="p-5 box h-[350px] hover:scale-210 hover:bg-slate-200 cursor-pointer flex flex-col justify-between" >
-            <span>Detalle sesiones activas</span>
+           <div className="p-2 box h-[350px] flex flex-col justify-between" >
+           <Tab.Group>
+          {/* <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row"> */}
+          {/* <span>Sesiones Alumno</span> */}
+            <Tab.List
+              variant="pills"
+              className="p-2 w-auto md:ml-auto bg-white box rounded-[0.6rem] border-slate-200 group-[.mode--light]:!bg-white/[0.12] group-[.mode--light]:!border-transparent"
+            >
+              <Tab className="p-2 bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current group-[.mode--light]:bg-transparent group-[.mode--light]:[&[aria-selected='true']_button]:bg-white/[0.12] group-[.mode--light]:[&[aria-selected='true']_button]:border-transparent">
+                <Tab.Button
+                  className="w-full md:w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
+                  as="button"
+                >
+                  Activas
+                </Tab.Button>
+              </Tab>
+              <Tab className="p-2 bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current group-[.mode--light]:bg-transparent group-[.mode--light]:[&[aria-selected='true']_button]:bg-white/[0.12] group-[.mode--light]:[&[aria-selected='true']_button]:border-transparent">
+                <Tab.Button
+                  className="p-2 w-full md:w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
+                  as="button"
+                >
+                  Usadas
+                </Tab.Button>
+              </Tab>
+              <Tab className="p-2 bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current group-[.mode--light]:bg-transparent group-[.mode--light]:[&[aria-selected='true']_button]:bg-white/[0.12] group-[.mode--light]:[&[aria-selected='true']_button]:border-transparent">
+                <Tab.Button
+                  className="p-2 w-full md:w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
+                  as="button"
+                >
+                  Recuperada
+                </Tab.Button>
+              </Tab>
+            </Tab.List>
+          {/* </div> */}
+          <Tab.Panels className="mt-2">
+            <Tab.Panel className="flex flex-col xl:flex-row gap-2 p-1.5 leading-relaxed">
+              <Sessions studentId={students?.id} statusSessions="ACTIVE"/> 
+            </Tab.Panel>
+            <Tab.Panel className="pt-2 leading-relaxed">
+              <Sessions studentId={students?.id} statusSessions="USED"/>
+            </Tab.Panel>
+            <Tab.Panel className="pt-2 leading-relaxed">
+              <Sessions studentId={students?.id} statusSessions="RECOVERED"/>
+            </Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
             
-            <Sessions studentId={students?.id}/> 
+            {/* <Sessions studentId={students?.id}/>  */}
             <Button
               rounded
               variant="primary"

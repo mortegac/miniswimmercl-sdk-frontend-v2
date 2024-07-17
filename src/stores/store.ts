@@ -5,6 +5,7 @@ import sideMenuReducer from "./sideMenuSlice";
 import themeReducer from "./themeSlice";
 import compactMenuReducer from "./compactMenuSlice";
 import pageLoaderReducer from "./pageLoaderSlice";
+import breadcrumbReducer from "./breadcrumb";
 
 import authReducer from "./Users/slice";
 import locationReducer from "./Locations/slice";
@@ -21,6 +22,7 @@ export const store = configureStore({
     theme: themeReducer,
     compactMenu: compactMenuReducer,
     pageLoader: pageLoaderReducer,
+    breadcrumb: breadcrumbReducer,
     
     auth: authReducer,
     location: locationReducer,

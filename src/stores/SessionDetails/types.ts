@@ -36,3 +36,7 @@ export type FilterOptions  = {
   studentId?: string;
   status?: string;
 };
+export type InputOptions  = {
+  sessionId?: string;
+  status?: string;
+};

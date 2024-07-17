@@ -45,7 +45,7 @@ interface Props {
   
 }
 
-const dataCard: React.FC<Props> = ({courses}) => {
+const Card: React.FC<Props> = ({courses}) => {
   const id = useId();
   
 
@@ -79,7 +79,7 @@ const dataCard: React.FC<Props> = ({courses}) => {
             >
               <div className="flex items-center justify-center my-4">
                 <div className="flex justify-center items-center flex-col  text-slate-500">
-                  <h2 className="text-lg font-thin uppercase text-primary">{courses.title}{" "}</h2>
+                  <h2 className="text-lg font-medium uppercase text-primary">{courses.title}{" "}</h2>
                 </div>
               </div>
 
@@ -113,8 +113,8 @@ const dataCard: React.FC<Props> = ({courses}) => {
                   {/* <p className="mt-2 text-slate-500 font-light"></p> */}
                 </div>
                 <div className="flex flex-col items-center justify-center p-6">
-                  <span className=" uppercase font-thin">{courses.startingAge} - {courses.endingAge} {courses.ageType}</span>
-                  <h2 className="text-base text-center font-medium uppercase text-white rounded-full bg-slate-400 px-4 py-2 w-full">{changeName(courses.AgeGroupType)}{" "}</h2>
+                  <span className=" uppercase font-thin text-center">{courses.startingAge} - {courses.endingAge} {courses.ageType}</span>
+                  <h2 className="text-base text-center font-medium uppercase text-white rounded-full bg-slate-400 px-4 py-2 w-full mt-4">{changeName(courses.AgeGroupType)}{" "}</h2>
                   {/* {Array.isArray(relationships?.items) &&
                     relationships?.items.map((relationship: any, i: number) => 
                       <h2 className="mt-2 font-thin"><b className="">{changeName(relationship.relationType)}</b> {relationship.user.name} </h2>)}
@@ -157,30 +157,20 @@ const dataCard: React.FC<Props> = ({courses}) => {
               </div> */}
               <div className="flex items-start justify-start">
                 <div className="flex justify-start items-start flex-col  text-slate-500">
-                {/* <div className="flex flex-row justify-start items-start w-full mt-2">
+                <div className="flex flex-row justify-start items-start w-full mt-2">
                     <i className="h-full flex flex-row  mr-4">
                       <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.99992 9.4463C6.57992 9.4463 5.41992 8.29297 5.41992 6.8663C5.41992 5.43964 6.57992 4.29297 7.99992 4.29297C9.41992 4.29297 10.5799 5.4463 10.5799 6.87297C10.5799 8.29964 9.41992 9.4463 7.99992 9.4463ZM7.99992 5.29297C7.13326 5.29297 6.41992 5.99964 6.41992 6.87297C6.41992 7.7463 7.12659 8.45297 7.99992 8.45297C8.87326 8.45297 9.57992 7.7463 9.57992 6.87297C9.57992 5.99964 8.86659 5.29297 7.99992 5.29297Z" fill="#AE5EAB"/>
                         <path d="M8.00012 15.172C7.01345 15.172 6.02012 14.7987 5.24678 14.0587C3.28012 12.1654 1.10678 9.14536 1.92678 5.55203C2.66678 2.29203 5.51345 0.832031 8.00012 0.832031C8.00012 0.832031 8.00012 0.832031 8.00678 0.832031C10.4935 0.832031 13.3401 2.29203 14.0801 5.5587C14.8934 9.15203 12.7201 12.1654 10.7534 14.0587C9.98012 14.7987 8.98678 15.172 8.00012 15.172ZM8.00012 1.83203C6.06012 1.83203 3.56678 2.86536 2.90678 5.77203C2.18678 8.91203 4.16012 11.6187 5.94678 13.332C7.10012 14.4454 8.90678 14.4454 10.0601 13.332C11.8401 11.6187 13.8134 8.91203 13.1068 5.77203C12.4401 2.86536 9.94012 1.83203 8.00012 1.83203Z" fill="#AE5EAB"/>
                       </svg>  
                     </i>
-                    {courses.placeOfResidence}
-                  </div>  */}
+                    {courses.locationCoursesId}
+                  </div> 
                  
                   
                 </div>
               </div>
-              {/* <div className="w-full border-t border-dashed border-primary my-2 mt-4"></div> */}
-                      
-              {/* <h2 className="font-light mt-4 ">Cursos vigentes</h2>
-              <div className="flex flex-wrap justify-center mt-4 overflow-y-auto h-72 bg-[#F7F7F7] py-4 -px-4 rounded-2xl">
-                {Array.isArray(schedules?.items) &&
-                  schedules?.items.map((schedule: any, i: number) => 
-                  <div className="text-center w-2/5 box px-4 py-6 m-2 bg-[#EBEFF4]">
-                    <h2 className="uppercase">{schedule.day} {schedule.startHour}</h2>
-                    <span className="uppercase text-center font-thin">{schedule?.course?.title || ""}</span>
-                  </div>)}
-              </div> */}
+            
               
     
             </div>
@@ -192,4 +182,4 @@ const dataCard: React.FC<Props> = ({courses}) => {
   );
 };
 
-export default dataCard;
+export default Card;

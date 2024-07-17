@@ -5,8 +5,9 @@ import Button from "@/components/Base/Button";
 
 
 import Card from "./components/Card";
-import { useAppSelector, useAppDispatch } from "../../../stores/hooks";
-import { getStudents, selectStudent } from "../../../stores/Students/slice";
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { setBreadcrumb } from '@/stores/breadcrumb';
+import { getStudents, selectStudent } from "@/stores/Students/slice";
 
 
 import LoadingIcon from "@/components/Base/LoadingIcon";
@@ -32,6 +33,8 @@ function Main() {
   const {students, status } = useAppSelector(selectStudent);
   const dispatch = useAppDispatch();
   
+  dispatch(setBreadcrumb({first:"Listado de estudiantes", firstURL:"students"}));
+
   
   useEffect(() => { (async () => await dispatch(getStudents()))(); }, []);
 

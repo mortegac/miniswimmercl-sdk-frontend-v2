@@ -1,27 +1,62 @@
-import {useEffect} from "react";
+import {useEffect, useState, Fragment} from "react";
+
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
-
-
-
-import LocationsCard from "./components/LocationsCard";
-import { useAppSelector, useAppDispatch } from "../../../stores/hooks";
-import { getCourses, selectCourse } from "../../../stores/Courses/slice";
-
-
 import LoadingIcon from "@/components/Base/LoadingIcon";
 
 
 
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { setBreadcrumb } from '@/stores/breadcrumb';
+import { getCourses, selectCourse } from "@/stores/Courses/slice";
 
 
+import Card from "./components/Card";
+
+// function Content(props: any) {
+//   // const [location, setLocation] = useState();
+//   const { data } = props;
+//   // setLocation(data[0].locationCoursesId)
+//   return (
+//     <div className="grid grid-cols-12 gap-6">
+//       {Array.isArray(data) &&
+//         data.map((item: any, i: number) => <>
+//           {/* {location != item.locationCoursesId && <h2 className="text-xl">{item.locationCoursesId}</h2>} */}
+//           <Card key={`${i}-COURSES`} courses={item} />
+//           {/* {location != item.locationCoursesId && setLocation(item.locationCoursesId)} */}
+//         </>
+//         )}
+//     </div>
+//   );
+// }
 
 function Content(props: any) {
   const { data } = props;
+
+  // Asumimos que data ya está ordenado por locationCoursesId
+  let currentLocationId:string | null = null;
+
   return (
     <div className="grid grid-cols-12 gap-6">
       {Array.isArray(data) &&
-        data.map((item: any, i: number) => <LocationsCard key={`${i}-COURSES`} courses={item} />)}
+        data.map((item: any, i: number) => {
+          const showLocationId = item.locationCoursesId !== currentLocationId;
+          if (showLocationId) {
+            currentLocationId = item.locationCoursesId;
+          }
+
+          return (
+            <Fragment key={`${i}-COURSES`}>
+              {showLocationId && (
+                <div className="col-span-12">
+                   <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 dark:text-slate-500">
+                   {item.locationCoursesId}</h2>
+                </div>
+              )}
+              <Card courses={item} />
+            </Fragment>
+          );
+        })}
     </div>
   );
 }
@@ -32,6 +67,8 @@ function Main() {
   const {courses, status } = useAppSelector(selectCourse);
   const dispatch = useAppDispatch();
   
+  
+  dispatch(setBreadcrumb({first:"Listado de cursos", firstURL:"courses"}));
   
   useEffect(() => { (async () => await dispatch(getCourses()))(); }, []);
 

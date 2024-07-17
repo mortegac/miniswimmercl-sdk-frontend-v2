@@ -2,7 +2,14 @@ import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import _ from "lodash";
 
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { setBreadcrumb } from '@/stores/breadcrumb';
+
+
+
 function Main() {
+  const dispatch = useAppDispatch();
+  dispatch(setBreadcrumb({first:"Listado de leads", firstURL:"leads"}));
   return (
     <div className="grid grid-cols-12 gap-y-10 gap-x-6">
       <div className="col-span-12">

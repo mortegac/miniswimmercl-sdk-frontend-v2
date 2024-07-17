@@ -27,7 +27,7 @@ export type Course = {
   AgeGroupType: string
   duration: string
   isActive: boolean
-  
+  locationCoursesId: string
 
   // location: Location @belongsTo               # relación muchos a uno.
   // schedules: [Schedule] @hasMany              # relación uno a muchos
@@ -50,6 +50,7 @@ export const emptyCourse: Course = {
   AgeGroupType:  "",
   duration:  "",
   isActive: false,
+  locationCoursesId:"",
   // sessionDetail: [emptySchedules],
 };
 

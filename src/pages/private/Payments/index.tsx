@@ -13,7 +13,14 @@ import { useState } from "react";
 import clsx from "clsx";
 import _ from "lodash";
 
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { setBreadcrumb } from '@/stores/breadcrumb';
+
+
 function Main() {
+  const dispatch = useAppDispatch();
+  dispatch(setBreadcrumb({first:"Pagos", firstURL:"payments"}));
+  
   const [generalReportFilter, setGeneralReportFilter] = useState<string>();
 
   return (

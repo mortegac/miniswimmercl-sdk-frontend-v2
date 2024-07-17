@@ -1,8 +1,9 @@
 import { generateClient } from 'aws-amplify/api';
 
 
-import { FilterOptions } from './types';
+import { FilterOptions, InputOptions } from './types';
 import { listSessionDetails } from './queries';
+import { updateSessionDetail } from './mutation';
 const client = generateClient();
 
 
@@ -13,7 +14,48 @@ interface FilterInput {
     [operator: string]: string | number | boolean | null;
   };
 }
+interface Input {
+  [key: string]:  string | number | boolean | null;
+}
 
+export const updateData = async (objFilter: InputOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+  
+    
+    const inputData: Input = {
+      id: String(objFilter?.sessionId),
+      status: String(objFilter?.status),
+      
+    };
+    
+   
+    const setData:any = await client.graphql({
+      query: updateSessionDetail,
+      variables: {
+        input: { ...inputData }
+      }
+    });
+    
+    console.log(">> setData >>", setData)
+    
+        resolve({ status: "ok"} as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
 export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -40,18 +82,49 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
     const filter: FilterInput = {
       // createdAt: { gt: "2023-01-01" },
       sessionDetailStudentId: { eq: String(objFilter?.studentId) },
-      status: { eq: "ACTIVE" },
+      status: { eq: String(objFilter?.status) },
       // Puedes agregar más condiciones según tus necesidades
     };
     
+    const filterStatus = (typeof objFilter?.status === 'undefined') ?
+    {}
+    : { status: { eq: objFilter.status } };
+
+  // const filterSecondStatus = (typeof objFilter?.status === 'undefined') ?
+  //   {}
+  //   : { status: { eq: "RECOVERED" } };
    
-    const getData:any = await client.graphql({
+    let getData:any;
+    
+    console.log(">>> objFilter?.status  >>>", objFilter?.status )
+    
+    if(objFilter?.status === "ACTIVE"){
+      getData = await client.graphql({
+        query: listSessionDetails,
+        variables: { 
+          filter:{
+            sessionDetailStudentId: {eq: String(objFilter?.studentId)},
+            or: [
+                    {status: { eq: "ACTIVE" }},
+                    {status: { eq: "RECOVERED" }}            
+                  ]
+          
+          }
+          // sessionDetailStudentId: { eq: String(objFilter?.studentId) },
+          // or: [
+          //   {status: { eq: "ACTIVE" }},
+          //   {status: { eq: "RECOVERED" }}            
+          // ]
+        },
+      });
+  }else{
+    getData = await client.graphql({
       query: listSessionDetails,
       variables: { 
-        filter: filter,
-        // ...filterDetail // Mantenemos otras variables que puedas tener
+        filter: {...filter},
       },
     });
+  }
     
       // const getData:any = await client.graphql({
       //   query: listSessionDetails,
@@ -78,3 +151,5 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
     }
   });
 };
+
+

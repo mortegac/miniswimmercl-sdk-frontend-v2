@@ -16,7 +16,16 @@ import { useState, useRef } from "react";
 import clsx from "clsx";
 import _ from "lodash";
 
+
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { setBreadcrumb } from '@/stores/breadcrumb';
+
+
+
 function Main() {
+  const dispatch = useAppDispatch();
+  dispatch(setBreadcrumb({first:"", firstURL:""}));
+  
   const [generalReportFilter, setGeneralReportFilter] = useState<string>();
   const sliderRef = useRef<TinySliderElement>();
   const prevImportantNotes = () => {
