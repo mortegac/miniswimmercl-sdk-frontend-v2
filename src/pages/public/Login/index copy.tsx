@@ -92,30 +92,30 @@ function Main() {
   
   // useEffect(() => {
   //   const unsubscribe = Hub.listen("auth", ({ payload }) => {
-  //     console.log("GOOGLE-PAYLOAD >>> ", payload)
+  //     // console.log("GOOGLE-PAYLOAD >>> ", payload)
   //     switch (payload.event) {
   //       case "signInWithRedirect":
-  //         console.log("Sign in with redirect");
+  //         // console.log("Sign in with redirect");
           
   //         dispatch(getAuthUser());
           
   //         break;
   //       case "signInWithRedirect_failure":
   //         // setError("An error has occurred during the OAuth flow.");
-  //         console.log("Error en signin with redirect");
+  //         // console.log("Error en signin with redirect");
   //         // setLoading(false)
   //         break;
   //       case "customOAuthState":
   //         // setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
-  //         console.log("Custom OAuth State fixed");
+  //         // console.log("Custom OAuth State fixed");
   //         // setLoading(false)
   //         break;
   //       case "signedOut":
-  //         console.log("Se ha hecho logoColorut");
+  //         // console.log("Se ha hecho logoColorut");
   //         // setLoading(false)
   //         break;
   //       case "signedIn":
-  //         console.log("Se ha hecho signIn");
+  //         // console.log("Se ha hecho signIn");
   //         // setLoading(false)
   //         break;
   //     }
@@ -142,7 +142,7 @@ function Main() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     const { email, password } = data;
-    console.log(errors);
+    // console.log(errors);
     // const request = await dispatch(getLoginUser({ email, password }));
   };
   

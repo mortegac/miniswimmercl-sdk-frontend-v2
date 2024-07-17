@@ -58,7 +58,7 @@ export const locationSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         
-        console.log("---getLocations --action---", objPayload)
+        // console.log("---getLocations --action---", objPayload)
         state.locations = objPayload?.items || [];
         
       })

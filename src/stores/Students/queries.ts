@@ -98,6 +98,19 @@ export const listStudents = /* GraphQL */ `
             }
           }
         }
+        enrollments{
+        items{
+          id
+          amountPaid
+          courseEnrollmentsId
+          sessionDetails( filter:{ status: {eq: ACTIVE}}){
+            items{
+              id
+              sessionNumber
+            }
+          }
+          }
+        }
         __typename
       }
       nextToken

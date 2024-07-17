@@ -57,7 +57,7 @@ export const CourseSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         
-        console.log("---getCourses --action---", objPayload)
+        // console.log("---getCourses --action---", objPayload)
         state.courses = objPayload?.items || [];
         
       })

@@ -47,7 +47,7 @@ export const getAuthUser = createAsyncThunk(
   "auth/user",
   async () => {
     try {
-      // console.log("...tenderRequirement/list...")
+      // // console.log("...tenderRequirement/list...")
       const response:any = await fetchAuthUser();
       return response;
     } catch (error) {
@@ -76,7 +76,7 @@ export const authSlice = createSlice({
       .addCase(getAuthUser.fulfilled, (state, action) => {
         state.status = "idle";
         
-        console.log("---getUser --action---", action)
+        // console.log("---getUser --action---", action)
         action.payload
         state.isAuthenticated = action?.payload?.id ? true:false;
         state.name = action?.payload?.name || "";
@@ -98,7 +98,7 @@ export const authSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         
-        console.log("---getUser --action---", action)
+        // console.log("---getUser --action---", action)
         
         state.isAuthenticated = objPayload?.userId ? true:false;
         state.name = action?.payload?.name || "";
@@ -108,7 +108,7 @@ export const authSlice = createSlice({
       // GET LOGIN USER
       // .addCase(getLoginUser.rejected, (state, action) => {
       //   const objPayload: any = action.payload;
-      //   console.log(">>>action-payload>>>", action.payload);
+      //   // console.log(">>>action-payload>>>", action.payload);
       //   state.status = "failed";
       //   state.errorMessage = objPayload.errorMessage;
       // })

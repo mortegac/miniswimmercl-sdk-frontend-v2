@@ -1,4 +1,11 @@
 
+export type Enrollment = {
+  id: string
+}
+export const emptyEnrollment: Enrollment = {
+  id: "",
+};
+
 export type User = {
   name: string
 }
@@ -40,7 +47,7 @@ export type Student = {
   
  
   
-  // enrollments: Enrollment[];
+  enrollments: Enrollment[];
   relationships: Relationship[];
   // sessionDetail: SessionDetail[];
   
@@ -66,7 +73,7 @@ export const emptyStudent: Student = {
   putYourFaceInTheWater: false,
 
   anyIllnessInjuryMedicalCondition: "",
-  // enrollments: [emptySchedules],
+  enrollments: [emptyEnrollment],
   relationships: [emptyRelationship],
   // sessionDetail: [emptySchedules],
 };

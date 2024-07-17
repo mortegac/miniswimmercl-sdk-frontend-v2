@@ -39,7 +39,7 @@ const client = generateClient();
 //     return elem;
 //   } catch (error) {
 //     localStorage.clear();
-//     console.log(error);
+//     // console.log(error);
 //     return emptyLoginResponse;
 //   }
 // };
@@ -68,12 +68,12 @@ type loginType = {
           });
       
           if (isSignUpComplete) {
-            console.log('Registro completado con éxito');
+            // console.log('Registro completado con éxito');
             resendConfirmationCode(params.email)
             
             return { success: true, message: 'Registro completado' };
           } else {
-            console.log('Se requiere confirmación', nextStep);
+            // console.log('Se requiere confirmación', nextStep);
             return { success: true, message: 'Se ha enviado un código de verificación a tu email', userId };
           }
         } catch (error) {
@@ -91,10 +91,10 @@ async function confirmUserSignUp(username: string, code: string) {
     const { isSignUpComplete } = await confirmSignUp({ username, confirmationCode: code });
     
     if (isSignUpComplete) {
-      console.log('Confirmación exitosa');
+      // console.log('Confirmación exitosa');
       return { success: true, message: 'Usuario confirmado con éxito' };
     } else {
-      console.log('La confirmación requiere pasos adicionales');
+      // console.log('La confirmación requiere pasos adicionales');
       return { success: false, message: 'La confirmación requiere pasos adicionales' };
     }
   } catch (error) {
@@ -107,7 +107,7 @@ async function confirmUserSignUp(username: string, code: string) {
 async function resendConfirmationCode(username: string) {
   try {
     await resendSignUpCode({ username });
-    console.log('Código reenviado');
+    // console.log('Código reenviado');
     return { success: true, message: 'Código reenviado con éxito' };
   } catch (error) {
     console.error('Error al reenviar el código:', error);
@@ -127,20 +127,20 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
       const { isSignedIn, nextStep } = await signIn({ username: params.email, password: params.password });
           
           if (isSignedIn) {
-            console.log('Usuario ha iniciado sesión exitosamente');
+            // console.log('Usuario ha iniciado sesión exitosamente');
            
             const auth = await getCurrentUser();
             const { username, userId } = auth;
-            console.log(">>>fetchAuthUser, auth >>>", auth)
+            // console.log(">>>fetchAuthUser, auth >>>", auth)
             
             if(userId){
               const attributes = await fetchUserAttributes();
-              console.log(">>>attributes >>>", attributes)
+              // console.log(">>>attributes >>>", attributes)
               
               const email = attributes?.email || "";
               
               const req = await fetchUserData(email)
-              console.log(">>>req >>>", req)
+              // console.log(">>>req >>>", req)
               
               return {username, userId, email, ...req};
             }
@@ -154,21 +154,21 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
           }else{
             switch (nextStep.signInStep) {
               case 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED':
-                console.log('Se requiere cambio de contraseña');
+                // console.log('Se requiere cambio de contraseña');
                 // Aquí podrías mostrar un formulario para que el usuario ingrese una nueva contraseña
                 // y luego llamar a handleNewPasswordRequired
                 break;
               case 'RESET_PASSWORD':
-                console.log('Se requiere restablecer la contraseña');
+                // console.log('Se requiere restablecer la contraseña');
                 // Aquí podrías iniciar el flujo de restablecimiento de contraseña
                 await handleResetPassword(params.email);
                 break;
               default:
-                console.log('Paso adicional requerido:', nextStep.signInStep);
+                // console.log('Paso adicional requerido:', nextStep.signInStep);
             }
           }
             // } else if (nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED') {
-          //   console.log('Ingrese a cambiar clave');
+          //   // console.log('Ingrese a cambiar clave');
           //   // El usuario necesita cambiar su contraseña
           //   const newPassword = '87654321'; // Idealmente, esto vendría de un input del usuario
           //   const { isSignedIn: isSignedInAfterConfirm } = await confirmSignIn({ challengeResponse: newPassword });
@@ -177,13 +177,13 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
           //   }
           // }
             // } else {
-          //   console.log('Siguiente paso:', nextStep);
+          //   // console.log('Siguiente paso:', nextStep);
           //   // Maneja los siguientes pasos si es necesario (como confirmación de código)
           // }
         } catch (err) {
-          console.log('Error al iniciar sesión: ' + (err instanceof Error ? err.message : String(err)));
+          // console.log('Error al iniciar sesión: ' + (err instanceof Error ? err.message : String(err)));
           if (err instanceof Error && err.message.includes('Temporary password has expired')) {
-            console.log('La contraseña temporal ha expirado. Por favor, contacta al administrador para restablecerla.');
+            // console.log('La contraseña temporal ha expirado. Por favor, contacta al administrador para restablecerla.');
            
             // Aquí podrías mostrar un mensaje al usuario o redirigirlo a una página de soporte
           } else {
@@ -198,7 +198,7 @@ async function handleNewPasswordRequired(username: string, newPassword: string) 
   try {
     const { isSignedIn } = await confirmSignIn({ challengeResponse: newPassword });
     if (isSignedIn) {
-      console.log('Contraseña cambiada y sesión iniciada con éxito');
+      // console.log('Contraseña cambiada y sesión iniciada con éxito');
       // Redirige al usuario a la página principal o dashboard
     }
   } catch (error) {
@@ -209,7 +209,7 @@ async function handleNewPasswordRequired(username: string, newPassword: string) 
 async function handleResetPassword(username: string) {
   try {
     const { nextStep } = await resetPassword({ username });
-    console.log('Siguiente paso para restablecer la contraseña:', nextStep);
+    // console.log('Siguiente paso para restablecer la contraseña:', nextStep);
     // Dependiendo del nextStep, podrías mostrar un formulario para ingresar el código de confirmación
     // y la nueva contraseña, y luego llamar a confirmResetPassword
   } catch (error) {
@@ -222,10 +222,10 @@ async function handleResetPassword(username: string) {
 //     const { isSignedIn, nextStep } = await signIn({ username: email, password });
     
 //     if (isSignedIn) {
-//       console.log('Usuario ha iniciado sesión exitosamente');
+//       // console.log('Usuario ha iniciado sesión exitosamente');
 //       // Aquí puedes redirigir al usuario a la página principal o hacer lo que necesites
 //     } else {
-//       console.log('Siguiente paso:', nextStep);
+//       // console.log('Siguiente paso:', nextStep);
 //       // Maneja los siguientes pasos si es necesario (como confirmación de código)
 //     }
 //   } catch (err) {
@@ -250,7 +250,7 @@ async function handleResetPassword(username: string) {
 //           query: getUsersWithID,
 //           variables: { id: user?.attributes.email },
 //         });
-//         console.log(dataUser);
+//         // console.log(dataUser);
 //         const data = { ...dataUser.data.getUsers };
 //         resolve({
 //           isAuthenticated: true,
@@ -320,10 +320,10 @@ export interface AuthResponse {
 export const fetchAuthUser = async () => {
   try {
     // const user = await currentAuthenticatedUser();
-    // console.log('User is signed in:', user);
+    // // console.log('User is signed in:', user);
     const auth = await getCurrentUser();
     const { username, userId } = auth;
-    console.log(">>>fetchAuthUser, auth >>>", auth)
+    // console.log(">>>fetchAuthUser, auth >>>", auth)
     
     
     // if(!username || !userId){
@@ -332,19 +332,19 @@ export const fetchAuthUser = async () => {
     // }
     if(userId){
       const attributes = await fetchUserAttributes();
-      console.log(">>>attributes >>>", attributes)
+      // console.log(">>>attributes >>>", attributes)
       
       const email = attributes?.email || "";
       
       const req = await fetchUserData(email)
-      console.log(">>>req >>>", req)
+      // console.log(">>>req >>>", req)
       
       return {username, userId, email, ...req};
     }
     return {}
   } catch (error) {
-    console.log(error);
-    console.log("Not signed in");
+    // console.log(error);
+    // console.log("Not signed in");
   }
 };
 
@@ -357,7 +357,7 @@ export const fetchUserData = async (userId: string): Promise<any> => {
         variables: { id: userId },
       });
       
-      console.log("<<< userData <<<<< ", userData)
+      // console.log("<<< userData <<<<< ", userData)
       const data = userData.data;
       
         resolve({ ...data.getUsers } as any);

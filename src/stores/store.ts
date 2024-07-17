@@ -10,6 +10,7 @@ import authReducer from "./Users/slice";
 import locationReducer from "./Locations/slice";
 import studentReducer from "./Students/slice";
 import courseReducer from "./Courses/slice";
+import sessionDetailReducer from "./SessionDetails/slice";
 
 
 export const store = configureStore({
@@ -25,6 +26,7 @@ export const store = configureStore({
     location: locationReducer,
     student: studentReducer,
     course: courseReducer,
+    sessionDetail: sessionDetailReducer,
   },
 });
 

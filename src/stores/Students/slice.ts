@@ -57,7 +57,7 @@ export const studentSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         
-        console.log("---getStudents --action---", objPayload)
+        // console.log("---getStudents --action---", objPayload)
         state.students = objPayload?.items || [];
         
       })

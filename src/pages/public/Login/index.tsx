@@ -44,7 +44,7 @@ function Main() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     const { email, password } = data;
-    console.log(errors);
+    // console.log(errors);
     const request = await dispatch(getLoginUser({ email, password }));
   };
   

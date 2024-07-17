@@ -16,7 +16,7 @@ export const fetchData = async (): Promise<any> => {
         // variables: { id: userId },
       });
       
-      console.log("<<< LOCATIONS DATA <<<<< ", getData)
+      // console.log("<<< LOCATIONS DATA <<<<< ", getData)
       const data = getData.data;
       
         resolve({ ...data.listLocations } as any);

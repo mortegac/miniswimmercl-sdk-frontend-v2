@@ -4,7 +4,7 @@ import Button from "@/components/Base/Button";
 
 
 
-import LocationsCard from "./components/LocationsCard";
+import Card from "./components/Card";
 import { useAppSelector, useAppDispatch } from "../../../stores/hooks";
 import { getStudents, selectStudent } from "../../../stores/Students/slice";
 
@@ -21,7 +21,7 @@ function Content(props: any) {
   return (
     <div className="grid grid-cols-12 gap-6">
       {Array.isArray(data) &&
-        data.map((item: any, i: number) => <LocationsCard key={`${i}-STUDENTS-LOCATIONS`} students={item} />)}
+        data.map((item: any, i: number) => <Card key={`${i}-STUDENTS-LOCATIONS`} students={item} />)}
     </div>
   );
 }
