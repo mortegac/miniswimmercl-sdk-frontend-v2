@@ -9,6 +9,7 @@ import {
   ATTENDANCE,
   LOCATIONS, 
   COURSES,
+  QUICK_REGISTRATION,
   PAYMENTS,
   TICKETS,
   NEW_EXPENSE, 
@@ -53,6 +54,11 @@ const initialState: SideMenuState = {
       icon: "CheckSquare",
       pathname: ATTENDANCE,
       title: "Asistencia",
+    },
+    {
+      icon: "PlusSquare",
+      pathname: QUICK_REGISTRATION,
+      title: "Inscripción rápida",
     },
     {
       icon: "HardDrive",

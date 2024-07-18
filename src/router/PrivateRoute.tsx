@@ -12,6 +12,7 @@ import {
     STUDENTS, 
     LOCATIONS, 
     COURSES,
+    QUICK_REGISTRATION,
     ATTENDANCE,
     PAYMENTS,
     TICKETS,
@@ -30,6 +31,7 @@ import {
   const Locations = lazy(() => import("../pages/private/Locations"));
   // const Courses = lazy(() => import("../pages/private/Courses"));
   import Courses from "../pages/private/Courses";
+  import QuickRegistration from "../pages/private/QuickRegistration2";
   
   // const Attendance = lazy(() => import("../pages/private/Attendance"));
   import Attendance from "../pages/private/Attendance";
@@ -90,6 +92,10 @@ export const privateRoutes = {
         {
           path: ATTENDANCE,
           element: <Attendance />,
+        },
+        {
+          path: QUICK_REGISTRATION,
+          element: <QuickRegistration />,
         },
         {
           path: COURSES,

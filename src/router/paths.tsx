@@ -5,6 +5,7 @@ export const STUDENTS = "/students";
 export const LOCATIONS = "/locations";
 export const COURSES = "/courses";
 export const ATTENDANCE = "/attendance";
+export const QUICK_REGISTRATION = "/quick-registration";
 export const PAYMENTS = "/payments";
 export const TICKETS = "/tickets";
 
