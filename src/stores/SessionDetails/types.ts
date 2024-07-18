@@ -35,6 +35,7 @@ export const emptySessionDetail: SessionDetail = {
 export type FilterOptions  = {
   studentId?: string;
   status?: string;
+  sessionDate?: string;
 };
 export type InputOptions  = {
   sessionId?: string;

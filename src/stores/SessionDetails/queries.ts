@@ -2,6 +2,51 @@
 /********************************************************
 *                    QUERIES
 ********************************************************/
+
+export const listSessionDetails = /* GraphQL */ `
+  query ListSessionDetails(
+    $filter: ModelSessionDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSessionDetails(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        date
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        createdAt
+        updatedAt
+        enrollmentSessionDetailsId
+        sessionDetailStudentId
+        __typename
+        enrollment{
+          id
+          startDate
+          course{
+            id
+            title
+          }
+        }
+        student{
+          id
+          name
+          lastName
+          birthdate
+          gender
+        }
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
 export const getSessionDetail = /* GraphQL */ `
   query GetSessionDetail($id: ID!) {
     getSessionDetail(id: $id) {
@@ -63,36 +108,6 @@ export const getSessionDetail = /* GraphQL */ `
     }
   }
 `;
-export const listSessionDetails = /* GraphQL */ `
-  query ListSessionDetails(
-    $filter: ModelSessionDetailFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSessionDetails(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        date
-        month
-        year
-        sessionNumber
-        totalSessions
-        status
-        proratedValue
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-
-
 /********************************************************
 *                    MUTATIONS
 ********************************************************/

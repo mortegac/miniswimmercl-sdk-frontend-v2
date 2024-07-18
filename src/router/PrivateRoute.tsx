@@ -12,6 +12,7 @@ import {
     STUDENTS, 
     LOCATIONS, 
     COURSES,
+    ATTENDANCE,
     PAYMENTS,
     TICKETS,
     NEW_EXPENSE, 
@@ -24,9 +25,14 @@ import {
   
   const Dashboard = lazy(() => import("../pages/private/Dashboard"));
   const Leads = lazy(() => import("../pages/private/Leads"));
-  const Students = lazy(() => import("../pages/private/Students"));
+  // const Students = lazy(() => import("../pages/private/Students"));
+  import Students from "../pages/private/Students";
   const Locations = lazy(() => import("../pages/private/Locations"));
-  const Courses = lazy(() => import("../pages/private/Courses"));
+  // const Courses = lazy(() => import("../pages/private/Courses"));
+  import Courses from "../pages/private/Courses";
+  
+  // const Attendance = lazy(() => import("../pages/private/Attendance"));
+  import Attendance from "../pages/private/Attendance";
   const Payments = lazy(() => import("../pages/private/Payments"));
   const Tickets = lazy(() => import("../pages/private/Tickets"));
   const Expenses = lazy(() => import("../pages/private/Expenses"));
@@ -82,12 +88,17 @@ export const privateRoutes = {
           element: <Students />,
         },
         {
-          path: LOCATIONS,
-          element: <Locations />,
+          path: ATTENDANCE,
+          element: <Attendance />,
         },
         {
           path: COURSES,
           element: <Courses />,
+        },
+        
+        {
+          path: LOCATIONS,
+          element: <Locations />,
         },
         {
           path: PAYMENTS,

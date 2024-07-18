@@ -1,6 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { icons } from "@/components/Base/Lucide";
+import {
+  PUBLIC,
+  PRIVATE,
+  LEADS,
+  STUDENTS, 
+  ATTENDANCE,
+  LOCATIONS, 
+  COURSES,
+  PAYMENTS,
+  TICKETS,
+  NEW_EXPENSE, 
+  EXPENSES, 
+  INCOME
+} from "@/router/paths";
 
 export interface Menu {
   icon: keyof typeof icons;
@@ -20,53 +34,61 @@ const initialState: SideMenuState = {
     "",
     {
       icon: "Home",
-      pathname: "/",
+      pathname: PRIVATE,
       title: "Inicio",
     },
     {
       icon: "User",
-      pathname: "/leads",
+      pathname: LEADS,
       title: "Leads",
     },
     {
       icon: "Users",
-      pathname: "/students",
+      pathname: STUDENTS,
       title: "Alumnnos",
     },
+
+    "Cursos",
     {
-      icon: "MapPin",
-      pathname: "/locations",
-      title: "Sedes",
+      icon: "CheckSquare",
+      pathname: ATTENDANCE,
+      title: "Asistencia",
     },
     {
       icon: "HardDrive",
-      pathname: "/courses",
+      pathname: COURSES,
       title: "Cursos",
+    },
+    "Administración",
+    {
+      icon: "MapPin",
+      pathname: LOCATIONS,
+      title: "Sedes",
     },
     {
       icon: "DollarSign",
-      pathname: "/payments",
+      pathname: PAYMENTS,
       title: "Pagos",
     },
     {
       icon: "MessageCircle",
-      pathname: "/tickets",
+      pathname: TICKETS,
       title: "Requerimientos",
     },
     "Ingresos - Egresos",
     {
       icon: "PlusCircle",
-      pathname: "/new-expense",
-      title: "Nuevo Gastos",
+      pathname: NEW_EXPENSE,
+      title: "Nuevo Gasto",
     },
     {
       icon: "ShieldOff",
-      pathname: "/expenses",
+      pathname: EXPENSES,
       title: "Gastos",
     },
     {
       icon: "Shield",
-      pathname: "/income",
+      pathname: INCOME,
       title: "Ingresos",
     },
    

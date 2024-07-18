@@ -28,6 +28,7 @@ export const updateData = async (objFilter: InputOptions): Promise<any> => {
       status: String(objFilter?.status),
       
     };
+    // console.log(">> inputData >>", inputData)
     
    
     const setData:any = await client.graphql({
@@ -37,7 +38,7 @@ export const updateData = async (objFilter: InputOptions): Promise<any> => {
       }
     });
     
-    console.log(">> setData >>", setData)
+    // console.log(">> setData >>", setData)
     
         resolve({ status: "ok"} as any);
         
@@ -79,31 +80,39 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
     //   limit: LIMIT_FILTER
     // };
     
-    const filter: FilterInput = {
-      // createdAt: { gt: "2023-01-01" },
-      sessionDetailStudentId: { eq: String(objFilter?.studentId) },
-      status: { eq: String(objFilter?.status) },
-      // Puedes agregar más condiciones según tus necesidades
-    };
-    
+    const filterStudent = typeof objFilter?.studentId === 'undefined'
+      ? {}
+      : { sessionDetailStudentId: { eq: String(objFilter?.studentId) } };
+      
+    const filterSessionDate = typeof objFilter?.sessionDate === 'undefined'
+      ? {}
+      : { 
+        // date: { eq: String(objFilter?.sessionDate) } 
+        // date: { eq: "2024-08-13T00:00:00.000Z"},
+        date: { eq: objFilter?.sessionDate},
+      };
     const filterStatus = (typeof objFilter?.status === 'undefined') ?
     {}
-    : { status: { eq: objFilter.status } };
-
-  // const filterSecondStatus = (typeof objFilter?.status === 'undefined') ?
-  //   {}
-  //   : { status: { eq: "RECOVERED" } };
+    : { status: { eq: String(objFilter.status) } };
+    
+    const filter: any = {
+      ...filterStudent,
+      ...filterStatus,
+      ...filterSessionDate,
+    };
    
     let getData:any;
     
-    console.log(">>> objFilter?.status  >>>", objFilter?.status )
+    // console.log(">>> objFilter  >>>", objFilter )
     
     if(objFilter?.status === "ACTIVE"){
       getData = await client.graphql({
         query: listSessionDetails,
         variables: { 
           filter:{
-            sessionDetailStudentId: {eq: String(objFilter?.studentId)},
+            // sessionDetailStudentId: {eq: String(objFilter?.studentId)},
+            ...filterStudent,
+            ...filterSessionDate,
             or: [
                     {status: { eq: "ACTIVE" }},
                     {status: { eq: "RECOVERED" }}            

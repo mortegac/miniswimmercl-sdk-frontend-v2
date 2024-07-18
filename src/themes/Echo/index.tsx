@@ -23,7 +23,7 @@ import QuickSearch from "@/components/QuickSearch";
 import SwitchAccount from "@/components/SwitchAccount";
 import NotificationsPanel from "@/components/NotificationsPanel";
 import ActivitiesPanel from "@/components/ActivitiesPanel";
-import BreadcrumbApp from "@/components/Breadcrumb";
+import {BreadcrumbApp} from "@/components/Breadcrumb";
 
 function Main() {
   const dispatch = useAppDispatch();

@@ -4,6 +4,7 @@ export const LEADS = "/leads";
 export const STUDENTS = "/students";
 export const LOCATIONS = "/locations";
 export const COURSES = "/courses";
+export const ATTENDANCE = "/attendance";
 export const PAYMENTS = "/payments";
 export const TICKETS = "/tickets";
 

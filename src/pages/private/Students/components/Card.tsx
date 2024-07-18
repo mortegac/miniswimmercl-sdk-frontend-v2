@@ -72,7 +72,7 @@ export const SvgFemale: React.FC<{ color: string }> = ({ color }) => (
   </svg>
  );
 
-const typeOfGender: any = {
+export const typeOfGender: any = {
   [""]: SvgNone,
   ["female"]: SvgFemale,
   ["male"]: SvgMale,
@@ -125,6 +125,7 @@ const Card: React.FC<Props> = ({students}) => {
   const id = useId();
    const [flag, setFlag] = useState(false);
 
+   typeOfGender
   const IcoSvg = typeOfGender[String(students?.gender)] || typeOfGender[""];
   
   const relationships:any = students?.relationships
