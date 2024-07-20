@@ -12,6 +12,8 @@ import locationReducer from "./Locations/slice";
 import studentReducer from "./Students/slice";
 import courseReducer from "./Courses/slice";
 import sessionDetailReducer from "./SessionDetails/slice";
+import enrollmentReducer from "./Enrollment/slice";
+import parametersReducer from "./Parameters/slice";
 
 
 export const store = configureStore({
@@ -29,6 +31,8 @@ export const store = configureStore({
     student: studentReducer,
     course: courseReducer,
     sessionDetail: sessionDetailReducer,
+    enrollment: enrollmentReducer,
+    parameters: parametersReducer,
   },
 });
 
