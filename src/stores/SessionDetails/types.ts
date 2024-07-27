@@ -1,5 +1,4 @@
 
-
 export type SessionDetail = {
   id: String;
   date: String;

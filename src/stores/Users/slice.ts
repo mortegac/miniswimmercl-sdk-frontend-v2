@@ -2,14 +2,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchAuthUser, handleLogin} from "./services"
+import {fetchAuthUser, handleLogin, fetchData, createApoderado} from "./services"
 
-import { Roles } from "../Roles/types";
+import { Roles, FilterOptions } from "../Roles/types";
 import { UserPermissions } from "../UserPermissions/types";
 
 
 export interface UserState {
   isAuthenticated: boolean;
+  id: string;
   name: string;
   email: string;
   firstLogin: boolean;
@@ -22,6 +23,7 @@ export interface UserState {
 
 export const initialState: UserState = {
   isAuthenticated: false,
+  id: "",
   name: "",
   email: "",
   firstLogin: true,
@@ -31,6 +33,30 @@ export const initialState: UserState = {
 };
 
 
+export const getUser = createAsyncThunk(
+  "users/list",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchData({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH getUser", error)
+      return Promise.reject(error);
+    }
+  }
+);
+export const setApoderado = createAsyncThunk(
+  "users/createApoderado",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await createApoderado({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH getUser", error)
+      return Promise.reject(error);
+    }
+  }
+);
 
 export const getLoginUser = createAsyncThunk(
   "auth/userLogin",
@@ -64,7 +90,7 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // getUser
+      // getAuthUser
       .addCase(getAuthUser.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
@@ -81,6 +107,43 @@ export const authSlice = createSlice({
         state.isAuthenticated = action?.payload?.id ? true:false;
         state.name = action?.payload?.name || "";
         state.email = action?.payload?.email || "";
+      })
+      
+      // getUser
+      .addCase(getUser.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.status = "idle";
+        const objPayload: any = action.payload;
+        console.log("---objPayload---", objPayload)
+        state.id = objPayload[0]?.id || "";
+        state.name = objPayload[0]?.name || "";
+        state.email = objPayload[0]?.email || "";
+      })
+      
+      // set Apoderado 
+      .addCase(setApoderado.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(setApoderado.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(setApoderado.fulfilled, (state, action) => {
+        state.status = "idle";
+        const objPayload: any = action.payload;
+        console.log("---objPayload---", objPayload)
+
+        state.id = objPayload[0]?.id || "";
+        state.name = objPayload[0]?.name || "";
+        state.email = objPayload[0]?.email || "";
       })
       
       

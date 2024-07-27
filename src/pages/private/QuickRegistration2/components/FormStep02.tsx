@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "@/components/Base/Button";
 import Litepicker from "@/components/Base/Litepicker";
+import Alert from "@/components/Base/Alert";
 import { FormInput, FormSelect, FormCheck } from "@/components/Base/Form";
 import ListParams from "@/components/ListParams";
 import users from "@/fakers/users";
@@ -14,8 +15,59 @@ import {
   selectParameters,
   getParameters,
 } from "@/stores/Parameters/slice";
+import { setSessionDetails } from "@/stores/SessionDetails/slice";
 
+
+function convertirFecha(fechaString: string): Date {
+  // Asumimos que la fecha viene en formato "dd/mm/yyyy"
+  console.log("---fechaString--", fechaString)
+  
+  const [dia, mes, anio] = fechaString.split('/');
+  
+  // Creamos una nueva fecha en formato "yyyy-mm-dd"
+  return new Date(`${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`);
+}
+function calcularEdad(fechaNacimientoString: string): { años: number; meses: number } {
+  const fechaNacimiento = convertirFecha(fechaNacimientoString);
+  
+  console.log("---fechaNacimiento--", fechaNacimiento)
+  
+  const hoy = new Date();
+  let años = hoy.getFullYear() - fechaNacimiento.getFullYear();
+  let meses = hoy.getMonth() - fechaNacimiento.getMonth();
+
+  if (meses < 0 || (meses === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+    años--;
+    meses += 12;
+  }
+
+  meses = meses % 12;
+
+  return { años, meses };
+}
+
+
+function tiempoTranscurrido(fechaString: string): { años: number; meses: number } {
+  // Parsear la fecha de entrada
+  const fecha = new Date(fechaString);
+
+  // Fecha actual
+  const ahora = new Date();
+
+  // Calcular la diferencia
+  let años = ahora.getFullYear() - fecha.getFullYear();
+  let meses = ahora.getMonth() - fecha.getMonth();
+
+  // Ajustar si los meses son negativos
+  if (meses < 0 || (meses === 0 && ahora.getDate() < fecha.getDate())) {
+    años--;
+    meses += 12;
+  }
+
+  return { años, meses };
+}
 export const FormStep02 = ({ onChangeSetStore }: any) => {
+  const [birthday, setBirthday] = useState({month:"", years:""})
   const {genders, cityOfResidence} = useAppSelector(selectParameters);
   const {enrollment}= useAppSelector(selectEnrollment);
   const {
@@ -32,11 +84,20 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
   
   
   
+
   
-  const [dateOfBirth, setDateOfBirth] = useState<string>();
+  // const [dateOfBirth, setDateOfBirth] = useState<string>();
   
   async function setDateBirthday(e:any){
+    // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z") 
+
+    console.log("e>>> ", e)
+    
     const date:string= new Date(e.target.value).toISOString()
+    const getBirthday:any = tiempoTranscurrido(e.target.value)
+    
+    setBirthday({month:getBirthday.meses , years:getBirthday.años});
+    
     const event = {
       target:{
         name:"studentBithday",
@@ -51,6 +112,9 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
   }
   
   
+  // function edad(dateChild:string) { return calcularEdad(dateChild)}
+  
+  
   useEffect(() => {
     dispatch(getParameters({ key: "TYPEOFGENDERS" }));
     dispatch(getParameters({ key: "CITYOFRESIDENCE" }));
@@ -63,12 +127,7 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
       <HeaderTitle
         title={"Información del Alumno"}
         description={"Paso 2"}
-        hasVisibleBrand={false}
-        vehicle={{
-          typeOfVehicle: "",
-          brand: "",
-          model: "",
-        }}
+      
       />
 
       <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
@@ -123,44 +182,32 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                     </div>
                   </div>
                 </label>
-                <div className="flex-1 mt-3 xl:mt-0 max-w-44">    
+                <div className="flex flex-row mt-3 xl:mt-0 w-[140] justify-center items-center">    
                   <div className="relative">
-                <Lucide
-                  icon="Calendar"
-                  className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
-                />
-                
-              {/* <Litepicker value={dateOfBirth} onChange={(e)=> { */}
-              <Litepicker value={studentBithday} type="text" name="studentBithday" 
-              onChange={(e)=>setDateBirthday(e)}
-              // onChange={(event:any)=> {
-              //         // setDate(e.target.value);
-              //         // setDateOfBirth(e.target.value);
-              //         const name = {e:{target:{lala:"studentBithday"}}}
-              //         onChangeSetStore({ ...name })
-              //         //   e:{ target:{
-              //         //   value:event.target.value, 
-              //         //   name:studentBithday, 
-              //         //   type:"text"
-              //         // } }
-              //         }}
-                    options={{
-                      autoApply: true,
-                      showWeekNumbers: false,
-                      dropdowns: {
-                        minYear: 1990,
-                        maxYear: null,
-                        months: true,
-                        years: true,
-                      },
-                    }}
-                    // className="pl-12 rounded-full"
-                    className="px-6 py-3 pl-12 rounded-full mr-8 focus:z-10"
+                    <Lucide
+                      icon="Calendar"
+                      className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
                     />
-                    
-                    
-                    
+                    <Litepicker value={studentBithday} type="text" name="studentBithday" 
+                      onChange={(e)=>setDateBirthday(e)}
+                      options={{
+                        autoApply: true,
+                        showWeekNumbers: false,
+                        dropdowns: {
+                          minYear: 1990,
+                          maxYear: null,
+                          months: true,
+                          years: true,
+                        },
+                      }}
+                      className="px-6 py-3 pl-12 rounded-full mr-8 focus:z-10"
+                    />    
               </div>
+              <Alert variant="soft-secondary" className=" ml-6 flex items-center justify-center rounded-full mb-2 w-full">
+                <div className=" uppercase font-thin text-slate-900">
+                  { `${birthday.years} años, ${birthday.month} meses`}
+                </div>
+              </Alert>
                 </div>
               </div>
               <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
@@ -179,7 +226,7 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                   <ListParams
                     list={genders}
                     text={studentGender}
-                    value={studentGender}
+                    value={studentGender || ""}
                     name={"studentGender"}
                     isLoading={false}
                     fn={onChangeSetStore}
@@ -205,7 +252,7 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                   <ListParams
                     list={cityOfResidence}
                     text={studentResidence}
-                    value={studentResidence}
+                    value={studentResidence || ""}
                     name={"studentResidence"}
                     isLoading={false}
                     fn={onChangeSetStore}
@@ -265,18 +312,7 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                       value={studentPhone}
                       onChange={onChangeSetStore}
                     />
-                    {/* <FormSelect className="md:w-36 first:rounded-b-none first:md:rounded-bl-md first:md:rounded-r-none [&:not(:first-child):not(:last-child)]:-mt-px [&:not(:first-child):not(:last-child)]:md:mt-0 [&:not(:first-child):not(:last-child)]:md:-ml-px [&:not(:first-child):not(:last-child)]:rounded-none last:rounded-t-none last:md:rounded-l-none last:md:rounded-tr-md last:-mt-px last:md:mt-0 last:md:-ml-px focus:z-10">
-                      <option value="office">Office</option>
-                      <option value="home">Home</option>
-                    </FormSelect> */}
                   </div>
-                  {/* <a
-                    className="flex items-center mt-3.5 -mb-1 font-medium text-primary"
-                    href=""
-                  >
-                    <Lucide className="w-4 h-4 stroke-[1.3] mr-1" icon="Plus" />
-                    Add phone
-                  </a> */}
                 </div>
               </div>
               

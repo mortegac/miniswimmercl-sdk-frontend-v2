@@ -80,3 +80,16 @@ export const emptyStudent: Student = {
 
 
 
+export type FilterOptions  = {
+  name?: string;
+  lastName?: string;
+  middleName?: string;
+  birthdate?: string;
+  placeOfResidence?: string;
+  contactPhone?: string;
+  whoIsTheContact?: string;
+  emailPhone?: string;
+  gender?: string;
+  
+  
+}

@@ -134,6 +134,7 @@ function Main() {
           {/* FORM */}
             <div className="flex flex-col justify-between box min-h-[800px] p-10 space-y-4 mt-8 ">
               <div className="flex flex-col justify-start ">
+              {/* <pre>currentStep = {JSON.stringify({currentStep})}</pre> */}
               
               { status === "loading" &&
                 <div className="flex justify-center items-center w-full h-48"><LoadingIcon

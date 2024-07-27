@@ -36,20 +36,20 @@ export const emptyEnrollment: Enrollment = {
 
 export type EnrollmentExtra = {
   // GUARDIAN
-  guardianId: string
-  guardianEmail: string
-  guardianName: string
-  guardianRelation: string
+  guardianId?: string
+  guardianEmail?: string
+  guardianName?: string
+  guardianRelation?: string
   
   // STUDENT
-  studentId: string
-  studentName: string
-  studentLastName: string
-  studentBithday: string
-  studentGender: string
-  studentResidence: string
-  studentEmail: string
-  studentPhone: string
+  studentId?: string
+  studentName?: string
+  studentLastName?: string
+  studentBithday?: string
+  studentGender?: string
+  studentResidence?: string
+  studentEmail?: string
+  studentPhone?: string
 }
 
 export const emptyEnrollmentExtra : EnrollmentExtra = {
@@ -68,4 +68,11 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
   studentResidence: "",
   studentEmail: "",
   studentPhone: "",
+}
+
+export type FilterOptions  = {
+  name?: string;
+
+  
+  
 }

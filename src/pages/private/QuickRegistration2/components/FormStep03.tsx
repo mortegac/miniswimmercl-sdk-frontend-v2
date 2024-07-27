@@ -10,12 +10,6 @@ export const FormStep03 = ({ onChangeSetStore }: any) => {
       <HeaderTitle
         title={"Proceso de inscripción"}
         description={"Paso 3"}
-        hasVisibleBrand={false}
-        vehicle={{
-          typeOfVehicle: "",
-          brand: "",
-          model: "",
-        }}
       />
 
       <div className="lg:p-5 text-left">

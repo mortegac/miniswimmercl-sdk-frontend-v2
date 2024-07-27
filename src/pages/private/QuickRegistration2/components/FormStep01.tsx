@@ -1,19 +1,49 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FormInput, FormSelect, FormCheck } from "@/components/Base/Form";
+import Notification from "@/components/Base/Notification";
+import { NotificationElement } from "@/components/Base/Notification";
 
 import { HeaderTitle } from "./HeaderTitle";
-import ListParams from "@/components/ListParams";
+import Lucide from "@/components/Base/Lucide";
+import Button from "@/components/Base/Button";
+import LoadingIcon from "@/components/Base/LoadingIcon";
+// import ListParams from "@/components/ListParams";
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { selectEnrollment, setDataEnroll} from "@/stores/Enrollment/slice";
-// import { setBreadcrumb } from '@/stores/breadcrumb';
-import {
-  selectParameters,
-  getParameters,
-} from "@/stores/Parameters/slice";
+import { selectEnrollment, setDataUser, increment, cleanData} from "@/stores/Enrollment/slice";
+import { selectAuth, getUser, setApoderado} from "@/stores/Users/slice";
+import { selectRelationships, getRelationships} from "@/stores/Relationships/slice";
+import Card from "./Card";
+// import {
+//   selectParameters,
+//   getParameters,
+// } from "@/stores/Parameters/slice";
+// import { duration } from "dayjs";
+
+
+function RelationList(){
+  const {relationships, status} = useAppSelector(selectRelationships);
+  
+  return(
+    <>
+        <div className="grid grid-cols-12 gap-6 intro-y">          
+          { Array.isArray(relationships) &&
+                relationships.map((item: any, i: number) => <>
+                  {item.id && <Card key={`${i}-STUDENTS-RELATIONSHIP`} students={item} />}
+                </>
+          )}
+        </div>
+      </>
+    )
+}
+{/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
+
 
 export const FormStep01 = ({ onChangeSetStore }: any) => {
-  const {relationship} = useAppSelector(selectParameters);
-  const {enrollment}= useAppSelector(selectEnrollment);
+  const [message, setMessage] = useState({ type:"error", title:"Error", description:"Debe ingresar todos los datos del Apoderado"})
+  // const {relationship} = useAppSelector(selectParameters);
+  // const {relationships, status} = useAppSelector(selectRelationships);
+  const {enrollment, status}= useAppSelector(selectEnrollment);
+  const {id, name, email, }= useAppSelector(selectAuth);
   const {
     guardianId,
     guardianEmail,
@@ -21,56 +51,83 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
     guardianRelation,
   } = enrollment;
   const dispatch = useAppDispatch();
-  // dispatch(setBreadcrumb({first:"Proceso de inscripción rápida", firstURL:"leads", second:"Apoderado"}));
+
   
-  useEffect(() => {
-    dispatch(getParameters({ key: "TYPEOFRELATIONSHIP" }));
-    return () => {};
-  }, []);
+    
+  async function getDataUser(email:string){ 
+    email !== "" && await dispatch(getUser({userEmail:email}))
+  }
+  
+  async function dataValidate(){ 
+    if(guardianName ==="" || guardianEmail ===""){
+      await setMessage({ type:"error", title:"Error", description:"Debe ingresar todos los datos del Apoderado"})
+      successNotificationToggle()
+    }else{
+      
+      id==="" && await Promise.all([
+        dispatch(setApoderado({
+          userEmail:guardianEmail,
+          name:guardianName
+        })),
+        dispatch(increment()),
+        // setMessage({ type:"success", title:"", description:"Apoderado almacenado correctamente"})
+        
+      ]);
+      
+      // successNotif icationToggle()
+      
+      id && id!=="" && dispatch(increment())
+    //   await dispatch(setDataUser({id, email, name })) 
+    }
+  }
+  
+    // Success notification
+    const successNotification = useRef<NotificationElement>();
+    const successNotificationToggle = () => successNotification.current?.showToast();
+
+  useEffect(() => { (async () =>{ 
+    id && id !== "" &&  await Promise.all([
+      await dispatch(getRelationships({userEmail: id,
+          // studentRelationshipsId: id,
+      })),
+      id ==="" ? await dispatch(setDataUser({id:"", email:"", name:"" })): await dispatch(setDataUser({id, email, name }))    
+    ]);
+  
+  })(); }, [id]);
+  
+
   
   return (
     <>
-      <HeaderTitle
-        title={"Información del Apoderado"}
-        description={"Paso 1"}
-        hasVisibleBrand={false}
-        vehicle={{
-          typeOfVehicle: "",
-          brand: "",
-          model: "",
+    
+    {/* <pre>guardianId = {JSON.stringify(guardianId)}</pre>
+    <pre>guardianEmail = {JSON.stringify(guardianEmail)}</pre> */}
+      <Notification
+        getRef={(el) => {
+          successNotification.current = el;
         }}
-      />
-
-      <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-        <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-          <div className="text-left">
-            <div className="flex items-center">
-              <div className="font-medium">Nombre completo</div>
-              <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                Requerido
-              </div>
-            </div>
-            {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-              Enter your full legal name as it appears on your official
-              identification.
-            </div> */}
+        options={ {duration:3000,close: true,} }
+        className="flex"
+      >
+        {message.type ==="error" && <Lucide icon={"XCircle"} className="text-red-400 w-10 h-10" />}
+        {message.type ==="success" && <Lucide icon={"CheckCircle"} className="text-green-400 w-10 h-10" />}
+        
+        <div className="ml-4 mr-4">
+          <div className={`font-medium ${message.type==="error" && "text-red-400"} ${message.type==="success" && "text-green-400"}`}>
+           {message.title}
           </div>
-        </label>
-        <div className="flex-1 w-full mt-3 xl:mt-0">
-          <div className="flex flex-col items-center md:flex-row">
-          <FormInput
-              type="text"
-              className="px-6 py-3 rounded-full mr-8 focus:z-10"
-              placeholder={"Alma"}
-              aria-describedby="guardianName"
-              name="guardianName"
-              value={guardianName}
-              onChange={onChangeSetStore}
-            />
+          <div className="mt-1 text-slate-500">
+            {message.description}
           </div>
         </div>
-      </div>
+      </Notification>
+
       
+      
+      <HeaderTitle
+        title={`Información del Apoderado ${guardianEmail} | ${guardianId}`}
+        description={"Paso 1"}
+      />
       <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
         <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
           <div className="text-left">
@@ -87,53 +144,92 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
         </label>
         <div className="flex-1 w-full mt-3 xl:mt-0">
           <div className="flex flex-col items-center md:flex-row">
+            
+          { guardianId === "" &&
+           <FormInput
+           type="text"
+           tabIndex={1} 
+           className="px-6 py-3 rounded-full mr-8 focus:z-10"
+           placeholder={"josefina@swimmer.com"}
+           aria-describedby="guardianEmail"
+           name="guardianEmail"
+           value={guardianEmail}
+           onChange={onChangeSetStore}
+           onBlur={(e:any)=>getDataUser(e.target.value)}
+           onKeyDown={(e:any) => {
+             if (e.key === "Enter")
+               getDataUser(e.target.value)
+             }}
+         />
+          }
+          { guardianId && guardianId !== "" && <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianEmail}</h2> }
+          
+            <Button onClick={()=>dispatch(cleanData())} rounded variant="soft-primary" className="border border-primary w-32 focus:z-2">
+              <Lucide icon="Delete" className="w-5 h-5 text-primary" />
+              <span className="ml-2">Limpiar</span>
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+        <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
+          <div className="text-left">
+            <div className="flex items-center">
+              <div className="font-medium">Nombre Apoderado</div>
+              <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
+                Requerido
+              </div>
+            </div>
+            {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
+              Enter your full legal name as it appears on your official
+              identification.
+            </div> */}
+          </div>
+        </label>
+        <div className="flex-1 w-full mt-3 xl:mt-0">
+          <div className="flex flex-col items-center md:flex-row">
+          { guardianId === "" &&
             <FormInput
               type="text"
-              className="px-6 py-3 rounded-full mr-8 focus:z-10"
-              placeholder={"alma@guaguita.com"}
-              aria-describedby="guardianEmail"
-              name="guardianEmail"
-              value={guardianEmail}
+              tabIndex={1} 
+              className="px-6 py-3 rounded-full mr-8 focus:z-12"
+              placeholder={"Josefina"}
+              aria-describedby="guardianName"
+              name="guardianName"
+              value={guardianName}
               onChange={onChangeSetStore}
             />
+          }
+          { guardianId && guardianId !== "" && <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianName}</h2> }
           </div>
         </div>
       </div>
       
-              <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                  <div className="text-left">
-                    <div className="flex items-center">
-                      <div className="font-medium">Parentesco</div>
-                      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                        Requerido
-                      </div>
-                    </div>
-                    {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-                      Choose your department or division from the list of
-                      available options.
-                    </div> */}
-                  </div>
-                </label>
-                <div className="flex-1 w-full mt-3 xl:mt-0 mr-8">
-                {/* guardianRelation */}
-                <ListParams
-                  list={relationship}
-                  text={guardianRelation}
-                  value={guardianRelation}
-                  isLoading={false}
-                  fn={onChangeSetStore}
-                  handleCreate={(value) => null }
-                  name={"guardianRelation"}
-                />
-              {/* {errors.typeOfVehicle && (
-                <div className="mt-2 text-danger">
-                  {typeof errors.typeOfVehicle === "string" &&
-                    errors.typeOfVehicle}
-                </div>
-              )} */}
-                </div>
-              </div>
+    
+      
+        <div className="flex flex-row justify-between h-12 mt-12 mb-8">
+          <h2 className="font-thin text-xl">Estudiantes asociados</h2>
+          <Button
+              rounded
+              variant="primary"
+              className="px-2 py-4 border border-slate-200 w-48"
+              onClick={()=>dataValidate()}
+              
+              
+            >
+              <Lucide icon="Plus" className="w-6 h-6 mr-2" />{" "}
+              Crear nuevo Alumno
+          </Button>
+        </div>
+        { status === "loading" &&
+                <div className="flex justify-center items-center w-full h-48"><LoadingIcon
+                  color="#AE5EAB"
+                  icon="oval"
+                  className="w-10 h-10 mt-10"
+                /></div>
+        }
+      { guardianId && guardianId !== "" && status === "idle" && <RelationList /> }
+      
     </>
   );
 };

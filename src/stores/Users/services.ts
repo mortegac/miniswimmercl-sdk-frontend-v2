@@ -4,9 +4,11 @@ import { fetchUserAttributes } from 'aws-amplify/auth';
 import { signOut } from "aws-amplify/auth";
 import { signIn, confirmSignIn, resetPassword, signUp, confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
-import { getUsers } from './queries';
+import { getUsers, listUsers } from './queries';
+import { createUsers } from './mutation';
 
-import { Roles } from "../Roles/types";
+import { FilterOptions } from "./types";
+import { Roles,  } from "../Roles/types";
 import { UserPermissions } from "../UserPermissions/types";
 
 
@@ -14,8 +16,94 @@ const client = generateClient();
 
 
 
+// CREATE APODERADO
+// 
+export const createApoderado = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const getData:any = await client.graphql({
+        query: createUsers,
+        variables: {
+          input: {
+            id: objFilter.userEmail, 
+            name: objFilter.name, 
+            email: objFilter.userEmail, 
+            validated: true, 
+            contactPhone: "", 
+            ig: "", 
+            firstContact: false, 
+            usersRolesId: "admin", 
+          }
+        }
+      });
+      
+      console.log("<<< APODERADO CREADO <<<<< ", getData)
+      const data = getData.data;
+      
+        resolve({ ...data.createUsers } as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
 
 
+export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      console.log("<<< objFilter <<<<< ", objFilter)
+      
+      const filterEmail = (typeof objFilter?.userEmail === 'undefined') ?
+      {}
+      : { email: { eq: String(objFilter.userEmail) } };
+      
+      const filter: any = {
+        ...filterEmail,
+      };
+      
+      const getData:any = await client.graphql({
+        query: listUsers,
+        // variables: { email: objFilter.userEmail },
+        variables: { 
+          filter: {...filter},
+        },
+      });
+      
+      console.log("<<< USERS DATA <<<<< ", getData)
+      const data = getData.data;
+      
+        resolve({ ...data.listUsers.items } as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+
+// --------  AUTH   ------
 
 // export const checkAuthStatus: () => Promise<AuthResponse> = async () => {
 //   try {

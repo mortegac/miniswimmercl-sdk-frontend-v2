@@ -25,3 +25,8 @@ export const emptyUser: Users = {
   createdAt: "",
   updatedAt: "",
 };
+
+export type FilterOptions  = {
+  userEmail?: string;
+  name?: string;
+}

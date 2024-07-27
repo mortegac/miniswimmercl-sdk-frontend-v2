@@ -6,11 +6,12 @@ import Button from "@/components/Base/Button";
 import Alert from "@/components/Base/Alert";
 import { Tab } from "@/components/Base/Headless";
 
-import {Sessions} from "./Sessions";
+// import {Sessions} from "./Sessions";
 
-import { Student } from '../../../../stores/Students/types';
-import { useAppSelector, useAppDispatch } from "../../../../stores/hooks";
-import { getSessionDetails, selectSessionDetails } from "../../../../stores/SessionDetails/slice";
+import { Student } from '@/stores/Students/types';
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { getSessionDetails, selectSessionDetails } from "@/stores/SessionDetails/slice";
+import { increment, setDataEnroll, setDataStudent  } from "@/stores/Enrollment/slice";
 
 
   
@@ -74,8 +75,8 @@ export const SvgFemale: React.FC<{ color: string }> = ({ color }) => (
 
 export const typeOfGender: any = {
   [""]: SvgNone,
-  ["female"]: SvgFemale,
-  ["male"]: SvgMale,
+  ["FEMALE"]: SvgFemale,
+  ["MALE"]: SvgMale,
 };
 
 const typeOfRelationship: any = {
@@ -118,52 +119,75 @@ function calcularEdad(fechaNacimientoString: string): { años: number; meses: nu
 
 
 interface Props {
-  students?: Student;  
+  students?: any;  
 }
 
 const Card: React.FC<Props> = ({students}) => {
-  const id = useId();
-   const [flag, setFlag] = useState(false);
+  // const id = useId();
+  const dispatch = useAppDispatch();
 
-   typeOfGender
-  const IcoSvg = typeOfGender[String(students?.gender)] || typeOfGender[""];
   
-  const relationships:any = students?.relationships
+  const IcoSvg = typeOfGender[String(students?.student?.gender)] || typeOfGender[""];
   
-  const edad = calcularEdad(String(students?.birthdate === "" ? "1800/01/01":students?.birthdate ));
+  // const relationships:any = students?.relationships
+  
+  const edad = students?.student?.birthdate && calcularEdad(String(students?.student?.birthdate === "" ? "1800/01/01":students?.student?.birthdate ));
   
   function changeName(name:string){
     return typeOfRelationship[String(name)] || typeOfRelationship[""];
   }
- 
-  function contarSessionDetailsIds(data: any): number {
-    return Array.isArray(data.items) && data.items.reduce((count: number, item: any) => {
-      if (item.sessionDetails && Array.isArray(item.sessionDetails.items)) {
-        return count + item.sessionDetails.items.filter((session: any) => session.id != null).length;
-      }
-      return count;
-    }, 0);
+  async function saveDataStudent(){
+    await dispatch(setDataStudent({
+      studentId: students.id,
+              studentName: students.student.name,
+              studentLastName: students.student.lastName,
+              studentBithday: students.student.birthdate,
+              studentGender: students.student.gender,
+              studentResidence: students.student.placeOfResidence,
+              studentEmail: students.user.email,
+              studentPhone: students.user.contactPhone,
+     }))  
+    // await Promise.all([
+    //   // dispatch(increment()),
+    //   dispatch(setDataStudent({
+    //         studentId: students.id,
+    //         studentName: students.student.name,
+    //         studentLastName: students.student.lastName,
+    //         studentBithday: students.student.birthdate,
+    //         studentGender: students.student.gender,
+    //         studentResidence: students.student.placeOfResidence,
+    //         studentEmail: students.user.email,
+    //         studentPhone: students.user.contactPhone,
+    //   })),
+    //   // dispatch(increment()),
+    // ]);
   }
-  
-  const numberSessions:number = contarSessionDetailsIds(students?.enrollments)
-  
+ 
+ 
   return (
     <>
-       {!flag && (
-        <div
-        key={`${id}-${students?.id}`}
-        className="col-span-12 sm:col-span-6 xl:col-span-6 intro-y"
+   <pre>students.id = {JSON.stringify(students, null, 2)}</pre><br/>
+    <div>
+      
+    </div>
+    <br/><br/>
+    <div
+        key={`${students.id}-${students?.id}`}
+        className="col-span-12 sm:col-span-6 xl:col-span-6 intro-x"
         >
         
       <div
-        key={`${id}-${students?.id}`}
+        key={`${students.id}-${students?.id}`}
         className=" min-w-96 h-full"
       >
         <div>
           <div className={`p-5 box h-[350px] cursor-pointer`}>
             <div className="flex items-center justify-center my-2">
               <div className="flex justify-center items-center flex-col  text-slate-500">
-                <h2 className="text-lg font-medium uppercase text-primary">{students?.name}{" "}{students?.lastName}{" "}{students?.middleName}</h2>
+                <h2 className="text-lg font-medium uppercase text-primary">
+                  {students?.student?.name}{" "}
+                  {students?.student?.lastName}{" "}
+                  </h2>
               </div>
             </div>
 
@@ -172,147 +196,37 @@ const Card: React.FC<Props> = ({students}) => {
               <IcoSvg color="#C6C6C6" />
               </div>
               
-              <div className="flex flex-col items-start justify-center px-4">
-              <Alert variant="soft-secondary" className="flex items-center justify-center rounded-full mb-2 w-full">
-                <div className=" uppercase font-thin text-slate-900">
-                  {/* { edad.años > 100 ? "SIN EDAD":`${edad.años} años, ${edad.meses} meses`} */}
-                </div>
-              </Alert>
-                {Array.isArray(relationships?.items) &&
-                  relationships?.items.map((relationship: any, i: number) => 
-                    <h2 className="mt-2 font-thin">{changeName(relationship.relationType)}:{" "}<b className="">{relationship.user.name}</b> </h2>)}
-                
-                  <div className="w-full border-t border-dashed border-primary my-2 mt-4"></div>                   
-                <div className="flex flex-row justify-start items-start w-full mt-4">
-                  <i className="h-full flex flex-row  mr-4">
-                    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11.6333 15.1654C10.8799 15.1654 10.0866 14.9854 9.26659 14.6387C8.46659 14.2987 7.65992 13.832 6.87325 13.2654C6.09325 12.692 5.33992 12.052 4.62659 11.352C3.91992 10.6387 3.27992 9.88536 2.71325 9.11203C2.13992 8.31203 1.67992 7.51203 1.35325 6.7387C1.00659 5.91203 0.833252 5.11203 0.833252 4.3587C0.833252 3.8387 0.926585 3.34536 1.10659 2.88536C1.29325 2.41203 1.59325 1.97203 1.99992 1.59203C2.51325 1.08536 3.09992 0.832031 3.72659 0.832031C3.98659 0.832031 4.25325 0.892031 4.47992 0.998698C4.73992 1.1187 4.95992 1.2987 5.11992 1.5387L6.66659 3.7187C6.80659 3.91203 6.91325 4.0987 6.98659 4.28536C7.07325 4.48536 7.11992 4.68536 7.11992 4.8787C7.11992 5.13203 7.04659 5.3787 6.90659 5.61203C6.80659 5.79203 6.65325 5.98536 6.45992 6.1787L6.00659 6.65203C6.01325 6.67203 6.01992 6.68536 6.02659 6.6987C6.10659 6.8387 6.26659 7.0787 6.57325 7.4387C6.89992 7.81203 7.20659 8.15203 7.51325 8.46536C7.90659 8.85203 8.23325 9.1587 8.53992 9.41203C8.91992 9.73203 9.16659 9.89203 9.31325 9.96536L9.29992 9.9987L9.78659 9.5187C9.99325 9.31203 10.1933 9.1587 10.3866 9.0587C10.7533 8.83203 11.2199 8.79203 11.6866 8.98536C11.8599 9.0587 12.0466 9.1587 12.2466 9.2987L14.4599 10.872C14.7066 11.0387 14.8866 11.252 14.9933 11.5054C15.0933 11.7587 15.1399 11.992 15.1399 12.2254C15.1399 12.5454 15.0666 12.8654 14.9266 13.1654C14.7866 13.4654 14.6133 13.7254 14.3933 13.9654C14.0133 14.3854 13.5999 14.6854 13.1199 14.8787C12.6599 15.0654 12.1599 15.1654 11.6333 15.1654ZM3.72659 1.83203C3.35992 1.83203 3.01992 1.99203 2.69325 2.31203C2.38659 2.5987 2.17325 2.91203 2.03992 3.25203C1.89992 3.5987 1.83325 3.96536 1.83325 4.3587C1.83325 4.9787 1.97992 5.65203 2.27325 6.34536C2.57325 7.05203 2.99325 7.78536 3.52659 8.5187C4.05992 9.25203 4.66659 9.96536 5.33325 10.6387C5.99992 11.2987 6.71992 11.912 7.45992 12.452C8.17992 12.9787 8.91992 13.4054 9.65325 13.712C10.7933 14.1987 11.8599 14.312 12.7399 13.9454C13.0799 13.8054 13.3799 13.592 13.6533 13.2854C13.8066 13.1187 13.9266 12.9387 14.0266 12.7254C14.1066 12.5587 14.1466 12.3854 14.1466 12.212C14.1466 12.1054 14.1266 11.9987 14.0733 11.8787C14.0533 11.8387 14.0133 11.7654 13.8866 11.6787L11.6733 10.1054C11.5399 10.012 11.4199 9.94536 11.3066 9.8987C11.1599 9.8387 11.0999 9.7787 10.8733 9.9187C10.7399 9.98536 10.6199 10.0854 10.4866 10.2187L9.97992 10.7187C9.71992 10.972 9.31992 11.032 9.01325 10.9187L8.83325 10.8387C8.55992 10.692 8.23992 10.4654 7.88659 10.1654C7.56659 9.89203 7.21992 9.57203 6.79992 9.1587C6.47325 8.82536 6.14659 8.47203 5.80659 8.0787C5.49325 7.71203 5.26659 7.3987 5.12659 7.1387L5.04659 6.9387C5.00659 6.78536 4.99325 6.6987 4.99325 6.60536C4.99325 6.36536 5.07992 6.15203 5.24659 5.98536L5.74659 5.46536C5.87992 5.33203 5.97992 5.20536 6.04659 5.09203C6.09992 5.00536 6.11992 4.93203 6.11992 4.86536C6.11992 4.81203 6.09992 4.73203 6.06659 4.65203C6.01992 4.54536 5.94659 4.42536 5.85325 4.2987L4.30659 2.11203C4.23992 2.0187 4.15992 1.95203 4.05992 1.90536C3.95325 1.8587 3.83992 1.83203 3.72659 1.83203ZM9.29992 10.0054L9.19325 10.4587L9.37325 9.99203C9.33992 9.98536 9.31325 9.99203 9.29992 10.0054Z" fill="#AE5EAB"/>
-                      <path d="M12.3333 6.5013C12.06 6.5013 11.8333 6.27464 11.8333 6.0013C11.8333 5.7613 11.5933 5.2613 11.1933 4.83464C10.8 4.41464 10.3667 4.16797 10 4.16797C9.72667 4.16797 9.5 3.9413 9.5 3.66797C9.5 3.39464 9.72667 3.16797 10 3.16797C10.6467 3.16797 11.3267 3.51464 11.92 4.14797C12.4733 4.7413 12.8333 5.46797 12.8333 6.0013C12.8333 6.27464 12.6067 6.5013 12.3333 6.5013Z" fill="#AE5EAB"/>
-                      <path d="M14.6667 6.4987C14.3933 6.4987 14.1667 6.27203 14.1667 5.9987C14.1667 3.6987 12.3 1.83203 10 1.83203C9.72667 1.83203 9.5 1.60536 9.5 1.33203C9.5 1.0587 9.72667 0.832031 10 0.832031C12.8467 0.832031 15.1667 3.15203 15.1667 5.9987C15.1667 6.27203 14.94 6.4987 14.6667 6.4987Z" fill="#AE5EAB"/>
-                    </svg>
-                  </i>
-                  <span className="font-light">{students?.contactPhone}</span>
-                </div>
-                <div className="flex flex-row justify-start items-start w-full mt-2">
-                  <i className="h-full flex flex-row  mr-4">
-                    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="5.3335" y="5.33203" width="5.33333" height="5.33333" rx="2.66667" stroke="#AE5EAB" stroke-linecap="round"/>
-                      <path d="M10.6667 8V9C10.6667 9.92047 11.4129 10.6667 12.3333 10.6667V10.6667C13.2538 10.6667 14 9.92047 14 9V6.33333C14 3.9401 12.0599 2 9.66667 2H8C4.68629 2 2 4.68629 2 8V8C2 11.3137 4.68629 14 8 14H10" stroke="#AE5EAB" stroke-linecap="round"/>
-                    </svg>
-                  </i>
-                  <span className="font-light">{students?.emailPhone}</span>
-                </div>
+              <div className="flex flex-col items-center justify-center px-6">
+                <Alert variant="soft-secondary" className="flex items-center justify-center rounded-full mb-2 w-full">
+                  <div className=" uppercase font-thin text-slate-900">
+                    {/* { students?.student?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad.años} años, ${edad.meses} meses`} */}
+                    { students?.student?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad?.años || ""} años, ${edad?.meses || ""} meses`}
+                  </div>
+                </Alert>
+                <h2 className="mt-2 font-thin">{changeName(students?.relationType || "")}:{" "}<b className="">{students.user.name}</b> {students.usersRelationshipsId}</h2>
+              <div className="w-full border-t border-dashed border-primary my-2 mt-4"></div>                   
+              
               </div>
             </div>
-            <div className="flex justify-between items-start flex-row  text-slate-500 mt-6">
+            <div className="flex justify-center items-center flex-row  text-slate-500 mt-6">
               
-                <div className="w-1/2 flex flex-row justify-start items-start ">
-                  <i className="h-full flex flex-row  mr-2">
-                    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M7.99992 9.4463C6.57992 9.4463 5.41992 8.29297 5.41992 6.8663C5.41992 5.43964 6.57992 4.29297 7.99992 4.29297C9.41992 4.29297 10.5799 5.4463 10.5799 6.87297C10.5799 8.29964 9.41992 9.4463 7.99992 9.4463ZM7.99992 5.29297C7.13326 5.29297 6.41992 5.99964 6.41992 6.87297C6.41992 7.7463 7.12659 8.45297 7.99992 8.45297C8.87326 8.45297 9.57992 7.7463 9.57992 6.87297C9.57992 5.99964 8.86659 5.29297 7.99992 5.29297Z" fill="#AE5EAB"/>
-                      <path d="M8.00012 15.172C7.01345 15.172 6.02012 14.7987 5.24678 14.0587C3.28012 12.1654 1.10678 9.14536 1.92678 5.55203C2.66678 2.29203 5.51345 0.832031 8.00012 0.832031C8.00012 0.832031 8.00012 0.832031 8.00678 0.832031C10.4935 0.832031 13.3401 2.29203 14.0801 5.5587C14.8934 9.15203 12.7201 12.1654 10.7534 14.0587C9.98012 14.7987 8.98678 15.172 8.00012 15.172ZM8.00012 1.83203C6.06012 1.83203 3.56678 2.86536 2.90678 5.77203C2.18678 8.91203 4.16012 11.6187 5.94678 13.332C7.10012 14.4454 8.90678 14.4454 10.0601 13.332C11.8401 11.6187 13.8134 8.91203 13.1068 5.77203C12.4401 2.86536 9.94012 1.83203 8.00012 1.83203Z" fill="#AE5EAB"/>
-                    </svg>  
-                  </i>
-                  {students?.placeOfResidence}
-                </div> 
-                {numberSessions > 0 &&
-                <Button
+            <Button
                     rounded
-                    variant="primary"
-                    className="px-4 py-2 border border-slate-200"
-                    onClick={() => setFlag(!flag)}
+                    variant="soft-primary"
+                    className="px-4 py-2 border border-slate-200 w-full"
+                    onClick={() => saveDataStudent()}
                   >
                     <Lucide icon="Check" className="w-6 h-6 mr-2" />{" "}
-                    <span className={`${numberSessions > 0 && "uppercase text-white w-full"}`}>
-                          {`${numberSessions} Sessiones`}  
-                    </span>
+                    Inscribir
                 </Button>
-                }
+                
             </div>
           </div>
         </div>
       </div>
       </div>
-       )}
-       {flag && ( 
-        <div
-        key={`${id}-${students?.id}`}
-        className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y"
-        >
       
-          
-          
-          
-          <div
-            key={`${id}-${students?.id}`}
-            className=" min-w-96 h-full"
-          >
-           <div className="p-2 box h-[350px] flex flex-col justify-between" >
-           <Tab.Group>
-          {/* <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row"> */}
-          {/* <span>Sesiones Alumno</span> */}
-            <Tab.List
-              variant="pills"
-              className="p-2 w-auto md:ml-auto bg-white box rounded-[0.6rem] border-slate-200 group-[.mode--light]:!bg-white/[0.12] group-[.mode--light]:!border-transparent"
-            >
-              <Tab className="p-2 bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current group-[.mode--light]:bg-transparent group-[.mode--light]:[&[aria-selected='true']_button]:bg-white/[0.12] group-[.mode--light]:[&[aria-selected='true']_button]:border-transparent">
-                <Tab.Button
-                  className="w-full md:w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
-                  as="button"
-                >
-                  Activas
-                </Tab.Button>
-              </Tab>
-              <Tab className="p-2 bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current group-[.mode--light]:bg-transparent group-[.mode--light]:[&[aria-selected='true']_button]:bg-white/[0.12] group-[.mode--light]:[&[aria-selected='true']_button]:border-transparent">
-                <Tab.Button
-                  className="p-2 w-full md:w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
-                  as="button"
-                >
-                  Usadas
-                </Tab.Button>
-              </Tab>
-              <Tab className="p-2 bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current group-[.mode--light]:bg-transparent group-[.mode--light]:[&[aria-selected='true']_button]:bg-white/[0.12] group-[.mode--light]:[&[aria-selected='true']_button]:border-transparent">
-                <Tab.Button
-                  className="p-2 w-full md:w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
-                  as="button"
-                >
-                  Recuperada
-                </Tab.Button>
-              </Tab>
-            </Tab.List>
-          {/* </div> */}
-          <Tab.Panels className="mt-2">
-            <Tab.Panel className="flex flex-col xl:flex-row gap-2 p-1.5 leading-relaxed">
-              <Sessions studentId={students?.id} statusSessions="ACTIVE"/> 
-            </Tab.Panel>
-            <Tab.Panel className="pt-2 leading-relaxed">
-              <Sessions studentId={students?.id} statusSessions="USED"/>
-            </Tab.Panel>
-            <Tab.Panel className="pt-2 leading-relaxed">
-              <Sessions studentId={students?.id} statusSessions="RECOVERED"/>
-            </Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
-            
-            {/* <Sessions studentId={students?.id}/>  */}
-            <Button
-              rounded
-              variant="primary"
-              className="px-4 py-2 border border-slate-200"
-              onClick={() => setFlag(!flag)}
-            >
-              <Lucide icon="ChevronLeft" className="w-6 h-6 mr-2" />{" "}
-              <span className="uppercase text-white w-full">
-                    Cerrar
-              </span>
-            </Button>
-          </div>
-        </div>
-        </div>
-          
-        
-        )}
-        
+         {/* <pre className="mt-96">{JSON.stringify(students, null, 2)}</pre> */}
     </>
   );
 };
