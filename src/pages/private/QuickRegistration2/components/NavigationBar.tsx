@@ -20,6 +20,7 @@ export const NavigationBar = () => {
     studentResidence,
     studentEmail,
     studentPhone,
+    guardianRelation,
   } = enrollment;
   
   
@@ -29,20 +30,27 @@ export const NavigationBar = () => {
   
   async function saveData(){
     
-    await Promise.all([
-      dispatch(setStudent({
-        name: studentName,
-        lastName: studentLastName,
-        birthdate: studentBithday,
-        placeOfResidence: studentResidence,
-        contactPhone: studentPhone,
-        emailPhone: studentEmail,
-        gender: studentGender,
-      })),
+    if(studentId && studentId !== ""){
       dispatch(increment())
+    }else{
       
-    ]);
-    
+      studentName !== "" && studentBithday !== "" && studentResidence !== "" && studentEmail !== "" && studentGender !== "" && guardianRelation &&
+        await Promise.all([
+          dispatch(setStudent({
+            name: studentName,
+            lastName: studentLastName,
+            birthdate: studentBithday,
+            placeOfResidence: studentResidence,
+            contactPhone: studentPhone,
+            emailPhone: studentEmail,
+            gender: studentGender,
+            idUser: studentEmail,
+            relation: guardianRelation,
+          })),
+          dispatch(increment())
+        ]);
+      
+    }
   }
   
   

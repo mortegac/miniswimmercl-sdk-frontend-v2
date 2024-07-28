@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData} from "./services"
+import {fetchData, createRelation} from "./services"
 import {Relationship, emptyRelationship, FilterOptions} from "./types"
 
 
@@ -22,6 +22,21 @@ export const initialState: Relationshipstate = {
 };
 
 
+
+export const setRelationship = createAsyncThunk(
+  "relationship/create",
+  async (objFilter: FilterOptions, { dispatch }) => {
+    try {
+      const response:any = await createRelation({ ...objFilter });
+      console.log("---student/create-----", response)
+     
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH getUser", error)
+      return Promise.reject(error);
+    }
+  }
+);
 
 
 export const getRelationships = createAsyncThunk(
@@ -61,7 +76,24 @@ export const Relationshipslice = createSlice({
         
       })
       
-      
+      // setRelationship
+     .addCase(setRelationship.rejected, (state, action) => {
+      const objPayload: any = action.payload;
+      state.status = "failed";
+      state.errorMessage = objPayload.errorMessage;
+    })
+    .addCase(setRelationship.pending, (state) => {
+      state.status = "loading";
+    })
+    .addCase(setRelationship.fulfilled, (state, action) => {
+      state.status = "idle";
+      const objPayload: any = action.payload;
+      console.log("---objPayload---", objPayload)
+
+      state.relationship.id = objPayload.id || "";
+      // state.name = objPayload[0]?.name || "";
+      // state.email = objPayload[0]?.email || "";
+    })
     
   },
 });

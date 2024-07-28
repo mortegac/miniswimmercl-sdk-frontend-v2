@@ -74,6 +74,24 @@ export const listCourses = /* GraphQL */ `
         updatedAt
         locationCoursesId
         __typename
+        schedules{
+          items{
+            id
+            day
+            startHour
+            endHour
+          }
+      }
+      sessionTypes{
+        items{
+          sessionType{
+            id
+            name
+            totalSessions
+            amount
+          }
+        }
+      }
       }
       nextToken
       __typename

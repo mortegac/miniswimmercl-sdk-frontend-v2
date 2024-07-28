@@ -33,7 +33,7 @@ export const createApoderado = async (objFilter: FilterOptions): Promise<any> =>
             contactPhone: "", 
             ig: "", 
             firstContact: false, 
-            usersRolesId: "admin", 
+            usersRolesId: "parents", 
           }
         }
       });

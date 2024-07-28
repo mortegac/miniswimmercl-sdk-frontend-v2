@@ -137,16 +137,28 @@ const Card: React.FC<Props> = ({students}) => {
     return typeOfRelationship[String(name)] || typeOfRelationship[""];
   }
   async function saveDataStudent(){
-    await dispatch(setDataStudent({
-      studentId: students.id,
-              studentName: students.student.name,
-              studentLastName: students.student.lastName,
-              studentBithday: students.student.birthdate,
-              studentGender: students.student.gender,
-              studentResidence: students.student.placeOfResidence,
-              studentEmail: students.user.email,
-              studentPhone: students.user.contactPhone,
-     }))  
+    
+    await Promise.all([
+      await dispatch(
+        setDataEnroll({
+          key: "studentId",
+          value: students.id,
+        })
+      ),
+      dispatch(increment()),
+      dispatch(increment())
+    ]);
+    
+    // await dispatch(setDataStudent({
+    //   studentId: students.id,
+    //           studentName: students.student.name,
+    //           studentLastName: students.student.lastName,
+    //           studentBithday: students.student.birthdate,
+    //           studentGender: students.student.gender,
+    //           studentResidence: students.student.placeOfResidence,
+    //           studentEmail: students.user.email,
+    //           studentPhone: students.user.contactPhone,
+    //  }))  
     // await Promise.all([
     //   // dispatch(increment()),
     //   dispatch(setDataStudent({
@@ -166,14 +178,12 @@ const Card: React.FC<Props> = ({students}) => {
  
   return (
     <>
-   <pre>students.id = {JSON.stringify(students, null, 2)}</pre><br/>
-    <div>
-      
-    </div>
-    <br/><br/>
+   {/* <pre>students.id = {JSON.stringify(students, null, 2)}</pre><br/> */}
+  
     <div
         key={`${students.id}-${students?.id}`}
-        className="col-span-12 sm:col-span-6 xl:col-span-6 intro-x"
+        // className="col-span-12 sm:col-span-5 xl:col-span-5 intro-x"
+        className="flex-1 ml-4"
         >
         
       <div

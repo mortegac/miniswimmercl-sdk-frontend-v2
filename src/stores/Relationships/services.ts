@@ -1,11 +1,10 @@
 import { generateClient } from 'aws-amplify/api';
 
 
+import { createRelationship } from './mutation';
 import { listRelationships } from './queries';
 import { FilterOptions } from './types';
 const client = generateClient();
-
-
 
 
 export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
@@ -38,6 +37,47 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       const data = getData.data;
       
         resolve([ ...data.listRelationships.items ] as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+
+
+
+// CREATE STUDENT
+// 
+export const createRelation = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const getData:any = await client.graphql({
+        query: createRelationship,
+        variables: {
+          input: {
+            usersRelationshipsId: objFilter.userId,
+            studentRelationshipsId: objFilter.studentId,
+            relationType: objFilter.relation,
+          }
+        }
+      });
+      
+      // console.log("<<< STUDENT CREADO <<<<< ", getData.data)
+      const data = getData.data;
+      console.log("<<< RELATIONSHIP ...data.createRelationship <<<<< ", data)
+      
+        resolve({ ...data.createRelationship} as any);
         
         // ...userData.data.getUsers
       // } else {

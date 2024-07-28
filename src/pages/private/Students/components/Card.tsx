@@ -8,9 +8,9 @@ import { Tab } from "@/components/Base/Headless";
 
 import {Sessions} from "./Sessions";
 
-import { Student } from '../../../../stores/Students/types';
-import { useAppSelector, useAppDispatch } from "../../../../stores/hooks";
-import { getSessionDetails, selectSessionDetails } from "../../../../stores/SessionDetails/slice";
+import { Student } from '@/stores/Students/types';
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { getSessionDetails, selectSessionDetails } from "@/stores/SessionDetails/slice";
 
 
   
@@ -74,8 +74,8 @@ export const SvgFemale: React.FC<{ color: string }> = ({ color }) => (
 
 export const typeOfGender: any = {
   [""]: SvgNone,
-  ["female"]: SvgFemale,
-  ["male"]: SvgMale,
+  ["FEMALE"]: SvgFemale,
+  ["MALE"]: SvgMale,
 };
 
 const typeOfRelationship: any = {
@@ -175,7 +175,7 @@ const Card: React.FC<Props> = ({students}) => {
               <div className="flex flex-col items-start justify-center px-4">
               <Alert variant="soft-secondary" className="flex items-center justify-center rounded-full mb-2 w-full">
                 <div className=" uppercase font-thin text-slate-900">
-                  {/* { edad.años > 100 ? "SIN EDAD":`${edad.años} años, ${edad.meses} meses`} */}
+                  { edad.años > 100 ? "SIN EDAD":`${edad.años} años, ${edad.meses} meses`}
                 </div>
               </Alert>
                 {Array.isArray(relationships?.items) &&

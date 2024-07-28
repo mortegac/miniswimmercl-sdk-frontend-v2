@@ -68,7 +68,7 @@ function tiempoTranscurrido(fechaString: string): { años: number; meses: number
 }
 export const FormStep02 = ({ onChangeSetStore }: any) => {
   const [birthday, setBirthday] = useState({month:"", years:""})
-  const {genders, cityOfResidence} = useAppSelector(selectParameters);
+  const {genders, cityOfResidence, relationship} = useAppSelector(selectParameters);
   const {enrollment}= useAppSelector(selectEnrollment);
   const {
     studentId,
@@ -79,6 +79,7 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
     studentResidence,
     studentEmail,
     studentPhone,
+    guardianRelation,
   } = enrollment;
   const dispatch = useAppDispatch();
   
@@ -87,6 +88,15 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
 
   
   // const [dateOfBirth, setDateOfBirth] = useState<string>();
+  function transformDate(isoDate:string) {
+    const date = new Date(isoDate);
+    
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
+    const year = date.getUTCFullYear();
+  
+    return `${day}/${month}/${year}`;
+  }
   
   async function setDateBirthday(e:any){
     // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z") 
@@ -95,13 +105,12 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
     
     const date:string= new Date(e.target.value).toISOString()
     const getBirthday:any = tiempoTranscurrido(e.target.value)
-    
     setBirthday({month:getBirthday.meses , years:getBirthday.años});
     
     const event = {
       target:{
         name:"studentBithday",
-        value:date,
+        value:transformDate(date),
         type: "text",
       },
       preventDefault:()=>null,
@@ -118,9 +127,10 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
   useEffect(() => {
     dispatch(getParameters({ key: "TYPEOFGENDERS" }));
     dispatch(getParameters({ key: "CITYOFRESIDENCE" }));
+    dispatch(getParameters({ key: "TYPEOFRELATIONSHIP" }));
     return () => {};
   }, []);
-  
+
   
   return (
     <>
@@ -278,7 +288,7 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                 <div className="flex-1 w-full mt-3 xl:mt-0">
                   <FormInput
                     type="text"
-                    placeholder={users.fakeUsers()[0].email}
+                    placeholder={"josefina@swimmer.com"}
                     className="px-6 py-3 rounded-full mr-8 focus:z-10"
                     aria-describedby="studentEmail"
                     name="studentEmail"
@@ -292,13 +302,13 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                   <div className="text-left">
                     <div className="flex items-center">
                       <div className="font-medium">Teléfono de contacto</div>
-                      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
+                      {/* <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
                         Requerido
-                      </div>
+                      </div> */}
                     </div>
-                    <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
+                    {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
                     Ingrese un teléfono válido de contacto
-                    </div>
+                    </div> */}
                   </div>
                 </label>
                 <div className="flex-1 w-full mt-3 xl:mt-0">
@@ -313,6 +323,40 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                       onChange={onChangeSetStore}
                     />
                   </div>
+                </div>
+              </div>
+              <div className="bg-purple-100 px-8 py-4 rounded-full flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
+                  <div className="text-left">
+                    <div className="flex items-center">
+                      <div className="font-medium">Parentesco</div>
+                      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
+                        Requerido
+                      </div>
+                    </div>
+                    {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
+                      Choose your department or division from the list of
+                      available options.
+                    </div> */}
+                  </div>
+                </label>
+                <div className="flex-1 w-full mt-3 xl:mt-0 mr-8">
+                {/* guardianRelation */}
+                <ListParams
+                  list={relationship}
+                  text={guardianRelation}
+                  value={guardianRelation || ""}
+                  isLoading={false}
+                  fn={onChangeSetStore}
+                  handleCreate={(value) => null }
+                  name={"guardianRelation"}
+                />
+              {/* {errors.typeOfVehicle && (
+                <div className="mt-2 text-danger">
+                  {typeof errors.typeOfVehicle === "string" &&
+                    errors.typeOfVehicle}
+                </div>
+              )} */}
                 </div>
               </div>
               

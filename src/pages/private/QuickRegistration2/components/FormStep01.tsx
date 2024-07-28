@@ -25,7 +25,8 @@ function RelationList(){
   
   return(
     <>
-        <div className="grid grid-cols-12 gap-6 intro-y">          
+        {/* <div className="grid grid-cols-12 gap-6 intro-y">           */}
+        <div key="STUDENT-LIST"  className="flex justify-between intro-y" >          
           { Array.isArray(relationships) &&
                 relationships.map((item: any, i: number) => <>
                   {item.id && <Card key={`${i}-STUDENTS-RELATIONSHIP`} students={item} />}

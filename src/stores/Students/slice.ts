@@ -1,6 +1,8 @@
 // ** Redux Imports
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { setDataEnroll } from '../Enrollment/slice';
+import { setRelationship } from '../Relationships/slice';
 
 import {fetchData, createStudentquick} from "./services"
 import {Student, emptyStudent, FilterOptions} from "./types"
@@ -24,13 +26,25 @@ export const initialState: UserState = {
 
 
 export const setStudent = createAsyncThunk(
-  "studnet/create",
-  async (objFilter: FilterOptions) => {
+  "student/create",
+  async (objFilter: FilterOptions, { dispatch }) => {
     try {
       const response:any = await createStudentquick({ ...objFilter });
+      
+      console.log("---student/create-----", response)
+      // Dispatch setDataEnroll action after creating the student
+      await Promise.all([
+        await dispatch(setDataEnroll({ key: "studentId", value: response?.id || "" })),
+        await dispatch(setRelationship({ 
+          userId: objFilter.idUser,
+          studentId: response?.id,
+          relation: objFilter.relation,
+        })),
+      ]);
+      
       return response;
     } catch (error) {
-      console.error(">>>>ERROR FETCH getUser", error)
+      console.error(">>>>ERROR FETCH create Student and relationship", error)
       return Promise.reject(error);
     }
   }
@@ -87,7 +101,7 @@ export const studentSlice = createSlice({
         const objPayload: any = action.payload;
         console.log("---objPayload---", objPayload)
 
-        state.student.id = objPayload[0]?.id || "";
+        state.student.id = objPayload?.id || "";
         // state.name = objPayload[0]?.name || "";
         // state.email = objPayload[0]?.email || "";
       })

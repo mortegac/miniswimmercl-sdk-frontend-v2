@@ -17,6 +17,9 @@ export const emptyRelationship: Relationship = {
 export type FilterOptions  = {
   userEmail?: string;
   studentRelationshipsId?: string;
+  userId?: string;
+  studentId?: string;
+  relation?: string;
 }
 
 

@@ -90,6 +90,7 @@ export type FilterOptions  = {
   whoIsTheContact?: string;
   emailPhone?: string;
   gender?: string;
-  
+  idUser?: string;
+  relation?: string;
   
 }

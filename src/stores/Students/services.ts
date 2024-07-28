@@ -66,10 +66,11 @@ export const createStudentquick = async (objFilter: FilterOptions): Promise<any>
         }
       });
       
-      console.log("<<< APODERADO CREADO <<<<< ", getData)
+      // console.log("<<< STUDENT CREADO <<<<< ", getData.data)
       const data = getData.data;
+      console.log("<<< STUDENT ...data.createUsers <<<<< ", data)
       
-        resolve({ ...data.createUsers } as any);
+        resolve({ ...data.createStudent} as any);
         
         // ...userData.data.getUsers
       // } else {
