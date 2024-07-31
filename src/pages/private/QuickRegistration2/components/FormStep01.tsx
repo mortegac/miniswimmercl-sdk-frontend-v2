@@ -25,8 +25,16 @@ function RelationList(){
   
   return(
     <>
+    {/* <pre>{JSON.stringify(relationships, null, 2 )}</pre> */}
         {/* <div className="grid grid-cols-12 gap-6 intro-y">           */}
         <div key="STUDENT-LIST"  className="flex justify-between intro-y" >          
+          {
+            Array.isArray(relationships) && relationships.length === 0 && 
+              <div className="w-full text-center h-fit mt-8">
+                <span className="text-lg mr-4 text-slate-400">😴</span>{" "}
+                <span className="text-lg">Sin registros encontrados</span>
+              </div>
+          }
           { Array.isArray(relationships) &&
                 relationships.map((item: any, i: number) => <>
                   {item.id && <Card key={`${i}-STUDENTS-RELATIONSHIP`} students={item} />}
@@ -41,10 +49,10 @@ function RelationList(){
 
 export const FormStep01 = ({ onChangeSetStore }: any) => {
   const [message, setMessage] = useState({ type:"error", title:"Error", description:"Debe ingresar todos los datos del Apoderado"})
-  // const {relationship} = useAppSelector(selectParameters);
-  // const {relationships, status} = useAppSelector(selectRelationships);
+
   const {enrollment, status}= useAppSelector(selectEnrollment);
-  const {id, name, email, }= useAppSelector(selectAuth);
+  const user = useAppSelector(selectAuth);
+  const {id, name, email }= useAppSelector(selectAuth);
   const {
     guardianId,
     guardianEmail,
@@ -56,6 +64,7 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
   
     
   async function getDataUser(email:string){ 
+    console.log("---getDataUser---", email)
     email !== "" && await dispatch(getUser({userEmail:email}))
   }
   
@@ -66,18 +75,18 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
     }else{
       
       id==="" && await Promise.all([
-        dispatch(setApoderado({
+        await dispatch(setApoderado({
           userEmail:guardianEmail,
           name:guardianName
         })),
-        dispatch(increment()),
-        // setMessage({ type:"success", title:"", description:"Apoderado almacenado correctamente"})
         
+        await getDataUser(guardianEmail || ""),
+        await dispatch(increment()),        
       ]);
       
       // successNotif icationToggle()
       
-      id && id!=="" && dispatch(increment())
+      // id && id!=="" && dispatch(increment())
     //   await dispatch(setDataUser({id, email, name })) 
     }
   }
@@ -148,20 +157,20 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
             
           { guardianId === "" &&
            <FormInput
-           type="text"
-           tabIndex={1} 
-           className="px-6 py-3 rounded-full mr-8 focus:z-10"
-           placeholder={"josefina@swimmer.com"}
-           aria-describedby="guardianEmail"
-           name="guardianEmail"
-           value={guardianEmail}
-           onChange={onChangeSetStore}
-           onBlur={(e:any)=>getDataUser(e.target.value)}
-           onKeyDown={(e:any) => {
-             if (e.key === "Enter")
-               getDataUser(e.target.value)
-             }}
-         />
+              type="text"
+              tabIndex={1} 
+              className="px-6 py-3 rounded-full mr-8 focus:z-10"
+              placeholder={"josefina@swimmer.com"}
+              aria-describedby="guardianEmail"
+              name="guardianEmail"
+              value={guardianEmail}
+              onChange={onChangeSetStore}
+              onBlur={(e:any)=>getDataUser(e.target.value)}
+              onKeyDown={(e:any) => {
+                if (e.key === "Enter")
+                  getDataUser(e.target.value)
+                }}
+            />
           }
           { guardianId && guardianId !== "" && <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianEmail}</h2> }
           
@@ -213,23 +222,27 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
           <Button
               rounded
               variant="primary"
-              className="px-2 py-4 border border-slate-200 w-48"
+              className="px-2 py-4 border border-slate-200 w-56"
               onClick={()=>dataValidate()}
               
               
             >
               <Lucide icon="Plus" className="w-6 h-6 mr-2" />{" "}
-              Crear nuevo Alumno
+              { guardianId === "" ? "Grabar y crear Alumno" :"Crear nuevo Alumno"}
           </Button>
         </div>
-        { status === "loading" &&
+        { user.status === "loading" &&
                 <div className="flex justify-center items-center w-full h-48"><LoadingIcon
                   color="#AE5EAB"
                   icon="oval"
                   className="w-10 h-10 mt-10"
                 /></div>
         }
-      { guardianId && guardianId !== "" && status === "idle" && <RelationList /> }
+      { guardianId && guardianId !== "" && user.status === "idle" && <RelationList /> }
+      { guardianId === "" &&  <div className="w-full text-center h-fit mt-8">
+                <span className="text-lg mr-4 text-slate-400">😴</span>{" "}
+                <span className="text-lg">Sin alumnos asociados</span>
+              </div>}
       
     </>
   );

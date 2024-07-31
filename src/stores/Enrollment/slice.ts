@@ -94,6 +94,12 @@ export const enrollmentSlice = createSlice({
   name: "enrollmen",
   initialState,
   reducers: {
+    setStep: (state, action: PayloadAction<{}>) => {
+      const objAction: any = action.payload;
+      state.status = "loading";
+      state.currentStep = objAction.value;
+      state.status = "idle";
+    },
     increment: (state) => {
       state.status = "loading";
       if (state.currentStep <= 2) state.currentStep += 1;
@@ -184,23 +190,8 @@ export const enrollmentSlice = createSlice({
         // state.status = "idle";
         
         console.log("---setEnrollment --action---", objPayload)
-         
-        // const sortedArray = objPayload?.items.sort((a:any, b:any) => {
-        //   // Primero, comparamos por locationCoursesId
-        //   if (a.locationCoursesId < b.locationCoursesId) return -1;
-        //   if (a.locationCoursesId > b.locationCoursesId) return 1;
-          
-        //   // Si locationCoursesId es igual, comparamos por AgeGroupType
-        //   if (a.AgeGroupType < b.AgeGroupType) return -1;
-        //   if (a.AgeGroupType > b.AgeGroupType) return 1;
-          
-        //   // Si ambos son iguales, no cambiamos el orden
-        //   return 0;
-        // });
-  
-        // state.courses = objPayload?.items || [];
-        const parserResponse = transformResponse(objPayload)
-        state.sessions = parserResponse || [];
+        // const parserResponse = transformResponse(objPayload)
+        state.sessions = objPayload || [];
         
       })
       
@@ -210,6 +201,7 @@ export const enrollmentSlice = createSlice({
 });
 
 export const {
+  setStep,
   decrement,
   increment,
   setDataEnroll,

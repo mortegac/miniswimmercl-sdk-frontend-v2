@@ -69,6 +69,7 @@ export const NavigationBar = () => {
     <>
         
           <div className="flex items-center justify-between col-span-12 mt-16 intro-y pt-3">
+          { currentStep !== 1 && 
             <Button
               rounded
               onClick={() => dispatch(decrement())}
@@ -77,8 +78,9 @@ export const NavigationBar = () => {
             >
               <Lucide icon="ChevronLeft" className="w-4 h-4 mr-2" /> Anterior
             </Button>
+          }
           <div>
-          { currentStep !== 3 && 
+          { currentStep !== 3 && currentStep !== 1 && 
             <Button
               variant="primary"
               rounded

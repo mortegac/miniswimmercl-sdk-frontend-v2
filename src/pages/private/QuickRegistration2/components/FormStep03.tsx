@@ -1,28 +1,13 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 
-
+import LoadingIcon from "@/components/Base/LoadingIcon";
 import { HeaderTitle } from "./HeaderTitle";
 import CardCourses from "./CardCourses";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { selectCourse, getCourses} from "@/stores/Courses/slice";
 
-// function CoursesList(){
-  
-  
-//   return(
-//     <>
-//         {/* <div className="grid grid-cols-12 gap-6 intro-y">           */}
-//         <div key="COURSES-LIST"  className="flex justify-between intro-y" >          
-//           { Array.isArray(courses) &&
-//                 courses.map((item: any, i: number) => <>
-//                   {item.id && <Card key={`${i}-COURSES-LIST-CARD`} students={item} />}
-//                 </>
-//           )}
-//         </div>
-//       </>
-//     )
-// }
+
 function CoursesList(props: any) {
   const { data } = props;
   // Asumimos que data ya está ordenado por locationCoursesId
@@ -54,25 +39,30 @@ function CoursesList(props: any) {
 }
 
 export const FormStep03 = ({ onChangeSetStore }: any) => {
-  const {courses} = useAppSelector(selectCourse);
+  const {courses, status } = useAppSelector(selectCourse);
   const dispatch = useAppDispatch();
   
   useEffect(() => { (async () => await dispatch(getCourses()))(); }, []);
   
   return (
     <>
-    {/* <pre>{JSON.stringify(courses, null, 2)}</pre> */}
       <HeaderTitle
         title={"Proceso de inscripción"}
         description={"Paso 3 - seleccione el curso"}
       />
       <div className="mt-4 ml-2">
-        {/*<div className="lg:p-5 intro-y ">
-           <div className="grid lg:grid-cols-4 xs:grid-cols-2 lg:gap-6"> */}
-          <div className="">
-          {/* <h2 className="font-thin text-xl">Seleccione el curso</h2> */}
-          <CoursesList data={courses}/>
-        </div>
+      
+      { status === "loading" &&
+                <div className="flex justify-center items-center w-full h-48"><LoadingIcon
+                  color="#AE5EAB"
+                  icon="oval"
+                  className="w-10 h-10 mt-10"
+                /></div>
+        }
+      { status === "idle" && <CoursesList data={courses}/> }
+      
+          
+          
       {/* </div> */}
       </div>
     </>

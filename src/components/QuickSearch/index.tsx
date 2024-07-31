@@ -45,7 +45,7 @@ function Main(props: MainProps) {
           >
             <div className="fixed inset-0 bg-gradient-to-b from-theme-1/50 via-theme-2/50 to-black/50 backdrop-blur-sm" />
           </Transition.Child>
-          <div className="fixed inset-0 overflow-y-auto">
+          {/* <div className="fixed inset-0 overflow-y-auto">
             <div className="flex justify-center my-2 sm:mt-40">
               <Transition.Child
                 as={Fragment}
@@ -303,7 +303,7 @@ function Main(props: MainProps) {
                 </HeadlessDialog.Panel>
               </Transition.Child>
             </div>
-          </div>
+          </div> */}
         </HeadlessDialog>
       </Transition>
     </>
