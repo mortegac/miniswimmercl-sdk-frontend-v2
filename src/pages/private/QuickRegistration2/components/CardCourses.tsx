@@ -2,9 +2,15 @@ import React, { useState, useId } from "react";
 // import { Link } from "react-router-dom";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
-import { Course } from '../../../../stores/Courses/types';
 import Alert from '@/components/Base/Alert';
+import { Dialog } from "@/components/Base/Headless";
 
+import { Course } from '../../../../stores/Courses/types';
+import { setOptions } from "leaflet";
+
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { selectEnrollment, setDataEnroll, setEnrollment} from "@/stores/Enrollment/slice";
+import Litepicker from "@/components/Base/Litepicker";
 
 const typeOfCourse: any = {
   [""]: "",
@@ -47,20 +53,219 @@ interface Props {
   
 }
 
+function tiempoTranscurrido(fechaString: string): { años: number; meses: number } {
+  // Parsear la fecha de entrada
+  const fecha = new Date(fechaString);
+
+  // Fecha actual
+  const ahora = new Date();
+
+  // Calcular la diferencia
+  let años = ahora.getFullYear() - fecha.getFullYear();
+  let meses = ahora.getMonth() - fecha.getMonth();
+
+  // Ajustar si los meses son negativos
+  if (meses < 0 || (meses === 0 && ahora.getDate() < fecha.getDate())) {
+    años--;
+    meses += 12;
+  }
+
+  return { años, meses };
+}
+
 const CardCourses: React.FC<Props> = ({courses}) => {
   const id = useId();
+  const [birthday, setBirthday] = useState({month:"", years:""})
+  const [selectedModal, setSelectedModal] = useState(false)
+  const [option, selectedOption] = useState({id:"", selected:false})
+  const [optionDay, selectedOptionDay] = useState({id:"", selected:false})
   
+  
+  const {enrollment, sessions, currentStep} = useAppSelector(selectEnrollment);
+  const dispatch = useAppDispatch();
 
+  function transformDate(isoDate:string) {
+    const date = new Date(isoDate);
+    
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
+    const year = date.getUTCFullYear();
   
+    return `${month}-${day}-${year}`;
+  }
+  
+  async function setDateBirthday(e:any){
+    // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z") 
+
+    console.log("e>>> ", e)
+    
+    const date:string= new Date(e.target.value).toISOString()
+    const getBirthday:any = tiempoTranscurrido(e.target.value)
+    setBirthday({month:getBirthday.meses , years:getBirthday.años});
+    
+    const event = {
+      target:{
+        name:"studentBithday",
+        value:transformDate(date),
+        type: "text",
+      },
+      preventDefault:()=>null,
+    }
+    setValueEnrrollment({key:"enrollmentStartDate", value:transformDate(date)})
+    console.log("e>>> ", event)
+    
+  }
+  
+  
+  type SetValueEnrollmentParams = {
+    key: string;
+    value: string;
+  };
+  
+  function setValueEnrrollment({ key, value }: SetValueEnrollmentParams): void {
+    // Asumimos que dispatch está disponible en el scope, si no, deberías pasarlo como parámetro
+    dispatch(
+      setDataEnroll({
+        key,
+        value
+      })
+    );
+  }
+  function setEnrollmentCourse(): void {
+    // Asumimos que dispatch está disponible en el scope, si no, deberías pasarlo como parámetro
+    dispatch(
+      setEnrollment({
+        studentId: enrollment.studentId,
+        enrollmentStartDate: enrollment.enrollmentStartDate,
+        enrollmentSessionTypeId: enrollment.enrollmentSessionTypeId,
+        enrollmentScheduleId: enrollment.enrollmentScheduleId,
+        enrollmentCourseId: enrollment.enrollmentCourseId
+      })
+    );
+  }
   
   return (
     <>
+    
+    
       {/* <pre>{JSON.stringify(courses.gender, null, 2)}</pre> */}
       {/* <Link
         to="/data-detail"
         state={{ id: data.id }}
         className=" "
       > */}
+        <Dialog key={`${courses.id}-span-options-modal`}  size="lg" open={selectedModal} onClose={()=> {
+            setSelectedModal(false);
+            }}
+            >
+            <Dialog.Panel>
+                <div className="p-5 text-center">
+                    {/* <Lucide icon="XCircle" className="w-16 h-16 mx-auto mt-3 text-warning" /> */}
+                    <div className="mt-5 text-3xl">Proceso de inscripción</div>
+
+                    <div className="mt-10 flex flex-col justify-center">
+                      <span className="my-2 text-lg text-slate-500">
+                      Seleccione el pack de sessiones
+                      </span>
+                      <div className="mt-2 flex flex-row justify-center">
+                      { Array.isArray(courses?.sessionTypes?.items) &&
+                        courses?.sessionTypes?.items.map((item: any, i: number) =>
+                        option.id===item.sessionType.id && option.selected === true ?
+                        <span key={`${i}-span-options`} className="rounded-full px-4 py-2 border border-slate-200 mx-2 font-light bg-slate-400 text-white">{item.sessionType.name}</span>
+                        :<Button
+                            key={`${i}-span-buttons`} 
+                            rounded
+                            variant="outline-secondary"
+                            className={`px2 py-2 border border-slate-200 mx-2 font-light `}
+                            onClick={()=>{
+                              selectedOption(
+                              {
+                                id:item.sessionType.id, 
+                                selected:true
+                              }
+                              );
+                              setValueEnrrollment({key:"enrollmentSessionTypeId", value:item.sessionType.id})
+                            }
+                          }
+                          >{item.sessionType.name}</Button>
+                        
+                      )
+                      }
+                      </div>
+                    </div>
+                    <div className="my-4 border-t border-slate-200/60"></div>
+                    
+                    <div className=" flex flex-col justify-center">
+                      <span className="mt-2 text-lg text-slate-500">Seleccione el día de la clase</span>
+                      <div className="mt-2 flex flex-row justify-center">
+                        { Array.isArray(courses?.schedules?.items) &&
+                          courses?.schedules?.items.map((item: any, i: number) =>
+                          optionDay.id===item.id && optionDay.selected === true ?
+                          <span key={`${i}-span-options-schedules`}  className="rounded-full px-4 py-2 border border-slate-200 mx-2 font-light bg-slate-400 text-white">{item.day}{" "}{item.startHour}</span>
+                          :
+                          <Button
+                          key={`${i}-span-options-button-schedules`} 
+                              rounded
+                              variant="outline-secondary"
+                              className={`px2 py-2 border border-slate-200 mx-2 font-light `}
+                              onClick={()=>{
+                                selectedOptionDay(
+                                  {
+                                    id:item.id, 
+                                    selected:true
+                                  }
+                                )
+                                setValueEnrrollment({key:"enrollmentScheduleId", value:item.id})
+                              }
+                            }
+                          >{item.day}{" "}{item.startHour}</Button>
+                          )}
+                      </div>
+                    </div>
+                    <div className="my-4 border-t border-slate-200/60"></div>
+                    
+                    <div className=" flex flex-col justify-center">
+                      <span className="mt-2 text-lg text-slate-500">Seleccione el día de la clase</span>
+                      <div className="mt-2 flex flex-row justify-center">
+                        <div className="relative">
+                          <Lucide
+                            icon="Calendar"
+                            className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
+                          />
+                          <Litepicker value={Date()} type="text" name="enrollmentStartDate" 
+                            onChange={(e)=>setDateBirthday(e)}
+                            options={{
+                              autoApply: true,
+                              showWeekNumbers: false,
+                              dropdowns: {
+                                minYear: 1990,
+                                maxYear: null,
+                                months: true,
+                                years: true,
+                              },
+                            }}
+                            className="px-6 py-3 pl-12 rounded-full mr-8 focus:z-10"
+                          />    
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div className="p-5 text-primary text-center border-t border-slate-200/60 dark:border-darkmode-400">
+                  <div className="px-5 pb-8 text-center">
+                      <Button rounded type="button" variant="primary" onClick={()=> {
+                          setEnrollmentCourse();
+                          // setSelectedModal(false);
+                          }}
+                          className="px-12 py-4"
+                          >
+                          Inscribir
+                      </Button>
+                  </div>
+                  Listado de sessiones creadas
+                  {JSON.stringify(sessions, null, 2)}
+                </div>
+            </Dialog.Panel>
+        </Dialog>
         <div
           key={`${id}-${courses.id}`}
           className=" intro-y w-[49%] mb-6"
@@ -76,9 +281,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
           // }}
         >
           <div>
-            <div
-              className={`p-5 box h-[380px] cursor-pointer`}
-            >
+            <div className={`p-5 box h-[300px] cursor-pointer`} >
               <div className="flex flex-row border-1">
                 {/* <div className="flex flex-col items-center justify-center p-4 h-40 border-r-4"> */}
                 <div className="flex flex-col items-center justify-center p-4 ">
@@ -112,7 +315,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                   {/* <h2 className="text-base text-center font-medium uppercase text-white rounded-full bg-slate-400 px-4 py-2 w-full mb-4">{changeName(courses.AgeGroupType)}{" "}</h2> */}
                   <Alert variant="soft-secondary" className="flex items-center justify-center rounded-full mb-2 w-full">
                   <div className=" uppercase font-thin text-slate-900">
-                  {changeName(courses.AgeGroupType)}{" "}
+                    {changeName(courses.AgeGroupType)}{" "}
                   </div>
                   </Alert>              
                   <h2 className="text-lg font-medium uppercase text-primary">{courses.title}{" "}</h2>
@@ -122,7 +325,20 @@ const CardCourses: React.FC<Props> = ({courses}) => {
 
               <div className="flex items-center justify-center my-4">  
               
-              { Array.isArray(courses?.schedules?.items) &&
+                <Button
+                  rounded
+                  variant="outline-secondary" //"soft-secondary"
+                  size="lg"
+                  className="py-2 border border-slate-200 w-full mx-2 font-light "
+                  onClick={()=> {
+                    setValueEnrrollment({key:"enrollmentCourseId", value:courses.id});
+                    setSelectedModal(true);
+                    }}
+                >
+                 Inscribir
+              </Button>
+              
+              {/* { Array.isArray(courses?.schedules?.items) &&
                 courses?.schedules?.items.map((item: any, i: number) =>
                   <Button
                     rounded
@@ -133,7 +349,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                   {item.day}{" "}{item.startHour}
               </Button>
               )
-              }
+              } */}
               {/* <pre>{JSON.stringify(courses?.sessionTypes?.items, null, 2)}</pre> */}
       
               </div>
@@ -141,19 +357,16 @@ const CardCourses: React.FC<Props> = ({courses}) => {
               
               <div className="flex items-center justify-center mt-4">  
               
-              { Array.isArray(courses?.sessionTypes?.items) &&
+              {/* { Array.isArray(courses?.sessionTypes?.items) &&
                 courses?.sessionTypes?.items.map((item: any, i: number) =>
                   <Button
                     variant="outline-secondary"
                     className="px-4 py-2 border border-slate-200 w-full h-20 uppercase mx-2 font-light"
-                  // onClick={()=>dataValidate()}
                 >
-                  {/* <Lucide icon="Plus" className="w-6 h-6 mr-2" />{" "} */}
-                  {/* {JSON.stringify(item, null, 2)} */}
                   {item.sessionType.name}
               </Button>
               )
-              }
+              } */}
               {/* <pre>{JSON.stringify(courses?.sessionTypes?.items, null, 2)}</pre> */}
           
                     

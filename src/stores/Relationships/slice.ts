@@ -76,24 +76,7 @@ export const Relationshipslice = createSlice({
         
       })
       
-      // setRelationship
-     .addCase(setRelationship.rejected, (state, action) => {
-      const objPayload: any = action.payload;
-      state.status = "failed";
-      state.errorMessage = objPayload.errorMessage;
-    })
-    .addCase(setRelationship.pending, (state) => {
-      state.status = "loading";
-    })
-    .addCase(setRelationship.fulfilled, (state, action) => {
-      state.status = "idle";
-      const objPayload: any = action.payload;
-      console.log("---objPayload---", objPayload)
-
-      state.relationship.id = objPayload.id || "";
-      // state.name = objPayload[0]?.name || "";
-      // state.email = objPayload[0]?.email || "";
-    })
+      
     
   },
 });

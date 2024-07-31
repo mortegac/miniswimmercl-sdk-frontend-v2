@@ -103,7 +103,13 @@ export const listStudents = /* GraphQL */ `
           id
           amountPaid
           courseEnrollmentsId
-          sessionDetails( filter:{ status: {eq: ACTIVE}}){
+          # sessionDetails( filter:{ status: {eq: ACTIVE}}){
+          sessionDetails( filter:{ 
+            or: [
+            { status: { eq: ACTIVE } },
+            { status: { eq: RECOVERED } }
+          ]
+          }){
             items{
               id
               sessionNumber

@@ -1,43 +1,51 @@
+export type Schedule = {
+  id: string;
+  day: string;
+  startHour: string;
+  endHour: string;
+}
+export const emptySchedules: Schedule = {
+    id: "",
+    day:  "",
+    startHour:  "",
+    endHour:  "",
+  };
+  export type SessionType = {
+    id: string;
+    name: string;
+    description: string;
+    durationSession: number;
+    timeAWeek: number;
+    totalSessions: number;
+    amount: number;
+  }
+  export const emptySessionTypes: SessionType = {
+    id: "",
+    name:  "",
+    description:  "",
+    durationSession: 0,
+    timeAWeek: 0,
+    totalSessions: 0,
+    amount: 0,
+  };
 
-// export type User = {
-//   name: string
-// }
-// export const emptyUser: User = {
-//   name: "",
-// };
-
-// export type Relationship = {
-//   id: string
-//   relationType: string
-//   user: User
-   
-// }
-// export const emptyRelationship: Relationship = {
-//   id: "",
-//   relationType:  "",
-//   user: emptyUser
-// };
+type AgeType = "MONTHS" | "YEARS"; 
+type AgeGroupType = "ALL" | "BABIES" | "CHILDREN" | "ADULTS" | "PREGNANT" | "OLDER_ADULTS"; 
 export type Course = {
   id: string
   title: string
   description: string
   startingAge: number
   endingAge: number
-  ageType: number
-  AgeGroupType: string
+  ageType: AgeType
+  AgeGroupType: AgeGroupType
   duration: string
   isActive: boolean
   locationCoursesId: string
 
-  // location: Location @belongsTo               # relación muchos a uno.
-  // schedules: [Schedule] @hasMany              # relación uno a muchos
-  // sessionTypes: [SessionType] @manyToMany(relationName: "CourseSessionType")
-  // enrollments: [Enrollment] @hasMany  
-  
-  
-  
-  // sessionDetail: SessionDetail[];
-  
+  schedules: {items: Schedule[]};
+  sessionTypes: {items: SessionType[]};
+
 }
 
 export const emptyCourse: Course = {
@@ -46,12 +54,13 @@ export const emptyCourse: Course = {
   description:  "",
   startingAge: 0,
   endingAge: 0,
-  ageType: 0,
-  AgeGroupType:  "",
+  ageType: "MONTHS",
+  AgeGroupType:  "CHILDREN",
   duration:  "",
   isActive: false,
   locationCoursesId:"",
-  // sessionDetail: [emptySchedules],
+  schedules: {items: [emptySchedules]},
+  sessionTypes: {items: [emptySessionTypes]},
 };
 
 

@@ -21,12 +21,31 @@ export const listRelationships = /* GraphQL */ `
         usersRelationshipsId
         studentRelationshipsId
         student{
-        name
-        lastName
-        gender
-        birthdate
-        placeOfResidence
-      }
+          name
+          lastName
+          gender
+          birthdate
+          placeOfResidence
+          enrollments{
+        items{
+          id
+          amountPaid
+          courseEnrollmentsId
+          # sessionDetails( filter:{ status: {eq: ACTIVE}}){
+          sessionDetails( filter:{ 
+            or: [
+            { status: { eq: ACTIVE } },
+            { status: { eq: RECOVERED } }
+          ]
+          }){
+            items{
+              id
+              sessionNumber
+            }
+          }
+          }
+        }
+        }
       user{
         id
         email

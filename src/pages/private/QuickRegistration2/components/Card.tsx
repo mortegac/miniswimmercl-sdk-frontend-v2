@@ -11,7 +11,7 @@ import { Tab } from "@/components/Base/Headless";
 import { Student } from '@/stores/Students/types';
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getSessionDetails, selectSessionDetails } from "@/stores/SessionDetails/slice";
-import { increment, setDataEnroll, setDataStudent  } from "@/stores/Enrollment/slice";
+import { increment, setDataEnroll, setDataStudent, selectEnrollment  } from "@/stores/Enrollment/slice";
 
 
   
@@ -124,6 +124,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({students}) => {
   // const id = useId();
+  
   const dispatch = useAppDispatch();
 
   
@@ -137,53 +138,37 @@ const Card: React.FC<Props> = ({students}) => {
     return typeOfRelationship[String(name)] || typeOfRelationship[""];
   }
   async function saveDataStudent(){
-    
     await Promise.all([
       await dispatch(
         setDataEnroll({
           key: "studentId",
-          value: students.id,
+          value: students.studentRelationshipsId,
         })
       ),
-      dispatch(increment()),
-      dispatch(increment())
+      await dispatch(increment()),
+      await dispatch(increment())
     ]);
-    
-    // await dispatch(setDataStudent({
-    //   studentId: students.id,
-    //           studentName: students.student.name,
-    //           studentLastName: students.student.lastName,
-    //           studentBithday: students.student.birthdate,
-    //           studentGender: students.student.gender,
-    //           studentResidence: students.student.placeOfResidence,
-    //           studentEmail: students.user.email,
-    //           studentPhone: students.user.contactPhone,
-    //  }))  
-    // await Promise.all([
-    //   // dispatch(increment()),
-    //   dispatch(setDataStudent({
-    //         studentId: students.id,
-    //         studentName: students.student.name,
-    //         studentLastName: students.student.lastName,
-    //         studentBithday: students.student.birthdate,
-    //         studentGender: students.student.gender,
-    //         studentResidence: students.student.placeOfResidence,
-    //         studentEmail: students.user.email,
-    //         studentPhone: students.user.contactPhone,
-    //   })),
-    //   // dispatch(increment()),
-    // ]);
   }
  
- 
+  function contarSessionDetailsIds(data: any): number {
+    return Array.isArray(data.items) && data.items.reduce((count: number, item: any) => {
+      if (item.sessionDetails && Array.isArray(item.sessionDetails.items)) {
+        return count + item.sessionDetails.items.filter((session: any) => session.id != null).length;
+      }
+      return count;
+    }, 0);
+  }
+  
+  const numberSessions:number = contarSessionDetailsIds(students?.student?.enrollments)
+  
   return (
     <>
-   {/* <pre>students.id = {JSON.stringify(students, null, 2)}</pre><br/> */}
+   {/* <pre>students = {JSON.stringify(students, null, 2)}</pre><br/> */}
   
     <div
         key={`${students.id}-${students?.id}`}
         // className="col-span-12 sm:col-span-5 xl:col-span-5 intro-x"
-        className="flex-1 ml-4"
+        className="w-1/2 ml-4"
         >
         
       <div
@@ -209,17 +194,25 @@ const Card: React.FC<Props> = ({students}) => {
               <div className="flex flex-col items-center justify-center px-6">
                 <Alert variant="soft-secondary" className="flex items-center justify-center rounded-full mb-2 w-full">
                   <div className=" uppercase font-thin text-slate-900">
-                    {/* { students?.student?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad.años} años, ${edad.meses} meses`} */}
                     { students?.student?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad?.años || ""} años, ${edad?.meses || ""} meses`}
                   </div>
                 </Alert>
                 <h2 className="mt-2 font-thin">{changeName(students?.relationType || "")}:{" "}<b className="">{students.user.name}</b> {students.usersRelationshipsId}</h2>
               <div className="w-full border-t border-dashed border-primary my-2 mt-4"></div>                   
-              
+              { numberSessions > 0 &&
+                <Alert className="flex items-center justify-center rounded-full mb-2 w-full border border-[#ae5eab]">
+                  <div className=" uppercase font-thin text-slate-900">
+                  <span className={`${numberSessions > 0 && "uppercase mt-3 text-sm font-medium leading-none text-[#ae5eab]  w-full"}`}>
+                        {`${numberSessions} Sessiones vigentes`}  
+                  </span>
+                  </div>
+                </Alert>
+              }
               </div>
+              
             </div>
             <div className="flex justify-center items-center flex-row  text-slate-500 mt-6">
-              
+           
             <Button
                     rounded
                     variant="soft-primary"

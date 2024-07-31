@@ -77,9 +77,13 @@ export const privateRoutes = {
     path: PRIVATE,
     element: <PrivateValidation />,
     children: [
+        // {
+        //   path: PRIVATE,
+        //   element: <Dashboard />,
+        // },
         {
           path: PRIVATE,
-          element: <Dashboard />,
+          element: <QuickRegistration />,
         },
         {
           path: LEADS,

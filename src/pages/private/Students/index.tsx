@@ -20,7 +20,8 @@ import LoadingIcon from "@/components/Base/LoadingIcon";
 function Content(props: any) {
   const { data } = props;
   return (
-    <div className="grid grid-cols-12 gap-6">
+    // <div className="grid grid-cols-12 gap-6">
+    <div className="flex flex-wrap">
       {Array.isArray(data) &&
         data.map((item: any, i: number) => <Card key={`${i}-STUDENTS-LOCATIONS`} students={item} />)}
     </div>
@@ -45,7 +46,7 @@ function Main() {
      {/* <pre>{JSON.stringify(students[0], null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
-          <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
+          <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row mb-4">
             <div className=" text-base font-medium group-[.mode--light]:text-white">
               Listado de Alumnos
             </div>
@@ -60,16 +61,16 @@ function Main() {
               </Button>
             </div>
           </div>
-          <div className="flex flex-col gap-8 mt-8">
+          {/* <div className="flex flex-col gap-8 mt-8"> */}
         
-            <div className="flex flex-col px-8 py-4">
-              <div className="overflow-auto xl:overflow-visible flex justify-cenmter items-center">
+            {/* <div className="flex flex-col px-8 py-4">
+              <div className="overflow-auto xl:overflow-visible flex justify-center items-center"> */}
                 
-              { status === "loading" &&   <LoadingIcon
+              { status === "loading" &&   <div className="w-16 h-16"><LoadingIcon
                     color="white"
                     icon="oval"
                     className="w-10 h-10 mt-10"
-                  />}
+                  /></div>}
               { status === "idle" && <Content data={students}/>}
               
               
@@ -77,9 +78,9 @@ function Main() {
               </div>
               
             </div>
-          </div>
-        </div>
-      </div>
+          {/* </div> */}
+        {/* </div>
+      </div> */}
     </>
   );
 }

@@ -137,7 +137,6 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
       <HeaderTitle
         title={"Información del Alumno"}
         description={"Paso 2"}
-      
       />
 
       <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
@@ -213,11 +212,11 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                       className="px-6 py-3 pl-12 rounded-full mr-8 focus:z-10"
                     />    
               </div>
-              <Alert variant="soft-secondary" className=" ml-6 flex items-center justify-center rounded-full mb-2 w-full">
-                <div className=" uppercase font-thin text-slate-900">
-                  { `${birthday.years} años, ${birthday.month} meses`}
-                </div>
-              </Alert>
+                <Alert variant="soft-secondary" className=" ml-6 flex items-center justify-center rounded-full mb-2 w-full">
+                  <div className=" uppercase font-thin text-slate-900">
+                    { `${birthday.years} años, ${birthday.month} meses`}
+                  </div>
+                </Alert>
                 </div>
               </div>
               <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">

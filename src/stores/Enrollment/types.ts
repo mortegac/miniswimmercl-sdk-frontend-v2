@@ -50,6 +50,13 @@ export type EnrollmentExtra = {
   studentResidence?: string
   studentEmail?: string
   studentPhone?: string
+  
+  // ENROLLMENT
+  enrollmentStartDate?: string
+  enrollmentSessionTypeId?: string
+  enrollmentScheduleId?: string
+  enrollmentCourseId?: string
+  
 }
 
 export const emptyEnrollmentExtra : EnrollmentExtra = {
@@ -68,11 +75,21 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
   studentResidence: "",
   studentEmail: "",
   studentPhone: "",
+  
+  // CREACION SESSIONES
+  enrollmentStartDate: "",
+  enrollmentSessionTypeId: "",
+  enrollmentScheduleId: "",
+  enrollmentCourseId: "",
 }
 
 export type FilterOptions  = {
   name?: string;
-
-  
+    
+  studentId?: string;
+  enrollmentStartDate?: string;
+  enrollmentSessionTypeId?: string;
+  enrollmentScheduleId?: string;
+  enrollmentCourseId?: string;
   
 }

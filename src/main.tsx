@@ -14,7 +14,45 @@ import  { Amplify } from 'aws-amplify';
 import { CookieStorage } from 'aws-amplify/utils';
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 // import awsExports from './aws-exports';
-let awsExports ={
+
+type AwsConfig = {
+  aws_project_region: string;
+  aws_appsync_graphqlEndpoint: string;
+  aws_appsync_region: string;
+  aws_appsync_authenticationType: string;
+  aws_appsync_apiKey: string;
+  aws_cognito_identity_pool_id: string;
+  aws_cognito_region: string;
+  aws_user_pools_id: string;
+  aws_user_pools_web_client_id: string;
+  oauth: {
+    domain: string;
+    scope: string[];
+    redirectSignIn: string;
+    redirectSignOut: string;
+    responseType: string;
+  };
+  federationTarget: string;
+  aws_cognito_username_attributes: string[];
+  aws_cognito_social_providers: string[];
+  aws_cognito_signup_attributes: string[];
+  aws_cognito_mfa_configuration: string;
+  aws_cognito_mfa_types: string[];
+  aws_cognito_password_protection_settings: {
+    passwordPolicyMinLength: number;
+    passwordPolicyCharacters: any[];
+  };
+  aws_cognito_verification_mechanisms: string[];
+};
+
+type AmplifyConfig = AwsConfig & {
+  Auth?: {
+    storage: Storage;
+  };
+};
+
+
+let awsExports: AwsConfig ={
   "aws_project_region": "us-east-2",
   "aws_appsync_graphqlEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql",
   "aws_appsync_region": "us-east-2",
@@ -65,7 +103,15 @@ if (process.env.NODE_ENV === "development") {
   awsExports.oauth.redirectSignOut = "https://app.miniswimmer.cl/";
 }
 
-Amplify.configure(awsExports);
+const updatedConfig: AmplifyConfig = {
+  ...awsExports,
+  Auth: {
+    storage: window.sessionStorage
+  }
+};;
+
+// Amplify.configure(awsExports);
+Amplify.configure(updatedConfig);
 
 type SameSite = 'strict' | 'lax' | 'none';
 interface CookieStorageOptions {

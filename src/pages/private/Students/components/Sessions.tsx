@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useId } from "react";
-// import { Link } from "react-router-dom";
+import { format, tzDate } from '@formkit/tempo';
+
+const timeZone = "America/Santiago";
+
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import Table from "@/components/Base/Table";
 import {formatCurrency} from "../../../../utils/helper";
-import { FormatDate } from "../../../../utils/dateHandler";
+import { FormatDateSession } from "../../../../utils/dateHandler";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getSessionDetails, selectSessionDetails, setSessionDetails } from "@/stores/SessionDetails/slice";
@@ -41,7 +44,7 @@ function SessionsComponent(props: any) {
       className="w-10 h-10 mt-10"
       /></div>}
       
-    { status === "idle" &&   <div className="overflow-y-auto  h-48">
+    { status === "idle" &&   <div className="overflow-y-auto h-48">
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
             <Table.Tr>
@@ -67,20 +70,24 @@ function SessionsComponent(props: any) {
           </Table.Thead>
           <Table.Tbody>
       { Array.isArray(sessionDetails) &&
-        sessionDetails.map((item: any, i: number) => 
-              <Table.Tr key={"aa"} className={`[&_td]:last:border-b-0 ${item.status==="USED" && "bg-red-50"} ${item.status==="RECOVERED" && "bg-green-50"}  `}>
-                
-               
-                <Table.Td className="w-16 py-4 border-dashed dark:bg-darkmode-600">
+        sessionDetails.map((item: any, i: number) => {
+          // let fechaIso8601 =item.date;
+          // fechaIso8601 =fechaIso8601.replace(/\D/g, ' ');          
+          // let componentsdate:any = fechaIso8601.split(' ');    
+          // const dateSession = new Date(`${componentsdate[0]}/${componentsdate[1]}/${componentsdate[2]} 00:00:00`);
+          // const fechaConZona = tzDate(dateSession.toISOString(), "America/Santiago");
+          // const fechaFormateada = format(fechaConZona, "ddd, DD-MMM", "es");
+          
+
+          return(
+              <Table.Tr key={`aa-${i}`} className={`[&_td]:last:border-b-0 ${item.status==="USED" && "bg-red-50"} ${item.status==="RECOVERED" && "bg-green-50"}  `}>
+                <Table.Td className="py-4 border-dashed dark:bg-darkmode-600">
                 {item.sessionNumber}
                 </Table.Td>
-                <Table.Td className="w-96 py-4 border-dashed dark:bg-darkmode-600">
+                <Table.Td className="py-4 border-dashed dark:bg-darkmode-600">
                 <div className="uppercase whitespace-nowrap inline-block">
-                {FormatDate({
-                      date: item.date,
-                      options: { month: "short", day: "numeric"},
-                    })
-                }
+                  <span>{FormatDateSession(item.date)}</span>
+                  {/* <span>{fechaFormateada}</span> */}
                 </div>
 
                 </Table.Td>
@@ -90,13 +97,13 @@ function SessionsComponent(props: any) {
                 <Table.Td className="py-4 border-dashed dark:bg-darkmode-600">
                 ${formatCurrency(item.proratedValue)}
                 </Table.Td>
-                <Table.Td className="w-16  py-4 border-dashed dark:bg-darkmode-600">
+                <Table.Td className="  py-4 border-dashed dark:bg-darkmode-600">
                 {item.totalSessions}
                 </Table.Td>
                 <Table.Td className="relative py-4 border-dashed dark:bg-darkmode-600">
                   <div className="flex items-center justify-center">
                     {item.status==="ACTIVE" &&
-                      <Button variant="soft-danger" rounded className="w-28" 
+                      <Button variant="soft-danger" rounded className="" 
                       onClick={() => updateSession({
                         sessionId: item.id,
                         status: "USED",
@@ -104,7 +111,7 @@ function SessionsComponent(props: any) {
                       >USAR</Button>
                      }
                     {item.status==="RECOVERED" &&
-                      <Button variant="soft-danger" rounded className="w-28"
+                      <Button variant="soft-danger" rounded className=""
                       onClick={() => updateSession({
                         sessionId: item.id,
                         status: "USED",
@@ -112,7 +119,7 @@ function SessionsComponent(props: any) {
                       >USAR</Button>
                      }
                      {item.status==="USED" && 
-                      <Button variant="soft-primary" rounded className="w-28"
+                      <Button variant="soft-primary" rounded className=""
                       onClick={() => updateSession({
                         sessionId: item.id,
                         status: "RECOVERED",
@@ -122,7 +129,8 @@ function SessionsComponent(props: any) {
                   </div>
                 </Table.Td>
               </Table.Tr>
-          
+              )
+          }
         )}
         </Table.Tbody>
       </Table>

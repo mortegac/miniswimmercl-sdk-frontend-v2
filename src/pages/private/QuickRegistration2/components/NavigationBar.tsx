@@ -78,18 +78,18 @@ export const NavigationBar = () => {
               <Lucide icon="ChevronLeft" className="w-4 h-4 mr-2" /> Anterior
             </Button>
           <div>
-                <Button
-                variant="primary"
-                rounded
-                disabled={currentStep === 1}
-                className={`w-56 px-2 py-3 mb-2 mr-2 ${currentStep === 1 && "bg-slate-300 border-slate-300 text-slate-400"}`}
-                onClick={() => saveData()}
-                >
-                  <span className="flex flex-row justify-center items-center">
-                    <span>Grabar y continuar</span>
-                    <Lucide icon="ChevronRight" className="w-4 h-4 ml-2" />
-                  </span>
-                </Button>
+          { currentStep !== 3 && 
+            <Button
+              variant="primary"
+              rounded
+              disabled={currentStep === 1}
+              className={`w-56 px-2 py-3 mb-2 mr-2 ${currentStep === 1 && "bg-slate-300 border-slate-300 text-slate-400"}`}
+              onClick={() => saveData()}
+            >
+              <span className="flex flex-row justify-center items-center">
+              <span>Grabar y continuar</span><Lucide icon="ChevronRight" className="w-4 h-4 ml-2" /></span>
+            </Button>
+          }
          
           
             </div>

@@ -62,7 +62,7 @@ export const createRelation = async (objFilter: FilterOptions): Promise<any> => 
   return new Promise(async (resolve, reject) => {
     try {
      
-      const getData:any = await client.graphql({
+      const setData:any = await client.graphql({
         query: createRelationship,
         variables: {
           input: {
@@ -74,7 +74,7 @@ export const createRelation = async (objFilter: FilterOptions): Promise<any> => 
       });
       
       // console.log("<<< STUDENT CREADO <<<<< ", getData.data)
-      const data = getData.data;
+      const data = setData.data;
       console.log("<<< RELATIONSHIP ...data.createRelationship <<<<< ", data)
       
         resolve({ ...data.createRelationship} as any);

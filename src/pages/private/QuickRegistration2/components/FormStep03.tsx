@@ -25,7 +25,6 @@ import { selectCourse, getCourses} from "@/stores/Courses/slice";
 // }
 function CoursesList(props: any) {
   const { data } = props;
-
   // Asumimos que data ya está ordenado por locationCoursesId
   let currentLocationId:string | null = null;
 
@@ -40,7 +39,7 @@ function CoursesList(props: any) {
 
           return (
             <Fragment key={`${i}-COURSES`}>
-              {showLocationId && (
+              { showLocationId && (
                 <div className="w-full  py-3">
                    <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 dark:text-slate-500">
                    {item.locationCoursesId}</h2>
@@ -62,17 +61,16 @@ export const FormStep03 = ({ onChangeSetStore }: any) => {
   
   return (
     <>
-    <pre>{JSON.stringify(courses, null, 2)}</pre>
+    {/* <pre>{JSON.stringify(courses, null, 2)}</pre> */}
       <HeaderTitle
         title={"Proceso de inscripción"}
-        description={"Paso 3"}
+        description={"Paso 3 - seleccione el curso"}
       />
-
       <div className="mt-4 ml-2">
         {/*<div className="lg:p-5 intro-y ">
            <div className="grid lg:grid-cols-4 xs:grid-cols-2 lg:gap-6"> */}
           <div className="">
-          <h2 className="font-thin text-xl">Seleccione el curso</h2>
+          {/* <h2 className="font-thin text-xl">Seleccione el curso</h2> */}
           <CoursesList data={courses}/>
         </div>
       {/* </div> */}

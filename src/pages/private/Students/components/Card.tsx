@@ -123,9 +123,8 @@ interface Props {
 
 const Card: React.FC<Props> = ({students}) => {
   const id = useId();
-   const [flag, setFlag] = useState(false);
+  const [flag, setFlag] = useState(false);
 
-   typeOfGender
   const IcoSvg = typeOfGender[String(students?.gender)] || typeOfGender[""];
   
   const relationships:any = students?.relationships
@@ -149,18 +148,13 @@ const Card: React.FC<Props> = ({students}) => {
   
   return (
     <>
-       {!flag && (
+    {/* <pre>{JSON.stringify(students, null, 2)}</pre> */}
         <div
         key={`${id}-${students?.id}`}
-        className="col-span-12 sm:col-span-6 xl:col-span-6 intro-y"
+        className="w-1/2 px-2 py-2"
         >
-        
-      <div
-        key={`${id}-${students?.id}`}
-        className=" min-w-96 h-full"
-      >
-        <div>
-          <div className={`p-5 box h-[350px] cursor-pointer`}>
+       {!flag && (
+          <div className={`p-2 box h-[350px] cursor-pointer`}>
             <div className="flex items-center justify-center my-2">
               <div className="flex justify-center items-center flex-col  text-slate-500">
                 <h2 className="text-lg font-medium uppercase text-primary">{students?.name}{" "}{students?.lastName}{" "}{students?.middleName}</h2>
@@ -204,7 +198,7 @@ const Card: React.FC<Props> = ({students}) => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between items-start flex-row  text-slate-500 mt-6">
+            <div className="flex justify-between items-start flex-row  text-slate-500 mt-6 px-8">
               
                 <div className="w-1/2 flex flex-row justify-start items-start ">
                   <i className="h-full flex flex-row  mr-2">
@@ -230,30 +224,16 @@ const Card: React.FC<Props> = ({students}) => {
                 }
             </div>
           </div>
-        </div>
-      </div>
-      </div>
+  
+   
        )}
        {flag && ( 
-        <div
-        key={`${id}-${students?.id}`}
-        className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y"
-        >
-      
-          
-          
-          
-          <div
-            key={`${id}-${students?.id}`}
-            className=" min-w-96 h-full"
-          >
+       
            <div className="p-2 box h-[350px] flex flex-col justify-between" >
            <Tab.Group>
-          {/* <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row"> */}
-          {/* <span>Sesiones Alumno</span> */}
             <Tab.List
               variant="pills"
-              className="p-2 w-auto md:ml-auto bg-white box rounded-[0.6rem] border-slate-200 group-[.mode--light]:!bg-white/[0.12] group-[.mode--light]:!border-transparent"
+              className="p-2 md:ml-auto bg-white box rounded-[0.6rem] border-slate-200 group-[.mode--light]:!bg-white/[0.12] group-[.mode--light]:!border-transparent"
             >
               <Tab className="p-2 bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current group-[.mode--light]:bg-transparent group-[.mode--light]:[&[aria-selected='true']_button]:bg-white/[0.12] group-[.mode--light]:[&[aria-selected='true']_button]:border-transparent">
                 <Tab.Button
@@ -282,7 +262,8 @@ const Card: React.FC<Props> = ({students}) => {
             </Tab.List>
           {/* </div> */}
           <Tab.Panels className="mt-2">
-            <Tab.Panel className="flex flex-col xl:flex-row gap-2 p-1.5 leading-relaxed">
+            {/* <Tab.Panel className="flex flex-col xl:flex-row gap-2 p-1.5 leading-relaxed"> */}
+            <Tab.Panel className="pt-2 leading-relaxed">
               <Sessions studentId={students?.id} statusSessions="ACTIVE"/> 
             </Tab.Panel>
             <Tab.Panel className="pt-2 leading-relaxed">
@@ -307,12 +288,12 @@ const Card: React.FC<Props> = ({students}) => {
               </span>
             </Button>
           </div>
-        </div>
-        </div>
           
-        
+          
         )}
         
+        </div>
+        {/* </div> */}
     </>
   );
 };

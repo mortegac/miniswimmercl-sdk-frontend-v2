@@ -4,8 +4,9 @@ import { RootState } from "../store";
 
 import {fetchAuthUser, handleLogin, fetchData, createApoderado} from "./services"
 
-import { Roles, FilterOptions } from "../Roles/types";
+import { Roles } from "../Roles/types";
 import { UserPermissions } from "../UserPermissions/types";
+import { FilterOptions } from "../Users/types";
 
 
 export interface UserState {

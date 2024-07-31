@@ -6,6 +6,17 @@ export const createRelationship = /* GraphQL */ `
     createRelationship(input: $input, condition: $condition) { id }
   }
 `;
+
+export const createStudent = /* GraphQL */ `
+  mutation CreateStudent(
+    $input: CreateStudentInput!
+    $condition: ModelStudentConditionInput
+  ) {
+    createStudent(input: $input, condition: $condition) { id }
+  }
+`;
+
+
 export const updateRelationship = /* GraphQL */ `
   mutation UpdateRelationship(
     $input: UpdateRelationshipInput!
