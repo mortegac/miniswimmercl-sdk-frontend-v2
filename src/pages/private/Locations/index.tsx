@@ -10,26 +10,16 @@ import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
 import { getLocations, selectLocation } from "@/stores/Locations/slice";
 
-
-
-
-// import location from '@/assets/json/location.json';
 import LoadingIcon from "@/components/Base/LoadingIcon";
-// import { Location } from '../../../stores/Locations/types';
 
 
 
 
 
-const data:any=[
-  { id: "uno", name: "La Reina", typeOfLocation: "", status: "approved"},
-  { id: "dos", name: "Vitacura", typeOfLocation: "", status: "approved"},
-  { id: "tres", name: "La Dehesa", typeOfLocation: "", status: "approved"},
-]
 function Content(props: any) {
   const { data } = props;
   return (
-    <div className="grid grid-cols-12 gap-6">
+    <div className="flex flew-row">
       {Array.isArray(data) &&
         data.map((item: any, i: number) => <LocationsCard key={`${i}-CARD-LOCATIONS`} location={item} />)}
     </div>
@@ -59,21 +49,21 @@ function Main() {
               Listado de Sedes
             </div>
             <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-              <Button
+              {/* <Button
                 rounded
                 variant="primary"
                 className="px-8 py-3 border border-slate-200"
               >
                 <Lucide icon="Plus" className="w-6 h-6 mr-2" />{" "}
                 <span className="text-border-slate-200">Nueva Sede</span>
-              </Button>
+              </Button> */}
             </div>
           </div>
           <div className="flex flex-col gap-8 mt-8">
         
-            <div className="flex flex-col px-8 py-4">
+            {/* <div className="flex flex-col px-8 py-4">
               <div className="overflow-auto xl:overflow-visible flex justify-cenmter items-center">
-                
+                 */}
               { status === "loading" &&   <LoadingIcon
                     color="white"
                     icon="oval"
@@ -83,9 +73,9 @@ function Main() {
               
               
               
-              </div>
+              {/* </div>
               
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

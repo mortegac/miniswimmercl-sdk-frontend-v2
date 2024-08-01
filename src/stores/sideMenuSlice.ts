@@ -38,11 +38,11 @@ const initialState: SideMenuState = {
       pathname: PRIVATE,
       title: "Inicio",
     },
-    {
-      icon: "User",
-      pathname: LEADS,
-      title: "Leads",
-    },
+    // {
+    //   icon: "User",
+    //   pathname: LEADS,
+    //   title: "Leads",
+    // },
     {
       icon: "Users",
       pathname: STUDENTS,
@@ -71,32 +71,32 @@ const initialState: SideMenuState = {
       pathname: LOCATIONS,
       title: "Sedes",
     },
-    {
-      icon: "DollarSign",
-      pathname: PAYMENTS,
-      title: "Pagos",
-    },
-    {
-      icon: "MessageCircle",
-      pathname: TICKETS,
-      title: "Requerimientos",
-    },
+    // {
+    //   icon: "DollarSign",
+    //   pathname: PAYMENTS,
+    //   title: "Pagos",
+    // },
+    // {
+    //   icon: "MessageCircle",
+    //   pathname: TICKETS,
+    //   title: "Requerimientos",
+    // },
     "Ingresos - Egresos",
-    {
-      icon: "PlusCircle",
-      pathname: NEW_EXPENSE,
-      title: "Nuevo Gasto",
-    },
-    {
-      icon: "ShieldOff",
-      pathname: EXPENSES,
-      title: "Gastos",
-    },
-    {
-      icon: "Shield",
-      pathname: INCOME,
-      title: "Ingresos",
-    },
+    // {
+    //   icon: "PlusCircle",
+    //   pathname: NEW_EXPENSE,
+    //   title: "Nuevo Gasto",
+    // },
+    // {
+    //   icon: "ShieldOff",
+    //   pathname: EXPENSES,
+    //   title: "Gastos",
+    // },
+    // {
+    //   icon: "Shield",
+    //   pathname: INCOME,
+    //   title: "Ingresos",
+    // },
    
   ],
 };

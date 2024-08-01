@@ -21,24 +21,18 @@ const dataCard: React.FC<Props> = ({location}) => {
         state={{ id: data.id }}
         className=" "
       > */}
-        <div
+        {/* <div
           key={`${id}-${location.id}`}
-          className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y"
-        >
-        <div
+          className="intro-y my-2"
+        > */}
+        {/* <div
           key={`${id}-${location.id}`}
           className=" min-w-96 h-full"
-          // onClick={(event: React.MouseEvent) => {
-          //   event.preventDefault();
-          //   alert("hiu");
-          //   // dispatch(getUsersAccess(user.id))
-          //   // setButtonModalPreview(true);
-          // }}
-        >
-          <div>
+        > 
+          <div>*/}
             <div
               // className={`p-5 box h-[680px] hover:scale-210 hover:bg-slate-200 cursor-pointer`}
-              className={`p-5 box h-[680px] hover:scale-210 cursor-pointer`}
+              className={`p-5 mx-4 box h-[680px] w-full hover:scale-210 cursor-pointer`}
             >
               <div className="flex items-center justify-center my-4">
                 <div className="flex justify-center items-center flex-col  text-slate-500">
@@ -148,9 +142,9 @@ const dataCard: React.FC<Props> = ({location}) => {
               
     
             </div>
-          </div>
-        </div>
-        </div>
+           {/* </div>
+       </div> */}
+        {/* </div> */}
       {/* </Link> */}
     </>
   );

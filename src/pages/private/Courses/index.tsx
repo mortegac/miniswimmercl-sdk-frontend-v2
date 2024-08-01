@@ -13,23 +13,6 @@ import { getCourses, selectCourse } from "@/stores/Courses/slice";
 
 import Card from "./components/Card";
 
-// function Content(props: any) {
-//   // const [location, setLocation] = useState();
-//   const { data } = props;
-//   // setLocation(data[0].locationCoursesId)
-//   return (
-//     <div className="grid grid-cols-12 gap-6">
-//       {Array.isArray(data) &&
-//         data.map((item: any, i: number) => <>
-//           {/* {location != item.locationCoursesId && <h2 className="text-xl">{item.locationCoursesId}</h2>} */}
-//           <Card key={`${i}-COURSES`} courses={item} />
-//           {/* {location != item.locationCoursesId && setLocation(item.locationCoursesId)} */}
-//         </>
-//         )}
-//     </div>
-//   );
-// }
-
 function Content(props: any) {
   const { data } = props;
 
@@ -37,7 +20,8 @@ function Content(props: any) {
   let currentLocationId:string | null = null;
 
   return (
-    <div className="grid grid-cols-12 gap-6">
+    <>
+    <div key="COURSES-LIST" className="flex justify-start flex-row flex-wrap">
       {Array.isArray(data) &&
         data.map((item: any, i: number) => {
           const showLocationId = item.locationCoursesId !== currentLocationId;
@@ -48,16 +32,18 @@ function Content(props: any) {
           return (
             <Fragment key={`${i}-COURSES`}>
               {showLocationId && (
-                <div className="col-span-12">
+                <div className="flex-1">
                    <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 dark:text-slate-500">
                    {item.locationCoursesId}</h2>
                 </div>
               )}
-              <Card courses={item} />
+               
+                <Card courses={item} />
             </Fragment>
           );
         })}
-    </div>
+        </div>
+    </>
   );
 }
 
@@ -84,14 +70,14 @@ function Main() {
               Listado de Cursos
             </div>
             <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-              <Button
+              {/* <Button
                 rounded
                 variant="primary"
                 className="px-8 py-3 border border-slate-200"
               >
                 <Lucide icon="Plus" className="w-6 h-6 mr-2" />{" "}
                 <span className="text-border-slate-200">Nuevo Curso</span>
-              </Button>
+              </Button> */}
             </div>
           </div>
           <div className="flex flex-col gap-8 mt-8">
@@ -104,7 +90,7 @@ function Main() {
                     icon="oval"
                     className="w-10 h-10 mt-10"
                   />}
-              { status === "idle" && <Content data={courses}/>}
+              { status === "idle" && <div className=""><Content data={courses}/></div>}
               
               
               

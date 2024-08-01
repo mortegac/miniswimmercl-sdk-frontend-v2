@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { parse, format } from 'date-fns';
 import _ from "lodash";
 import LoadingIcon from "@/components/Base/LoadingIcon";
@@ -93,6 +94,23 @@ function Main() {
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
               
+        <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row mb-6">
+            
+            <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
+            <Link
+              to="/students"
+              // state={{ id: data.id }}
+              className="px-8 py-3 border border-slate-200 rounded-full"
+            ><span className="text-white">Sesiones alumno</span></Link>
+            <Link
+              to="/quick-registration"
+              // state={{ id: data.id }}
+              className="px-8 py-3 border border-slate-200 rounded-full bg-white/80"
+            ><span className="text-primary">Nueva Inscripción</span></Link>
+            
+            </div>
+          </div>
+          
           <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
             <div className=" text-base font-medium group-[.mode--light]:text-white">
               Listado de asistencia: <b className="text-lg">{date}</b>

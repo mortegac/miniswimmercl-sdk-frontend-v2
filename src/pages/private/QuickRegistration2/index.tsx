@@ -155,7 +155,7 @@ function Main() {
           {/* </div> */}
         </div>
       </div>
-      <pre>{JSON.stringify(enrollment, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(enrollment, null, 2)}</pre> */}
     </>
   );
 }
