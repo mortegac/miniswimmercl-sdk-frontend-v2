@@ -14,6 +14,7 @@ export const TICKETS = "/tickets";
 export const NEW_EXPENSE = "/new-expense";
 export const EXPENSES = "/expenses";
 export const INCOME = "/income";
+export const ACADEMYSTUDENTS = "/academy-students";
 
 
 // PUBLIC

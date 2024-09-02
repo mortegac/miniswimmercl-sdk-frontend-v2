@@ -14,7 +14,8 @@ import {
   TICKETS,
   NEW_EXPENSE, 
   EXPENSES, 
-  INCOME
+  INCOME,
+  ACADEMYSTUDENTS,
 } from "@/router/paths";
 
 export interface Menu {
@@ -72,37 +73,43 @@ const initialState: SideMenuState = {
       title: "Sedes",
     },
     // {
-    //   icon: "DollarSign",
-    //   pathname: PAYMENTS,
-    //   title: "Pagos",
-    // },
-    // {
-    //   icon: "MessageCircle",
-    //   pathname: TICKETS,
-    //   title: "Requerimientos",
-    // },
-    "Ingresos - Egresos",
-    // {
-    //   icon: "PlusCircle",
-    //   pathname: NEW_EXPENSE,
-    //   title: "Nuevo Gasto",
-    // },
-    // {
-    //   icon: "ShieldOff",
-    //   pathname: EXPENSES,
-    //   title: "Gastos",
-    // },
-    // {
-    //   icon: "Shield",
-    //   pathname: INCOME,
-    //   title: "Ingresos",
-    // },
-   
-  ],
-};
-
-export const sideMenuSlice = createSlice({
-  name: "sideMenu",
+      //   icon: "DollarSign",
+      //   pathname: PAYMENTS,
+      //   title: "Pagos",
+      // },
+      // {
+        //   icon: "MessageCircle",
+        //   pathname: TICKETS,
+        //   title: "Requerimientos",
+        // },
+        "Ingresos - Egresos",
+        // {
+          //   icon: "PlusCircle",
+          //   pathname: NEW_EXPENSE,
+          //   title: "Nuevo Gasto",
+          // },
+          // {
+            //   icon: "ShieldOff",
+            //   pathname: EXPENSES,
+            //   title: "Gastos",
+            // },
+            // {
+              //   icon: "Shield",
+              //   pathname: INCOME,
+              //   title: "Ingresos",
+              // },
+          "Academia",
+          {
+            icon: "UserCheck",
+            pathname: ACADEMYSTUDENTS,
+            title: "Instructores Inscritos",
+          },
+              
+            ],
+          };
+          
+          export const sideMenuSlice = createSlice({
+            name: "sideMenu",
   initialState,
   reducers: {},
 });

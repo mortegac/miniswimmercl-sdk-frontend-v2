@@ -1,0 +1,49 @@
+{
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-apiclients-main-b7b58-authRole",
+      "UnauthRoleArn": "arn:aws:iam::995007408497:role/amplify-apiclients-main-b7b58-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::995007408497:role/amplify-apiclients-main-b7b58-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+      "UnauthRoleName": "amplify-apiclients-main-b7b58-unauthRole",
+      "StackName": "amplify-apiclients-main-b7b58",
+      "StackId": "arn:aws:cloudformation:us-east-2:995007408497:stack/amplify-apiclients-main-b7b58/1ab09770-3430-11ef-8459-06023523f009",
+      "AmplifyAppId": "d37ftx9odrh330"
+    },
+    "categories": {
+      "auth": {
+        "apiclientsbb306568": {}
+      },
+      "function": {
+        "apiclientslayer": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion8818064d-build.zip"
+        },
+        "authPostAuthentication": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/authPostAuthentication-7639546a3270716a2b70-build.zip"
+        },
+        "authPostConfirmation": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/authPostConfirmation-45505743616d64733768-build.zip"
+        },
+        "authPreAuthentication": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/authPreAuthentication-55373035417965354571-build.zip"
+        },
+        "authPreSignup": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/authPreSignup-41742f376f7a764c4436-build.zip"
+        },
+        "fnCalculateSessionsEnrollment": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-3342517245312b6c684f-build.zip"
+        }
+      },
+      "api": {
+        "apiclients": {}
+      }
+    }
+  }
+}

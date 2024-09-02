@@ -18,8 +18,8 @@ import {
     TICKETS,
     NEW_EXPENSE, 
     EXPENSES, 
-    INCOME
-   
+    INCOME,
+    ACADEMYSTUDENTS,
   } from "./paths";
   
   import Layout from "../themes";
@@ -40,6 +40,7 @@ import {
   const Expenses = lazy(() => import("../pages/private/Expenses"));
   const NewExpenses = lazy(() => import("../pages/private/NewExpenses"));
   const Income = lazy(() => import("../pages/private/Income"));
+  const AcademyStudents = lazy(() => import("../pages/private/AcademyStudents"));
 
   export function PrivateValidation() {
     const { isAuthenticated, ...auth } = useAppSelector(selectAuth);
@@ -130,7 +131,13 @@ export const privateRoutes = {
           path: INCOME,
           element: <Income />,
         },
-      
+        
+        {
+          path: ACADEMYSTUDENTS,
+          element: <AcademyStudents />,
+          
+          
+        },
         
       ],
   };
