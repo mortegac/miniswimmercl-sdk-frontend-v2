@@ -33,10 +33,10 @@ const Card: React.FC<Props> = ({ student }) => {
     <>
       {/* <pre>{JSON.stringify(student, null, 2)}</pre> */}
       <div key={`${id}-${student?.id}`} className={`w-[33%] px-2 py-2`}>
-        <div className={`p-2 box h-[500px] cursor-pointer  ${student?.isPaid===false && "bg-red-200/90"}`}>
+        <div className={`p-2 box h-[500px] cursor-pointer  ${student?.isPaid===false && "bg-red-100/90"}`}>
           <div className="flex items-center justify-center my-2">
             <div className="flex justify-between items-center flex-row  text-slate-500">
-              <h2 className="text-lg font-medium uppercase text-primary">
+              <h2 className="text-lg font-medium uppercase text-primary text-center">
                 {student?.name}{" "}
               </h2>
             
@@ -44,10 +44,10 @@ const Card: React.FC<Props> = ({ student }) => {
           </div>
 
           <div className="flex flex-row border-1">
-            <div className="flex flex-col items-center justify-center p-4 h-48 border-r-4">
+            {/* <div className="flex flex-col items-center justify-center p-4 h-48 border-r-4">
               <svg
-                width="120"
-                height="120"
+                width="40"
+                height="40"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,9 +65,9 @@ const Card: React.FC<Props> = ({ student }) => {
                   fill="rgb(216, 177, 214)"
                 />
               </svg>
-            </div>
+            </div> */}
 
-            <div className="flex flex-col items-start justify-center px-4">
+            <div className="flex flex-col items-start justify-center px-4 w-full">
               {/* <Alert
                 variant="soft-secondary"
                 className="flex items-center justify-center rounded-full mb-2 w-full"
