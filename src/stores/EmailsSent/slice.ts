@@ -9,22 +9,22 @@ import {EmailsSent, emptyEmailsSent} from "./types"
 
 export interface CourseState {
   status: "idle" | "loading" | "failed";
-  course: Course;
- courses: Course[];
- errorMessage:string;
+  emailSent: EmailsSent;
+  emailsSent: EmailsSent[];
+  errorMessage:string;
 }
 
 export const initialState: CourseState = {
   status: "idle",
-  course: emptyCourse,
-  courses: [emptyCourse],
+  emailSent: emptyEmailsSent,
+  emailsSent: [emptyEmailsSent],
   errorMessage:"",
 };
 
 
 
 
-export const getCourses = createAsyncThunk(
+export const sendEmail = createAsyncThunk(
   "Courses/list",
   async () => {
     try {
@@ -45,35 +45,21 @@ export const CourseSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // GET CourseS
-      .addCase(getCourses.rejected, (state, action) => {
+      .addCase(sendEmail.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
         state.errorMessage = objPayload.errorMessage;
       })
-      .addCase(getCourses.pending, (state) => {
+      .addCase(sendEmail.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getCourses.fulfilled, (state, action) => {
+      .addCase(sendEmail.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "idle";
         
         // console.log("---getCourses --action---", objPayload)
-         
-        const sortedArray = objPayload?.items.sort((a:any, b:any) => {
-          // Primero, comparamos por locationCoursesId
-          if (a.locationCoursesId < b.locationCoursesId) return -1;
-          if (a.locationCoursesId > b.locationCoursesId) return 1;
-          
-          // Si locationCoursesId es igual, comparamos por AgeGroupType
-          if (a.AgeGroupType < b.AgeGroupType) return -1;
-          if (a.AgeGroupType > b.AgeGroupType) return 1;
-          
-          // Si ambos son iguales, no cambiamos el orden
-          return 0;
-        });
-  
-        // state.courses = objPayload?.items || [];
-        state.courses = sortedArray || [];
+     
+        state.emailsSent = objPayload || [];
         
       })
       
