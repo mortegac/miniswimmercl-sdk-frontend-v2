@@ -7,6 +7,7 @@ type AcademyStudents @model {
   id: ID! @primaryKey
   status: TypeStatus!             # ESTADO DEL ALUMNO, SIRVE PARA CLASIFICAR LOS CURSOS VIGENTES DE LOS QUE FINALAZARON
   name: String!
+  urlImage: String!
   email: String!
   birthdate: AWSDateTime!
   years: Int!

@@ -27,6 +27,7 @@ export const createAcademyStudents = /* GraphQL */ `
       id
       status
       name
+      urlImage
       email
       birthdate
       years
@@ -73,6 +74,7 @@ export const updateAcademyStudents = /* GraphQL */ `
       id
       status
       name
+      urlImage
       email
       birthdate
       years
@@ -119,6 +121,7 @@ export const deleteAcademyStudents = /* GraphQL */ `
       id
       status
       name
+      urlImage
       email
       birthdate
       years
@@ -177,6 +180,7 @@ export const createCertificates = /* GraphQL */ `
         id
         status
         name
+        urlImage
         email
         birthdate
         years
@@ -233,6 +237,7 @@ export const updateCertificates = /* GraphQL */ `
         id
         status
         name
+        urlImage
         email
         birthdate
         years
@@ -289,6 +294,7 @@ export const deleteCertificates = /* GraphQL */ `
         id
         status
         name
+        urlImage
         email
         birthdate
         years

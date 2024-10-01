@@ -37,6 +37,7 @@ export const listAcademyStudents = /* GraphQL */ `
       items {
         id
         name
+        urlImage
         email
         birthdate
         years

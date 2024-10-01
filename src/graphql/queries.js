@@ -7,6 +7,7 @@ export const getAcademyStudents = /* GraphQL */ `
       id
       status
       name
+      urlImage
       email
       birthdate
       years
@@ -63,6 +64,7 @@ export const listAcademyStudents = /* GraphQL */ `
         id
         status
         name
+        urlImage
         email
         birthdate
         years
@@ -103,6 +105,7 @@ export const getCertificates = /* GraphQL */ `
         id
         status
         name
+        urlImage
         email
         birthdate
         years

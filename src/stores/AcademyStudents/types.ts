@@ -2,6 +2,7 @@
 export type AcademyStudents = {
   id: string;
   name: string;
+  urlImage: string;
   email: string;
   birthdate: string;
   years: number
@@ -19,6 +20,7 @@ export type AcademyStudents = {
 export const emptyAcademyStudents: AcademyStudents = {
   id: "",
   name: "",
+  urlImage: "",
   email:  "",
   birthdate:  "",
   years: 0,

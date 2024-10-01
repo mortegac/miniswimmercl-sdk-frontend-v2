@@ -33,10 +33,11 @@ const CardMini: React.FC<Props> = ({ student }) => {
   return (
     <>
       <div key={`${id}-${student?.id}`} className={`w-[33%] px-2 py-2`}>
-        <div className={`p-2 box h-[520px] cursor-pointer bg-white`}>
+        <div className={`p-2 box h-[580px] cursor-pointer bg-white`}>
           <div className="flex items-center justify-center my-2">
             <div className="flex justify-between items-center flex-row  text-slate-500">
-              <h2 className="text-sm font-medium uppercase text-primary text-center">
+              <img src={student?.urlImage} className="rounded-full w-24 h-24 mr-8"/>              
+              <h2 className="text-sm font-medium uppercase text-primary text-left">
                 {student?.name}{" "}
               </h2>
             
