@@ -1,0 +1,36 @@
+
+################################
+# GASTOS 
+################################
+type Expense @model {
+  id: ID! @primaryKey
+  amount: Float!
+  description: String
+  date: AWSDateTime!
+  day: Int!
+  month: Int!
+  year: Int!
+  expenseType: ExpenseType!         # TIPO DE GASTO
+  costCenterType: CostCenterType!         # CENTRO DE COSTO ASOCIADO
+  
+  # Relation
+  location: Location! @belongsTo
+}
+
+enum CostCenterType {
+  VITACURA_PISCINA_MUNICIPAL
+  LA_REINA_PISCINA_MUNICIPAL
+  MATERIALS
+  RRHH
+  ADS
+  OTHERS
+}
+
+enum ExpenseType {
+  POOL_COURT_RENTAL
+  MATERIALS
+  TEACHER
+  ASSISTANT
+  ADS_IG
+  OTHERS
+}

@@ -1,0 +1,70 @@
+
+################################
+# ACADEMIA 
+################################
+
+type AcademyStudents @model {
+  id: ID! @primaryKey
+  status: TypeStatus!             # ESTADO DEL ALUMNO, SIRVE PARA CLASIFICAR LOS CURSOS VIGENTES DE LOS QUE FINALAZARON
+  name: String!
+  email: String!
+  birthdate: AWSDateTime!
+  years: Int!
+  address: String @default(value: "") 
+  phone: String @default(value: "")
+  profession: String @default(value: "")
+  studiesRelated: String @default(value: "")  #Estudios relacionados al área de la formación
+  medicalHistory: String @default(value: "")  #Antecedentes médicos
+  emergencyContact: String @default(value: "")  #Contacto de emergencia
+  isPaid: Boolean   #Campo momentaneao para saber si esta pagado el curso
+  isSponsored: Boolean   #El alumno esta becado
+
+  #Relations
+  certificate: Certificates @hasOne
+}
+enum TypeStatus {
+  CERTIFICATION_COMPLETED
+  CERTIFICATION_IN_PROGRESS
+  
+}
+
+enum TypeOfTitle {
+  CERTIFICATE_OF_ATTENDANCE
+  CERTIFICATE_OF_COMPLETION
+}
+
+# CERTICATES
+type Certificates @model {
+  id: ID! @primaryKey
+  title: TypeOfTitle!
+  studentName: String!          # Nombre del alumno
+  instructorName: String!       # Nombre instructor
+  instructorSignature: String!  # Firma del instructor
+  descriptionOne: String!
+  theoreticalHours: Int         # Horas teoricas
+  practicalHours: Int           # Horas practicas
+  date: AWSDateTime             # Fecha en que fue realziado la certificacion
+  isOfficialCertification: Boolean
+  location: String!             # Lugar donde fue ralizado el curso
+  
+  #Relations
+  student: AcademyStudents @belongsTo
+  course: AcademyCourses @belongsTo
+}
+
+
+################################
+# CURSOS
+################################
+type AcademyCourses @model {
+  id: ID! @primaryKey
+  name: String!
+  description: String
+  isActive: Boolean @default(value: "true")
+  
+  #Relations
+  students: [AcademyStudents] @hasMany        # Alumnos inscritos en este curso
+  certificate: Certificates @hasOne
+}
+
+

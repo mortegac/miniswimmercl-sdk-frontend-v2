@@ -1,6 +1,6 @@
 import {useEffect, useState, useCallback, Fragment} from "react";
 import debounce from 'lodash/debounce';
-
+import { Tab } from "@/components/Base/Headless";
 import { FormInput, InputGroup } from "@/components/Base/Form";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
@@ -10,6 +10,7 @@ import Button from "@/components/Base/Button";
 
 
 import Card from "./components/Card";
+import CardMini from "./components/CardMini";
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
 import { getAcademyStudents, selectAcademyStudents } from "@/stores/AcademyStudents/slice";
@@ -26,33 +27,40 @@ function Content(props: any) {
   // let validTitleSession:string | null = null;
 
   return (
-    <div key="ACADEMY-LIST" className="flex justify-start flex-row flex-wrap flex-1">
-      
-      {Array.isArray(data) &&
-        data.map((item: any, i: number) => {
-          // const hasSessionTitle = item?.enrollments?.items?.length > 0 ? "Con Sesiones": "Sin sesiones";
-          // const hasSessions = hasSessionTitle !== validTitleSession;
-          // if (hasSessions) {
-          //   validTitleSession = item?.enrollments?.items?.length > 0 ? "Con Sesiones": "Sin sesiones";
-          // }
-
-          return (
-            <Fragment key={`${i}-ACADEMY`}>
-              {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
-              {/* { hasSessions && (
-                <div className="w-full  py-3">
-                   <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 dark:text-slate-500 uppercase ml-2">
-                   { hasSessionTitle === "Sin sesiones" && "Alumnos sin sesiones activas" }</h2>
-                </div>
-              )} */}
-              <>
-                <Card key={`${i}-ACADEMY-LOCATIONS`} student={item} />
-              </>
-            </Fragment>
+      <Tab.Group>
+         {/* "tabs" | "pills" | "boxed-tabs" | "link-tabs"; */}
+        <Tab.List variant="boxed-tabs">
+            <Tab>
+                <Tab.Button className="w-full py-2" as="button">
+                   Inscripciones Activas
+                </Tab.Button>
+            </Tab>
+            <Tab>
+                <Tab.Button className="w-full py-2" as="button">
+                    Certificaciones realizadas
+                </Tab.Button>
+            </Tab>
+        </Tab.List>
+        <Tab.Panels className="mt-5">
+            <Tab.Panel className="leading-relaxed">
+              <div key="ACADEMY-LIST" className="flex justify-start flex-row flex-wrap flex-1">
+                {Array.isArray(data) &&
+                  data.map((item: any, i: number) => item?.status === "CERTIFICATION_IN_PROGRESS" && <Card key={`${i}-ACADEMY-LOCATIONS`} student={item} />)}
               
-          );
-        })}
-    </div>
+                
+              </div>
+
+            </Tab.Panel>
+            <Tab.Panel className="leading-relaxed">
+              <div key="ACADEMY-LIST" className="flex justify-start flex-row flex-wrap flex-1">
+                {Array.isArray(data) &&
+                data.map((item: any, i: number) => item?.status === "CERTIFICATION_COMPLETED" && <CardMini key={`${i}-ACADEMY-STUDENTS`} student={item} />)}
+              </div>
+            </Tab.Panel>
+        </Tab.Panels>
+    </Tab.Group>
+    
+
   );
 }
 

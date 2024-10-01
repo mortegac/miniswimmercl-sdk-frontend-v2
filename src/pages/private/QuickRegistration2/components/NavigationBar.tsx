@@ -93,7 +93,14 @@ export const NavigationBar = () => {
             </Button>
           }
          
-          
+         <Button
+              rounded
+              onClick={() => dispatch(increment())}
+              className="w-32 px-2 py-3 text-primary"
+              disabled={false}
+            >
+              <Lucide icon="ChevronLeft" className="w-4 h-4 mr-2" /> Siguiente
+            </Button>
             </div>
         </div>
     </>

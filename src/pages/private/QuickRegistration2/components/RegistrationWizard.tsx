@@ -29,7 +29,7 @@ const RegistrationWizard: React.FC<Props> = ({ hasEdition }) => {
 
   return (
     <>
-      {/* {vehicle.currentStep <= 9 && ( */}
+
         <>
           <div className="py-10 mt-5 intro-y box sm:py-20">
             <>
@@ -115,7 +115,7 @@ const RegistrationWizard: React.FC<Props> = ({ hasEdition }) => {
             </>
           </div>
         </>
-      {/* )} */}
+
     </>
   );
 };

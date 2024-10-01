@@ -1,0 +1,12 @@
+
+
+
+################################
+# CUSTOM RESOLVERS
+################################
+
+type Mutation {
+  generateEnrollment(studentId: String!, startDate: String!, sessionTypeId: String!, scheduleId: String!, courseId: String!): String
+    @function(name: "fnCalculateSessionsEnrollment-${env}")
+}
+

@@ -35,7 +35,7 @@ function Content(props: any) {
           }
 
           return (
-            <Fragment key={`${i}-COURSES`}>
+            <Fragment key={`${i}-STUDENTS`}>
               { hasSessions && (
                 <div className="w-full  py-3">
                    <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 dark:text-slate-500 uppercase ml-2">

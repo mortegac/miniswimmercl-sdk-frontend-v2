@@ -81,33 +81,12 @@ export const academyStudentsSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         
-        // console.log("---getAcademyStudentss --action---", objPayload)
-        state.academyStudents = objPayload?.items || [];
-        
-      })
-      
-      // setAcademyStudents
-      // .addCase(setAcademyStudents.rejected, (state, action) => {
-      //   const objPayload: any = action.payload;
-      //   state.status = "failed";
-      //   state.errorMessage = objPayload.errorMessage;
-      // })
-      // .addCase(setAcademyStudents.pending, (state) => {
-      //   state.status = "loading";
-      // })
-      // .addCase(setAcademyStudents.fulfilled, (state, action) => {
-      //   state.status = "idle";
-      //   const objPayload: any = action.payload;
-      //   console.log("---objPayload---", objPayload)
+        const _orderBySponsored = Array.isArray(objPayload?.items) ? objPayload?.items.sort((a:any, b:any) => String(a.isSponsored).localeCompare(String(b.isSponsored))) : objPayload?.items;
+        const _orderByPaid = Array.isArray(_orderBySponsored) ? _orderBySponsored.sort((a:any, b:any) => String(a.isPaid).localeCompare(String(b.isPaid))) : _orderBySponsored;
 
-      //   state.AcademyStudents.id = objPayload?.id || "";
-      //   // state.name = objPayload[0]?.name || "";
-      //   // state.email = objPayload[0]?.email || "";
-      // })
-      
-      
-      
-    
+        state.academyStudents = _orderByPaid || [];
+
+      })
   },
 });
 

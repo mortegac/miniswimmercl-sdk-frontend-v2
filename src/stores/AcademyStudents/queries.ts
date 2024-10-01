@@ -47,6 +47,8 @@ export const listAcademyStudents = /* GraphQL */ `
         medicalHistory
         emergencyContact
         isPaid
+        status
+        isSponsored
         createdAt
         updatedAt
         __typename

@@ -18,6 +18,930 @@ export const generateEnrollment = /* GraphQL */ `
     )
   }
 `;
+export const createAcademyStudents = /* GraphQL */ `
+  mutation CreateAcademyStudents(
+    $input: CreateAcademyStudentsInput!
+    $condition: ModelAcademyStudentsConditionInput
+  ) {
+    createAcademyStudents(input: $input, condition: $condition) {
+      id
+      status
+      name
+      email
+      birthdate
+      years
+      address
+      phone
+      profession
+      studiesRelated
+      medicalHistory
+      emergencyContact
+      isPaid
+      isSponsored
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesStudentsId
+      academyStudentsCertificateId
+      __typename
+    }
+  }
+`;
+export const updateAcademyStudents = /* GraphQL */ `
+  mutation UpdateAcademyStudents(
+    $input: UpdateAcademyStudentsInput!
+    $condition: ModelAcademyStudentsConditionInput
+  ) {
+    updateAcademyStudents(input: $input, condition: $condition) {
+      id
+      status
+      name
+      email
+      birthdate
+      years
+      address
+      phone
+      profession
+      studiesRelated
+      medicalHistory
+      emergencyContact
+      isPaid
+      isSponsored
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesStudentsId
+      academyStudentsCertificateId
+      __typename
+    }
+  }
+`;
+export const deleteAcademyStudents = /* GraphQL */ `
+  mutation DeleteAcademyStudents(
+    $input: DeleteAcademyStudentsInput!
+    $condition: ModelAcademyStudentsConditionInput
+  ) {
+    deleteAcademyStudents(input: $input, condition: $condition) {
+      id
+      status
+      name
+      email
+      birthdate
+      years
+      address
+      phone
+      profession
+      studiesRelated
+      medicalHistory
+      emergencyContact
+      isPaid
+      isSponsored
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesStudentsId
+      academyStudentsCertificateId
+      __typename
+    }
+  }
+`;
+export const createCertificates = /* GraphQL */ `
+  mutation CreateCertificates(
+    $input: CreateCertificatesInput!
+    $condition: ModelCertificatesConditionInput
+  ) {
+    createCertificates(input: $input, condition: $condition) {
+      id
+      title
+      studentName
+      instructorName
+      instructorSignature
+      descriptionOne
+      theoreticalHours
+      practicalHours
+      date
+      isOfficialCertification
+      location
+      student {
+        id
+        status
+        name
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyCoursesStudentsId
+        academyStudentsCertificateId
+        __typename
+      }
+      course {
+        id
+        name
+        description
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      createdAt
+      updatedAt
+      certificatesStudentId
+      certificatesCourseId
+      __typename
+    }
+  }
+`;
+export const updateCertificates = /* GraphQL */ `
+  mutation UpdateCertificates(
+    $input: UpdateCertificatesInput!
+    $condition: ModelCertificatesConditionInput
+  ) {
+    updateCertificates(input: $input, condition: $condition) {
+      id
+      title
+      studentName
+      instructorName
+      instructorSignature
+      descriptionOne
+      theoreticalHours
+      practicalHours
+      date
+      isOfficialCertification
+      location
+      student {
+        id
+        status
+        name
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyCoursesStudentsId
+        academyStudentsCertificateId
+        __typename
+      }
+      course {
+        id
+        name
+        description
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      createdAt
+      updatedAt
+      certificatesStudentId
+      certificatesCourseId
+      __typename
+    }
+  }
+`;
+export const deleteCertificates = /* GraphQL */ `
+  mutation DeleteCertificates(
+    $input: DeleteCertificatesInput!
+    $condition: ModelCertificatesConditionInput
+  ) {
+    deleteCertificates(input: $input, condition: $condition) {
+      id
+      title
+      studentName
+      instructorName
+      instructorSignature
+      descriptionOne
+      theoreticalHours
+      practicalHours
+      date
+      isOfficialCertification
+      location
+      student {
+        id
+        status
+        name
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyCoursesStudentsId
+        academyStudentsCertificateId
+        __typename
+      }
+      course {
+        id
+        name
+        description
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      createdAt
+      updatedAt
+      certificatesStudentId
+      certificatesCourseId
+      __typename
+    }
+  }
+`;
+export const createAcademyCourses = /* GraphQL */ `
+  mutation CreateAcademyCourses(
+    $input: CreateAcademyCoursesInput!
+    $condition: ModelAcademyCoursesConditionInput
+  ) {
+    createAcademyCourses(input: $input, condition: $condition) {
+      id
+      name
+      description
+      isActive
+      students {
+        nextToken
+        __typename
+      }
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesCertificateId
+      __typename
+    }
+  }
+`;
+export const updateAcademyCourses = /* GraphQL */ `
+  mutation UpdateAcademyCourses(
+    $input: UpdateAcademyCoursesInput!
+    $condition: ModelAcademyCoursesConditionInput
+  ) {
+    updateAcademyCourses(input: $input, condition: $condition) {
+      id
+      name
+      description
+      isActive
+      students {
+        nextToken
+        __typename
+      }
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesCertificateId
+      __typename
+    }
+  }
+`;
+export const deleteAcademyCourses = /* GraphQL */ `
+  mutation DeleteAcademyCourses(
+    $input: DeleteAcademyCoursesInput!
+    $condition: ModelAcademyCoursesConditionInput
+  ) {
+    deleteAcademyCourses(input: $input, condition: $condition) {
+      id
+      name
+      description
+      isActive
+      students {
+        nextToken
+        __typename
+      }
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesCertificateId
+      __typename
+    }
+  }
+`;
+export const createExpense = /* GraphQL */ `
+  mutation CreateExpense(
+    $input: CreateExpenseInput!
+    $condition: ModelExpenseConditionInput
+  ) {
+    createExpense(input: $input, condition: $condition) {
+      id
+      amount
+      description
+      date
+      day
+      month
+      year
+      expenseType
+      costCenterType
+      location {
+        id
+        name
+        city
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      locationExpensesId
+      __typename
+    }
+  }
+`;
+export const updateExpense = /* GraphQL */ `
+  mutation UpdateExpense(
+    $input: UpdateExpenseInput!
+    $condition: ModelExpenseConditionInput
+  ) {
+    updateExpense(input: $input, condition: $condition) {
+      id
+      amount
+      description
+      date
+      day
+      month
+      year
+      expenseType
+      costCenterType
+      location {
+        id
+        name
+        city
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      locationExpensesId
+      __typename
+    }
+  }
+`;
+export const deleteExpense = /* GraphQL */ `
+  mutation DeleteExpense(
+    $input: DeleteExpenseInput!
+    $condition: ModelExpenseConditionInput
+  ) {
+    deleteExpense(input: $input, condition: $condition) {
+      id
+      amount
+      description
+      date
+      day
+      month
+      year
+      expenseType
+      costCenterType
+      location {
+        id
+        name
+        city
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      locationExpensesId
+      __typename
+    }
+  }
+`;
+export const createParametersEnc = /* GraphQL */ `
+  mutation CreateParametersEnc(
+    $input: CreateParametersEncInput!
+    $condition: ModelParametersEncConditionInput
+  ) {
+    createParametersEnc(input: $input, condition: $condition) {
+      id
+      typeOfParameter {
+        nextToken
+        __typename
+      }
+      description
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateParametersEnc = /* GraphQL */ `
+  mutation UpdateParametersEnc(
+    $input: UpdateParametersEncInput!
+    $condition: ModelParametersEncConditionInput
+  ) {
+    updateParametersEnc(input: $input, condition: $condition) {
+      id
+      typeOfParameter {
+        nextToken
+        __typename
+      }
+      description
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteParametersEnc = /* GraphQL */ `
+  mutation DeleteParametersEnc(
+    $input: DeleteParametersEncInput!
+    $condition: ModelParametersEncConditionInput
+  ) {
+    deleteParametersEnc(input: $input, condition: $condition) {
+      id
+      typeOfParameter {
+        nextToken
+        __typename
+      }
+      description
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createMetadata = /* GraphQL */ `
+  mutation CreateMetadata(
+    $input: CreateMetadataInput!
+    $condition: ModelMetadataConditionInput
+  ) {
+    createMetadata(input: $input, condition: $condition) {
+      id
+      key
+      value
+      metadata {
+        id
+        label
+        value
+        idParent
+        createdAt
+        updatedAt
+        parametersEncTypeOfParameterId
+        __typename
+      }
+      createdAt
+      updatedAt
+      parametersMetadataId
+      __typename
+    }
+  }
+`;
+export const updateMetadata = /* GraphQL */ `
+  mutation UpdateMetadata(
+    $input: UpdateMetadataInput!
+    $condition: ModelMetadataConditionInput
+  ) {
+    updateMetadata(input: $input, condition: $condition) {
+      id
+      key
+      value
+      metadata {
+        id
+        label
+        value
+        idParent
+        createdAt
+        updatedAt
+        parametersEncTypeOfParameterId
+        __typename
+      }
+      createdAt
+      updatedAt
+      parametersMetadataId
+      __typename
+    }
+  }
+`;
+export const deleteMetadata = /* GraphQL */ `
+  mutation DeleteMetadata(
+    $input: DeleteMetadataInput!
+    $condition: ModelMetadataConditionInput
+  ) {
+    deleteMetadata(input: $input, condition: $condition) {
+      id
+      key
+      value
+      metadata {
+        id
+        label
+        value
+        idParent
+        createdAt
+        updatedAt
+        parametersEncTypeOfParameterId
+        __typename
+      }
+      createdAt
+      updatedAt
+      parametersMetadataId
+      __typename
+    }
+  }
+`;
+export const createParameters = /* GraphQL */ `
+  mutation CreateParameters(
+    $input: CreateParametersInput!
+    $condition: ModelParametersConditionInput
+  ) {
+    createParameters(input: $input, condition: $condition) {
+      id
+      typeOfParameter {
+        id
+        description
+        createdAt
+        updatedAt
+        __typename
+      }
+      label
+      value
+      idParent
+      metadata {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      parametersEncTypeOfParameterId
+      __typename
+    }
+  }
+`;
+export const updateParameters = /* GraphQL */ `
+  mutation UpdateParameters(
+    $input: UpdateParametersInput!
+    $condition: ModelParametersConditionInput
+  ) {
+    updateParameters(input: $input, condition: $condition) {
+      id
+      typeOfParameter {
+        id
+        description
+        createdAt
+        updatedAt
+        __typename
+      }
+      label
+      value
+      idParent
+      metadata {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      parametersEncTypeOfParameterId
+      __typename
+    }
+  }
+`;
+export const deleteParameters = /* GraphQL */ `
+  mutation DeleteParameters(
+    $input: DeleteParametersInput!
+    $condition: ModelParametersConditionInput
+  ) {
+    deleteParameters(input: $input, condition: $condition) {
+      id
+      typeOfParameter {
+        id
+        description
+        createdAt
+        updatedAt
+        __typename
+      }
+      label
+      value
+      idParent
+      metadata {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      parametersEncTypeOfParameterId
+      __typename
+    }
+  }
+`;
+export const createRoles = /* GraphQL */ `
+  mutation CreateRoles(
+    $input: CreateRolesInput!
+    $condition: ModelRolesConditionInput
+  ) {
+    createRoles(input: $input, condition: $condition) {
+      id
+      name
+      displayName
+      icon
+      rolPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateRoles = /* GraphQL */ `
+  mutation UpdateRoles(
+    $input: UpdateRolesInput!
+    $condition: ModelRolesConditionInput
+  ) {
+    updateRoles(input: $input, condition: $condition) {
+      id
+      name
+      displayName
+      icon
+      rolPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteRoles = /* GraphQL */ `
+  mutation DeleteRoles(
+    $input: DeleteRolesInput!
+    $condition: ModelRolesConditionInput
+  ) {
+    deleteRoles(input: $input, condition: $condition) {
+      id
+      name
+      displayName
+      icon
+      rolPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createPermissions = /* GraphQL */ `
+  mutation CreatePermissions(
+    $input: CreatePermissionsInput!
+    $condition: ModelPermissionsConditionInput
+  ) {
+    createPermissions(input: $input, condition: $condition) {
+      id
+      displayName
+      name
+      icon
+      order
+      Padre {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      Submenu {
+        nextToken
+        __typename
+      }
+      rolPermissions {
+        nextToken
+        __typename
+      }
+      userPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      permissionsSubmenuId
+      __typename
+    }
+  }
+`;
+export const updatePermissions = /* GraphQL */ `
+  mutation UpdatePermissions(
+    $input: UpdatePermissionsInput!
+    $condition: ModelPermissionsConditionInput
+  ) {
+    updatePermissions(input: $input, condition: $condition) {
+      id
+      displayName
+      name
+      icon
+      order
+      Padre {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      Submenu {
+        nextToken
+        __typename
+      }
+      rolPermissions {
+        nextToken
+        __typename
+      }
+      userPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      permissionsSubmenuId
+      __typename
+    }
+  }
+`;
+export const deletePermissions = /* GraphQL */ `
+  mutation DeletePermissions(
+    $input: DeletePermissionsInput!
+    $condition: ModelPermissionsConditionInput
+  ) {
+    deletePermissions(input: $input, condition: $condition) {
+      id
+      displayName
+      name
+      icon
+      order
+      Padre {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      Submenu {
+        nextToken
+        __typename
+      }
+      rolPermissions {
+        nextToken
+        __typename
+      }
+      userPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      permissionsSubmenuId
+      __typename
+    }
+  }
+`;
 export const createUsers = /* GraphQL */ `
   mutation CreateUsers(
     $input: CreateUsersInput!
@@ -921,114 +1845,6 @@ export const deleteSessionDetail = /* GraphQL */ `
     }
   }
 `;
-export const createTransaction = /* GraphQL */ `
-  mutation CreateTransaction(
-    $input: CreateTransactionInput!
-    $condition: ModelTransactionConditionInput
-  ) {
-    createTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
-  }
-`;
-export const updateTransaction = /* GraphQL */ `
-  mutation UpdateTransaction(
-    $input: UpdateTransactionInput!
-    $condition: ModelTransactionConditionInput
-  ) {
-    updateTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
-  }
-`;
-export const deleteTransaction = /* GraphQL */ `
-  mutation DeleteTransaction(
-    $input: DeleteTransactionInput!
-    $condition: ModelTransactionConditionInput
-  ) {
-    deleteTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
-  }
-`;
 export const createLocation = /* GraphQL */ `
   mutation CreateLocation(
     $input: CreateLocationInput!
@@ -1118,108 +1934,6 @@ export const deleteLocation = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      __typename
-    }
-  }
-`;
-export const createExpense = /* GraphQL */ `
-  mutation CreateExpense(
-    $input: CreateExpenseInput!
-    $condition: ModelExpenseConditionInput
-  ) {
-    createExpense(input: $input, condition: $condition) {
-      id
-      amount
-      description
-      date
-      day
-      month
-      year
-      expenseType
-      costCenterType
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationExpensesId
-      __typename
-    }
-  }
-`;
-export const updateExpense = /* GraphQL */ `
-  mutation UpdateExpense(
-    $input: UpdateExpenseInput!
-    $condition: ModelExpenseConditionInput
-  ) {
-    updateExpense(input: $input, condition: $condition) {
-      id
-      amount
-      description
-      date
-      day
-      month
-      year
-      expenseType
-      costCenterType
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationExpensesId
-      __typename
-    }
-  }
-`;
-export const deleteExpense = /* GraphQL */ `
-  mutation DeleteExpense(
-    $input: DeleteExpenseInput!
-    $condition: ModelExpenseConditionInput
-  ) {
-    deleteExpense(input: $input, condition: $condition) {
-      id
-      amount
-      description
-      date
-      day
-      month
-      year
-      expenseType
-      costCenterType
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationExpensesId
       __typename
     }
   }
@@ -1578,189 +2292,6 @@ export const deleteSessionType = /* GraphQL */ `
     }
   }
 `;
-export const createRoles = /* GraphQL */ `
-  mutation CreateRoles(
-    $input: CreateRolesInput!
-    $condition: ModelRolesConditionInput
-  ) {
-    createRoles(input: $input, condition: $condition) {
-      id
-      name
-      displayName
-      icon
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updateRoles = /* GraphQL */ `
-  mutation UpdateRoles(
-    $input: UpdateRolesInput!
-    $condition: ModelRolesConditionInput
-  ) {
-    updateRoles(input: $input, condition: $condition) {
-      id
-      name
-      displayName
-      icon
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteRoles = /* GraphQL */ `
-  mutation DeleteRoles(
-    $input: DeleteRolesInput!
-    $condition: ModelRolesConditionInput
-  ) {
-    deleteRoles(input: $input, condition: $condition) {
-      id
-      name
-      displayName
-      icon
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const createPermissions = /* GraphQL */ `
-  mutation CreatePermissions(
-    $input: CreatePermissionsInput!
-    $condition: ModelPermissionsConditionInput
-  ) {
-    createPermissions(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      icon
-      order
-      Padre {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      Submenu {
-        nextToken
-        __typename
-      }
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      permissionsSubmenuId
-      __typename
-    }
-  }
-`;
-export const updatePermissions = /* GraphQL */ `
-  mutation UpdatePermissions(
-    $input: UpdatePermissionsInput!
-    $condition: ModelPermissionsConditionInput
-  ) {
-    updatePermissions(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      icon
-      order
-      Padre {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      Submenu {
-        nextToken
-        __typename
-      }
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      permissionsSubmenuId
-      __typename
-    }
-  }
-`;
-export const deletePermissions = /* GraphQL */ `
-  mutation DeletePermissions(
-    $input: DeletePermissionsInput!
-    $condition: ModelPermissionsConditionInput
-  ) {
-    deletePermissions(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      icon
-      order
-      Padre {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      Submenu {
-        nextToken
-        __typename
-      }
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      permissionsSubmenuId
-      __typename
-    }
-  }
-`;
 export const createSupportTicket = /* GraphQL */ `
   mutation CreateSupportTicket(
     $input: CreateSupportTicketInput!
@@ -1917,288 +2448,330 @@ export const deleteCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const createParametersEnc = /* GraphQL */ `
-  mutation CreateParametersEnc(
-    $input: CreateParametersEncInput!
-    $condition: ModelParametersEncConditionInput
+export const createTransaction = /* GraphQL */ `
+  mutation CreateTransaction(
+    $input: CreateTransactionInput!
+    $condition: ModelTransactionConditionInput
   ) {
-    createParametersEnc(input: $input, condition: $condition) {
+    createTransaction(input: $input, condition: $condition) {
       id
-      typeOfParameter {
-        nextToken
-        __typename
-      }
-      description
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updateParametersEnc = /* GraphQL */ `
-  mutation UpdateParametersEnc(
-    $input: UpdateParametersEncInput!
-    $condition: ModelParametersEncConditionInput
-  ) {
-    updateParametersEnc(input: $input, condition: $condition) {
-      id
-      typeOfParameter {
-        nextToken
-        __typename
-      }
-      description
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteParametersEnc = /* GraphQL */ `
-  mutation DeleteParametersEnc(
-    $input: DeleteParametersEncInput!
-    $condition: ModelParametersEncConditionInput
-  ) {
-    deleteParametersEnc(input: $input, condition: $condition) {
-      id
-      typeOfParameter {
-        nextToken
-        __typename
-      }
-      description
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const createMetadata = /* GraphQL */ `
-  mutation CreateMetadata(
-    $input: CreateMetadataInput!
-    $condition: ModelMetadataConditionInput
-  ) {
-    createMetadata(input: $input, condition: $condition) {
-      id
-      key
-      value
-      metadata {
+      amount
+      date
+      paymentMethod
+      status
+      enrollment {
         id
-        label
-        value
-        idParent
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
         createdAt
         updatedAt
-        parametersEncTypeOfParameterId
+        studentEnrollmentsId
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        enrollmentTransactionId
         __typename
       }
       createdAt
       updatedAt
-      parametersMetadataId
+      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const updateMetadata = /* GraphQL */ `
-  mutation UpdateMetadata(
-    $input: UpdateMetadataInput!
-    $condition: ModelMetadataConditionInput
+export const updateTransaction = /* GraphQL */ `
+  mutation UpdateTransaction(
+    $input: UpdateTransactionInput!
+    $condition: ModelTransactionConditionInput
   ) {
-    updateMetadata(input: $input, condition: $condition) {
+    updateTransaction(input: $input, condition: $condition) {
       id
-      key
-      value
-      metadata {
+      amount
+      date
+      paymentMethod
+      status
+      enrollment {
         id
-        label
-        value
-        idParent
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
         createdAt
         updatedAt
-        parametersEncTypeOfParameterId
+        studentEnrollmentsId
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        enrollmentTransactionId
         __typename
       }
       createdAt
       updatedAt
-      parametersMetadataId
+      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const deleteMetadata = /* GraphQL */ `
-  mutation DeleteMetadata(
-    $input: DeleteMetadataInput!
-    $condition: ModelMetadataConditionInput
+export const deleteTransaction = /* GraphQL */ `
+  mutation DeleteTransaction(
+    $input: DeleteTransactionInput!
+    $condition: ModelTransactionConditionInput
   ) {
-    deleteMetadata(input: $input, condition: $condition) {
+    deleteTransaction(input: $input, condition: $condition) {
       id
-      key
-      value
-      metadata {
+      amount
+      date
+      paymentMethod
+      status
+      enrollment {
         id
-        label
-        value
-        idParent
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
         createdAt
         updatedAt
-        parametersEncTypeOfParameterId
+        studentEnrollmentsId
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        enrollmentTransactionId
         __typename
       }
       createdAt
       updatedAt
-      parametersMetadataId
+      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const createParameters = /* GraphQL */ `
-  mutation CreateParameters(
-    $input: CreateParametersInput!
-    $condition: ModelParametersConditionInput
+export const createRolPermissions = /* GraphQL */ `
+  mutation CreateRolPermissions(
+    $input: CreateRolPermissionsInput!
+    $condition: ModelRolPermissionsConditionInput
   ) {
-    createParameters(input: $input, condition: $condition) {
+    createRolPermissions(input: $input, condition: $condition) {
       id
-      typeOfParameter {
+      rolesId
+      permissionsId
+      roles {
         id
-        description
+        name
+        displayName
+        icon
         createdAt
         updatedAt
         __typename
       }
-      label
-      value
-      idParent
-      metadata {
-        nextToken
+      permissions {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
         __typename
       }
       createdAt
       updatedAt
-      parametersEncTypeOfParameterId
       __typename
     }
   }
 `;
-export const updateParameters = /* GraphQL */ `
-  mutation UpdateParameters(
-    $input: UpdateParametersInput!
-    $condition: ModelParametersConditionInput
+export const updateRolPermissions = /* GraphQL */ `
+  mutation UpdateRolPermissions(
+    $input: UpdateRolPermissionsInput!
+    $condition: ModelRolPermissionsConditionInput
   ) {
-    updateParameters(input: $input, condition: $condition) {
+    updateRolPermissions(input: $input, condition: $condition) {
       id
-      typeOfParameter {
+      rolesId
+      permissionsId
+      roles {
         id
-        description
+        name
+        displayName
+        icon
         createdAt
         updatedAt
         __typename
       }
-      label
-      value
-      idParent
-      metadata {
-        nextToken
+      permissions {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
         __typename
       }
       createdAt
       updatedAt
-      parametersEncTypeOfParameterId
       __typename
     }
   }
 `;
-export const deleteParameters = /* GraphQL */ `
-  mutation DeleteParameters(
-    $input: DeleteParametersInput!
-    $condition: ModelParametersConditionInput
+export const deleteRolPermissions = /* GraphQL */ `
+  mutation DeleteRolPermissions(
+    $input: DeleteRolPermissionsInput!
+    $condition: ModelRolPermissionsConditionInput
   ) {
-    deleteParameters(input: $input, condition: $condition) {
+    deleteRolPermissions(input: $input, condition: $condition) {
       id
-      typeOfParameter {
+      rolesId
+      permissionsId
+      roles {
         id
-        description
+        name
+        displayName
+        icon
         createdAt
         updatedAt
         __typename
       }
-      label
-      value
-      idParent
-      metadata {
-        nextToken
+      permissions {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
         __typename
       }
       createdAt
       updatedAt
-      parametersEncTypeOfParameterId
       __typename
     }
   }
 `;
-export const createAcademyStudents = /* GraphQL */ `
-  mutation CreateAcademyStudents(
-    $input: CreateAcademyStudentsInput!
-    $condition: ModelAcademyStudentsConditionInput
+export const createUserPermissions = /* GraphQL */ `
+  mutation CreateUserPermissions(
+    $input: CreateUserPermissionsInput!
+    $condition: ModelUserPermissionsConditionInput
   ) {
-    createAcademyStudents(input: $input, condition: $condition) {
+    createUserPermissions(input: $input, condition: $condition) {
       id
-      name
-      email
-      birthdate
-      years
-      address
-      phone
-      profession
-      studiesRelated
-      medicalHistory
-      emergencyContact
-      isPaid
+      permissionsId
+      usersId
+      permissions {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const updateAcademyStudents = /* GraphQL */ `
-  mutation UpdateAcademyStudents(
-    $input: UpdateAcademyStudentsInput!
-    $condition: ModelAcademyStudentsConditionInput
+export const updateUserPermissions = /* GraphQL */ `
+  mutation UpdateUserPermissions(
+    $input: UpdateUserPermissionsInput!
+    $condition: ModelUserPermissionsConditionInput
   ) {
-    updateAcademyStudents(input: $input, condition: $condition) {
+    updateUserPermissions(input: $input, condition: $condition) {
       id
-      name
-      email
-      birthdate
-      years
-      address
-      phone
-      profession
-      studiesRelated
-      medicalHistory
-      emergencyContact
-      isPaid
+      permissionsId
+      usersId
+      permissions {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const deleteAcademyStudents = /* GraphQL */ `
-  mutation DeleteAcademyStudents(
-    $input: DeleteAcademyStudentsInput!
-    $condition: ModelAcademyStudentsConditionInput
+export const deleteUserPermissions = /* GraphQL */ `
+  mutation DeleteUserPermissions(
+    $input: DeleteUserPermissionsInput!
+    $condition: ModelUserPermissionsConditionInput
   ) {
-    deleteAcademyStudents(input: $input, condition: $condition) {
+    deleteUserPermissions(input: $input, condition: $condition) {
       id
-      name
-      email
-      birthdate
-      years
-      address
-      phone
-      profession
-      studiesRelated
-      medicalHistory
-      emergencyContact
-      isPaid
+      permissionsId
+      usersId
+      permissions {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -2340,123 +2913,6 @@ export const deleteTicketUser = /* GraphQL */ `
     }
   }
 `;
-export const createUserPermissions = /* GraphQL */ `
-  mutation CreateUserPermissions(
-    $input: CreateUserPermissionsInput!
-    $condition: ModelUserPermissionsConditionInput
-  ) {
-    createUserPermissions(input: $input, condition: $condition) {
-      id
-      usersId
-      permissionsId
-      users {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      permissions {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updateUserPermissions = /* GraphQL */ `
-  mutation UpdateUserPermissions(
-    $input: UpdateUserPermissionsInput!
-    $condition: ModelUserPermissionsConditionInput
-  ) {
-    updateUserPermissions(input: $input, condition: $condition) {
-      id
-      usersId
-      permissionsId
-      users {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      permissions {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteUserPermissions = /* GraphQL */ `
-  mutation DeleteUserPermissions(
-    $input: DeleteUserPermissionsInput!
-    $condition: ModelUserPermissionsConditionInput
-  ) {
-    deleteUserPermissions(input: $input, condition: $condition) {
-      id
-      usersId
-      permissionsId
-      users {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      permissions {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const createCourseSessionType = /* GraphQL */ `
   mutation CreateCourseSessionType(
     $input: CreateCourseSessionTypeInput!
@@ -2575,111 +3031,6 @@ export const deleteCourseSessionType = /* GraphQL */ `
         amount
         createdAt
         updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const createRolPermissions = /* GraphQL */ `
-  mutation CreateRolPermissions(
-    $input: CreateRolPermissionsInput!
-    $condition: ModelRolPermissionsConditionInput
-  ) {
-    createRolPermissions(input: $input, condition: $condition) {
-      id
-      rolesId
-      permissionsId
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      permissions {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updateRolPermissions = /* GraphQL */ `
-  mutation UpdateRolPermissions(
-    $input: UpdateRolPermissionsInput!
-    $condition: ModelRolPermissionsConditionInput
-  ) {
-    updateRolPermissions(input: $input, condition: $condition) {
-      id
-      rolesId
-      permissionsId
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      permissions {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteRolPermissions = /* GraphQL */ `
-  mutation DeleteRolPermissions(
-    $input: DeleteRolPermissionsInput!
-    $condition: ModelRolPermissionsConditionInput
-  ) {
-    deleteRolPermissions(input: $input, condition: $condition) {
-      id
-      rolesId
-      permissionsId
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      permissions {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
         __typename
       }
       createdAt

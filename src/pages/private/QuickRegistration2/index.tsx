@@ -12,6 +12,7 @@ import LoadingIcon from "@/components/Base/LoadingIcon";
 import {FormStep01} from "./components/FormStep01";
 import { FormStep02 } from "./components/FormStep02";
 import { FormStep03 } from "./components/FormStep03";
+import { FormStep04 } from "./components/FormStep04";
 import { NavigationBar } from "./components/NavigationBar";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
@@ -25,6 +26,7 @@ const typeOfForm: any = {
   ["1"]: FormStep01,
   ["2"]: FormStep02,
   ["3"]: FormStep03,
+  ["4"]: FormStep04,
 };
 
 
@@ -61,7 +63,8 @@ function Main() {
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12 sm:col-span-10 sm:col-start-2">
           
-          {/* WIZARD */}
+        {/* WIZARD */}
+        { currentStep !== 4 && 
           <div className="flex flex-col lg:items-center lg:flex-row gap-y-2">
             <div
               className={clsx([
@@ -130,7 +133,8 @@ function Main() {
               </div>
             </div>
           </div>
-          
+        }
+        
           {/* FORM */}
             <div className="flex flex-col justify-between box min-h-[800px] p-10 space-y-4 mt-8 ">
               <div className="flex flex-col justify-start ">

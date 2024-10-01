@@ -16,7 +16,7 @@ export interface EnrollmentState {
 }
 
 export const initialState: EnrollmentState = {
-  currentStep: 1,
+  currentStep: 4,
   status: "idle",
   sessions: [],
   enrollment: emptyEnrollmentExtra,
@@ -102,7 +102,8 @@ export const enrollmentSlice = createSlice({
     },
     increment: (state) => {
       state.status = "loading";
-      if (state.currentStep <= 2) state.currentStep += 1;
+      // if (state.currentStep <= 2) 
+        state.currentStep += 1;
       // const ID = addApoderado(state);
       state.status = "idle";
     },

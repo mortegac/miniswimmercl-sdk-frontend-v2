@@ -25,8 +25,8 @@ function CoursesList(props: any) {
           return (
             <Fragment key={`${i}-COURSES`}>
               { showLocationId && (
-                <div className="w-full  py-3">
-                   <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 dark:text-slate-500">
+                <div className="w-full  py-3 mt-8">
+                   <h2 className="mt-3 text-2xl font-medium leading-none text-slate-600 dark:text-slate-500">
                    {item.locationCoursesId}</h2>
                 </div>
               )}

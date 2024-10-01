@@ -1,6 +1,569 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getAcademyStudents = /* GraphQL */ `
+  query GetAcademyStudents($id: ID!) {
+    getAcademyStudents(id: $id) {
+      id
+      status
+      name
+      email
+      birthdate
+      years
+      address
+      phone
+      profession
+      studiesRelated
+      medicalHistory
+      emergencyContact
+      isPaid
+      isSponsored
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesStudentsId
+      academyStudentsCertificateId
+      __typename
+    }
+  }
+`;
+export const listAcademyStudents = /* GraphQL */ `
+  query ListAcademyStudents(
+    $id: ID
+    $filter: ModelAcademyStudentsFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listAcademyStudents(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        status
+        name
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyCoursesStudentsId
+        academyStudentsCertificateId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getCertificates = /* GraphQL */ `
+  query GetCertificates($id: ID!) {
+    getCertificates(id: $id) {
+      id
+      title
+      studentName
+      instructorName
+      instructorSignature
+      descriptionOne
+      theoreticalHours
+      practicalHours
+      date
+      isOfficialCertification
+      location
+      student {
+        id
+        status
+        name
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyCoursesStudentsId
+        academyStudentsCertificateId
+        __typename
+      }
+      course {
+        id
+        name
+        description
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      createdAt
+      updatedAt
+      certificatesStudentId
+      certificatesCourseId
+      __typename
+    }
+  }
+`;
+export const listCertificates = /* GraphQL */ `
+  query ListCertificates(
+    $id: ID
+    $filter: ModelCertificatesFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCertificates(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getAcademyCourses = /* GraphQL */ `
+  query GetAcademyCourses($id: ID!) {
+    getAcademyCourses(id: $id) {
+      id
+      name
+      description
+      isActive
+      students {
+        nextToken
+        __typename
+      }
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesCertificateId
+      __typename
+    }
+  }
+`;
+export const listAcademyCourses = /* GraphQL */ `
+  query ListAcademyCourses(
+    $id: ID
+    $filter: ModelAcademyCoursesFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listAcademyCourses(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        description
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getExpense = /* GraphQL */ `
+  query GetExpense($id: ID!) {
+    getExpense(id: $id) {
+      id
+      amount
+      description
+      date
+      day
+      month
+      year
+      expenseType
+      costCenterType
+      location {
+        id
+        name
+        city
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      locationExpensesId
+      __typename
+    }
+  }
+`;
+export const listExpenses = /* GraphQL */ `
+  query ListExpenses(
+    $id: ID
+    $filter: ModelExpenseFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listExpenses(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        amount
+        description
+        date
+        day
+        month
+        year
+        expenseType
+        costCenterType
+        createdAt
+        updatedAt
+        locationExpensesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getParametersEnc = /* GraphQL */ `
+  query GetParametersEnc($id: ID!) {
+    getParametersEnc(id: $id) {
+      id
+      typeOfParameter {
+        nextToken
+        __typename
+      }
+      description
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listParametersEncs = /* GraphQL */ `
+  query ListParametersEncs(
+    $id: ID
+    $filter: ModelParametersEncFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listParametersEncs(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        description
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getMetadata = /* GraphQL */ `
+  query GetMetadata($id: ID!) {
+    getMetadata(id: $id) {
+      id
+      key
+      value
+      metadata {
+        id
+        label
+        value
+        idParent
+        createdAt
+        updatedAt
+        parametersEncTypeOfParameterId
+        __typename
+      }
+      createdAt
+      updatedAt
+      parametersMetadataId
+      __typename
+    }
+  }
+`;
+export const listMetadata = /* GraphQL */ `
+  query ListMetadata(
+    $filter: ModelMetadataFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMetadata(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        key
+        value
+        createdAt
+        updatedAt
+        parametersMetadataId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getParameters = /* GraphQL */ `
+  query GetParameters($id: ID!) {
+    getParameters(id: $id) {
+      id
+      typeOfParameter {
+        id
+        description
+        createdAt
+        updatedAt
+        __typename
+      }
+      label
+      value
+      idParent
+      metadata {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      parametersEncTypeOfParameterId
+      __typename
+    }
+  }
+`;
+export const listParameters = /* GraphQL */ `
+  query ListParameters(
+    $id: ID
+    $filter: ModelParametersFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listParameters(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        label
+        value
+        idParent
+        createdAt
+        updatedAt
+        parametersEncTypeOfParameterId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRoles = /* GraphQL */ `
+  query GetRoles($id: ID!) {
+    getRoles(id: $id) {
+      id
+      name
+      displayName
+      icon
+      rolPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listRoles = /* GraphQL */ `
+  query ListRoles(
+    $id: ID
+    $filter: ModelRolesFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listRoles(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        displayName
+        icon
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getPermissions = /* GraphQL */ `
+  query GetPermissions($id: ID!) {
+    getPermissions(id: $id) {
+      id
+      displayName
+      name
+      icon
+      order
+      Padre {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      Submenu {
+        nextToken
+        __typename
+      }
+      rolPermissions {
+        nextToken
+        __typename
+      }
+      userPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      permissionsSubmenuId
+      __typename
+    }
+  }
+`;
+export const listPermissions = /* GraphQL */ `
+  query ListPermissions(
+    $id: ID
+    $filter: ModelPermissionsFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listPermissions(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getUsers = /* GraphQL */ `
   query GetUsers($id: ID!) {
     getUsers(id: $id) {
@@ -458,70 +1021,6 @@ export const listSessionDetails = /* GraphQL */ `
     }
   }
 `;
-export const getTransaction = /* GraphQL */ `
-  query GetTransaction($id: ID!) {
-    getTransaction(id: $id) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
-  }
-`;
-export const listTransactions = /* GraphQL */ `
-  query ListTransactions(
-    $id: ID
-    $filter: ModelTransactionFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listTransactions(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getLocation = /* GraphQL */ `
   query GetLocation($id: ID!) {
     getLocation(id: $id) {
@@ -575,72 +1074,6 @@ export const listLocations = /* GraphQL */ `
         phone
         createdAt
         updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getExpense = /* GraphQL */ `
-  query GetExpense($id: ID!) {
-    getExpense(id: $id) {
-      id
-      amount
-      description
-      date
-      day
-      month
-      year
-      expenseType
-      costCenterType
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationExpensesId
-      __typename
-    }
-  }
-`;
-export const listExpenses = /* GraphQL */ `
-  query ListExpenses(
-    $id: ID
-    $filter: ModelExpenseFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listExpenses(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        amount
-        description
-        date
-        day
-        month
-        year
-        expenseType
-        costCenterType
-        createdAt
-        updatedAt
-        locationExpensesId
         __typename
       }
       nextToken
@@ -855,121 +1288,6 @@ export const listSessionTypes = /* GraphQL */ `
     }
   }
 `;
-export const getRoles = /* GraphQL */ `
-  query GetRoles($id: ID!) {
-    getRoles(id: $id) {
-      id
-      name
-      displayName
-      icon
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listRoles = /* GraphQL */ `
-  query ListRoles(
-    $id: ID
-    $filter: ModelRolesFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listRoles(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getPermissions = /* GraphQL */ `
-  query GetPermissions($id: ID!) {
-    getPermissions(id: $id) {
-      id
-      displayName
-      name
-      icon
-      order
-      Padre {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      Submenu {
-        nextToken
-        __typename
-      }
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      permissionsSubmenuId
-      __typename
-    }
-  }
-`;
-export const listPermissions = /* GraphQL */ `
-  query ListPermissions(
-    $id: ID
-    $filter: ModelPermissionsFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listPermissions(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getSupportTicket = /* GraphQL */ `
   query GetSupportTicket($id: ID!) {
     getSupportTicket(id: $id) {
@@ -1066,30 +1384,48 @@ export const listCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const getParametersEnc = /* GraphQL */ `
-  query GetParametersEnc($id: ID!) {
-    getParametersEnc(id: $id) {
+export const getTransaction = /* GraphQL */ `
+  query GetTransaction($id: ID!) {
+    getTransaction(id: $id) {
       id
-      typeOfParameter {
-        nextToken
+      amount
+      date
+      paymentMethod
+      status
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        createdAt
+        updatedAt
+        studentEnrollmentsId
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        enrollmentTransactionId
         __typename
       }
-      description
       createdAt
       updatedAt
+      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const listParametersEncs = /* GraphQL */ `
-  query ListParametersEncs(
+export const listTransactions = /* GraphQL */ `
+  query ListTransactions(
     $id: ID
-    $filter: ModelParametersEncFilterInput
+    $filter: ModelTransactionFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
-    listParametersEncs(
+    listTransactions(
       id: $id
       filter: $filter
       limit: $limit
@@ -1098,7 +1434,63 @@ export const listParametersEncs = /* GraphQL */ `
     ) {
       items {
         id
-        description
+        amount
+        date
+        paymentMethod
+        status
+        createdAt
+        updatedAt
+        transactionEnrollmentId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRolPermissions = /* GraphQL */ `
+  query GetRolPermissions($id: ID!) {
+    getRolPermissions(id: $id) {
+      id
+      rolesId
+      permissionsId
+      roles {
+        id
+        name
+        displayName
+        icon
+        createdAt
+        updatedAt
+        __typename
+      }
+      permissions {
+        id
+        displayName
+        name
+        icon
+        order
+        createdAt
+        updatedAt
+        permissionsSubmenuId
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listRolPermissions = /* GraphQL */ `
+  query ListRolPermissions(
+    $filter: ModelRolPermissionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRolPermissions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        rolesId
+        permissionsId
         createdAt
         updatedAt
         __typename
@@ -1108,154 +1500,53 @@ export const listParametersEncs = /* GraphQL */ `
     }
   }
 `;
-export const getMetadata = /* GraphQL */ `
-  query GetMetadata($id: ID!) {
-    getMetadata(id: $id) {
+export const getUserPermissions = /* GraphQL */ `
+  query GetUserPermissions($id: ID!) {
+    getUserPermissions(id: $id) {
       id
-      key
-      value
-      metadata {
+      permissionsId
+      usersId
+      permissions {
         id
-        label
-        value
-        idParent
+        displayName
+        name
+        icon
+        order
         createdAt
         updatedAt
-        parametersEncTypeOfParameterId
+        permissionsSubmenuId
         __typename
       }
-      createdAt
-      updatedAt
-      parametersMetadataId
-      __typename
-    }
-  }
-`;
-export const listMetadata = /* GraphQL */ `
-  query ListMetadata(
-    $filter: ModelMetadataFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listMetadata(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        key
-        value
-        createdAt
-        updatedAt
-        parametersMetadataId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getParameters = /* GraphQL */ `
-  query GetParameters($id: ID!) {
-    getParameters(id: $id) {
-      id
-      typeOfParameter {
-        id
-        description
-        createdAt
-        updatedAt
-        __typename
-      }
-      label
-      value
-      idParent
-      metadata {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      parametersEncTypeOfParameterId
-      __typename
-    }
-  }
-`;
-export const listParameters = /* GraphQL */ `
-  query ListParameters(
-    $id: ID
-    $filter: ModelParametersFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listParameters(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        label
-        value
-        idParent
-        createdAt
-        updatedAt
-        parametersEncTypeOfParameterId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getAcademyStudents = /* GraphQL */ `
-  query GetAcademyStudents($id: ID!) {
-    getAcademyStudents(id: $id) {
-      id
-      name
-      email
-      birthdate
-      years
-      address
-      phone
-      profession
-      studiesRelated
-      medicalHistory
-      emergencyContact
-      isPaid
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listAcademyStudents = /* GraphQL */ `
-  query ListAcademyStudents(
-    $id: ID
-    $filter: ModelAcademyStudentsFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listAcademyStudents(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
+      users {
         id
         name
         email
-        birthdate
-        years
-        address
-        phone
-        profession
-        studiesRelated
-        medicalHistory
-        emergencyContact
-        isPaid
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listUserPermissions = /* GraphQL */ `
+  query ListUserPermissions(
+    $filter: ModelUserPermissionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserPermissions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        permissionsId
+        usersId
         createdAt
         updatedAt
         __typename
@@ -1318,62 +1609,6 @@ export const listTicketUsers = /* GraphQL */ `
         id
         usersId
         supportTicketId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getUserPermissions = /* GraphQL */ `
-  query GetUserPermissions($id: ID!) {
-    getUserPermissions(id: $id) {
-      id
-      usersId
-      permissionsId
-      users {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      permissions {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listUserPermissions = /* GraphQL */ `
-  query ListUserPermissions(
-    $filter: ModelUserPermissionsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUserPermissions(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        usersId
-        permissionsId
         createdAt
         updatedAt
         __typename
@@ -1446,58 +1681,6 @@ export const listCourseSessionTypes = /* GraphQL */ `
     }
   }
 `;
-export const getRolPermissions = /* GraphQL */ `
-  query GetRolPermissions($id: ID!) {
-    getRolPermissions(id: $id) {
-      id
-      rolesId
-      permissionsId
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      permissions {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listRolPermissions = /* GraphQL */ `
-  query ListRolPermissions(
-    $filter: ModelRolPermissionsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRolPermissions(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        rolesId
-        permissionsId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getComments = /* GraphQL */ `
   query GetComments($id: ID!) {
     getComments(id: $id) {
@@ -1547,6 +1730,118 @@ export const listComments = /* GraphQL */ `
         id
         supportTicketId
         commentTicketsId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const rolPermissionsByRolesId = /* GraphQL */ `
+  query RolPermissionsByRolesId(
+    $rolesId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRolPermissionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    rolPermissionsByRolesId(
+      rolesId: $rolesId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        rolesId
+        permissionsId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const rolPermissionsByPermissionsId = /* GraphQL */ `
+  query RolPermissionsByPermissionsId(
+    $permissionsId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRolPermissionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    rolPermissionsByPermissionsId(
+      permissionsId: $permissionsId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        rolesId
+        permissionsId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const userPermissionsByPermissionsId = /* GraphQL */ `
+  query UserPermissionsByPermissionsId(
+    $permissionsId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserPermissionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userPermissionsByPermissionsId(
+      permissionsId: $permissionsId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        permissionsId
+        usersId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const userPermissionsByUsersId = /* GraphQL */ `
+  query UserPermissionsByUsersId(
+    $usersId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserPermissionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userPermissionsByUsersId(
+      usersId: $usersId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        permissionsId
+        usersId
         createdAt
         updatedAt
         __typename
@@ -1612,62 +1907,6 @@ export const ticketUsersBySupportTicketId = /* GraphQL */ `
     }
   }
 `;
-export const userPermissionsByUsersId = /* GraphQL */ `
-  query UserPermissionsByUsersId(
-    $usersId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelUserPermissionsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    userPermissionsByUsersId(
-      usersId: $usersId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        usersId
-        permissionsId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const userPermissionsByPermissionsId = /* GraphQL */ `
-  query UserPermissionsByPermissionsId(
-    $permissionsId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelUserPermissionsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    userPermissionsByPermissionsId(
-      permissionsId: $permissionsId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        usersId
-        permissionsId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const courseSessionTypesByCourseId = /* GraphQL */ `
   query CourseSessionTypesByCourseId(
     $courseId: ID!
@@ -1715,62 +1954,6 @@ export const courseSessionTypesBySessionTypeId = /* GraphQL */ `
         id
         courseId
         sessionTypeId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const rolPermissionsByRolesId = /* GraphQL */ `
-  query RolPermissionsByRolesId(
-    $rolesId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelRolPermissionsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    rolPermissionsByRolesId(
-      rolesId: $rolesId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        rolesId
-        permissionsId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const rolPermissionsByPermissionsId = /* GraphQL */ `
-  query RolPermissionsByPermissionsId(
-    $permissionsId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelRolPermissionsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    rolPermissionsByPermissionsId(
-      permissionsId: $permissionsId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        rolesId
-        permissionsId
         createdAt
         updatedAt
         __typename

@@ -12,7 +12,8 @@ export type AcademyStudents = {
   medicalHistory: string;
   emergencyContact: string;
   createdAt: string;
-  isPaid: boolean
+  isPaid: boolean;
+  isSponsored: boolean;
 }
 
 export const emptyAcademyStudents: AcademyStudents = {
@@ -29,6 +30,7 @@ export const emptyAcademyStudents: AcademyStudents = {
   emergencyContact:  "",
   createdAt:  "",
   isPaid: false,
+  isSponsored: false,
 };
 
 
