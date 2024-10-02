@@ -121,7 +121,7 @@ const CardMini: React.FC<Props> = ({ student }) => {
                     />
                   </svg>
                 </i>
-                <span className="font-light">{student?.phone}</span>
+                <a href={`https://api.whatsapp.com/send?phone=${student?.phone}`} target="_blank"><span className="font-light">{student?.phone}</span></a>
               </div>
               <div className="flex flex-row justify-start items-start w-full mt-3">
                 <i className="h-full flex flex-row  mr-4">
