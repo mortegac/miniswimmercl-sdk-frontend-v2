@@ -8,7 +8,7 @@ import { Tab } from "@/components/Base/Headless";
 
 // import {Sessions} from "./Sessions";
 
-import { Student } from '@/stores/Student/types';
+import { Student } from '@/stores/Students/types';
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getSessionDetails, selectSessionDetails } from "@/stores/SessionDetails/slice";
 import { increment, setDataEnroll, setDataStudent, selectEnrollment  } from "@/stores/Enrollment/slice";
