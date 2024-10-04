@@ -65,6 +65,46 @@ export const listUsers = /* GraphQL */ `
         createdAt
         updatedAt
         usersRolesId
+        relationships{
+        items{
+          relationType
+          usersRelationshipsId
+          user{
+            id
+            name
+          }
+          student{
+            id
+            name
+            lastName
+            gender
+            birthdate
+            placeOfResidence
+            enrollments{
+              items{
+                id
+                amountPaid
+                courseEnrollmentsId
+                sessionDetails{
+                  items{
+                    id
+                    sessionNumber
+                  }
+                }
+              }
+            }
+          }
+          relationType
+          usersRelationshipsId
+          studentRelationshipsId
+          user{
+            id
+            email
+            name
+            contactPhone
+          }
+        }
+      }
         __typename
       }
       nextToken

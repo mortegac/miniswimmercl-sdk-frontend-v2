@@ -16,7 +16,7 @@ export interface EnrollmentState {
 }
 
 export const initialState: EnrollmentState = {
-  currentStep: 4,
+  currentStep: 1,
   status: "idle",
   sessions: [],
   enrollment: emptyEnrollmentExtra,

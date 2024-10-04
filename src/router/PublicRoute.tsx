@@ -7,7 +7,6 @@ import { selectAuth, getAuthUser} from "@/stores/Users/slice";
 import {
     PUBLIC,
     PRIVATE,
-   
   } from "./paths";
   
   // import Layout from "../themes";
@@ -23,12 +22,27 @@ import {
     useEffect(() => {
       dispatch(getAuthUser());
     }, []);
+    
+    useEffect(() => {
+      
+      console.log("redirect")
+      
+      // const prevUrl = location.state?.from ?? PRIVATE;
+      // <Navigate to={prevUrl} state={{ from: location }} />
+      
+    }, [isAuthenticated]);
   
     if (isAuthenticated) {
       const prevUrl = location.state?.from ?? PRIVATE;
   
       return <Navigate to={prevUrl} state={{ from: location }} />;
-    }
+    
+    } 
+    // else if (!isAuthenticated) {
+      
+    //   return <Navigate to={ROOT} state={{ from: location }} />
+      
+    // }
   
     return (
       <>

@@ -8,7 +8,7 @@ import { Tab } from "@/components/Base/Headless";
 
 // import {Sessions} from "./Sessions";
 
-import { Student } from '@/stores/Student/types';
+import { Student } from '@/stores/Students/types';
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getSessionDetails, selectSessionDetails } from "@/stores/SessionDetails/slice";
 import { increment, setDataEnroll, setDataStudent, selectEnrollment  } from "@/stores/Enrollment/slice";
@@ -87,7 +87,6 @@ const typeOfRelationship: any = {
   ["OTHER"]: "Otro",
   ["GRANDFATHER"]: "Abuelo",
   ["GRANDMOTHER"]: "Abuela",
-  ["COUSIN"]: "Primo/a",
   ["UNCLE"]: "Tio",
   ["AUNT"]: "Tia",
   ["FAMILYS_FRIEND"]: "Amigo familia",
@@ -120,20 +119,20 @@ function calcularEdad(fechaNacimientoString: string): { años: number; meses: nu
 
 
 interface Props {
-  student?: any;  
+  students?: any;  
 }
 
-const Card: React.FC<Props> = ({student}) => {
+const Card: React.FC<Props> = ({students}) => {
   // const id = useId();
   
   const dispatch = useAppDispatch();
 
   
-  const IcoSvg = typeOfGender[String(student?.student?.gender)] || typeOfGender[""];
+  const IcoSvg = typeOfGender[String(students?.student?.gender)] || typeOfGender[""];
   
-  // const relationships:any = student?.relationships
+  // const relationships:any = students?.relationships
   
-  const edad = student?.student?.birthdate && calcularEdad(String(student?.student?.birthdate === "" ? "1800/01/01":student?.student?.birthdate ));
+  const edad = students?.student?.birthdate && calcularEdad(String(students?.student?.birthdate === "" ? "1800/01/01":students?.student?.birthdate ));
   
   function changeName(name:string){
     return typeOfRelationship[String(name)] || typeOfRelationship[""];
@@ -143,7 +142,7 @@ const Card: React.FC<Props> = ({student}) => {
       await dispatch(
         setDataEnroll({
           key: "studentId",
-          value: student?.studentRelationshipsId,
+          value: students.studentRelationshipsId,
         })
       ),
       await dispatch(increment()),
@@ -160,20 +159,20 @@ const Card: React.FC<Props> = ({student}) => {
     }, 0);
   }
   
-  const numberSessions:number = contarSessionDetailsIds(student?.student?.enrollments)
+  const numberSessions:number = contarSessionDetailsIds(students?.student?.enrollments)
   
   return (
     <>
-   {/* <pre>student = {JSON.stringify(student, null, 2)}</pre><br/> */}
+   {/* <pre>students = {JSON.stringify(students, null, 2)}</pre><br/> */}
   
     <div
-        key={`${student?.student?.id}-${student?.student?.id}`}
+        key={`${students.id}-${students?.id}`}
         // className="col-span-12 sm:col-span-5 xl:col-span-5 intro-x"
         className="w-1/2 ml-4"
         >
         
       <div
-        key={`${student?.student?.id}-${student?.student?.id}`}
+        key={`${students.id}-${students?.id}`}
         className=" min-w-96 h-full"
       >
         <div>
@@ -181,8 +180,8 @@ const Card: React.FC<Props> = ({student}) => {
             <div className="flex items-center justify-center my-2">
               <div className="flex justify-center items-center flex-col  text-slate-500">
                 <h2 className="text-lg font-medium uppercase text-primary">
-                  {student?.student?.name}{" "}
-                  {student?.student?.lastName}{" "}
+                  {students?.student?.name}{" "}
+                  {students?.student?.lastName}{" "}
                   </h2>
               </div>
             </div>
@@ -192,15 +191,13 @@ const Card: React.FC<Props> = ({student}) => {
               <IcoSvg color="#C6C6C6" />
               </div>
               
-              <div className="flex flex-col items-start justify-center px-6">
+              <div className="flex flex-col items-center justify-center px-6">
                 <Alert variant="soft-secondary" className="flex items-center justify-center rounded-full mb-2 w-full">
                   <div className=" uppercase font-thin text-slate-900">
-                    { student?.student?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad?.años || ""} años, ${edad?.meses || ""} meses`}
+                    { students?.student?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad?.años || ""} años, ${edad?.meses || ""} meses`}
                   </div>
                 </Alert>
-                <h2 className="mt-2 font-thin">
-                  {changeName(student?.relationType || "")}:{" "}<b className="">{student?.user?.name}</b></h2>
-                <h3>{student?.usersRelationshipsId}</h3>
+                <h2 className="mt-2 font-thin">{changeName(students?.relationType || "")}:{" "}<b className="">{students.user.name}</b> {students.usersRelationshipsId}</h2>
               <div className="w-full border-t border-dashed border-primary my-2 mt-4"></div>                   
               { numberSessions > 0 &&
                 <Alert className="flex items-center justify-center rounded-full mb-2 w-full border border-[#ae5eab]">
@@ -232,7 +229,7 @@ const Card: React.FC<Props> = ({student}) => {
       </div>
       </div>
       
-         {/* <pre className="mt-96">{JSON.stringify(student, null, 2)}</pre> */}
+         {/* <pre className="mt-96">{JSON.stringify(students, null, 2)}</pre> */}
     </>
   );
 };

@@ -45,9 +45,7 @@ const CardMini: React.FC<Props> = ({ student }) => {
           </div>
 
           <div className="flex flex-row border-1">
-
             <div className="flex flex-col items-start justify-center px-4 w-full">
-             
               <div className="flex flex-row justify-start items-start w-full mt-4">
                 <i className="h-full flex flex-row  mr-4">
                   <svg
@@ -270,12 +268,12 @@ const CardMini: React.FC<Props> = ({ student }) => {
               
               <div className="flex flex-row justify-start items-start w-full mt-2">
                  { student?.isSponsored &&              
-              <Alert
-                  variant="soft-secondary"
-                  className="rounded-full ml-2 w-full text-center"
-                >{"ALUMNO BECADO"}
-                </Alert>              
-              }
+                  <Alert
+                      variant="soft-secondary"
+                      className="rounded-full ml-2 w-full text-center"
+                    >{"ALUMNO BECADO"}
+                  </Alert>              
+                  }
               </div>
               
             </div>
@@ -283,7 +281,6 @@ const CardMini: React.FC<Props> = ({ student }) => {
 
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 };

@@ -1,3 +1,4 @@
+import { Relationship } from "../Relationships/types";
 import { PermissionUsers } from "../UserPermissions/types";
 import { Roles, emptyRole } from "../Roles/types";
 import { TicketUser } from "../SupportTicket/types";
@@ -10,6 +11,7 @@ export type Users = {
   TicketUser?: { items: TicketUser[] };
   Role: Roles;
   Permissions?: { items: PermissionUsers[] };
+  relationships?: { items: Relationship[] };
   createdAt: string;
   updatedAt: string;
   companiesUsersId?: string;

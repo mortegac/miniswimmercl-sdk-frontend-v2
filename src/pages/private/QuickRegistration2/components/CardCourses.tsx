@@ -9,6 +9,9 @@ import { Course } from '@/stores/Courses/types';
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { selectEnrollment, setDataEnroll, setEnrollment, setStep } from "@/stores/Enrollment/slice";
+import { selectAuth, getUser} from "@/stores/Users/slice";
+
+
 import Litepicker from "@/components/Base/Litepicker";
 
 const typeOfCourse: any = {
@@ -72,6 +75,8 @@ function tiempoTranscurrido(fechaString: string): { años: number; meses: number
   return { años, meses };
 }
 
+
+
 const CardCourses: React.FC<Props> = ({courses}) => {
   const id = useId();
   const [startSession, setStartSession] = useState({date:"", month:"", years:""})
@@ -80,6 +85,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
   const [optionDay, selectedOptionDay] = useState({id:"", selected:false})
   
   
+  const {email}= useAppSelector(selectAuth);
   const {enrollment, sessions, currentStep} = useAppSelector(selectEnrollment);
   const dispatch = useAppDispatch();
 
@@ -142,7 +148,8 @@ const CardCourses: React.FC<Props> = ({courses}) => {
           enrollmentScheduleId: enrollment.enrollmentScheduleId,
           enrollmentCourseId: enrollment.enrollmentCourseId
         })),
-      await dispatch(setStep(1))
+        await dispatch(getUser({userEmail:email})),
+        await dispatch(setStep(1))
     ]);
     
     

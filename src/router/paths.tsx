@@ -18,6 +18,7 @@ export const ACADEMYSTUDENTS = "/academy-students";
 
 
 // PUBLIC
+export const ROOT = "/";
 export const PUBLIC = "/auth";
 export const PUBLIC_LOGOUT = "/auth/logout";
 export const PUBLIC_REGISTER = "/auth/register";

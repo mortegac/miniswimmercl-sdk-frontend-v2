@@ -10,7 +10,7 @@ import LoadingIcon from "@/components/Base/LoadingIcon";
 // import ListParams from "@/components/ListParams";
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { selectEnrollment, setDataUser, increment, cleanData} from "@/stores/Enrollment/slice";
-import { selectAuth, getUser, setApoderado} from "@/stores/Users/slice";
+import { selectAuth, getUser, setApoderado, cleanDataUser} from "@/stores/Users/slice";
 import { selectRelationships, getRelationships} from "@/stores/Relationships/slice";
 import Card from "./Card";
 // import {
@@ -18,27 +18,34 @@ import Card from "./Card";
 //   getParameters,
 // } from "@/stores/Parameters/slice";
 // import { duration } from "dayjs";
+import { Student } from '../../../../stores/Students/types';
 
+interface Props {
+  students?: any;  
+}
 
-function RelationList(){
-  const {relationships, status} = useAppSelector(selectRelationships);
+const RelationList: React.FC<Props> = ({students}) => {
+  // const {relationships, status} = useAppSelector(selectRelationships);
   
   return(
     <>
+    {/* <pre>{JSON.stringify(students.items, null, 2 )}</pre> */}
     {/* <pre>{JSON.stringify(relationships, null, 2 )}</pre> */}
         {/* <div className="grid grid-cols-12 gap-6 intro-y">           */}
         <div key="STUDENT-LIST"  className="flex justify-between intro-y" >          
-          {
-            Array.isArray(relationships) && relationships.length === 0 && 
+          {/* {
+            students.items[0]?.student?.id && Array.isArray(students) && students.length === 0 && 
               <div className="w-full text-center h-fit mt-8">
                 <span className="text-lg mr-4 text-slate-400">😴</span>{" "}
                 <span className="text-lg">Sin registros encontrados</span>
               </div>
-          }
-          { Array.isArray(relationships) &&
-                relationships.map((item: any, i: number) => <>
-                  {item.id && <Card key={`${i}-STUDENTS-RELATIONSHIP`} students={item} />}
+          } */}
+          { Array.isArray(students.items) &&
+                students.items.map((item: any, i: number) => <>
+                {/* <pre>item = {JSON.stringify(item, null, 2 )}</pre> */}
+                  <Card key={`${i}-STUDENTS-RELATIONSHIP`} student={item} />
                 </>
+                  
           )}
         </div>
       </>
@@ -52,7 +59,7 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
 
   const {enrollment, status}= useAppSelector(selectEnrollment);
   const user = useAppSelector(selectAuth);
-  const {id, name, email }= useAppSelector(selectAuth);
+  const {id, name, email, users }= useAppSelector(selectAuth);
   const {
     guardianId,
     guardianEmail,
@@ -62,7 +69,7 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
   const dispatch = useAppDispatch();
 
   
-    
+  
   async function getDataUser(email:string){ 
     console.log("---getDataUser---", email)
     email !== "" && await dispatch(getUser({userEmail:email}))
@@ -96,12 +103,13 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
     const successNotificationToggle = () => successNotification.current?.showToast();
 
   useEffect(() => { (async () =>{ 
-    id && id !== "" &&  await Promise.all([
-      await dispatch(getRelationships({userEmail: id,
-          // studentRelationshipsId: id,
-      })),
-      id ==="" ? await dispatch(setDataUser({id:"", email:"", name:"" })): await dispatch(setDataUser({id, email, name }))    
-    ]);
+    id ==="" ? await dispatch(setDataUser({id:"", email:"", name:"" })): await dispatch(setDataUser({id, email, name }))    
+    // id && id !== "" &&  await Promise.all([
+    //   await dispatch(getRelationships({userEmail: id,
+    //       // studentRelationshipsId: id,
+    //   })),
+    //   id ==="" ? await dispatch(setDataUser({id:"", email:"", name:"" })): await dispatch(setDataUser({id, email, name }))    
+    // ]);
   
   })(); }, [id]);
   
@@ -110,7 +118,8 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
   return (
     <>
     
-    {/* <pre>guardianId = {JSON.stringify(guardianId)}</pre>
+    {/* <pre>guardianId = {JSON.stringify(enrollment)}</pre> */}
+    {/* 
     <pre>guardianEmail = {JSON.stringify(guardianEmail)}</pre> */}
       <Notification
         getRef={(el) => {
@@ -135,7 +144,7 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
       
       
       <HeaderTitle
-        title={`Información del Apoderado ${guardianEmail} | ${guardianId}`}
+        title={`Información del Apoderado ${guardianName} | ${guardianId}`}
         description={"Paso 1"}
       />
       <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
@@ -174,7 +183,12 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
           }
           { guardianId && guardianId !== "" && <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianEmail}</h2> }
           
-            <Button onClick={()=>dispatch(cleanData())} rounded variant="soft-primary" className="border border-primary w-32 focus:z-2">
+            <Button onClick={async ()=>await Promise.all([
+                dispatch(cleanData()),
+                dispatch(cleanDataUser())               
+                ])
+              } 
+              rounded variant="soft-primary" className="border border-primary w-32 focus:z-2">
               <Lucide icon="Delete" className="w-5 h-5 text-primary" />
               <span className="ml-2">Limpiar</span>
             </Button>
@@ -238,11 +252,13 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
                   className="w-10 h-10 mt-10"
                 /></div>
         }
-      { guardianId && guardianId !== "" && user.status === "idle" && <RelationList /> }
-      { guardianId === "" &&  <div className="w-full text-center h-fit mt-8">
+        {/* <pre>{JSON.stringify(users, null, 2 )}</pre> */}
+      {/* { guardianId && guardianId !== "" && user.status === "idle" && <RelationList /> } */}
+      { user.status === "idle" && users?.relationships && <RelationList students={users?.relationships}/> }
+      {/* { guardianId === "" &&  <div className="w-full text-center h-fit mt-8">
                 <span className="text-lg mr-4 text-slate-400">😴</span>{" "}
                 <span className="text-lg">Sin alumnos asociados</span>
-              </div>}
+              </div>} */}
       
     </>
   );

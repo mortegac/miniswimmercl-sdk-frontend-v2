@@ -6,7 +6,7 @@ import {fetchAuthUser, handleLogin, fetchData, createApoderado} from "./services
 
 import { Roles } from "../Roles/types";
 import { UserPermissions } from "../UserPermissions/types";
-import { FilterOptions } from "../Users/types";
+import { Users, emptyUser, FilterOptions } from "../Users/types";
 
 
 export interface UserState {
@@ -18,6 +18,7 @@ export interface UserState {
   status: "idle" | "loading" | "failed";
   step: "initial" | "login" | "autenticated";
   Roles?: Roles;
+  users?: Users;
   UserPermissions?: UserPermissions[];
   errorMessage?: string;
 }
@@ -88,7 +89,12 @@ export const getAuthUser = createAsyncThunk(
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    cleanDataUser: (state) => {
+      state.users = emptyUser
+      
+    },
+  },
   extraReducers: (builder) => {
     builder
       // getAuthUser
@@ -123,6 +129,7 @@ export const authSlice = createSlice({
         state.status = "idle";
         const objPayload: any = action.payload;
         console.log("---objPayload---", objPayload)
+        state.users = objPayload[0];
         state.id = objPayload[0]?.id || "";
         state.name = objPayload[0]?.name || "";
         state.email = objPayload[0]?.email || "";
@@ -192,5 +199,9 @@ export const authSlice = createSlice({
 });
 
 export const selectAuth = (state: RootState) => state.auth;
+
+export const {
+  cleanDataUser,
+} = authSlice.actions;
 
 export default authSlice.reducer;
