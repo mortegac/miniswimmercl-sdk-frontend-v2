@@ -1,6 +1,8 @@
 import { lazy } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
+import FullscreenComponent from './FullscreenComponent';
+
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { selectAuth, getAuthUser} from "@/stores/Users/slice";
@@ -55,6 +57,7 @@ import {
     // if (location.pathname == "/") {
       return (
         <>
+        
           {/* <ToastContainer
             position="top-right"
             autoClose={3000}
@@ -67,7 +70,9 @@ import {
             pauseOnHover
             theme="light"
           /> */}
-          <Layout />
+           <FullscreenComponent>
+            <Layout />
+           </FullscreenComponent>
         </>
       );
     // }
