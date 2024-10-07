@@ -245,6 +245,97 @@ export const listAcademyCourses = /* GraphQL */ `
     }
   }
 `;
+export const getEmailSend = /* GraphQL */ `
+  query GetEmailSend($id: ID!) {
+    getEmailSend(id: $id) {
+      id
+      date
+      type
+      email
+      studentName
+      studentId
+      totalSessions
+      session1
+      session2
+      session3
+      session4
+      session5
+      session6
+      session7
+      session8
+      urlCancellationPolicies
+      courseName
+      courseSchedule
+      imageMap
+      urlMap
+      directions
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersEmailSendId
+      __typename
+    }
+  }
+`;
+export const listEmailSends = /* GraphQL */ `
+  query ListEmailSends(
+    $id: ID
+    $filter: ModelEmailSendFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listEmailSends(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        date
+        type
+        email
+        studentName
+        studentId
+        totalSessions
+        session1
+        session2
+        session3
+        session4
+        session5
+        session6
+        session7
+        session8
+        urlCancellationPolicies
+        courseName
+        courseSchedule
+        imageMap
+        urlMap
+        directions
+        createdAt
+        updatedAt
+        usersEmailSendId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getExpense = /* GraphQL */ `
   query GetExpense($id: ID!) {
     getExpense(id: $id) {
@@ -265,6 +356,9 @@ export const getExpense = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -577,6 +671,10 @@ export const getUsers = /* GraphQL */ `
       contactPhone
       ig
       firstContact
+      emailSend {
+        nextToken
+        __typename
+      }
       relationships {
         nextToken
         __typename
@@ -1034,6 +1132,9 @@ export const getLocation = /* GraphQL */ `
       maximumTemperature
       address
       phone
+      imageMap
+      urlMap
+      directions
       courses {
         nextToken
         __typename
@@ -1075,6 +1176,9 @@ export const listLocations = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -1104,6 +1208,9 @@ export const getCourse = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -1192,6 +1299,9 @@ export const getSchedule = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename

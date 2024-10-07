@@ -19,7 +19,7 @@ import LoadingIcon from "@/components/Base/LoadingIcon";
 function Content(props: any) {
   const { data } = props;
   return (
-    <div className="flex flew-row">
+    <div className="flex flew-row flex-wrap">
       {Array.isArray(data) &&
         data.map((item: any, i: number) => <LocationsCard key={`${i}-CARD-LOCATIONS`} location={item} />)}
     </div>

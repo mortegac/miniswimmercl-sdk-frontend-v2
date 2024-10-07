@@ -447,6 +447,147 @@ export const deleteAcademyCourses = /* GraphQL */ `
     }
   }
 `;
+export const createEmailSend = /* GraphQL */ `
+  mutation CreateEmailSend(
+    $input: CreateEmailSendInput!
+    $condition: ModelEmailSendConditionInput
+  ) {
+    createEmailSend(input: $input, condition: $condition) {
+      id
+      date
+      type
+      email
+      studentName
+      studentId
+      totalSessions
+      session1
+      session2
+      session3
+      session4
+      session5
+      session6
+      session7
+      session8
+      urlCancellationPolicies
+      courseName
+      courseSchedule
+      imageMap
+      urlMap
+      directions
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersEmailSendId
+      __typename
+    }
+  }
+`;
+export const updateEmailSend = /* GraphQL */ `
+  mutation UpdateEmailSend(
+    $input: UpdateEmailSendInput!
+    $condition: ModelEmailSendConditionInput
+  ) {
+    updateEmailSend(input: $input, condition: $condition) {
+      id
+      date
+      type
+      email
+      studentName
+      studentId
+      totalSessions
+      session1
+      session2
+      session3
+      session4
+      session5
+      session6
+      session7
+      session8
+      urlCancellationPolicies
+      courseName
+      courseSchedule
+      imageMap
+      urlMap
+      directions
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersEmailSendId
+      __typename
+    }
+  }
+`;
+export const deleteEmailSend = /* GraphQL */ `
+  mutation DeleteEmailSend(
+    $input: DeleteEmailSendInput!
+    $condition: ModelEmailSendConditionInput
+  ) {
+    deleteEmailSend(input: $input, condition: $condition) {
+      id
+      date
+      type
+      email
+      studentName
+      studentId
+      totalSessions
+      session1
+      session2
+      session3
+      session4
+      session5
+      session6
+      session7
+      session8
+      urlCancellationPolicies
+      courseName
+      courseSchedule
+      imageMap
+      urlMap
+      directions
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersEmailSendId
+      __typename
+    }
+  }
+`;
 export const createExpense = /* GraphQL */ `
   mutation CreateExpense(
     $input: CreateExpenseInput!
@@ -470,6 +611,9 @@ export const createExpense = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -504,6 +648,9 @@ export const updateExpense = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -538,6 +685,9 @@ export const deleteExpense = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -961,6 +1111,10 @@ export const createUsers = /* GraphQL */ `
       contactPhone
       ig
       firstContact
+      emailSend {
+        nextToken
+        __typename
+      }
       relationships {
         nextToken
         __typename
@@ -1002,6 +1156,10 @@ export const updateUsers = /* GraphQL */ `
       contactPhone
       ig
       firstContact
+      emailSend {
+        nextToken
+        __typename
+      }
       relationships {
         nextToken
         __typename
@@ -1043,6 +1201,10 @@ export const deleteUsers = /* GraphQL */ `
       contactPhone
       ig
       firstContact
+      emailSend {
+        nextToken
+        __typename
+      }
       relationships {
         nextToken
         __typename
@@ -1864,6 +2026,9 @@ export const createLocation = /* GraphQL */ `
       maximumTemperature
       address
       phone
+      imageMap
+      urlMap
+      directions
       courses {
         nextToken
         __typename
@@ -1895,6 +2060,9 @@ export const updateLocation = /* GraphQL */ `
       maximumTemperature
       address
       phone
+      imageMap
+      urlMap
+      directions
       courses {
         nextToken
         __typename
@@ -1926,6 +2094,9 @@ export const deleteLocation = /* GraphQL */ `
       maximumTemperature
       address
       phone
+      imageMap
+      urlMap
+      directions
       courses {
         nextToken
         __typename
@@ -1967,6 +2138,9 @@ export const createCourse = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -2013,6 +2187,9 @@ export const updateCourse = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -2059,6 +2236,9 @@ export const deleteCourse = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -2115,6 +2295,9 @@ export const createSchedule = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -2160,6 +2343,9 @@ export const updateSchedule = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename
@@ -2205,6 +2391,9 @@ export const deleteSchedule = /* GraphQL */ `
         maximumTemperature
         address
         phone
+        imageMap
+        urlMap
+        directions
         createdAt
         updatedAt
         __typename

@@ -17,6 +17,7 @@ type Users @model {
   firstContact: Boolean   # Se usa para saber si hayq ue pedirle mas info al user
   
   #Relations
+  emailSend: [EmailSend] @hasMany  # Email enviados al user
   relationships: [Relationship] @hasMany
   userTickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
   roles: Roles @hasOne
@@ -143,6 +144,9 @@ type Location @model {
   maximumTemperature:  Int @default(value: "30")
   address: String @default(value: "")
   phone: String @default(value: "")
+  imageMap: String @default(value: "")  #URL de la imagen del mapa 
+  urlMap: String @default(value: "")  #URL de google maps de la direccion
+  directions: String @default(value: "")  #Indicaciones para la llegada
   
   #Relations
   courses: [Course] @hasMany                  # relación una location tiene muchos cursos
@@ -222,7 +226,7 @@ type SessionType @model {
   timeAWeek: Float          # Cantidad de veces por semana contratadas
   totalSessions: Float        # Cantidad de sesiones
   amount: Float
-  
+  packValidity: Int # Vigencia en dias el pack
   #Relations
   courses: [Course] @manyToMany(relationName: "CourseSessionType")
   enrollments: [Enrollment] @hasMany
