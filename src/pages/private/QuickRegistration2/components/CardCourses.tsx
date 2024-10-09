@@ -1,5 +1,6 @@
 import React, { useState, useId } from "react";
 // import { Link } from "react-router-dom";
+import LoadingIcon from "@/components/Base/LoadingIcon";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import Alert from '@/components/Base/Alert';
@@ -79,6 +80,8 @@ function tiempoTranscurrido(fechaString: string): { años: number; meses: number
 
 const CardCourses: React.FC<Props> = ({courses}) => {
   const id = useId();
+  const [isSaved, setIsSaved] = useState<any>({ state: false});
+  
   const [startSession, setStartSession] = useState({date:"", month:"", years:""})
   const [selectedModal, setSelectedModal] = useState(false)
   const [option, selectedOption] = useState({id:"", selected:false})
@@ -138,7 +141,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
   }
   async function setEnrollmentCourse() {
     
-    
+    setIsSaved({ state: true })
     await Promise.all([
       await dispatch(
         setEnrollment({
@@ -151,7 +154,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
         await dispatch(getUser({userEmail:email})),
         await dispatch(setStep(1))
     ]);
-    
+    setIsSaved({ state: false })
     
     
     setSelectedModal(false);
@@ -271,13 +274,15 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                           setEnrollmentCourse();
                           // setSelectedModal(false);
                           }}
+                          disabled = {isSaved.state}
                           className="px-12 py-4"
                           >
+                          {isSaved.state && <LoadingIcon icon="puff" color="#FFFFFF" className="mr-2 w-8 h-8" />}
                           Inscribir
                       </Button>
                   </div>
                   Listado de sessiones creadas
-                  {JSON.stringify(sessions, null, 2)}
+                  <pre>{JSON.stringify(sessions)}</pre>
                 </div>
             </Dialog.Panel>
         </Dialog>

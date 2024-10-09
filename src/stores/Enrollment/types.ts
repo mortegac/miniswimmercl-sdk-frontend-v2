@@ -1,3 +1,62 @@
+// import { emptyCourse } from "../Locations/types";
+
+interface Relationship {
+  usersRelationshipsId: string;
+  relationType: string;
+  user: {
+    id: string;
+    name: string;
+  };
+}
+
+
+interface Student {
+  id: string;
+  name: string;
+  lastName: string;
+  birthdate: string;
+  relationships: {
+    items: Relationship[];
+  };
+  // relationships: {
+  //   items: Array<{
+  //     usersRelationshipsId: string;
+  //     relationType: string;
+  //     user: {
+  //       id: string;
+  //       name: string;
+  //     };
+  //   }>;
+  // };
+}
+
+export const emptyStudent: Student = {
+  id: "",
+  name: "",
+  lastName: "",
+  birthdate: "",
+  relationships: {
+    items: []
+  }
+}
+
+interface Course {
+  id: string;
+  title: string;
+  location: {
+    id: string;
+    name: string;
+  };
+}
+
+export const emptyCourse: Course = {
+  id: "",
+  title: "",
+  location: {
+    id: "",
+    name: "",
+  }
+}
 
 export type Enrollment = {
   id: string
@@ -11,6 +70,8 @@ export type Enrollment = {
   sessionsUsed: number
   
   
+  student: Student;
+  course: Course;
   
   // student: Student! @belongsTo
   // sessionType: SessionType! @belongsTo
@@ -29,6 +90,8 @@ export const emptyEnrollment: Enrollment = {
   numberOfSessions: 0,
   sessionsLeft: 0,
   sessionsUsed: 0,
+  course: emptyCourse,
+  student: emptyStudent,
 };
 
 

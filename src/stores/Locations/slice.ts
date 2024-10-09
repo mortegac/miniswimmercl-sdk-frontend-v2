@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData} from "./services"
+import {fetchData, fetchDataOnly} from "./services"
 import {Location, emptyLocation} from "./types"
 
 
@@ -37,6 +37,19 @@ export const getLocations = createAsyncThunk(
     }
   }
 );
+export const getLocationsOnly = createAsyncThunk(
+  "locations/list-only",
+  async () => {
+    try {
+      
+      const response:any = await fetchDataOnly();
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH LOCATIONS", error)
+      return Promise.reject(error);
+    }
+  }
+);
 
 
 export const locationSlice = createSlice({
@@ -59,6 +72,22 @@ export const locationSlice = createSlice({
         state.status = "idle";
         
         // console.log("---getLocations --action---", objPayload)
+        state.locations = objPayload?.items || [];
+        
+      })
+      // GET LOCATIONS
+      .addCase(getLocationsOnly.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getLocationsOnly.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getLocationsOnly.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
         state.locations = objPayload?.items || [];
         
       })

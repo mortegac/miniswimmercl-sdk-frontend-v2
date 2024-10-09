@@ -2,8 +2,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {transformResponse} from "../../utils/parser";
-import {createEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
+// import {transformResponse} from "../../utils/parser";
+import {fetchData, createEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
 import {Enrollment, emptyEnrollment, EnrollmentExtra, emptyEnrollmentExtra, FilterOptions} from "./types"
 
 export interface EnrollmentState {
@@ -27,7 +27,7 @@ export const initialState: EnrollmentState = {
 
 
 export const setEnrollment = createAsyncThunk(
-  "Enrollmen/list",
+  "Enrollmen/create",
   async (objFilter: FilterOptions, { dispatch }) => {
     try {
       console.error(">>>>setEnrollment-objFilter", objFilter)
@@ -69,26 +69,20 @@ export const setModelAPI = createAsyncThunk(
     return response;
   }
 );
-    
-//     const currentState: any = getState();
-//     const { vehiclesManagment } = currentState;
-//     const dataVehicle: any = {
-//       ...initialStateVehicle.vehicle,
-//       ...vehiclesManagment.vehicle,
-//     };
-//     delete dataVehicle.step;
-    
-//     const dataProcess: any = {
-//       id: vehiclesManagment.id,
-//       flagShip: vehiclesManagment.flagShip,
-//       currentStep: dataVehicle.currentStep,
-//     };
-  
-//     const response = await addVehicles(dataProcess);
-//     // The value we return becomes the `fulfilled` action payload
-//     return response;
-//   }
-// );
+
+export const getStudents = createAsyncThunk(
+  "Enrollmen/list",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchData(objFilter);
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH AcademyStudentsS", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
 
 export const enrollmentSlice = createSlice({
   name: "enrollmen",
@@ -176,8 +170,80 @@ export const enrollmentSlice = createSlice({
   
   extraReducers: (builder) => {
     builder
-      // GET CourseS
+       // GET Estudents
+       .addCase(getStudents.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getStudents.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getStudents.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        console.log("--objPayload--", objPayload)
+        // const _orderBySponsored = Array.isArray(objPayload?.items) ? objPayload?.items.sort((a:any, b:any) => String(a.isSponsored).localeCompare(String(b.isSponsored))) : objPayload?.items;
+        // const _orderByPaid = Array.isArray(_orderBySponsored) ? _orderBySponsored.sort((a:any, b:any) => String(a.isPaid).localeCompare(String(b.isPaid))) : _orderBySponsored;
+
+        // interface Student {
+        //   id: string;
+        //   name: string;
+        //   lastName: string;
+        //   birthdate: string;
+        //   relationships: {
+        //     items: Array<{
+        //       usersRelationshipsId: string;
+        //       relationType: string;
+        //       user: {
+        //         id: string;
+        //         name: string;
+        //       };
+        //     }>;
+        //   };
+        // }
+        
+        // interface Course {
+        //   id: string;
+        //   title: string;
+        //   location: {
+        //     id: string;
+        //     name: string;
+        //   };
+        // }
+        
+        // interface EnrollmentData {
+        //   id: string;
+        //   amountPaid: number;
+        //   startDate: string;
+        //   endDate: string;
+        //   wasPaid: boolean;
+        //   numberOfSessions: number;
+        //   student: Student;
+        //   course: Course;
+        // }
+        
+        function sortByEndDate(data: Enrollment[]): Enrollment[] {
+          return data.sort((a, b) => {
+            const dateA = convertToDate(a.startDate);
+            const dateB = convertToDate(b.startDate);
+            return dateA.getTime() - dateB.getTime();
+          });
+        }
+        
+        function convertToDate(dateString: string): Date {
+          const [day, month, year] = dateString.split('-');
+          return new Date(`${year}-${month}-${day}`);
+        }
+        
+        const sortedData = sortByEndDate(objPayload);
+        
+        state.enrollments = sortedData || [];
+
+      })
       
+      
+      // SET ENROLLMENT
       .addCase(setEnrollment.rejected, (state, action) => {
         const objPayload: any = action.payload;
         // state.status = "failed";

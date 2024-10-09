@@ -70,7 +70,7 @@ const sortedSchedules = Array.isArray(schedules?.items) && sortByDayAndTime(sche
   return (
     <>
             <div
-              className={`p-5 mx-4 box h-[680px] hover:scale-210 cursor-pointer  w-[40%] mb-4`}
+              className={`p-5 mx-4 box h-[900px] hover:scale-210 cursor-pointer  w-[40%] mb-4`}
             >
               <div className="flex items-center justify-center my-4">
                 <div className="flex justify-center items-center flex-col  text-slate-500">
@@ -149,6 +149,15 @@ const sortedSchedules = Array.isArray(schedules?.items) && sortByDayAndTime(sche
                   
                 </div>
               </div>
+              
+              <a href={`${location.urlMap}`}
+              ><img src={`${location.imageMap}`}
+              alt="Información de su inscripción" width="580" /> 
+              </a>
+              <div className="border-b p-4">
+                <span className="font-thin text-sm">{location?.directions}</span>
+              </div>
+              
               <h2 className="font-light mt-4 ">Cursos vigentes</h2>
               <div className="flex flex-row flex-wrap justify-center mt-4 overflow-y-auto h-72 bg-[#F7F7F7] py-4 -px-4 rounded-2xl">
                 {Array.isArray(sortedSchedules) &&

@@ -36,6 +36,11 @@ export type Location = {
   maximumTemperature: number;
   address: string;
   phone: string;
+  
+  imageMap: string;
+  urlMap: string;
+  directions: string;
+  
   createdAt: string;
   updatedAt: string;
 
@@ -54,6 +59,11 @@ export const emptyLocation: Location = {
   maximumTemperature: 28,
   address: "",
   phone: "",
+  
+  imageMap: "",
+  urlMap: "",
+  directions: "",
+  
   createdAt: "",
   updatedAt: "",
   courses: [emptyCourse],

@@ -7,8 +7,6 @@ import { FilterOptions } from './types';
 const client = generateClient();
 
 
-
-
 export const fetchData = async (filter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -17,19 +15,19 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
        // Save USER
        const getData:any = await client.graphql({
          query: listEnrollments,
-         variables: { 
-           input: {
-             id: filter.name
-           } 
-         },
+        //  variables: { 
+          //  input: {
+          //    id: filter.name
+          //  } 
+        //  },
        });
        // Update USER
         // Save o update RELATION
       
-      // console.log("<<< STUDENTS DATA <<<<< ", getData)
+      console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listCourses } as any);
+        resolve([...data.listEnrollments.items] as any);
         
         // ...userData.data.getUsers
       // } else {

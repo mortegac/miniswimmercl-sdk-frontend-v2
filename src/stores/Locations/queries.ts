@@ -56,8 +56,9 @@ export const listLocations = /* GraphQL */ `
         maximumTemperature
         address
         phone
-        createdAt
-        updatedAt
+        imageMap
+        urlMap
+        directions
         courses {
           items{
             id
@@ -75,6 +76,39 @@ export const listLocations = /* GraphQL */ `
             }
           }
         }
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listLocationsOnly = /* GraphQL */ `
+  query ListLocations(
+    $id: ID
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listLocations(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        city
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
         __typename
       }
       nextToken

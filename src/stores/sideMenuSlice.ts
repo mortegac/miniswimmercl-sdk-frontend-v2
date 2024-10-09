@@ -16,6 +16,7 @@ import {
   EXPENSES, 
   INCOME,
   ACADEMYSTUDENTS,
+  ENROLLMENTS
 } from "@/router/paths";
 
 export interface Menu {
@@ -60,6 +61,11 @@ const initialState: SideMenuState = {
       icon: "PlusSquare",
       pathname: QUICK_REGISTRATION,
       title: "Inscripción rápida",
+    },
+    {
+      icon: "CheckCircle",
+      pathname: ENROLLMENTS,
+      title: "Incripciones",
     },
     {
       icon: "HardDrive",

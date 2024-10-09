@@ -104,19 +104,27 @@ export const listEnrollments = /* GraphQL */ `
       nextToken: $nextToken
       sortDirection: $sortDirection
     ) {
-      items{
+      items
+      {
       id
       amountPaid
       startDate
       endDate
       wasPaid
       numberOfSessions
+      sessionType {
+        durationSession
+        name
+        timeAWeek
+        totalSessions
+      }
       student{
          id
           name
           lastName
           birthdate
-      relationships{
+          emailPhone
+        relationships{
           items{
             usersRelationshipsId
             relationType
@@ -133,6 +141,14 @@ export const listEnrollments = /* GraphQL */ `
         location{
           id
           name
+        }
+      }
+      sessionDetails{
+        items{
+          date
+          month
+          year
+          status
         }
       }
     }

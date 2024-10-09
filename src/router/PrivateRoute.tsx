@@ -15,6 +15,7 @@ import {
     LOCATIONS, 
     COURSES,
     QUICK_REGISTRATION,
+    ENROLLMENTS,
     ATTENDANCE,
     PAYMENTS,
     TICKETS,
@@ -35,6 +36,8 @@ import {
   import Courses from "../pages/private/Courses";
   import QuickRegistration from "../pages/private/QuickRegistration2";
   
+  const Enrollments = lazy(() => import("../pages/private/Enrollments"));
+  
   // const Attendance = lazy(() => import("../pages/private/Attendance"));
   import Attendance from "../pages/private/Attendance";
   const Payments = lazy(() => import("../pages/private/Payments"));
@@ -42,6 +45,8 @@ import {
   const Expenses = lazy(() => import("../pages/private/Expenses"));
   const NewExpenses = lazy(() => import("../pages/private/NewExpenses"));
   const Income = lazy(() => import("../pages/private/Income"));
+  
+  
   const AcademyStudents = lazy(() => import("../pages/private/AcademyStudents"));
 
   export function PrivateValidation() {
@@ -55,29 +60,16 @@ import {
     }
     
     // if (location.pathname == "/") {
+    //   return <Navigate to={"/auth"} state={{ from: location }} />;
+    // }
       return (
         <>
-        
-          {/* <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          /> */}
            <FullscreenComponent>
             <Layout />
            </FullscreenComponent>
         </>
       );
-    // }
   
-    // return <Navigate to={"/"} state={{ from: location }} />;
   }
   
 export const privateRoutes = {
@@ -107,6 +99,10 @@ export const privateRoutes = {
         {
           path: QUICK_REGISTRATION,
           element: <QuickRegistration />,
+        },
+        {
+          path: ENROLLMENTS,
+          element: <Enrollments />,
         },
         {
           path: COURSES,
