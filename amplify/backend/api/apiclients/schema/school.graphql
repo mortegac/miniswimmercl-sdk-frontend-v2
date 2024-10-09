@@ -80,6 +80,7 @@ type Student @model {
   enrollments: [Enrollment] @hasMany
   relationships: [Relationship] @hasMany
   sessionDetail: SessionDetail @hasOne
+  emailSend: [EmailSend] @hasMany  # Email enviados al student
 }
 
 
@@ -118,6 +119,7 @@ enum SessionStatus {
 type SessionDetail @model {
   id: ID!
   date: AWSDateTime
+  day: String! @default(value: "")
   month: String!
   year: String
   sessionNumber: Int      # Sesion numero

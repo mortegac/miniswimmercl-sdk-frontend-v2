@@ -23,19 +23,6 @@ const dataCard: React.FC<Props> = ({location}) => {
   const schedules:any = location.schedules
 
   
-//   const daysOrder = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
-
-// function sortByDay(schedules: CourseSchedule[]): CourseSchedule[] {
-//   return schedules.sort((a, b) => {
-//     const dayIndexA = daysOrder.indexOf(a.day.toLowerCase());
-//     const dayIndexB = daysOrder.indexOf(b.day.toLowerCase());
-//     return dayIndexA - dayIndexB;
-//   });
-// }
-  
-// const sortedSchedules = schedules?.items.sort;
-// const sortedSchedules = sortByDay(schedules?.items);
-
 const dayOrder = new Map<string, number>([
   ['lunes', 1],
   ['martes', 2],
@@ -61,7 +48,7 @@ function sortByDayAndTime(schedules: CourseSchedule[]): CourseSchedule[] {
       return dayComparison;
     }
     // If days are the same, compare startHour
-    return a.course.title.localeCompare(b.course.title);
+    return a?.course?.title.localeCompare(b?.course?.title);
     // return a.startHour.localeCompare(b.startHour);
   });
 }
@@ -70,7 +57,7 @@ const sortedSchedules = Array.isArray(schedules?.items) && sortByDayAndTime(sche
   return (
     <>
             <div
-              className={`p-5 mx-4 box h-[900px] hover:scale-210 cursor-pointer  w-[40%] mb-4`}
+              className={`p-5 mx-4 box h-[1000px] hover:scale-210 cursor-pointer  w-[40%] mb-4`}
             >
               <div className="flex items-center justify-center my-4">
                 <div className="flex justify-center items-center flex-col  text-slate-500">

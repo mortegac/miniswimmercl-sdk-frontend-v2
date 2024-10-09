@@ -456,25 +456,10 @@ export const createEmailSend = /* GraphQL */ `
       id
       date
       type
+      contentEmail
       email
-      studentName
-      studentId
-      totalSessions
-      session1
-      session2
-      session3
-      session4
-      session5
-      session6
-      session7
-      session8
-      urlCancellationPolicies
-      courseName
-      courseSchedule
-      imageMap
-      urlMap
-      directions
-      user {
+      wasSent
+      userSend {
         id
         name
         email
@@ -487,9 +472,33 @@ export const createEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
       createdAt
       updatedAt
       usersEmailSendId
+      studentEmailSendId
       __typename
     }
   }
@@ -503,25 +512,10 @@ export const updateEmailSend = /* GraphQL */ `
       id
       date
       type
+      contentEmail
       email
-      studentName
-      studentId
-      totalSessions
-      session1
-      session2
-      session3
-      session4
-      session5
-      session6
-      session7
-      session8
-      urlCancellationPolicies
-      courseName
-      courseSchedule
-      imageMap
-      urlMap
-      directions
-      user {
+      wasSent
+      userSend {
         id
         name
         email
@@ -534,9 +528,33 @@ export const updateEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
       createdAt
       updatedAt
       usersEmailSendId
+      studentEmailSendId
       __typename
     }
   }
@@ -550,25 +568,10 @@ export const deleteEmailSend = /* GraphQL */ `
       id
       date
       type
+      contentEmail
       email
-      studentName
-      studentId
-      totalSessions
-      session1
-      session2
-      session3
-      session4
-      session5
-      session6
-      session7
-      session8
-      urlCancellationPolicies
-      courseName
-      courseSchedule
-      imageMap
-      urlMap
-      directions
-      user {
+      wasSent
+      userSend {
         id
         name
         email
@@ -581,9 +584,33 @@ export const deleteEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
       createdAt
       updatedAt
       usersEmailSendId
+      studentEmailSendId
       __typename
     }
   }
@@ -1423,6 +1450,7 @@ export const createStudent = /* GraphQL */ `
       sessionDetail {
         id
         date
+        day
         month
         year
         sessionNumber
@@ -1434,6 +1462,10 @@ export const createStudent = /* GraphQL */ `
         updatedAt
         enrollmentSessionDetailsId
         sessionDetailStudentId
+        __typename
+      }
+      emailSend {
+        nextToken
         __typename
       }
       createdAt
@@ -1477,6 +1509,7 @@ export const updateStudent = /* GraphQL */ `
       sessionDetail {
         id
         date
+        day
         month
         year
         sessionNumber
@@ -1488,6 +1521,10 @@ export const updateStudent = /* GraphQL */ `
         updatedAt
         enrollmentSessionDetailsId
         sessionDetailStudentId
+        __typename
+      }
+      emailSend {
+        nextToken
         __typename
       }
       createdAt
@@ -1531,6 +1568,7 @@ export const deleteStudent = /* GraphQL */ `
       sessionDetail {
         id
         date
+        day
         month
         year
         sessionNumber
@@ -1542,6 +1580,10 @@ export const deleteStudent = /* GraphQL */ `
         updatedAt
         enrollmentSessionDetailsId
         sessionDetailStudentId
+        __typename
+      }
+      emailSend {
+        nextToken
         __typename
       }
       createdAt
@@ -1597,6 +1639,7 @@ export const createEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename
@@ -1687,6 +1730,7 @@ export const updateEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename
@@ -1777,6 +1821,7 @@ export const deleteEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename
@@ -1829,6 +1874,7 @@ export const createSessionDetail = /* GraphQL */ `
     createSessionDetail(input: $input, condition: $condition) {
       id
       date
+      day
       month
       year
       sessionNumber
@@ -1893,6 +1939,7 @@ export const updateSessionDetail = /* GraphQL */ `
     updateSessionDetail(input: $input, condition: $condition) {
       id
       date
+      day
       month
       year
       sessionNumber
@@ -1957,6 +2004,7 @@ export const deleteSessionDetail = /* GraphQL */ `
     deleteSessionDetail(input: $input, condition: $condition) {
       id
       date
+      day
       month
       year
       sessionNumber
@@ -2419,6 +2467,7 @@ export const createSessionType = /* GraphQL */ `
       timeAWeek
       totalSessions
       amount
+      packValidity
       courses {
         nextToken
         __typename
@@ -2446,6 +2495,7 @@ export const updateSessionType = /* GraphQL */ `
       timeAWeek
       totalSessions
       amount
+      packValidity
       courses {
         nextToken
         __typename
@@ -2473,6 +2523,7 @@ export const deleteSessionType = /* GraphQL */ `
       timeAWeek
       totalSessions
       amount
+      packValidity
       courses {
         nextToken
         __typename
@@ -3140,6 +3191,7 @@ export const createCourseSessionType = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename
@@ -3182,6 +3234,7 @@ export const updateCourseSessionType = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename
@@ -3224,6 +3277,7 @@ export const deleteCourseSessionType = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename

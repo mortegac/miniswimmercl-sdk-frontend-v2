@@ -1,21 +1,33 @@
 
 
-type TypeOfBusiness = "SCHOOL" | "ACADEMY"
-export type EmailsSent = {
+type TypeOfEmail = "WELCOME" | "NOSESSION"
+export type EmailSend = {
   id: string
-  title: string
-  description: string
-  typeOfBusiness: TypeOfBusiness
+  date: string
+  type: TypeOfEmail
+  contentEmail: string
+  email: string
+  wasSent: boolean
+  
+  
+  // #Relations 
+  // userSend: Users! @belongsTo  #User que envio el email
+  // student: Student! @belongsTo
+  
 
 
 }
 
-export const emptyEmailsSent: EmailsSent = {
+export const emptyEmailSend: EmailSend = {
   id:  "",
-  title:  "",
-  description:  "",
-  typeOfBusiness:  "SCHOOL",
+  date:  "", // new Date(Date.now()).toISOString()
+  type:  "WELCOME",
+  contentEmail:  "",
+  email:  "",
+  wasSent: false,
 };
+
+
 
 
 export type InputOptions  = {
@@ -33,3 +45,13 @@ export type InputOptions  = {
   to_name?:string;
 }
 
+
+export type FilterOptions  = { 
+  type?: string;
+  contentEmail?: string;
+  email?: string;
+  wasSent?: boolean;
+  usersEmailSendId?: string;
+  studentEmailSendId?: string;
+  
+}

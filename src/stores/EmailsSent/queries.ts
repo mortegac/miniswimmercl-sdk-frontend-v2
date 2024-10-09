@@ -2,58 +2,15 @@
 /********************************************************
 *                    QUERIES
 ********************************************************/
-export const getCourse = /* GraphQL */ `
-  query GetCourse($id: ID!) {
-    getCourse(id: $id) {
-      id
-      title
-      description
-      startingAge
-      endingAge
-      ageType
-      AgeGroupType
-      duration
-      isActive
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      schedules {
-        nextToken
-        __typename
-      }
-      sessionTypes {
-        nextToken
-        __typename
-      }
-      enrollments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationCoursesId
-      __typename
-    }
-  }
-`;
-export const listCourses = /* GraphQL */ `
-  query ListCourses(
+export const listEmailSends = /* GraphQL */ `
+  query ListEmailSends(
     $id: ID
-    $filter: ModelCourseFilterInput
+    $filter: ModelEmailSendFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
-    listCourses(
+    listEmailSends(
       id: $id
       filter: $filter
       limit: $limit
@@ -62,46 +19,28 @@ export const listCourses = /* GraphQL */ `
     ) {
       items {
         id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
+        date
+        type
+        contentEmail
+        email
+        wasSent
+        userSend{
+          id
+          name
+        }
+        student{ 
+          id
+          name
+          lastName
+        }
         createdAt
         updatedAt
-        locationCoursesId
+        usersEmailSendId
+        studentEmailSendId
         __typename
-        schedules{
-          items{
-            id
-            day
-            startHour
-            endHour
-          }
-      }
-      sessionTypes{
-        items{
-          sessionType{
-            id
-            name
-            totalSessions
-            amount
-          }
-        }
-      }
       }
       nextToken
       __typename
     }
   }
 `;
-
-
-/********************************************************
-*                    MUTATIONS
-********************************************************/
-
-

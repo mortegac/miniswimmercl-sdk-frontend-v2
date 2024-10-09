@@ -251,25 +251,10 @@ export const getEmailSend = /* GraphQL */ `
       id
       date
       type
+      contentEmail
       email
-      studentName
-      studentId
-      totalSessions
-      session1
-      session2
-      session3
-      session4
-      session5
-      session6
-      session7
-      session8
-      urlCancellationPolicies
-      courseName
-      courseSchedule
-      imageMap
-      urlMap
-      directions
-      user {
+      wasSent
+      userSend {
         id
         name
         email
@@ -282,9 +267,33 @@ export const getEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
       createdAt
       updatedAt
       usersEmailSendId
+      studentEmailSendId
       __typename
     }
   }
@@ -308,27 +317,13 @@ export const listEmailSends = /* GraphQL */ `
         id
         date
         type
+        contentEmail
         email
-        studentName
-        studentId
-        totalSessions
-        session1
-        session2
-        session3
-        session4
-        session5
-        session6
-        session7
-        session8
-        urlCancellationPolicies
-        courseName
-        courseSchedule
-        imageMap
-        urlMap
-        directions
+        wasSent
         createdAt
         updatedAt
         usersEmailSendId
+        studentEmailSendId
         __typename
       }
       nextToken
@@ -845,6 +840,7 @@ export const getStudent = /* GraphQL */ `
       sessionDetail {
         id
         date
+        day
         month
         year
         sessionNumber
@@ -856,6 +852,10 @@ export const getStudent = /* GraphQL */ `
         updatedAt
         enrollmentSessionDetailsId
         sessionDetailStudentId
+        __typename
+      }
+      emailSend {
+        nextToken
         __typename
       }
       createdAt
@@ -951,6 +951,7 @@ export const getEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename
@@ -1038,6 +1039,7 @@ export const getSessionDetail = /* GraphQL */ `
     getSessionDetail(id: $id) {
       id
       date
+      day
       month
       year
       sessionNumber
@@ -1104,6 +1106,7 @@ export const listSessionDetails = /* GraphQL */ `
       items {
         id
         date
+        day
         month
         year
         sessionNumber
@@ -1355,6 +1358,7 @@ export const getSessionType = /* GraphQL */ `
       timeAWeek
       totalSessions
       amount
+      packValidity
       courses {
         nextToken
         __typename
@@ -1392,6 +1396,7 @@ export const listSessionTypes = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename
@@ -1760,6 +1765,7 @@ export const getCourseSessionType = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        packValidity
         createdAt
         updatedAt
         __typename

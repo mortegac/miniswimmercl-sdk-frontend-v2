@@ -1,17 +1,61 @@
 import { generateClient } from 'aws-amplify/api';
+
 import emailjs, { init } from "emailjs-com";
 const SERVICE = "service_ucb8wga";
 const TEMPLATE = "template_rbmzu0w";
 init("Csc41asZklkk5HTWk");
 
-import { InputOptions } from "./types";
+import { InputOptions, FilterOptions } from "./types";
 
-import { listCourses } from './queries';
+import { listEmailSends } from './queries';
+import { createEmailSend } from './mutation';
+
 const client = generateClient();
 
 
 
-
+export const createEmailSent = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const setData:any = await client.graphql({
+        query: createEmailSend,
+        variables: {
+          input: {            
+            date:  new Date(Date.now()).toISOString(),
+            type:  objFilter.type,
+            contentEmail:  objFilter.contentEmail,
+            email:  objFilter.email,
+            usersEmailSendId: objFilter.usersEmailSendId,
+            studentEmailSendId: objFilter.studentEmailSendId,
+          }
+        }
+      });
+      
+      console.log("<<< EMAIL CREADO <<<<< ", setData)
+      const data = setData.data;
+      
+      if(data?.createEmailSend?.id !== undefined){
+        resolve({ ...data.createEmailSend } as any);
+      }else{
+          reject({
+            errorMessage: "Fallo al crear el email",
+          });
+        
+      }
+        
+      // ...userData.data.getUsers
+      // } else {
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
 
 
 export const sentWelcomeEmail = async (data: InputOptions): Promise<any> => {
@@ -92,19 +136,26 @@ export const sentWelcomeEmail = async (data: InputOptions): Promise<any> => {
     }
   });
 };
-export const fetchData = async (): Promise<any> => {
+
+export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
      
       const getData:any = await client.graphql({
-        query: listCourses,
-        // variables: { id: userId },
+        query: listEmailSends,
+        // variables: { studentEmailSendId: objFilter.studentEmailSendId },
+        variables: { 
+          filter:{
+            studentEmailSendId: {eq: String(objFilter.studentEmailSendId)},
+          }
+        }
+           
       });
       
-      // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
+      console.log("<<< EMAILS DATA <<<<< ", data.listEmailSends.items)
       
-        resolve({ ...data.listCourses } as any);
+        resolve([ ...data.listEmailSends.items] as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -113,11 +164,9 @@ export const fetchData = async (): Promise<any> => {
       //   });
       // }
     } catch (err) {
-      reject(
-        JSON.stringify({
-          errorMessage: err,
-        })
-      );
+      reject({
+        errorMessage:err
+      });
     }
   });
 };

@@ -16,6 +16,7 @@ import enrollmentReducer from "./Enrollment/slice";
 import parametersReducer from "./Parameters/slice";
 import relationshipsReducer from "./Relationships/slice";
 import academyStudentsReducer from "./AcademyStudents/slice";
+import emailSendReducer from "./EmailsSent/slice";
 
 
 export const store = configureStore({
@@ -37,6 +38,7 @@ export const store = configureStore({
     parameters: parametersReducer,
     relationships: relationshipsReducer,
     academyStudents: academyStudentsReducer,
+    emailSend: emailSendReducer,
   },
 });
 

@@ -1,13 +1,20 @@
 import { useState, useEffect, useCallback } from "react";
 import _ from "lodash";
 import debounce from 'lodash/debounce';
+import Toastify from "toastify-js";
+import emailjs, { init } from "emailjs-com";
+const SERVICE = "service_ucb8wga";  // welcome@mini..
+const TEMPLATE = "template_5kxuc3t"; // Welcome_v2
+init("Csc41asZklkk5HTWk");
 
+
+import Notification from "@/components/Base/Notification";
 import LoadingIcon from "@/components/Base/LoadingIcon";
+import Alert from "@/components/Base/Alert";
 import { Slideover } from "@/components/Base/Headless";
 import Lucide from "@/components/Base/Lucide";
-import { Menu, Popover } from "@/components/Base/Headless";
-import Pagination from "@/components/Base/Pagination";
-import { FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
+import { Menu, Popover } from "@/components/Base/Headless"
+import {FormInput, FormSelect } from "@/components/Base/Form";
 import users from "@/fakers/users";
 import Button from "@/components/Base/Button";
 import Table from "@/components/Base/Table";
@@ -15,12 +22,17 @@ import Table from "@/components/Base/Table";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
+import { selectAuth } from "@/stores/Users/slice";
+
+
 
 import { getStudents, selectEnrollment } from "@/stores/Enrollment/slice";
 import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
+import { setEmailSend, selectEmailSend, cleanSentVar } from "@/stores/EmailsSent/slice";
 import { Location } from "@/stores/Locations/types";
 
-import {EmailTemplate} from "./EmailTemplate";
+import {EmailTemplate, HTML} from "./EmailTemplate";
+import {EmailHistorial} from "./EmailHistorial";
 
 const typeOfRelationship: any = {
   [""]: "",
@@ -131,10 +143,13 @@ function Content(props: any) {
 
   const { enrollments, locations } = props;
   const [switcherSlideover, setSwitcherSlideover] = useState(false);
+  const [switcherSlideHistorial, setSwitcherSlideHistorial] = useState(false);
+  const [studentListId, setStudentListId] = useState("");
   const [dataEMail, setDataEMail] = useState({
     reply_to: "",
     to_client_email: "",
     to_student_name: "",
+    to_student_id: "",
     to_course_name: "",
     to_session_1:"",
     to_session_2:"",
@@ -154,11 +169,132 @@ function Content(props: any) {
     to_recomendation:""
   });
   
+  const {email}= useAppSelector(selectAuth);
+  const {wasSent} = useAppSelector(selectEmailSend);
+  const dispatch = useAppDispatch();
+  
   function findLocationById(locations: Location[], id: string): Location | undefined {
     return locations.find(location => location.id === id);
   }
+  
+  
+  const onSendEmail = async () => {
+    
+    const templateEmail =HTML(dataEMail)
+    
+    emailjs.send(SERVICE, TEMPLATE, dataEMail).then(
+      function (response) {
+        
+        dispatch(setEmailSend({
+          type:  "WELCOME",
+          contentEmail:  templateEmail,
+          email:  dataEMail.to_client_email,
+          usersEmailSendId: email,
+          studentEmailSendId: dataEMail.to_student_id,
+          wasSent: true
+        }))
+        
+        
+        const successEl = document
+        .querySelectorAll("#success-notification-content")[0]
+        .cloneNode(true) as HTMLElement;
+        successEl.classList.remove("hidden");
+        Toastify({
+          node: successEl,
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+        }).showToast();
+    
+      
+      },
+      function (error) {
+        dispatch(setEmailSend({
+          type:  "WELCOME",
+          contentEmail:  templateEmail,
+          email:  dataEMail.to_client_email,
+          usersEmailSendId: email,
+          studentEmailSendId: dataEMail.to_student_id,
+          wasSent: false
+        }))
+        
+        console.log("FAILED...", error);
+      }
+    ).catch(err => {
+      dispatch(setEmailSend({
+        type:  "WELCOME",
+        contentEmail:  templateEmail,
+        email:  dataEMail.to_client_email,
+        usersEmailSendId: email,
+        studentEmailSendId: dataEMail.to_student_id,
+        wasSent: false
+      }))
+      
+      console.log("err ", err)
+    }
+    
+    //   setIsSentEmail({
+    //   sentEmail: true,
+    //   isFailure: true,
+    //   title: "Página no encontrada 😭",
+    //   text: "No encontramos la página solicitada ",
+    //   response: response || '',
+    // })
+    );
+
+    
+    
+  }
   return (
     <>
+     <Notification
+        id="success-notification-content"
+        className="flex hidden"
+      >
+        <Lucide icon="CheckCircle" className="text-success" />
+        <div className="ml-4 mr-4">
+          <div className="font-medium">Email Enviado!</div>
+          <div className="mt-1 text-slate-500">
+            Revise el historial de envíos del Alumno
+          </div>
+        </div>
+      </Notification>
+    <Slideover
+    // Size = "sm" | "md" | "lg" | "xl";
+        size="xl"
+        key="Slide-Historial"
+        open={switcherSlideHistorial}
+        onClose={() => {
+          setSwitcherSlideHistorial(false);
+        }}
+      >
+        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+          <a
+            href=""
+            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
+            onClick={(e) => {
+              e.preventDefault();
+              setSwitcherSlideHistorial(false);
+            }}
+          >
+            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
+          </a>
+          <Slideover.Description className="p-0">
+            <div className="flex flex-col">
+              <div className="px-8 pt-6 pb-8">
+                <div className="text-base font-medium">Histórico de envios</div>
+                <div className="text-slate-500 mt-0.5  mb-12">
+                  Revise el detalle de email enviado
+                </div>
+                { studentListId && <EmailHistorial studentId={studentListId}/>}
+              </div>
+            </div>
+          </Slideover.Description>
+        </Slideover.Panel>
+    </Slideover>
     <Slideover
     // Size = "sm" | "md" | "lg" | "xl";
         size="xl"
@@ -173,6 +309,7 @@ function Content(props: any) {
             className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
             onClick={(e) => {
               e.preventDefault();
+              dispatch(cleanSentVar())
               setSwitcherSlideover(false);
             }}
           >
@@ -186,35 +323,85 @@ function Content(props: any) {
                   Revise la información
                 </div>
               {/* <pre>{JSON.stringify(dataEMail, null, 2 )}</pre> */}
-              <EmailTemplate data={dataEMail}/>
+              { wasSent && <>
+                <Alert variant="soft-primary" className="flex items-center mt-12">
+                  
+                  <>
+                  <svg width="320" height="315" viewBox="0 0 320 315" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0L102.069 225.243L168.132 181.85L212.607 192.746L221.908 125.397L268.87 78.3034L0 0ZM44.7093 35.3053L201.638 119.079L199.605 166.508L44.7093 35.3053Z" fill="#F194EE"/>
+                    <path d="M229.209 209.328C236.99 217.036 244.214 225.182 251.264 233.46C258.284 241.752 265.099 250.206 271.71 258.82C278.32 267.419 284.741 276.18 290.942 285.116C297.114 294.067 303.125 303.134 308.551 312.655C300.755 304.948 293.545 296.816 286.496 288.538C279.476 280.246 272.661 271.792 266.05 263.178C259.439 254.564 253.019 245.803 246.832 236.882C240.646 227.902 234.65 218.835 229.209 209.328Z" fill="#AE5EAB"/>
+                    <path d="M161.961 210.793C169.742 218.5 176.966 226.647 184.016 234.925C191.036 243.217 197.851 251.67 204.462 260.285C211.072 268.884 217.493 277.645 223.694 286.581C229.866 295.531 235.877 304.599 241.303 314.12C233.507 306.413 226.297 298.281 219.248 290.003C212.228 281.711 205.412 273.257 198.802 264.643C192.191 256.029 185.771 247.268 179.57 238.347C173.413 229.367 167.402 220.299 161.961 210.793Z" fill="#AE5EAB"/>
+                    <path d="M240.656 125.484C248.437 133.192 255.662 141.338 262.711 149.616C269.731 157.908 276.547 166.362 283.157 174.976C289.768 183.576 296.188 192.336 302.389 201.272C308.561 210.223 314.572 219.291 319.998 228.812C312.203 221.104 304.993 212.972 297.943 204.695C290.923 196.402 284.108 187.949 277.512 179.334C270.901 170.72 264.481 161.96 258.28 153.038C252.108 144.058 246.097 134.991 240.656 125.484Z" fill="#AE5EAB"/>
+                    </svg>
+                    <h3 className="mt-3 text-2xl font-medium leading-none">
+                      Email enviado!
+                    </h3>
+                    {/* <Alert.DismissButton type="button" className="text-white" aria-label="Close" 
+                        onClick={dismiss}
+                        >
+                          <Lucide icon="X" className="w-4 h-4" />
+                    </Alert.DismissButton> */}
+                  </>
+                  
+              </Alert>
+              </> }
+              
+              { !wasSent &&
+                <EmailTemplate data={dataEMail}/>
+              }
+              
               
               {/* <pre>{JSON.stringify(locations, null, 2 )}</pre> */}
               </div>
-              <div className="flex-1 justify-center border-b border-dashed bg-pink-200"></div>
-              <Button
-                variant="primary"
-                rounded
-                className="m-8 p-4 w-[60%]"
-                onClick={(event: React.MouseEvent) => {
-                  event.preventDefault();
-                  // setSwitcherSlideover(true);
-                }}
-                >
-                <Lucide icon="PenLine" className="stroke-[1.3] w-4 h-4 mr-2" />{" "}
-                Enviar Email
-              </Button>
-              {/* <div className="px-8 pt-6 pb-8">
-                <div className="text-base font-medium">Color Schemes</div>
-                <div className="text-slate-500 mt-0.5">
-                  Choose your color schemes
-                </div>
-            
-              </div> */}
+              { !wasSent &&
+                <>
+                  <div className="border-b border-dashed"></div>
+                  <div className="flex flex-col justify-center items-center">
+                  <div className="relative w-[60%] mt-4">
+                      <Lucide
+                        icon="Mail"
+                        className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
+                      />
+                      <FormInput
+                          formInputSize="lg"
+                          placeholder="Email destinario..."
+                          aria-label="name" 
+                          aria-describedby="input-group-name"
+                          type="text"
+                          tabIndex={1} 
+                          // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
+                          className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
+                          name="guardianEmail"
+                          value={dataEMail.to_client_email}
+                          onChange={(e)=>setDataEMail({
+                            ...dataEMail,
+                            to_client_email : e.target.value
+                          })}
+                        />
+                    </div>
+                    <Button
+                      variant="primary"
+                      rounded
+                      className="m-8 p-4 w-[60%]"
+                      onClick={(event: React.MouseEvent) => {
+                        event.preventDefault();
+                        onSendEmail()
+                        // setSwitcherSlideover(true);
+                      }}
+                      >
+                      <Lucide icon="PenLine" className="stroke-[1.3] w-4 h-4 mr-2" />{" "}
+                      Enviar Email
+                    </Button>
+                  </div>
+                </>
+              }
+              
+              
              
             </div>
           </Slideover.Description>
         </Slideover.Panel>
-      </Slideover>
+    </Slideover>
       <div className="overflow-auto xl:overflow-visible">
            {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
             <Button
@@ -327,7 +514,7 @@ function Content(props: any) {
                           className="w-5 h-5 stroke-slate-400/70 fill-slate-400/70"
                         />
                       </Menu.Button>
-                      <Menu.Items className="w-40">
+                      <Menu.Items className="w-52">
                       <Menu.Item 
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
@@ -337,6 +524,7 @@ console.log("--location--", location)
                             reply_to:"hola@miniswimmer.cl",
                             to_client_email:item?.student?.emailPhone,
                             to_student_name:`${item?.student?.name} ${item?.student?.lastName}`,
+                            to_student_id:item?.student?.id,
                             to_course_name:item?.course?.title,
                             to_session_1:item?.sessionDetails?.items[0]?.date && formatDate(item?.sessionDetails?.items[0].date),
                             to_session_2:item?.sessionDetails?.items[1]?.date && formatDate(item?.sessionDetails?.items[1].date),
@@ -348,7 +536,7 @@ console.log("--location--", location)
                             to_session_8:item?.sessionDetails?.items[8]?.date && formatDate(item?.sessionDetails?.items[8].date),
                             to_location:item?.course?.location?.name,
                             to_location_id:item?.course?.location?.id,
-                            to_pack_vigencia:item?.sessionType.totalSessions===4 ? "30":"45",
+                            to_pack_vigencia:item?.sessionType.totalSessions===8 ? "45":"30",
                             to_mapurl:location?.urlMap || "",
                             to_mapimage:location?.imageMap || "",
                             to_location_address:location?.address || "",
@@ -358,12 +546,25 @@ console.log("--location--", location)
                           setSwitcherSlideover(true);
                         }}>
                           <Lucide
-                            icon="Mail"
+                            icon="Send"
                             className="w-4 h-4 mr-2"
                           />{" "}
                           Enviar Email
                         </Menu.Item>
-                        {/* <Menu.Item>
+                      <Menu.Item 
+                        onClick={(event: React.MouseEvent) => {
+                          event.preventDefault();
+                          setStudentListId(item?.student?.id)
+                          setSwitcherSlideHistorial(true);
+                        }}>
+                          <Lucide
+                            icon="Mail"
+                            className="w-4 h-4 mr-2"
+                          />{" "}
+                          Histórico envíos
+                        </Menu.Item>
+                        {/* 
+                        <Menu.Item>
                           <Lucide
                             icon="CheckSquare"
                             className="w-4 h-4 mr-2"
