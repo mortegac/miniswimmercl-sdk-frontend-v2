@@ -25,8 +25,8 @@ const typeOfMonth: any = {
 function Content(props: any) {
     const {email} = props;
     const [date, hour] = email.date.split('T');
-    const [year, month, day] = date.split('-');
-    const [hourFull, rest] = hour.split('.');
+    // const [year, month, day] = date.split('-');
+    // const [hourFull, rest] = hour.split('.');
     return(
         <>
         {/* <pre>{JSON.stringify(email, null, 2 )}</pre> */}
@@ -38,8 +38,9 @@ function Content(props: any) {
                     </Table.Td>
                     <Table.Td className="py-4 border-dashed dark:bg-darkmode-600">
                     <div className="flex flex-col items-center justify-start">
-                    <p className="text-sm">{`${day} ${typeOfMonth[month]} ${year}`}</p>
-                    <p className="font-thin text-sm">{hourFull}</p>
+                    {/* <p className="text-sm">{`${date} ${typeOfMonth[month]} ${year}`}</p> */}
+                    <p className="text-sm">{`${date}`}</p>
+                    <p className="font-thin text-sm">{hour}</p>
                     </div>
                     </Table.Td>
                     <Table.Td className="w-60 py-4 border-dashed">
