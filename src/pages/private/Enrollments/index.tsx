@@ -141,6 +141,7 @@ function calcularEdad(fechaNacimientoString: string): { años: number; meses: nu
 
 function Content(props: any) {
 
+  const [isSaved, setIsSaved] = useState<boolean>(false);
   const { enrollments, locations } = props;
   const [switcherSlideover, setSwitcherSlideover] = useState(false);
   const [switcherSlideHistorial, setSwitcherSlideHistorial] = useState(false);
@@ -179,6 +180,7 @@ function Content(props: any) {
   
   
   const onSendEmail = async () => {
+    setIsSaved(true)
     
     const templateEmail =HTML(dataEMail)
     
@@ -244,7 +246,8 @@ function Content(props: any) {
     //   response: response || '',
     // })
     );
-
+    
+    setIsSaved(false)
     
     
   }
@@ -377,17 +380,22 @@ function Content(props: any) {
                           })}
                         />
                     </div>
+                    {/* <pre>{JSON.stringify(isSaved, null, 2)}</pre> */}
                     <Button
                       variant="primary"
                       rounded
-                      className="m-8 p-4 w-[60%]"
-                      onClick={(event: React.MouseEvent) => {
-                        event.preventDefault();
+                      onClick={()=> {
                         onSendEmail()
-                        // setSwitcherSlideover(true);
                       }}
+                      disabled = {isSaved}
+                      className="m-8 p-4 w-[60%]"
+                      // onClick={(event: React.MouseEvent) => {
+                      //   event.preventDefault();
+                      //   onSendEmail()
+                      // }}
                       >
-                      <Lucide icon="PenLine" className="stroke-[1.3] w-4 h-4 mr-2" />{" "}
+                      {/* <Lucide icon="PenLine" className="stroke-[1.3] w-4 h-4 mr-2" />{" "} */}
+                      {isSaved && <LoadingIcon icon="puff" color="#FFFFFF" className="mr-2 w-8 h-8" />}
                       Enviar Email
                     </Button>
                   </div>
