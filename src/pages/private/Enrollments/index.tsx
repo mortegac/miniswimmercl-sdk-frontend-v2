@@ -263,7 +263,6 @@ function Content(props: any) {
         </div>
       </Notification>
     <Slideover
-    // Size = "sm" | "md" | "lg" | "xl";
         size="xl"
         key="Slide-Historial"
         open={switcherSlideHistorial}
@@ -296,7 +295,6 @@ function Content(props: any) {
         </Slideover.Panel>
     </Slideover>
     <Slideover
-    // Size = "sm" | "md" | "lg" | "xl";
         size="xl"
         open={switcherSlideover}
         onClose={() => {
@@ -403,19 +401,6 @@ function Content(props: any) {
         </Slideover.Panel>
     </Slideover>
       <div className="overflow-auto xl:overflow-visible">
-           {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-            <Button
-            variant="primary"
-            className="group-[.mode--light]:!bg-white/[0.12] group-[.mode--light]:!text-slate-200 group-[.mode--light]:!border-transparent"
-            onClick={(event: React.MouseEvent) => {
-              event.preventDefault();
-              setSwitcherSlideover(true);
-            }}
-            >
-            <Lucide icon="PenLine" className="stroke-[1.3] w-4 h-4 mr-2" />{" "}
-            Nueva inscripción
-            </Button>
-            </div> */}
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
             <Table.Tr>
@@ -448,7 +433,7 @@ function Content(props: any) {
           <Table.Tbody>
             {/* <pre>{JSON.stringify(enrollments[0], null, 2)}</pre> */}
             {Array.isArray(enrollments) && enrollments.map((item:any, index) => {
-              const [day, month, year] = item?.startDate.split('-');
+              const [month, day, year] = item?.startDate.split('-');
               const edad = calcularEdad(String(item?.student?.birthdate === "" ? "1800/01/01":item?.student?.birthdate ));                
               
               // const sortedSessions = Array.isArray(item?.sessionDetails?.items) &&  sortByEndDate(item?.sessionDetails?.items);
@@ -484,11 +469,13 @@ function Content(props: any) {
                 <Table.Td className="w-60 py-4 border-dashed">
                   <div className="flex items-center justify-start flex-col">
                     {item?.course?.title}
-                    <p className="font-thin text-red-400">Vigencia: {`${day} - ${typeOfMonth[month]}-${year}`}</p>
+                    {/* <p className="font-thin text-green-700">Inscripción: {`${day} - ${typeOfMonth[month]}-${year}`}</p> */}
+                    <p className="font-thin text-green-700">Inscripción: {`${formatDate(item?.startDate)}`}</p>
+                    {/* <p className="font-thin text-green-700">- {`${item?.startDate}`}</p> */}
                   </div>
                 </Table.Td>
                 <Table.Td className="w-72 py-4 border-dashed">
-                  <div className="flex items-center justify-start">
+                  <div className="flex items-center justify-start uppercase">
                     {item?.course?.location?.name}
                   </div>
                 </Table.Td>
