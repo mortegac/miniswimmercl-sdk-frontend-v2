@@ -63,9 +63,9 @@ const initialState: SideMenuState = {
       title: "Inscripción rápida",
     },
     {
-      icon: "CheckCircle",
+      icon: "Send",
       pathname: ENROLLMENTS,
-      title: "Incripciones",
+      title: "Envío de email",
     },
     {
       icon: "HardDrive",

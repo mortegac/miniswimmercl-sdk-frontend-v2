@@ -2,18 +2,34 @@ import { generateClient } from 'aws-amplify/api';
 
 
 import { listCourses } from './queries';
+import { FilterOptions } from './types';
 const client = generateClient();
 
 
 
 
-export const fetchData = async (): Promise<any> => {
+export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
      
+      
+  
+      const filterlocationId = (typeof objFilter?.locationId === 'undefined') ?
+      {} : { locationCoursesId: { eq: String(objFilter.locationId) } };
+      
+      const filterIsActive = (typeof objFilter?.isActive === 'undefined') ?
+      { isActive: { eq: true } } : { isActive: { eq: Boolean(objFilter.isActive) } };
+      
+      const filter: any = {
+        ...filterlocationId,
+        ...filterIsActive,
+      };
+      
       const getData:any = await client.graphql({
         query: listCourses,
-        // variables: { id: userId },
+        variables: { 
+            filter: {...filter},
+        }
       });
       
       // console.log("<<< STUDENTS DATA <<<<< ", getData)

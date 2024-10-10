@@ -56,7 +56,7 @@ function Main() {
   
   dispatch(setBreadcrumb({first:"Listado de cursos", firstURL:"courses"}));
   
-  useEffect(() => { (async () => await dispatch(getCourses()))(); }, []);
+  useEffect(() => { (async () => await dispatch(getCourses({isActive:true})))(); }, []);
 
   
 
@@ -70,14 +70,46 @@ function Main() {
               Listado de Cursos
             </div>
             <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-              {/* <Button
+              <Button
                 rounded
                 variant="primary"
                 className="px-8 py-3 border border-slate-200"
+                onClick={()=>dispatch(getCourses({isActive:true, locationId:"CLUB-PATO-CORNEJO"}))}
               >
-                <Lucide icon="Plus" className="w-6 h-6 mr-2" />{" "}
-                <span className="text-border-slate-200">Nuevo Curso</span>
-              </Button> */}
+                <span className="text-border-slate-200">Lo Barnechea</span>
+              </Button>
+              <Button
+                rounded
+                variant="primary"
+                className="px-8 py-3 border border-slate-200"
+                onClick={()=>dispatch(getCourses({isActive:true, locationId:"MI-CLUB-PREMIUM"}))}
+              >
+                <span className="text-border-slate-200">Mi Club </span>
+              </Button>
+              <Button
+                rounded
+                variant="primary"
+                className="px-8 py-3 border border-slate-200"
+                onClick={()=>dispatch(getCourses({isActive:true, locationId:"VITACURA-PISCINA-MUNICIPAL"}))}
+              >
+                <span className="text-border-slate-200">Vitacura </span>
+              </Button>
+              <Button
+                rounded
+                variant="primary"
+                className="px-8 py-3 border border-slate-200"
+                onClick={()=>dispatch(getCourses({isActive:true, locationId:"COLEGIO-JOHN-ANDREWS"}))}
+              >
+                <span className="text-border-slate-200">Colegio John Andrews </span>
+              </Button>
+              <Button
+                rounded
+                variant="primary"
+                className="px-8 py-3 border border-slate-200"
+                onClick={()=>dispatch(getCourses({isActive:true}))}
+              >
+                <span className="text-border-slate-200">Todos</span>
+              </Button>
             </div>
           </div>
           <div className="flex flex-col gap-8 mt-8">

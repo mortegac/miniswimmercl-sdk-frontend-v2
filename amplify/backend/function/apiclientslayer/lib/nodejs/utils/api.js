@@ -24,7 +24,7 @@ const API = async ({ env, type = "", _query, _variables = {} }) => {
 
         console.log(`------getEnviroment-------: ${JSON.stringify(ENV.message)}`);
         console.log(`------_variables-------: ${JSON.stringify(_variables)}`);
-        // console.log(`------_query-------: ${JSON.stringify(_query)}`);
+        console.log(`------_query-------: ${JSON.stringify(_query)}`);
 
         try {
             const params = {

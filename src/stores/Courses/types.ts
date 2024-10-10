@@ -65,3 +65,8 @@ export const emptyCourse: Course = {
 
 
 
+export type FilterOptions  = {
+  locationId?: string;
+  isActive?: boolean;
+
+}

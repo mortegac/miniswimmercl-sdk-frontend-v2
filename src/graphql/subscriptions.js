@@ -470,8 +470,8 @@ export const onCreateEmailSend = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      usersEmailSendId
       studentEmailSendId
+      usersEmailSendId
       __typename
     }
   }
@@ -525,8 +525,8 @@ export const onUpdateEmailSend = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      usersEmailSendId
       studentEmailSendId
+      usersEmailSendId
       __typename
     }
   }
@@ -580,8 +580,8 @@ export const onDeleteEmailSend = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      usersEmailSendId
       studentEmailSendId
+      usersEmailSendId
       __typename
     }
   }
@@ -1060,915 +1060,6 @@ export const onDeletePermissions = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUsers = /* GraphQL */ `
-  subscription OnCreateUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onCreateUsers(filter: $filter) {
-      id
-      name
-      email
-      validated
-      contactPhone
-      ig
-      firstContact
-      emailSend {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      userTickets {
-        nextToken
-        __typename
-      }
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      usersRolesId
-      __typename
-    }
-  }
-`;
-export const onUpdateUsers = /* GraphQL */ `
-  subscription OnUpdateUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onUpdateUsers(filter: $filter) {
-      id
-      name
-      email
-      validated
-      contactPhone
-      ig
-      firstContact
-      emailSend {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      userTickets {
-        nextToken
-        __typename
-      }
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      usersRolesId
-      __typename
-    }
-  }
-`;
-export const onDeleteUsers = /* GraphQL */ `
-  subscription OnDeleteUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onDeleteUsers(filter: $filter) {
-      id
-      name
-      email
-      validated
-      contactPhone
-      ig
-      firstContact
-      emailSend {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      userTickets {
-        nextToken
-        __typename
-      }
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      usersRolesId
-      __typename
-    }
-  }
-`;
-export const onCreateRelationship = /* GraphQL */ `
-  subscription OnCreateRelationship(
-    $filter: ModelSubscriptionRelationshipFilterInput
-  ) {
-    onCreateRelationship(filter: $filter) {
-      id
-      user {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      relationType
-      createdAt
-      updatedAt
-      usersRelationshipsId
-      studentRelationshipsId
-      __typename
-    }
-  }
-`;
-export const onUpdateRelationship = /* GraphQL */ `
-  subscription OnUpdateRelationship(
-    $filter: ModelSubscriptionRelationshipFilterInput
-  ) {
-    onUpdateRelationship(filter: $filter) {
-      id
-      user {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      relationType
-      createdAt
-      updatedAt
-      usersRelationshipsId
-      studentRelationshipsId
-      __typename
-    }
-  }
-`;
-export const onDeleteRelationship = /* GraphQL */ `
-  subscription OnDeleteRelationship(
-    $filter: ModelSubscriptionRelationshipFilterInput
-  ) {
-    onDeleteRelationship(filter: $filter) {
-      id
-      user {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      relationType
-      createdAt
-      updatedAt
-      usersRelationshipsId
-      studentRelationshipsId
-      __typename
-    }
-  }
-`;
-export const onCreateStudent = /* GraphQL */ `
-  subscription OnCreateStudent($filter: ModelSubscriptionStudentFilterInput) {
-    onCreateStudent(filter: $filter) {
-      id
-      name
-      lastName
-      middleName
-      birthdate
-      placeOfResidence
-      contactPhone
-      whoIsTheContact
-      emailPhone
-      gender
-      firstSwimmingClass
-      attendedDaycare
-      immersesWithoutSwallowingWater
-      bornPrematurely
-      waterOnHisFaceBothersHim
-      putYourFaceInTheWater
-      anyIllnessInjuryMedicalCondition
-      enrollments {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      sessionDetail {
-        id
-        date
-        day
-        month
-        year
-        sessionNumber
-        totalSessions
-        status
-        proratedValue
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      emailSend {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentSessionDetailId
-      __typename
-    }
-  }
-`;
-export const onUpdateStudent = /* GraphQL */ `
-  subscription OnUpdateStudent($filter: ModelSubscriptionStudentFilterInput) {
-    onUpdateStudent(filter: $filter) {
-      id
-      name
-      lastName
-      middleName
-      birthdate
-      placeOfResidence
-      contactPhone
-      whoIsTheContact
-      emailPhone
-      gender
-      firstSwimmingClass
-      attendedDaycare
-      immersesWithoutSwallowingWater
-      bornPrematurely
-      waterOnHisFaceBothersHim
-      putYourFaceInTheWater
-      anyIllnessInjuryMedicalCondition
-      enrollments {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      sessionDetail {
-        id
-        date
-        day
-        month
-        year
-        sessionNumber
-        totalSessions
-        status
-        proratedValue
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      emailSend {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentSessionDetailId
-      __typename
-    }
-  }
-`;
-export const onDeleteStudent = /* GraphQL */ `
-  subscription OnDeleteStudent($filter: ModelSubscriptionStudentFilterInput) {
-    onDeleteStudent(filter: $filter) {
-      id
-      name
-      lastName
-      middleName
-      birthdate
-      placeOfResidence
-      contactPhone
-      whoIsTheContact
-      emailPhone
-      gender
-      firstSwimmingClass
-      attendedDaycare
-      immersesWithoutSwallowingWater
-      bornPrematurely
-      waterOnHisFaceBothersHim
-      putYourFaceInTheWater
-      anyIllnessInjuryMedicalCondition
-      enrollments {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      sessionDetail {
-        id
-        date
-        day
-        month
-        year
-        sessionNumber
-        totalSessions
-        status
-        proratedValue
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      emailSend {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentSessionDetailId
-      __typename
-    }
-  }
-`;
-export const onCreateEnrollment = /* GraphQL */ `
-  subscription OnCreateEnrollment(
-    $filter: ModelSubscriptionEnrollmentFilterInput
-  ) {
-    onCreateEnrollment(filter: $filter) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        timeAWeek
-        totalSessions
-        amount
-        packValidity
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
-  }
-`;
-export const onUpdateEnrollment = /* GraphQL */ `
-  subscription OnUpdateEnrollment(
-    $filter: ModelSubscriptionEnrollmentFilterInput
-  ) {
-    onUpdateEnrollment(filter: $filter) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        timeAWeek
-        totalSessions
-        amount
-        packValidity
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
-  }
-`;
-export const onDeleteEnrollment = /* GraphQL */ `
-  subscription OnDeleteEnrollment(
-    $filter: ModelSubscriptionEnrollmentFilterInput
-  ) {
-    onDeleteEnrollment(filter: $filter) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        timeAWeek
-        totalSessions
-        amount
-        packValidity
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
-  }
-`;
-export const onCreateSessionDetail = /* GraphQL */ `
-  subscription OnCreateSessionDetail(
-    $filter: ModelSubscriptionSessionDetailFilterInput
-  ) {
-    onCreateSessionDetail(filter: $filter) {
-      id
-      date
-      day
-      month
-      year
-      sessionNumber
-      totalSessions
-      status
-      proratedValue
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
-  }
-`;
-export const onUpdateSessionDetail = /* GraphQL */ `
-  subscription OnUpdateSessionDetail(
-    $filter: ModelSubscriptionSessionDetailFilterInput
-  ) {
-    onUpdateSessionDetail(filter: $filter) {
-      id
-      date
-      day
-      month
-      year
-      sessionNumber
-      totalSessions
-      status
-      proratedValue
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
-  }
-`;
-export const onDeleteSessionDetail = /* GraphQL */ `
-  subscription OnDeleteSessionDetail(
-    $filter: ModelSubscriptionSessionDetailFilterInput
-  ) {
-    onDeleteSessionDetail(filter: $filter) {
-      id
-      date
-      day
-      month
-      year
-      sessionNumber
-      totalSessions
-      status
-      proratedValue
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
-  }
-`;
 export const onCreateLocation = /* GraphQL */ `
   subscription OnCreateLocation($filter: ModelSubscriptionLocationFilterInput) {
     onCreateLocation(filter: $filter) {
@@ -2207,6 +1298,7 @@ export const onCreateSchedule = /* GraphQL */ `
       day
       startHour
       endHour
+      isActive
       course {
         id
         title
@@ -2252,6 +1344,7 @@ export const onUpdateSchedule = /* GraphQL */ `
       day
       startHour
       endHour
+      isActive
       course {
         id
         title
@@ -2297,6 +1390,7 @@ export const onDeleteSchedule = /* GraphQL */ `
       day
       startHour
       endHour
+      isActive
       course {
         id
         title
@@ -2412,6 +1506,588 @@ export const onDeleteSessionType = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateStudent = /* GraphQL */ `
+  subscription OnCreateStudent($filter: ModelSubscriptionStudentFilterInput) {
+    onCreateStudent(filter: $filter) {
+      id
+      name
+      lastName
+      middleName
+      birthdate
+      placeOfResidence
+      contactPhone
+      whoIsTheContact
+      emailPhone
+      gender
+      firstSwimmingClass
+      attendedDaycare
+      immersesWithoutSwallowingWater
+      bornPrematurely
+      waterOnHisFaceBothersHim
+      putYourFaceInTheWater
+      anyIllnessInjuryMedicalCondition
+      enrollments {
+        nextToken
+        __typename
+      }
+      relationships {
+        nextToken
+        __typename
+      }
+      sessionDetail {
+        id
+        date
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        createdAt
+        updatedAt
+        enrollmentSessionDetailsId
+        sessionDetailStudentId
+        __typename
+      }
+      emailSend {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      studentSessionDetailId
+      __typename
+    }
+  }
+`;
+export const onUpdateStudent = /* GraphQL */ `
+  subscription OnUpdateStudent($filter: ModelSubscriptionStudentFilterInput) {
+    onUpdateStudent(filter: $filter) {
+      id
+      name
+      lastName
+      middleName
+      birthdate
+      placeOfResidence
+      contactPhone
+      whoIsTheContact
+      emailPhone
+      gender
+      firstSwimmingClass
+      attendedDaycare
+      immersesWithoutSwallowingWater
+      bornPrematurely
+      waterOnHisFaceBothersHim
+      putYourFaceInTheWater
+      anyIllnessInjuryMedicalCondition
+      enrollments {
+        nextToken
+        __typename
+      }
+      relationships {
+        nextToken
+        __typename
+      }
+      sessionDetail {
+        id
+        date
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        createdAt
+        updatedAt
+        enrollmentSessionDetailsId
+        sessionDetailStudentId
+        __typename
+      }
+      emailSend {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      studentSessionDetailId
+      __typename
+    }
+  }
+`;
+export const onDeleteStudent = /* GraphQL */ `
+  subscription OnDeleteStudent($filter: ModelSubscriptionStudentFilterInput) {
+    onDeleteStudent(filter: $filter) {
+      id
+      name
+      lastName
+      middleName
+      birthdate
+      placeOfResidence
+      contactPhone
+      whoIsTheContact
+      emailPhone
+      gender
+      firstSwimmingClass
+      attendedDaycare
+      immersesWithoutSwallowingWater
+      bornPrematurely
+      waterOnHisFaceBothersHim
+      putYourFaceInTheWater
+      anyIllnessInjuryMedicalCondition
+      enrollments {
+        nextToken
+        __typename
+      }
+      relationships {
+        nextToken
+        __typename
+      }
+      sessionDetail {
+        id
+        date
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        createdAt
+        updatedAt
+        enrollmentSessionDetailsId
+        sessionDetailStudentId
+        __typename
+      }
+      emailSend {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      studentSessionDetailId
+      __typename
+    }
+  }
+`;
+export const onCreateEnrollment = /* GraphQL */ `
+  subscription OnCreateEnrollment(
+    $filter: ModelSubscriptionEnrollmentFilterInput
+  ) {
+    onCreateEnrollment(filter: $filter) {
+      id
+      amountPaid
+      startDate
+      endDate
+      wasPaid
+      timeAWeek
+      numberOfSessions
+      sessionsLeft
+      sessionsUsed
+      scheduleId
+      scheduleName
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      sessionType {
+        id
+        name
+        description
+        durationSession
+        timeAWeek
+        totalSessions
+        amount
+        packValidity
+        createdAt
+        updatedAt
+        __typename
+      }
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      transaction {
+        id
+        amount
+        date
+        paymentMethod
+        status
+        createdAt
+        updatedAt
+        transactionEnrollmentId
+        __typename
+      }
+      sessionDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      courseEnrollmentsId
+      sessionTypeEnrollmentsId
+      studentEnrollmentsId
+      enrollmentTransactionId
+      __typename
+    }
+  }
+`;
+export const onUpdateEnrollment = /* GraphQL */ `
+  subscription OnUpdateEnrollment(
+    $filter: ModelSubscriptionEnrollmentFilterInput
+  ) {
+    onUpdateEnrollment(filter: $filter) {
+      id
+      amountPaid
+      startDate
+      endDate
+      wasPaid
+      timeAWeek
+      numberOfSessions
+      sessionsLeft
+      sessionsUsed
+      scheduleId
+      scheduleName
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      sessionType {
+        id
+        name
+        description
+        durationSession
+        timeAWeek
+        totalSessions
+        amount
+        packValidity
+        createdAt
+        updatedAt
+        __typename
+      }
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      transaction {
+        id
+        amount
+        date
+        paymentMethod
+        status
+        createdAt
+        updatedAt
+        transactionEnrollmentId
+        __typename
+      }
+      sessionDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      courseEnrollmentsId
+      sessionTypeEnrollmentsId
+      studentEnrollmentsId
+      enrollmentTransactionId
+      __typename
+    }
+  }
+`;
+export const onDeleteEnrollment = /* GraphQL */ `
+  subscription OnDeleteEnrollment(
+    $filter: ModelSubscriptionEnrollmentFilterInput
+  ) {
+    onDeleteEnrollment(filter: $filter) {
+      id
+      amountPaid
+      startDate
+      endDate
+      wasPaid
+      timeAWeek
+      numberOfSessions
+      sessionsLeft
+      sessionsUsed
+      scheduleId
+      scheduleName
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      sessionType {
+        id
+        name
+        description
+        durationSession
+        timeAWeek
+        totalSessions
+        amount
+        packValidity
+        createdAt
+        updatedAt
+        __typename
+      }
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      transaction {
+        id
+        amount
+        date
+        paymentMethod
+        status
+        createdAt
+        updatedAt
+        transactionEnrollmentId
+        __typename
+      }
+      sessionDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      courseEnrollmentsId
+      sessionTypeEnrollmentsId
+      studentEnrollmentsId
+      enrollmentTransactionId
+      __typename
+    }
+  }
+`;
+export const onCreateSessionDetail = /* GraphQL */ `
+  subscription OnCreateSessionDetail(
+    $filter: ModelSubscriptionSessionDetailFilterInput
+  ) {
+    onCreateSessionDetail(filter: $filter) {
+      id
+      date
+      day
+      month
+      year
+      sessionNumber
+      totalSessions
+      status
+      proratedValue
+      wasEmailSent
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      createdAt
+      updatedAt
+      enrollmentSessionDetailsId
+      sessionDetailStudentId
+      __typename
+    }
+  }
+`;
+export const onUpdateSessionDetail = /* GraphQL */ `
+  subscription OnUpdateSessionDetail(
+    $filter: ModelSubscriptionSessionDetailFilterInput
+  ) {
+    onUpdateSessionDetail(filter: $filter) {
+      id
+      date
+      day
+      month
+      year
+      sessionNumber
+      totalSessions
+      status
+      proratedValue
+      wasEmailSent
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      createdAt
+      updatedAt
+      enrollmentSessionDetailsId
+      sessionDetailStudentId
+      __typename
+    }
+  }
+`;
+export const onDeleteSessionDetail = /* GraphQL */ `
+  subscription OnDeleteSessionDetail(
+    $filter: ModelSubscriptionSessionDetailFilterInput
+  ) {
+    onDeleteSessionDetail(filter: $filter) {
+      id
+      date
+      day
+      month
+      year
+      sessionNumber
+      totalSessions
+      status
+      proratedValue
+      wasEmailSent
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      createdAt
+      updatedAt
+      enrollmentSessionDetailsId
+      sessionDetailStudentId
       __typename
     }
   }
@@ -2586,11 +2262,13 @@ export const onCreateTransaction = /* GraphQL */ `
         numberOfSessions
         sessionsLeft
         sessionsUsed
+        scheduleId
+        scheduleName
         createdAt
         updatedAt
-        studentEnrollmentsId
         courseEnrollmentsId
         sessionTypeEnrollmentsId
+        studentEnrollmentsId
         enrollmentTransactionId
         __typename
       }
@@ -2621,11 +2299,13 @@ export const onUpdateTransaction = /* GraphQL */ `
         numberOfSessions
         sessionsLeft
         sessionsUsed
+        scheduleId
+        scheduleName
         createdAt
         updatedAt
-        studentEnrollmentsId
         courseEnrollmentsId
         sessionTypeEnrollmentsId
+        studentEnrollmentsId
         enrollmentTransactionId
         __typename
       }
@@ -2656,17 +2336,298 @@ export const onDeleteTransaction = /* GraphQL */ `
         numberOfSessions
         sessionsLeft
         sessionsUsed
+        scheduleId
+        scheduleName
         createdAt
         updatedAt
-        studentEnrollmentsId
         courseEnrollmentsId
         sessionTypeEnrollmentsId
+        studentEnrollmentsId
         enrollmentTransactionId
         __typename
       }
       createdAt
       updatedAt
       transactionEnrollmentId
+      __typename
+    }
+  }
+`;
+export const onCreateUsers = /* GraphQL */ `
+  subscription OnCreateUsers($filter: ModelSubscriptionUsersFilterInput) {
+    onCreateUsers(filter: $filter) {
+      id
+      name
+      email
+      validated
+      contactPhone
+      ig
+      firstContact
+      emailSend {
+        nextToken
+        __typename
+      }
+      relationships {
+        nextToken
+        __typename
+      }
+      userTickets {
+        nextToken
+        __typename
+      }
+      roles {
+        id
+        name
+        displayName
+        icon
+        createdAt
+        updatedAt
+        __typename
+      }
+      userPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersRolesId
+      __typename
+    }
+  }
+`;
+export const onUpdateUsers = /* GraphQL */ `
+  subscription OnUpdateUsers($filter: ModelSubscriptionUsersFilterInput) {
+    onUpdateUsers(filter: $filter) {
+      id
+      name
+      email
+      validated
+      contactPhone
+      ig
+      firstContact
+      emailSend {
+        nextToken
+        __typename
+      }
+      relationships {
+        nextToken
+        __typename
+      }
+      userTickets {
+        nextToken
+        __typename
+      }
+      roles {
+        id
+        name
+        displayName
+        icon
+        createdAt
+        updatedAt
+        __typename
+      }
+      userPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersRolesId
+      __typename
+    }
+  }
+`;
+export const onDeleteUsers = /* GraphQL */ `
+  subscription OnDeleteUsers($filter: ModelSubscriptionUsersFilterInput) {
+    onDeleteUsers(filter: $filter) {
+      id
+      name
+      email
+      validated
+      contactPhone
+      ig
+      firstContact
+      emailSend {
+        nextToken
+        __typename
+      }
+      relationships {
+        nextToken
+        __typename
+      }
+      userTickets {
+        nextToken
+        __typename
+      }
+      roles {
+        id
+        name
+        displayName
+        icon
+        createdAt
+        updatedAt
+        __typename
+      }
+      userPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersRolesId
+      __typename
+    }
+  }
+`;
+export const onCreateRelationship = /* GraphQL */ `
+  subscription OnCreateRelationship(
+    $filter: ModelSubscriptionRelationshipFilterInput
+  ) {
+    onCreateRelationship(filter: $filter) {
+      id
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      relationType
+      createdAt
+      updatedAt
+      studentRelationshipsId
+      usersRelationshipsId
+      __typename
+    }
+  }
+`;
+export const onUpdateRelationship = /* GraphQL */ `
+  subscription OnUpdateRelationship(
+    $filter: ModelSubscriptionRelationshipFilterInput
+  ) {
+    onUpdateRelationship(filter: $filter) {
+      id
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      relationType
+      createdAt
+      updatedAt
+      studentRelationshipsId
+      usersRelationshipsId
+      __typename
+    }
+  }
+`;
+export const onDeleteRelationship = /* GraphQL */ `
+  subscription OnDeleteRelationship(
+    $filter: ModelSubscriptionRelationshipFilterInput
+  ) {
+    onDeleteRelationship(filter: $filter) {
+      id
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      relationType
+      createdAt
+      updatedAt
+      studentRelationshipsId
+      usersRelationshipsId
       __typename
     }
   }
@@ -2887,138 +2848,6 @@ export const onDeleteUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTicketUser = /* GraphQL */ `
-  subscription OnCreateTicketUser(
-    $filter: ModelSubscriptionTicketUserFilterInput
-  ) {
-    onCreateTicketUser(filter: $filter) {
-      id
-      usersId
-      supportTicketId
-      users {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      supportTicket {
-        id
-        name
-        email
-        phoneNumber
-        description
-        date
-        day
-        month
-        year
-        lastModificationUser
-        statusTicket
-        reason
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateTicketUser = /* GraphQL */ `
-  subscription OnUpdateTicketUser(
-    $filter: ModelSubscriptionTicketUserFilterInput
-  ) {
-    onUpdateTicketUser(filter: $filter) {
-      id
-      usersId
-      supportTicketId
-      users {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      supportTicket {
-        id
-        name
-        email
-        phoneNumber
-        description
-        date
-        day
-        month
-        year
-        lastModificationUser
-        statusTicket
-        reason
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteTicketUser = /* GraphQL */ `
-  subscription OnDeleteTicketUser(
-    $filter: ModelSubscriptionTicketUserFilterInput
-  ) {
-    onDeleteTicketUser(filter: $filter) {
-      id
-      usersId
-      supportTicketId
-      users {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      supportTicket {
-        id
-        name
-        email
-        phoneNumber
-        description
-        date
-        day
-        month
-        year
-        lastModificationUser
-        statusTicket
-        reason
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const onCreateCourseSessionType = /* GraphQL */ `
   subscription OnCreateCourseSessionType(
     $filter: ModelSubscriptionCourseSessionTypeFilterInput
@@ -3137,6 +2966,138 @@ export const onDeleteCourseSessionType = /* GraphQL */ `
         packValidity
         createdAt
         updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateTicketUser = /* GraphQL */ `
+  subscription OnCreateTicketUser(
+    $filter: ModelSubscriptionTicketUserFilterInput
+  ) {
+    onCreateTicketUser(filter: $filter) {
+      id
+      supportTicketId
+      usersId
+      supportTicket {
+        id
+        name
+        email
+        phoneNumber
+        description
+        date
+        day
+        month
+        year
+        lastModificationUser
+        statusTicket
+        reason
+        createdAt
+        updatedAt
+        __typename
+      }
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTicketUser = /* GraphQL */ `
+  subscription OnUpdateTicketUser(
+    $filter: ModelSubscriptionTicketUserFilterInput
+  ) {
+    onUpdateTicketUser(filter: $filter) {
+      id
+      supportTicketId
+      usersId
+      supportTicket {
+        id
+        name
+        email
+        phoneNumber
+        description
+        date
+        day
+        month
+        year
+        lastModificationUser
+        statusTicket
+        reason
+        createdAt
+        updatedAt
+        __typename
+      }
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTicketUser = /* GraphQL */ `
+  subscription OnDeleteTicketUser(
+    $filter: ModelSubscriptionTicketUserFilterInput
+  ) {
+    onDeleteTicketUser(filter: $filter) {
+      id
+      supportTicketId
+      usersId
+      supportTicket {
+        id
+        name
+        email
+        phoneNumber
+        description
+        date
+        day
+        month
+        year
+        lastModificationUser
+        statusTicket
+        reason
+        createdAt
+        updatedAt
+        __typename
+      }
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       createdAt

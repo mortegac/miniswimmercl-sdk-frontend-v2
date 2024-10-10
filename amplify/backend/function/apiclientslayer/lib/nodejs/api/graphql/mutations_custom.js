@@ -70,88 +70,7 @@ const createEnrollment = gql`
     $input: CreateEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
   ) {
-    createEnrollment(input: $input, condition: $condition) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        totalSessions
-        amount
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
+    createEnrollment(input: $input, condition: $condition) {id}
   }
 `;
 const updateEnrollment = gql`
@@ -159,88 +78,7 @@ const updateEnrollment = gql`
     $input: UpdateEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
   ) {
-    updateEnrollment(input: $input, condition: $condition) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        totalSessions
-        amount
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
+    updateEnrollment(input: $input, condition: $condition) {id}
   }
 `;
 const deleteEnrollment = gql`
@@ -248,88 +86,8 @@ const deleteEnrollment = gql`
     $input: DeleteEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
   ) {
-    deleteEnrollment(input: $input, condition: $condition) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        totalSessions
-        amount
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
+    deleteEnrollment(input: $input, condition: $condition) {id}
+    
   }
 `;
 // -------------------------------------------------
@@ -340,63 +98,7 @@ const createSessionDetail = gql `
     $input: CreateSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
   ) {
-    createSessionDetail(input: $input, condition: $condition) {
-      id
-      date
-      month
-      year
-      sessionNumber
-      totalSessions
-      status
-      proratedValue
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
+    createSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
 const updateSessionDetail = gql`
@@ -404,58 +106,7 @@ const updateSessionDetail = gql`
     $input: UpdateSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
   ) {
-    updateSessionDetail(input: $input, condition: $condition) {
-      id
-      date
-      status
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
+    updateSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
 const deleteSessionDetail = gql`
@@ -463,58 +114,7 @@ const deleteSessionDetail = gql`
     $input: DeleteSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
   ) {
-    deleteSessionDetail(input: $input, condition: $condition) {
-      id
-      date
-      status
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
+    deleteSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
 
@@ -526,35 +126,7 @@ const createTransaction = gql`
     $input: CreateTransactionInput!
     $condition: ModelTransactionConditionInput
   ) {
-    createTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
+    createTransaction(input: $input, condition: $condition) {id}
   }
 `;
 const updateTransaction = gql`
@@ -562,35 +134,7 @@ const updateTransaction = gql`
     $input: UpdateTransactionInput!
     $condition: ModelTransactionConditionInput
   ) {
-    updateTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
+    updateTransaction(input: $input, condition: $condition) {id}
   }
 `;
 const deleteTransaction = gql`
@@ -598,35 +142,7 @@ const deleteTransaction = gql`
     $input: DeleteTransactionInput!
     $condition: ModelTransactionConditionInput
   ) {
-    deleteTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
+    deleteTransaction(input: $input, condition: $condition) {id}
   }
 `;
 

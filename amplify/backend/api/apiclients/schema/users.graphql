@@ -1,0 +1,46 @@
+################################
+# USUARIOS
+################################
+type Users @model {
+  id: ID! @primaryKey
+  name: String!
+  email: String!
+  validated: Boolean
+  contactPhone: String @default(value: "")
+  ig: String @default(value: "")
+  firstContact: Boolean   # Se usa para saber si hayq ue pedirle mas info al user
+  
+  #Relations
+  emailSend: [EmailSend] @hasMany  # Email enviados al user
+  relationships: [Relationship] @hasMany
+  userTickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
+  roles: Roles @hasOne
+  userPermissions: [Permissions] @manyToMany(relationName: "UserPermissions")
+  
+}
+
+
+
+################################
+# RELACIONES USUARIOS-STUDENTS
+################################
+type Relationship @model {
+  id: ID! @primaryKey
+    
+  #Relations 
+  user: Users! @belongsTo
+  student: Student! @belongsTo
+  relationType: RelationType!
+}
+enum RelationType {
+  NONE
+  OTHER
+  MOTHER
+  FATHER
+  GRANDFATHER
+  GRANDMOTHER
+  UNCLE
+  AUNT
+  FAMILYS_FRIEND
+  COUSIN
+}

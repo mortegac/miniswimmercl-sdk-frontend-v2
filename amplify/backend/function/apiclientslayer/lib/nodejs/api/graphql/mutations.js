@@ -6,41 +6,7 @@ export const createUsers = /* GraphQL */ `
     $input: CreateUsersInput!
     $condition: ModelUsersConditionInput
   ) {
-    createUsers(input: $input, condition: $condition) {
-      id
-      name
-      email
-      validated
-      contactPhone
-      ig
-      emailPhone
-      firstContact
-      relationships {
-        nextToken
-        __typename
-      }
-      userTickets {
-        nextToken
-        __typename
-      }
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      usersRolesId
-      __typename
-    }
+    createUsers(input: $input, condition: $condition) {id}
   }
 `;
 export const updateUsers = /* GraphQL */ `
@@ -48,41 +14,7 @@ export const updateUsers = /* GraphQL */ `
     $input: UpdateUsersInput!
     $condition: ModelUsersConditionInput
   ) {
-    updateUsers(input: $input, condition: $condition) {
-      id
-      name
-      email
-      validated
-      contactPhone
-      ig
-      emailPhone
-      firstContact
-      relationships {
-        nextToken
-        __typename
-      }
-      userTickets {
-        nextToken
-        __typename
-      }
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      usersRolesId
-      __typename
-    }
+    updateUsers(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteUsers = /* GraphQL */ `
@@ -90,41 +22,7 @@ export const deleteUsers = /* GraphQL */ `
     $input: DeleteUsersInput!
     $condition: ModelUsersConditionInput
   ) {
-    deleteUsers(input: $input, condition: $condition) {
-      id
-      name
-      email
-      validated
-      contactPhone
-      ig
-      emailPhone
-      firstContact
-      relationships {
-        nextToken
-        __typename
-      }
-      userTickets {
-        nextToken
-        __typename
-      }
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      usersRolesId
-      __typename
-    }
+    deleteUsers(input: $input, condition: $condition) {id}
   }
 `;
 export const createRelationship = /* GraphQL */ `
@@ -132,52 +30,7 @@ export const createRelationship = /* GraphQL */ `
     $input: CreateRelationshipInput!
     $condition: ModelRelationshipConditionInput
   ) {
-    createRelationship(input: $input, condition: $condition) {
-      id
-      user {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        emailPhone
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      relationType
-      createdAt
-      updatedAt
-      usersRelationshipsId
-      studentRelationshipsId
-      __typename
-    }
+    createRelationship(input: $input, condition: $condition) {id}
   }
 `;
 export const updateRelationship = /* GraphQL */ `
@@ -185,52 +38,7 @@ export const updateRelationship = /* GraphQL */ `
     $input: UpdateRelationshipInput!
     $condition: ModelRelationshipConditionInput
   ) {
-    updateRelationship(input: $input, condition: $condition) {
-      id
-      user {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        emailPhone
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      relationType
-      createdAt
-      updatedAt
-      usersRelationshipsId
-      studentRelationshipsId
-      __typename
-    }
+    updateRelationship(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteRelationship = /* GraphQL */ `
@@ -238,52 +46,7 @@ export const deleteRelationship = /* GraphQL */ `
     $input: DeleteRelationshipInput!
     $condition: ModelRelationshipConditionInput
   ) {
-    deleteRelationship(input: $input, condition: $condition) {
-      id
-      user {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        emailPhone
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      relationType
-      createdAt
-      updatedAt
-      usersRelationshipsId
-      studentRelationshipsId
-      __typename
-    }
+    deleteRelationship(input: $input, condition: $condition) {id}
   }
 `;
 export const createStudent = /* GraphQL */ `
@@ -291,48 +54,7 @@ export const createStudent = /* GraphQL */ `
     $input: CreateStudentInput!
     $condition: ModelStudentConditionInput
   ) {
-    createStudent(input: $input, condition: $condition) {
-      id
-      name
-      lastName
-      middleName
-      birthdate
-      placeOfResidence
-      contactPhone
-      whoIsTheContact
-      emailPhone
-      gender
-      firstSwimmingClass
-      attendedDaycare
-      immersesWithoutSwallowingWater
-      bornPrematurely
-      waterOnHisFaceBothersHim
-      putYourFaceInTheWater
-      anyIllnessInjuryMedicalCondition
-      enrollments {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      sessionDetail {
-        id
-        date
-        status
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentSessionDetailId
-      __typename
-    }
+    createStudent(input: $input, condition: $condition) {id}
   }
 `;
 export const updateStudent = /* GraphQL */ `
@@ -340,48 +62,7 @@ export const updateStudent = /* GraphQL */ `
     $input: UpdateStudentInput!
     $condition: ModelStudentConditionInput
   ) {
-    updateStudent(input: $input, condition: $condition) {
-      id
-      name
-      lastName
-      middleName
-      birthdate
-      placeOfResidence
-      contactPhone
-      whoIsTheContact
-      emailPhone
-      gender
-      firstSwimmingClass
-      attendedDaycare
-      immersesWithoutSwallowingWater
-      bornPrematurely
-      waterOnHisFaceBothersHim
-      putYourFaceInTheWater
-      anyIllnessInjuryMedicalCondition
-      enrollments {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      sessionDetail {
-        id
-        date
-        status
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentSessionDetailId
-      __typename
-    }
+    updateStudent(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteStudent = /* GraphQL */ `
@@ -389,48 +70,7 @@ export const deleteStudent = /* GraphQL */ `
     $input: DeleteStudentInput!
     $condition: ModelStudentConditionInput
   ) {
-    deleteStudent(input: $input, condition: $condition) {
-      id
-      name
-      lastName
-      middleName
-      birthdate
-      placeOfResidence
-      contactPhone
-      whoIsTheContact
-      emailPhone
-      gender
-      firstSwimmingClass
-      attendedDaycare
-      immersesWithoutSwallowingWater
-      bornPrematurely
-      waterOnHisFaceBothersHim
-      putYourFaceInTheWater
-      anyIllnessInjuryMedicalCondition
-      enrollments {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      sessionDetail {
-        id
-        date
-        status
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentSessionDetailId
-      __typename
-    }
+    deleteStudent(input: $input, condition: $condition) {id}
   }
 `;
 export const createEnrollment = /* GraphQL */ `
@@ -438,88 +78,7 @@ export const createEnrollment = /* GraphQL */ `
     $input: CreateEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
   ) {
-    createEnrollment(input: $input, condition: $condition) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        totalSessions
-        amount
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
+    createEnrollment(input: $input, condition: $condition) {id}
   }
 `;
 export const updateEnrollment = /* GraphQL */ `
@@ -527,88 +86,7 @@ export const updateEnrollment = /* GraphQL */ `
     $input: UpdateEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
   ) {
-    updateEnrollment(input: $input, condition: $condition) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        totalSessions
-        amount
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
+    updateEnrollment(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteEnrollment = /* GraphQL */ `
@@ -616,88 +94,7 @@ export const deleteEnrollment = /* GraphQL */ `
     $input: DeleteEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
   ) {
-    deleteEnrollment(input: $input, condition: $condition) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        totalSessions
-        amount
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
+    deleteEnrollment(input: $input, condition: $condition) {id}
   }
 `;
 export const createSessionDetail = /* GraphQL */ `
@@ -705,58 +102,7 @@ export const createSessionDetail = /* GraphQL */ `
     $input: CreateSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
   ) {
-    createSessionDetail(input: $input, condition: $condition) {
-      id
-      date
-      status
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
+    createSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
 export const updateSessionDetail = /* GraphQL */ `
@@ -764,58 +110,7 @@ export const updateSessionDetail = /* GraphQL */ `
     $input: UpdateSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
   ) {
-    updateSessionDetail(input: $input, condition: $condition) {
-      id
-      date
-      status
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
+    updateSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteSessionDetail = /* GraphQL */ `
@@ -823,58 +118,7 @@ export const deleteSessionDetail = /* GraphQL */ `
     $input: DeleteSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
   ) {
-    deleteSessionDetail(input: $input, condition: $condition) {
-      id
-      date
-      status
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
+    deleteSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
 export const createTransaction = /* GraphQL */ `
@@ -882,35 +126,7 @@ export const createTransaction = /* GraphQL */ `
     $input: CreateTransactionInput!
     $condition: ModelTransactionConditionInput
   ) {
-    createTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
+    createTransaction(input: $input, condition: $condition) {id}
   }
 `;
 export const updateTransaction = /* GraphQL */ `
@@ -918,35 +134,7 @@ export const updateTransaction = /* GraphQL */ `
     $input: UpdateTransactionInput!
     $condition: ModelTransactionConditionInput
   ) {
-    updateTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
+    updateTransaction(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteTransaction = /* GraphQL */ `
@@ -954,35 +142,7 @@ export const deleteTransaction = /* GraphQL */ `
     $input: DeleteTransactionInput!
     $condition: ModelTransactionConditionInput
   ) {
-    deleteTransaction(input: $input, condition: $condition) {
-      id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      createdAt
-      updatedAt
-      transactionEnrollmentId
-      __typename
-    }
+    deleteTransaction(input: $input, condition: $condition) {id}
   }
 `;
 export const createLocation = /* GraphQL */ `
@@ -990,30 +150,7 @@ export const createLocation = /* GraphQL */ `
     $input: CreateLocationInput!
     $condition: ModelLocationConditionInput
   ) {
-    createLocation(input: $input, condition: $condition) {
-      id
-      name
-      city
-      minimumTemperature
-      maximumTemperature
-      address
-      phone
-      courses {
-        nextToken
-        __typename
-      }
-      schedules {
-        nextToken
-        __typename
-      }
-      expenses {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    createLocation(input: $input, condition: $condition) {id}
   }
 `;
 export const updateLocation = /* GraphQL */ `
@@ -1021,30 +158,7 @@ export const updateLocation = /* GraphQL */ `
     $input: UpdateLocationInput!
     $condition: ModelLocationConditionInput
   ) {
-    updateLocation(input: $input, condition: $condition) {
-      id
-      name
-      city
-      minimumTemperature
-      maximumTemperature
-      address
-      phone
-      courses {
-        nextToken
-        __typename
-      }
-      schedules {
-        nextToken
-        __typename
-      }
-      expenses {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    updateLocation(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteLocation = /* GraphQL */ `
@@ -1052,30 +166,7 @@ export const deleteLocation = /* GraphQL */ `
     $input: DeleteLocationInput!
     $condition: ModelLocationConditionInput
   ) {
-    deleteLocation(input: $input, condition: $condition) {
-      id
-      name
-      city
-      minimumTemperature
-      maximumTemperature
-      address
-      phone
-      courses {
-        nextToken
-        __typename
-      }
-      schedules {
-        nextToken
-        __typename
-      }
-      expenses {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    deleteLocation(input: $input, condition: $condition) {id}
   }
 `;
 export const createExpense = /* GraphQL */ `
@@ -1083,33 +174,7 @@ export const createExpense = /* GraphQL */ `
     $input: CreateExpenseInput!
     $condition: ModelExpenseConditionInput
   ) {
-    createExpense(input: $input, condition: $condition) {
-      id
-      amount
-      description
-      date
-      day
-      month
-      year
-      expenseType
-      costCenterType
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationExpensesId
-      __typename
-    }
+    createExpense(input: $input, condition: $condition) {id}
   }
 `;
 export const updateExpense = /* GraphQL */ `
@@ -1117,33 +182,7 @@ export const updateExpense = /* GraphQL */ `
     $input: UpdateExpenseInput!
     $condition: ModelExpenseConditionInput
   ) {
-    updateExpense(input: $input, condition: $condition) {
-      id
-      amount
-      description
-      date
-      day
-      month
-      year
-      expenseType
-      costCenterType
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationExpensesId
-      __typename
-    }
+    updateExpense(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteExpense = /* GraphQL */ `
@@ -1151,33 +190,7 @@ export const deleteExpense = /* GraphQL */ `
     $input: DeleteExpenseInput!
     $condition: ModelExpenseConditionInput
   ) {
-    deleteExpense(input: $input, condition: $condition) {
-      id
-      amount
-      description
-      date
-      day
-      month
-      year
-      expenseType
-      costCenterType
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationExpensesId
-      __typename
-    }
+    deleteExpense(input: $input, condition: $condition) {id}
   }
 `;
 export const createCourse = /* GraphQL */ `
@@ -1185,45 +198,7 @@ export const createCourse = /* GraphQL */ `
     $input: CreateCourseInput!
     $condition: ModelCourseConditionInput
   ) {
-    createCourse(input: $input, condition: $condition) {
-      id
-      title
-      description
-      startingAge
-      endingAge
-      ageType
-      AgeGroupType
-      duration
-      isActive
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      schedules {
-        nextToken
-        __typename
-      }
-      sessionTypes {
-        nextToken
-        __typename
-      }
-      enrollments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationCoursesId
-      __typename
-    }
+    createCourse(input: $input, condition: $condition) {id}
   }
 `;
 export const updateCourse = /* GraphQL */ `
@@ -1231,45 +206,7 @@ export const updateCourse = /* GraphQL */ `
     $input: UpdateCourseInput!
     $condition: ModelCourseConditionInput
   ) {
-    updateCourse(input: $input, condition: $condition) {
-      id
-      title
-      description
-      startingAge
-      endingAge
-      ageType
-      AgeGroupType
-      duration
-      isActive
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      schedules {
-        nextToken
-        __typename
-      }
-      sessionTypes {
-        nextToken
-        __typename
-      }
-      enrollments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationCoursesId
-      __typename
-    }
+    updateCourse(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteCourse = /* GraphQL */ `
@@ -1277,45 +214,7 @@ export const deleteCourse = /* GraphQL */ `
     $input: DeleteCourseInput!
     $condition: ModelCourseConditionInput
   ) {
-    deleteCourse(input: $input, condition: $condition) {
-      id
-      title
-      description
-      startingAge
-      endingAge
-      ageType
-      AgeGroupType
-      duration
-      isActive
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      schedules {
-        nextToken
-        __typename
-      }
-      sessionTypes {
-        nextToken
-        __typename
-      }
-      enrollments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationCoursesId
-      __typename
-    }
+    deleteCourse(input: $input, condition: $condition) {id}
   }
 `;
 export const createSchedule = /* GraphQL */ `
@@ -1323,44 +222,7 @@ export const createSchedule = /* GraphQL */ `
     $input: CreateScheduleInput!
     $condition: ModelScheduleConditionInput
   ) {
-    createSchedule(input: $input, condition: $condition) {
-      id
-      day
-      startHour
-      endHour
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationSchedulesId
-      courseSchedulesId
-      __typename
-    }
+    createSchedule(input: $input, condition: $condition) {id}
   }
 `;
 export const updateSchedule = /* GraphQL */ `
@@ -1368,44 +230,7 @@ export const updateSchedule = /* GraphQL */ `
     $input: UpdateScheduleInput!
     $condition: ModelScheduleConditionInput
   ) {
-    updateSchedule(input: $input, condition: $condition) {
-      id
-      day
-      startHour
-      endHour
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationSchedulesId
-      courseSchedulesId
-      __typename
-    }
+    updateSchedule(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteSchedule = /* GraphQL */ `
@@ -1413,44 +238,7 @@ export const deleteSchedule = /* GraphQL */ `
     $input: DeleteScheduleInput!
     $condition: ModelScheduleConditionInput
   ) {
-    deleteSchedule(input: $input, condition: $condition) {
-      id
-      day
-      startHour
-      endHour
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      location {
-        id
-        name
-        city
-        minimumTemperature
-        maximumTemperature
-        address
-        phone
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      locationSchedulesId
-      courseSchedulesId
-      __typename
-    }
+    deleteSchedule(input: $input, condition: $condition) {id}
   }
 `;
 export const createSessionType = /* GraphQL */ `
@@ -1458,25 +246,7 @@ export const createSessionType = /* GraphQL */ `
     $input: CreateSessionTypeInput!
     $condition: ModelSessionTypeConditionInput
   ) {
-    createSessionType(input: $input, condition: $condition) {
-      id
-      name
-      description
-      durationSession
-      totalSessions
-      amount
-      courses {
-        nextToken
-        __typename
-      }
-      enrollments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    createSessionType(input: $input, condition: $condition) {id}
   }
 `;
 export const updateSessionType = /* GraphQL */ `
@@ -1484,25 +254,7 @@ export const updateSessionType = /* GraphQL */ `
     $input: UpdateSessionTypeInput!
     $condition: ModelSessionTypeConditionInput
   ) {
-    updateSessionType(input: $input, condition: $condition) {
-      id
-      name
-      description
-      durationSession
-      totalSessions
-      amount
-      courses {
-        nextToken
-        __typename
-      }
-      enrollments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    updateSessionType(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteSessionType = /* GraphQL */ `
@@ -1510,25 +262,7 @@ export const deleteSessionType = /* GraphQL */ `
     $input: DeleteSessionTypeInput!
     $condition: ModelSessionTypeConditionInput
   ) {
-    deleteSessionType(input: $input, condition: $condition) {
-      id
-      name
-      description
-      durationSession
-      totalSessions
-      amount
-      courses {
-        nextToken
-        __typename
-      }
-      enrollments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    deleteSessionType(input: $input, condition: $condition) {id}
   }
 `;
 export const createRoles = /* GraphQL */ `
@@ -1536,19 +270,7 @@ export const createRoles = /* GraphQL */ `
     $input: CreateRolesInput!
     $condition: ModelRolesConditionInput
   ) {
-    createRoles(input: $input, condition: $condition) {
-      id
-      name
-      displayName
-      icon
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    createRoles(input: $input, condition: $condition) {id}
   }
 `;
 export const updateRoles = /* GraphQL */ `
@@ -1556,19 +278,7 @@ export const updateRoles = /* GraphQL */ `
     $input: UpdateRolesInput!
     $condition: ModelRolesConditionInput
   ) {
-    updateRoles(input: $input, condition: $condition) {
-      id
-      name
-      displayName
-      icon
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    updateRoles(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteRoles = /* GraphQL */ `
@@ -1576,19 +286,7 @@ export const deleteRoles = /* GraphQL */ `
     $input: DeleteRolesInput!
     $condition: ModelRolesConditionInput
   ) {
-    deleteRoles(input: $input, condition: $condition) {
-      id
-      name
-      displayName
-      icon
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    deleteRoles(input: $input, condition: $condition) {id}
   }
 `;
 export const createPermissions = /* GraphQL */ `
@@ -1596,40 +294,7 @@ export const createPermissions = /* GraphQL */ `
     $input: CreatePermissionsInput!
     $condition: ModelPermissionsConditionInput
   ) {
-    createPermissions(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      icon
-      order
-      Padre {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      Submenu {
-        nextToken
-        __typename
-      }
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      permissionsSubmenuId
-      __typename
-    }
+    createPermissions(input: $input, condition: $condition) {id}
   }
 `;
 export const updatePermissions = /* GraphQL */ `
@@ -1637,40 +302,7 @@ export const updatePermissions = /* GraphQL */ `
     $input: UpdatePermissionsInput!
     $condition: ModelPermissionsConditionInput
   ) {
-    updatePermissions(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      icon
-      order
-      Padre {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      Submenu {
-        nextToken
-        __typename
-      }
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      permissionsSubmenuId
-      __typename
-    }
+    updatePermissions(input: $input, condition: $condition) {id}
   }
 `;
 export const deletePermissions = /* GraphQL */ `
@@ -1678,40 +310,7 @@ export const deletePermissions = /* GraphQL */ `
     $input: DeletePermissionsInput!
     $condition: ModelPermissionsConditionInput
   ) {
-    deletePermissions(input: $input, condition: $condition) {
-      id
-      displayName
-      name
-      icon
-      order
-      Padre {
-        id
-        displayName
-        name
-        icon
-        order
-        createdAt
-        updatedAt
-        permissionsSubmenuId
-        __typename
-      }
-      Submenu {
-        nextToken
-        __typename
-      }
-      rolPermissions {
-        nextToken
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      permissionsSubmenuId
-      __typename
-    }
+    deletePermissions(input: $input, condition: $condition) {id}
   }
 `;
 export const createSupportTicket = /* GraphQL */ `
@@ -1719,31 +318,7 @@ export const createSupportTicket = /* GraphQL */ `
     $input: CreateSupportTicketInput!
     $condition: ModelSupportTicketConditionInput
   ) {
-    createSupportTicket(input: $input, condition: $condition) {
-      id
-      name
-      email
-      phoneNumber
-      description
-      date
-      day
-      month
-      year
-      lastModificationUser
-      statusTicket
-      reason
-      userTickets {
-        nextToken
-        __typename
-      }
-      ticketComments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    createSupportTicket(input: $input, condition: $condition) {id}
   }
 `;
 export const updateSupportTicket = /* GraphQL */ `
@@ -1751,31 +326,7 @@ export const updateSupportTicket = /* GraphQL */ `
     $input: UpdateSupportTicketInput!
     $condition: ModelSupportTicketConditionInput
   ) {
-    updateSupportTicket(input: $input, condition: $condition) {
-      id
-      name
-      email
-      phoneNumber
-      description
-      date
-      day
-      month
-      year
-      lastModificationUser
-      statusTicket
-      reason
-      userTickets {
-        nextToken
-        __typename
-      }
-      ticketComments {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
+    updateSupportTicket(input: $input, condition: $condition) {id}
   }
 `;
 export const deleteSupportTicket = /* GraphQL */ `

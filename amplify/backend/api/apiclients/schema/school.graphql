@@ -1,138 +1,6 @@
 # # This "input" configures a global authorization rule to enable public access to
 # # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
-
-
-################################
-# USUARIOS
-################################
-type Users @model {
-  id: ID! @primaryKey
-  name: String!
-  email: String!
-  validated: Boolean
-  contactPhone: String @default(value: "")
-  ig: String @default(value: "")
-  firstContact: Boolean   # Se usa para saber si hayq ue pedirle mas info al user
-  
-  #Relations
-  emailSend: [EmailSend] @hasMany  # Email enviados al user
-  relationships: [Relationship] @hasMany
-  userTickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
-  roles: Roles @hasOne
-  userPermissions: [Permissions] @manyToMany(relationName: "UserPermissions")
-  
-}
-
-
-################################
-# RELACIONES USUARIOS-STUDENTS
-################################
-type Relationship @model {
-  id: ID! @primaryKey
-    
-  #Relations 
-  user: Users! @belongsTo
-  student: Student! @belongsTo
-  relationType: RelationType!
-}
-enum RelationType {
-  NONE
-  OTHER
-  MOTHER
-  FATHER
-  GRANDFATHER
-  GRANDMOTHER
-  UNCLE
-  AUNT
-  FAMILYS_FRIEND
-  COUSIN
-}
-
-
-################################
-# ESTUDIANTES - SESSIONES INSCRITAS
-################################
-type Student @model {
-  id: ID! @primaryKey
-  name: String!
-  lastName: String!
-  middleName: String!
-  birthdate: String!
-  placeOfResidence: String!
-  contactPhone: String!
-  whoIsTheContact: String!
-  emailPhone: String!
-  gender: String!
-  
-  firstSwimmingClass: Boolean @default(value: "false")                   #| El alumno, ¿ Es primera vez que toma clases de natación ?
-  attendedDaycare: Boolean @default(value: "false")                       #| ¿ Asiste o asistió a sala cuna o jardín ?
-  immersesWithoutSwallowingWater: Boolean @default(value: "false")        #|  ¿ Se sumerge sin tragar agua ?
-  bornPrematurely: Boolean @default(value: "false")                       #|  ¿ Nació Prematuro ?
-  waterOnHisFaceBothersHim: Boolean @default(value: "false")              #|  ¿ Le molesta el agua en la cara ?
-  putYourFaceInTheWater: Boolean @default(value: "false")                 #|  ¿ Mete la cara al agua ?
-
-  anyIllnessInjuryMedicalCondition: String!      #|  ¿ Tiene alguna enfermedad, lesión o condición médica ?
-  
- 
-  #Relations
-  enrollments: [Enrollment] @hasMany
-  relationships: [Relationship] @hasMany
-  sessionDetail: SessionDetail @hasOne
-  emailSend: [EmailSend] @hasMany  # Email enviados al student
-}
-
-
-#####################################################
-# SESSIONES DE CURSOS INSCRITAS DEL STUDIANTE
-#####################################################
-type Enrollment @model {  
-  id: ID! @primaryKey
-  amountPaid: Float!
-  startDate: String!
-  endDate: String!  
-  wasPaid: Boolean @default(value: "false")
-  timeAWeek: Float          # Cantidad de veces por semana contratadas
-  numberOfSessions: Int!    # Cantidad de sesiones contratadas
-  sessionsLeft: Float       # sesiones restantes
-  sessionsUsed: Float       # sesiones usadas
-  
-  
-  #Relations  
-  student: Student! @belongsTo
-  sessionType: SessionType! @belongsTo
-  course: Course! @belongsTo
-  transaction: Transaction @hasOne   # Relacion ono to one con la transaccion del pago
-  sessionDetails: [SessionDetail] @hasMany
-}
-
-################################
-# DETALLE DE SESIONES CONTRATADAS
-################################
-enum SessionStatus {
-  ACTIVE
-  USED
-  RECOVERED
-}
-
-type SessionDetail @model {
-  id: ID!
-  date: AWSDateTime
-  day: String! @default(value: "")
-  month: String!
-  year: String
-  sessionNumber: Int      # Sesion numero
-  totalSessions: Int      # Total de sesiones del pack
-  status: SessionStatus!
-  proratedValue: Float @default(value: "0")  #Valor de la sesion prorraterado por lo que pago
-  wasEmailSent: Boolean @default(value: "false")
-  
-  #Relation
-  enrollment: Enrollment! @belongsTo
-  student: Student! @belongsTo
-}
-
+# input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
 
 ################################
@@ -205,10 +73,13 @@ type Schedule @model {
   day: DayType!         # Dia en que se imparte
   startHour: String!
   endHour: String!
+  isActive: Boolean @default(value: "false")
   
   #Relations
   course: Course @belongsTo
   location: Location @belongsTo
+  # enrollment: Enrollment @belongsTo # 1 a 1 
+  # enrollments: [Enrollment] @hasMany
 }
 
 enum DayType {
@@ -220,6 +91,8 @@ enum DayType {
   sabado
   domingo
 }
+
+####### PACK DE SESIONES #######
 type SessionType @model {
   id: ID! @primaryKey
   name: String!

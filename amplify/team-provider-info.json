@@ -18,7 +18,7 @@
       "function": {
         "apiclientslayer": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion8818064d-build.zip"
+          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion9214ff9e-build.zip"
         },
         "authPostAuthentication": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",

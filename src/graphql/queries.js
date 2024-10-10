@@ -292,8 +292,8 @@ export const getEmailSend = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      usersEmailSendId
       studentEmailSendId
+      usersEmailSendId
       __typename
     }
   }
@@ -322,8 +322,8 @@ export const listEmailSends = /* GraphQL */ `
         wasSent
         createdAt
         updatedAt
-        usersEmailSendId
         studentEmailSendId
+        usersEmailSendId
         __typename
       }
       nextToken
@@ -656,475 +656,6 @@ export const listPermissions = /* GraphQL */ `
     }
   }
 `;
-export const getUsers = /* GraphQL */ `
-  query GetUsers($id: ID!) {
-    getUsers(id: $id) {
-      id
-      name
-      email
-      validated
-      contactPhone
-      ig
-      firstContact
-      emailSend {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      userTickets {
-        nextToken
-        __typename
-      }
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      usersRolesId
-      __typename
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $id: ID
-    $filter: ModelUsersFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listUsers(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getRelationship = /* GraphQL */ `
-  query GetRelationship($id: ID!) {
-    getRelationship(id: $id) {
-      id
-      user {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      relationType
-      createdAt
-      updatedAt
-      usersRelationshipsId
-      studentRelationshipsId
-      __typename
-    }
-  }
-`;
-export const listRelationships = /* GraphQL */ `
-  query ListRelationships(
-    $id: ID
-    $filter: ModelRelationshipFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listRelationships(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        relationType
-        createdAt
-        updatedAt
-        usersRelationshipsId
-        studentRelationshipsId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getStudent = /* GraphQL */ `
-  query GetStudent($id: ID!) {
-    getStudent(id: $id) {
-      id
-      name
-      lastName
-      middleName
-      birthdate
-      placeOfResidence
-      contactPhone
-      whoIsTheContact
-      emailPhone
-      gender
-      firstSwimmingClass
-      attendedDaycare
-      immersesWithoutSwallowingWater
-      bornPrematurely
-      waterOnHisFaceBothersHim
-      putYourFaceInTheWater
-      anyIllnessInjuryMedicalCondition
-      enrollments {
-        nextToken
-        __typename
-      }
-      relationships {
-        nextToken
-        __typename
-      }
-      sessionDetail {
-        id
-        date
-        day
-        month
-        year
-        sessionNumber
-        totalSessions
-        status
-        proratedValue
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      emailSend {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentSessionDetailId
-      __typename
-    }
-  }
-`;
-export const listStudents = /* GraphQL */ `
-  query ListStudents(
-    $id: ID
-    $filter: ModelStudentFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listStudents(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getEnrollment = /* GraphQL */ `
-  query GetEnrollment($id: ID!) {
-    getEnrollment(id: $id) {
-      id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        timeAWeek
-        totalSessions
-        amount
-        packValidity
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
-    }
-  }
-`;
-export const listEnrollments = /* GraphQL */ `
-  query ListEnrollments(
-    $id: ID
-    $filter: ModelEnrollmentFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listEnrollments(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getSessionDetail = /* GraphQL */ `
-  query GetSessionDetail($id: ID!) {
-    getSessionDetail(id: $id) {
-      id
-      date
-      day
-      month
-      year
-      sessionNumber
-      totalSessions
-      status
-      proratedValue
-      wasEmailSent
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
-      }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
-      __typename
-    }
-  }
-`;
-export const listSessionDetails = /* GraphQL */ `
-  query ListSessionDetails(
-    $filter: ModelSessionDetailFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSessionDetails(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        date
-        day
-        month
-        year
-        sessionNumber
-        totalSessions
-        status
-        proratedValue
-        wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getLocation = /* GraphQL */ `
   query GetLocation($id: ID!) {
     getLocation(id: $id) {
@@ -1279,6 +810,7 @@ export const getSchedule = /* GraphQL */ `
       day
       startHour
       endHour
+      isActive
       course {
         id
         title
@@ -1337,6 +869,7 @@ export const listSchedules = /* GraphQL */ `
         day
         startHour
         endHour
+        isActive
         createdAt
         updatedAt
         locationSchedulesId
@@ -1399,6 +932,308 @@ export const listSessionTypes = /* GraphQL */ `
         packValidity
         createdAt
         updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getStudent = /* GraphQL */ `
+  query GetStudent($id: ID!) {
+    getStudent(id: $id) {
+      id
+      name
+      lastName
+      middleName
+      birthdate
+      placeOfResidence
+      contactPhone
+      whoIsTheContact
+      emailPhone
+      gender
+      firstSwimmingClass
+      attendedDaycare
+      immersesWithoutSwallowingWater
+      bornPrematurely
+      waterOnHisFaceBothersHim
+      putYourFaceInTheWater
+      anyIllnessInjuryMedicalCondition
+      enrollments {
+        nextToken
+        __typename
+      }
+      relationships {
+        nextToken
+        __typename
+      }
+      sessionDetail {
+        id
+        date
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        createdAt
+        updatedAt
+        enrollmentSessionDetailsId
+        sessionDetailStudentId
+        __typename
+      }
+      emailSend {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      studentSessionDetailId
+      __typename
+    }
+  }
+`;
+export const listStudents = /* GraphQL */ `
+  query ListStudents(
+    $id: ID
+    $filter: ModelStudentFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listStudents(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getEnrollment = /* GraphQL */ `
+  query GetEnrollment($id: ID!) {
+    getEnrollment(id: $id) {
+      id
+      amountPaid
+      startDate
+      endDate
+      wasPaid
+      timeAWeek
+      numberOfSessions
+      sessionsLeft
+      sessionsUsed
+      scheduleId
+      scheduleName
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      sessionType {
+        id
+        name
+        description
+        durationSession
+        timeAWeek
+        totalSessions
+        amount
+        packValidity
+        createdAt
+        updatedAt
+        __typename
+      }
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      transaction {
+        id
+        amount
+        date
+        paymentMethod
+        status
+        createdAt
+        updatedAt
+        transactionEnrollmentId
+        __typename
+      }
+      sessionDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      courseEnrollmentsId
+      sessionTypeEnrollmentsId
+      studentEnrollmentsId
+      enrollmentTransactionId
+      __typename
+    }
+  }
+`;
+export const listEnrollments = /* GraphQL */ `
+  query ListEnrollments(
+    $id: ID
+    $filter: ModelEnrollmentFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listEnrollments(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        enrollmentTransactionId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getSessionDetail = /* GraphQL */ `
+  query GetSessionDetail($id: ID!) {
+    getSessionDetail(id: $id) {
+      id
+      date
+      day
+      month
+      year
+      sessionNumber
+      totalSessions
+      status
+      proratedValue
+      wasEmailSent
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      createdAt
+      updatedAt
+      enrollmentSessionDetailsId
+      sessionDetailStudentId
+      __typename
+    }
+  }
+`;
+export const listSessionDetails = /* GraphQL */ `
+  query ListSessionDetails(
+    $filter: ModelSessionDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSessionDetails(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        date
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        createdAt
+        updatedAt
+        enrollmentSessionDetailsId
+        sessionDetailStudentId
         __typename
       }
       nextToken
@@ -1520,11 +1355,13 @@ export const getTransaction = /* GraphQL */ `
         numberOfSessions
         sessionsLeft
         sessionsUsed
+        scheduleId
+        scheduleName
         createdAt
         updatedAt
-        studentEnrollmentsId
         courseEnrollmentsId
         sessionTypeEnrollmentsId
+        studentEnrollmentsId
         enrollmentTransactionId
         __typename
       }
@@ -1559,6 +1396,159 @@ export const listTransactions = /* GraphQL */ `
         createdAt
         updatedAt
         transactionEnrollmentId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getUsers = /* GraphQL */ `
+  query GetUsers($id: ID!) {
+    getUsers(id: $id) {
+      id
+      name
+      email
+      validated
+      contactPhone
+      ig
+      firstContact
+      emailSend {
+        nextToken
+        __typename
+      }
+      relationships {
+        nextToken
+        __typename
+      }
+      userTickets {
+        nextToken
+        __typename
+      }
+      roles {
+        id
+        name
+        displayName
+        icon
+        createdAt
+        updatedAt
+        __typename
+      }
+      userPermissions {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersRolesId
+      __typename
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $id: ID
+    $filter: ModelUsersFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listUsers(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRelationship = /* GraphQL */ `
+  query GetRelationship($id: ID!) {
+    getRelationship(id: $id) {
+      id
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
+      relationType
+      createdAt
+      updatedAt
+      studentRelationshipsId
+      usersRelationshipsId
+      __typename
+    }
+  }
+`;
+export const listRelationships = /* GraphQL */ `
+  query ListRelationships(
+    $id: ID
+    $filter: ModelRelationshipFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listRelationships(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        relationType
+        createdAt
+        updatedAt
+        studentRelationshipsId
+        usersRelationshipsId
         __typename
       }
       nextToken
@@ -1674,68 +1664,6 @@ export const listUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const getTicketUser = /* GraphQL */ `
-  query GetTicketUser($id: ID!) {
-    getTicketUser(id: $id) {
-      id
-      usersId
-      supportTicketId
-      users {
-        id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
-      supportTicket {
-        id
-        name
-        email
-        phoneNumber
-        description
-        date
-        day
-        month
-        year
-        lastModificationUser
-        statusTicket
-        reason
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listTicketUsers = /* GraphQL */ `
-  query ListTicketUsers(
-    $filter: ModelTicketUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTicketUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        usersId
-        supportTicketId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getCourseSessionType = /* GraphQL */ `
   query GetCourseSessionType($id: ID!) {
     getCourseSessionType(id: $id) {
@@ -1791,6 +1719,68 @@ export const listCourseSessionTypes = /* GraphQL */ `
         id
         courseId
         sessionTypeId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getTicketUser = /* GraphQL */ `
+  query GetTicketUser($id: ID!) {
+    getTicketUser(id: $id) {
+      id
+      supportTicketId
+      usersId
+      supportTicket {
+        id
+        name
+        email
+        phoneNumber
+        description
+        date
+        day
+        month
+        year
+        lastModificationUser
+        statusTicket
+        reason
+        createdAt
+        updatedAt
+        __typename
+      }
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listTicketUsers = /* GraphQL */ `
+  query ListTicketUsers(
+    $filter: ModelTicketUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTicketUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        supportTicketId
+        usersId
         createdAt
         updatedAt
         __typename
@@ -1970,62 +1960,6 @@ export const userPermissionsByUsersId = /* GraphQL */ `
     }
   }
 `;
-export const ticketUsersByUsersId = /* GraphQL */ `
-  query TicketUsersByUsersId(
-    $usersId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelTicketUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    ticketUsersByUsersId(
-      usersId: $usersId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        usersId
-        supportTicketId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const ticketUsersBySupportTicketId = /* GraphQL */ `
-  query TicketUsersBySupportTicketId(
-    $supportTicketId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelTicketUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    ticketUsersBySupportTicketId(
-      supportTicketId: $supportTicketId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        usersId
-        supportTicketId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const courseSessionTypesByCourseId = /* GraphQL */ `
   query CourseSessionTypesByCourseId(
     $courseId: ID!
@@ -2073,6 +2007,62 @@ export const courseSessionTypesBySessionTypeId = /* GraphQL */ `
         id
         courseId
         sessionTypeId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const ticketUsersBySupportTicketId = /* GraphQL */ `
+  query TicketUsersBySupportTicketId(
+    $supportTicketId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTicketUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    ticketUsersBySupportTicketId(
+      supportTicketId: $supportTicketId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        supportTicketId
+        usersId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const ticketUsersByUsersId = /* GraphQL */ `
+  query TicketUsersByUsersId(
+    $usersId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTicketUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    ticketUsersByUsersId(
+      usersId: $usersId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        supportTicketId
+        usersId
         createdAt
         updatedAt
         __typename

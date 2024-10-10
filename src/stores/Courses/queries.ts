@@ -74,9 +74,14 @@ export const listCourses = /* GraphQL */ `
         updatedAt
         locationCoursesId
         __typename
-        schedules{
+        schedules(
+          filter:{
+            isActive : {eq: true}
+          }
+        ){
           items{
             id
+            isActive
             day
             startHour
             endHour

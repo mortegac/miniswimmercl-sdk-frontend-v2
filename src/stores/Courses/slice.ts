@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 import {fetchData} from "./services"
-import {Course, emptyCourse} from "./types"
+import {Course, emptyCourse, FilterOptions} from "./types"
 
 
 
@@ -22,13 +22,15 @@ export const initialState: CourseState = {
 };
 
 
-
+// locationId?: string;
+// isActive?: boolean;
+  
 
 export const getCourses = createAsyncThunk(
   "Courses/list",
-  async () => {
+  async (objFilter: FilterOptions) => {
     try {
-      const response:any = await fetchData();
+      const response:any = await fetchData({...objFilter});
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH CourseS", error)
