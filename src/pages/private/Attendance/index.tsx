@@ -4,9 +4,10 @@ import { parse, format } from 'date-fns';
 import _ from "lodash";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import Table from "@/components/Base/Table";
-import clsx from "clsx";
-import Tippy from "@/components/Base/Tippy";
+import { Slideover } from "@/components/Base/Headless";
 
+import { Menu, Popover } from "@/components/Base/Headless"
+import {CalculateAge} from "@/components/CalculateAge";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import Litepicker from "@/components/Base/Litepicker";
@@ -27,13 +28,24 @@ function transformDate(dateString:string) {
 function formatDateToISO(date:Date) {
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(date.getUTCDate()-1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
   const hours = String(date.getUTCHours()).padStart(2, '0');
   const minutes = String(date.getUTCMinutes()).padStart(2, '0');
   const seconds = String(date.getUTCSeconds()).padStart(2, '0');
   const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0');
 
   return `${year}-${month}-${day}T00:00:00.000Z`;
+}
+function formatDateToISOShort(date:Date) {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, '0');
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+  const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0');
+
+  return `${day}-${month}-${year}`;
 }
 
 interface Props {
@@ -46,7 +58,7 @@ const IcoGender: React.FC<Props> = ({gender}) => {
 }
 function Main() {
   
-  
+  const [switcherSlideSessions, setSwitcherSlideSessions] = useState(false);
   
 
   
@@ -87,9 +99,43 @@ function Main() {
   
   useEffect(() => { (async () => await getSessions(formatDateToISO(nowDate)) )(); }, []);
   
+  // primea vez 2024-10-10T00:00:00.000Z
+  //            2024-10-11T00:00:00.000Z
   
   return (
     <>
+        <Slideover
+        size="sm"
+        key="Slide-Historial"
+        open={switcherSlideSessions}
+        onClose={() => {
+          setSwitcherSlideSessions(false);
+        }}
+      >
+        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+          <a
+            href=""
+            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
+            onClick={(e) => {
+              e.preventDefault();
+              setSwitcherSlideSessions(false);
+            }}
+          >
+            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
+          </a>
+          <Slideover.Description className="p-0">
+            <div className="flex flex-col">
+              <div className="px-8 pt-6 pb-8">
+                <div className="text-base font-medium">Detalle de sesiones</div>
+                <div className="text-slate-500 mt-0.5  mb-12">
+                  Estudiante XX
+                </div>
+                
+              </div>
+            </div>
+          </Slideover.Description>
+        </Slideover.Panel>
+    </Slideover>
     {/* <pre>{JSON.stringify(sessionDetails[0], null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
@@ -186,7 +232,8 @@ function Main() {
                               {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
                             </a>
                             <div className="mt-1 text-xs text-slate-500 whitespace-nowrap">
-                            {item?.student?.birthdate || ""}
+                            {/* {item?.student?.birthdate || ""} */}
+                            <CalculateAge birthdate={String(item?.student?.birthdate)} />
                             </div>
                           </div>
                         </div>
@@ -196,12 +243,15 @@ function Main() {
                         <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
                           fecha sesión
                         </div>
-                       
-                        {FormatDate({
+                       {
+                        formatDateToISOShort(new Date(item?.date))
+                        // item?.date
+                       }
+                        {/* {FormatDate({
                             date: item?.date,
                             options: { month: "long", day: "numeric"},
                           })
-                        }
+                        } */}
                         {
                           
                           
@@ -247,11 +297,43 @@ function Main() {
                      }
                       </Table.Td>
                     
-                      {/* <Table.Td className="w-20 relative py-0 box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600">
-                        <div className="flex items-center justify-center">
-                        
-                        </div>
-                      </Table.Td> */}
+                      <Table.Td className={`relative py-4 ${item?.status === "USED" ? "bg-green-100": "bg-white"}`}>
+                  <div className="flex items-center justify-center ">
+                    <Menu className="h-5 ">
+                      <Menu.Button className="w-5 h-5 text-slate-500">
+                        <Lucide
+                          icon="MoreVertical"
+                        />
+                      </Menu.Button>
+                      <Menu.Items className="w-52">
+                        <Menu.Item 
+                          onClick={(event: React.MouseEvent) => {
+                            event.preventDefault();
+                            // setStudentListId(item?.student?.id)
+                            setSwitcherSlideSessions(true);
+                          }}>
+                            <Lucide
+                              icon="Grid2x2"
+                              className="w-4 h-4 mr-2"
+                            />{" "}
+                            Ver Sesiones
+                          </Menu.Item>
+                        <Menu.Item 
+                          onClick={(event: React.MouseEvent) => {
+                            event.preventDefault();
+                            // setStudentListId(item?.student?.id)
+                            setSwitcherSlideSessions(true);
+                          }}>
+                            <Lucide
+                              icon="User"
+                              className="w-4 h-4 mr-2"
+                            />{" "}
+                            Datos Alumno
+                          </Menu.Item>
+                      </Menu.Items>
+                    </Menu>
+                  </div>
+                </Table.Td>
                     </Table.Tr>
               )})}
               </Table.Tbody>

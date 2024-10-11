@@ -56,3 +56,35 @@ export const HoursAndMinutes = (date: string): string => {
   console.log(date), console.log(result);
   return result;
 };
+
+
+
+
+
+export function dateConverter(fechaString: string): Date {
+  // Asumimos que la fecha viene en formato "dd/mm/yyyy"
+  const [dia, mes, anio] = fechaString.split('/');
+  
+  // Creamos una nueva fecha en formato "yyyy-mm-dd"
+  return new Date(`${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`);
+}
+export function calculateAge(birthday: string): { years: number; month: number } {
+  try {
+      const _birthday = dateConverter(birthday);
+      const hoy = new Date();
+      let years = hoy.getFullYear() - _birthday.getFullYear();
+      let month = hoy.getMonth() - _birthday.getMonth();
+    
+      if (month < 0 || (month === 0 && hoy.getDate() < _birthday.getDate())) {
+        years--;
+        month += 12;
+      }
+    
+      month = month % 12;
+    
+      return { years, month };
+      
+  } catch (error) {
+      return { years:0, month:0 }
+  }
+}
