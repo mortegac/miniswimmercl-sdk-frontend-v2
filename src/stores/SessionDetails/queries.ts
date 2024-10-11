@@ -25,14 +25,14 @@ export const listSessionDetails = /* GraphQL */ `
         enrollmentSessionDetailsId
         sessionDetailStudentId
         __typename
-        enrollment{
-          id
-          startDate
-          course{
-            id
-            title
-          }
-        }
+        # enrollment{
+        #   id
+        #   startDate
+        #   course{
+        #     id
+        #     title
+        #   }
+        # }
         student{
           id
           name

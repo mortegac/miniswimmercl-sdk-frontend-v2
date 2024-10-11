@@ -182,7 +182,7 @@ function Main() {
                           
                           <IcoGender gender={item?.student?.gender || ""}/>
                           <div className="ml-3.5">
-                            <a href="" className="font-medium whitespace-nowrap">
+                            <a href="" className="font-medium whitespace-nowrap text-xl">
                               {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
                             </a>
                             <div className="mt-1 text-xs text-slate-500 whitespace-nowrap">
@@ -219,7 +219,7 @@ function Main() {
                         <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
                           Tipo de sesión
                         </div>  
-                        <div className="ml-1.5 whitespace-nowrap text-xl">
+                        <div className="ml-1.5 whitespace-nowrap text-lg">
                           {item?.status === "RECOVERED" && "SESION RECUPERADA"}
                           {item?.status === "ACTIVE" && "VIGENTE"}
                           {item?.status === "USED" && "UTILIZADA"}
