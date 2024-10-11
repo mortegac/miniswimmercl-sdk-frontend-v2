@@ -6,6 +6,8 @@ import LoadingIcon from "@/components/Base/LoadingIcon";
 import Table from "@/components/Base/Table";
 import { Slideover } from "@/components/Base/Headless";
 
+import ListParams from "@/components/ListParams";
+
 import { Menu, Popover } from "@/components/Base/Headless"
 import {CalculateAge} from "@/components/CalculateAge";
 import Lucide from "@/components/Base/Lucide";
@@ -18,11 +20,17 @@ import { getSessionDetails, selectSessionDetails, setSessionDetails } from "@/st
 import { InputOptions } from "@/stores/SessionDetails/types";
 import { setBreadcrumb } from '@/stores/breadcrumb';
 import {typeOfGender} from "@/pages/private/Students/components/Card";
+import { getLocationsOnly, selectLocation } from '../../../stores/Locations/slice';
 
 
 function transformDate(dateString:string) {
-  const parsedDate = parse(dateString, 'd MMM, yyyy', new Date());
-  return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+  try {
+    const parsedDate = parse(dateString, 'd MMM, yyyy', new Date());
+    return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    
+  } catch (error) {
+    return new Date(dateString)
+  }
 }
 
 function formatDateToISO(date:Date) {
@@ -70,7 +78,9 @@ function Main() {
   })
   // console.log("---newDate---", formatDateToISO(nowDate))
   const [date, setDate] = useState(nowDate22);
+  const [locationSelected, setLocationSelected] = useState("");
   const {sessionDetails, status } = useAppSelector(selectSessionDetails);
+  const {locationsList } = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
   dispatch(setBreadcrumb({first:"Asistencia", firstURL:"attendance"}));
   
@@ -79,32 +89,42 @@ function Main() {
     setDate(dateStr);
     const newDate = transformDate(dateStr)
     // console.log("---newDate---", newDate)
-    await getSessions(newDate)
+    await getSessions(String(newDate))
   }
   async function getSessions(dateSTR:string){
-    return await dispatch(getSessionDetails({ 
-      // status: "ACTIVE",
-      sessionDate: String(dateSTR)
-    }))
+    return await Promise.all([
+      await dispatch(getSessionDetails({ 
+        // status: "ACTIVE",
+        sessionDate: String(dateSTR)
+      }))
+      
+    ])
+    
+    
+    
   };
   
   async function updateSession(params:InputOptions){
-    const newDate = transformDate(date)
+    // const newDate = transformDate(date)
     await Promise.all([
-      await dispatch(setSessionDetails({ sessionId: params.sessionId, status: params.status, })),
-      await dispatch(getSessionDetails({sessionDate: String(newDate) }))
+      await dispatch(setSessionDetails({ 
+        sessionId: params.sessionId, 
+        status: params.status,
+        locationIdUsed:locationSelected })),
+      await dispatch(getSessionDetails({sessionDate: formatDateToISO(new Date(date)) }))
       // await dispatch(getSessionDetails({ status: "ACTIVE"}))
     ]);
   }
   
-  useEffect(() => { (async () => await getSessions(formatDateToISO(nowDate)) )(); }, []);
-  
-  // primea vez 2024-10-10T00:00:00.000Z
-  //            2024-10-11T00:00:00.000Z
+  useEffect(() => { 
+    (async () => await getSessions(formatDateToISO(nowDate)))() 
+    dispatch(getLocationsOnly())
+  }, []);
+
   
   return (
     <>
-        <Slideover
+      <Slideover
         size="sm"
         key="Slide-Historial"
         open={switcherSlideSessions}
@@ -135,8 +155,8 @@ function Main() {
             </div>
           </Slideover.Description>
         </Slideover.Panel>
-    </Slideover>
-    {/* <pre>{JSON.stringify(sessionDetails[0], null, 2)}</pre> */}
+      </Slideover>
+    <pre>{JSON.stringify(locationSelected, null, 2)}</pre>
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
               
@@ -239,62 +259,90 @@ function Main() {
                         </div>
                       </Table.Td>
                       {/* <Table.Td className="w-60 box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600"> */}
-                      <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
-                        <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
-                          fecha sesión
-                        </div>
-                       {
-                        formatDateToISOShort(new Date(item?.date))
-                        // item?.date
-                       }
-                        {/* {FormatDate({
-                            date: item?.date,
-                            options: { month: "long", day: "numeric"},
-                          })
-                        } */}
-                        {
-                          
-                          
-                        // format(new Date(item?.date), "dd-MMMM-yyyy")
-                        }
-                        {/* <div>{item?.date}</div> */}
-                          {/* <div className="ml-1.5 whitespace-nowrap">
-                          {item?.status === "RECOVERED" && "SESION RECUPERADA"}
-                          {item?.status === "ACTIVE" && "VIGENTE"}
-                          </div> */}
-                       
-                      </Table.Td>
+                   
                       {/* <Table.Td className="w-60 box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600"> */}
                       <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
                         <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
                           Tipo de sesión
-                        </div>  
+                        </div>
                         <div className="ml-1.5 whitespace-nowrap text-lg">
                           {item?.status === "RECOVERED" && "SESION RECUPERADA"}
                           {item?.status === "ACTIVE" && "VIGENTE"}
                           {item?.status === "USED" && "UTILIZADA"}
                         </div>
+                        <p className="text-xs font-thin" >Sesión: { formatDateToISOShort(new Date(item?.date))}</p>
                         
+                      </Table.Td>
+                      <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
+                      { item?.locationId && item?.locationId !=="" && <>
+                          <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
+                            Sede
+                          </div>  
+                          <p className="text-xs font-thin" >{item?.locationId}</p>
+                        </>
+                      }
+                       
                       </Table.Td>
                   
                       {/* <Table.Td className="w-44 box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600"> */}
                       <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
                       {item.status==="ACTIVE" &&
-                      <Button variant="soft-danger" rounded className="w-48 px-4 py-3" 
-                      onClick={() => updateSession({
-                        sessionId: item.id,
-                        status: "USED",
-                      })}
-                      >MARCAR PRESENTE</Button>
+                      <div className="flex flex-col justify-start items-start ">
+                        <div className="w-[100%] mb-2">
+                          <ListParams
+                          key={item.id}
+                            list={locationsList}
+                            text={""}
+                            value={locationSelected || ""}
+                            isLoading={false}
+                            
+                            fn={(e)=>setLocationSelected(e.target.value)}
+                            handleCreate={(e)=>console.log(e.target.value)}
+                            name={"location"}
+                          />                          
+                        </div>
+                        <Button variant="soft-danger" rounded 
+                        className="w-[85%] px-4 py-3" 
+                        onClick={() => updateSession({
+                          sessionId: item.id,
+                          status: "USED",
+                        })}
+                        >MARCAR PRESENTE</Button>
+                      </div>
                      }
                     {item.status==="RECOVERED" &&
-                      <Button variant="soft-danger" rounded className="w-48 px-4 py-3"
-                      onClick={() => updateSession({
-                        sessionId: item.id,
-                        status: "USED",
-                      })}
-                      >MARCAR PRESENTE</Button>
-                     }
+                    <div className="flex flex-col justify-start items-start ">
+                    <div className="w-[100%] mb-2">
+                      <ListParams
+                      key={item.id}
+                        list={locationsList}
+                        text={""}
+                        value={locationSelected || ""}
+                        isLoading={false}
+                        
+                        fn={(e)=>setLocationSelected(e.target.value)}
+                        handleCreate={(e)=>console.log(e.target.value)}
+                        name={"location"}
+                      />                          
+                    </div>
+                    <Button variant="soft-danger" rounded 
+                    className="w-[85%] px-4 py-3" 
+                    onClick={() => updateSession({
+                      sessionId: item.id,
+                      status: "USED",
+                    })}
+                    >MARCAR PRESENTE</Button>
+                  </div>
+                    // <div className="flex flex-col justify-center items-center">
+                    //     <span>LOCATIONS</span>
+                    //   <Button variant="soft-danger" rounded className="w-48 px-4 py-3"
+                    //   onClick={() => updateSession({
+                    //     sessionId: item.id,
+                    //     status: "USED",
+                    //   })}
+                    //   >MARCAR PRESENTE</Button>
+                    // </div>
+                    }
                       </Table.Td>
                     
                       <Table.Td className={`relative py-4 ${item?.status === "USED" ? "bg-green-100": "bg-white"}`}>

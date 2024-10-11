@@ -978,6 +978,8 @@ export const getStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
+        locationId
+        locationIdUsed
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1181,6 +1183,8 @@ export const getSessionDetail = /* GraphQL */ `
       status
       proratedValue
       wasEmailSent
+      locationId
+      locationIdUsed
       student {
         id
         name
@@ -1230,6 +1234,8 @@ export const listSessionDetails = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
+        locationId
+        locationIdUsed
         createdAt
         updatedAt
         enrollmentSessionDetailsId

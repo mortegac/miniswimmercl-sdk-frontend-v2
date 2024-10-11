@@ -199,17 +199,24 @@ const Card: React.FC<Props> = ({student}) => {
                   </div>
                 </Alert>
                 <h2 className="mt-2 font-thin">
-                  {changeName(student?.relationType || "")}:{" "}<b className="">{student?.user?.name}</b></h2>
-                <h3>{student?.usersRelationshipsId}</h3>
-              <div className="w-full border-t border-dashed border-primary my-2 mt-4"></div>                   
+                  {changeName(student?.relationType || "")}:{" "}
+                  <b className="">{student?.user?.name}</b>
+                  </h2>
+                {/* <h3>{student?.usersRelationshipsId}</h3> */}
+              <div className="w-full border-t border-dashed border-primary my-2 mt-1"></div>                   
               { numberSessions > 0 &&
-                <Alert className="flex items-center justify-center rounded-full mb-2 w-full border border-[#ae5eab]">
-                  <div className=" uppercase font-thin text-slate-900">
-                  <span className={`${numberSessions > 0 && "uppercase mt-3 text-sm font-medium leading-none text-[#ae5eab]  w-full"}`}>
-                        {`${numberSessions} Sessiones vigentes`}  
-                  </span>
-                  </div>
-                </Alert>
+                // <Alert className="flex items-center justify-center rounded-full mb-2 w-full border border-[#ae5eab]">
+                <div className="flex items-center flex-col justify-center mb-2 w-full p-4">
+                  {/* <div className=" uppercase font-thin text-slate-900"> */}
+                  <p className={`${numberSessions > 0 && "text-center uppercase mt-3 text-4xl font-medium leading-none text-[#ae5eab]  w-full"}`}>
+                        {`${numberSessions}`}  
+                  </p>
+                  <p className={`${numberSessions > 0 && "text-center uppercase mt-3 text-sm leading-none text-[#ae5eab]  w-full"}`}>
+                        Sessiones vigentes
+                  </p>
+                  {/* </div> */}
+                </div>
+                // </Alert>
               }
               </div>
               

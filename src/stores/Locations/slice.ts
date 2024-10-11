@@ -12,6 +12,7 @@ export interface UserState {
  location: Location;
  locations: Location[];
  errorMessage:string;
+ locationsList: string[];
 }
 
 export const initialState: UserState = {
@@ -19,6 +20,7 @@ export const initialState: UserState = {
   location: emptyLocation,
   locations: [emptyLocation],
   errorMessage:"",
+  locationsList: [],
 };
 
 
@@ -73,6 +75,7 @@ export const locationSlice = createSlice({
         
         // console.log("---getLocations --action---", objPayload)
         state.locations = objPayload?.items || [];
+      
         
       })
       // GET LOCATIONS
@@ -89,6 +92,20 @@ export const locationSlice = createSlice({
         state.status = "idle";
         
         state.locations = objPayload?.items || [];
+        
+        const transformList = (objPayload: Location[]): any[] => {
+          const orderArray = [...objPayload].sort((a, b) => 
+            a.name.localeCompare(b.name)
+          );
+          
+          return orderArray.map((item) => ({
+                label: `${String(item.id).toUpperCase()}`,
+                value: String(item.id)
+          }))
+        }
+        state.locationsList = transformList(objPayload?.items) || [];
+        
+        
         
       })
       

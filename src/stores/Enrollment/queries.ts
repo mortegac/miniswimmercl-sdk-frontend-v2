@@ -149,6 +149,8 @@ export const listEnrollments = /* GraphQL */ `
           month
           year
           status
+          locationId
+          locationIdUsed
         }
       }
     }

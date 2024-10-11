@@ -9,6 +9,8 @@ export type SessionDetail = {
   status: String;
   proratedValue: Number;
   wasEmailSent: Boolean;
+  locationId: String;
+  locationIdUsed: String;
   
   
   // enrollment: Enrollment[];
@@ -27,7 +29,8 @@ export const emptySessionDetail: SessionDetail = {
   status:  "",
   proratedValue: 0,
   wasEmailSent: false,
-  
+  locationId:  "",
+  locationIdUsed:  "",
   // sessionDetail: [emptySchedules],
 };
 
@@ -39,4 +42,5 @@ export type FilterOptions  = {
 export type InputOptions  = {
   sessionId?: string;
   status?: string;
+  locationIdUsed?: string;
 };

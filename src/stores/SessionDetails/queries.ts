@@ -24,6 +24,8 @@ export const listSessionDetails = /* GraphQL */ `
         updatedAt
         enrollmentSessionDetailsId
         sessionDetailStudentId
+        locationId
+        locationIdUsed
         __typename
         # enrollment{
         #   id

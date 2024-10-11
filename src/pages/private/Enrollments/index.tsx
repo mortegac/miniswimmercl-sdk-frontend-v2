@@ -358,27 +358,27 @@ function Content(props: any) {
                 <>
                   <div className="border-b border-dashed"></div>
                   <div className="flex flex-col justify-center items-center">
-                  <div className="relative w-[60%] mt-4">
-                      <Lucide
-                        icon="Mail"
-                        className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                      />
-                      <FormInput
-                          formInputSize="lg"
-                          placeholder="Email destinario..."
-                          aria-label="name" 
-                          aria-describedby="input-group-name"
-                          type="text"
-                          tabIndex={1} 
-                          // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
-                          className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
-                          name="guardianEmail"
-                          value={dataEMail.to_client_email}
-                          onChange={(e)=>setDataEMail({
-                            ...dataEMail,
-                            to_client_email : e.target.value
-                          })}
+                    <div className="relative w-[60%] mt-4">
+                        <Lucide
+                          icon="Mail"
+                          className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
                         />
+                        <FormInput
+                            formInputSize="lg"
+                            placeholder="Email destinario..."
+                            aria-label="name" 
+                            aria-describedby="input-group-name"
+                            type="text"
+                            tabIndex={1} 
+                            // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
+                            className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
+                            name="guardianEmail"
+                            value={dataEMail.to_client_email}
+                            onChange={(e)=>setDataEMail({
+                              ...dataEMail,
+                              to_client_email : e.target.value
+                            })}
+                          />
                     </div>
                     {/* <pre>{JSON.stringify(isSaved, null, 2)}</pre> */}
                     <Button
@@ -424,10 +424,10 @@ function Content(props: any) {
               <Table.Td className="w-60 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Curso
               </Table.Td>
-              <Table.Td className="w-72 py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              {/* <Table.Td className="w-72 py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Sede
-              </Table.Td>
-              <Table.Td className="w-40 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
+              </Table.Td> */}
+              <Table.Td className="w-44 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
                 Sesiones
               </Table.Td>
               {/* <Table.Td className="w-40 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
@@ -477,26 +477,32 @@ function Content(props: any) {
                 <Table.Td className="w-60 py-4 border-dashed">
                   <div className="flex items-center justify-start flex-col">
                     {item?.course?.title}
-                    {/* <p className="font-thin text-green-700">Inscripción: {`${day} - ${typeOfMonth[month]}-${year}`}</p> */}
+                    <p className="uppercase font-thin text-sm text-center">{item?.course?.location?.name}</p>
                     <p className="font-thin text-green-700">Inscripción: {`${formatDate(item?.startDate)}`}</p>
-                    {/* <p className="font-thin text-green-700">- {`${item?.startDate}`}</p> */}
                   </div>
+                   
                 </Table.Td>
-                <Table.Td className="w-72 py-4 border-dashed">
+                {/* <Table.Td className="w-72 py-4 border-dashed">
                   <div className="flex items-center justify-start uppercase">
                     {item?.course?.location?.name}
                   </div>
-                </Table.Td>
-                <Table.Td className="w-40 py-4 border-dashed">
+                </Table.Td> */}
+                <Table.Td className=" w-44 py-4 border-dashed">
                   {Array.isArray(item?.sessionDetails?.items) && item?.sessionDetails?.items.map((session:any, i:any) => (
-                    <div className={`my-2 ${session?.status==="ACTIVE"? " bg-green-50":" bg-slate-50"} rounded-full text-center p-2 flex flex-col flex-wrap`}>
-                      { session?.status==="ACTIVE" && 
-                      <small className="mt-1">{formatDate(session?.date)} | <i className=" font-thin">{session?.status}</i></small>
-                      }
-                      { session?.status==="USED" && 
-                      <small className="mt-1 line-through text-slate-400">{formatDate(session?.date)} | <i className=" font-thin">{session?.status}</i></small>
-                      }
-                    </div>
+                    <>
+                      <div className={`my-2 ${session?.status==="ACTIVE"? " bg-green-50":" bg-slate-50"} rounded-full text-center p-2 flex flex-col flex-wrap`}>
+                        { session?.status==="ACTIVE" && <>
+                          <small className="mt-1">{formatDate(session?.date)} | <i className=" font-thin">{session?.status}</i></small>
+                          <p className="w-40 truncate text-xs font-thin text-ellipsis overflow-hidden" >{session?.locationId}</p>
+                        </>
+                        }
+                        { session?.status==="USED" && <>
+                          <small className="mt-1 line-through text-slate-400">{formatDate(session?.date)} | <i className=" font-thin">{session?.status}</i></small>
+                          <p className="w-40 truncate text-xs font-thin text-ellipsis overflow-hidden" >{session?.locationIdUsed}</p>
+                        </>
+                        }
+                      </div>
+                    </>
                   ))}
                   
                 </Table.Td>
@@ -514,7 +520,6 @@ function Content(props: any) {
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           const location = findLocationById(locations, item?.course?.location?.id);
-console.log("--location--", location)
                           setDataEMail({
                             reply_to:"hola@miniswimmer.cl",
                             to_client_email:item?.student?.emailPhone,
@@ -666,11 +671,6 @@ function Main() {
                     icon="Search"
                     className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
                   />
-                  {/* <FormInput
-                    type="text"
-                    placeholder="Buscar alumnos..."
-                    className="pl-9 sm:w-64 rounded-[0.5rem]"
-                  /> */}
                    <FormInput
                       formInputSize="lg"
                       placeholder="Buscar alumnos..."

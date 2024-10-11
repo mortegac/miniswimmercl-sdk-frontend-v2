@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FormInput, FormSelect, FormCheck } from "@/components/Base/Form";
+import Toastify from "toastify-js";
+
+
 import Notification from "@/components/Base/Notification";
 import { NotificationElement } from "@/components/Base/Notification";
-
 import { HeaderTitle } from "./HeaderTitle";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
@@ -76,26 +78,41 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
   }
   
   async function dataValidate(){ 
-    if(guardianName ==="" || guardianEmail ===""){
-      await setMessage({ type:"error", title:"Error", description:"Debe ingresar todos los datos del Apoderado"})
-      successNotificationToggle()
+    // alert(guardianId)
+    
+    if(guardianId){
+      dispatch(increment())
+      
     }else{
+ 
+      if(guardianName ==="" || guardianEmail ===""){
+        const successEl = document
+        .querySelectorAll("#success-notification-content")[0]
+        .cloneNode(true) as HTMLElement;
+        successEl.classList.remove("hidden");
+        Toastify({
+          node: successEl,
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+        }).showToast();
+      }else{
+        await Promise.all([
+          await dispatch(setApoderado({
+            userEmail:guardianEmail,
+            name:guardianName
+          })),
+          
+          await getDataUser(guardianEmail || ""),
+          dispatch(increment()),  
+        ]);
+      }
       
-      id==="" && await Promise.all([
-        await dispatch(setApoderado({
-          userEmail:guardianEmail,
-          name:guardianName
-        })),
-        
-        await getDataUser(guardianEmail || ""),
-        await dispatch(increment()),        
-      ]);
-      
-      // successNotif icationToggle()
-      
-      // id && id!=="" && dispatch(increment())
-    //   await dispatch(setDataUser({id, email, name })) 
     }
+    
   }
   
     // Success notification
@@ -121,7 +138,19 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
     {/* <pre>guardianId = {JSON.stringify(enrollment)}</pre> */}
     {/* 
     <pre>guardianEmail = {JSON.stringify(guardianEmail)}</pre> */}
-      <Notification
+    <Notification
+        id="success-notification-content"
+        className="flex hidden"
+      >
+        <Lucide icon={"XCircle"} className="text-red-400 w-10 h-10" />
+        <div className="ml-4 mr-4">
+          <div className="font-medium">Faltan datos</div>
+          <div className="mt-1 text-slate-500">
+            Debe ingresar el email y nombre del apoderados para continuar
+          </div>
+        </div>
+      </Notification>
+      {/* <Notification
         getRef={(el) => {
           successNotification.current = el;
         }}
@@ -139,7 +168,7 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
             {message.description}
           </div>
         </div>
-      </Notification>
+      </Notification> */}
 
       
       

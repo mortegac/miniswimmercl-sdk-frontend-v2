@@ -26,9 +26,10 @@ export const updateData = async (objFilter: InputOptions): Promise<any> => {
     const inputData: Input = {
       id: String(objFilter?.sessionId),
       status: String(objFilter?.status),
+      locationIdUsed: String(objFilter?.locationIdUsed),
       
     };
-    // console.log(">> inputData >>", inputData)
+    console.log(">> inputData >>", inputData)
     
    
     const setData:any = await client.graphql({

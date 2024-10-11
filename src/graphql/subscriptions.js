@@ -1549,6 +1549,8 @@ export const onCreateStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
+        locationId
+        locationIdUsed
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1605,6 +1607,8 @@ export const onUpdateStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
+        locationId
+        locationIdUsed
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1661,6 +1665,8 @@ export const onDeleteStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
+        locationId
+        locationIdUsed
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1969,6 +1975,8 @@ export const onCreateSessionDetail = /* GraphQL */ `
       status
       proratedValue
       wasEmailSent
+      locationId
+      locationIdUsed
       student {
         id
         name
@@ -2015,6 +2023,8 @@ export const onUpdateSessionDetail = /* GraphQL */ `
       status
       proratedValue
       wasEmailSent
+      locationId
+      locationIdUsed
       student {
         id
         name
@@ -2061,6 +2071,8 @@ export const onDeleteSessionDetail = /* GraphQL */ `
       status
       proratedValue
       wasEmailSent
+      locationId
+      locationIdUsed
       student {
         id
         name
