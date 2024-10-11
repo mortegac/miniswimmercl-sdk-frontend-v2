@@ -42,7 +42,7 @@ export const FormStep03 = ({ onChangeSetStore }: any) => {
   const {courses, status } = useAppSelector(selectCourse);
   const dispatch = useAppDispatch();
   
-  useEffect(() => { (async () => await dispatch(getCourses()))(); }, []);
+  useEffect(() => { (async () => await dispatch(getCourses({isActive:true})))(); }, []);
   
   return (
     <>
