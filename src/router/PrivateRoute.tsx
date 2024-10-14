@@ -53,6 +53,9 @@ import {
     const { isAuthenticated, ...auth } = useAppSelector(selectAuth);
     const location = useLocation();
     
+    
+    console.log("PrivateValidation>>> isAuthenticated", isAuthenticated)
+    
     const prevUrl = location.state?.from ?? PUBLIC;
   
     if (!isAuthenticated) {

@@ -230,14 +230,15 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
               const req = await fetchUserData(email)
               // console.log(">>>req >>>", req)
               
-              return {username, userId, email, ...req};
+              // return {username, userId, email, ...req};
+              resolve ({username, userId, email, ...req})
             }
             
            
-              // reject({
-              // errorMessage: errorMsg,
-              // ...emptyLoginResponse,
-              // });
+            !userId && 
+              reject({
+              errorMessage: "Email o contraseña incorrecta",
+              });
            
           }else{
             switch (nextStep.signInStep) {
@@ -418,7 +419,7 @@ export const fetchAuthUser = async () => {
     // // console.log('User is signed in:', user);
     const auth = await getCurrentUser();
     const { username, userId } = auth;
-    // console.log(">>>fetchAuthUser, auth >>>", auth)
+    console.log(">>>fetchAuthUser, auth >>>", auth)
     
     
     // if(!username || !userId){
@@ -442,6 +443,47 @@ export const fetchAuthUser = async () => {
     // console.log("Not signed in");
   }
 };
+
+
+
+// export const fetchAuthUser = async (): Promise<any> => {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+     
+      
+//       const auth = await getCurrentUser();
+//       const { username, userId } = auth;
+      
+//       console.log("<<< auth <<<<< ", auth)
+
+//       !userId && await signOut()
+//       !userId && reject({ errorMessage: "Usuario o clave no existe" });
+      
+//     if(userId){
+//       const attributes = await fetchUserAttributes();
+//       const email = attributes?.email || "";
+//       const req = await fetchUserData(email)
+//       // return {username, userId, email, ...req};
+//       resolve({username, userId, email, ...req } as any);
+//     }
+      
+        
+//         // ...userData.data.getUsers
+//       // } else {
+//       //   reject({
+//       //     errorMessage: errorMsg,
+//       //   });
+//       // }
+//     } catch (err) {
+//       reject(
+//         JSON.stringify({
+//           errorMessage: err,
+//         })
+//       );
+//     }
+//   });
+// };
+
 
 export const fetchUserData = async (userId: string): Promise<any> => {
   return new Promise(async (resolve, reject) => {

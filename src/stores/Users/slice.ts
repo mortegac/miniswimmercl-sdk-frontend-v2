@@ -169,7 +169,7 @@ export const authSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         
-        // console.log("---getUser --action---", action)
+        console.log("---getUser --isAuthenticated---", objPayload?.userId ? true:false)
         
         state.isAuthenticated = objPayload?.userId ? true:false;
         state.name = action?.payload?.name || "";

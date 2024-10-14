@@ -19,18 +19,21 @@ import {
     const { isAuthenticated } = useAppSelector(selectAuth);
     const dispatch = useAppDispatch();
   
-    useEffect(() => {
-      dispatch(getAuthUser());
-    }, []);
+    
+    console.log("PublicValidation>>> isAuthenticated", isAuthenticated)
     
     useEffect(() => {
+      dispatch(getAuthUser());
+    }, [dispatch]);
+    
+    // useEffect(() => {
       
-      console.log("redirect")
+    //   console.log("redirect")
       
-      // const prevUrl = location.state?.from ?? PRIVATE;
-      // <Navigate to={prevUrl} state={{ from: location }} />
+    //   // const prevUrl = location.state?.from ?? PRIVATE;
+    //   // <Navigate to={prevUrl} state={{ from: location }} />
       
-    }, [isAuthenticated]);
+    // }, [isAuthenticated]);
   
     if (isAuthenticated) {
       const prevUrl = location.state?.from ?? PRIVATE;

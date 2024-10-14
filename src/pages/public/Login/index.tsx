@@ -140,6 +140,7 @@ function Main() {
                   </div> */}
                   <div className="my-6 text-danger text-md">
                     {/* {typeOfError[errorMessage || ""]} */}
+                    {user.errorMessage}
                   </div>
                   <div className="text-center intro-x xl:mt-8 xl:text-left">
                   <Button
