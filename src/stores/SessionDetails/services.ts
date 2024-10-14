@@ -119,7 +119,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
                     {status: { eq: "RECOVERED" }}            
                   ]
           
-          }
+          }, limit:1000000
           // sessionDetailStudentId: { eq: String(objFilter?.studentId) },
           // or: [
           //   {status: { eq: "ACTIVE" }},
