@@ -63,6 +63,9 @@ export const HTML = (data:any)=> `
                                 
                                 <p style=" margin-bottom: 22px;text-align:left;color:rgb(50,51,60);font-family:Verdana,Geneva,sans-serif;font-size:18px;font-weight:normal;line-height:21px;">
                                     Curso: <b>${data.to_course_name}</b></p>
+                                
+                                    <p style=" margin-bottom: 22px;text-align:left;color:rgb(50,51,60);font-family:Verdana,Geneva,sans-serif;font-size:18px;font-weight:normal;line-height:21px;">
+                                    Curso: <b>${data.to_schedule ? data.to_schedule:""}</b></p>
                                
                             </td>
                         </tr>

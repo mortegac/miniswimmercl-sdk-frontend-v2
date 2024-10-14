@@ -152,6 +152,7 @@ function Content(props: any) {
     to_student_name: "",
     to_student_id: "",
     to_course_name: "",
+    to_schedule: "",
     to_session_1:"",
     to_session_2:"",
     to_session_3:"",
@@ -439,7 +440,7 @@ function Content(props: any) {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {/* <pre>{JSON.stringify(enrollments[0], null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(enrollments, null, 2)}</pre> */}
             {Array.isArray(enrollments) && enrollments.map((item:any, index) => {
               const [month, day, year] = item?.startDate.split('-');
               const edad = calcularEdad(String(item?.student?.birthdate === "" ? "1800/01/01":item?.student?.birthdate ));                
@@ -526,6 +527,7 @@ function Content(props: any) {
                             to_student_name:`${item?.student?.name} ${item?.student?.lastName}`,
                             to_student_id:item?.student?.id,
                             to_course_name:item?.course?.title,
+                            to_schedule:`${item?.scheduleName} hrs`,
                             to_session_1:item?.sessionDetails?.items[0]?.date && formatDate(item?.sessionDetails?.items[0].date),
                             to_session_2:item?.sessionDetails?.items[1]?.date && formatDate(item?.sessionDetails?.items[1].date),
                             to_session_3:item?.sessionDetails?.items[2]?.date && formatDate(item?.sessionDetails?.items[2].date),

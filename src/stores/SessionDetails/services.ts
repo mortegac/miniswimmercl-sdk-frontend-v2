@@ -104,7 +104,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
    
     let getData:any;
     
-    // console.log(">>> objFilter  >>>", objFilter )
+    console.log(">>> objFilter  >>>", objFilter )
     
     if(objFilter?.status === "ACTIVE"){
       getData = await client.graphql({
@@ -132,17 +132,16 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       query: listSessionDetails,
       variables: { 
         filter: {...filter},
+        limit: 1000000
       },
     });
   }
-    
-      // const getData:any = await client.graphql({
-      //   query: listSessionDetails,
-      //   variables: { ...filterDetail },
-      // });
+
+  
       
       const data:any = getData.data;
-      data.listSessionDetails.items.length > 0 && console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data.listSessionDetails)
+      console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data)
+      // data.listSessionDetails.items.length > 0 && console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data.listSessionDetails)
       
         resolve({ ...data.listSessionDetails } as any);
         

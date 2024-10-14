@@ -62,11 +62,13 @@ export const setApoderado = createAsyncThunk(
 
 export const getLoginUser = createAsyncThunk(
   "auth/userLogin",
-  async (params: { password: string; email: string }, thunkAPI) => {
+  // async (params: { password: string; email: string }, thunkAPI) => {
+  async (params: { password: string; email: string }, { rejectWithValue }) => {
     try {
       return await handleLogin(params);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      // return thunkAPI.rejectWithValue(error);
+      return rejectWithValue((error as Error).message);
     }
   }
 );
@@ -161,6 +163,7 @@ export const authSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "failed";
         state.errorMessage = objPayload.errorMessage;
+        
       })
       .addCase(getLoginUser.pending, (state) => {
         state.status = "loading";

@@ -79,6 +79,13 @@ function Main() {
   // console.log("---newDate---", formatDateToISO(nowDate))
   const [date, setDate] = useState(nowDate22);
   const [locationSelected, setLocationSelected] = useState("");
+  const [dataStudent, setDataStudent] = useState({
+    id:"",
+    name:"",
+    lastName:"",
+    gender:"",
+    birthdate:"",
+  });
   const {sessionDetails, status } = useAppSelector(selectSessionDetails);
   const {locationsList } = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
@@ -125,7 +132,7 @@ function Main() {
   return (
     <>
       <Slideover
-        size="sm"
+        size="lg"
         key="Slide-Historial"
         open={switcherSlideSessions}
         onClose={() => {
@@ -147,16 +154,27 @@ function Main() {
             <div className="flex flex-col">
               <div className="px-8 pt-6 pb-8">
                 <div className="text-base font-medium">Detalle de sesiones</div>
-                <div className="text-slate-500 mt-0.5  mb-12">
-                  Estudiante XX
-                </div>
                 
+                <div className="flex items-center mt-8">
+                  <IcoGender gender={dataStudent?.gender || ""}/>
+                  <div className="ml-3.5">
+                    <a href="" className="font-medium whitespace-nowrap text-xl">
+                      {dataStudent?.name || ""}{" "}{dataStudent?.lastName || ""}
+                    </a>
+
+                    <div className="mt-1 text-xs text-slate-500 whitespace-nowrap">
+                    {/* {item?.student?.birthdate || ""} */}
+                    <CalculateAge birthdate={String(dataStudent?.birthdate)} />
+                    </div>
+                  </div>
+                </div>
+                {/* <pre>{JSON.stringify(dataStudent, null, 2 )}</pre> */}
               </div>
             </div>
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
-    <pre>{JSON.stringify(locationSelected, null, 2)}</pre>
+    {/* <pre>{JSON.stringify(locationSelected, null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
               
@@ -357,7 +375,13 @@ function Main() {
                         <Menu.Item 
                           onClick={(event: React.MouseEvent) => {
                             event.preventDefault();
-                            // setStudentListId(item?.student?.id)
+                             setDataStudent({
+                              id: item?.student?.id,
+                              name:item?.student?.name,
+                              lastName:item?.student?.lastName,
+                              gender:item?.student?.gender,
+                              birthdate:item?.student?.birthdate,
+                            })
                             setSwitcherSlideSessions(true);
                           }}>
                             <Lucide
@@ -369,7 +393,13 @@ function Main() {
                         <Menu.Item 
                           onClick={(event: React.MouseEvent) => {
                             event.preventDefault();
-                            // setStudentListId(item?.student?.id)
+                            setDataStudent({
+                              id: item?.student?.id,
+                              name:item?.student?.name,
+                              lastName:item?.student?.lastName,
+                              gender:item?.student?.gender,
+                              birthdate:item?.student?.birthdate,
+                            })
                             setSwitcherSlideSessions(true);
                           }}>
                             <Lucide
