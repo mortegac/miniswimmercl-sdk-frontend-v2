@@ -148,6 +148,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
           filter:{
             studentEmailSendId: {eq: String(objFilter.studentEmailSendId)},
           }
+          , limit:1000000
         }
            
       });

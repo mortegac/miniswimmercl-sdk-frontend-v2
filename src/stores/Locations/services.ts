@@ -13,7 +13,10 @@ export const fetchData = async (): Promise<any> => {
      
       const getData:any = await client.graphql({
         query: listLocations,
-        // variables: { id: userId },
+        variables: { 
+          filter:{}
+          , limit:1000000
+        },
       });
       
       // console.log("<<< LOCATIONS DATA <<<<< ", getData)

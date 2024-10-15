@@ -78,8 +78,10 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
         query: listUsers,
         // variables: { email: objFilter.userEmail },
         variables: { 
-          filter: {...filter},
+          filter: {...filter}
+          , limit:1000000
         },
+        
       });
       
       console.log("<<< USERS DATA <<<<< ", getData)

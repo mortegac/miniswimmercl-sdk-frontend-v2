@@ -28,7 +28,8 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       const getData:any = await client.graphql({
         query: listCourses,
         variables: { 
-            filter: {...filter},
+            filter: {...filter}
+            , limit:1000000
         }
       });
       

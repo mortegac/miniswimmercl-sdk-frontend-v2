@@ -15,6 +15,10 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
        // Save USER
        const getData:any = await client.graphql({
          query: listEnrollments,
+         variables: { 
+          filter:{}
+          , limit:1000000
+        },
         //  variables: { 
           //  input: {
           //    id: filter.name

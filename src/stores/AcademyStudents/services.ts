@@ -16,6 +16,10 @@ export const fetchData = async (): Promise<any> => {
      
       const getData:any = await client.graphql({
         query: listAcademyStudents,
+        variables: { 
+          filter:{}
+          , limit:1000000
+        },
         // variables: { id: userId },
       });
       
