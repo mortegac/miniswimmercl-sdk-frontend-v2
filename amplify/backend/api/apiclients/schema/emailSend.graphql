@@ -3,29 +3,11 @@
 ################################
 type EmailSend @model {
   id: ID! @primaryKey
-  date: AWSDateTime
+  # date: AWSDateTime
   type: TypeOfEmail!
   contentEmail: String @default(value: "") 
   email: String @default(value: "") 
-  wasSent: Boolean
-  # studentName: String @default(value: "")   
-  # studentId: String @default(value: "")   
-  # totalSessions: String @default(value: "")   
-  # session1: String @default(value: "")   
-  # session2: String @default(value: "")   
-  # session3: String @default(value: "")   
-  # session4: String @default(value: "")   
-  # session5: String @default(value: "")   
-  # session6: String @default(value: "")   
-  # session7: String @default(value: "")   
-  # session8: String @default(value: "")
-  # urlCancellationPolicies: String @default(value: "")
-  # courseName: String @default(value: "")  #Nombre del curso 
-  # courseSchedule: String @default(value: "")  #Horario del curso 
-  
-  # imageMap: String @default(value: "")  #URL de la imagen del mapa 
-  # urlMap: String @default(value: "")  #URL de google maps de la direccion
-  # directions: String @default(value: "")  #Indicaciones para la llegada
+  emailState: EmailState  @default(value: "SEND") 
   
   #Relations 
   # user: Users! @belongsTo      #Padre/Madre que se envio el email     
@@ -38,3 +20,22 @@ enum TypeOfEmail {
   NOSESSION   # ESCUELA | Email de Renovacion 
 }
 
+
+enum EmailState {
+  SEND
+  REJECT
+  DELIVERY
+  SUBSCRIPTION
+  COMPLAINT
+  OPEN
+  DELIVERYDELAY
+  CLICK
+  RENDERING_FAILURE
+  BOUNCE
+}
+
+type SentEmail @model @auth(rules: [{ allow: public }]) { #tabla de emails de invitacion enviados
+  id: ID! @primaryKey
+  emailState: EmailState
+  body: String @default(value: "")
+}

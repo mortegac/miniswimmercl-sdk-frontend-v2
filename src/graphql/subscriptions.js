@@ -427,11 +427,10 @@ export const onCreateEmailSend = /* GraphQL */ `
   ) {
     onCreateEmailSend(filter: $filter) {
       id
-      date
       type
       contentEmail
       email
-      wasSent
+      emailState
       userSend {
         id
         name
@@ -482,11 +481,10 @@ export const onUpdateEmailSend = /* GraphQL */ `
   ) {
     onUpdateEmailSend(filter: $filter) {
       id
-      date
       type
       contentEmail
       email
-      wasSent
+      emailState
       userSend {
         id
         name
@@ -537,11 +535,10 @@ export const onDeleteEmailSend = /* GraphQL */ `
   ) {
     onDeleteEmailSend(filter: $filter) {
       id
-      date
       type
       contentEmail
       email
-      wasSent
+      emailState
       userSend {
         id
         name
@@ -582,6 +579,48 @@ export const onDeleteEmailSend = /* GraphQL */ `
       updatedAt
       studentEmailSendId
       usersEmailSendId
+      __typename
+    }
+  }
+`;
+export const onCreateSentEmail = /* GraphQL */ `
+  subscription OnCreateSentEmail(
+    $filter: ModelSubscriptionSentEmailFilterInput
+  ) {
+    onCreateSentEmail(filter: $filter) {
+      id
+      emailState
+      body
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateSentEmail = /* GraphQL */ `
+  subscription OnUpdateSentEmail(
+    $filter: ModelSubscriptionSentEmailFilterInput
+  ) {
+    onUpdateSentEmail(filter: $filter) {
+      id
+      emailState
+      body
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteSentEmail = /* GraphQL */ `
+  subscription OnDeleteSentEmail(
+    $filter: ModelSubscriptionSentEmailFilterInput
+  ) {
+    onDeleteSentEmail(filter: $filter) {
+      id
+      emailState
+      body
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -1299,6 +1338,8 @@ export const onCreateSchedule = /* GraphQL */ `
       startHour
       endHour
       isActive
+      minimumQuotas
+      maximumQuotas
       course {
         id
         title
@@ -1345,6 +1386,8 @@ export const onUpdateSchedule = /* GraphQL */ `
       startHour
       endHour
       isActive
+      minimumQuotas
+      maximumQuotas
       course {
         id
         title
@@ -1391,6 +1434,8 @@ export const onDeleteSchedule = /* GraphQL */ `
       startHour
       endHour
       isActive
+      minimumQuotas
+      maximumQuotas
       course {
         id
         title

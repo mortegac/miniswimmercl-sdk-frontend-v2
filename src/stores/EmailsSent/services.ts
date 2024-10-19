@@ -22,10 +22,11 @@ export const createEmailSent = async (objFilter: FilterOptions): Promise<any> =>
         query: createEmailSend,
         variables: {
           input: {            
-            date:  new Date(Date.now()).toISOString(),
+            // date:  new Date(Date.now()).toISOString(),
             type:  objFilter.type,
             contentEmail:  objFilter.contentEmail,
             email:  objFilter.email,
+            emailState: "SEND",
             usersEmailSendId: objFilter.usersEmailSendId,
             studentEmailSendId: objFilter.studentEmailSendId,
           }
@@ -48,11 +49,9 @@ export const createEmailSent = async (objFilter: FilterOptions): Promise<any> =>
       // } else {
       // }
     } catch (err) {
-      reject(
-        JSON.stringify({
-          errorMessage: err,
-        })
-      );
+      reject({
+        errorMessage: JSON.stringify(err),
+    });
     }
   });
 };
@@ -128,11 +127,9 @@ export const sentWelcomeEmail = async (data: InputOptions): Promise<any> => {
         
     
     } catch (err) {
-      reject(
-        JSON.stringify({
-          errorMessage: err,
-        })
-      );
+      reject({
+          errorMessage: JSON.stringify(err),
+      });
     }
   });
 };
@@ -166,8 +163,8 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       // }
     } catch (err) {
       reject({
-        errorMessage:err
-      });
+        errorMessage: JSON.stringify(err),
+    });
     }
   });
 };

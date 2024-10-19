@@ -7,7 +7,7 @@ export type EmailSend = {
   type: TypeOfEmail
   contentEmail: string
   email: string
-  wasSent: boolean
+  emailState: boolean
   
   
   // #Relations 
@@ -24,7 +24,7 @@ export const emptyEmailSend: EmailSend = {
   type:  "WELCOME",
   contentEmail:  "",
   email:  "",
-  wasSent: false,
+  emailState: false,
 };
 
 
@@ -50,7 +50,7 @@ export type FilterOptions  = {
   type?: string;
   contentEmail?: string;
   email?: string;
-  wasSent?: boolean;
+  emailState?: boolean;
   usersEmailSendId?: string;
   studentEmailSendId?: string;
   

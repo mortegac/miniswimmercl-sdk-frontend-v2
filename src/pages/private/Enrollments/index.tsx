@@ -194,7 +194,7 @@ function Content(props: any) {
           email:  dataEMail.to_client_email,
           usersEmailSendId: email,
           studentEmailSendId: dataEMail.to_student_id,
-          wasSent: true
+          
         }))
         
         

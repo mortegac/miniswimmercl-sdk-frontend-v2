@@ -62,25 +62,11 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
      
-      // console.log(">> objFilter >>", objFilter)
-      // studentId?: string;
-      // status?: string;
-    //   const filterStudentId = typeof objFilter?.studentId === 'undefined'
-    //   ? {}
-    //   : { sessionDetailStudentId: { eq: objFilter.studentId } };
-      
-    //   const filterStatus = typeof objFilter?.status === 'undefined'
-    //   ? {}
-    //   : { status: { eq: objFilter.status } };
-
-    // const filterDetail = {
-    //   filter: {
-    //     ...filterStudentId,
-    //     ...filterStatus,
-    //   },
-    //   limit: LIMIT_FILTER
-    // };
     
+    const filterLocation= typeof objFilter?.locationId === 'undefined'
+      ? {}
+      : { locationId: { eq: String(objFilter?.locationId) } };
+      
     const filterStudent = typeof objFilter?.studentId === 'undefined'
       ? {}
       : { sessionDetailStudentId: { eq: String(objFilter?.studentId) } };
@@ -100,6 +86,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       ...filterStudent,
       ...filterStatus,
       ...filterSessionDate,
+      ...filterLocation,
     };
    
     let getData:any;
@@ -114,6 +101,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
             // sessionDetailStudentId: {eq: String(objFilter?.studentId)},
             ...filterStudent,
             ...filterSessionDate,
+            ...filterLocation,
             or: [
                     {status: { eq: "ACTIVE" }},
                     {status: { eq: "RECOVERED" }}            

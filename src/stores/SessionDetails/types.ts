@@ -38,6 +38,8 @@ export type FilterOptions  = {
   studentId?: string;
   status?: string;
   sessionDate?: string;
+  locationId?: string;
+  
 };
 export type InputOptions  = {
   sessionId?: string;

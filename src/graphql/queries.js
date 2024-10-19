@@ -249,11 +249,10 @@ export const getEmailSend = /* GraphQL */ `
   query GetEmailSend($id: ID!) {
     getEmailSend(id: $id) {
       id
-      date
       type
       contentEmail
       email
-      wasSent
+      emailState
       userSend {
         id
         name
@@ -315,15 +314,54 @@ export const listEmailSends = /* GraphQL */ `
     ) {
       items {
         id
-        date
         type
         contentEmail
         email
-        wasSent
+        emailState
         createdAt
         updatedAt
         studentEmailSendId
         usersEmailSendId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getSentEmail = /* GraphQL */ `
+  query GetSentEmail($id: ID!) {
+    getSentEmail(id: $id) {
+      id
+      emailState
+      body
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listSentEmails = /* GraphQL */ `
+  query ListSentEmails(
+    $id: ID
+    $filter: ModelSentEmailFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listSentEmails(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        emailState
+        body
+        createdAt
+        updatedAt
         __typename
       }
       nextToken
@@ -811,6 +849,8 @@ export const getSchedule = /* GraphQL */ `
       startHour
       endHour
       isActive
+      minimumQuotas
+      maximumQuotas
       course {
         id
         title
@@ -870,6 +910,8 @@ export const listSchedules = /* GraphQL */ `
         startHour
         endHour
         isActive
+        minimumQuotas
+        maximumQuotas
         createdAt
         updatedAt
         locationSchedulesId

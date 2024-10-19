@@ -454,11 +454,10 @@ export const createEmailSend = /* GraphQL */ `
   ) {
     createEmailSend(input: $input, condition: $condition) {
       id
-      date
       type
       contentEmail
       email
-      wasSent
+      emailState
       userSend {
         id
         name
@@ -510,11 +509,10 @@ export const updateEmailSend = /* GraphQL */ `
   ) {
     updateEmailSend(input: $input, condition: $condition) {
       id
-      date
       type
       contentEmail
       email
-      wasSent
+      emailState
       userSend {
         id
         name
@@ -566,11 +564,10 @@ export const deleteEmailSend = /* GraphQL */ `
   ) {
     deleteEmailSend(input: $input, condition: $condition) {
       id
-      date
       type
       contentEmail
       email
-      wasSent
+      emailState
       userSend {
         id
         name
@@ -611,6 +608,51 @@ export const deleteEmailSend = /* GraphQL */ `
       updatedAt
       studentEmailSendId
       usersEmailSendId
+      __typename
+    }
+  }
+`;
+export const createSentEmail = /* GraphQL */ `
+  mutation CreateSentEmail(
+    $input: CreateSentEmailInput!
+    $condition: ModelSentEmailConditionInput
+  ) {
+    createSentEmail(input: $input, condition: $condition) {
+      id
+      emailState
+      body
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateSentEmail = /* GraphQL */ `
+  mutation UpdateSentEmail(
+    $input: UpdateSentEmailInput!
+    $condition: ModelSentEmailConditionInput
+  ) {
+    updateSentEmail(input: $input, condition: $condition) {
+      id
+      emailState
+      body
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteSentEmail = /* GraphQL */ `
+  mutation DeleteSentEmail(
+    $input: DeleteSentEmailInput!
+    $condition: ModelSentEmailConditionInput
+  ) {
+    deleteSentEmail(input: $input, condition: $condition) {
+      id
+      emailState
+      body
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -1385,6 +1427,8 @@ export const createSchedule = /* GraphQL */ `
       startHour
       endHour
       isActive
+      minimumQuotas
+      maximumQuotas
       course {
         id
         title
@@ -1434,6 +1478,8 @@ export const updateSchedule = /* GraphQL */ `
       startHour
       endHour
       isActive
+      minimumQuotas
+      maximumQuotas
       course {
         id
         title
@@ -1483,6 +1529,8 @@ export const deleteSchedule = /* GraphQL */ `
       startHour
       endHour
       isActive
+      minimumQuotas
+      maximumQuotas
       course {
         id
         title

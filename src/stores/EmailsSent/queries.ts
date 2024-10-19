@@ -19,22 +19,23 @@ export const listEmailSends = /* GraphQL */ `
     ) {
       items {
         id
-        date
+        # date
         type
-        contentEmail
+        # contentEmail
         email
-        wasSent
-        userSend{
-          id
-          name
-        }
-        student{ 
-          id
-          name
-          lastName
-        }
         createdAt
-        updatedAt
+        # emailState
+        # userSend{
+        #   id
+        #   name
+        # }
+        # student{ 
+        #   id
+        #   name
+        #   lastName
+        # }
+        # createdAt
+        # updatedAt
         usersEmailSendId
         studentEmailSendId
         __typename

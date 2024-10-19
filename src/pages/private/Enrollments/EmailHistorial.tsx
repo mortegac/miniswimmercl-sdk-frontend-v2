@@ -24,9 +24,9 @@ const typeOfMonth: any = {
 
 function Content(props: any) {
     const {email} = props;
-    const [date, hour] = email.date.split('T');
-    // const [year, month, day] = date.split('-');
-    // const [hourFull, rest] = hour.split('.');
+    const [date, hour] = email.createdAt.split('T');
+    const [year, month, day] = date.split('-');
+    const [hourFull, rest] = hour.split('.');
     return(
         <>
         {/* <pre>{JSON.stringify(email, null, 2 )}</pre> */}
@@ -37,10 +37,11 @@ function Content(props: any) {
                     </div>
                     </Table.Td>
                     <Table.Td className="py-4 border-dashed dark:bg-darkmode-600">
-                    <div className="flex flex-col items-center justify-start">
-                    {/* <p className="text-sm">{`${date} ${typeOfMonth[month]} ${year}`}</p> */}
+                    <div className="flex flex-col items-center justify-center">
+                   
+                    {/* <p className="text-sm">{`${email.createdAt}`}</p> */}
                     <p className="text-sm">{`${date}`}</p>
-                    <p className="font-thin text-sm">{hour}</p>
+                    <p className="font-thin text-sm">{hourFull}</p>
                     </div>
                     </Table.Td>
                     <Table.Td className="w-60 py-4 border-dashed">
@@ -50,7 +51,7 @@ function Content(props: any) {
                     </Table.Td>
                     <Table.Td className="w-52 py-4 border-dashed">
                     <div className="flex items-center justify-start">
-                    {email?.userSend?.name}
+                    {email?.usersEmailSendId}
                     </div>
                     </Table.Td>
             </Table.Tr>
@@ -83,7 +84,7 @@ export function EmailHistorial(props: any) {
               <Table.Td className="w-72 py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Destinatario
               </Table.Td>
-              <Table.Td className="w-52 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              <Table.Td className="w-52 py-4 font-medium text-center border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Fecha
               </Table.Td>
               <Table.Td className="w-60 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">

@@ -10,6 +10,44 @@ const client = generateClient();
 
 
 
+export const fetchDataSearchName = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const getData:any = await client.graphql({
+        query: listStudents,
+        variables: { 
+          filter: {
+            or: [
+              { name: { contains: objFilter?.name } },
+              { lastName: { contains: objFilter?.name } },
+              { middleName: { contains: objFilter?.name } }
+            ]
+          },
+          limit: 1000000
+        },
+      });
+      
+      console.log("<<< STUDENTS DATA <<<<< ", getData)
+      const data = getData.data;
+      
+        resolve({ ...data.listStudents } as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
 export const fetchData = async (): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {

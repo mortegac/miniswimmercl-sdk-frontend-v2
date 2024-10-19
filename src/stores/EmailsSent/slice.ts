@@ -69,7 +69,7 @@ export const EmailSendSlice = createSlice({
       .addCase(setEmailSend.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage && objPayload.errorMessage;
         state.wasSent = false;
       })
       .addCase(setEmailSend.pending, (state) => {
@@ -86,13 +86,16 @@ export const EmailSendSlice = createSlice({
       // GET EMAILS 
       .addCase(getEmails.rejected, (state, action) => {
         const objPayload: any = action.payload;
+        console.log("---getEmails --rejected---", action.payload)
+        
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage && objPayload.errorMessage;
       })
       .addCase(getEmails.pending, (state) => {
         state.status = "loading";
       })
       .addCase(getEmails.fulfilled, (state, action) => {
+        console.log("---getEmails --fulfilled---", action.payload)
         const objPayload: any = action.payload;
         state.status = "idle";
      

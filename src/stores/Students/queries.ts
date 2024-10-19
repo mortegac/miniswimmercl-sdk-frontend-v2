@@ -112,7 +112,15 @@ export const listStudents = /* GraphQL */ `
           }){
             items{
               id
-              sessionNumber
+              sessionNumber              
+              date
+              month
+              year
+              status
+              locationId
+              locationIdUsed
+          
+          
             }
           }
           }

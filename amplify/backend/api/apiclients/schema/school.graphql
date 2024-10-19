@@ -74,6 +74,8 @@ type Schedule @model {
   startHour: String!
   endHour: String!
   isActive: Boolean @default(value: "false")
+  minimumQuotas: Int @default(value: "0")   # Cupos Minimo del horario
+  maximumQuotas: Int @default(value: "0")   # Cupos Maximo del horario
   
   #Relations
   course: Course @belongsTo
