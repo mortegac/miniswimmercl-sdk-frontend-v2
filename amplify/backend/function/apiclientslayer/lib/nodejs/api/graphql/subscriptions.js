@@ -1,7 +1,6 @@
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
+const gql = require("graphql-tag");
 
-export const onCreateUsers = /* GraphQL */ `
+const onCreateUsers = gql`
   subscription OnCreateUsers($filter: ModelSubscriptionUsersFilterInput) {
     onCreateUsers(filter: $filter) {
       id
@@ -40,7 +39,7 @@ export const onCreateUsers = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateUsers = /* GraphQL */ `
+const onUpdateUsers = gql`
   subscription OnUpdateUsers($filter: ModelSubscriptionUsersFilterInput) {
     onUpdateUsers(filter: $filter) {
       id
@@ -79,7 +78,7 @@ export const onUpdateUsers = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteUsers = /* GraphQL */ `
+const onDeleteUsers = gql`
   subscription OnDeleteUsers($filter: ModelSubscriptionUsersFilterInput) {
     onDeleteUsers(filter: $filter) {
       id
@@ -118,7 +117,7 @@ export const onDeleteUsers = /* GraphQL */ `
     }
   }
 `;
-export const onCreateRelationship = /* GraphQL */ `
+const onCreateRelationship = gql`
   subscription OnCreateRelationship(
     $filter: ModelSubscriptionRelationshipFilterInput
   ) {
@@ -170,7 +169,7 @@ export const onCreateRelationship = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateRelationship = /* GraphQL */ `
+const onUpdateRelationship = gql`
   subscription OnUpdateRelationship(
     $filter: ModelSubscriptionRelationshipFilterInput
   ) {
@@ -222,7 +221,7 @@ export const onUpdateRelationship = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteRelationship = /* GraphQL */ `
+const onDeleteRelationship = gql`
   subscription OnDeleteRelationship(
     $filter: ModelSubscriptionRelationshipFilterInput
   ) {
@@ -274,7 +273,7 @@ export const onDeleteRelationship = /* GraphQL */ `
     }
   }
 `;
-export const onCreateStudent = /* GraphQL */ `
+const onCreateStudent = gql`
   subscription OnCreateStudent($filter: ModelSubscriptionStudentFilterInput) {
     onCreateStudent(filter: $filter) {
       id
@@ -320,7 +319,7 @@ export const onCreateStudent = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateStudent = /* GraphQL */ `
+const onUpdateStudent = gql`
   subscription OnUpdateStudent($filter: ModelSubscriptionStudentFilterInput) {
     onUpdateStudent(filter: $filter) {
       id
@@ -366,7 +365,7 @@ export const onUpdateStudent = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteStudent = /* GraphQL */ `
+const onDeleteStudent = gql`
   subscription OnDeleteStudent($filter: ModelSubscriptionStudentFilterInput) {
     onDeleteStudent(filter: $filter) {
       id
@@ -412,7 +411,7 @@ export const onDeleteStudent = /* GraphQL */ `
     }
   }
 `;
-export const onCreateEnrollment = /* GraphQL */ `
+const onCreateEnrollment = gql`
   subscription OnCreateEnrollment(
     $filter: ModelSubscriptionEnrollmentFilterInput
   ) {
@@ -500,7 +499,7 @@ export const onCreateEnrollment = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateEnrollment = /* GraphQL */ `
+const onUpdateEnrollment = gql`
   subscription OnUpdateEnrollment(
     $filter: ModelSubscriptionEnrollmentFilterInput
   ) {
@@ -588,7 +587,7 @@ export const onUpdateEnrollment = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteEnrollment = /* GraphQL */ `
+const onDeleteEnrollment = gql`
   subscription OnDeleteEnrollment(
     $filter: ModelSubscriptionEnrollmentFilterInput
   ) {
@@ -676,7 +675,7 @@ export const onDeleteEnrollment = /* GraphQL */ `
     }
   }
 `;
-export const onCreateSessionDetail = /* GraphQL */ `
+const onCreateSessionDetail = gql`
   subscription OnCreateSessionDetail(
     $filter: ModelSubscriptionSessionDetailFilterInput
   ) {
@@ -734,7 +733,7 @@ export const onCreateSessionDetail = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateSessionDetail = /* GraphQL */ `
+const onUpdateSessionDetail = gql`
   subscription OnUpdateSessionDetail(
     $filter: ModelSubscriptionSessionDetailFilterInput
   ) {
@@ -792,7 +791,7 @@ export const onUpdateSessionDetail = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteSessionDetail = /* GraphQL */ `
+const onDeleteSessionDetail = gql`
   subscription OnDeleteSessionDetail(
     $filter: ModelSubscriptionSessionDetailFilterInput
   ) {
@@ -850,7 +849,7 @@ export const onDeleteSessionDetail = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTransaction = /* GraphQL */ `
+const onCreateTransaction = gql`
   subscription OnCreateTransaction(
     $filter: ModelSubscriptionTransactionFilterInput
   ) {
@@ -885,7 +884,7 @@ export const onCreateTransaction = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateTransaction = /* GraphQL */ `
+const onUpdateTransaction = gql`
   subscription OnUpdateTransaction(
     $filter: ModelSubscriptionTransactionFilterInput
   ) {
@@ -920,7 +919,7 @@ export const onUpdateTransaction = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteTransaction = /* GraphQL */ `
+const onDeleteTransaction = gql`
   subscription OnDeleteTransaction(
     $filter: ModelSubscriptionTransactionFilterInput
   ) {
@@ -955,7 +954,7 @@ export const onDeleteTransaction = /* GraphQL */ `
     }
   }
 `;
-export const onCreateLocation = /* GraphQL */ `
+const onCreateLocation = gql`
   subscription OnCreateLocation($filter: ModelSubscriptionLocationFilterInput) {
     onCreateLocation(filter: $filter) {
       id
@@ -983,7 +982,7 @@ export const onCreateLocation = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateLocation = /* GraphQL */ `
+const onUpdateLocation = gql`
   subscription OnUpdateLocation($filter: ModelSubscriptionLocationFilterInput) {
     onUpdateLocation(filter: $filter) {
       id
@@ -1011,7 +1010,7 @@ export const onUpdateLocation = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteLocation = /* GraphQL */ `
+const onDeleteLocation = gql`
   subscription OnDeleteLocation($filter: ModelSubscriptionLocationFilterInput) {
     onDeleteLocation(filter: $filter) {
       id
@@ -1039,7 +1038,7 @@ export const onDeleteLocation = /* GraphQL */ `
     }
   }
 `;
-export const onCreateExpense = /* GraphQL */ `
+const onCreateExpense = gql`
   subscription OnCreateExpense($filter: ModelSubscriptionExpenseFilterInput) {
     onCreateExpense(filter: $filter) {
       id
@@ -1070,7 +1069,7 @@ export const onCreateExpense = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateExpense = /* GraphQL */ `
+const onUpdateExpense = gql`
   subscription OnUpdateExpense($filter: ModelSubscriptionExpenseFilterInput) {
     onUpdateExpense(filter: $filter) {
       id
@@ -1101,7 +1100,7 @@ export const onUpdateExpense = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteExpense = /* GraphQL */ `
+const onDeleteExpense = gql`
   subscription OnDeleteExpense($filter: ModelSubscriptionExpenseFilterInput) {
     onDeleteExpense(filter: $filter) {
       id
@@ -1132,7 +1131,7 @@ export const onDeleteExpense = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCourse = /* GraphQL */ `
+const onCreateCourse = gql`
   subscription OnCreateCourse($filter: ModelSubscriptionCourseFilterInput) {
     onCreateCourse(filter: $filter) {
       id
@@ -1175,7 +1174,7 @@ export const onCreateCourse = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateCourse = /* GraphQL */ `
+const onUpdateCourse = gql`
   subscription OnUpdateCourse($filter: ModelSubscriptionCourseFilterInput) {
     onUpdateCourse(filter: $filter) {
       id
@@ -1218,7 +1217,7 @@ export const onUpdateCourse = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteCourse = /* GraphQL */ `
+const onDeleteCourse = gql`
   subscription OnDeleteCourse($filter: ModelSubscriptionCourseFilterInput) {
     onDeleteCourse(filter: $filter) {
       id
@@ -1261,7 +1260,7 @@ export const onDeleteCourse = /* GraphQL */ `
     }
   }
 `;
-export const onCreateSchedule = /* GraphQL */ `
+const onCreateSchedule = gql`
   subscription OnCreateSchedule($filter: ModelSubscriptionScheduleFilterInput) {
     onCreateSchedule(filter: $filter) {
       id
@@ -1303,7 +1302,7 @@ export const onCreateSchedule = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateSchedule = /* GraphQL */ `
+const onUpdateSchedule = gql`
   subscription OnUpdateSchedule($filter: ModelSubscriptionScheduleFilterInput) {
     onUpdateSchedule(filter: $filter) {
       id
@@ -1345,7 +1344,7 @@ export const onUpdateSchedule = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteSchedule = /* GraphQL */ `
+const onDeleteSchedule = gql`
   subscription OnDeleteSchedule($filter: ModelSubscriptionScheduleFilterInput) {
     onDeleteSchedule(filter: $filter) {
       id
@@ -1387,7 +1386,7 @@ export const onDeleteSchedule = /* GraphQL */ `
     }
   }
 `;
-export const onCreateSessionType = /* GraphQL */ `
+const onCreateSessionType = gql`
   subscription OnCreateSessionType(
     $filter: ModelSubscriptionSessionTypeFilterInput
   ) {
@@ -1412,7 +1411,7 @@ export const onCreateSessionType = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateSessionType = /* GraphQL */ `
+const onUpdateSessionType = gql`
   subscription OnUpdateSessionType(
     $filter: ModelSubscriptionSessionTypeFilterInput
   ) {
@@ -1437,7 +1436,7 @@ export const onUpdateSessionType = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteSessionType = /* GraphQL */ `
+const onDeleteSessionType = gql`
   subscription OnDeleteSessionType(
     $filter: ModelSubscriptionSessionTypeFilterInput
   ) {
@@ -1462,7 +1461,7 @@ export const onDeleteSessionType = /* GraphQL */ `
     }
   }
 `;
-export const onCreateRoles = /* GraphQL */ `
+const onCreateRoles = gql`
   subscription OnCreateRoles($filter: ModelSubscriptionRolesFilterInput) {
     onCreateRoles(filter: $filter) {
       id
@@ -1479,7 +1478,7 @@ export const onCreateRoles = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateRoles = /* GraphQL */ `
+const onUpdateRoles = gql`
   subscription OnUpdateRoles($filter: ModelSubscriptionRolesFilterInput) {
     onUpdateRoles(filter: $filter) {
       id
@@ -1496,7 +1495,7 @@ export const onUpdateRoles = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteRoles = /* GraphQL */ `
+const onDeleteRoles = gql`
   subscription OnDeleteRoles($filter: ModelSubscriptionRolesFilterInput) {
     onDeleteRoles(filter: $filter) {
       id
@@ -1513,7 +1512,7 @@ export const onDeleteRoles = /* GraphQL */ `
     }
   }
 `;
-export const onCreatePermissions = /* GraphQL */ `
+const onCreatePermissions = gql`
   subscription OnCreatePermissions(
     $filter: ModelSubscriptionPermissionsFilterInput
   ) {
@@ -1553,7 +1552,7 @@ export const onCreatePermissions = /* GraphQL */ `
     }
   }
 `;
-export const onUpdatePermissions = /* GraphQL */ `
+const onUpdatePermissions = gql`
   subscription OnUpdatePermissions(
     $filter: ModelSubscriptionPermissionsFilterInput
   ) {
@@ -1593,7 +1592,7 @@ export const onUpdatePermissions = /* GraphQL */ `
     }
   }
 `;
-export const onDeletePermissions = /* GraphQL */ `
+const onDeletePermissions = gql`
   subscription OnDeletePermissions(
     $filter: ModelSubscriptionPermissionsFilterInput
   ) {
@@ -1633,7 +1632,7 @@ export const onDeletePermissions = /* GraphQL */ `
     }
   }
 `;
-export const onCreateSupportTicket = /* GraphQL */ `
+const onCreateSupportTicket = gql`
   subscription OnCreateSupportTicket(
     $filter: ModelSubscriptionSupportTicketFilterInput
   ) {
@@ -1664,7 +1663,7 @@ export const onCreateSupportTicket = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateSupportTicket = /* GraphQL */ `
+const onUpdateSupportTicket = gql`
   subscription OnUpdateSupportTicket(
     $filter: ModelSubscriptionSupportTicketFilterInput
   ) {
@@ -1695,7 +1694,7 @@ export const onUpdateSupportTicket = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteSupportTicket = /* GraphQL */ `
+const onDeleteSupportTicket = gql`
   subscription OnDeleteSupportTicket(
     $filter: ModelSubscriptionSupportTicketFilterInput
   ) {
@@ -1726,7 +1725,7 @@ export const onDeleteSupportTicket = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCommentTickets = /* GraphQL */ `
+const onCreateCommentTickets = gql`
   subscription OnCreateCommentTickets(
     $filter: ModelSubscriptionCommentTicketsFilterInput
   ) {
@@ -1745,7 +1744,7 @@ export const onCreateCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateCommentTickets = /* GraphQL */ `
+const onUpdateCommentTickets = gql`
   subscription OnUpdateCommentTickets(
     $filter: ModelSubscriptionCommentTicketsFilterInput
   ) {
@@ -1764,7 +1763,7 @@ export const onUpdateCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteCommentTickets = /* GraphQL */ `
+const onDeleteCommentTickets = gql`
   subscription OnDeleteCommentTickets(
     $filter: ModelSubscriptionCommentTicketsFilterInput
   ) {
@@ -1783,7 +1782,7 @@ export const onDeleteCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTicketUser = /* GraphQL */ `
+const onCreateTicketUser = gql`
   subscription OnCreateTicketUser(
     $filter: ModelSubscriptionTicketUserFilterInput
   ) {
@@ -1828,7 +1827,7 @@ export const onCreateTicketUser = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateTicketUser = /* GraphQL */ `
+const onUpdateTicketUser = gql`
   subscription OnUpdateTicketUser(
     $filter: ModelSubscriptionTicketUserFilterInput
   ) {
@@ -1873,7 +1872,7 @@ export const onUpdateTicketUser = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteTicketUser = /* GraphQL */ `
+const onDeleteTicketUser = gql`
   subscription OnDeleteTicketUser(
     $filter: ModelSubscriptionTicketUserFilterInput
   ) {
@@ -1918,7 +1917,7 @@ export const onDeleteTicketUser = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUserPermissions = /* GraphQL */ `
+const onCreateUserPermissions = gql`
   subscription OnCreateUserPermissions(
     $filter: ModelSubscriptionUserPermissionsFilterInput
   ) {
@@ -1957,7 +1956,7 @@ export const onCreateUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateUserPermissions = /* GraphQL */ `
+const onUpdateUserPermissions = gql`
   subscription OnUpdateUserPermissions(
     $filter: ModelSubscriptionUserPermissionsFilterInput
   ) {
@@ -1996,7 +1995,7 @@ export const onUpdateUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteUserPermissions = /* GraphQL */ `
+const onDeleteUserPermissions = gql`
   subscription OnDeleteUserPermissions(
     $filter: ModelSubscriptionUserPermissionsFilterInput
   ) {
@@ -2035,7 +2034,7 @@ export const onDeleteUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCourseSessionType = /* GraphQL */ `
+const onCreateCourseSessionType = gql`
   subscription OnCreateCourseSessionType(
     $filter: ModelSubscriptionCourseSessionTypeFilterInput
   ) {
@@ -2075,7 +2074,7 @@ export const onCreateCourseSessionType = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateCourseSessionType = /* GraphQL */ `
+const onUpdateCourseSessionType = gql`
   subscription OnUpdateCourseSessionType(
     $filter: ModelSubscriptionCourseSessionTypeFilterInput
   ) {
@@ -2115,7 +2114,7 @@ export const onUpdateCourseSessionType = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteCourseSessionType = /* GraphQL */ `
+const onDeleteCourseSessionType = gql`
   subscription OnDeleteCourseSessionType(
     $filter: ModelSubscriptionCourseSessionTypeFilterInput
   ) {
@@ -2155,7 +2154,7 @@ export const onDeleteCourseSessionType = /* GraphQL */ `
     }
   }
 `;
-export const onCreateRolPermissions = /* GraphQL */ `
+const onCreateRolPermissions = gql`
   subscription OnCreateRolPermissions(
     $filter: ModelSubscriptionRolPermissionsFilterInput
   ) {
@@ -2189,7 +2188,7 @@ export const onCreateRolPermissions = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateRolPermissions = /* GraphQL */ `
+const onUpdateRolPermissions = gql`
   subscription OnUpdateRolPermissions(
     $filter: ModelSubscriptionRolPermissionsFilterInput
   ) {
@@ -2223,7 +2222,7 @@ export const onUpdateRolPermissions = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteRolPermissions = /* GraphQL */ `
+const onDeleteRolPermissions = gql`
   subscription OnDeleteRolPermissions(
     $filter: ModelSubscriptionRolPermissionsFilterInput
   ) {
@@ -2257,7 +2256,7 @@ export const onDeleteRolPermissions = /* GraphQL */ `
     }
   }
 `;
-export const onCreateComments = /* GraphQL */ `
+const onCreateComments = gql`
   subscription OnCreateComments($filter: ModelSubscriptionCommentsFilterInput) {
     onCreateComments(filter: $filter) {
       id
@@ -2295,7 +2294,7 @@ export const onCreateComments = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateComments = /* GraphQL */ `
+const onUpdateComments = gql`
   subscription OnUpdateComments($filter: ModelSubscriptionCommentsFilterInput) {
     onUpdateComments(filter: $filter) {
       id
@@ -2333,7 +2332,7 @@ export const onUpdateComments = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteComments = /* GraphQL */ `
+const onDeleteComments = gql`
   subscription OnDeleteComments($filter: ModelSubscriptionCommentsFilterInput) {
     onDeleteComments(filter: $filter) {
       id

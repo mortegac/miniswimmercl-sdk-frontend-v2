@@ -122,6 +122,48 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "webpayCommit": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "webpayStart": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "webpayStatus": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -218,6 +260,62 @@
         {
           "category": "function",
           "resourceName": "fnCalculateSessionsEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_webpayCommit_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "webpayCommit"
+        }
+      ]
+    },
+    "AMPLIFY_function_webpayCommit_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "webpayCommit"
+        }
+      ]
+    },
+    "AMPLIFY_function_webpayStart_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "webpayStart"
+        }
+      ]
+    },
+    "AMPLIFY_function_webpayStart_env": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "webpayStart"
+        }
+      ]
+    },
+    "AMPLIFY_function_webpayStart_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "webpayStart"
+        }
+      ]
+    },
+    "AMPLIFY_function_webpayStatus_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "webpayStatus"
+        }
+      ]
+    },
+    "AMPLIFY_function_webpayStatus_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "webpayStatus"
         }
       ]
     }

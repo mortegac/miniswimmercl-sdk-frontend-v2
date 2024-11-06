@@ -29,7 +29,7 @@ export const updateData = async (objFilter: InputOptions): Promise<any> => {
       locationIdUsed: String(objFilter?.locationIdUsed),
       
     };
-    console.log(">> inputData >>", inputData)
+    // console.log(">> inputData >>", inputData)
     
    
     const setData:any = await client.graphql({
@@ -91,7 +91,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
    
     let getData:any;
     
-    console.log(">>> objFilter  >>>", objFilter )
+    // console.log(">>> objFilter  >>>", objFilter )
     
     if(objFilter?.status === "ACTIVE"){
       getData = await client.graphql({
@@ -123,7 +123,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   
       
       const data:any = getData.data;
-      console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data)
+      // console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data)
       // data.listSessionDetails.items.length > 0 && console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data.listSessionDetails)
       
         resolve({ ...data.listSessionDetails } as any);

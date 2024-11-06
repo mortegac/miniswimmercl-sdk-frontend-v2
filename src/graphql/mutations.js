@@ -3,6 +3,7 @@
 
 export const generateEnrollment = /* GraphQL */ `
   mutation GenerateEnrollment(
+    $userId: String!
     $studentId: String!
     $startDate: String!
     $sessionTypeId: String!
@@ -10,12 +11,33 @@ export const generateEnrollment = /* GraphQL */ `
     $courseId: String!
   ) {
     generateEnrollment(
+      userId: $userId
       studentId: $studentId
       startDate: $startDate
       sessionTypeId: $sessionTypeId
       scheduleId: $scheduleId
       courseId: $courseId
     )
+  }
+`;
+export const setStart = /* GraphQL */ `
+  mutation SetStart(
+    $amount: Float!
+    $userId: String!
+    $glosa: String!
+    $cartId: String!
+  ) {
+    setStart(amount: $amount, userId: $userId, glosa: $glosa, cartId: $cartId)
+  }
+`;
+export const setCommit = /* GraphQL */ `
+  mutation SetCommit($token: String!) {
+    setCommit(token: $token)
+  }
+`;
+export const setStatus = /* GraphQL */ `
+  mutation SetStatus($token: String!) {
+    setStatus(token: $token)
   }
 `;
 export const createAcademyStudents = /* GraphQL */ `
@@ -1853,6 +1875,7 @@ export const createEnrollment = /* GraphQL */ `
       sessionsUsed
       scheduleId
       scheduleName
+      paymentToken
       student {
         id
         name
@@ -1889,6 +1912,18 @@ export const createEnrollment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        __typename
+      }
       course {
         id
         title
@@ -1904,17 +1939,6 @@ export const createEnrollment = /* GraphQL */ `
         locationCoursesId
         __typename
       }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
       sessionDetails {
         nextToken
         __typename
@@ -1924,7 +1948,7 @@ export const createEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
-      enrollmentTransactionId
+      enrollmentShoppingCartDetailId
       __typename
     }
   }
@@ -1946,6 +1970,7 @@ export const updateEnrollment = /* GraphQL */ `
       sessionsUsed
       scheduleId
       scheduleName
+      paymentToken
       student {
         id
         name
@@ -1982,6 +2007,18 @@ export const updateEnrollment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        __typename
+      }
       course {
         id
         title
@@ -1997,17 +2034,6 @@ export const updateEnrollment = /* GraphQL */ `
         locationCoursesId
         __typename
       }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
       sessionDetails {
         nextToken
         __typename
@@ -2017,7 +2043,7 @@ export const updateEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
-      enrollmentTransactionId
+      enrollmentShoppingCartDetailId
       __typename
     }
   }
@@ -2039,6 +2065,7 @@ export const deleteEnrollment = /* GraphQL */ `
       sessionsUsed
       scheduleId
       scheduleName
+      paymentToken
       student {
         id
         name
@@ -2075,6 +2102,18 @@ export const deleteEnrollment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        __typename
+      }
       course {
         id
         title
@@ -2090,17 +2129,6 @@ export const deleteEnrollment = /* GraphQL */ `
         locationCoursesId
         __typename
       }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
       sessionDetails {
         nextToken
         __typename
@@ -2110,7 +2138,7 @@ export const deleteEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
-      enrollmentTransactionId
+      enrollmentShoppingCartDetailId
       __typename
     }
   }
@@ -2258,6 +2286,441 @@ export const deleteSessionDetail = /* GraphQL */ `
       updatedAt
       enrollmentSessionDetailsId
       sessionDetailStudentId
+      __typename
+    }
+  }
+`;
+export const createShoppingCart = /* GraphQL */ `
+  mutation CreateShoppingCart(
+    $input: CreateShoppingCartInput!
+    $condition: ModelShoppingCartConditionInput
+  ) {
+    createShoppingCart(input: $input, condition: $condition) {
+      id
+      totalPrice
+      status
+      createdAt
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      cartDetails {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
+      updatedAt
+      usersShoppingCartId
+      __typename
+    }
+  }
+`;
+export const updateShoppingCart = /* GraphQL */ `
+  mutation UpdateShoppingCart(
+    $input: UpdateShoppingCartInput!
+    $condition: ModelShoppingCartConditionInput
+  ) {
+    updateShoppingCart(input: $input, condition: $condition) {
+      id
+      totalPrice
+      status
+      createdAt
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      cartDetails {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
+      updatedAt
+      usersShoppingCartId
+      __typename
+    }
+  }
+`;
+export const deleteShoppingCart = /* GraphQL */ `
+  mutation DeleteShoppingCart(
+    $input: DeleteShoppingCartInput!
+    $condition: ModelShoppingCartConditionInput
+  ) {
+    deleteShoppingCart(input: $input, condition: $condition) {
+      id
+      totalPrice
+      status
+      createdAt
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      cartDetails {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
+      updatedAt
+      usersShoppingCartId
+      __typename
+    }
+  }
+`;
+export const createShoppingCartDetail = /* GraphQL */ `
+  mutation CreateShoppingCartDetail(
+    $input: CreateShoppingCartDetailInput!
+    $condition: ModelShoppingCartDetailConditionInput
+  ) {
+    createShoppingCartDetail(input: $input, condition: $condition) {
+      id
+      type
+      quantity
+      amount
+      detail
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
+      cart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartCartDetailsId
+      shoppingCartDetailEnrollmentId
+      __typename
+    }
+  }
+`;
+export const updateShoppingCartDetail = /* GraphQL */ `
+  mutation UpdateShoppingCartDetail(
+    $input: UpdateShoppingCartDetailInput!
+    $condition: ModelShoppingCartDetailConditionInput
+  ) {
+    updateShoppingCartDetail(input: $input, condition: $condition) {
+      id
+      type
+      quantity
+      amount
+      detail
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
+      cart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartCartDetailsId
+      shoppingCartDetailEnrollmentId
+      __typename
+    }
+  }
+`;
+export const deleteShoppingCartDetail = /* GraphQL */ `
+  mutation DeleteShoppingCartDetail(
+    $input: DeleteShoppingCartDetailInput!
+    $condition: ModelShoppingCartDetailConditionInput
+  ) {
+    deleteShoppingCartDetail(input: $input, condition: $condition) {
+      id
+      type
+      quantity
+      amount
+      detail
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
+      cart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartCartDetailsId
+      shoppingCartDetailEnrollmentId
+      __typename
+    }
+  }
+`;
+export const createProduct = /* GraphQL */ `
+  mutation CreateProduct(
+    $input: CreateProductInput!
+    $condition: ModelProductConditionInput
+  ) {
+    createProduct(input: $input, condition: $condition) {
+      id
+      sku
+      name
+      currentStock
+      criticalStock
+      purchasePrice
+      sellingPrice
+      profits
+      isActive
+      supplier {
+        id
+        name
+        contactPerson
+        email
+        phone
+        address
+        taxId
+        isActive
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      supplierProductsId
+      __typename
+    }
+  }
+`;
+export const updateProduct = /* GraphQL */ `
+  mutation UpdateProduct(
+    $input: UpdateProductInput!
+    $condition: ModelProductConditionInput
+  ) {
+    updateProduct(input: $input, condition: $condition) {
+      id
+      sku
+      name
+      currentStock
+      criticalStock
+      purchasePrice
+      sellingPrice
+      profits
+      isActive
+      supplier {
+        id
+        name
+        contactPerson
+        email
+        phone
+        address
+        taxId
+        isActive
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      supplierProductsId
+      __typename
+    }
+  }
+`;
+export const deleteProduct = /* GraphQL */ `
+  mutation DeleteProduct(
+    $input: DeleteProductInput!
+    $condition: ModelProductConditionInput
+  ) {
+    deleteProduct(input: $input, condition: $condition) {
+      id
+      sku
+      name
+      currentStock
+      criticalStock
+      purchasePrice
+      sellingPrice
+      profits
+      isActive
+      supplier {
+        id
+        name
+        contactPerson
+        email
+        phone
+        address
+        taxId
+        isActive
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      supplierProductsId
+      __typename
+    }
+  }
+`;
+export const createSupplier = /* GraphQL */ `
+  mutation CreateSupplier(
+    $input: CreateSupplierInput!
+    $condition: ModelSupplierConditionInput
+  ) {
+    createSupplier(input: $input, condition: $condition) {
+      id
+      name
+      contactPerson
+      email
+      phone
+      address
+      taxId
+      isActive
+      products {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateSupplier = /* GraphQL */ `
+  mutation UpdateSupplier(
+    $input: UpdateSupplierInput!
+    $condition: ModelSupplierConditionInput
+  ) {
+    updateSupplier(input: $input, condition: $condition) {
+      id
+      name
+      contactPerson
+      email
+      phone
+      address
+      taxId
+      isActive
+      products {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteSupplier = /* GraphQL */ `
+  mutation DeleteSupplier(
+    $input: DeleteSupplierInput!
+    $condition: ModelSupplierConditionInput
+  ) {
+    deleteSupplier(input: $input, condition: $condition) {
+      id
+      name
+      contactPerson
+      email
+      phone
+      address
+      taxId
+      isActive
+      products {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -2418,116 +2881,224 @@ export const deleteCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const createTransaction = /* GraphQL */ `
-  mutation CreateTransaction(
-    $input: CreateTransactionInput!
-    $condition: ModelTransactionConditionInput
+export const createCorrelatives = /* GraphQL */ `
+  mutation CreateCorrelatives(
+    $input: CreateCorrelativesInput!
+    $condition: ModelCorrelativesConditionInput
   ) {
-    createTransaction(input: $input, condition: $condition) {
+    createCorrelatives(input: $input, condition: $condition) {
       id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        scheduleId
-        scheduleName
-        createdAt
-        updatedAt
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        studentEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
+      type
+      correlative
       createdAt
       updatedAt
-      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const updateTransaction = /* GraphQL */ `
-  mutation UpdateTransaction(
-    $input: UpdateTransactionInput!
-    $condition: ModelTransactionConditionInput
+export const updateCorrelatives = /* GraphQL */ `
+  mutation UpdateCorrelatives(
+    $input: UpdateCorrelativesInput!
+    $condition: ModelCorrelativesConditionInput
   ) {
-    updateTransaction(input: $input, condition: $condition) {
+    updateCorrelatives(input: $input, condition: $condition) {
       id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        scheduleId
-        scheduleName
-        createdAt
-        updatedAt
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        studentEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
+      type
+      correlative
       createdAt
       updatedAt
-      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const deleteTransaction = /* GraphQL */ `
-  mutation DeleteTransaction(
-    $input: DeleteTransactionInput!
-    $condition: ModelTransactionConditionInput
+export const deleteCorrelatives = /* GraphQL */ `
+  mutation DeleteCorrelatives(
+    $input: DeleteCorrelativesInput!
+    $condition: ModelCorrelativesConditionInput
   ) {
-    deleteTransaction(input: $input, condition: $condition) {
+    deleteCorrelatives(input: $input, condition: $condition) {
       id
-      amount
-      date
-      paymentMethod
+      type
+      correlative
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createPaymentTransactions = /* GraphQL */ `
+  mutation CreatePaymentTransactions(
+    $input: CreatePaymentTransactionsInput!
+    $condition: ModelPaymentTransactionsConditionInput
+  ) {
+    createPaymentTransactions(input: $input, condition: $condition) {
+      id
       status
-      enrollment {
+      token
+      urlWebpay
+      amount
+      buy_order
+      card_number
+      transaction_date
+      accounting_date
+      installments_number
+      payment_type_code
+      session_id
+      card_detail
+      installments_amount
+      authorization_code
+      response_code
+      vci
+      day
+      month
+      year
+      hour
+      glosa
+      hasRefund
+      users {
         id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        scheduleId
-        scheduleName
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
         createdAt
         updatedAt
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        studentEnrollmentsId
-        enrollmentTransactionId
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
         __typename
       }
       createdAt
       updatedAt
-      transactionEnrollmentId
+      shoppingCartPaymentTransactionsId
+      usersPaymentTransactionsId
+      __typename
+    }
+  }
+`;
+export const updatePaymentTransactions = /* GraphQL */ `
+  mutation UpdatePaymentTransactions(
+    $input: UpdatePaymentTransactionsInput!
+    $condition: ModelPaymentTransactionsConditionInput
+  ) {
+    updatePaymentTransactions(input: $input, condition: $condition) {
+      id
+      status
+      token
+      urlWebpay
+      amount
+      buy_order
+      card_number
+      transaction_date
+      accounting_date
+      installments_number
+      payment_type_code
+      session_id
+      card_detail
+      installments_amount
+      authorization_code
+      response_code
+      vci
+      day
+      month
+      year
+      hour
+      glosa
+      hasRefund
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartPaymentTransactionsId
+      usersPaymentTransactionsId
+      __typename
+    }
+  }
+`;
+export const deletePaymentTransactions = /* GraphQL */ `
+  mutation DeletePaymentTransactions(
+    $input: DeletePaymentTransactionsInput!
+    $condition: ModelPaymentTransactionsConditionInput
+  ) {
+    deletePaymentTransactions(input: $input, condition: $condition) {
+      id
+      status
+      token
+      urlWebpay
+      amount
+      buy_order
+      card_number
+      transaction_date
+      accounting_date
+      installments_number
+      payment_type_code
+      session_id
+      card_detail
+      installments_amount
+      authorization_code
+      response_code
+      vci
+      day
+      month
+      year
+      hour
+      glosa
+      hasRefund
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartPaymentTransactionsId
+      usersPaymentTransactionsId
       __typename
     }
   }
@@ -2567,6 +3138,14 @@ export const createUsers = /* GraphQL */ `
         __typename
       }
       userPermissions {
+        nextToken
+        __typename
+      }
+      shoppingCart {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
         nextToken
         __typename
       }
@@ -2615,6 +3194,14 @@ export const updateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      shoppingCart {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -2657,6 +3244,14 @@ export const deleteUsers = /* GraphQL */ `
         __typename
       }
       userPermissions {
+        nextToken
+        __typename
+      }
+      shoppingCart {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
         nextToken
         __typename
       }

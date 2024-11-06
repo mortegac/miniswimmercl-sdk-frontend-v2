@@ -12,6 +12,7 @@ export const TICKETS = "/tickets";
 
 
 
+export const TRANSACTIONS = "/transactions";
 export const NEW_EXPENSE = "/new-expense";
 export const EXPENSES = "/expenses";
 export const INCOME = "/income";

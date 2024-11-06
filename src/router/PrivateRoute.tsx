@@ -23,8 +23,10 @@ import {
     EXPENSES, 
     INCOME,
     ACADEMYSTUDENTS,
+    TRANSACTIONS,
   } from "./paths";
   
+
   import Layout from "../themes";
   
   const Dashboard = lazy(() => import("../pages/private/Dashboard"));
@@ -37,6 +39,7 @@ import {
   import QuickRegistration from "../pages/private/QuickRegistration2";
   
   const Enrollments = lazy(() => import("../pages/private/Enrollments"));
+  const Transactions = lazy(() => import("../pages/private/Transactions"));
   
   // const Attendance = lazy(() => import("../pages/private/Attendance"));
   import Attendance from "../pages/private/Attendance";
@@ -54,7 +57,7 @@ import {
     const location = useLocation();
     
     
-    console.log("PrivateValidation>>> isAuthenticated", isAuthenticated)
+    // console.log("PrivateValidation>>> isAuthenticated", isAuthenticated)
     
     const prevUrl = location.state?.from ?? PUBLIC;
   
@@ -67,9 +70,9 @@ import {
     // }
       return (
         <>
-           <FullscreenComponent>
+           {/* <FullscreenComponent> */}
             <Layout />
-           </FullscreenComponent>
+           {/* </FullscreenComponent> */}
         </>
       );
   
@@ -119,6 +122,10 @@ export const privateRoutes = {
         {
           path: PAYMENTS,
           element: <Payments />,
+        },
+        {
+          path: TRANSACTIONS,
+          element: <Transactions />,
         },
         {
           path: TICKETS,

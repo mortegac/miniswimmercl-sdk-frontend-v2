@@ -21,7 +21,7 @@ export const fetchData = async (objFilter: {key: String,}): Promise<any> => {
       const data = [...getData.data.listParameters.items];
       
       const _parameters = Array.isArray(data) ? data.sort((a, b) => a.id.localeCompare(b.id)) : data;
-      console.log("key: ", objFilter.key, ' >List: ', _parameters)
+      // console.log("key: ", objFilter.key, ' >List: ', _parameters)
       
       
       

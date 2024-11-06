@@ -1,7 +1,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createUsers = /* GraphQL */ `
+const createUsers = gql`
   mutation CreateUsers(
     $input: CreateUsersInput!
     $condition: ModelUsersConditionInput
@@ -9,7 +9,7 @@ export const createUsers = /* GraphQL */ `
     createUsers(input: $input, condition: $condition) {id}
   }
 `;
-export const updateUsers = /* GraphQL */ `
+const updateUsers = gql`
   mutation UpdateUsers(
     $input: UpdateUsersInput!
     $condition: ModelUsersConditionInput
@@ -17,7 +17,7 @@ export const updateUsers = /* GraphQL */ `
     updateUsers(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteUsers = /* GraphQL */ `
+const deleteUsers = gql`
   mutation DeleteUsers(
     $input: DeleteUsersInput!
     $condition: ModelUsersConditionInput
@@ -25,7 +25,7 @@ export const deleteUsers = /* GraphQL */ `
     deleteUsers(input: $input, condition: $condition) {id}
   }
 `;
-export const createRelationship = /* GraphQL */ `
+const createRelationship = gql`
   mutation CreateRelationship(
     $input: CreateRelationshipInput!
     $condition: ModelRelationshipConditionInput
@@ -33,7 +33,7 @@ export const createRelationship = /* GraphQL */ `
     createRelationship(input: $input, condition: $condition) {id}
   }
 `;
-export const updateRelationship = /* GraphQL */ `
+const updateRelationship = gql`
   mutation UpdateRelationship(
     $input: UpdateRelationshipInput!
     $condition: ModelRelationshipConditionInput
@@ -41,7 +41,7 @@ export const updateRelationship = /* GraphQL */ `
     updateRelationship(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteRelationship = /* GraphQL */ `
+const deleteRelationship = gql`
   mutation DeleteRelationship(
     $input: DeleteRelationshipInput!
     $condition: ModelRelationshipConditionInput
@@ -49,7 +49,7 @@ export const deleteRelationship = /* GraphQL */ `
     deleteRelationship(input: $input, condition: $condition) {id}
   }
 `;
-export const createStudent = /* GraphQL */ `
+const createStudent = gql`
   mutation CreateStudent(
     $input: CreateStudentInput!
     $condition: ModelStudentConditionInput
@@ -57,7 +57,7 @@ export const createStudent = /* GraphQL */ `
     createStudent(input: $input, condition: $condition) {id}
   }
 `;
-export const updateStudent = /* GraphQL */ `
+const updateStudent = gql`
   mutation UpdateStudent(
     $input: UpdateStudentInput!
     $condition: ModelStudentConditionInput
@@ -65,7 +65,7 @@ export const updateStudent = /* GraphQL */ `
     updateStudent(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteStudent = /* GraphQL */ `
+const deleteStudent = gql`
   mutation DeleteStudent(
     $input: DeleteStudentInput!
     $condition: ModelStudentConditionInput
@@ -73,7 +73,7 @@ export const deleteStudent = /* GraphQL */ `
     deleteStudent(input: $input, condition: $condition) {id}
   }
 `;
-export const createEnrollment = /* GraphQL */ `
+const createEnrollment = gql`
   mutation CreateEnrollment(
     $input: CreateEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
@@ -81,7 +81,7 @@ export const createEnrollment = /* GraphQL */ `
     createEnrollment(input: $input, condition: $condition) {id}
   }
 `;
-export const updateEnrollment = /* GraphQL */ `
+const updateEnrollment = gql`
   mutation UpdateEnrollment(
     $input: UpdateEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
@@ -89,7 +89,7 @@ export const updateEnrollment = /* GraphQL */ `
     updateEnrollment(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteEnrollment = /* GraphQL */ `
+const deleteEnrollment = gql`
   mutation DeleteEnrollment(
     $input: DeleteEnrollmentInput!
     $condition: ModelEnrollmentConditionInput
@@ -97,7 +97,7 @@ export const deleteEnrollment = /* GraphQL */ `
     deleteEnrollment(input: $input, condition: $condition) {id}
   }
 `;
-export const createSessionDetail = /* GraphQL */ `
+const createSessionDetail = gql`
   mutation CreateSessionDetail(
     $input: CreateSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
@@ -105,7 +105,7 @@ export const createSessionDetail = /* GraphQL */ `
     createSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
-export const updateSessionDetail = /* GraphQL */ `
+const updateSessionDetail = gql`
   mutation UpdateSessionDetail(
     $input: UpdateSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
@@ -113,7 +113,7 @@ export const updateSessionDetail = /* GraphQL */ `
     updateSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteSessionDetail = /* GraphQL */ `
+const deleteSessionDetail = gql`
   mutation DeleteSessionDetail(
     $input: DeleteSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
@@ -121,7 +121,7 @@ export const deleteSessionDetail = /* GraphQL */ `
     deleteSessionDetail(input: $input, condition: $condition) {id}
   }
 `;
-export const createTransaction = /* GraphQL */ `
+const createTransaction = gql`
   mutation CreateTransaction(
     $input: CreateTransactionInput!
     $condition: ModelTransactionConditionInput
@@ -129,7 +129,7 @@ export const createTransaction = /* GraphQL */ `
     createTransaction(input: $input, condition: $condition) {id}
   }
 `;
-export const updateTransaction = /* GraphQL */ `
+const updateTransaction = gql`
   mutation UpdateTransaction(
     $input: UpdateTransactionInput!
     $condition: ModelTransactionConditionInput
@@ -137,7 +137,7 @@ export const updateTransaction = /* GraphQL */ `
     updateTransaction(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteTransaction = /* GraphQL */ `
+const deleteTransaction = gql`
   mutation DeleteTransaction(
     $input: DeleteTransactionInput!
     $condition: ModelTransactionConditionInput
@@ -145,7 +145,7 @@ export const deleteTransaction = /* GraphQL */ `
     deleteTransaction(input: $input, condition: $condition) {id}
   }
 `;
-export const createLocation = /* GraphQL */ `
+const createLocation = gql`
   mutation CreateLocation(
     $input: CreateLocationInput!
     $condition: ModelLocationConditionInput
@@ -153,7 +153,7 @@ export const createLocation = /* GraphQL */ `
     createLocation(input: $input, condition: $condition) {id}
   }
 `;
-export const updateLocation = /* GraphQL */ `
+const updateLocation = gql`
   mutation UpdateLocation(
     $input: UpdateLocationInput!
     $condition: ModelLocationConditionInput
@@ -161,7 +161,7 @@ export const updateLocation = /* GraphQL */ `
     updateLocation(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteLocation = /* GraphQL */ `
+const deleteLocation = gql`
   mutation DeleteLocation(
     $input: DeleteLocationInput!
     $condition: ModelLocationConditionInput
@@ -169,7 +169,7 @@ export const deleteLocation = /* GraphQL */ `
     deleteLocation(input: $input, condition: $condition) {id}
   }
 `;
-export const createExpense = /* GraphQL */ `
+const createExpense = gql`
   mutation CreateExpense(
     $input: CreateExpenseInput!
     $condition: ModelExpenseConditionInput
@@ -177,7 +177,7 @@ export const createExpense = /* GraphQL */ `
     createExpense(input: $input, condition: $condition) {id}
   }
 `;
-export const updateExpense = /* GraphQL */ `
+const updateExpense = gql`
   mutation UpdateExpense(
     $input: UpdateExpenseInput!
     $condition: ModelExpenseConditionInput
@@ -185,7 +185,7 @@ export const updateExpense = /* GraphQL */ `
     updateExpense(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteExpense = /* GraphQL */ `
+const deleteExpense = gql`
   mutation DeleteExpense(
     $input: DeleteExpenseInput!
     $condition: ModelExpenseConditionInput
@@ -193,7 +193,7 @@ export const deleteExpense = /* GraphQL */ `
     deleteExpense(input: $input, condition: $condition) {id}
   }
 `;
-export const createCourse = /* GraphQL */ `
+const createCourse = gql`
   mutation CreateCourse(
     $input: CreateCourseInput!
     $condition: ModelCourseConditionInput
@@ -201,7 +201,7 @@ export const createCourse = /* GraphQL */ `
     createCourse(input: $input, condition: $condition) {id}
   }
 `;
-export const updateCourse = /* GraphQL */ `
+const updateCourse = gql`
   mutation UpdateCourse(
     $input: UpdateCourseInput!
     $condition: ModelCourseConditionInput
@@ -209,7 +209,7 @@ export const updateCourse = /* GraphQL */ `
     updateCourse(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteCourse = /* GraphQL */ `
+const deleteCourse = gql`
   mutation DeleteCourse(
     $input: DeleteCourseInput!
     $condition: ModelCourseConditionInput
@@ -217,7 +217,7 @@ export const deleteCourse = /* GraphQL */ `
     deleteCourse(input: $input, condition: $condition) {id}
   }
 `;
-export const createSchedule = /* GraphQL */ `
+const createSchedule = gql`
   mutation CreateSchedule(
     $input: CreateScheduleInput!
     $condition: ModelScheduleConditionInput
@@ -225,7 +225,7 @@ export const createSchedule = /* GraphQL */ `
     createSchedule(input: $input, condition: $condition) {id}
   }
 `;
-export const updateSchedule = /* GraphQL */ `
+const updateSchedule = gql`
   mutation UpdateSchedule(
     $input: UpdateScheduleInput!
     $condition: ModelScheduleConditionInput
@@ -233,7 +233,7 @@ export const updateSchedule = /* GraphQL */ `
     updateSchedule(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteSchedule = /* GraphQL */ `
+const deleteSchedule = gql`
   mutation DeleteSchedule(
     $input: DeleteScheduleInput!
     $condition: ModelScheduleConditionInput
@@ -241,7 +241,7 @@ export const deleteSchedule = /* GraphQL */ `
     deleteSchedule(input: $input, condition: $condition) {id}
   }
 `;
-export const createSessionType = /* GraphQL */ `
+const createSessionType = gql`
   mutation CreateSessionType(
     $input: CreateSessionTypeInput!
     $condition: ModelSessionTypeConditionInput
@@ -249,7 +249,7 @@ export const createSessionType = /* GraphQL */ `
     createSessionType(input: $input, condition: $condition) {id}
   }
 `;
-export const updateSessionType = /* GraphQL */ `
+const updateSessionType = gql`
   mutation UpdateSessionType(
     $input: UpdateSessionTypeInput!
     $condition: ModelSessionTypeConditionInput
@@ -257,7 +257,7 @@ export const updateSessionType = /* GraphQL */ `
     updateSessionType(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteSessionType = /* GraphQL */ `
+const deleteSessionType = gql`
   mutation DeleteSessionType(
     $input: DeleteSessionTypeInput!
     $condition: ModelSessionTypeConditionInput
@@ -265,7 +265,7 @@ export const deleteSessionType = /* GraphQL */ `
     deleteSessionType(input: $input, condition: $condition) {id}
   }
 `;
-export const createRoles = /* GraphQL */ `
+const createRoles = gql`
   mutation CreateRoles(
     $input: CreateRolesInput!
     $condition: ModelRolesConditionInput
@@ -273,7 +273,7 @@ export const createRoles = /* GraphQL */ `
     createRoles(input: $input, condition: $condition) {id}
   }
 `;
-export const updateRoles = /* GraphQL */ `
+const updateRoles = gql`
   mutation UpdateRoles(
     $input: UpdateRolesInput!
     $condition: ModelRolesConditionInput
@@ -281,7 +281,7 @@ export const updateRoles = /* GraphQL */ `
     updateRoles(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteRoles = /* GraphQL */ `
+const deleteRoles = gql`
   mutation DeleteRoles(
     $input: DeleteRolesInput!
     $condition: ModelRolesConditionInput
@@ -289,7 +289,7 @@ export const deleteRoles = /* GraphQL */ `
     deleteRoles(input: $input, condition: $condition) {id}
   }
 `;
-export const createPermissions = /* GraphQL */ `
+const createPermissions = gql`
   mutation CreatePermissions(
     $input: CreatePermissionsInput!
     $condition: ModelPermissionsConditionInput
@@ -297,7 +297,7 @@ export const createPermissions = /* GraphQL */ `
     createPermissions(input: $input, condition: $condition) {id}
   }
 `;
-export const updatePermissions = /* GraphQL */ `
+const updatePermissions = gql`
   mutation UpdatePermissions(
     $input: UpdatePermissionsInput!
     $condition: ModelPermissionsConditionInput
@@ -305,7 +305,7 @@ export const updatePermissions = /* GraphQL */ `
     updatePermissions(input: $input, condition: $condition) {id}
   }
 `;
-export const deletePermissions = /* GraphQL */ `
+const deletePermissions = gql`
   mutation DeletePermissions(
     $input: DeletePermissionsInput!
     $condition: ModelPermissionsConditionInput
@@ -313,7 +313,7 @@ export const deletePermissions = /* GraphQL */ `
     deletePermissions(input: $input, condition: $condition) {id}
   }
 `;
-export const createSupportTicket = /* GraphQL */ `
+const createSupportTicket = gql`
   mutation CreateSupportTicket(
     $input: CreateSupportTicketInput!
     $condition: ModelSupportTicketConditionInput
@@ -321,7 +321,7 @@ export const createSupportTicket = /* GraphQL */ `
     createSupportTicket(input: $input, condition: $condition) {id}
   }
 `;
-export const updateSupportTicket = /* GraphQL */ `
+const updateSupportTicket = gql`
   mutation UpdateSupportTicket(
     $input: UpdateSupportTicketInput!
     $condition: ModelSupportTicketConditionInput
@@ -329,7 +329,7 @@ export const updateSupportTicket = /* GraphQL */ `
     updateSupportTicket(input: $input, condition: $condition) {id}
   }
 `;
-export const deleteSupportTicket = /* GraphQL */ `
+const deleteSupportTicket = gql`
   mutation DeleteSupportTicket(
     $input: DeleteSupportTicketInput!
     $condition: ModelSupportTicketConditionInput
@@ -361,7 +361,7 @@ export const deleteSupportTicket = /* GraphQL */ `
     }
   }
 `;
-export const createCommentTickets = /* GraphQL */ `
+const createCommentTickets = gql`
   mutation CreateCommentTickets(
     $input: CreateCommentTicketsInput!
     $condition: ModelCommentTicketsConditionInput
@@ -381,7 +381,7 @@ export const createCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const updateCommentTickets = /* GraphQL */ `
+const updateCommentTickets = gql`
   mutation UpdateCommentTickets(
     $input: UpdateCommentTicketsInput!
     $condition: ModelCommentTicketsConditionInput
@@ -401,7 +401,7 @@ export const updateCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const deleteCommentTickets = /* GraphQL */ `
+const deleteCommentTickets = gql`
   mutation DeleteCommentTickets(
     $input: DeleteCommentTicketsInput!
     $condition: ModelCommentTicketsConditionInput
@@ -421,7 +421,7 @@ export const deleteCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const createTicketUser = /* GraphQL */ `
+const createTicketUser = gql`
   mutation CreateTicketUser(
     $input: CreateTicketUserInput!
     $condition: ModelTicketUserConditionInput
@@ -467,7 +467,7 @@ export const createTicketUser = /* GraphQL */ `
     }
   }
 `;
-export const updateTicketUser = /* GraphQL */ `
+const updateTicketUser = gql`
   mutation UpdateTicketUser(
     $input: UpdateTicketUserInput!
     $condition: ModelTicketUserConditionInput
@@ -513,7 +513,7 @@ export const updateTicketUser = /* GraphQL */ `
     }
   }
 `;
-export const deleteTicketUser = /* GraphQL */ `
+const deleteTicketUser = gql`
   mutation DeleteTicketUser(
     $input: DeleteTicketUserInput!
     $condition: ModelTicketUserConditionInput
@@ -559,7 +559,7 @@ export const deleteTicketUser = /* GraphQL */ `
     }
   }
 `;
-export const createUserPermissions = /* GraphQL */ `
+const createUserPermissions = gql`
   mutation CreateUserPermissions(
     $input: CreateUserPermissionsInput!
     $condition: ModelUserPermissionsConditionInput
@@ -599,7 +599,7 @@ export const createUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const updateUserPermissions = /* GraphQL */ `
+const updateUserPermissions = gql`
   mutation UpdateUserPermissions(
     $input: UpdateUserPermissionsInput!
     $condition: ModelUserPermissionsConditionInput
@@ -639,7 +639,7 @@ export const updateUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const deleteUserPermissions = /* GraphQL */ `
+const deleteUserPermissions = gql`
   mutation DeleteUserPermissions(
     $input: DeleteUserPermissionsInput!
     $condition: ModelUserPermissionsConditionInput
@@ -679,7 +679,7 @@ export const deleteUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const createCourseSessionType = /* GraphQL */ `
+const createCourseSessionType = gql`
   mutation CreateCourseSessionType(
     $input: CreateCourseSessionTypeInput!
     $condition: ModelCourseSessionTypeConditionInput
@@ -720,7 +720,7 @@ export const createCourseSessionType = /* GraphQL */ `
     }
   }
 `;
-export const updateCourseSessionType = /* GraphQL */ `
+const updateCourseSessionType = gql`
   mutation UpdateCourseSessionType(
     $input: UpdateCourseSessionTypeInput!
     $condition: ModelCourseSessionTypeConditionInput
@@ -761,7 +761,7 @@ export const updateCourseSessionType = /* GraphQL */ `
     }
   }
 `;
-export const deleteCourseSessionType = /* GraphQL */ `
+const deleteCourseSessionType = gql`
   mutation DeleteCourseSessionType(
     $input: DeleteCourseSessionTypeInput!
     $condition: ModelCourseSessionTypeConditionInput
@@ -802,7 +802,7 @@ export const deleteCourseSessionType = /* GraphQL */ `
     }
   }
 `;
-export const createRolPermissions = /* GraphQL */ `
+const createRolPermissions = gql`
   mutation CreateRolPermissions(
     $input: CreateRolPermissionsInput!
     $condition: ModelRolPermissionsConditionInput
@@ -837,7 +837,7 @@ export const createRolPermissions = /* GraphQL */ `
     }
   }
 `;
-export const updateRolPermissions = /* GraphQL */ `
+const updateRolPermissions = gql`
   mutation UpdateRolPermissions(
     $input: UpdateRolPermissionsInput!
     $condition: ModelRolPermissionsConditionInput
@@ -872,7 +872,7 @@ export const updateRolPermissions = /* GraphQL */ `
     }
   }
 `;
-export const deleteRolPermissions = /* GraphQL */ `
+const deleteRolPermissions = gql`
   mutation DeleteRolPermissions(
     $input: DeleteRolPermissionsInput!
     $condition: ModelRolPermissionsConditionInput
@@ -907,7 +907,7 @@ export const deleteRolPermissions = /* GraphQL */ `
     }
   }
 `;
-export const createComments = /* GraphQL */ `
+const createComments = gql`
   mutation CreateComments(
     $input: CreateCommentsInput!
     $condition: ModelCommentsConditionInput
@@ -948,7 +948,7 @@ export const createComments = /* GraphQL */ `
     }
   }
 `;
-export const updateComments = /* GraphQL */ `
+const updateComments = gql`
   mutation UpdateComments(
     $input: UpdateCommentsInput!
     $condition: ModelCommentsConditionInput
@@ -989,7 +989,7 @@ export const updateComments = /* GraphQL */ `
     }
   }
 `;
-export const deleteComments = /* GraphQL */ `
+const deleteComments = gql`
   mutation DeleteComments(
     $input: DeleteCommentsInput!
     $condition: ModelCommentsConditionInput

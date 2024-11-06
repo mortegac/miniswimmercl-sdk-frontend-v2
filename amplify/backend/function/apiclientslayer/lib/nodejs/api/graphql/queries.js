@@ -1,7 +1,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getUsers = /* GraphQL */ `
+const getUsers = gql`
   query GetUsers($id: ID!) {
     getUsers(id: $id) {
       id
@@ -40,7 +40,7 @@ export const getUsers = /* GraphQL */ `
     }
   }
 `;
-export const listUsers = /* GraphQL */ `
+const listUsers = gql`
   query ListUsers(
     $id: ID
     $filter: ModelUsersFilterInput
@@ -74,7 +74,7 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
-export const getRelationship = /* GraphQL */ `
+const getRelationship = gql`
   query GetRelationship($id: ID!) {
     getRelationship(id: $id) {
       id
@@ -124,7 +124,7 @@ export const getRelationship = /* GraphQL */ `
     }
   }
 `;
-export const listRelationships = /* GraphQL */ `
+const listRelationships = gql`
   query ListRelationships(
     $id: ID
     $filter: ModelRelationshipFilterInput
@@ -153,7 +153,7 @@ export const listRelationships = /* GraphQL */ `
     }
   }
 `;
-export const getStudent = /* GraphQL */ `
+const getStudent = gql`
   query GetStudent($id: ID!) {
     getStudent(id: $id) {
       id
@@ -199,7 +199,7 @@ export const getStudent = /* GraphQL */ `
     }
   }
 `;
-export const listStudents = /* GraphQL */ `
+const listStudents = gql`
   query ListStudents(
     $id: ID
     $filter: ModelStudentFilterInput
@@ -242,7 +242,7 @@ export const listStudents = /* GraphQL */ `
     }
   }
 `;
-export const getEnrollment = /* GraphQL */ `
+const getEnrollment = gql`
   query GetEnrollment($id: ID!) {
     getEnrollment(id: $id) {
       id
@@ -328,7 +328,7 @@ export const getEnrollment = /* GraphQL */ `
     }
   }
 `;
-export const listEnrollments = /* GraphQL */ `
+const listEnrollments = gql`
   query ListEnrollments(
     $id: ID
     $filter: ModelEnrollmentFilterInput
@@ -366,7 +366,7 @@ export const listEnrollments = /* GraphQL */ `
     }
   }
 `;
-export const getSessionDetail = /* GraphQL */ `
+const getSessionDetail = gql`
   query GetSessionDetail($id: ID!) {
     getSessionDetail(id: $id) {
       id
@@ -422,7 +422,7 @@ export const getSessionDetail = /* GraphQL */ `
     }
   }
 `;
-export const listSessionDetails = /* GraphQL */ `
+const listSessionDetails = gql`
   query ListSessionDetails(
     $filter: ModelSessionDetailFilterInput
     $limit: Int
@@ -445,7 +445,7 @@ export const listSessionDetails = /* GraphQL */ `
     }
   }
 `;
-export const getTransaction = /* GraphQL */ `
+const getTransaction = gql`
   query GetTransaction($id: ID!) {
     getTransaction(id: $id) {
       id
@@ -478,7 +478,7 @@ export const getTransaction = /* GraphQL */ `
     }
   }
 `;
-export const listTransactions = /* GraphQL */ `
+const listTransactions = gql`
   query ListTransactions(
     $id: ID
     $filter: ModelTransactionFilterInput
@@ -509,7 +509,7 @@ export const listTransactions = /* GraphQL */ `
     }
   }
 `;
-export const getLocation = /* GraphQL */ `
+const getLocation = gql`
   query GetLocation($id: ID!) {
     getLocation(id: $id) {
       id
@@ -537,7 +537,7 @@ export const getLocation = /* GraphQL */ `
     }
   }
 `;
-export const listLocations = /* GraphQL */ `
+const listLocations = gql`
   query ListLocations(
     $id: ID
     $filter: ModelLocationFilterInput
@@ -569,7 +569,7 @@ export const listLocations = /* GraphQL */ `
     }
   }
 `;
-export const getExpense = /* GraphQL */ `
+const getExpense = gql`
   query GetExpense($id: ID!) {
     getExpense(id: $id) {
       id
@@ -600,7 +600,7 @@ export const getExpense = /* GraphQL */ `
     }
   }
 `;
-export const listExpenses = /* GraphQL */ `
+const listExpenses = gql`
   query ListExpenses(
     $id: ID
     $filter: ModelExpenseFilterInput
@@ -635,7 +635,7 @@ export const listExpenses = /* GraphQL */ `
     }
   }
 `;
-export const getCourse = /* GraphQL */ `
+const getCourse = gql`
   query GetCourse($id: ID!) {
     getCourse(id: $id) {
       id
@@ -678,7 +678,7 @@ export const getCourse = /* GraphQL */ `
     }
   }
 `;
-export const listCourses = /* GraphQL */ `
+const listCourses = gql`
   query ListCourses(
     $id: ID
     $filter: ModelCourseFilterInput
@@ -713,7 +713,7 @@ export const listCourses = /* GraphQL */ `
     }
   }
 `;
-export const getSchedule = /* GraphQL */ `
+const getSchedule = gql`
   query GetSchedule($id: ID!) {
     getSchedule(id: $id) {
       id
@@ -755,7 +755,7 @@ export const getSchedule = /* GraphQL */ `
     }
   }
 `;
-export const listSchedules = /* GraphQL */ `
+const listSchedules = gql`
   query ListSchedules(
     $id: ID
     $filter: ModelScheduleFilterInput
@@ -786,7 +786,7 @@ export const listSchedules = /* GraphQL */ `
     }
   }
 `;
-export const getSessionType = /* GraphQL */ `
+const getSessionType = gql`
   query GetSessionType($id: ID!) {
     getSessionType(id: $id) {
       id
@@ -809,7 +809,7 @@ export const getSessionType = /* GraphQL */ `
     }
   }
 `;
-export const listSessionTypes = /* GraphQL */ `
+const listSessionTypes = gql`
   query ListSessionTypes(
     $id: ID
     $filter: ModelSessionTypeFilterInput
@@ -840,7 +840,7 @@ export const listSessionTypes = /* GraphQL */ `
     }
   }
 `;
-export const getRoles = /* GraphQL */ `
+const getRoles = gql`
   query GetRoles($id: ID!) {
     getRoles(id: $id) {
       id
@@ -857,7 +857,7 @@ export const getRoles = /* GraphQL */ `
     }
   }
 `;
-export const listRoles = /* GraphQL */ `
+const listRoles = gql`
   query ListRoles(
     $id: ID
     $filter: ModelRolesFilterInput
@@ -886,7 +886,7 @@ export const listRoles = /* GraphQL */ `
     }
   }
 `;
-export const getPermissions = /* GraphQL */ `
+const getPermissions = gql`
   query GetPermissions($id: ID!) {
     getPermissions(id: $id) {
       id
@@ -924,7 +924,7 @@ export const getPermissions = /* GraphQL */ `
     }
   }
 `;
-export const listPermissions = /* GraphQL */ `
+const listPermissions = gql`
   query ListPermissions(
     $id: ID
     $filter: ModelPermissionsFilterInput
@@ -955,7 +955,7 @@ export const listPermissions = /* GraphQL */ `
     }
   }
 `;
-export const getSupportTicket = /* GraphQL */ `
+const getSupportTicket = gql`
   query GetSupportTicket($id: ID!) {
     getSupportTicket(id: $id) {
       id
@@ -984,7 +984,7 @@ export const getSupportTicket = /* GraphQL */ `
     }
   }
 `;
-export const listSupportTickets = /* GraphQL */ `
+const listSupportTickets = gql`
   query ListSupportTickets(
     $filter: ModelSupportTicketFilterInput
     $limit: Int
@@ -1013,7 +1013,7 @@ export const listSupportTickets = /* GraphQL */ `
     }
   }
 `;
-export const getCommentTickets = /* GraphQL */ `
+const getCommentTickets = gql`
   query GetCommentTickets($id: ID!) {
     getCommentTickets(id: $id) {
       id
@@ -1030,7 +1030,7 @@ export const getCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const listCommentTickets = /* GraphQL */ `
+const listCommentTickets = gql`
   query ListCommentTickets(
     $filter: ModelCommentTicketsFilterInput
     $limit: Int
@@ -1051,7 +1051,7 @@ export const listCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const getTicketUser = /* GraphQL */ `
+const getTicketUser = gql`
   query GetTicketUser($id: ID!) {
     getTicketUser(id: $id) {
       id
@@ -1094,7 +1094,7 @@ export const getTicketUser = /* GraphQL */ `
     }
   }
 `;
-export const listTicketUsers = /* GraphQL */ `
+const listTicketUsers = gql`
   query ListTicketUsers(
     $filter: ModelTicketUserFilterInput
     $limit: Int
@@ -1114,7 +1114,7 @@ export const listTicketUsers = /* GraphQL */ `
     }
   }
 `;
-export const getUserPermissions = /* GraphQL */ `
+const getUserPermissions = gql`
   query GetUserPermissions($id: ID!) {
     getUserPermissions(id: $id) {
       id
@@ -1151,7 +1151,7 @@ export const getUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const listUserPermissions = /* GraphQL */ `
+const listUserPermissions = gql`
   query ListUserPermissions(
     $filter: ModelUserPermissionsFilterInput
     $limit: Int
@@ -1171,7 +1171,7 @@ export const listUserPermissions = /* GraphQL */ `
     }
   }
 `;
-export const getCourseSessionType = /* GraphQL */ `
+const getCourseSessionType = gql`
   query GetCourseSessionType($id: ID!) {
     getCourseSessionType(id: $id) {
       id
@@ -1209,7 +1209,7 @@ export const getCourseSessionType = /* GraphQL */ `
     }
   }
 `;
-export const listCourseSessionTypes = /* GraphQL */ `
+const listCourseSessionTypes = gql`
   query ListCourseSessionTypes(
     $filter: ModelCourseSessionTypeFilterInput
     $limit: Int
@@ -1233,7 +1233,7 @@ export const listCourseSessionTypes = /* GraphQL */ `
     }
   }
 `;
-export const getRolPermissions = /* GraphQL */ `
+const getRolPermissions = gql`
   query GetRolPermissions($id: ID!) {
     getRolPermissions(id: $id) {
       id
@@ -1265,7 +1265,7 @@ export const getRolPermissions = /* GraphQL */ `
     }
   }
 `;
-export const listRolPermissions = /* GraphQL */ `
+const listRolPermissions = gql`
   query ListRolPermissions(
     $filter: ModelRolPermissionsFilterInput
     $limit: Int
@@ -1285,7 +1285,7 @@ export const listRolPermissions = /* GraphQL */ `
     }
   }
 `;
-export const getComments = /* GraphQL */ `
+const getComments = gql`
   query GetComments($id: ID!) {
     getComments(id: $id) {
       id
@@ -1323,7 +1323,7 @@ export const getComments = /* GraphQL */ `
     }
   }
 `;
-export const listComments = /* GraphQL */ `
+const listComments = gql`
   query ListComments(
     $filter: ModelCommentsFilterInput
     $limit: Int
@@ -1343,7 +1343,7 @@ export const listComments = /* GraphQL */ `
     }
   }
 `;
-export const ticketUsersByUsersId = /* GraphQL */ `
+const ticketUsersByUsersId = gql`
   query TicketUsersByUsersId(
     $usersId: ID!
     $sortDirection: ModelSortDirection
@@ -1371,7 +1371,7 @@ export const ticketUsersByUsersId = /* GraphQL */ `
     }
   }
 `;
-export const ticketUsersBySupportTicketId = /* GraphQL */ `
+const ticketUsersBySupportTicketId = gql`
   query TicketUsersBySupportTicketId(
     $supportTicketId: ID!
     $sortDirection: ModelSortDirection
@@ -1399,7 +1399,7 @@ export const ticketUsersBySupportTicketId = /* GraphQL */ `
     }
   }
 `;
-export const userPermissionsByUsersId = /* GraphQL */ `
+const userPermissionsByUsersId = gql`
   query UserPermissionsByUsersId(
     $usersId: ID!
     $sortDirection: ModelSortDirection
@@ -1427,7 +1427,7 @@ export const userPermissionsByUsersId = /* GraphQL */ `
     }
   }
 `;
-export const userPermissionsByPermissionsId = /* GraphQL */ `
+const userPermissionsByPermissionsId = gql`
   query UserPermissionsByPermissionsId(
     $permissionsId: ID!
     $sortDirection: ModelSortDirection
@@ -1455,7 +1455,7 @@ export const userPermissionsByPermissionsId = /* GraphQL */ `
     }
   }
 `;
-export const courseSessionTypesByCourseId = /* GraphQL */ `
+const courseSessionTypesByCourseId = gql`
   query CourseSessionTypesByCourseId(
     $courseId: ID!
     $sortDirection: ModelSortDirection
@@ -1483,7 +1483,7 @@ export const courseSessionTypesByCourseId = /* GraphQL */ `
     }
   }
 `;
-export const courseSessionTypesBySessionTypeId = /* GraphQL */ `
+const courseSessionTypesBySessionTypeId = gql`
   query CourseSessionTypesBySessionTypeId(
     $sessionTypeId: ID!
     $sortDirection: ModelSortDirection
@@ -1511,7 +1511,7 @@ export const courseSessionTypesBySessionTypeId = /* GraphQL */ `
     }
   }
 `;
-export const rolPermissionsByRolesId = /* GraphQL */ `
+const rolPermissionsByRolesId = gql`
   query RolPermissionsByRolesId(
     $rolesId: ID!
     $sortDirection: ModelSortDirection
@@ -1539,7 +1539,7 @@ export const rolPermissionsByRolesId = /* GraphQL */ `
     }
   }
 `;
-export const rolPermissionsByPermissionsId = /* GraphQL */ `
+const rolPermissionsByPermissionsId = gql`
   query RolPermissionsByPermissionsId(
     $permissionsId: ID!
     $sortDirection: ModelSortDirection
@@ -1567,7 +1567,7 @@ export const rolPermissionsByPermissionsId = /* GraphQL */ `
     }
   }
 `;
-export const commentsBySupportTicketId = /* GraphQL */ `
+const commentsBySupportTicketId = gql`
   query CommentsBySupportTicketId(
     $supportTicketId: ID!
     $sortDirection: ModelSortDirection
@@ -1595,7 +1595,7 @@ export const commentsBySupportTicketId = /* GraphQL */ `
     }
   }
 `;
-export const commentsByCommentTicketsId = /* GraphQL */ `
+const commentsByCommentTicketsId = gql`
   query CommentsByCommentTicketsId(
     $commentTicketsId: ID!
     $sortDirection: ModelSortDirection

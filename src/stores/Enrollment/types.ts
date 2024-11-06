@@ -107,7 +107,9 @@ export type EnrollmentExtra = {
   // STUDENT
   studentId?: string
   studentName?: string
+  studentFullName?: string
   studentLastName?: string
+  studentAge?: string
   studentBithday?: string
   studentGender?: string
   studentResidence?: string
@@ -117,8 +119,11 @@ export type EnrollmentExtra = {
   // ENROLLMENT
   enrollmentStartDate?: string
   enrollmentSessionTypeId?: string
+  enrollmentSessionTypeName?: string
   enrollmentScheduleId?: string
+  enrollmentScheduleName?: string
   enrollmentCourseId?: string
+  enrollmentCourseName?: string
   
 }
 
@@ -132,7 +137,9 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
   // STUDENT
   studentId: "",
   studentName: "",
+  studentFullName: "",
   studentLastName: "",
+  studentAge: "",
   studentBithday: "",
   studentGender: "",
   studentResidence: "",
@@ -142,13 +149,17 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
   // CREACION SESSIONES
   enrollmentStartDate: "",
   enrollmentSessionTypeId: "",
+  enrollmentSessionTypeName: "",
   enrollmentScheduleId: "",
+  enrollmentScheduleName: "",
   enrollmentCourseId: "",
+  enrollmentCourseName: "",
 }
 
 export type FilterOptions  = {
   name?: string;
     
+  userId?: string;
   studentId?: string;
   enrollmentStartDate?: string;
   enrollmentSessionTypeId?: string;

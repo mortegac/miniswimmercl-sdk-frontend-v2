@@ -18,7 +18,7 @@
       "function": {
         "apiclientslayer": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion9214ff9e-build.zip"
+          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersiona0049171-build.zip"
         },
         "authPostAuthentication": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -38,7 +38,20 @@
         },
         "fnCalculateSessionsEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-3342517245312b6c684f-build.zip"
+          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-32694e502f2f57334663-build.zip"
+        },
+        "webpayStart": {
+          "env": "PROD",
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/webpayStart-4f4b36674b6f31354a31-build.zip"
+        },
+        "webpayCommit": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/webpayCommit-317855724c79424f3744-build.zip"
+        },
+        "webpayStatus": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/webpayStatus-706d4542784e61786a73-build.zip"
         }
       },
       "api": {

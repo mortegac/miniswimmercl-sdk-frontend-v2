@@ -50,14 +50,17 @@ type Enrollment @model {
   sessionsUsed: Float       # sesiones usadas
   scheduleId: String @default(value: "")        # Id del curso  inscrito
   scheduleName: String @default(value: "")      # nombre del curso inscrito
+  paymentToken: String @default(value: "")      # Token para la plataforma de pagos
   
   #Relations  
   student: Student! @belongsTo
   sessionType: SessionType! @belongsTo
+  shoppingCartDetail: ShoppingCartDetail @hasOne  # Unir la inscripcion con el carro
+
   # schedule: Schedule @hasOne  # Horario en que fue inscrito 1 a1 
   # schedule: Schedule @belongsTo
   course: Course! @belongsTo
-  transaction: Transaction @hasOne   # Relacion ono to one con la transaccion del pago
+  # transaction: Transaction @hasOne   # Relacion ono to one con la transaccion del pago
   sessionDetails: [SessionDetail] @hasMany
 }
 

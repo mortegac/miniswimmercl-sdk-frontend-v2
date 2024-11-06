@@ -28,7 +28,7 @@ export const fetchDataSearchName = async (objFilter: FilterOptions): Promise<any
         },
       });
       
-      console.log("<<< STUDENTS DATA <<<<< ", getData)
+      // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
         resolve({ ...data.listStudents } as any);
@@ -109,7 +109,7 @@ export const createStudentquick = async (objFilter: FilterOptions): Promise<any>
       
       // console.log("<<< STUDENT CREADO <<<<< ", getData.data)
       const data = getData.data;
-      console.log("<<< STUDENT ...data.createUsers <<<<< ", data)
+      // console.log("<<< STUDENT ...data.createUsers <<<<< ", data)
       
         resolve({ ...data.createStudent} as any);
         

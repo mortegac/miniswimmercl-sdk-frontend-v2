@@ -1,0 +1,80 @@
+# Table for unpaid delivered products
+# type UnpaidDelivery @model @auth(rules: [{ allow: public }]) {
+#   id: ID!
+#   amount: Float!
+#   date: String!
+#   description: String!
+#   registeredBy: String!
+  
+#   # Relations
+#   users: Users! @belongsTo
+#   product: Product! @belongsTo
+# }
+
+
+# Tabla del carrito de compras
+type ShoppingCart @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  totalPrice: Float!
+  status: String @default(value: "PENDING")  # PENDING, COMPLETED, CANCELLED
+  createdAt: String!
+  
+  #Relations
+  user: Users! @belongsTo
+  cartDetails: [ShoppingCartDetail] @hasMany
+  paymentTransactions: [PaymentTransactions] @hasMany
+}
+
+
+
+# ENUM PARAMETERS
+enum TypeDetail {
+  ENROLLMENTS
+  PRODUCTS
+}
+# Tabla de detalles del carrito
+type ShoppingCartDetail @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  type: TypeDetail! # Tipo de producto/servicio
+  quantity: Int!
+  amount: Float!      # Precio unitario
+  detail: String!     # Descripción o detalle adicional
+  
+  #Relations
+  enrollment: Enrollment @belongsTo
+  cart: ShoppingCart! @belongsTo
+  
+}
+
+
+# Table for products
+type Product @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  sku: String! @index                # Unique product identifier
+  name: String!                      # Product name
+  currentStock: Int!                 # Current stock available
+  criticalStock: Int!               # Minimum stock level before alert
+  purchasePrice: Float!             # Price we pay to supplier
+  sellingPrice: Float!              # Price we charge to customers
+  profits: Float!                   # Ganancias por productos
+  isActive: Boolean @default(value: "true")
+  
+  # Relations
+  supplier: Supplier! @belongsTo     # Supplier of this product
+  
+}
+
+# Table for suppliers
+type Supplier @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!                     # Supplier's company name
+  contactPerson: String            # Contact person name
+  email: String                    # Contact email
+  phone: String                    # Contact phone
+  address: String                  # Physical address
+  taxId: String                    # Tax ID or business registration number
+  isActive: Boolean @default(value: "true")
+  
+  # Relations
+  products: [Product] @hasMany     # Products provided by this supplier
+}

@@ -11,7 +11,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
      
-      console.log("<<< objFilter <<<<< ", objFilter)
+      // console.log("<<< objFilter <<<<< ", objFilter)
      
       const filterEmail = (typeof objFilter?.userEmail === 'undefined') ?
       {}
@@ -78,7 +78,7 @@ export const createRelation = async (objFilter: FilterOptions): Promise<any> => 
       
       // console.log("<<< STUDENT CREADO <<<<< ", getData.data)
       const data = setData.data;
-      console.log("<<< RELATIONSHIP ...data.createRelationship <<<<< ", data)
+      // console.log("<<< RELATIONSHIP ...data.createRelationship <<<<< ", data)
       
         resolve({ ...data.createRelationship} as any);
         

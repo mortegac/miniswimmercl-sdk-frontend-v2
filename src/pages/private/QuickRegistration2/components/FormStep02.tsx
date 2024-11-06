@@ -20,7 +20,7 @@ import { setSessionDetails } from "@/stores/SessionDetails/slice";
 
 function convertirFecha(fechaString: string): Date {
   // Asumimos que la fecha viene en formato "dd/mm/yyyy"
-  console.log("---fechaString--", fechaString)
+  // console.log("---fechaString--", fechaString)
   
   const [dia, mes, anio] = fechaString.split('/');
   
@@ -30,7 +30,7 @@ function convertirFecha(fechaString: string): Date {
 function calcularEdad(fechaNacimientoString: string): { años: number; meses: number } {
   const fechaNacimiento = convertirFecha(fechaNacimientoString);
   
-  console.log("---fechaNacimiento--", fechaNacimiento)
+  // console.log("---fechaNacimiento--", fechaNacimiento)
   
   const hoy = new Date();
   let años = hoy.getFullYear() - fechaNacimiento.getFullYear();
@@ -101,7 +101,7 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
   async function setDateBirthday(e:any){
     // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z") 
 
-    console.log("e>>> ", e)
+    // console.log("e>>> ", e)
     
     const date:string= new Date(e.target.value).toISOString()
     const getBirthday:any = tiempoTranscurrido(e.target.value)
@@ -116,7 +116,7 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
       preventDefault:()=>null,
     }
     onChangeSetStore({...e, ...event})
-    console.log("e>>> ", event)
+    // console.log("e>>> ", event)
     
   }
   

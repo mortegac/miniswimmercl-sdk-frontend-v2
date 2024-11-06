@@ -53,7 +53,7 @@ export const HoursAndMinutes = (date: string): string => {
 
   const result: string =
     padTo2Digits(d.toUTCString()) + ":" + padTo2Digits(d.toUTCString());
-  console.log(date), console.log(result);
+  // console.log(date), console.log(result);
   return result;
 };
 

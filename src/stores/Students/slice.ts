@@ -127,7 +127,7 @@ export const studentSlice = createSlice({
       .addCase(setStudent.fulfilled, (state, action) => {
         state.status = "idle";
         const objPayload: any = action.payload;
-        console.log("---objPayload---", objPayload)
+        // console.log("---objPayload---", objPayload)
 
         state.student.id = objPayload?.id || "";
         // state.name = objPayload[0]?.name || "";

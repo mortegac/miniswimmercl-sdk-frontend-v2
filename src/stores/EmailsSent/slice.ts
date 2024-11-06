@@ -79,14 +79,14 @@ export const EmailSendSlice = createSlice({
         const objPayload: any = action.payload;
         state.wasSent = true;
         state.emailSends = objPayload;
-        console.log("---setEnrollment --action---", objPayload)
+        // console.log("---setEnrollment --action---", objPayload)
         
       })
       
       // GET EMAILS 
       .addCase(getEmails.rejected, (state, action) => {
         const objPayload: any = action.payload;
-        console.log("---getEmails --rejected---", action.payload)
+        // console.log("---getEmails --rejected---", action.payload)
         
         state.status = "failed";
         state.errorMessage = objPayload?.errorMessage && objPayload.errorMessage;

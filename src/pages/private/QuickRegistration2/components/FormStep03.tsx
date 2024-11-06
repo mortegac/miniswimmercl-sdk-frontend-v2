@@ -30,6 +30,7 @@ function CoursesList(props: any) {
                    {item.locationCoursesId}</h2>
                 </div>
               )}
+            
               <CardCourses courses={item} />
             </Fragment>
           );

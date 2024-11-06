@@ -1745,6 +1745,7 @@ export const onCreateEnrollment = /* GraphQL */ `
       sessionsUsed
       scheduleId
       scheduleName
+      paymentToken
       student {
         id
         name
@@ -1781,6 +1782,18 @@ export const onCreateEnrollment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        __typename
+      }
       course {
         id
         title
@@ -1796,17 +1809,6 @@ export const onCreateEnrollment = /* GraphQL */ `
         locationCoursesId
         __typename
       }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
       sessionDetails {
         nextToken
         __typename
@@ -1816,7 +1818,7 @@ export const onCreateEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
-      enrollmentTransactionId
+      enrollmentShoppingCartDetailId
       __typename
     }
   }
@@ -1837,6 +1839,7 @@ export const onUpdateEnrollment = /* GraphQL */ `
       sessionsUsed
       scheduleId
       scheduleName
+      paymentToken
       student {
         id
         name
@@ -1873,6 +1876,18 @@ export const onUpdateEnrollment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        __typename
+      }
       course {
         id
         title
@@ -1888,17 +1903,6 @@ export const onUpdateEnrollment = /* GraphQL */ `
         locationCoursesId
         __typename
       }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
       sessionDetails {
         nextToken
         __typename
@@ -1908,7 +1912,7 @@ export const onUpdateEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
-      enrollmentTransactionId
+      enrollmentShoppingCartDetailId
       __typename
     }
   }
@@ -1929,6 +1933,7 @@ export const onDeleteEnrollment = /* GraphQL */ `
       sessionsUsed
       scheduleId
       scheduleName
+      paymentToken
       student {
         id
         name
@@ -1965,6 +1970,18 @@ export const onDeleteEnrollment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        __typename
+      }
       course {
         id
         title
@@ -1980,17 +1997,6 @@ export const onDeleteEnrollment = /* GraphQL */ `
         locationCoursesId
         __typename
       }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
       sessionDetails {
         nextToken
         __typename
@@ -2000,7 +2006,7 @@ export const onDeleteEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
-      enrollmentTransactionId
+      enrollmentShoppingCartDetailId
       __typename
     }
   }
@@ -2145,6 +2151,417 @@ export const onDeleteSessionDetail = /* GraphQL */ `
       updatedAt
       enrollmentSessionDetailsId
       sessionDetailStudentId
+      __typename
+    }
+  }
+`;
+export const onCreateShoppingCart = /* GraphQL */ `
+  subscription OnCreateShoppingCart(
+    $filter: ModelSubscriptionShoppingCartFilterInput
+  ) {
+    onCreateShoppingCart(filter: $filter) {
+      id
+      totalPrice
+      status
+      createdAt
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      cartDetails {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
+      updatedAt
+      usersShoppingCartId
+      __typename
+    }
+  }
+`;
+export const onUpdateShoppingCart = /* GraphQL */ `
+  subscription OnUpdateShoppingCart(
+    $filter: ModelSubscriptionShoppingCartFilterInput
+  ) {
+    onUpdateShoppingCart(filter: $filter) {
+      id
+      totalPrice
+      status
+      createdAt
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      cartDetails {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
+      updatedAt
+      usersShoppingCartId
+      __typename
+    }
+  }
+`;
+export const onDeleteShoppingCart = /* GraphQL */ `
+  subscription OnDeleteShoppingCart(
+    $filter: ModelSubscriptionShoppingCartFilterInput
+  ) {
+    onDeleteShoppingCart(filter: $filter) {
+      id
+      totalPrice
+      status
+      createdAt
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      cartDetails {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
+      updatedAt
+      usersShoppingCartId
+      __typename
+    }
+  }
+`;
+export const onCreateShoppingCartDetail = /* GraphQL */ `
+  subscription OnCreateShoppingCartDetail(
+    $filter: ModelSubscriptionShoppingCartDetailFilterInput
+  ) {
+    onCreateShoppingCartDetail(filter: $filter) {
+      id
+      type
+      quantity
+      amount
+      detail
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
+      cart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartCartDetailsId
+      shoppingCartDetailEnrollmentId
+      __typename
+    }
+  }
+`;
+export const onUpdateShoppingCartDetail = /* GraphQL */ `
+  subscription OnUpdateShoppingCartDetail(
+    $filter: ModelSubscriptionShoppingCartDetailFilterInput
+  ) {
+    onUpdateShoppingCartDetail(filter: $filter) {
+      id
+      type
+      quantity
+      amount
+      detail
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
+      cart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartCartDetailsId
+      shoppingCartDetailEnrollmentId
+      __typename
+    }
+  }
+`;
+export const onDeleteShoppingCartDetail = /* GraphQL */ `
+  subscription OnDeleteShoppingCartDetail(
+    $filter: ModelSubscriptionShoppingCartDetailFilterInput
+  ) {
+    onDeleteShoppingCartDetail(filter: $filter) {
+      id
+      type
+      quantity
+      amount
+      detail
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
+      cart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartCartDetailsId
+      shoppingCartDetailEnrollmentId
+      __typename
+    }
+  }
+`;
+export const onCreateProduct = /* GraphQL */ `
+  subscription OnCreateProduct($filter: ModelSubscriptionProductFilterInput) {
+    onCreateProduct(filter: $filter) {
+      id
+      sku
+      name
+      currentStock
+      criticalStock
+      purchasePrice
+      sellingPrice
+      profits
+      isActive
+      supplier {
+        id
+        name
+        contactPerson
+        email
+        phone
+        address
+        taxId
+        isActive
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      supplierProductsId
+      __typename
+    }
+  }
+`;
+export const onUpdateProduct = /* GraphQL */ `
+  subscription OnUpdateProduct($filter: ModelSubscriptionProductFilterInput) {
+    onUpdateProduct(filter: $filter) {
+      id
+      sku
+      name
+      currentStock
+      criticalStock
+      purchasePrice
+      sellingPrice
+      profits
+      isActive
+      supplier {
+        id
+        name
+        contactPerson
+        email
+        phone
+        address
+        taxId
+        isActive
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      supplierProductsId
+      __typename
+    }
+  }
+`;
+export const onDeleteProduct = /* GraphQL */ `
+  subscription OnDeleteProduct($filter: ModelSubscriptionProductFilterInput) {
+    onDeleteProduct(filter: $filter) {
+      id
+      sku
+      name
+      currentStock
+      criticalStock
+      purchasePrice
+      sellingPrice
+      profits
+      isActive
+      supplier {
+        id
+        name
+        contactPerson
+        email
+        phone
+        address
+        taxId
+        isActive
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      supplierProductsId
+      __typename
+    }
+  }
+`;
+export const onCreateSupplier = /* GraphQL */ `
+  subscription OnCreateSupplier($filter: ModelSubscriptionSupplierFilterInput) {
+    onCreateSupplier(filter: $filter) {
+      id
+      name
+      contactPerson
+      email
+      phone
+      address
+      taxId
+      isActive
+      products {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateSupplier = /* GraphQL */ `
+  subscription OnUpdateSupplier($filter: ModelSubscriptionSupplierFilterInput) {
+    onUpdateSupplier(filter: $filter) {
+      id
+      name
+      contactPerson
+      email
+      phone
+      address
+      taxId
+      isActive
+      products {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteSupplier = /* GraphQL */ `
+  subscription OnDeleteSupplier($filter: ModelSubscriptionSupplierFilterInput) {
+    onDeleteSupplier(filter: $filter) {
+      id
+      name
+      contactPerson
+      email
+      phone
+      address
+      taxId
+      isActive
+      products {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -2299,113 +2716,218 @@ export const onDeleteCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTransaction = /* GraphQL */ `
-  subscription OnCreateTransaction(
-    $filter: ModelSubscriptionTransactionFilterInput
+export const onCreateCorrelatives = /* GraphQL */ `
+  subscription OnCreateCorrelatives(
+    $filter: ModelSubscriptionCorrelativesFilterInput
   ) {
-    onCreateTransaction(filter: $filter) {
+    onCreateCorrelatives(filter: $filter) {
       id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        scheduleId
-        scheduleName
-        createdAt
-        updatedAt
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        studentEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
+      type
+      correlative
       createdAt
       updatedAt
-      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const onUpdateTransaction = /* GraphQL */ `
-  subscription OnUpdateTransaction(
-    $filter: ModelSubscriptionTransactionFilterInput
+export const onUpdateCorrelatives = /* GraphQL */ `
+  subscription OnUpdateCorrelatives(
+    $filter: ModelSubscriptionCorrelativesFilterInput
   ) {
-    onUpdateTransaction(filter: $filter) {
+    onUpdateCorrelatives(filter: $filter) {
       id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        scheduleId
-        scheduleName
-        createdAt
-        updatedAt
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        studentEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
+      type
+      correlative
       createdAt
       updatedAt
-      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const onDeleteTransaction = /* GraphQL */ `
-  subscription OnDeleteTransaction(
-    $filter: ModelSubscriptionTransactionFilterInput
+export const onDeleteCorrelatives = /* GraphQL */ `
+  subscription OnDeleteCorrelatives(
+    $filter: ModelSubscriptionCorrelativesFilterInput
   ) {
-    onDeleteTransaction(filter: $filter) {
+    onDeleteCorrelatives(filter: $filter) {
       id
-      amount
-      date
-      paymentMethod
+      type
+      correlative
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreatePaymentTransactions = /* GraphQL */ `
+  subscription OnCreatePaymentTransactions(
+    $filter: ModelSubscriptionPaymentTransactionsFilterInput
+  ) {
+    onCreatePaymentTransactions(filter: $filter) {
+      id
       status
-      enrollment {
+      token
+      urlWebpay
+      amount
+      buy_order
+      card_number
+      transaction_date
+      accounting_date
+      installments_number
+      payment_type_code
+      session_id
+      card_detail
+      installments_amount
+      authorization_code
+      response_code
+      vci
+      day
+      month
+      year
+      hour
+      glosa
+      hasRefund
+      users {
         id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        scheduleId
-        scheduleName
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
         createdAt
         updatedAt
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        studentEnrollmentsId
-        enrollmentTransactionId
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
         __typename
       }
       createdAt
       updatedAt
-      transactionEnrollmentId
+      shoppingCartPaymentTransactionsId
+      usersPaymentTransactionsId
+      __typename
+    }
+  }
+`;
+export const onUpdatePaymentTransactions = /* GraphQL */ `
+  subscription OnUpdatePaymentTransactions(
+    $filter: ModelSubscriptionPaymentTransactionsFilterInput
+  ) {
+    onUpdatePaymentTransactions(filter: $filter) {
+      id
+      status
+      token
+      urlWebpay
+      amount
+      buy_order
+      card_number
+      transaction_date
+      accounting_date
+      installments_number
+      payment_type_code
+      session_id
+      card_detail
+      installments_amount
+      authorization_code
+      response_code
+      vci
+      day
+      month
+      year
+      hour
+      glosa
+      hasRefund
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartPaymentTransactionsId
+      usersPaymentTransactionsId
+      __typename
+    }
+  }
+`;
+export const onDeletePaymentTransactions = /* GraphQL */ `
+  subscription OnDeletePaymentTransactions(
+    $filter: ModelSubscriptionPaymentTransactionsFilterInput
+  ) {
+    onDeletePaymentTransactions(filter: $filter) {
+      id
+      status
+      token
+      urlWebpay
+      amount
+      buy_order
+      card_number
+      transaction_date
+      accounting_date
+      installments_number
+      payment_type_code
+      session_id
+      card_detail
+      installments_amount
+      authorization_code
+      response_code
+      vci
+      day
+      month
+      year
+      hour
+      glosa
+      hasRefund
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartPaymentTransactionsId
+      usersPaymentTransactionsId
       __typename
     }
   }
@@ -2442,6 +2964,14 @@ export const onCreateUsers = /* GraphQL */ `
         __typename
       }
       userPermissions {
+        nextToken
+        __typename
+      }
+      shoppingCart {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
         nextToken
         __typename
       }
@@ -2487,6 +3017,14 @@ export const onUpdateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      shoppingCart {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -2526,6 +3064,14 @@ export const onDeleteUsers = /* GraphQL */ `
         __typename
       }
       userPermissions {
+        nextToken
+        __typename
+      }
+      shoppingCart {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
         nextToken
         __typename
       }

@@ -130,7 +130,7 @@ export const authSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.status = "idle";
         const objPayload: any = action.payload;
-        console.log("---objPayload---", objPayload)
+        // console.log("---objPayload---", objPayload)
         state.users = objPayload[0];
         state.id = objPayload[0]?.id || "";
         state.name = objPayload[0]?.name || "";
@@ -149,7 +149,7 @@ export const authSlice = createSlice({
       .addCase(setApoderado.fulfilled, (state, action) => {
         state.status = "idle";
         const objPayload: any = action.payload;
-        console.log("---objPayload---", objPayload)
+        // console.log("---objPayload---", objPayload)
 
         state.id = objPayload[0]?.id || "";
         state.name = objPayload[0]?.name || "";
@@ -172,7 +172,7 @@ export const authSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         
-        console.log("---getUser --isAuthenticated---", objPayload?.userId ? true:false)
+        // console.log("---getUser --isAuthenticated---", objPayload?.userId ? true:false)
         
         state.isAuthenticated = objPayload?.userId ? true:false;
         state.name = action?.payload?.name || "";

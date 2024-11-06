@@ -3,6 +3,7 @@
 
 export const generateEnrollment = /* GraphQL */ `
   mutation GenerateEnrollment(
+    $userId: String!
     $studentId: String!
     $startDate: String!
     $sessionTypeId: String!
@@ -10,6 +11,7 @@ export const generateEnrollment = /* GraphQL */ `
     $courseId: String!
   ) {
     generateEnrollment(
+      userId: $userId
       studentId: $studentId
       startDate: $startDate
       sessionTypeId: $sessionTypeId
@@ -18,4 +20,3 @@ export const generateEnrollment = /* GraphQL */ `
     )
   }
 `;
-

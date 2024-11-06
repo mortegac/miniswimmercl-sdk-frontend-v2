@@ -8,7 +8,7 @@ import { Tab } from "@/components/Base/Headless";
 
 // import {Sessions} from "./Sessions";
 
-import { Student } from '@/stores/Students/types';
+
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getSessionDetails, selectSessionDetails } from "@/stores/SessionDetails/slice";
 import { increment, setDataEnroll, setDataStudent, selectEnrollment  } from "@/stores/Enrollment/slice";
@@ -227,7 +227,13 @@ const Card: React.FC<Props> = ({student}) => {
                     rounded
                     variant="soft-primary"
                     className="px-4 py-2 border border-slate-200 w-full"
-                    onClick={() => saveDataStudent()}
+                    onClick={async () => {
+                      saveDataStudent()
+                      await Promise.all([
+                        dispatch(setDataEnroll({key:"studentFullName", value:`${student?.student?.name} ${student?.student?.lastName}`})),
+                        dispatch(setDataEnroll({key:"studentAge", value:`${edad?.años || ""} años, ${edad?.meses || ""} meses`}))
+                      ])
+                    }}
                   >
                     <Lucide icon="Check" className="w-6 h-6 mr-2" />{" "}
                     Inscribir

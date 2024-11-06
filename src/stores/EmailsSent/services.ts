@@ -151,7 +151,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       });
       
       const data = getData.data;
-      console.log("<<< EMAILS DATA <<<<< ", data.listEmailSends.items)
+      // console.log("<<< EMAILS DATA <<<<< ", data.listEmailSends.items)
       
         resolve([ ...data.listEmailSends.items] as any);
         

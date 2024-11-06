@@ -38,7 +38,7 @@ export const createApoderado = async (objFilter: FilterOptions): Promise<any> =>
         }
       });
       
-      console.log("<<< APODERADO CREADO <<<<< ", getData)
+      // console.log("<<< APODERADO CREADO <<<<< ", getData)
       const data = getData.data;
       
         resolve({ ...data.createUsers } as any);
@@ -64,7 +64,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
      
-      console.log("<<< objFilter <<<<< ", objFilter)
+      // console.log("<<< objFilter <<<<< ", objFilter)
       
       const filterEmail = (typeof objFilter?.userEmail === 'undefined') ?
       {}
@@ -84,7 +84,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
         
       });
       
-      console.log("<<< USERS DATA <<<<< ", getData)
+      // console.log("<<< USERS DATA <<<<< ", getData)
       const data = getData.data;
       
         resolve({ ...data.listUsers.items } as any);
@@ -421,7 +421,7 @@ export const fetchAuthUser = async () => {
     // // console.log('User is signed in:', user);
     const auth = await getCurrentUser();
     const { username, userId } = auth;
-    console.log(">>>fetchAuthUser, auth >>>", auth)
+    // console.log(">>>fetchAuthUser, auth >>>", auth)
     
     
     // if(!username || !userId){

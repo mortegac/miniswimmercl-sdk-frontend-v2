@@ -15,25 +15,15 @@ import { selectEnrollment, setDataUser, increment, cleanData} from "@/stores/Enr
 import { selectAuth, getUser, setApoderado, cleanDataUser} from "@/stores/Users/slice";
 import { selectRelationships, getRelationships} from "@/stores/Relationships/slice";
 import Card from "./Card";
-// import {
-//   selectParameters,
-//   getParameters,
-// } from "@/stores/Parameters/slice";
-// import { duration } from "dayjs";
-import { Student } from '../../../../stores/Students/types';
-
 interface Props {
   students?: any;  
 }
 
 const RelationList: React.FC<Props> = ({students}) => {
-  // const {relationships, status} = useAppSelector(selectRelationships);
-  
   return(
     <>
     {/* <pre>{JSON.stringify(students.items, null, 2 )}</pre> */}
-    {/* <pre>{JSON.stringify(relationships, null, 2 )}</pre> */}
-        {/* <div className="grid grid-cols-12 gap-6 intro-y">           */}
+    
         <div key="STUDENT-LIST"  className="flex justify-between intro-y" >          
           {/* {
             students.items[0]?.student?.id && Array.isArray(students) && students.length === 0 && 
@@ -73,7 +63,7 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
   
   
   async function getDataUser(email:string){ 
-    console.log("---getDataUser---", email)
+    // console.log("---getDataUser---", email)
     email !== "" && await dispatch(getUser({userEmail:email}))
   }
   
@@ -281,14 +271,7 @@ export const FormStep01 = ({ onChangeSetStore }: any) => {
                   className="w-10 h-10 mt-10"
                 /></div>
         }
-        {/* <pre>{JSON.stringify(users, null, 2 )}</pre> */}
-      {/* { guardianId && guardianId !== "" && user.status === "idle" && <RelationList /> } */}
       { user.status === "idle" && users?.relationships && <RelationList students={users?.relationships}/> }
-      {/* { guardianId === "" &&  <div className="w-full text-center h-fit mt-8">
-                <span className="text-lg mr-4 text-slate-400">😴</span>{" "}
-                <span className="text-lg">Sin alumnos asociados</span>
-              </div>} */}
-      
     </>
   );
 };

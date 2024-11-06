@@ -84,8 +84,8 @@ function sortByEndDate(array: any[] | undefined | null): any[] {
   
   if(array?.length ===1) return array
   
-  console.log("--array--", array)
-  console.log("--array--length", array?.length)
+  // console.log("--array--", array)
+  // console.log("--array--length", array?.length)
   if (!array || !Array.isArray(array)) {
     return []; // Retorna un array vacío si el input es undefined, null, o no es un array
   }
@@ -431,9 +431,9 @@ function Content(props: any) {
               <Table.Td className="w-44 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
                 Sesiones
               </Table.Td>
-              {/* <Table.Td className="w-40 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
-                Inscripción
-              </Table.Td> */}
+              <Table.Td className="w-40 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
+                Estado
+              </Table.Td>
               <Table.Td className="py-4 font-medium text-center border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Action
               </Table.Td>
@@ -448,8 +448,10 @@ function Content(props: any) {
               // const sortedSessions = Array.isArray(item?.sessionDetails?.items) &&  sortByEndDate(item?.sessionDetails?.items);
               
               return (
-              <Table.Tr key={index} className="[&_td]:last:border-b-0">
-                <Table.Td className="py-4 border-dashed dark:bg-darkmode-600">
+              <Table.Tr key={index} className="[&_td]:last:border-b-0 ">
+                <Table.Td 
+                className={`${item?.wasPaid ? "":"bg-red-200"} py-4 border-dashed dark:bg-darkmode-600`}>
+                
                   {index+1}
                 </Table.Td>
                 <Table.Td className="w-52 py-4 border-dashed">
@@ -483,11 +485,6 @@ function Content(props: any) {
                   </div>
                    
                 </Table.Td>
-                {/* <Table.Td className="w-72 py-4 border-dashed">
-                  <div className="flex items-center justify-start uppercase">
-                    {item?.course?.location?.name}
-                  </div>
-                </Table.Td> */}
                 <Table.Td className=" w-44 py-4 border-dashed">
                   {Array.isArray(item?.sessionDetails?.items) && item?.sessionDetails?.items.map((session:any, i:any) => (
                     <>
@@ -506,6 +503,10 @@ function Content(props: any) {
                     </>
                   ))}
                   
+                </Table.Td>
+                <Table.Td 
+                className={`${item?.wasPaid ? "":"bg-red-200"} py-4 border-dashed dark:bg-darkmode-600 relative text-center`}>
+                  <span className={`${item?.wasPaid ? "text-slate-400":"text-slate-700"}`}>{item?.wasPaid ? "PAGADO":"SIN PAGO"}</span>
                 </Table.Td>
                 <Table.Td className="relative py-4 border-dashed">
                   <div className="flex items-center justify-center">
@@ -615,7 +616,7 @@ function Main() {
     // Función para filtrar estudiantes
     const filterStudents = (term: string) => {
       const filtered = enrollments.filter((item:any) => {
-      console.log("--student--", item)
+      // console.log("--student--", item)
         return item?.student?.name.toLowerCase().includes(term.toLowerCase()) ||
         item?.student?.lastName.toLowerCase().includes(term.toLowerCase())
       }

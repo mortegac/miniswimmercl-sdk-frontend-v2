@@ -10,6 +10,7 @@ export interface EnrollmentState {
   currentStep: number,
   status: "idle" | "loading" | "failed";
   sessions: any,
+  cartId:string;
   enrollment: EnrollmentExtra;
   enrollments: Enrollment[];
   errorMessage:string;
@@ -19,6 +20,7 @@ export const initialState: EnrollmentState = {
   currentStep: 1,
   status: "idle",
   sessions: [],
+  cartId: "",
   enrollment: emptyEnrollmentExtra,
   enrollments: [emptyEnrollment],
   errorMessage:"",
@@ -27,12 +29,12 @@ export const initialState: EnrollmentState = {
 
 
 export const setEnrollment = createAsyncThunk(
-  "Enrollmen/create",
+  "Enrollment/create",
   async (objFilter: FilterOptions, { dispatch }) => {
     try {
-      console.error(">>>>setEnrollment-objFilter", objFilter)
+      // console.error(">>>>setEnrollment-objFilter", objFilter)
       const response:any = await createEnrollment({ ...objFilter });
-      console.error(">>>>setEnrollment-response", response)
+      // console.error(">>>>setEnrollment-response", response)
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH setEnrollment", error)
@@ -71,7 +73,7 @@ export const setModelAPI = createAsyncThunk(
 );
 
 export const getStudents = createAsyncThunk(
-  "Enrollmen/list",
+  "Enrollment/list",
   async (objFilter: FilterOptions) => {
     try {
       const response:any = await fetchData(objFilter);
@@ -90,10 +92,14 @@ export const enrollmentSlice = createSlice({
   reducers: {
     setStep: (state, action: PayloadAction<{}>) => {
       const objAction: any = action.payload;
-      state.status = "loading";
-      state.currentStep = objAction.value;
-      state.status = "idle";
+      state.currentStep = objAction;
     },
+    // setStep: (state, action: PayloadAction<{}>) => {
+    //   const objAction: any = action.payload;
+    //   state.status = "loading";
+    //   state.currentStep = objAction.value;
+    //   state.status = "idle";
+    // },
     increment: (state) => {
       state.status = "loading";
       // if (state.currentStep <= 2) 
@@ -108,7 +114,7 @@ export const enrollmentSlice = createSlice({
     },
     setDataEnroll: (state, action: PayloadAction<{}>) => {
       const objAction: any = action.payload;
-      console.log(">> objAction >>", objAction)
+      // console.log(">> objAction >>", objAction)
       state.enrollment = {
         ...state.enrollment,
         [objAction.key]: objAction.value,
@@ -116,7 +122,7 @@ export const enrollmentSlice = createSlice({
     },
     setDataUser: (state, action: PayloadAction<{}>) => {
       const objAction: any = action.payload;
-      console.log(">> objAction >>", objAction)
+      // console.log(">> objAction >>", objAction)
       state.enrollment = {
         ...state.enrollment,
         guardianId: objAction.id,
@@ -127,8 +133,8 @@ export const enrollmentSlice = createSlice({
     },
     setDataStudent: (state, action: PayloadAction<{}>) => {
       const objAction: any = action.payload;
-      console.log(">> objAction >>", objAction)
-      console.log(">> state.enrollment >>", state.enrollment)
+      // console.log(">> objAction >>", objAction)
+      // console.log(">> state.enrollment >>", state.enrollment)
       state.enrollment = {
         ...state.enrollment,
         studentId: objAction.id,
@@ -161,8 +167,12 @@ export const enrollmentSlice = createSlice({
         // ENROLLMENT
         enrollmentStartDate: "",
         enrollmentSessionTypeId: "",
+        enrollmentSessionTypeName: "",
         enrollmentScheduleId: "",
+        enrollmentScheduleName: "",
         enrollmentCourseId: "",
+        enrollmentCourseName: "",
+        
       }
       
     },
@@ -182,47 +192,8 @@ export const enrollmentSlice = createSlice({
       .addCase(getStudents.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "idle";
-        console.log("--objPayload--", objPayload)
-        // const _orderBySponsored = Array.isArray(objPayload?.items) ? objPayload?.items.sort((a:any, b:any) => String(a.isSponsored).localeCompare(String(b.isSponsored))) : objPayload?.items;
-        // const _orderByPaid = Array.isArray(_orderBySponsored) ? _orderBySponsored.sort((a:any, b:any) => String(a.isPaid).localeCompare(String(b.isPaid))) : _orderBySponsored;
-
-        // interface Student {
-        //   id: string;
-        //   name: string;
-        //   lastName: string;
-        //   birthdate: string;
-        //   relationships: {
-        //     items: Array<{
-        //       usersRelationshipsId: string;
-        //       relationType: string;
-        //       user: {
-        //         id: string;
-        //         name: string;
-        //       };
-        //     }>;
-        //   };
-        // }
-        
-        // interface Course {
-        //   id: string;
-        //   title: string;
-        //   location: {
-        //     id: string;
-        //     name: string;
-        //   };
-        // }
-        
-        // interface EnrollmentData {
-        //   id: string;
-        //   amountPaid: number;
-        //   startDate: string;
-        //   endDate: string;
-        //   wasPaid: boolean;
-        //   numberOfSessions: number;
-        //   student: Student;
-        //   course: Course;
-        // }
-        
+        // console.log("--objPayload--", objPayload)
+                
         function sortByEndDate(data: Enrollment[]): Enrollment[] {
           return data.sort((a, b) => {
             const dateA = convertToDate(a.startDate);
@@ -256,10 +227,42 @@ export const enrollmentSlice = createSlice({
         const objPayload: any = action.payload;
         // state.status = "idle";
         
-        console.log("---setEnrollment --action---", objPayload)
-        // const parserResponse = transformResponse(objPayload)
-        state.sessions = objPayload || [];
+        // console.log("---setEnrollment --action---", objPayload)
         
+          
+        function transformApiResponse(apiResponse:any) {
+          // Remove the surrounding curly braces
+          const cleanedResponse = apiResponse.slice(1, -1);
+        
+          // Split the response into key-value pairs
+          const pairs = cleanedResponse.split(', ');
+        
+          // Create an object from the key-value pairs
+          const responseObj:any = {};
+          for (const pair of pairs) {
+            const [key, value] = pair.split('=');
+            responseObj[key] = value.startsWith('{') ? JSON.parse(value) : value;
+          }
+        
+          console.log("---responseObj--", responseObj)
+          // console.log("---responseObj?.body?.sessions--", responseObj?.body?.sessions)
+          
+          const { statusCode, body } = responseObj;
+    
+          return {
+            statusCode: parseInt(statusCode),
+            sessions: responseObj?.body?.sessions,
+            cartId: responseObj?.body?.cartId
+            // ...JSON.parse(body)
+          };
+        }
+
+        const jsonResponse = transformApiResponse(objPayload?.data);
+        console.log("jsonResponse>>  ", jsonResponse);
+        
+          
+        state.sessions = jsonResponse?.sessions || [];
+        state.cartId = jsonResponse?.cartId || [];
       })
       
       

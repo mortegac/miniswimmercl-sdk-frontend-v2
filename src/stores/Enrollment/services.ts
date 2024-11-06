@@ -28,7 +28,7 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
        // Update USER
         // Save o update RELATION
       
-      console.log("<<< STUDENTS DATA <<<<< ", getData)
+      // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
         resolve([...data.listEnrollments.items] as any);
@@ -58,6 +58,7 @@ export const createEnrollment = async (objFilter: FilterOptions): Promise<any> =
         query: generateEnrollment,
         variables: {
           // input: {            
+            userId: objFilter.userId,
             studentId: objFilter.studentId,
             startDate: objFilter.enrollmentStartDate,
             sessionTypeId: objFilter.enrollmentSessionTypeId,
@@ -67,10 +68,12 @@ export const createEnrollment = async (objFilter: FilterOptions): Promise<any> =
         }
       });
       
-      console.log("<<< ENROLLMENT CREADO <<<<< ", setData)
-      const data = setData.data;
+      // console.log("<<< ENROLLMENT CREADO <<<<< ", setData)
+      // const data = setData.data;
+      // resolve({ ...data.generateEnrollment } as any);
       
-      resolve({ ...data.generateEnrollment } as any);
+      const data = setData?.data?.generateEnrollment || {};
+      resolve({ data } as any);
         
       // ...userData.data.getUsers
       // } else {

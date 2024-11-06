@@ -28,7 +28,7 @@ export const setRelationship = createAsyncThunk(
   async (objFilter: FilterOptions, { dispatch }) => {
     try {
       const response:any = await createRelation({ ...objFilter });
-      console.log("---student/create-----", response)
+      // console.log("---student/create-----", response)
      
       return response;
     } catch (error) {

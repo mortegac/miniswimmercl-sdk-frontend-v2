@@ -798,27 +798,170 @@ const listExpenses = gql`
   }
 `;
 
+// -------------------------------------------------
+// GASTOS
+// -------------------------------------------------
+const getCorrelatives = gql`
+  query GetCorrelatives($id: ID!) {
+    getCorrelatives(id: $id) {
+      id
+      type
+      correlative
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+const listCorrelatives = gql`
+  query ListCorrelatives(
+    $filter: ModelCorrelativesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCorrelatives(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        correlative
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+
+const getPaymentTransactions = gql`
+  query GetPaymentTransactions($id: ID!) {
+    getPaymentTransactions(id: $id) {
+      id
+      status
+      token
+      amount
+      buy_order
+      card_number
+      transaction_date
+      accounting_date
+      installments_number
+      payment_type_code
+      session_id
+      card_detail
+      installments_amount
+      authorization_code
+      response_code
+      vci
+      day
+      month
+      year
+      hour
+      glosa
+      Users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      hasRefund
+      createdAt
+      updatedAt
+      usersTransactionsId
+      __typename
+    }
+  }
+`;
+const listPaymentTransactions = gql`
+  query ListPaymentTransactions(
+    $filter: ModelPaymentTransactionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPaymentTransactions(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        token
+        urlWebpay
+        amount
+        buy_order
+        card_number
+        transaction_date
+        accounting_date
+        installments_number
+        payment_type_code
+        session_id
+        card_detail
+        installments_amount
+        authorization_code
+        response_code
+        vci
+        day
+        month
+        year
+        hour
+        glosa
+        hasRefund
+        createdAt
+        updatedAt
+        shoppingCartPaymentTransactionsId
+        usersPaymentTransactionsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 
 module.exports = {
   getLocation,
   listLocations,
+  
   getCourse,
   listCourses,
+  
   getSchedule,
   listSchedules,
+  
   getSessionType,
   listSessionTypes,
+  
   getCourseSessionType,
   listCourseSessionTypes,
+  
   getStudent,
   listStudents,
+  
   getEnrollment,
   listEnrollments,
+  
   getSessionDetail,
   listSessionDetails,
+  
   getTransaction,
   listTransactions,
+  
   getExpense,
   listExpenses,
+  
+  getCorrelatives,
+  listCorrelatives,
+  
+  getPaymentTransactions,
+  listPaymentTransactions,
   
 }

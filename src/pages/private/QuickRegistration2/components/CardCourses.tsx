@@ -89,7 +89,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
   
   
   const {email}= useAppSelector(selectAuth);
-  const {enrollment, sessions, currentStep} = useAppSelector(selectEnrollment);
+  const {enrollment, sessions, currentStep, cartId} = useAppSelector(selectEnrollment);
   const dispatch = useAppDispatch();
 
   function transformDate(isoDate:string) {
@@ -105,7 +105,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
   async function setDateBirthday(e:any){
     // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z") 
 
-    console.log("e>>> ", e)
+    // console.log("e>>> ", e)
     
     const date:string= new Date(e.target.value).toISOString()
     const getBirthday:any = tiempoTranscurrido(e.target.value)
@@ -120,7 +120,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
       preventDefault:()=>null,
     }
     setValueEnrrollment({key:"enrollmentStartDate", value:transformDate(date)})
-    console.log("e>>> ", event)
+    // console.log("e>>> ", event)
     
   }
   
@@ -145,18 +145,18 @@ const CardCourses: React.FC<Props> = ({courses}) => {
     await Promise.all([
       await dispatch(
         setEnrollment({
-          studentId: enrollment.studentId,
-          enrollmentStartDate: enrollment.enrollmentStartDate,
-          enrollmentSessionTypeId: enrollment.enrollmentSessionTypeId,
-          enrollmentScheduleId: enrollment.enrollmentScheduleId,
-          enrollmentCourseId: enrollment.enrollmentCourseId
+          userId: enrollment?.guardianId,
+          studentId: enrollment?.studentId,
+          enrollmentStartDate: enrollment?.enrollmentStartDate,
+          enrollmentSessionTypeId: enrollment?.enrollmentSessionTypeId,
+          enrollmentScheduleId: enrollment?.enrollmentScheduleId,
+          enrollmentCourseId: enrollment?.enrollmentCourseId
         })),
-        await dispatch(getUser({userEmail:email})),
-        await dispatch(setStep(1))
+      await dispatch(getUser({userEmail:email})),
+      dispatch(setStep(4))
     ]);
+    
     setIsSaved({ state: false })
-    
-    
     setSelectedModal(false);
     
   }
@@ -166,11 +166,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
     
     
       {/* <pre>{JSON.stringify(courses.gender, null, 2)}</pre> */}
-      {/* <Link
-        to="/data-detail"
-        state={{ id: data.id }}
-        className=" "
-      > */}
+
         <Dialog key={`${courses.id}-span-options-modal`}  size="lg" open={selectedModal} onClose={()=> {
             setSelectedModal(false);
             }}
@@ -203,6 +199,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                               }
                               );
                               setValueEnrrollment({key:"enrollmentSessionTypeId", value:item?.sessionType?.id})
+                              setValueEnrrollment({key:"enrollmentSessionTypeName", value:item?.sessionType?.name})
                             }
                           }
                           >{item?.sessionType?.name}</Button>
@@ -216,6 +213,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                     <div className=" flex flex-col justify-center">
                       <span className="mt-2 text-lg text-slate-500">Seleccione el día de la clase</span>
                       <div className="mt-2 flex flex-row justify-center">
+                        {/* <pre>{JSON.stringify(courses?.schedules?.items, null, 2)}</pre> */}
                         { Array.isArray(courses?.schedules?.items) &&
                           courses?.schedules?.items.map((item: any, i: number) =>
                           optionDay?.id===item?.id && optionDay?.selected === true ?
@@ -234,6 +232,7 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                                   }
                                 )
                                 setValueEnrrollment({key:"enrollmentScheduleId", value:item?.id})
+                                setValueEnrrollment({key:"enrollmentScheduleName", value:`${item?.day} ${item?.startHour}`})
                               }
                             }
                           >{item?.day}{" "}{item?.startHour}</Button>
@@ -281,8 +280,9 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                           Inscribir
                       </Button>
                   </div>
-                  Listado de sessiones creadas
-                  <pre>{JSON.stringify(sessions)}</pre>
+                  {/* Listado de sessiones creadas
+                  <pre>sessions = {JSON.stringify(sessions)}</pre>
+                  <pre>cartId = {JSON.stringify(cartId)}</pre> */}
                 </div>
             </Dialog.Panel>
         </Dialog>
@@ -389,7 +389,8 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                   size="lg"
                   className="py-2 border border-slate-200 w-48 mx-2 font-light "
                   onClick={()=> {
-                    setValueEnrrollment({key:"enrollmentCourseId", value:courses.id});
+                    setValueEnrrollment({key:"enrollmentCourseId", value:courses?.id});
+                    setValueEnrrollment({key:"enrollmentCourseName", value:courses?.title});
                     setSelectedModal(true);
                     }}
                 >

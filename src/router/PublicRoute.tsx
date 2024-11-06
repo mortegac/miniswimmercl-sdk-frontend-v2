@@ -20,7 +20,7 @@ import {
     const dispatch = useAppDispatch();
   
     
-    console.log("PublicValidation>>> isAuthenticated", isAuthenticated)
+    // console.log("PublicValidation>>> isAuthenticated", isAuthenticated)
     
     useEffect(() => {
       dispatch(getAuthUser());

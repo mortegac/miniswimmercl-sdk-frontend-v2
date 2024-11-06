@@ -4,6 +4,8 @@ const Enrollment = require("./Enrollment");
 const Schedule = require("./Schedule");
 const CourseSessionType = require("./CourseSessionType");
 const SessionType = require("./SessionType");
+const Correlatives = require("./Correlatives");
+const transaction = require("./paymentTransactions")
 
 
 module.exports = {
@@ -13,4 +15,6 @@ module.exports = {
   ...Schedule,
   ...CourseSessionType,
   ...SessionType,
+  ...Correlatives,
+  ...transaction,
 };

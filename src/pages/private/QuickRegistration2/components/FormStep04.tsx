@@ -1,4 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
+import * as jose from 'jose';
+
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import LoadingIcon from "@/components/Base/LoadingIcon";
@@ -11,23 +13,81 @@ import { selectEnrollment, setDataUser, increment, cleanData} from "@/stores/Enr
 
 
 export const FormStep04 = ({ onChangeSetStore }: any) => {
-  const {enrollment}= useAppSelector(selectEnrollment);
+  const [JWT, setJWT] = useState("")
+  const {enrollment, sessions, cartId}= useAppSelector(selectEnrollment);
   const {
     guardianId,
     guardianEmail,
     guardianName,
     guardianRelation,
-    studentName,
-    studentLastName,
+    studentFullName,
+    studentAge,
+    
+    enrollmentStartDate,
+    enrollmentSessionTypeId,
+    enrollmentSessionTypeName,
+    enrollmentScheduleId,
+    enrollmentScheduleName,
+    enrollmentCourseId,
+    enrollmentCourseName,
+
   } = enrollment;
+  
+  
+  
+
+  // const payload: any = {
+  //   "sub": "1234567890",
+  //   "iat": 1516239022
+  // }
+  // const claims:any = jose.decodeJwt(JWT)
   
   // const {courses, status } = useAppSelector(selectCourse);
   // const dispatch = useAppDispatch();
+  const secretKey = new TextEncoder().encode(
+    'tu_clave_secreta_super_segura_min_32_caracteres'
+  );
   
-  // useEffect(() => { (async () => await dispatch(getCourses()))(); }, []);
+  async function createJWT() {
+    const payload = {
+      sub: cartId,
+      iat: 1516239022
+    };
+  
+    const jwt = await new jose.SignJWT(payload)
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()           // Establece iat (issued at)
+      .setExpirationTime('2h') // El token expira en 2 horas
+      .sign(secretKey);
+      setJWT(jwt)
+      
+    console.log(jwt)
+      
+    return jwt;
+  }
+  
+  
+  useEffect(() => { (async () => {
+    // const secret = jose.base64url.decode('zH4NRP1HMALxxCFnRZABFA7GOJtzU_gIj02alfL1lvI')
+    await createJWT()
+    // const jwt = await new jose.EncryptJWT({
+    //   "sub": cartId,
+    //   "iat": 1516239022
+    // })
+    //   .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
+    //   .setIssuedAt()
+    //   .setIssuer('urn:example:issuer')
+    //   .setAudience('urn:example:audience')
+    //   .setExpirationTime('2d')
+    //   .encrypt(secret)
+
+    // console.log(jwt)
+    
+  })(); }, [cartId]);
   
   return (
     <>
+    {/* <pre>{JSON.stringify(enrollment, null, 2 )}</pre> */}
        <div className="text-left px-8 ">
         <div className="intro-y flex flex-col justify-center border-b pb-8">
           <span className="text-3xl font-semibold  text-slate-700">
@@ -38,7 +98,7 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
           </span>
           <div className="overflow-y-auto h-[600px] w-full ">
             {/* STEP 01 - APODERADO */}
-            <div className="flex flex-col mb-20 ">
+            <div className="flex flex-col mb-4 ">
               <h3 className="text-xl font-medium text-primary">
                 {"Información apoderado y Alumno"}
               </h3>
@@ -49,10 +109,10 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
                 {"Email: "} {guardianEmail}
               </span>
               <span className="text-base font-light mt-2  text-primary">
-                {"Alumno: "} {studentName} {studentLastName}
+                {"Alumno: "} {studentFullName}
               </span>
               <span className="text-base font-light mt-2  text-primary">
-                {"Edad: "} 3 años
+                {"Edad: "} {studentAge}
               </span>
               <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
 
@@ -66,82 +126,85 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
             </div>
 
             {/* STEP 02 - ALUMNO*/}
-            <div className="flex flex-col mb-16 ">
-              <h3 className="text-xl font-medium text-primary">
-                LA REINA | {"COLEGIO-JOHN-ANDREWS"}
-              </h3>
+            <div className="flex flex-col mb-4 ">
+              {/* <h3 className="text-xl font-medium text-primary">
+                {"COMUNA"} | {""}
+              </h3> */}
+
+
+
+    
+              <span className="text-base font-light mt-2  text-primary">
+              {"Curso:"} <b className="uppercase">{enrollmentCourseName}</b>
+              </span>
               {/* <span className="text-base font-light mt-2  text-primary">
-              {"Sede:"} COLEGIO-JOHN-ANDREWS
+              {"Schedule:"} <b className="uppercase">{enrollmentScheduleName}</b>
               </span> */}
               <span className="text-base font-light mt-2  text-primary">
-              {"Curso:"} <b>Bebes - 2 a 12 Meses</b>
+              {"Pack:"} <b className="uppercase">{enrollmentSessionTypeName}</b>
               </span>
-              <span className="text-base font-light mt-2  text-primary">
-              {"Pack:"} <b>8 Sessiones</b>
-              </span>
-              <span className="text-base font-light mt-2  text-primary">
-              {"Valor:"} <b>$110.000</b>
-              </span>
+              {/* <span className="text-base font-light mt-2  text-primary">
+              {"Valor:"} <b className="uppercase"></b>
+              </span> */}
               <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
-
-              <div className="font-light text-base text-slate-500 text-left ">
-              {/* { Array.isArray(offert?.PlantOffert?.items) &&
-                offert?.PlantOffert?.items.map((item: any, i: number)=><>
-                 <div className="text-slate-500 text-md mt-8">
-                    <p className="text-slate-500 ">
-                      <span className="text-slate-500 uppercase font-medium">{item?.ProductionPlant?.name}</span> | <span className="text-slate-500 capitalize ml-3"> {item?.ProductionPlant?.comune}</span>
-                    </p>
-                  </div>
-                  
-                 
-                  <ValidateList items={item?.RouteVehicleOffert?.items ||[]} title="del vehículo" />
-                  { item?.RouteVehicleOffert?.items.length >= 1 && <VehiclesList items={item?.RouteVehicleOffert?.items ||[]} />}
-                  
-                </>
-              )} */}
-              </div>
             </div>
 
             {/* STEP 03 - CURSOS / HORARIOS */}
-            <div className="flex flex-col mb-20 ">
+            <div className="flex flex-col mb-4 ">
               <h3 className="text-xl font-medium text-primary">
                 {"Detalle Sessiones generadas"}
               </h3>
              
               <span className="text-base font-light mt-2  text-primary">
-              {"Horario clases:"} <b>Viernes 17:00</b>
+              {"Horario clases:"} <b className="uppercase">{enrollmentScheduleName}</b>
               </span>
+              
+              {Array.isArray(sessions ) &&
+              sessions.map((item: any, i: number) => 
+              // <pre>{JSON.stringify(item, null, 2 )}</pre>
+              <span className="text-base font-light mt-2  text-primary m-4">
+              {`Sesión ${item?.sessionNumber}:`} <b>{item?.date}</b> <i className="ml-4 rounded-full px-4 py-2 bg-slate-200 text-slate-500">{item?.locationId}</i>
+              </span>
+              )}
+              
+              <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
+              <div className="font-light text-base text-slate-500 text-left ">
+            
+            </div>
+              
+         
+
+              
+              
+            </div>
+            
+            {/* STEP 04 - CARRO DE COMPRAS */}
+            <div className="flex flex-col mb-20 ">
+              <h3 className="text-xl font-medium text-primary">
+                {"Link de pago"}
+              </h3>
+             
               <span className="text-base font-light mt-2  text-primary">
-              {"Sesión 1:"} <b>14 sept 2024</b>
+              {"Id Carro:"} <b>{cartId}</b>
               </span>
-              <span className="text-base font-light mt-2  text-primary">
-              {"Sesión 2:"} <b>22 sept 2024</b>
+              <span className="text-base font-light overflow-auto text-primary mt-8 border border-primary p-4 rounded-xl bg-purple-100">
+              {
+                cartId &&
+                  <a href={`https://pagos.miniswimmer.cl/${JWT}`}>
+                    {`https://pagos.miniswimmer.cl/${JWT}`}
+                  </a>
+              }
               </span>
-              <span className="text-base font-light mt-2  text-primary">
-              {"Sesión 3:"} <b>04 oct 2024</b>
-              </span>
-              <span className="text-base font-light mt-2  text-primary">
-              {"Sesión 4:"} <b>14 oct 2024</b>
-              </span>
+              
+{/*              
              
             
               <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
               <div className="font-light text-base text-slate-500 text-left ">
             
             </div>
-              
-              <div className="font-light text-base text-slate-500 text-left ">
-              {/* { Array.isArray(offert?.PlantOffert?.items) &&
-                offert?.PlantOffert?.items.map((item: any, i: number)=><>
-                 <div className="text-slate-500 text-md mt-8">
-                    <p className="text-slate-500 ">
-                      <span className="text-slate-500 uppercase font-medium">{item?.ProductionPlant?.name}</span> | <span className="text-slate-500 capitalize ml-3"> {item?.ProductionPlant?.comune}</span>
-                    </p>
-                  </div>
-                  
-                </>
-              )} */}
-              </div>
+               */}
+            
               
          
 

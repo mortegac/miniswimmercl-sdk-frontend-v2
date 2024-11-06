@@ -6,7 +6,41 @@
 ################################
 
 type Mutation {
-  generateEnrollment(studentId: String!, startDate: String!, sessionTypeId: String!, scheduleId: String!, courseId: String!): String
-    @function(name: "fnCalculateSessionsEnrollment-${env}")
+  generateEnrollment(
+    userId: String!, 
+    studentId: String!, 
+    startDate: String!, 
+    sessionTypeId: String!, 
+    scheduleId: String!, 
+    courseId: String!
+  ): String
+  @function(name: "fnCalculateSessionsEnrollment-${env}")
+  
+# # WEBPAY
+  setStart(
+    # buyOrder: String!, 
+    amount: Float!, 
+    userId: String!, 
+    glosa: String!, 
+    cartId: String!
+  ): String
+    @function(name: "webpayStart-${env}")
+
+  setCommit( token: String!): String
+    @function(name: "webpayCommit-${env}")
+    
+  setStatus( token: String!): String
+    @function(name: "webpayStatus-${env}")
+    
 }
+
+
+# type Mutation {
+#   setCommit(studentId: String!, startDate: String!, sessionTypeId: String!, scheduleId: String!, courseId: String!): String
+#     @function(name: "webpayCommit-${env}")
+# }
+# type Mutation {
+#   setStatus(studentId: String!, startDate: String!, sessionTypeId: String!, scheduleId: String!, courseId: String!): String
+#     @function(name: "webpayStatus-${env}")
+# }
 

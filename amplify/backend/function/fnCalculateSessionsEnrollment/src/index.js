@@ -18,7 +18,7 @@ const { getCalculateSessions } = require("./functions/calculations/getCalculateS
 
 exports.handler = async (event) => {
     try {
-        
+        const sessionInfoArray = []; // Array para devolver las sessiones creadas
         const param = event.arguments;
         
         console.log(`1.---------- param ----------${JSON.stringify(param)}`);
@@ -39,6 +39,8 @@ exports.handler = async (event) => {
 // OBTIENE HORARIOS DEL CURSO A INSCRIBIR
         console.log(`2.---------- SCHEDULE ----------`);
         const schedule = await getSchedule(param.scheduleId)
+        console.log(`2.---------- schedule ----------`, schedule.location.id);
+        console.log(`2.---------- schedule ----------`);
 
 // OBTIENE PACK DE SESSIONES DEL CURSO A INSCRIBIR
         console.log(`3.---------- SESSION TYPE ----------`);
@@ -50,8 +52,8 @@ exports.handler = async (event) => {
 
 // CREA LA INSCRIPCION DEL ALUMNO EN EL CURSO
         console.log(`4.---------- ENROLLMENT ----------`);
-        const enrollment = await addEnrollments({
-            startDate: new Date(param.startDate),
+        const dataEnrollment = {
+            startDate: param.startDate,
             numberOfSessions: sessiontype.totalSessions, //param.cantidadSesiones,
             amountPaid: sessiontype.amount, //param.valorCurso,
             wasPaid: false,
@@ -60,7 +62,17 @@ exports.handler = async (event) => {
             sessionsUsed:0,
             studentEnrollmentsId: param.studentId,
             courseEnrollmentsId: param.courseId,
-            sessionTypeEnrollmentsId: param.sessionTypeId
+            sessionTypeEnrollmentsId: param.sessionTypeId,
+            scheduleId:param.scheduleId,
+            scheduleName:`${schedule.day} ${schedule.startHour}`
+            
+            // scheduleEnrollmentsId:param.scheduleId,
+        }
+        
+        console.log(`addEnrollments -pARAMS: ${JSON.stringify(dataEnrollment)}`);
+        
+        const enrollment = await addEnrollments({
+           ...dataEnrollment
         })
         console.log(`createEnrollment: ${JSON.stringify(enrollment)}`);
 
@@ -71,6 +83,8 @@ exports.handler = async (event) => {
             numberOfSessions:sessiontype.totalSessions, //param.cantidadSesiones, 
             startDate:param.startDate, 
         }
+        
+        console.log(`obj create sessions: ${JSON.stringify(obj)}`);
         
 // CALCULA EL DETALLE DE LAS SESIONES
         console.log(`5.---------- CALCULATE SESSIONS ----------`);
@@ -86,21 +100,37 @@ exports.handler = async (event) => {
                 const sessionPromises = calculateSession.map((item, key) => {
                   return addSession({
                     date: item.date,
-                    enrollmentId: enrollment.id,
-                    studentId: param.studentId,
-                    sessionNumber: item.sessionNumber,
-                    totalSessions: item.totalSessions,
-                    proratedValue: item.proratedValue
+                    enrollmentSessionDetailsId: enrollment.id,
+                    sessionDetailStudentId: param.studentId,
+                    sessionNumber: parseInt(item.sessionNumber),
+                    totalSessions: parseInt(item.totalSessions),
+                    proratedValue: parseFloat(item.proratedValue),
+                    locationId: schedule.location.id,
+                    locationIdUsed: "",
+
                   });
                 });
 
                 const results = await Promise.all(sessionPromises);
             
+                
+
                 results.forEach((req, index) => {
-                  console.log(`Session ${index + 1} creada: ${JSON.stringify(req)}`);
+                  const sessionId = req.data.createSessionDetail.id;
+                  const sesionNumber = index + 1;
+
+                  sessionInfoArray.push({
+                    id: sessionId,
+                    sesionNumber
+                  });
+
+                  console.log(`Session ${sesionNumber} creada: ${JSON.stringify(req)}`);
+
                 });
-        
+                
                 console.log('Todas las sesiones han sido creadas');
+                console.log('SESIONES CREADAS', sessionInfoArray);
+
             } catch (error) {
             console.error('Error al crear sesiones:', error);
             }
@@ -113,7 +143,8 @@ exports.handler = async (event) => {
         
         return {
             statusCode: 200,
-            body: JSON.stringify(calculateSession),
+            body: sessionInfoArray,
+            // body: calculateSession,
           };
         
     } catch (error) {
@@ -121,7 +152,7 @@ exports.handler = async (event) => {
         
         return {
             statusCode: 500,
-            body: "proceso fallido",
+            body: JSON.stringify(error),
           };
         
     }

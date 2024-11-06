@@ -151,9 +151,88 @@ const deleteTransaction = gql`
 // -------------------------------------------------
 // GASTOS
 // -------------------------------------------------
+// -------------------------------------------------
+// GASTOS
+// -------------------------------------------------
+const createCorrelatives = gql`
+  mutation CreateCorrelatives(
+    $input: CreateCorrelativesInput!
+    $condition: ModelCorrelativesConditionInput
+  ) {
+    createCorrelatives(input: $input, condition: $condition) { id correlative }
+  }
+`;
+const updateCorrelatives = gql`
+  mutation UpdateCorrelatives(
+    $input: UpdateCorrelativesInput!
+    $condition: ModelCorrelativesConditionInput
+  ) {
+    updateCorrelatives(input: $input, condition: $condition)  { id correlative }
+  }
+`;
+const deleteCorrelatives = gql`
+  mutation DeleteCorrelatives(
+    $input: DeleteCorrelativesInput!
+    $condition: ModelCorrelativesConditionInput
+  ) {
+    deleteCorrelatives(input: $input, condition: $condition) { id correlative }
+  }
+`;
 
+const createPaymentTransactions = gql`
+  mutation CreatePaymentTransactions(
+    $input: CreatePaymentTransactionsInput!
+    $condition: ModelPaymentTransactionsConditionInput
+  ) {
+    createPaymentTransactions(input: $input, condition: $condition) { id }
+  }
+`;
+const updatePaymentTransactions = gql`
+  mutation UpdatePaymentTransactions(
+    $input: UpdatePaymentTransactionsInput!
+    $condition: ModelPaymentTransactionsConditionInput
+  ) {
+    updatePaymentTransactions(input: $input, condition: $condition) { id status }
+  }
+`;
 
+const deletePaymentTransactions = gql`
+  mutation DeletePaymentTransactions(
+    $input: DeletePaymentTransactionsInput!
+    $condition: ModelPaymentTransactionsConditionInput
+  ) {
+    deletePaymentTransactions(input: $input, condition: $condition) { id }
+  }
+`;
 
+// SHOPPING CART
+
+const createShoppingCart = gql`
+  mutation CreateShoppingCart(
+    $input: CreateShoppingCartInput!
+    $condition: ModelShoppingCartConditionInput
+  ) {
+    createShoppingCart(input: $input, condition: $condition) { id }
+  }
+`;
+
+const updateShoppingCart = gql`
+  mutation UpdateShoppingCart(
+    $input: UpdateShoppingCartInput!
+    $condition: ModelShoppingCartConditionInput
+  ) {
+    updateShoppingCart(input: $input, condition: $condition) { id }
+  }
+`;
+
+const createShoppingCartDetail = gql`
+  mutation CreateShoppingCartDetail(
+    $input: CreateShoppingCartDetailInput!
+    $condition: ModelShoppingCartDetailConditionInput
+  ) {
+    createShoppingCartDetail(input: $input, condition: $condition) { id }
+  }
+`;
 
 module.exports = {
   createUsers,
@@ -170,5 +249,18 @@ module.exports = {
   
   createTransaction,
   updateTransaction,
-  deleteTransaction
+  deleteTransaction,
+  
+  createCorrelatives,
+  updateCorrelatives,
+  deleteCorrelatives,  
+  
+  
+  createPaymentTransactions, 
+  updatePaymentTransactions,
+  
+  createShoppingCart,
+  updateShoppingCart,
+  createShoppingCartDetail
+  
 };

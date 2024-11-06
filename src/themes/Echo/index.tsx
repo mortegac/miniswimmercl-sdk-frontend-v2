@@ -462,7 +462,8 @@ function Main() {
                   >
                     <Lucide icon="Expand" className="w-[18px] h-[18px]" />
                   </a>
-                  <a
+                  {/* NOTIFICATIONS */}
+                  {/* <a
                     href=""
                     className="p-2 text-white rounded-full hover:bg-white/5"
                     onClick={(e) => {
@@ -471,7 +472,7 @@ function Main() {
                     }}
                   >
                     <Lucide icon="Bell" className="w-[18px] h-[18px]" />
-                  </a>
+                  </a> */}
                 </div>
                 <Menu className="ml-5">
                   <Menu.Button className="overflow-hidden rounded-full w-[36px] h-[36px] border-[3px] border-white/[0.15] image-fit">

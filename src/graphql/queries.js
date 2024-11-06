@@ -1096,6 +1096,7 @@ export const getEnrollment = /* GraphQL */ `
       sessionsUsed
       scheduleId
       scheduleName
+      paymentToken
       student {
         id
         name
@@ -1132,6 +1133,18 @@ export const getEnrollment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        __typename
+      }
       course {
         id
         title
@@ -1147,17 +1160,6 @@ export const getEnrollment = /* GraphQL */ `
         locationCoursesId
         __typename
       }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
       sessionDetails {
         nextToken
         __typename
@@ -1167,7 +1169,7 @@ export const getEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
-      enrollmentTransactionId
+      enrollmentShoppingCartDetailId
       __typename
     }
   }
@@ -1199,12 +1201,13 @@ export const listEnrollments = /* GraphQL */ `
         sessionsUsed
         scheduleId
         scheduleName
+        paymentToken
         createdAt
         updatedAt
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
-        enrollmentTransactionId
+        enrollmentShoppingCartDetailId
         __typename
       }
       nextToken
@@ -1282,6 +1285,240 @@ export const listSessionDetails = /* GraphQL */ `
         updatedAt
         enrollmentSessionDetailsId
         sessionDetailStudentId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getShoppingCart = /* GraphQL */ `
+  query GetShoppingCart($id: ID!) {
+    getShoppingCart(id: $id) {
+      id
+      totalPrice
+      status
+      createdAt
+      user {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      cartDetails {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
+        nextToken
+        __typename
+      }
+      updatedAt
+      usersShoppingCartId
+      __typename
+    }
+  }
+`;
+export const listShoppingCarts = /* GraphQL */ `
+  query ListShoppingCarts(
+    $filter: ModelShoppingCartFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listShoppingCarts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getShoppingCartDetail = /* GraphQL */ `
+  query GetShoppingCartDetail($id: ID!) {
+    getShoppingCartDetail(id: $id) {
+      id
+      type
+      quantity
+      amount
+      detail
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
+      cart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartCartDetailsId
+      shoppingCartDetailEnrollmentId
+      __typename
+    }
+  }
+`;
+export const listShoppingCartDetails = /* GraphQL */ `
+  query ListShoppingCartDetails(
+    $filter: ModelShoppingCartDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listShoppingCartDetails(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        quantity
+        amount
+        detail
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getProduct = /* GraphQL */ `
+  query GetProduct($id: ID!) {
+    getProduct(id: $id) {
+      id
+      sku
+      name
+      currentStock
+      criticalStock
+      purchasePrice
+      sellingPrice
+      profits
+      isActive
+      supplier {
+        id
+        name
+        contactPerson
+        email
+        phone
+        address
+        taxId
+        isActive
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      supplierProductsId
+      __typename
+    }
+  }
+`;
+export const listProducts = /* GraphQL */ `
+  query ListProducts(
+    $filter: ModelProductFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        sku
+        name
+        currentStock
+        criticalStock
+        purchasePrice
+        sellingPrice
+        profits
+        isActive
+        createdAt
+        updatedAt
+        supplierProductsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getSupplier = /* GraphQL */ `
+  query GetSupplier($id: ID!) {
+    getSupplier(id: $id) {
+      id
+      name
+      contactPerson
+      email
+      phone
+      address
+      taxId
+      isActive
+      products {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listSuppliers = /* GraphQL */ `
+  query ListSuppliers(
+    $filter: ModelSupplierFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSuppliers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        contactPerson
+        email
+        phone
+        address
+        taxId
+        isActive
+        createdAt
+        updatedAt
         __typename
       }
       nextToken
@@ -1385,65 +1622,133 @@ export const listCommentTickets = /* GraphQL */ `
     }
   }
 `;
-export const getTransaction = /* GraphQL */ `
-  query GetTransaction($id: ID!) {
-    getTransaction(id: $id) {
+export const getCorrelatives = /* GraphQL */ `
+  query GetCorrelatives($id: ID!) {
+    getCorrelatives(id: $id) {
       id
-      amount
-      date
-      paymentMethod
-      status
-      enrollment {
-        id
-        amountPaid
-        startDate
-        endDate
-        wasPaid
-        timeAWeek
-        numberOfSessions
-        sessionsLeft
-        sessionsUsed
-        scheduleId
-        scheduleName
-        createdAt
-        updatedAt
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        studentEnrollmentsId
-        enrollmentTransactionId
-        __typename
-      }
+      type
+      correlative
       createdAt
       updatedAt
-      transactionEnrollmentId
       __typename
     }
   }
 `;
-export const listTransactions = /* GraphQL */ `
-  query ListTransactions(
-    $id: ID
-    $filter: ModelTransactionFilterInput
+export const listCorrelatives = /* GraphQL */ `
+  query ListCorrelatives(
+    $filter: ModelCorrelativesFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listTransactions(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listCorrelatives(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        amount
-        date
-        paymentMethod
+        type
+        correlative
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getPaymentTransactions = /* GraphQL */ `
+  query GetPaymentTransactions($id: ID!) {
+    getPaymentTransactions(id: $id) {
+      id
+      status
+      token
+      urlWebpay
+      amount
+      buy_order
+      card_number
+      transaction_date
+      accounting_date
+      installments_number
+      payment_type_code
+      session_id
+      card_detail
+      installments_amount
+      authorization_code
+      response_code
+      vci
+      day
+      month
+      year
+      hour
+      glosa
+      hasRefund
+      users {
+        id
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
         status
         createdAt
         updatedAt
-        transactionEnrollmentId
+        usersShoppingCartId
+        __typename
+      }
+      createdAt
+      updatedAt
+      shoppingCartPaymentTransactionsId
+      usersPaymentTransactionsId
+      __typename
+    }
+  }
+`;
+export const listPaymentTransactions = /* GraphQL */ `
+  query ListPaymentTransactions(
+    $filter: ModelPaymentTransactionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPaymentTransactions(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        token
+        urlWebpay
+        amount
+        buy_order
+        card_number
+        transaction_date
+        accounting_date
+        installments_number
+        payment_type_code
+        session_id
+        card_detail
+        installments_amount
+        authorization_code
+        response_code
+        vci
+        day
+        month
+        year
+        hour
+        glosa
+        hasRefund
+        createdAt
+        updatedAt
+        shoppingCartPaymentTransactionsId
+        usersPaymentTransactionsId
         __typename
       }
       nextToken
@@ -1483,6 +1788,14 @@ export const getUsers = /* GraphQL */ `
         __typename
       }
       userPermissions {
+        nextToken
+        __typename
+      }
+      shoppingCart {
+        nextToken
+        __typename
+      }
+      paymentTransactions {
         nextToken
         __typename
       }
@@ -1889,6 +2202,93 @@ export const listComments = /* GraphQL */ `
         commentTicketsId
         createdAt
         updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const productsBySku = /* GraphQL */ `
+  query ProductsBySku(
+    $sku: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelProductFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    productsBySku(
+      sku: $sku
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        sku
+        name
+        currentStock
+        criticalStock
+        purchasePrice
+        sellingPrice
+        profits
+        isActive
+        createdAt
+        updatedAt
+        supplierProductsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const paymentTransactionsByIdAndDayAndMonthAndYearAndHour = /* GraphQL */ `
+  query PaymentTransactionsByIdAndDayAndMonthAndYearAndHour(
+    $id: ID!
+    $dayMonthYearHour: ModelPaymentTransactionsSearchByDiaMesAnoHourCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelPaymentTransactionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    paymentTransactionsByIdAndDayAndMonthAndYearAndHour(
+      id: $id
+      dayMonthYearHour: $dayMonthYearHour
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        token
+        urlWebpay
+        amount
+        buy_order
+        card_number
+        transaction_date
+        accounting_date
+        installments_number
+        payment_type_code
+        session_id
+        card_detail
+        installments_amount
+        authorization_code
+        response_code
+        vci
+        day
+        month
+        year
+        hour
+        glosa
+        hasRefund
+        createdAt
+        updatedAt
+        shoppingCartPaymentTransactionsId
+        usersPaymentTransactionsId
         __typename
       }
       nextToken

@@ -23,7 +23,7 @@ export const fetchData = async (): Promise<any> => {
         // variables: { id: userId },
       });
       
-      console.log("<<< listAcademyStudents DATA <<<<< ", getData)
+      // console.log("<<< listAcademyStudents DATA <<<<< ", getData)
       const data = getData.data;
       
         resolve({ ...data.listAcademyStudents } as any);

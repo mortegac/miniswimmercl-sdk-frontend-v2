@@ -16,7 +16,9 @@ type Users @model {
   userTickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
   roles: Roles @hasOne
   userPermissions: [Permissions] @manyToMany(relationName: "UserPermissions")
-  
+  shoppingCart: [ShoppingCart] @hasMany  # Carros de compra asociadas 
+  paymentTransactions: [PaymentTransactions] @hasMany  # Transacciones webpay asociadas 
+  # unpaidDeliveries: [UnpaidDelivery] @hasMany 
 }
 
 

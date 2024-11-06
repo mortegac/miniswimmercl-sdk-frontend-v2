@@ -1,13 +1,93 @@
 ################################
 # TRANSACCIONES - PAGOS
 ################################
-type Transaction @model {
-  id: ID! @primaryKey
-  amount: Float!
-  date: AWSDateTime!
-  paymentMethod: String!
-  status: String @default(value: "")
+# type Transaction @model {
+#   id: ID! @primaryKey
+#   amount: Float!
+#   date: AWSDateTime!
+#   paymentMethod: String!
+#   status: String @default(value: "")
     
-  #Relations  
-  enrollment: Enrollment! @belongsTo
+#   #Relations  
+#   enrollment: Enrollment! @belongsTo
+# }
+
+type Correlatives @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  type: ParametersType
+  correlative: Float @default(value: "0")
 }
+
+# ENUM PARAMETERS
+enum ParametersType {
+  ORDER_PAYMENTTRANSACTIONS
+}
+
+type PaymentTransactions @model @auth(rules: [{ allow: public }]) {
+  id: ID! @index(name: "searchByDiaMesAnoHour", sortKeyFields: ["day", "month", "year", "hour"])
+  status: String @default(value: " ")
+  token: String @default(value: " ")
+  urlWebpay: String @default(value: " ")
+  amount: Float                                         # Valor en CLP de 1 KWh
+  buy_order: String @default(value: " ")
+  card_number: String @default(value: " ")
+  transaction_date: String @default(value: " ")
+  accounting_date: String @default(value: " ")
+  installments_number: String @default(value: " ")
+  payment_type_code: String @default(value: " ")
+  session_id: String @default(value: " ")
+  card_detail: String @default(value: " ")
+  installments_amount: String @default(value: " ")
+  authorization_code: String @default(value: " ")
+  response_code: String @default(value: " ")
+  vci: String @default(value: " ")
+  day: String!                        # Se usa para los filtros del admin
+  month: String!                      # Se usa para los filtros del admin
+  year: String @default(value: " ")   # Se usa para los filtros del admin
+  hour: String                       # Se usa para los filtros del admin
+  glosa: String!
+  hasRefund: Boolean @default(value: "false")  # Se usa para saber si la transaccion tiene un refund
+  
+  #Relations
+  users: Users @belongsTo
+  shoppingCart: ShoppingCart @belongsTo
+}
+
+
+
+# # Query para obtener productos bajo stock crítico
+# query GetCriticalStock {
+#   listProducts(filter: {
+#     currentStock: { le: criticalStock }
+#   }) {
+#     items {
+#       sku
+#       name
+#       currentStock
+#       criticalStock
+#       supplier {
+#         name
+#         contactPerson
+#         phone
+#       }
+#     }
+#   }
+# }
+
+# # Query para obtener entregas no pagadas por usuario
+# query GetUnpaidByUser($userId: ID!) {
+#   listUnpaidDeliveries(filter: {
+#     usersID: { eq: $userId }
+#   }) {
+#     items {
+#       date
+#       amount
+#       description
+#       product {
+#         name
+#         sku
+#         sellingPrice
+#       }
+#     }
+#   }
+# }

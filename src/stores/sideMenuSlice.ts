@@ -16,7 +16,8 @@ import {
   EXPENSES, 
   INCOME,
   ACADEMYSTUDENTS,
-  ENROLLMENTS
+  ENROLLMENTS,
+  TRANSACTIONS
 } from "@/router/paths";
 
 export interface Menu {
@@ -89,6 +90,11 @@ const initialState: SideMenuState = {
         //   title: "Requerimientos",
         // },
         "Ingresos - Egresos",
+        {
+            icon: "CircleDollarSign",
+            pathname: TRANSACTIONS,
+            title: "Transacciones",
+          },
         // {
           //   icon: "PlusCircle",
           //   pathname: NEW_EXPENSE,
