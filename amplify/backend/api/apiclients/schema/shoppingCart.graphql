@@ -1,15 +1,18 @@
-# Table for unpaid delivered products
-# type UnpaidDelivery @model @auth(rules: [{ allow: public }]) {
-#   id: ID!
-#   amount: Float!
-#   date: String!
-#   description: String!
-#   registeredBy: String!
+
+type SellersCommission @model {
+  id: ID! @primaryKey
+  salesCommission: Float @default(value: "0")  # Porcenta de comision por venta
+  paymentAmount: Float @default(value: "0")    # Total del pago a calcular la comision  
+  amount: Float @default(value: "0")           # Valor a pagar comision
+  type: TypeDetail! # Tipo de producto/servicio
+  description: String @default(value: "")
   
-#   # Relations
-#   users: Users! @belongsTo
-#   product: Product! @belongsTo
-# }
+  # Relations
+  users: Users @belongsTo
+  shoppingCart: ShoppingCart @hasOne
+  # Other fields related to a sellers commission
+}
+
 
 
 # Tabla del carrito de compras
@@ -20,7 +23,9 @@ type ShoppingCart @model @auth(rules: [{ allow: public }]) {
   createdAt: String!
   
   #Relations
-  user: Users! @belongsTo
+  user: Users! @belongsTo      #Cliente que paga el carro
+  seller: Users! @belongsTo      #Vendedor que gestiona la venta
+  sellersCommission: SellersCommission @belongsTo
   cartDetails: [ShoppingCartDetail] @hasMany
   paymentTransactions: [PaymentTransactions] @hasMany
 }
@@ -45,6 +50,8 @@ type ShoppingCartDetail @model @auth(rules: [{ allow: public }]) {
   cart: ShoppingCart! @belongsTo
   
 }
+
+
 
 
 # Table for products

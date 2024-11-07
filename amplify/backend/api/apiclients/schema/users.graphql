@@ -6,6 +6,8 @@ type Users @model {
   name: String!
   email: String!
   validated: Boolean
+  isEmployed: Boolean @default(value: "false")  # Es empleado
+  salesCommission: Float @default(value: "0")  # Porcenta de comision por venta
   contactPhone: String @default(value: "")
   ig: String @default(value: "")
   firstContact: Boolean   # Se usa para saber si hayq ue pedirle mas info al user
@@ -17,8 +19,9 @@ type Users @model {
   roles: Roles @hasOne
   userPermissions: [Permissions] @manyToMany(relationName: "UserPermissions")
   shoppingCart: [ShoppingCart] @hasMany  # Carros de compra asociadas 
+  shoppingCartSeller: [ShoppingCart] @hasMany  # Vendedor que vendio el Carros de compra asociadas 
   paymentTransactions: [PaymentTransactions] @hasMany  # Transacciones webpay asociadas 
-  # unpaidDeliveries: [UnpaidDelivery] @hasMany 
+  sellersCommissions: [SellersCommission] @hasMany     # Comisiones por ventas
 }
 
 

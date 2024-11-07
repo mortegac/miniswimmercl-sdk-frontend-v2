@@ -25,7 +25,7 @@ exports.handler = async (event) => {
         console.log(`3.---------- createWebpayTransaction-------: buyOrder= ${parseInt(idOrder?.correlative) || 0} amount= ${param.amount} `);
     
         // GET SHOPPING CART
-        const glosa="COMPRA DE PRUEBA "
+        const glosa=`ORDEN  ${idOrder?.correlative || 0}`
         // CREATE TRANSACTION WEBPAY
         const createWebpayTransaction = await transbank.createTransaction({
             env: ENVIROMENT,

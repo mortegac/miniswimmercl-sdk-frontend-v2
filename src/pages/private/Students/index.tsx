@@ -125,7 +125,7 @@ function Main() {
               </Button> */}
             </div>
           </div>
-          <div className="relative justify-start flex-1 hidden xl:flex my-4 mx-2">
+          <div className="relative justify-start flex-1 xl:flex my-4 mx-2">
             <InputGroup>
               <InputGroup.Text id="input-group-name" className="bg-white/[0.12] border-transparent flex items-center py-2 px-3.5  text-white cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 ">
                 <Lucide icon="Search" className="w-[18px] h-[18px]" />

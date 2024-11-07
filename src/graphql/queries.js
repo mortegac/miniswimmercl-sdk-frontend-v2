@@ -258,6 +258,8 @@ export const getEmailSend = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -1292,6 +1294,82 @@ export const listSessionDetails = /* GraphQL */ `
     }
   }
 `;
+export const getSellersCommission = /* GraphQL */ `
+  query GetSellersCommission($id: ID!) {
+    getSellersCommission(id: $id) {
+      id
+      salesCommission
+      paymentAmount
+      amount
+      type
+      description
+      users {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersSellersCommissionsId
+      sellersCommissionShoppingCartId
+      __typename
+    }
+  }
+`;
+export const listSellersCommissions = /* GraphQL */ `
+  query ListSellersCommissions(
+    $id: ID
+    $filter: ModelSellersCommissionFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listSellersCommissions(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        salesCommission
+        paymentAmount
+        amount
+        type
+        description
+        createdAt
+        updatedAt
+        usersSellersCommissionsId
+        sellersCommissionShoppingCartId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getShoppingCart = /* GraphQL */ `
   query GetShoppingCart($id: ID!) {
     getShoppingCart(id: $id) {
@@ -1304,12 +1382,42 @@ export const getShoppingCart = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
         createdAt
         updatedAt
         usersRolesId
+        __typename
+      }
+      seller {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      sellersCommission {
+        id
+        salesCommission
+        paymentAmount
+        amount
+        type
+        description
+        createdAt
+        updatedAt
+        usersSellersCommissionsId
+        sellersCommissionShoppingCartId
         __typename
       }
       cartDetails {
@@ -1322,6 +1430,8 @@ export const getShoppingCart = /* GraphQL */ `
       }
       updatedAt
       usersShoppingCartId
+      usersShoppingCartSellerId
+      shoppingCartSellersCommissionId
       __typename
     }
   }
@@ -1340,6 +1450,8 @@ export const listShoppingCarts = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       nextToken
@@ -1383,6 +1495,8 @@ export const getShoppingCartDetail = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       createdAt
@@ -1685,6 +1799,8 @@ export const getPaymentTransactions = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -1700,6 +1816,8 @@ export const getPaymentTransactions = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       createdAt
@@ -1763,6 +1881,8 @@ export const getUsers = /* GraphQL */ `
       name
       email
       validated
+      isEmployed
+      salesCommission
       contactPhone
       ig
       firstContact
@@ -1795,7 +1915,15 @@ export const getUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      shoppingCartSeller {
+        nextToken
+        __typename
+      }
       paymentTransactions {
+        nextToken
+        __typename
+      }
+      sellersCommissions {
         nextToken
         __typename
       }
@@ -1826,6 +1954,8 @@ export const listUsers = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -1848,6 +1978,8 @@ export const getRelationship = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -1991,6 +2123,8 @@ export const getUserPermissions = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -2117,6 +2251,8 @@ export const getTicketUser = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact

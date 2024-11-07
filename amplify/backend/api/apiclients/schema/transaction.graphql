@@ -23,6 +23,7 @@ enum ParametersType {
   ORDER_PAYMENTTRANSACTIONS
 }
 
+
 type PaymentTransactions @model @auth(rules: [{ allow: public }]) {
   id: ID! @index(name: "searchByDiaMesAnoHour", sortKeyFields: ["day", "month", "year", "hour"])
   status: String @default(value: " ")

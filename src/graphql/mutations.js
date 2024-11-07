@@ -485,6 +485,8 @@ export const createEmailSend = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -540,6 +542,8 @@ export const updateEmailSend = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -595,6 +599,8 @@ export const deleteEmailSend = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -2290,6 +2296,144 @@ export const deleteSessionDetail = /* GraphQL */ `
     }
   }
 `;
+export const createSellersCommission = /* GraphQL */ `
+  mutation CreateSellersCommission(
+    $input: CreateSellersCommissionInput!
+    $condition: ModelSellersCommissionConditionInput
+  ) {
+    createSellersCommission(input: $input, condition: $condition) {
+      id
+      salesCommission
+      paymentAmount
+      amount
+      type
+      description
+      users {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersSellersCommissionsId
+      sellersCommissionShoppingCartId
+      __typename
+    }
+  }
+`;
+export const updateSellersCommission = /* GraphQL */ `
+  mutation UpdateSellersCommission(
+    $input: UpdateSellersCommissionInput!
+    $condition: ModelSellersCommissionConditionInput
+  ) {
+    updateSellersCommission(input: $input, condition: $condition) {
+      id
+      salesCommission
+      paymentAmount
+      amount
+      type
+      description
+      users {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersSellersCommissionsId
+      sellersCommissionShoppingCartId
+      __typename
+    }
+  }
+`;
+export const deleteSellersCommission = /* GraphQL */ `
+  mutation DeleteSellersCommission(
+    $input: DeleteSellersCommissionInput!
+    $condition: ModelSellersCommissionConditionInput
+  ) {
+    deleteSellersCommission(input: $input, condition: $condition) {
+      id
+      salesCommission
+      paymentAmount
+      amount
+      type
+      description
+      users {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      shoppingCart {
+        id
+        totalPrice
+        status
+        createdAt
+        updatedAt
+        usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersSellersCommissionsId
+      sellersCommissionShoppingCartId
+      __typename
+    }
+  }
+`;
 export const createShoppingCart = /* GraphQL */ `
   mutation CreateShoppingCart(
     $input: CreateShoppingCartInput!
@@ -2305,12 +2449,42 @@ export const createShoppingCart = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
         createdAt
         updatedAt
         usersRolesId
+        __typename
+      }
+      seller {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      sellersCommission {
+        id
+        salesCommission
+        paymentAmount
+        amount
+        type
+        description
+        createdAt
+        updatedAt
+        usersSellersCommissionsId
+        sellersCommissionShoppingCartId
         __typename
       }
       cartDetails {
@@ -2323,6 +2497,8 @@ export const createShoppingCart = /* GraphQL */ `
       }
       updatedAt
       usersShoppingCartId
+      usersShoppingCartSellerId
+      shoppingCartSellersCommissionId
       __typename
     }
   }
@@ -2342,12 +2518,42 @@ export const updateShoppingCart = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
         createdAt
         updatedAt
         usersRolesId
+        __typename
+      }
+      seller {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      sellersCommission {
+        id
+        salesCommission
+        paymentAmount
+        amount
+        type
+        description
+        createdAt
+        updatedAt
+        usersSellersCommissionsId
+        sellersCommissionShoppingCartId
         __typename
       }
       cartDetails {
@@ -2360,6 +2566,8 @@ export const updateShoppingCart = /* GraphQL */ `
       }
       updatedAt
       usersShoppingCartId
+      usersShoppingCartSellerId
+      shoppingCartSellersCommissionId
       __typename
     }
   }
@@ -2379,12 +2587,42 @@ export const deleteShoppingCart = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
         createdAt
         updatedAt
         usersRolesId
+        __typename
+      }
+      seller {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      sellersCommission {
+        id
+        salesCommission
+        paymentAmount
+        amount
+        type
+        description
+        createdAt
+        updatedAt
+        usersSellersCommissionsId
+        sellersCommissionShoppingCartId
         __typename
       }
       cartDetails {
@@ -2397,6 +2635,8 @@ export const deleteShoppingCart = /* GraphQL */ `
       }
       updatedAt
       usersShoppingCartId
+      usersShoppingCartSellerId
+      shoppingCartSellersCommissionId
       __typename
     }
   }
@@ -2440,6 +2680,8 @@ export const createShoppingCartDetail = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       createdAt
@@ -2489,6 +2731,8 @@ export const updateShoppingCartDetail = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       createdAt
@@ -2538,6 +2782,8 @@ export const deleteShoppingCartDetail = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       createdAt
@@ -2960,6 +3206,8 @@ export const createPaymentTransactions = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -2975,6 +3223,8 @@ export const createPaymentTransactions = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       createdAt
@@ -3019,6 +3269,8 @@ export const updatePaymentTransactions = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3034,6 +3286,8 @@ export const updatePaymentTransactions = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       createdAt
@@ -3078,6 +3332,8 @@ export const deletePaymentTransactions = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3093,6 +3349,8 @@ export const deletePaymentTransactions = /* GraphQL */ `
         createdAt
         updatedAt
         usersShoppingCartId
+        usersShoppingCartSellerId
+        shoppingCartSellersCommissionId
         __typename
       }
       createdAt
@@ -3113,6 +3371,8 @@ export const createUsers = /* GraphQL */ `
       name
       email
       validated
+      isEmployed
+      salesCommission
       contactPhone
       ig
       firstContact
@@ -3145,7 +3405,15 @@ export const createUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      shoppingCartSeller {
+        nextToken
+        __typename
+      }
       paymentTransactions {
+        nextToken
+        __typename
+      }
+      sellersCommissions {
         nextToken
         __typename
       }
@@ -3166,6 +3434,8 @@ export const updateUsers = /* GraphQL */ `
       name
       email
       validated
+      isEmployed
+      salesCommission
       contactPhone
       ig
       firstContact
@@ -3198,7 +3468,15 @@ export const updateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      shoppingCartSeller {
+        nextToken
+        __typename
+      }
       paymentTransactions {
+        nextToken
+        __typename
+      }
+      sellersCommissions {
         nextToken
         __typename
       }
@@ -3219,6 +3497,8 @@ export const deleteUsers = /* GraphQL */ `
       name
       email
       validated
+      isEmployed
+      salesCommission
       contactPhone
       ig
       firstContact
@@ -3251,7 +3531,15 @@ export const deleteUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      shoppingCartSeller {
+        nextToken
+        __typename
+      }
       paymentTransactions {
+        nextToken
+        __typename
+      }
+      sellersCommissions {
         nextToken
         __typename
       }
@@ -3274,6 +3562,8 @@ export const createRelationship = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3326,6 +3616,8 @@ export const updateRelationship = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3378,6 +3670,8 @@ export const deleteRelationship = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3548,6 +3842,8 @@ export const createUserPermissions = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3587,6 +3883,8 @@ export const updateUserPermissions = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3626,6 +3924,8 @@ export const deleteUserPermissions = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3800,6 +4100,8 @@ export const createTicketUser = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3845,6 +4147,8 @@ export const updateTicketUser = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
@@ -3890,6 +4194,8 @@ export const deleteTicketUser = /* GraphQL */ `
         name
         email
         validated
+        isEmployed
+        salesCommission
         contactPhone
         ig
         firstContact
