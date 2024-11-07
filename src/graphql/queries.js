@@ -1303,6 +1303,7 @@ export const getSellersCommission = /* GraphQL */ `
       amount
       type
       description
+      status
       users {
         id
         name
@@ -1359,6 +1360,7 @@ export const listSellersCommissions = /* GraphQL */ `
         amount
         type
         description
+        status
         createdAt
         updatedAt
         usersSellersCommissionsId
@@ -1414,6 +1416,7 @@ export const getShoppingCart = /* GraphQL */ `
         amount
         type
         description
+        status
         createdAt
         updatedAt
         usersSellersCommissionsId

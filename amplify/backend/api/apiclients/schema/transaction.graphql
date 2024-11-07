@@ -1,16 +1,6 @@
 ################################
 # TRANSACCIONES - PAGOS
 ################################
-# type Transaction @model {
-#   id: ID! @primaryKey
-#   amount: Float!
-#   date: AWSDateTime!
-#   paymentMethod: String!
-#   status: String @default(value: "")
-    
-#   #Relations  
-#   enrollment: Enrollment! @belongsTo
-# }
 
 type Correlatives @model @auth(rules: [{ allow: public }]) {
   id: ID!

@@ -85,8 +85,6 @@ export const listCourses = /* GraphQL */ `
             day
             startHour
             endHour
-            locationSchedulesId
-            courseSchedulesId
           }
       }
       sessionTypes{

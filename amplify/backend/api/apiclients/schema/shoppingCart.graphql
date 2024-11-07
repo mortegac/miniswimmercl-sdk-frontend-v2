@@ -6,6 +6,7 @@ type SellersCommission @model {
   amount: Float @default(value: "0")           # Valor a pagar comision
   type: TypeDetail! # Tipo de producto/servicio
   description: String @default(value: "")
+  status: StatusCommission! # Estado de la comisión
   
   # Relations
   users: Users @belongsTo
@@ -13,6 +14,12 @@ type SellersCommission @model {
   # Other fields related to a sellers commission
 }
 
+# ENUM PARAMETERS
+enum StatusCommission {
+  CREATED # Creada
+  TO_PAY  # Por pagar
+  PAID    # Pagada
+}
 
 
 # Tabla del carrito de compras

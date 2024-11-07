@@ -2308,6 +2308,7 @@ export const createSellersCommission = /* GraphQL */ `
       amount
       type
       description
+      status
       users {
         id
         name
@@ -2354,6 +2355,7 @@ export const updateSellersCommission = /* GraphQL */ `
       amount
       type
       description
+      status
       users {
         id
         name
@@ -2400,6 +2402,7 @@ export const deleteSellersCommission = /* GraphQL */ `
       amount
       type
       description
+      status
       users {
         id
         name
@@ -2481,6 +2484,7 @@ export const createShoppingCart = /* GraphQL */ `
         amount
         type
         description
+        status
         createdAt
         updatedAt
         usersSellersCommissionsId
@@ -2550,6 +2554,7 @@ export const updateShoppingCart = /* GraphQL */ `
         amount
         type
         description
+        status
         createdAt
         updatedAt
         usersSellersCommissionsId
@@ -2619,6 +2624,7 @@ export const deleteShoppingCart = /* GraphQL */ `
         amount
         type
         description
+        status
         createdAt
         updatedAt
         usersSellersCommissionsId

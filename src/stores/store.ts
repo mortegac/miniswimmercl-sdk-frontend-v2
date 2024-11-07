@@ -19,6 +19,7 @@ import academyStudentsReducer from "./AcademyStudents/slice";
 import emailSendReducer from "./EmailsSent/slice";
 import paymentTransactionsReducer from "./PaymentTransactions/slice";
 import shoppingCartDetailsReducer from "./ShoppingCartDetail/slice";
+import schedulesReducer from "./Schedule/slice";
 
 
 export const store = configureStore({
@@ -43,6 +44,7 @@ export const store = configureStore({
     emailSend: emailSendReducer,
     paymentTransactions: paymentTransactionsReducer,
     shoppingCartDetails: shoppingCartDetailsReducer,
+    schedules: schedulesReducer,
   },
 });
 
