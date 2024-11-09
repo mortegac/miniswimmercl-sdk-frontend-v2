@@ -7,7 +7,7 @@ const {
     createShoppingCartDetail
 
 } = require("./graphql/mutations_custom");
-const { listPaymentTransactions } = require("./graphql/queries_custom");
+const { listPaymentTransactions, listShoppingCartDetails } = require("./graphql/queries_custom");
 const { calculateCurrentDate } = require("../utils/");
 
 
@@ -131,6 +131,26 @@ const updateCart = async ({ env, variables = {} }) => {
 };
 
 
+const getShoppingCartDetails = async ({ env, variables = {} }) => {
+
+    // variables : { token: {eq: _token } }
+
+    // QUERY
+    const dataShoppingCartDetails = await API({
+        env,
+        _query: listShoppingCartDetails,
+        _variables: {
+            filter: {
+                ...variables,
+            }
+        },
+    });
+    console.log(`-- dataShoppingCartDetails -- ${JSON.stringify(dataShoppingCartDetails)}`);
+
+    return dataShoppingCartDetails
+};
+
+
 
 
 
@@ -141,6 +161,7 @@ module.exports = {
     getPaymentTransaction,
     updateCart,
     createCart,
-    createCartDetail
+    createCartDetail,
+    getShoppingCartDetails
     
 }

@@ -3,7 +3,7 @@ import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 
 import { useAppSelector, useAppDispatch } from "../../../../stores/hooks";
-import { increment, decrement, selectEnrollment, setDataEnroll } from "@/stores/Enrollment/slice";
+import { increment, setStep, decrement, selectEnrollment, setDataEnroll } from "@/stores/Enrollment/slice";
 
 import { setStudent, selectStudent } from "@/stores/Students/slice";
   
@@ -80,7 +80,7 @@ export const NavigationBar = () => {
             </Button>
           }
           <div>
-          { currentStep !== 3 && currentStep !== 1 && 
+          {/* { currentStep !== 3 && currentStep !== 1 && 
             <Button
               variant="primary"
               rounded
@@ -91,16 +91,18 @@ export const NavigationBar = () => {
               <span className="flex flex-row justify-center items-center">
               <span>Grabar y continuar</span><Lucide icon="ChevronRight" className="w-4 h-4 ml-2" /></span>
             </Button>
-          }
+          } */}
          
+         { currentStep !== 4 &&
          <Button
               rounded
-              onClick={() => dispatch(increment())}
+              onClick={() => dispatch(setStep(1))}
               className="w-32 px-2 py-3 text-primary"
               disabled={false}
             >
               <Lucide icon="ChevronLeft" className="w-4 h-4 mr-2" /> Siguiente
             </Button>
+          }
             </div>
         </div>
     </>

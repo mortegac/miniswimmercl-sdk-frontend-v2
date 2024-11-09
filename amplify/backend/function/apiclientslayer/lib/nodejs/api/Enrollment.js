@@ -1,33 +1,9 @@
 // const { listSessionDetails } = require("./graphql/queries_custom");
-const { createEnrollment } = require("./graphql/mutations_custom")
+const { createEnrollment, updateEnrollment } = require("./graphql/mutations_custom")
 const API = require("../utils/api");
-
-
-
-// const  = async ({ env, variables, access }) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             const req = await API({
-//                 env,
-//                 _query: createEnrollment,
-//                 _variables: {
-//                     ...variables
-//                 },
-//                 access,
-//             });
-//             return resolve(req);
-//         } catch (error) {
-//             console.log(variables, "----ERROR - createEnrollment()----", error);
-//             return reject(JSON.stringify(error));
-//         }
-//     });
-// };
 
 const createEnrollments = async ({ env, variables = {} }) => {
 
-    // const dateObj = calculateCurrentDate()
-
-    // MUTATION
     const createAPITransactions = await API({
         env,
         _query: createEnrollment,
@@ -46,9 +22,28 @@ const createEnrollments = async ({ env, variables = {} }) => {
 };
 
 
+const updateEnrollments = async ({ env, variables = {} }) => {
+
+    const updateAPITransactions = await API({
+        env,
+        _query: updateEnrollment,
+        _variables: {
+            input: {
+                ...variables
+            }
+        },
+    });
+    console.log(`-- updateEnrollments -- ${JSON.stringify(updateAPITransactions)}`);
+
+    return updateAPITransactions
+};
+
+
+
 
 
 
 module.exports = {
     createEnrollments,
+    updateEnrollments
 }

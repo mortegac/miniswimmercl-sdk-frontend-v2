@@ -25,8 +25,11 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
           // filter:{ startDate: {contains: `-${month}-${year}`}}
           filter: {
             or: [
-              { startDate: { contains: `-${month}-${filter?.year}` } },
-              { startDate: { contains: `-${Number(month-1)}-${filter?.year}` } }
+              { startDate: { contains: `${month}-` } },
+              { startDate: { contains: `${Number(month-1)}-` } },
+              { startDate: { contains: `-${filter?.year}` } },
+              // { startDate: { contains: `-${month}-${filter?.year}` } },
+              // { startDate: { contains: `-${Number(month-1)}-${filter?.year}` } }
             ]
           },
           limit:1000000

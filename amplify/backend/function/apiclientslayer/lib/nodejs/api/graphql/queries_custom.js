@@ -927,6 +927,31 @@ const listPaymentTransactions = gql`
   }
 `;
 
+
+const listShoppingCartDetails = gql`
+  query ListShoppingCartDetails(
+    $filter: ModelShoppingCartDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listShoppingCartDetails(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        quantity
+        amount
+        detail
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+      }
+    }
+  }
+`;
+
 module.exports = {
   getLocation,
   listLocations,
@@ -963,5 +988,5 @@ module.exports = {
   
   getPaymentTransactions,
   listPaymentTransactions,
-  
+  listShoppingCartDetails,
 }

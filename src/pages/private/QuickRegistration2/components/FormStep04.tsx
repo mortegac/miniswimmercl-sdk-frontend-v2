@@ -190,7 +190,7 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
               <span className="text-base font-light overflow-auto text-primary mt-8 border border-primary p-4 rounded-xl bg-purple-100">
               {
                 cartId &&
-                  <a href={`https://pagos.miniswimmer.cl/${JWT}`}>
+                  <a target="_blank" href={`https://pagos.miniswimmer.cl/${JWT}`}>
                     {`https://pagos.miniswimmer.cl/${JWT}`}
                   </a>
               }
@@ -216,24 +216,21 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
 
           </div>
         </div>
-          <div className="flex justify-center items-center flex-col mt-8">
-            {/* <pre>canBecreateEconomic={JSON.stringify(canBecreateEconomic)}</pre> */}
-            {/* <h4 className="mb-4 font-thin text-xl">Presione el botón para continuar con su oferta</h4> */}
+          {/* <div className="flex justify-center items-center flex-col mt-8">
+            
+            <h4 className="mb-4 font-thin text-xl">Presione el botón para continuar con su oferta</h4>
             <Button
                 rounded
-                // onClick={() => {
-                //   dispatch(incrementByAmount(nextNumber))
-                // }}
                 variant="primary"
                 className="w-[60%] py-3 uppercase mr-2"
-                // disabled={statusRequest === "loading" && false}
+                disabled={statusRequest === "loading" && false}
               >
                 <span className="flex flex-row justify-center items-center">
-                  {/* <Lucide icon={`${canBecreateEconomic ? "Check" : "X"}`} className={`w-6 h-6 mr-2 ${canBecreateEconomic ? "text-white": "text-red-300"}`} /> */}
+                  <Lucide icon={`${canBecreateEconomic ? "Check" : "X"}`} className={`w-6 h-6 mr-2 ${canBecreateEconomic ? "text-white": "text-red-300"}`} />
                   <span className={`px-4 py-3 text-xl`}>Enviar Email</span>
                 </span>
               </Button>
-          </div>
+          </div> */}
       </div>
     </>
   );

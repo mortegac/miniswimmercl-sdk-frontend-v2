@@ -114,6 +114,7 @@ function formatDate(dateString: string): string {
   const year = date.getUTCFullYear();
 
   return `${day}-${typeOfMonth[month]}`;
+  // return `${day}-${typeOfMonth[month]}`;
   // return `${day}-${month}-${year}`;
 }
 
@@ -507,6 +508,7 @@ function Content(props: any) {
                 </Table.Td>
                 <Table.Td 
                 className={`${item?.wasPaid ? "":"bg-red-200"} py-4 border-dashed dark:bg-darkmode-600 relative text-center`}>
+                 {/* <pre>wasPaid = {JSON.stringify(item?.wasPaid, null, 2)}</pre> */}
                   <span className={`${item?.wasPaid ? "text-slate-400":"text-slate-700"}`}>{item?.wasPaid ? "PAGADO":"SIN PAGO"}</span>
                 </Table.Td>
                 <Table.Td className="relative py-4 border-dashed">
