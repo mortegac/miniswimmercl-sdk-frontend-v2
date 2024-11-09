@@ -460,7 +460,7 @@ function Content(props: any) {
                     <div className="text-lg">
                       {item?.student?.name} {item?.student?.lastName}
                       <div className="text-slate-500 text-xs whitespace-nowrap mt-0.5">
-                      { item?.student?.birthdate &&  edad?.años > 100 ? "SIN EDAD":`${edad?.años} años, ${edad?.meses} meses`}
+                      { item?.student?.birthdate &&  Number(edad?.años) > 100 ? "SIN EDAD":`${edad?.años} años, ${edad?.meses} meses`}
                       {/* {item?.student?.birthdate} */}
                       </div>
                     </div>
@@ -597,7 +597,7 @@ function Content(props: any) {
 
 const date = new Date();
 const month:string = date.toLocaleString('es', { month: '2-digit' });
-const year:string = date.getFullYear();
+const year:string = date.getFullYear().toString();
 
 
 function Main() {
