@@ -10,14 +10,26 @@ const client = generateClient();
 export const fetchData = async (filter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
-     
+
+      // const date = new Date();
+      // const month = date.toLocaleString('es', { month: '2-digit' });
+      // const year = date.getFullYear();
+      
+      const month:number = Number(filter?.month)
+
       
        // Save USER
        const getData:any = await client.graphql({
          query: listEnrollments,
          variables: { 
-          filter:{}
-          , limit:1000000
+          // filter:{ startDate: {contains: `-${month}-${year}`}}
+          filter: {
+            or: [
+              { startDate: { contains: `-${month}-${filter?.year}` } },
+              { startDate: { contains: `-${Number(month-1)}-${filter?.year}` } }
+            ]
+          },
+          limit:1000000
         },
         //  variables: { 
           //  input: {
@@ -29,9 +41,9 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
         // Save o update RELATION
       
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
-      const data = getData.data;
+      const data = getData?.data;
       
-        resolve([...data.listEnrollments.items] as any);
+        resolve([...data?.listEnrollments?.items] as any);
         
         // ...userData.data.getUsers
       // } else {

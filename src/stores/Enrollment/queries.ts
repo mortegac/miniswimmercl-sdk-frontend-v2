@@ -121,9 +121,9 @@ export const listEnrollments = /* GraphQL */ `
         totalSessions
       }
       student{
-         id
-          name
-          lastName
+        id
+        name
+        lastName
           birthdate
           emailPhone
         relationships{

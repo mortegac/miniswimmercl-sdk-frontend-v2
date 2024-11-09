@@ -194,22 +194,23 @@ export const enrollmentSlice = createSlice({
         state.status = "idle";
         // console.log("--objPayload--", objPayload)
                 
-        function sortByEndDate(data: Enrollment[]): Enrollment[] {
-          return data.sort((a, b) => {
-            const dateA = convertToDate(a.startDate);
-            const dateB = convertToDate(b.startDate);
-            return dateA.getTime() - dateB.getTime();
-          });
-        }
+        // function sortByEndDate(data: Enrollment[]): Enrollment[] {
+        //   return data.sort((a, b) => {
+        //     const dateA = convertToDate(a.startDate);
+        //     const dateB = convertToDate(b.startDate);
+        //     return dateA.getTime() - dateB.getTime();
+        //   });
+        // }
         
-        function convertToDate(dateString: string): Date {
-          const [day, month, year] = dateString.split('-');
-          return new Date(`${year}-${month}-${day}`);
-        }
+        // function convertToDate(dateString: string): Date {
+        //   const [day, month, year] = dateString.split('-');
+        //   return new Date(`${year}-${month}-${day}`);
+        // }
         
-        const sortedData = sortByEndDate(objPayload);
+        // const sortedData = sortByEndDate(objPayload);
         
-        state.enrollments = sortedData || [];
+        // state.enrollments = sortedData || [];
+        state.enrollments = objPayload || [];
 
       })
       

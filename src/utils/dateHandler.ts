@@ -11,6 +11,21 @@ const optDefault: Intl.DateTimeFormatOptions = {
   day: "numeric",
 };
 
+export const typeOfMonth: any = {
+  [""]: "",
+  ["01"]: "ENE",
+  ["02"]: "FEB",
+  ["04"]: "ABR",
+  ["03"]: "MAR",
+  ["05"]: "MAY",
+  ["06"]: "JUN",
+  ["07"]: "JUL",
+  ["08"]: "AGO",
+  ["09"]: "SEP",
+  ["10"]: "OCT",
+  ["11"]: "NOV",
+  ["12"]: "DIC",
+};
 
 
 

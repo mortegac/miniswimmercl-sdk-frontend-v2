@@ -7,6 +7,7 @@ const SERVICE = "service_ucb8wga";  // welcome@mini..
 const TEMPLATE = "template_5kxuc3t"; // Welcome_v2
 init("Csc41asZklkk5HTWk");
 
+import {typeOfMonth} from "../../../utils/dateHandler";
 
 import Notification from "@/components/Base/Notification";
 import LoadingIcon from "@/components/Base/LoadingIcon";
@@ -47,21 +48,21 @@ const typeOfRelationship: any = {
   ["FAMILYS_FRIEND"]: "Amigo familia",
   ["Primo/a"]: "",
 };
-const typeOfMonth: any = {
-  [""]: "",
-  ["01"]: "ENE",
-  ["02"]: "FEB",
-  ["04"]: "ABR",
-  ["03"]: "MAR",
-  ["05"]: "MAY",
-  ["06"]: "JUN",
-  ["07"]: "JUL",
-  ["08"]: "AGO",
-  ["09"]: "SEP",
-  ["10"]: "OCT",
-  ["11"]: "NOV",
-  ["12"]: "DIC",
-};
+// const typeOfMonth: any = {
+//   [""]: "",
+//   ["01"]: "ENE",
+//   ["02"]: "FEB",
+//   ["04"]: "ABR",
+//   ["03"]: "MAR",
+//   ["05"]: "MAY",
+//   ["06"]: "JUN",
+//   ["07"]: "JUL",
+//   ["08"]: "AGO",
+//   ["09"]: "SEP",
+//   ["10"]: "OCT",
+//   ["11"]: "NOV",
+//   ["12"]: "DIC",
+// };
 
 
 
@@ -443,12 +444,12 @@ function Content(props: any) {
             {/* <pre>{JSON.stringify(enrollments, null, 2)}</pre> */}
             {Array.isArray(enrollments) && enrollments.map((item:any, index) => {
               const [month, day, year] = item?.startDate.split('-');
-              const edad = calcularEdad(String(item?.student?.birthdate === "" ? "1800/01/01":item?.student?.birthdate ));                
+              const edad:{años:"0", meses:"0"} = item?.student?.birthdate && calcularEdad(String(item?.student?.birthdate === "" ? "1800/01/01":item?.student?.birthdate ));                
               
               // const sortedSessions = Array.isArray(item?.sessionDetails?.items) &&  sortByEndDate(item?.sessionDetails?.items);
               
               return (
-              <Table.Tr key={index} className="[&_td]:last:border-b-0 ">
+              <Table.Tr key={`ENROLLMENTS-${index}`} className="[&_td]:last:border-b-0 ">
                 <Table.Td 
                 className={`${item?.wasPaid ? "":"bg-red-200"} py-4 border-dashed dark:bg-darkmode-600`}>
                 
@@ -459,7 +460,7 @@ function Content(props: any) {
                     <div className="text-lg">
                       {item?.student?.name} {item?.student?.lastName}
                       <div className="text-slate-500 text-xs whitespace-nowrap mt-0.5">
-                      { edad.años > 100 ? "SIN EDAD":`${edad.años} años, ${edad.meses} meses`}
+                      { item?.student?.birthdate &&  edad?.años > 100 ? "SIN EDAD":`${edad?.años} años, ${edad?.meses} meses`}
                       {/* {item?.student?.birthdate} */}
                       </div>
                     </div>
@@ -594,6 +595,11 @@ function Content(props: any) {
   );
 }
 
+const date = new Date();
+const month:string = date.toLocaleString('es', { month: '2-digit' });
+const year:string = date.getFullYear();
+
+
 function Main() {
   const {enrollments, status} = useAppSelector(selectEnrollment);
   const {locations} = useAppSelector(selectLocation);
@@ -640,7 +646,10 @@ function Main() {
   };
   
   useEffect(() => { 
-    (async () => await dispatch(getStudents({})) )(); 
+    (async () => await dispatch(getStudents({
+      month,
+      year
+    })) )(); 
     (async () => await dispatch(getLocationsOnly()) )(); 
   }, []);
   // useEffect(() => { setFilteredStudents( [...enrollments].sort(sortStudents)); }, [enrollments]);
@@ -652,7 +661,7 @@ function Main() {
       <div className="col-span-12">
         <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
           <div className="text-base font-medium group-[.mode--light]:text-white">
-            Alumnos Incritos
+            Alumnos Incritos en {`${typeOfMonth[month]} y ${typeOfMonth[Number(month)-1]}-${year}`}
           </div>
           {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
             <Button

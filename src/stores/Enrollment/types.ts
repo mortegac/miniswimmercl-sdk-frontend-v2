@@ -165,5 +165,7 @@ export type FilterOptions  = {
   enrollmentSessionTypeId?: string;
   enrollmentScheduleId?: string;
   enrollmentCourseId?: string;
+  month?: string;
+  year?: string;
   
 }
