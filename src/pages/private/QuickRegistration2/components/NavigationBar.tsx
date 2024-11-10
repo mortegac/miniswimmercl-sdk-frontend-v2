@@ -93,14 +93,24 @@ export const NavigationBar = () => {
             </Button>
           } */}
          
+         {/* //  <Button
+         //       rounded
+         //       onClick={() => dispatch(setStep(1))}
+         //       className="w-32 px-2 py-3 text-primary"
+         //       disabled={false}
+         //     >
+         //       <Lucide icon="ChevronLeft" className="w-4 h-4 mr-2" /> Siguiente
+         //     </Button> */}
          { currentStep !== 4 &&
-         <Button
+        <Button
+              variant="primary"
               rounded
-              onClick={() => dispatch(setStep(1))}
-              className="w-32 px-2 py-3 text-primary"
-              disabled={false}
+              disabled={currentStep === 1}
+              className={`w-56 px-2 py-3 mb-2 mr-2 ${currentStep === 1 && "bg-slate-300 border-slate-300 text-slate-400"}`}
+              onClick={() => saveData()}
             >
-              <Lucide icon="ChevronLeft" className="w-4 h-4 mr-2" /> Siguiente
+              <span className="flex flex-row justify-center items-center">
+              <span>Grabar y continuar</span><Lucide icon="ChevronRight" className="w-4 h-4 ml-2" /></span>
             </Button>
           }
             </div>
