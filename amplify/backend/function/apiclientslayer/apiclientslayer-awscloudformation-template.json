@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion290c41f8": {
+    "LambdaLayerVersiond571346f": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,13 +51,87 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivate290c41f8": {
+    "LambdaLayerPermissionPrivated571346f": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion290c41f8"
+          "Ref": "LambdaLayerVersiond571346f"
         },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersiona942320f": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/apiclientslayer-LambdaLayerVersiona942320f-build.zip"
+        },
+        "Description": "Updated layer version 2024-11-12T23:32:59.112Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "apiclientslayer-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivatea942320f": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:us-east-2:995007408497:layer:apiclientslayer-main:48",
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion290c41f8": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs18.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion290c41f8-build.zip"
+        },
+        "Description": "Updated layer version 2024-11-09T17:05:09.802Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "apiclientslayer-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate290c41f8": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:us-east-2:995007408497:layer:apiclientslayer-main:47",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -918,7 +992,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion290c41f8"
+        "Ref": "LambdaLayerVersiond571346f"
       }
     }
   }

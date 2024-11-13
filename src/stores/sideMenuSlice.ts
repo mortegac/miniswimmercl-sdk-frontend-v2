@@ -17,7 +17,8 @@ import {
   INCOME,
   ACADEMYSTUDENTS,
   ENROLLMENTS,
-  TRANSACTIONS
+  TRANSACTIONS,
+  SHOPPING_CART
 } from "@/router/paths";
 
 export interface Menu {
@@ -94,6 +95,11 @@ const initialState: SideMenuState = {
             icon: "CircleDollarSign",
             pathname: TRANSACTIONS,
             title: "Transacciones",
+          },
+        {
+            icon: "ShoppingCart",
+            pathname: SHOPPING_CART,
+            title: "Carros de compra",
           },
         // {
           //   icon: "PlusCircle",

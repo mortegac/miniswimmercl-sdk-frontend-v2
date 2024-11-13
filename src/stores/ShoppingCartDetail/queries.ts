@@ -63,6 +63,14 @@ export const listShoppingCartDetails = /* GraphQL */ `
         detail
         createdAt
         updatedAt
+        enrollment{
+        id
+        student{
+          id 
+          name
+          lastName
+        }
+      }
         shoppingCartCartDetailsId
         shoppingCartDetailEnrollmentId
         __typename

@@ -24,6 +24,7 @@ import {
     INCOME,
     ACADEMYSTUDENTS,
     TRANSACTIONS,
+    SHOPPING_CART
   } from "./paths";
   
 
@@ -40,6 +41,7 @@ import {
   
   const Enrollments = lazy(() => import("../pages/private/Enrollments"));
   const Transactions = lazy(() => import("../pages/private/Transactions"));
+  const ShoppingCart = lazy(() => import("../pages/private/ShoppingCart"));
   
   // const Attendance = lazy(() => import("../pages/private/Attendance"));
   import Attendance from "../pages/private/Attendance";
@@ -122,6 +124,10 @@ export const privateRoutes = {
         {
           path: PAYMENTS,
           element: <Payments />,
+        },
+        {
+          path: SHOPPING_CART,
+          element: <ShoppingCart />,
         },
         {
           path: TRANSACTIONS,

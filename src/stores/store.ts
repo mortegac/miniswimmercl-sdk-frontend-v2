@@ -20,6 +20,7 @@ import emailSendReducer from "./EmailsSent/slice";
 import paymentTransactionsReducer from "./PaymentTransactions/slice";
 import shoppingCartDetailsReducer from "./ShoppingCartDetail/slice";
 import schedulesReducer from "./Schedule/slice";
+import shoppingCartsReducer from "./ShoppingCarts/slice";
 
 
 export const store = configureStore({
@@ -45,6 +46,7 @@ export const store = configureStore({
     paymentTransactions: paymentTransactionsReducer,
     shoppingCartDetails: shoppingCartDetailsReducer,
     schedules: schedulesReducer,
+    shoppingCarts: shoppingCartsReducer,
   },
 });
 
