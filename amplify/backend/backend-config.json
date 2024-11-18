@@ -123,6 +123,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "sendEmailResolver": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "webpayCommit": {
       "build": true,
       "dependsOn": [
@@ -260,6 +274,22 @@
         {
           "category": "function",
           "resourceName": "fnCalculateSessionsEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendEmailResolver_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendEmailResolver"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendEmailResolver_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendEmailResolver"
         }
       ]
     },

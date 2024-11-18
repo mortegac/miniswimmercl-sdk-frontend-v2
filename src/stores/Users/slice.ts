@@ -60,6 +60,20 @@ export const setApoderado = createAsyncThunk(
   }
 );
 
+
+export const updateApoderado = createAsyncThunk(
+  "users/updateApoderado",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await updateApoderado({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH update User", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
 export const getLoginUser = createAsyncThunk(
   "auth/userLogin",
   // async (params: { password: string; email: string }, thunkAPI) => {
@@ -154,6 +168,23 @@ export const authSlice = createSlice({
         state.id = objPayload[0]?.id || "";
         state.name = objPayload[0]?.name || "";
         state.email = objPayload[0]?.email || "";
+      })
+
+      // update Apoderado 
+      .addCase(updateApoderado.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(updateApoderado.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateApoderado.fulfilled, (state, action) => {
+        state.status = "idle";
+        const objPayload: any = action.payload;
+        // console.log("---objPayload---", objPayload)
+
+        state.id = objPayload[0]?.id || "";
       })
       
       

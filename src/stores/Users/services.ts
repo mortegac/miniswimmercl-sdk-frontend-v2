@@ -5,7 +5,7 @@ import { signOut } from "aws-amplify/auth";
 import { signIn, confirmSignIn, resetPassword, signUp, confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
 import { getUsers, listUsers } from './queries';
-import { createUsers } from './mutation';
+import { createUsers, updateUsers } from './mutation';
 
 import { FilterOptions } from "./types";
 import { Roles,  } from "../Roles/types";
@@ -34,6 +34,42 @@ export const createApoderado = async (objFilter: FilterOptions): Promise<any> =>
             ig: "", 
             firstContact: false, 
             usersRolesId: "parents", 
+          }
+        }
+      });
+      
+      // console.log("<<< APODERADO CREADO <<<<< ", getData)
+      const data = getData.data;
+      
+        resolve({ ...data.createUsers } as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+
+
+export const updateApoderado = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const getData:any = await client.graphql({
+        query: createUsers,
+        variables: {
+          input: {
+            id: objFilter.userEmail, 
+            contactPhone: "", 
           }
         }
       });

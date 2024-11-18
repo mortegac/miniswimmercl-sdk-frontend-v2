@@ -52,6 +52,10 @@
         "webpayStatus": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/webpayStatus-706d4542784e61786a73-build.zip"
+        },
+        "sendEmailResolver": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/sendEmailResolver-6b6b534a7a72546d5353-build.zip"
         }
       },
       "api": {

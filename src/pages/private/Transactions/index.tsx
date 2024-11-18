@@ -38,7 +38,7 @@ import { CartDetail} from "./components/cartDetail";
 // const currentMonth = calculateCurrentDate().month;
 
 const typeOfName:any = {
-  ["CREATE"]: "CREADA",
+  ["CREATE"]: "ABANDONADA",
   ["AUTHORIZED"]: "PAGADA",
   // ["AUTHORIZED"]: "AUTORIZADA",
   ["INITIALIZED"]: "INICIALIZADA",
@@ -187,12 +187,17 @@ const {paymentTransactions} = props;
 }
 
 function Main() {
+  const [searchTerm, setSearchTerm] = useState("")
+  const [statusShoppingCart, setStatusShoppingCart] = useState("PENDING")
   const {paymentTransactions, status} = useAppSelector(selectPaymentTransactions);
   const {locations} = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
   dispatch(setBreadcrumb({first:"Transacciones Webpay", firstURL:"transactions"}));
 
-  
+  async function handleSearchChange(){
+    searchTerm && searchTerm !== "" && await dispatch(getPaymentTransactions({ userId:searchTerm })) 
+    // searchTerm && searchTerm === "" && await dispatch(getPaymentTransactions({})) 
+  }
   
   useEffect(() => { 
     (async () => await dispatch(getPaymentTransactions({})) )(); 
@@ -205,9 +210,52 @@ function Main() {
      <div className="grid grid-cols-12 gap-y-10 gap-x-6">
       <div className="col-span-12">
         <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
-          <div className="text-base font-medium group-[.mode--light]:text-white">
+        <div className="flex justify-between w-full flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
+              <h2 className="text-base font-medium group-[.mode--light]:text-white">Transacciones Webpay</h2>
+              
+  {/* ["CREATE"]: "ABANDONADA",
+  ["AUTHORIZED"]: "PAGADA",
+  ["INITIALIZED"]: "INICIALIZADA", */}
+              <div className="">
+                <Button
+                  rounded
+                  variant="primary"
+                  className={`px-8 py-3 border border-slate-200 mr-3 ${statusShoppingCart==="CREATE" && " bg-white text-primary"}`}
+                  onClick={()=>{
+                    dispatch(getPaymentTransactions({status:"CREATE"}))
+                    setStatusShoppingCart("PENDING")
+                  }}
+                >
+                  <span className="text-border-slate-200 font-dm-sans">ABANDONADAS</span>
+                </Button>
+                <Button
+                  rounded
+                  variant="primary"
+                  className={`px-8 py-3 border border-slate-200 mr-3 ${statusShoppingCart==="AUTHORIZED" && " bg-white text-primary"}`}
+                  onClick={()=>{
+                    dispatch(getPaymentTransactions({status:"AUTHORIZED"}))
+                    setStatusShoppingCart("AUTHORIZED")
+                  }}
+                >
+                  <span className="text-border-slate-200 font-dm-sans">PAGADOS </span>
+                </Button>
+                <Button
+                  rounded
+                  variant="primary"
+                  className={`px-8 py-3 border border-slate-200 ${statusShoppingCart==="INITIALIZED" && " bg-white text-primary"}`}
+                  onClick={()=>{
+                    dispatch(getPaymentTransactions({status:"INITIALIZED"}))
+                    setStatusShoppingCart("INITIALIZED")
+                  }}
+                >
+                  <span className="text-border-slate-200 font-dm-sans">INICIALIZADA </span>
+                </Button>
+              
+              </div>
+            </div>
+          {/* <div className="text-base font-medium group-[.mode--light]:text-white">
             Transacciones Webpay
-          </div>
+          </div> */}
           {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
             <Button
             variant="primary"
@@ -221,31 +269,43 @@ function Main() {
         <div className="flex flex-col gap-8 mt-3.5">
             {/* <pre>{JSON.stringify(enrollments, null, 2)}</pre> */}
           <div className="flex flex-col box min-h-screen">
-           <div className="flex flex-col p-5 sm:items-center sm:flex-row gap-y-2">
-              <div>
-                {/* <div className="relative">
-                  <Lucide
-                    icon="Search"
-                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                  />
+           <div className="flex flex-col p-5 sm:items-center sm:flex-row gap-y-2 ">
+          
+                <div className="relative flex w-full">
                    <FormInput
                       formInputSize="lg"
-                      placeholder="Buscar alumnos..."
+                      placeholder="Email cliente"
                       aria-label="name" 
                       aria-describedby="input-group-name"
                       type="text"
                       tabIndex={1} 
-                      // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
-                      className="pl-9 sm:w-64 rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
+                      className="w-96 rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
                       name="guardianEmail"
                       value={searchTerm}
-                      onChange={handleSearchChange}
+                      onChange={(e:any)=>setSearchTerm(String(e.target.value))}
                     />
-                </div> */}
-              </div>
-              {/* </div> */}
+                     <Button
+                      variant="primary"
+                      size="lg"
+                      className="ml-2 px-3 py-2 "
+                      onClick={handleSearchChange}
+                      >
+                      <Lucide icon="Search" className="w-5 h-5" />
+                      </Button>
+                     <Button
+                      size="lg"
+                      className="ml-1 px-3 py-2 border-primary"
+                      onClick={async()=> {
+                        await dispatch(getPaymentTransactions({}))
+                        setSearchTerm("")
+                      } }
+                      >
+                      <Lucide icon="X" className="w-5 h-5 text-primary" />
+                      </Button>
+                </div>
+          
                
-              <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 sm:ml-auto">
+              {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 sm:ml-auto">
                 <Popover className="inline-block">
                   {({ close }) => (
                     <>
@@ -283,11 +343,9 @@ function Main() {
                               Estado
                             </div>
                             <FormSelect id="status" >
-                              {/* {categories.fakeCategories().map((faker, fakerKey) => ( */}
                                 <option key={"CREATE"} value={"CREATE"}>CREATE</option>
                                 <option key={"AUTHORIZED"} value={"AUTHORIZED"}>AUTHORIZED</option>
                                 <option key={"INITIALIZED"} value={"INITIALIZED"}>INITIALIZED</option>
-                              {/* ))} */}
                             </FormSelect>
                           </div>
                           <div className="flex items-center mt-4">
@@ -309,7 +367,7 @@ function Main() {
                     </>
                   )}
                 </Popover>
-              </div>
+              </div> */}
             </div>
             
                 { status === "loading" && <div className="flex justify-center"><div className="w-16 h-16"><LoadingIcon

@@ -16,9 +16,13 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       const filterUser = (typeof objFilter?.userId === 'undefined') ?
       {} : { usersShoppingCartId: { eq: String(objFilter.userId) } };
       
+      const filterStatus = (typeof objFilter?.status === 'undefined') ?
+      {} : { status: { eq: String(objFilter.status) } };
+      
          
       const filter: any = {
         ...filterUser,
+        ...filterStatus,
       };   
       
       const getData:any = await client.graphql({

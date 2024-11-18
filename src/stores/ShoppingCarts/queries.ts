@@ -85,6 +85,7 @@ export const listShoppingCarts = /* GraphQL */ `
       user{
         id
         name
+        contactPhone
       }
       cartDetails{
         items{

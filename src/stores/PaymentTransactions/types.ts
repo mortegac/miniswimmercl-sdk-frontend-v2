@@ -71,5 +71,7 @@ export const emptyPaymentTransactions: PaymentTransactions = {
 export type FilterOptions  = {
 
   isActive?: boolean;
+  userId?: string;
+  status?: string;
 
 }

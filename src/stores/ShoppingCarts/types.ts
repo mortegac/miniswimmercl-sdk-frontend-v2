@@ -30,5 +30,6 @@ export const emptyShoppingCart: ShoppingCart = {
 export type FilterOptions  = {
 
   userId?: string;
+  status?: string;
 
 }
