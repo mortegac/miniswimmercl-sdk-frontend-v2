@@ -64,12 +64,13 @@ export const updateApoderado = async (objFilter: FilterOptions): Promise<any> =>
   return new Promise(async (resolve, reject) => {
     try {
      
+      
       const getData:any = await client.graphql({
-        query: createUsers,
+        query: updateUsers,
         variables: {
           input: {
-            id: objFilter.userEmail, 
-            contactPhone: "", 
+            id: objFilter?.userId, 
+            contactPhone: objFilter?.userPhone, 
           }
         }
       });

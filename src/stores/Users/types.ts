@@ -30,5 +30,7 @@ export const emptyUser: Users = {
 
 export type FilterOptions  = {
   userEmail?: string;
+  userPhone?: string;
+  userId?: string;
   name?: string;
 }

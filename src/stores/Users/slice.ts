@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchAuthUser, handleLogin, fetchData, createApoderado} from "./services"
+import {fetchAuthUser, handleLogin, fetchData, createApoderado, updateApoderado} from "./services"
 
 import { Roles } from "../Roles/types";
 import { UserPermissions } from "../UserPermissions/types";
@@ -61,7 +61,7 @@ export const setApoderado = createAsyncThunk(
 );
 
 
-export const updateApoderado = createAsyncThunk(
+export const setPhoneApoderado = createAsyncThunk(
   "users/updateApoderado",
   async (objFilter: FilterOptions) => {
     try {
@@ -171,15 +171,15 @@ export const authSlice = createSlice({
       })
 
       // update Apoderado 
-      .addCase(updateApoderado.rejected, (state, action) => {
+      .addCase(setPhoneApoderado.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
         state.errorMessage = objPayload.errorMessage;
       })
-      .addCase(updateApoderado.pending, (state) => {
+      .addCase(setPhoneApoderado.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(updateApoderado.fulfilled, (state, action) => {
+      .addCase(setPhoneApoderado.fulfilled, (state, action) => {
         state.status = "idle";
         const objPayload: any = action.payload;
         // console.log("---objPayload---", objPayload)

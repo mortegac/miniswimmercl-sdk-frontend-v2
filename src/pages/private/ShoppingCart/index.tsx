@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import _ from "lodash";
 import * as jose from "jose";
 import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import './phone.css'
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 
 
 
@@ -10,7 +11,7 @@ import { formatCurrency } from "../../../utils/helper";
 
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import { Slideover } from "@/components/Base/Headless";
-import { Menu, Popover } from "@/components/Base/Headless";
+// import { Menu, Popover } from "@/components/Base/Headless";
 import { FormInput, FormSelect, FormTextarea } from "@/components/Base/Form";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
@@ -18,6 +19,7 @@ import Table from "@/components/Base/Table";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from "@/stores/breadcrumb";
+import { setPhoneApoderado } from "@/stores/Users/slice";
 
 import {
   getShoppingCart,
@@ -50,11 +52,18 @@ function sumCartAmounts(cartDetails: any) {
 
 function SendJwtWhatsapp(props: any) {
   const [JWT, setJWT] = useState("");
-  const [clientPhone, setClientPhone ] = useState(props?.phoneNumber || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   
-  const { cartId, phoneNumber, clientName, cartStatus } = props;
+  const [phone, setPhone] = useState('');
+  const [isValid, setIsValid] = useState(false);
+  const [clientPhoneNumber, setClientPhoneNumber] = useState(props?.phoneNumber || "");
+  const { cartId, phoneNumber, clientName, clientId,  cartStatus } = props;
+
+  const dispatch = useAppDispatch();
+  
+  
+  
   const secretKey = new TextEncoder().encode(
     "tu_clave_secreta_super_segura_min_32_caracteres"
   );
@@ -62,14 +71,14 @@ function SendJwtWhatsapp(props: any) {
   const sendWhatsAppMessage = async () => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJjcmVhdGU6bWVzc2FnZXMiXSwiY29tcGFueUlkIjoiZTI5NzkzYWUtZmIzYi00MjQxLWFmODQtN2Y4NGZjZWI5NDhlIiwiaWF0IjoxNzMxOTQwODY5fQ.AX1FcQeB5m_e-bsG9W5vSNXQ7JcX2eQxXhknPdPRRZs'; // Replace with your actual token
     
-    !phoneNumber && setError("Debe ingresar el teléfono del cliente para continuar")
+    !clientPhoneNumber && setError("Debe ingresar el teléfono del cliente para continuar")
     
-    if(phoneNumber && JWT){
+    if(clientPhoneNumber && JWT){
       const payload = {
         whatsappId: "3f327a33-4b6c-47c0-b7bd-7649674907cd",
         messages: [
           {
-            number: phoneNumber,
+            number: clientPhoneNumber,
             name: clientName,
             body: `${clientName}, Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}`
           }
@@ -127,7 +136,34 @@ function SendJwtWhatsapp(props: any) {
 
     return jwt;
   }
+  async function setPhoneUser(){
+    clientId !== "" && 
+    phone !== "" && dispatch(setPhoneApoderado({userId:clientId, userPhone:phone}));
+    setClientPhoneNumber(phone)
+  }
+  const validatePhoneNumber = (value:any) => {
+    setPhone(value);
+    
+    if (!value) {
+      setError('El número de teléfono es requerido');
+      setIsValid(false);
+      return;
+    }
 
+    try {
+      if (isValidPhoneNumber(value)) {
+        setError('');
+        setIsValid(true);
+      } else {
+        setError('Número de teléfono inválido');
+        setIsValid(false);
+      }
+    } catch (err) {
+      setError('Error al validar el número');
+      setIsValid(false);
+    }
+  };
+  
   useEffect(() => {
     (async () => {
       await createJWT();
@@ -146,61 +182,85 @@ function SendJwtWhatsapp(props: any) {
             <div className="pb-5 mb-5 border-b border-dashed border-slate-300/70">
               <div className="">
                 <h2 className="text-sm mb-2">
-                  <span className="text-lg w-20 text-right inline-block">
+                  <span className="text-lg w-20 text-left inline-block">
                     Cliente:
                   </span>{" "}
                   <span className="ml-4 text-lg">{clientName}</span>
                 </h2>
-                <h2 className="text-sm mb-2">
-                  <span className="text-lg w-20 text-right  inline-block">
+                
+                <div className="text-sm mb-2 flex flex-row items-center justify-start">
+                  <span className="text-lg w-20 text-left  inline-block">
                     Teléfono:
                   </span>{" "}
-                  
-                  { phoneNumber ==="" &&
-                     <div className="relative mt-3">
-                       <PhoneInput
-                        placeholder="Enter phone number"
-                        value={clientPhone}
-                        onChange={setClientPhone}
-                        className=" border-slate-300 rounded-md"
-                      />
-  )
-                     {/* <FormInput
-                       type="text"
-                       placeholder="56988889988"
-                       className="sm:py-3"
-                       value={clientPhone}
-                       onChange={(e:any)=>setClientPhone(e.target.value)}
-                     /> */}
-                     <Button
-                       variant="primary"
-                       size="sm"
-                       disabled={loading}
-                       className="w-full sm:w-auto sm:absolute inset-y-0 right-0 pl-3.5 pr-4 my-auto mt-2 sm:mt-auto mr-2 h-9 sm:h-8 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
-                      //  onClick={sendWhatsAppMessage}
-                     >
-                       <Lucide
-                         icon="Check"
-                         className="w-8 h-8"
-                       />
-                     </Button>
-                     {error && <p className="text-red-500 mt-2">{error}</p>}
-                   </div> 
+                  { clientPhoneNumber ==="" && <div className=" mt-3 flex flex-row ml-4 ">
+                        <PhoneInput
+                          international
+                          defaultCountry="CL"
+                          value={phone}
+                          onChange={validatePhoneNumber}
+                          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                          error={error}
+                        />
+                        <div className="mt-4 ml-4">
+                          <Button 
+                            variant="primary"
+                            className={`px-4 py-2 rounded ${
+                              isValid 
+                                ? 'bg-primary hover:bg-primary/200 text-white' 
+                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            }`}
+                            disabled={!isValid}
+                            onClick={()=>setPhoneUser()}
+                          >
+                            Grabar teléfono
+                          </Button>
+                        </div>
+    
+        
+      
+        
+                      {error && <p className="text-red-500 mt-2">{error}</p>}
+                    </div>
                   }
-                  <span className="ml-4 text-lg">{phoneNumber}</span>
-                </h2>
+                  { clientPhoneNumber !=="" && <div className="w-full flex justify-between items-center">
+                    <span className="ml-4 text-lg">{clientPhoneNumber}</span>
+                    <Button
+                    variant="primary"
+                    disabled={loading}
+                    className="px-3 py-2 w-full sm:w-auto bg-white text-primary border-primary hover:bg-primary/20"
+                    onClick={()=>setClientPhoneNumber("")}
+                  >
+                    <Lucide
+                      icon="Phone"
+                      className="w-3.5 h-3.5 mr-1.5 stroke-[1.3]"
+                    />
+                    Editar teléfono
+                  </Button>
+                  </div>}
+                  
+                </div>
+                 {isValid && clientPhoneNumber ==="" &&(
+                        <div className="flex flex-col w-full">
+                          <p className="text-green-500 text-xs mt-1">
+                            Número válido: {phone}
+                          </p>
+                        </div>
+                    )}
+                  { clientPhoneNumber ==="" &&  <div className="flex flex-col w-full">
+                      <span className="text-red-300">Debe ingresar el teléfono para continuar </span>
+                    </div>
+                  }
+                   
+                  
+                  
+                
               </div>
              
+             
              {
-              phoneNumber ==="" && <>
-                <span className="text-red-300">Debe ingresar el teléfono para continuar </span>
-              </>
-              // updateApoderado({id:"", contactPhone:""})
-             }
-             {
-              phoneNumber && phoneNumber !=="" && 
+              clientPhoneNumber && clientPhoneNumber !=="" && 
               <>
-                <div className="relative mt-3">
+                {/* <div className="relative mt-3">
                   <FormInput
                     type="text"
                     placeholder="56988889988"
@@ -220,7 +280,7 @@ function SendJwtWhatsapp(props: any) {
                     {loading ? 'Enviando...' : 'ENVIAR LINK DE PAGO'}
                   </Button>
                   {error && <p className="text-red-500 mt-2">{error}</p>}
-                </div> 
+                </div>  */}
                 <div className="relative mt-3">
                   <span className="font-thin mb-2">Se enviará el siguiente mensaje: </span>
                   <FormTextarea
@@ -232,6 +292,30 @@ function SendJwtWhatsapp(props: any) {
                     className="sm:py-3"
                   />
                 </div>
+                <div className="mt-4">
+                {/* <div className="mt-4 flex justify-between items-center"> */}
+                  {/* <FormInput
+                    type="text"
+                    placeholder="56988889988"
+                    className="sm:py-3"
+                  /> */}
+                  <Button
+                    variant="primary"
+                    // size="lg"
+                    disabled={loading}
+                    // className="w-full sm:w-auto sm:absolute inset-y-0 right-0 pl-3.5 pr-4 my-auto mt-2 sm:mt-auto mr-2 h-9 sm:h-8 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                    className="px-3 py-2 w-full sm:w-auto bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                    onClick={sendWhatsAppMessage}
+                  >
+                    <Lucide
+                      icon="Send"
+                      className="w-3.5 h-3.5 mr-1.5 stroke-[1.3]"
+                    />
+                    {loading ? 'Enviando...' : 'Enviar Link de Pago'}
+                  </Button>
+                  
+                  {error && <p className="text-red-500 mt-2">{error}</p>}
+                </div> 
               </>              
               }
               
@@ -372,6 +456,7 @@ function Content(props: any) {
 
             <SendJwtWhatsapp 
               cartId={cartId?.id} 
+              clientId={cartId?.clientId} 
               phoneNumber={cartId?.phoneNumber}
               cartStatus={cartId?.cartStatus} 
               clientName={cartId.clientName}
