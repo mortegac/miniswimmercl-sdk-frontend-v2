@@ -1,5 +1,5 @@
 const { listSessionDetails } = require("./graphql/queries_custom");
-const { createSessionDetail } = require("./graphql/mutations_custom")
+const { createSessionDetail, deleteSessionDetail } = require("./graphql/mutations_custom")
 const API = require("../utils/api");
 
 
@@ -52,6 +52,30 @@ const createSessions = async ({ env, variables }) => {
     });
 };
 
+const deleteSession = async ({ env, variables }) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log("----deleteSession ----", variables);
+            
+            const req = await API({
+                env,
+                _query: deleteSessionDetail,
+                _variables: {
+                    input: {
+                        ...variables,
+                    }
+                },
+            });
+            
+            console.log("deleteSession----req ----", req);
+            return resolve(req);
+        } catch (error) {
+            console.log(variables, "----ERROR - deleteSession()----", error);
+            return reject(JSON.stringify(error));
+        }
+    });
+};
+
 
 
 
@@ -60,4 +84,5 @@ const createSessions = async ({ env, variables }) => {
 module.exports = {
     fetchSessionDetail,
     createSessions,
+    deleteSession
 }

@@ -22,6 +22,7 @@ type Users @model {
   shoppingCartSeller: [ShoppingCart] @hasMany  # Vendedor que vendio el Carros de compra asociadas 
   paymentTransactions: [PaymentTransactions] @hasMany  # Transacciones webpay asociadas 
   sellersCommissions: [SellersCommission] @hasMany     # Comisiones por ventas
+  enrollments: [Enrollment] @hasMany
 }
 
 

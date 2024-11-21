@@ -1,5 +1,5 @@
 // const { listSessionDetails } = require("./graphql/queries_custom");
-const { createEnrollment, updateEnrollment } = require("./graphql/mutations_custom")
+const { createEnrollment, updateEnrollment, deleteEnrollment } = require("./graphql/mutations_custom")
 const API = require("../utils/api");
 
 const createEnrollments = async ({ env, variables = {} }) => {
@@ -21,7 +21,6 @@ const createEnrollments = async ({ env, variables = {} }) => {
     return createAPITransactions
 };
 
-
 const updateEnrollments = async ({ env, variables = {} }) => {
 
     const updateAPITransactions = await API({
@@ -38,6 +37,22 @@ const updateEnrollments = async ({ env, variables = {} }) => {
     return updateAPITransactions
 };
 
+const deleteEnrollments = async ({ env, variables = {} }) => {
+
+    const deleteAPITransactions = await API({
+        env,
+        _query: deleteEnrollment,
+        _variables: {
+            input: {
+                ...variables
+            }
+        },
+    });
+    console.log(`-- deleteAPITransactions -- ${JSON.stringify(deleteAPITransactions)}`);
+
+    return deleteAPITransactions
+};
+
 
 
 
@@ -45,5 +60,6 @@ const updateEnrollments = async ({ env, variables = {} }) => {
 
 module.exports = {
     createEnrollments,
-    updateEnrollments
+    updateEnrollments,
+    deleteEnrollments
 }

@@ -1122,6 +1122,21 @@ export const getEnrollment = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       sessionType {
         id
         name
@@ -1171,6 +1186,7 @@ export const getEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
+      usersEnrollmentsId
       enrollmentShoppingCartDetailId
       __typename
     }
@@ -1209,6 +1225,7 @@ export const listEnrollments = /* GraphQL */ `
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
+        usersEnrollmentsId
         enrollmentShoppingCartDetailId
         __typename
       }
@@ -1488,6 +1505,7 @@ export const getShoppingCartDetail = /* GraphQL */ `
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
+        usersEnrollmentsId
         enrollmentShoppingCartDetailId
         __typename
       }
@@ -1927,6 +1945,10 @@ export const getUsers = /* GraphQL */ `
         __typename
       }
       sellersCommissions {
+        nextToken
+        __typename
+      }
+      enrollments {
         nextToken
         __typename
       }

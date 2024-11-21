@@ -54,6 +54,7 @@ type Enrollment @model {
   
   #Relations  
   student: Student! @belongsTo
+  user: Users! @belongsTo  # Registro del usuario que realizo la inscripcion
   sessionType: SessionType! @belongsTo
   shoppingCartDetail: ShoppingCartDetail @hasOne  # Unir la inscripcion con el carro
 

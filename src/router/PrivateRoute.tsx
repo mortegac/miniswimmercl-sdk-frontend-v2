@@ -14,6 +14,7 @@ import {
     STUDENTS, 
     LOCATIONS, 
     COURSES,
+    COURSES_QUOTAS,
     QUICK_REGISTRATION,
     ENROLLMENTS,
     ATTENDANCE,
@@ -37,8 +38,9 @@ import {
   const Locations = lazy(() => import("../pages/private/Locations"));
   // const Courses = lazy(() => import("../pages/private/Courses"));
   import Courses from "../pages/private/Courses";
+  import CoursesQuotas from "../pages/private/CoursesQuotas";
   import QuickRegistration from "../pages/private/QuickRegistration2";
-  
+ 
   const Enrollments = lazy(() => import("../pages/private/Enrollments"));
   const Transactions = lazy(() => import("../pages/private/Transactions"));
   const ShoppingCart = lazy(() => import("../pages/private/ShoppingCart"));
@@ -115,6 +117,11 @@ export const privateRoutes = {
         {
           path: COURSES,
           element: <Courses />,
+        },
+        {
+           
+          path: COURSES_QUOTAS,
+          element: <CoursesQuotas />,
         },
         
         {

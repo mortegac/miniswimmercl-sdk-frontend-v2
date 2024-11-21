@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import _ from "lodash";
 import * as jose from "jose";
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import './phone.css'
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 
 
 
@@ -25,13 +25,13 @@ import {
   getShoppingCart,
   selectShoppingCarts,
 } from "@/stores/ShoppingCarts/slice";
-import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
-import {
-  setEmailSend,
-  selectEmailSend,
-  cleanSentVar,
-} from "@/stores/EmailsSent/slice";
-import { Location } from "@/stores/Locations/types";
+// import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
+// import {
+//   setEmailSend,
+//   selectEmailSend,
+//   cleanSentVar,
+// } from "@/stores/EmailsSent/slice";
+// import { Location } from "@/stores/Locations/types";
 
 import { CartDetail } from "./components/cartDetail";
 

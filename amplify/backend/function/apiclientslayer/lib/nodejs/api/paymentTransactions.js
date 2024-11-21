@@ -4,7 +4,8 @@ const {
     updatePaymentTransactions, 
     updateShoppingCart,
     createShoppingCart,
-    createShoppingCartDetail
+    createShoppingCartDetail,
+    deleteShoppingCartDetail
 
 } = require("./graphql/mutations_custom");
 const { 
@@ -71,7 +72,7 @@ const getPaymentTransaction = async ({ env, variables = {} }) => {
         _variables: {
             filter: {
                 ...variables,
-            }
+            }, limit: 10000
         },
     });
     console.log(`-- getAPITransactions -- ${JSON.stringify(getAPITransactions)}`);
@@ -134,6 +135,23 @@ const updateCart = async ({ env, variables = {} }) => {
     return updateAPI
 };
 
+const deleteCartDetail = async ({ env, variables = {} }) => {
+
+    // MUTATION
+    const deleteAPI = await API({
+        env,
+        _query: deleteShoppingCartDetail,
+        _variables: {
+            input: {
+                ...variables,
+            }
+        },
+    });
+    console.log(`-- deleteAPI -- ${JSON.stringify(deleteAPI)}`);
+
+    return deleteAPI
+};
+
 
 const getShoppingCartDetails = async ({ env, variables = {} }) => {
 
@@ -146,7 +164,7 @@ const getShoppingCartDetails = async ({ env, variables = {} }) => {
         _variables: {
             filter: {
                 ...variables,
-            }
+            }, limit: 10000
         },
     });
     console.log(`-- dataShoppingCartDetails -- ${JSON.stringify(dataShoppingCartDetails)}`);
@@ -166,7 +184,7 @@ const getShoppingCart = async ({ env, variables = {} }) => {
         _variables: {
             filter: {
                 ...variables,
-            }
+            }, limit: 10000
         },
     });
     console.log(`-- dataShoppingCart -- ${JSON.stringify(dataShoppingCart)}`);
@@ -186,6 +204,7 @@ module.exports = {
     updateCart,
     createCart,
     createCartDetail,
+    deleteCartDetail,
     getShoppingCart,
     getShoppingCartDetails
     

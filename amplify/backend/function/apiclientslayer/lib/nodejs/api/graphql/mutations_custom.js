@@ -225,6 +225,17 @@ const updateShoppingCart = gql`
   }
 `;
 
+const deleteShoppingCart = gql`
+  mutation DeleteShoppingCart(
+    $input: DeleteShoppingCartInput!
+    $condition: ModelShoppingCartConditionInput
+  ) {
+    deleteShoppingCart(input: $input, condition: $condition) { id }
+  }
+`;
+
+// SHOPPING CART DETAIL
+
 const createShoppingCartDetail = gql`
   mutation CreateShoppingCartDetail(
     $input: CreateShoppingCartDetailInput!
@@ -234,6 +245,14 @@ const createShoppingCartDetail = gql`
   }
 `;
 
+const deleteShoppingCartDetail = gql`
+  mutation DeleteShoppingCartDetail(
+    $input: DeleteShoppingCartDetailInput!
+    $condition: ModelShoppingCartDetailConditionInput
+  ) {
+    deleteShoppingCartDetail(input: $input, condition: $condition) { id }
+  }
+`;
 module.exports = {
   createUsers,
   updateUsers,
@@ -261,6 +280,8 @@ module.exports = {
   
   createShoppingCart,
   updateShoppingCart,
-  createShoppingCartDetail
+  deleteShoppingCart,
+  createShoppingCartDetail,
+  deleteShoppingCartDetail
   
 };

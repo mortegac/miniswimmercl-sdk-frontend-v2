@@ -7,6 +7,10 @@ import listPlugin from "@fullcalendar/list";
 import { CalendarOptions } from "@fullcalendar/core";
 import events from "@/fakers/events";
 
+function Box() {
+  return <div className="bg-pink-100">hola</div>
+}
+
 function Main() {
   const options: CalendarOptions = {
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
@@ -18,51 +22,63 @@ function Main() {
     },
     initialDate: "2045-01-01",
     navLinks: true,
-    editable: true,
-    dayMaxEvents: true,
+    editable: false,
+    dayMaxEvents: false,
     events: [
       {
-        title: events.fakeEvents()[0].title,
+        title: "MI CLUB - 8",
         start: "2045-01-01",
-        end: "2045-01-05",
+        end: "2045-01-01",
       },
       {
-        title: events.fakeEvents()[0].title,
-        start: "2045-01-11",
-        end: "2045-01-15",
+        title: "MI CLUB - 8",
+        start: "2045-01-03",
+        end: "2045-01-03",
       },
       {
-        title: events.fakeEvents()[0].title,
-        start: "2045-01-17",
-        end: "2045-01-21",
+        title: "MI CLUB - 8",
+        start: "2045-01-04",
+        end: "2045-01-04",
       },
       {
-        title: events.fakeEvents()[0].title,
-        start: "2045-01-23",
-        end: "2045-01-26",
+        title: "MI CLUB - 8",
+        start: "2045-01-04",
+        end: "2045-01-04",
       },
       {
-        title: events.fakeEvents()[0].title,
-        start: "2045-01-31",
-        end: "2045-01-34",
+        title: "MI CLUB - 8",
+        start: "2045-01-04",
+        end: "2045-01-04",
       },
+      {
+        title: "MI CLUB - 8",
+        start: "2045-01-04",
+        end: "2045-01-04",
+      },
+      {
+        title: "MI CLUB - 8",
+        start: "2045-01-04",
+        end: "2045-01-04",
+      },
+      
+      
     ],
-    drop: function (info) {
-      if (
-        document.querySelectorAll("#checkbox-events").length &&
-        (document.querySelectorAll("#checkbox-events")[0] as HTMLInputElement)
-          ?.checked
-      ) {
-        (info.draggedEl.parentNode as HTMLElement).remove();
-        if (
-          document.querySelectorAll("#calendar-events")[0].children.length == 1
-        ) {
-          document
-            .querySelectorAll("#calendar-no-events")[0]
-            .classList.remove("hidden");
-        }
-      }
-    },
+    // drop: function (info) {
+    //   if (
+    //     document.querySelectorAll("#checkbox-events").length &&
+    //     (document.querySelectorAll("#checkbox-events")[0] as HTMLInputElement)
+    //       ?.checked
+    //   ) {
+    //     (info.draggedEl.parentNode as HTMLElement).remove();
+    //     if (
+    //       document.querySelectorAll("#calendar-events")[0].children.length == 1
+    //     ) {
+    //       document
+    //         .querySelectorAll("#calendar-no-events")[0]
+    //         .classList.remove("hidden");
+    //     }
+    //   }
+    // },
   };
 
   return (

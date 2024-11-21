@@ -1775,6 +1775,21 @@ export const onCreateEnrollment = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       sessionType {
         id
         name
@@ -1824,6 +1839,7 @@ export const onCreateEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
+      usersEnrollmentsId
       enrollmentShoppingCartDetailId
       __typename
     }
@@ -1869,6 +1885,21 @@ export const onUpdateEnrollment = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       sessionType {
         id
         name
@@ -1918,6 +1949,7 @@ export const onUpdateEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
+      usersEnrollmentsId
       enrollmentShoppingCartDetailId
       __typename
     }
@@ -1963,6 +1995,21 @@ export const onDeleteEnrollment = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       sessionType {
         id
         name
@@ -2012,6 +2059,7 @@ export const onDeleteEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
+      usersEnrollmentsId
       enrollmentShoppingCartDetailId
       __typename
     }
@@ -2534,6 +2582,7 @@ export const onCreateShoppingCartDetail = /* GraphQL */ `
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
+        usersEnrollmentsId
         enrollmentShoppingCartDetailId
         __typename
       }
@@ -2584,6 +2633,7 @@ export const onUpdateShoppingCartDetail = /* GraphQL */ `
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
+        usersEnrollmentsId
         enrollmentShoppingCartDetailId
         __typename
       }
@@ -2634,6 +2684,7 @@ export const onDeleteShoppingCartDetail = /* GraphQL */ `
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
+        usersEnrollmentsId
         enrollmentShoppingCartDetailId
         __typename
       }
@@ -3246,6 +3297,10 @@ export const onCreateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      enrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -3306,6 +3361,10 @@ export const onUpdateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      enrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -3363,6 +3422,10 @@ export const onDeleteUsers = /* GraphQL */ `
         __typename
       }
       sellersCommissions {
+        nextToken
+        __typename
+      }
+      enrollments {
         nextToken
         __typename
       }

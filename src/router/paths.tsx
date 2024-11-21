@@ -12,6 +12,7 @@ export const TICKETS = "/tickets";
 
 
 
+export const COURSES_QUOTAS= "/courses-quotas";
 export const SHOPPING_CART = "/shopping-cart";
 export const TRANSACTIONS = "/transactions";
 export const NEW_EXPENSE = "/new-expense";

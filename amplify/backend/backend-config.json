@@ -123,6 +123,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "fnRemoveEnrollment": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "sendEmailResolver": {
       "build": true,
       "dependsOn": [
@@ -274,6 +288,22 @@
         {
           "category": "function",
           "resourceName": "fnCalculateSessionsEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_fnRemoveEnrollment_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnRemoveEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_fnRemoveEnrollment_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnRemoveEnrollment"
         }
       ]
     },

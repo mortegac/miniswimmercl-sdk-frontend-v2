@@ -17,30 +17,44 @@ function Content(props: any) {
         <>
         {/* <pre>{JSON.stringify(detail, null, 2 )}</pre> */}
             <Table.Tr key={""} className="[&_td]:last:border-b-0 w-full">
-                    <Table.Td className="py-4 border-dashed">
-                    <div className="flex items-center justify-center">
+                    <Table.Td className="w-8 py-4 border-dashed">
+                    <span className="flex items-center justify-center">
                         {detail?.quantity}
-                    </div>
+                    </span>
                     </Table.Td>
-                    <Table.Td className="w-60 py-4 border-dashed">
+                    <Table.Td className="w-80 py-4 border-dashed">
+                    <div className="flex items-start justify-start">
+                    {detail?.type}
+                    </div>
                     <div className="flex items-center justify-start">
                     {detail?.detail}
                     </div>
                     </Table.Td>
-                    <Table.Td className="py-4 border-dashed">
-                    <div className="flex items-center justify-center">
-                    {detail?.amount}
-                    </div>
+                    <Table.Td className="w-12 py-4 text-center border-dashed">
+                    <span className="text-center bg-pink-200 ">
+                    $ {formatCurrency(detail?.amount)}
+                    </span>
                     </Table.Td>
                     <Table.Td className="w-52 py-4 border-dashed">
-                    <div className="flex items-start justify-start">
-                    {detail?.type}
-                    </div>
-                    </Table.Td>
-                    <Table.Td className="w-52 py-4 border-dashed">
-                    <div className="flex items-start justify-start">
+                    <span className="flex items-start justify-start">
                     {`${detail?.enrollment?.student?.name || ""} ${detail?.enrollment?.student?.lastName || ""}`}
-                    </div>
+                    </span>
+                    </Table.Td>
+                    <Table.Td className="w-2 py-4 border-dashed">
+                    <Button
+                        rounded
+                        className="border border-red-400 hover:bg-red-100 w-10 h-10 p-1"
+                        onClick={(event: React.MouseEvent) => {
+                          event.preventDefault();
+                     /** TODO */
+                     
+                        }}
+                      >
+                        <Lucide
+                          icon="X"
+                          className="w-10 h-10  text-red-400"
+                        />{" "}
+                      </Button>
                     </Table.Td>
             </Table.Tr>
         </>
@@ -65,26 +79,6 @@ export function CartDetail(props: any) {
     return(
       <>
         <div className="overflow-auto xl:overflow-visible">
-     
-          {/* <pre>{JSON.stringify(shoppingCartDetails, null, 2 )}</pre> */}
-                
-        {/* <div className="-mt-4 mb-4 flex justify-start">
-          <Button
-            rounded
-            // variant="primary"
-            className="px-4 py-2 border border-primary hover:bg-purple-100"
-            // onClick={() => setFlag(!flag)}
-            onClick={(event: React.MouseEvent) => {
-              event.preventDefault();
-              // setCartId(item?.shoppingCartPaymentTransactionsId)
-              // setSwitcherSlideover(true);
-            }}
-          >
-            <Lucide icon="ShoppingCart" className="w-10 h-10 p-2 text-primary" />{" "}
-            <span className="text-primary">Crear link de pago</span>
-        </Button>
-        </div> */}
-                
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
             <Table.Tr>
@@ -97,11 +91,14 @@ export function CartDetail(props: any) {
               <Table.Td className="text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Monto
               </Table.Td>
-              <Table.Td className="text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              {/* <Table.Td className="text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Tipo
-              </Table.Td>
+              </Table.Td> */}
               <Table.Td className="text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Detalle
+              </Table.Td>
+              <Table.Td className="text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                
               </Table.Td>
               
             </Table.Tr>

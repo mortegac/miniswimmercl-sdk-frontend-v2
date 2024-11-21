@@ -18,7 +18,7 @@ import Table from "@/components/Base/Table";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
-
+import { setWPStatus} from "@/stores/WP/slice";
 
 
 
@@ -49,6 +49,7 @@ function Content(props: any) {
   const [cartId, setCartId] = useState("");
   const [switcherSlideover, setSwitcherSlideover] = useState(false);
 const {paymentTransactions} = props;
+const dispatch = useAppDispatch();
   return (
     <>
     <Slideover
@@ -110,7 +111,6 @@ const {paymentTransactions} = props;
                 Fecha
               </Table.Td>
               <Table.Td className="py-4 font-medium text-center border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                
               </Table.Td>
             </Table.Tr>
           </Table.Thead>
@@ -159,21 +159,31 @@ const {paymentTransactions} = props;
                     <p className="uppercase font-thin text-sm text-left">{item?.day}-{item?.month}-{item?.year}</p>
                   </div>                   
                 </Table.Td>
-                <Table.Td className=" py-4 border-dashed">
-                              
-                <Button
-                    rounded
-                    // variant="primary"
-                    className="px-2 py-2 border border-primary hover:bg-purple-100"
-                    // onClick={() => setFlag(!flag)}
-                    onClick={(event: React.MouseEvent) => {
-                      event.preventDefault();
-                      setCartId(item?.shoppingCartPaymentTransactionsId)
-                      setSwitcherSlideover(true);
-                    }}
-                  >
-                    <Lucide icon="ShoppingCart" className="w-10 h-10 p-2 text-primary" />{" "}
-                </Button>
+                <Table.Td className="border-dashed m-0">
+                  <Button
+                      rounded
+                      // variant="primary"
+                      className="px-2 py-2 border border-primary hover:bg-purple-100 mr-2"
+                      // onClick={() => setFlag(!flag)}
+                      onClick={(event: React.MouseEvent) => {
+                        event.preventDefault();
+                        setCartId(item?.shoppingCartPaymentTransactionsId)
+                        setSwitcherSlideover(true);
+                      }}
+                    >
+                      <Lucide icon="ShoppingCart" className="w-10 h-10 p-2 text-primary" />{" "}
+                  </Button>
+                  <Button
+                      rounded
+                      className="px-2 py-2 border bg-slate-50 border-slate-300 hover:bg-slate-400 hover:text-white" 
+                      onClick={ async (event: React.MouseEvent) => {
+                        event.preventDefault();
+                        await dispatch(setWPStatus({token: item?.token}))
+                        await dispatch(getPaymentTransactions({}))
+                      }}
+                    >
+                      <Lucide icon="RefreshCcw" className="w-10 h-10 p-2 text-slate-400 hover:text-white" />{" "}
+                  </Button>
                 </Table.Td>
                 
               

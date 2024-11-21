@@ -1905,6 +1905,21 @@ export const createEnrollment = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       sessionType {
         id
         name
@@ -1954,6 +1969,7 @@ export const createEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
+      usersEnrollmentsId
       enrollmentShoppingCartDetailId
       __typename
     }
@@ -2000,6 +2016,21 @@ export const updateEnrollment = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       sessionType {
         id
         name
@@ -2049,6 +2080,7 @@ export const updateEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
+      usersEnrollmentsId
       enrollmentShoppingCartDetailId
       __typename
     }
@@ -2095,6 +2127,21 @@ export const deleteEnrollment = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       sessionType {
         id
         name
@@ -2144,6 +2191,7 @@ export const deleteEnrollment = /* GraphQL */ `
       courseEnrollmentsId
       sessionTypeEnrollmentsId
       studentEnrollmentsId
+      usersEnrollmentsId
       enrollmentShoppingCartDetailId
       __typename
     }
@@ -2676,6 +2724,7 @@ export const createShoppingCartDetail = /* GraphQL */ `
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
+        usersEnrollmentsId
         enrollmentShoppingCartDetailId
         __typename
       }
@@ -2727,6 +2776,7 @@ export const updateShoppingCartDetail = /* GraphQL */ `
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
+        usersEnrollmentsId
         enrollmentShoppingCartDetailId
         __typename
       }
@@ -2778,6 +2828,7 @@ export const deleteShoppingCartDetail = /* GraphQL */ `
         courseEnrollmentsId
         sessionTypeEnrollmentsId
         studentEnrollmentsId
+        usersEnrollmentsId
         enrollmentShoppingCartDetailId
         __typename
       }
@@ -3423,6 +3474,10 @@ export const createUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      enrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -3486,6 +3541,10 @@ export const updateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      enrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -3546,6 +3605,10 @@ export const deleteUsers = /* GraphQL */ `
         __typename
       }
       sellersCommissions {
+        nextToken
+        __typename
+      }
+      enrollments {
         nextToken
         __typename
       }
