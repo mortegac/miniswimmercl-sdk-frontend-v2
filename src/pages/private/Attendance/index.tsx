@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import debounce from 'lodash/debounce';
 import { Link } from "react-router-dom";
 import { parse, format } from 'date-fns';
 import _, { now } from "lodash";
@@ -70,16 +71,7 @@ function Main() {
   
   const [switcherSlideSessions, setSwitcherSlideSessions] = useState(false);
   const [switcherSlideStudent, setSwitcherSlideStudent] = useState(false);
-  
-  
-  // const [searchTerm, setSearchTerm] = useState('');
-  //   // Manejador para el cambio en el input
-  //   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     // const term = event.target.value;
-  //     // setSearchTerm(term);
-  //     // debouncedFilter(term);
-  //   };
-  
+   
   const nowDate = new Date();
   const nowDate22 =  FormatDate({
     date: String(nowDate),
@@ -96,12 +88,50 @@ function Main() {
     gender:"",
     birthdate:"",
   });
+  const [searchTerm, setSearchTerm] = useState('');
   const {sessionDetails, status } = useAppSelector(selectSessionDetails);
+  const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
   const {locationsList } = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
   dispatch(setBreadcrumb({first:"Asistencia", firstURL:"attendance"}));
   
   
+  const sortStudents = (a: any, b: any) => {
+    // const aSessionsCount = a.enrollments.items.reduce((acc: any, enrollment: any) => acc + enrollment.sessionDetails.items.length, 0);
+    // const bSessionsCount = b.enrollments.items.reduce((acc: any, enrollment: any) => acc + enrollment.sessionDetails.items.length, 0);
+    
+    // if (aSessionsCount > 0 && bSessionsCount === 0) return -1;
+    // if (aSessionsCount === 0 && bSessionsCount > 0) return 1;
+    return 1;
+  };
+  
+      // Función para filtrar estudiantes
+      const filterStudents = (term: string) => {
+        const filtered = sessionDetails.filter((item:any) => {
+        // console.log("--student--", item)
+          return item?.student?.name.toLowerCase().includes(term.toLowerCase()) ||
+          item?.student?.lastName.toLowerCase().includes(term.toLowerCase())
+        }
+          // student.middleName.toLowerCase().includes(term.toLowerCase())
+        );
+        
+        // setFilteredStudents(filtered);
+        setFilteredStudents( [...filtered].sort(sortStudents));
+      };
+  
+   // Creamos una versión debounced de la función de filtrado
+   const debouncedFilter = useCallback(
+    debounce((term: string) => filterStudents(term), 300),
+    [sessionDetails] // Dependencia del array de estudiantes
+  );
+  
+    // Manejador para el cambio en el input
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const term = event.target.value;
+      setSearchTerm(term);
+      debouncedFilter(term);
+    };
+    
   async function updateDate(dateStr:any){
     setDate(dateStr);
     const newDate = transformDate(dateStr)
@@ -166,7 +196,7 @@ function Main() {
     (async () => await getSessions({dateSTR:formatDateToISO(nowDate), idLocation:locationIdSelected}))() 
     dispatch(getLocationsOnly())
   }, []);
-
+  useEffect(() => { setFilteredStudents( [...sessionDetails]); }, [sessionDetails]);
   
   return (
     <>
@@ -255,7 +285,8 @@ function Main() {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
-    {/* <pre>{JSON.stringify(locationSelected, null, 2)}</pre> */}
+    {/* <pre>{JSON.stringify(filteredStudents, null, 2)}</pre> */}
+    {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
               
@@ -327,8 +358,8 @@ function Main() {
            
             {/* </div> */}
           </div>
-          <div className="flex flex-col p-5 sm:items-center sm:flex-row gap-y-2">
-              {/* <div>
+          <div className="flex flex-col p-5  sm:flex-row gap-y-2">
+              <div>
                 <div className="relative">
                   <Lucide
                     icon="Search"
@@ -348,8 +379,9 @@ function Main() {
                       onChange={handleSearchChange}
                     />
                 </div>
-              </div> */}
-              <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 sm:ml-auto">
+              </div>
+              {/* <pre>{JSON.stringify(sessionDetails, null, 2 )}</pre> */}
+              {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 sm:ml-auto">
                 <Popover className="inline-block">
                   {({ close }) => (
                     <>
@@ -363,9 +395,6 @@ function Main() {
                           className="stroke-[1.3] w-4 h-4 mr-2"
                         />
                         Filtros
-                        {/* <div className="flex items-center justify-center h-5 px-1.5 ml-2 text-xs font-medium border rounded-full bg-slate-100">
-
-                        </div> */}
                       </Popover.Button>
                       <Popover.Panel placement="bottom-end">
                         <div className="p-2">
@@ -392,7 +421,7 @@ function Main() {
                     </>
                   )}
                 </Popover>
-              </div>
+              </div> */}
             </div>
           <div className="mt-2 overflow-auto lg:overflow-visible">
  
@@ -413,8 +442,8 @@ function Main() {
                 <Table className="border-spacing-y-[10px] border-separate">
               <Table.Tbody>
                 
-                { Array.isArray(sessionDetails) &&
-                    sessionDetails.map((item: any, i: number) => {
+                { Array.isArray(filteredStudents) &&
+                    filteredStudents.map((item: any, i: number) => {
                  
                     return(     
                     <Table.Tr key={item.id} className={`bg-slate-500 ${item?.status === "USED" && "bg-green-100"}`}>
