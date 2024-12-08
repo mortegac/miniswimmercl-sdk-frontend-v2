@@ -94,23 +94,24 @@ export const FilterBar: React.FC<FilterProps> = ({
         {/* Residence List */}
         {/* <pre>onlyDate={JSON.stringify(typeof onlyDate)}</pre> */}
         {(typeof onlyDate !== "undefined" || onlyDate === false) && (
-          <div className={`w-full ${hasDate && "lg:w-1/2"}`}>
-            <List
-              selected={filter.residenceId}
-              typeTextList={"-SEDES"}
-              filter={filter}
-              setFilter={setFilter}
-              dataList={residences}
-              typeOfList="residence"
-              // className="w-full"
-            />
-          </div>
+          <></>
+          // <div className={`w-full ${hasDate && "lg:w-1/2"}`}>
+          //   <List
+          //     selected={filter.residenceId}
+          //     typeTextList={"-SEDES"}
+          //     filter={filter}
+          //     setFilter={setFilter}
+          //     dataList={residences}
+          //     typeOfList="residence"
+          //     // className="w-full"
+          //   />
+          // </div>
         )}
 
         {/* Month and Year container */}
         {hasDate && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-1/2 lg:flex lg:items-center">
-            <div className="w-full lg:w-1/2 min-w-32">
+            <div className="w-full lg:w-1/2 min-w-36">
               <List
                 selected={filter.month}
                 typeTextList={"-Mes-"}

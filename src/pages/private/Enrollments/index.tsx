@@ -9,6 +9,11 @@ init("Csc41asZklkk5HTWk");
 
 import {typeOfMonth} from "../../../utils/dateHandler";
 
+import {
+  formatCurrency,
+  calculateCurrentDate,
+} from "@/utils/helper";
+
 import Notification from "@/components/Base/Notification";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import Alert from "@/components/Base/Alert";
@@ -600,15 +605,28 @@ function Content(props: any) {
 const date = new Date();
 const month:string = date.toLocaleString('es', { month: '2-digit' });
 const year:string = date.getFullYear().toString();
+const currentYear = calculateCurrentDate().year;
+const currentMonth = calculateCurrentDate().month;
 
+
+import { FilterBar } from "@/components/FilterBar";
+import { FilterUseState } from "./types";
+import { getLocations } from "@/stores/Locations/slice";
 
 function Main() {
   const {enrollments, status} = useAppSelector(selectEnrollment);
   const {locations} = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
-  dispatch(setBreadcrumb({first:"Inscripciones Alumnos", firstURL:"enrollments"}));
-
   
+  // dispatch(setBreadcrumb({first:"Inscripciones Alumnos", firstURL:"enrollments"}));
+  
+  const [residenceList, setResidenceList] = useState();
+  const [filter, setFilter] = useState<FilterUseState>({
+    locationId: "",
+    month: currentMonth,
+    year: currentYear,
+    state: "",
+  });
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredStudents, setFilteredStudents] = useState(enrollments);
 
@@ -647,24 +665,64 @@ function Main() {
     debouncedFilter(term);
   };
   
+  function transformResidenceData(
+    locations: any
+  ): { id: string; name: string }[] {
+    return locations.map((item: any) => ({
+      id: item?.id,
+      name: `${item?.name}`,
+    }));
+  }
+  
   useEffect(() => { 
-    (async () => await dispatch(getStudents({
-      month,
-      year
-    })) )(); 
+    // (async () => await dispatch(getStudents({
+    //   month,
+    //   year
+    // })) )(); 
     (async () => await dispatch(getLocationsOnly()) )(); 
   }, []);
+  
+  useEffect(() => {
+    dispatch(getStudents({ 
+      month: filter.month,
+      year: filter.year,
+      locationId: filter.locationId,
+    }));
+  }, [filter]);
+  
   // useEffect(() => { setFilteredStudents( [...enrollments].sort(sortStudents)); }, [enrollments]);
   useEffect(() => { setFilteredStudents( [...enrollments]); }, [enrollments]);
+  
+  
+  useEffect(() => {
+    setFilter({
+      ...filter,
+      locationId: locations[0]?.id || "",
+    });
+
+    const data: any =
+    locations && transformResidenceData(locations);
+    setResidenceList(data);
+  }, [location]);
+  
   
   return (
     <>
      <div className="grid grid-cols-12 gap-y-10 gap-x-6">
       <div className="col-span-12">
-        <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
+        <div className="flex flex-col justify-between  md:h-10 gap-y-3 md:items-center md:flex-row">
           <div className="text-base font-medium group-[.mode--light]:text-white">
-            Alumnos Incritos en {`${typeOfMonth[month]} y ${typeOfMonth[Number(month)-1]}-${year}`}
+            Alumnos Incritos en {`${typeOfMonth[filter?.month || month]} ${filter.year}`}
           </div>
+          <div className ="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
+                <FilterBar
+                  filter={filter}
+                  setFilter={setFilter}
+                  residences={residenceList}
+                  hasDate={true}
+                  onlyDate={true}
+                />
+              </div>
           {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
             <Button
             variant="primary"
