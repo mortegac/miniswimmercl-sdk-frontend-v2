@@ -32,7 +32,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
         query: listPaymentTransactions,
         variables: { 
             filter: {...filter}
-            , limit:1000000
+            , limit:100000000
         }
       });
       

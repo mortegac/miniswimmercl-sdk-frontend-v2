@@ -11,28 +11,31 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      // const date = new Date();
-      // const month = date.toLocaleString('es', { month: '2-digit' });
-      // const year = date.getFullYear();
       
       const month:number = Number(filter?.month)
-
       
-       // Save USER
+      // filter.locationId
+      // filter.month
+      // filter.year
+      
        const getData:any = await client.graphql({
          query: listEnrollments,
          variables: { 
-          // filter:{ startDate: {contains: `-${month}-${year}`}}
           filter: {
+            startDate: {
+              between: [
+                `${filter?.month}-01-${filter?.year}`,`${filter?.month}-31-${filter?.year}`,
+              ],
+            },
             or: [
-              { startDate: { contains: `${month}-` } },
-              { startDate: { contains: `${Number(month-1)}-` } },
+              { startDate: { contains: `${filter.month}-` } },
               { startDate: { contains: `-${filter?.year}` } },
+              // { startDate: { contains: `${Number(filter.month-1)}-` } },
               // { startDate: { contains: `-${month}-${filter?.year}` } },
               // { startDate: { contains: `-${Number(month-1)}-${filter?.year}` } }
             ]
           },
-          limit:1000000
+          limit:100000000
         },
         //  variables: { 
           //  input: {
@@ -45,8 +48,25 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
       
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData?.data;
+      const dataOrder = [...data?.listEnrollments?.items].sort((a, b) => {
+        // Primero ordenar por wasPaid (false primero)
+        if (a.wasPaid !== b.wasPaid) {
+          return a.wasPaid ? 1 : -1;
+        }
+        
+        // Si wasPaid es igual, ordenar por fecha
+        const [aMonth, aDay, aYear] = a.startDate.split('-').map(Number);
+        const [bMonth, bDay, bYear] = b.startDate.split('-').map(Number);
+        
+        // Crear objetos Date para comparación precisa
+        const dateA:any = new Date(aYear, aMonth - 1, aDay);
+        const dateB:any = new Date(bYear, bMonth - 1, bDay);
+        
+        return dateA - dateB;
+      });
       
-        resolve([...data?.listEnrollments?.items] as any);
+        resolve([...dataOrder] as any);
+        // resolve([...data?.listEnrollments?.items] as any);
         
         // ...userData.data.getUsers
       // } else {

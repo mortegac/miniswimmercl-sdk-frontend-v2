@@ -1,0 +1,130 @@
+/*
+svg {
+  width: 10%;
+  height: 10%;
+}
+
+svg:hover { 
+  fill: #50c6db;
+  transform: scale(1.25); 
+  transition-duration: 1.5s;
+}
+*/
+
+@keyframes changeColor {
+    0% { fill: #00E8FE; }
+    20% { fill: #FF136A; }
+    80% { fill: #FF136A; }
+    100% { fill: #00E8FE; }
+    /*100% { fill: #fff; }*/
+  }
+  
+  @keyframes changeColorOn{
+    0% { fill: #64E1A3; }
+    20% { fill: #21D57B; }
+    80% { fill: #21D57B; }
+    100% { fill: #64E1A3; }
+  }
+  
+  @keyframes move {
+    from {transform: translate(-10px, 50px);}
+      0% {
+          opacity: 0;
+      }
+      10% {
+          opacity: 0;
+      }
+  
+      30% {
+          opacity: .5;
+      }
+    
+      100% {
+          opacity: 1;
+      }
+   /* to {transform: translate(15px, 15px);} */
+    
+  }
+  @keyframes spin {
+      from {transform:rotate(0deg);}
+      to {transform:rotate(360deg);}
+  }
+  
+  @keyframes fadeIn {
+      0% {
+          opacity: .25;
+      }
+  
+      50% {
+          opacity: .5;
+      }
+    
+      75% {
+          opacity: .75;
+      }
+    
+      100% {
+          opacity: .5;
+      }
+  }
+  
+  .svg-container {
+    height:200px;
+    width:200px;
+    display: inline;
+    margin: 50px;
+    /*
+    margin-top:100px;
+    max-height:5rem;
+    max-width:5rem;
+    margin: 0 auto;
+    */
+  
+  }
+  
+  svg {
+    /*
+    top: 5%;
+    left: 5%;
+    position: absolute;
+    max-height:15cm;
+    max-width:15cm;
+    transform: translate(50%, 50%);
+    width: 15%;
+    height: 15%;
+    */
+  }
+  
+  /*
+  svg:hover { 
+    fill: #50c6db;
+    transform: scale(1.25); 
+    transition-duration: 1.5s;
+  }
+  */
+  
+  
+  
+  #down {
+   /* animation: spin 4s infinite linear; 
+      top: 0;
+    left: 10;
+    position: relative;
+    */
+    
+  
+    animation: move 2s infinite ease;
+    z-index:100;
+  }
+  
+  #top {
+    animation: fadeIn 1s infinite linear;
+  }
+  
+  #color {
+    animation: changeColor 3s linear infinite;
+  }
+  
+  #on {
+    animation: changeColorOn 3s linear infinite;
+  }

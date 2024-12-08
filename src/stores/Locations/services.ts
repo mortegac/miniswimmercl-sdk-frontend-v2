@@ -15,7 +15,7 @@ export const fetchData = async (): Promise<any> => {
         query: listLocations,
         variables: { 
           filter:{}
-          , limit:1000000
+          , limit:100000000
         },
       });
       

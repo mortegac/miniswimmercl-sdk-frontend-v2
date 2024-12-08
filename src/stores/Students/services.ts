@@ -24,7 +24,7 @@ export const fetchDataSearchName = async (objFilter: FilterOptions): Promise<any
               { middleName: { contains: objFilter?.name } }
             ]
           },
-          limit: 1000000
+          limit: 100000000
         },
       });
       
@@ -55,7 +55,7 @@ export const fetchData = async (): Promise<any> => {
       const getData:any = await client.graphql({
         query: listStudents,
         variables: { 
-          limit: 1000000
+          limit: 100000000
         },
         // variables: { id: userId },
       });

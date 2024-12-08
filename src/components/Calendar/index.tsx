@@ -26,22 +26,22 @@ function Main() {
     dayMaxEvents: false,
     events: [
       {
-        title: "MI CLUB - 8",
+        title: "8 | Bebes - 2 a 12 meses - 10:00 ",
         start: "2045-01-01",
         end: "2045-01-01",
       },
       {
-        title: "MI CLUB - 8",
+        title: "6 | Bebes - 2 a 12 meses - 10:30 ",
         start: "2045-01-03",
         end: "2045-01-03",
       },
       {
-        title: "MI CLUB - 8",
+        title: "5 | Bebes - 2 a 12 meses - 11:00 ",
         start: "2045-01-04",
         end: "2045-01-04",
       },
       {
-        title: "MI CLUB - 8",
+        title: "4 | Bebes - 2 a 12 meses - 11:00 ",
         start: "2045-01-04",
         end: "2045-01-04",
       },

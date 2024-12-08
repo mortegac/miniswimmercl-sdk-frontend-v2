@@ -29,7 +29,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
         query: listCourses,
         variables: { 
             filter: {...filter}
-            , limit:1000000
+            , limit:100000000
         }
       });
       

@@ -1,0 +1,140 @@
+import React, { useState, useEffect } from "react";
+
+import { Dialog, Menu } from "@/components/Base/Headless";
+import {
+  formatCurrency,
+  monthsDate,
+  generateYearsArray,
+  calculateCurrentDate,
+} from "@/utils/helper";
+
+const yearsDate = generateYearsArray();
+const currentYear = calculateCurrentDate().year;
+const currentMonth = calculateCurrentDate().month;
+
+import {FormSelect, } from "@/components/Base/Form";
+
+
+interface FilterProps {
+  filter: {
+    residenceId?: string;
+    month?: string;
+    year?: string;
+    // mes?: string;
+    // ano?: string;
+    state?: string;
+  };
+  setFilter: React.Dispatch<
+    React.SetStateAction<{
+      residenceId?: string;
+      month?: string;
+      year?: string;
+      state?: string;
+    }>
+  >;
+  residences?: { id: string; name: string }[];
+  dataList?: { id: string; name: string }[];
+  selected?: string;
+  typeTextList?: string;
+  typeOfList?: string;
+  hasDate?: boolean;
+  onlyDate?: boolean;
+}
+
+export const List: React.FC<FilterProps> = ({
+  selected,
+  typeTextList,
+  filter,
+  setFilter,
+  dataList,
+  residences,
+  typeOfList,
+}) => {
+  return (
+    <FormSelect
+      className="!box uppercase mr-3"
+      onChange={
+        (e) =>
+          setFilter((prevFilter) => ({
+            ...prevFilter,
+            ...(typeOfList === "residence" && { residenceId: e.target.value }),
+            ...(typeOfList === "month" && { month: e.target.value }),
+            ...(typeOfList === "year" && { year: e.target.value }),
+          }))
+      }
+    >
+      <option value="" selected>
+        {`${typeTextList} `}
+      </option>
+      {Array.isArray(dataList) &&
+        dataList?.map((item, i) => (
+          <option
+            key={i}
+            value={item?.id}
+            selected={item?.id === selected && true}
+          >
+            {item.name}
+          </option>
+        ))}
+    </FormSelect>
+  );
+};
+
+export const FilterBar: React.FC<FilterProps> = ({
+  filter,
+  setFilter,
+  dataList,
+  residences,
+  hasDate,
+  onlyDate,
+}) => {
+  return (
+    <div className="mt-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:flex lg:items-center lg:gap-4">
+        {/* Residence List */}
+        {/* <pre>onlyDate={JSON.stringify(typeof onlyDate)}</pre> */}
+        {(typeof onlyDate !== "undefined" || onlyDate === false) && (
+          <div className={`w-full ${hasDate && "lg:w-1/2"}`}>
+            <List
+              selected={filter.residenceId}
+              typeTextList={"-SEDES"}
+              filter={filter}
+              setFilter={setFilter}
+              dataList={residences}
+              typeOfList="residence"
+              // className="w-full"
+            />
+          </div>
+        )}
+
+        {/* Month and Year container */}
+        {hasDate && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-1/2 lg:flex lg:items-center">
+            <div className="w-full lg:w-1/2 min-w-32">
+              <List
+                selected={filter.month}
+                typeTextList={"-Mes-"}
+                filter={filter}
+                setFilter={setFilter}
+                dataList={monthsDate}
+                typeOfList="month"
+                // className="w-full"
+              />
+            </div>
+            <div className="w-full lg:w-1/2  min-w-20">
+              <List
+                selected={filter.year}
+                typeTextList={"-Año-"}
+                filter={filter}
+                setFilter={setFilter}
+                dataList={yearsDate}
+                typeOfList="year"
+                // className="w-full"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

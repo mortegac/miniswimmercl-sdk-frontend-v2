@@ -10,6 +10,7 @@ import { selectAuth, getAuthUser} from "@/stores/Users/slice";
 import {
     PUBLIC,
     PRIVATE,
+    HOME,
     LEADS,
     STUDENTS, 
     LOCATIONS, 
@@ -46,6 +47,7 @@ import {
   const ShoppingCart = lazy(() => import("../pages/private/ShoppingCart"));
   
   // const Attendance = lazy(() => import("../pages/private/Attendance"));
+  import StartAdmin from "../pages/private/StartAmin";
   import Attendance from "../pages/private/Attendance";
   const Payments = lazy(() => import("../pages/private/Payments"));
   const Tickets = lazy(() => import("../pages/private/Tickets"));
@@ -93,6 +95,10 @@ export const privateRoutes = {
         {
           path: PRIVATE,
           element: <QuickRegistration />,
+        },
+        {
+          path: HOME,
+          element: <StartAdmin />,
         },
         {
           path: LEADS,

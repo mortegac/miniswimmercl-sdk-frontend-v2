@@ -116,7 +116,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
         // variables: { email: objFilter.userEmail },
         variables: { 
           filter: {...filter}
-          , limit:1000000
+          , limit:100000000
         },
         
       });

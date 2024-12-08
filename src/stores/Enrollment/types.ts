@@ -160,6 +160,7 @@ export type FilterOptions  = {
   name?: string;
     
   userId?: string;
+  locationId?: string;
   studentId?: string;
   enrollmentStartDate?: string;
   enrollmentSessionTypeId?: string;

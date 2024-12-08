@@ -1,5 +1,6 @@
 // PRIVATE
 export const PRIVATE = "/";
+export const HOME = "/start";
 export const LEADS = "/leads";
 export const STUDENTS = "/students";
 export const LOCATIONS = "/locations";

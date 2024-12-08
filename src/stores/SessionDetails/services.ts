@@ -107,7 +107,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
                     {status: { eq: "RECOVERED" }}            
                   ]
           
-          }, limit:1000000
+          }, limit:100000000
         },
       });
   }else{
@@ -115,7 +115,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       query: listSessionDetails,
       variables: { 
         filter: {...filter},
-        limit: 1000000
+        limit: 100000000
       },
     });
   }

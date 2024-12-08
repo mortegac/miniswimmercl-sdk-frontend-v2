@@ -14,7 +14,7 @@ export const fetchData = async (objFilter: {key: String,}): Promise<any> => {
         query: listParameters,
         variables: {
             filter: { parametersEncTypeOfParameterId: { eq: objFilter.key } },
-            limit: 1000000
+            limit: 100000000
         }
       });
       

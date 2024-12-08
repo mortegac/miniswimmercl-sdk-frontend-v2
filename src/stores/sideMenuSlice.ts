@@ -4,6 +4,7 @@ import { icons } from "@/components/Base/Lucide";
 import {
   PUBLIC,
   PRIVATE,
+  HOME,
   LEADS,
   STUDENTS, 
   ATTENDANCE,
@@ -41,6 +42,11 @@ const initialState: SideMenuState = {
       icon: "Home",
       pathname: PRIVATE,
       title: "Inicio",
+    },
+    {
+      icon: "Trello",
+      pathname: HOME,
+      title: "Dashboard",
     },
     // {
     //   icon: "User",

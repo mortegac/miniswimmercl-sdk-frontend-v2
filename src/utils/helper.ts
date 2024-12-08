@@ -3,6 +3,109 @@ import duration from "dayjs/plugin/duration";
 import { parseColor } from "tailwindcss/lib/util/color";
 
 dayjs.extend(duration);
+export const daysDate = [
+  { id: "1", name: "01" },
+  { id: "2", name: "02" },
+  { id: "3", name: "03" },
+  { id: "4", name: "04" },
+  { id: "5", name: "05" },
+  { id: "6", name: "06" },
+  { id: "7", name: "07" },
+  { id: "8", name: "08" },
+  { id: "9", name: "09" },
+  { id: "10", name: "10" },
+  { id: "11", name: "11" },
+  { id: "12", name: "12" },
+  { id: "13", name: "13" },
+  { id: "14", name: "14" },
+  { id: "15", name: "15" },
+  { id: "16", name: "16" },
+  { id: "17", name: "17" },
+  { id: "18", name: "18" },
+  { id: "19", name: "19" },
+  { id: "20", name: "20" },
+  { id: "21", name: "21" },
+  { id: "22", name: "22" },
+  { id: "23", name: "23" },
+  { id: "24", name: "24" },
+  { id: "25", name: "25" },
+  { id: "26", name: "26" },
+  { id: "27", name: "27" },
+  { id: "28", name: "28" },
+  { id: "29", name: "29" },
+  { id: "30", name: "30" },
+  { id: "31", name: "31" },
+];
+export const monthsDate = [
+  { id: "01", name: "ENERO" },
+  { id: "02", name: "FEBRERO" },
+  { id: "03", name: "MARZO" },
+  { id: "04", name: "ABRIL" },
+  { id: "05", name: "MAYO" },
+  { id: "06", name: "JUNIO" },
+  { id: "07", name: "JULIO" },
+  { id: "08", name: "AGOSTO" },
+  { id: "09", name: "SEPTIEMBRE" },
+  { id: "10", name: "OCTUBRE" },
+  { id: "11", name: "NOVIEMBRE" },
+  { id: "12", name: "DICIEMBRE" },
+];
+export const yearsDate = [
+  { id: "2021", name: "2021" },
+  { id: "2022", name: "2022" },
+  { id: "2023", name: "2023" },
+];
+
+interface YearItem {
+  id: string;
+  name: string;
+}
+
+export function generateYearsArray(): YearItem[] {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+
+  const yearsArray: YearItem[] = [
+    // Dos años atrás
+    { id: `${currentYear - 2}`, name: `${currentYear - 2}` },
+
+    // Año anterior
+    { id: `${currentYear - 1}`, name: `${currentYear - 1}` },
+
+    // Año actual
+    { id: `${currentYear}`, name: `${currentYear}` },
+
+    // Próximo año
+    { id: `${currentYear + 1}`, name: `${currentYear + 1}` }
+  ];
+
+  return yearsArray;
+}
+
+export const calculateCurrentDate = () => {
+  // const date = new Date();
+  const date: String = new Date(Date.now()).toString();
+  const year = new Date(Date.now()).getFullYear();
+  const month = new Date(Date.now()).getMonth() + 1;
+  const day = new Date(Date.now()).getDate().toString();
+  const hour = new Date(Date.now()).getHours();
+  const minutes = new Date(Date.now()).getMinutes();
+
+  return {
+    now: date,
+    day: Number(day) < 10 ? "0" + day?.toString() : day?.toString(),
+    month: month < 10 ? "0" + month?.toString() : month?.toString(),
+    year: year?.toString(),
+    hourFull: `${hour < 10 ? "0" + hour : hour}:${minutes < 10 ? "0" + minutes : minutes}`,
+    hour: hour < 10 ? "0" + hour : hour,
+    minutes: minutes < 10 ? "0" + minutes : minutes,
+  };
+};
+
+export function getMonthNameById(id: string) {
+  return monthsDate.find(month => month.id === id)?.name || null;
+}
+
 
 const cutText = (text: string, length: number) => {
   if (text.split(" ").length > 1) {

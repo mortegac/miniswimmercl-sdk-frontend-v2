@@ -14,6 +14,7 @@ export interface EnrollmentState {
   enrollment: EnrollmentExtra;
   enrollments: Enrollment[];
   errorMessage:string;
+  resume:any;
 }
 
 export const initialState: EnrollmentState = {
@@ -24,6 +25,12 @@ export const initialState: EnrollmentState = {
   enrollment: emptyEnrollmentExtra,
   enrollments: [emptyEnrollment],
   errorMessage:"",
+  resume:{
+    wasPaidCount: 0,
+    unpaidCount: 0,
+    totalAmountPaid: 0,
+    unpaidCourses: 0,
+  }
 };
 
 
@@ -193,24 +200,32 @@ export const enrollmentSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         // console.log("--objPayload--", objPayload)
-                
-        // function sortByEndDate(data: Enrollment[]): Enrollment[] {
-        //   return data.sort((a, b) => {
-        //     const dateA = convertToDate(a.startDate);
-        //     const dateB = convertToDate(b.startDate);
-        //     return dateA.getTime() - dateB.getTime();
-        //   });
-        // }
-        
-        // function convertToDate(dateString: string): Date {
-        //   const [day, month, year] = dateString.split('-');
-        //   return new Date(`${year}-${month}-${day}`);
-        // }
-        
-        // const sortedData = sortByEndDate(objPayload);
-        
-        // state.enrollments = sortedData || [];
+       // Contar elementos con wasPaid true y false
+        const countWasPaid = objPayload.reduce((acc:any, item:any) => {
+          item.wasPaid ? acc.paid++ : acc.unpaid++;
+          return acc;
+        }, { paid: 0, unpaid: 0 });
+
+        // Sumar amountPaid de los elementos con wasPaid true
+        const totalAmountPaid = objPayload
+          .filter((item:any) => item.wasPaid)
+          .reduce((total:any, item:any) => total + item.amountPaid, 0);
+
+        // Obtener arreglo de cursos con wasPaid false
+        const unpaidCourses = objPayload
+          .filter((item:any) => !item.wasPaid)
+          .map((item:any) => ({
+            id: item.course.id,
+            title: item.course.title
+          }));
+  
         state.enrollments = objPayload || [];
+        state.resume = {
+          wasPaidCount: countWasPaid.paid,
+          unpaidCount: countWasPaid.unpaid,
+          totalAmountPaid: totalAmountPaid,
+          unpaidCourses: unpaidCourses
+        }
 
       })
       

@@ -133,6 +133,7 @@ export const listEnrollments = /* GraphQL */ `
             user{
               id
               name
+              contactPhone
             }
           }
         }
