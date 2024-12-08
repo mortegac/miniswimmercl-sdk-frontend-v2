@@ -72,7 +72,7 @@ function Content(props: any) {
             {Array.isArray(enrollments) && enrollments.map((item:any, index) => {
              
               return (
-              <Table.Tr key={index} className={`[&_td]:last:border-b-0 ${!item?.wasPaid && "bg-red-50"}`}>
+              <Table.Tr key={index} className={`[&_td]:last:border-b-0 ${!item?.wasPaid && "bg-red-50"}  ${item?.wasPaid && "bg-white"}`}>
                 <Table.Td className=" py-4 border-dashed w-36">
                   <div className="flex items-center">
                     <div className="w-20 text-sm">
