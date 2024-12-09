@@ -495,13 +495,16 @@ function Content(props: any) {
                 <Table.Td className=" w-44 py-4 border-dashed">
                   {Array.isArray(item?.sessionDetails?.items) && item?.sessionDetails?.items.map((session:any, i:any) => (
                     <>
+                          {/* <pre>{JSON.stringify(session?.id, null, 2)}</pre> */}
                       <div className={`my-2 ${session?.status==="ACTIVE"? " bg-green-50":" bg-slate-50"} rounded-full text-center p-2 flex flex-col flex-wrap`}>
+                        <pre>{session?.id}</pre>
                         { session?.status==="ACTIVE" && <>
                           <small className="mt-1">{formatDate(session?.date)} | <i className=" font-thin">{session?.status}</i></small>
                           <p className="w-40 truncate text-xs font-thin text-ellipsis overflow-hidden" >{session?.locationId}</p>
                         </>
                         }
                         { session?.status==="USED" && <>
+                          
                           <small className="mt-1 line-through text-slate-400">{formatDate(session?.date)} | <i className=" font-thin">{session?.status}</i></small>
                           <p className="w-40 truncate text-xs font-thin text-ellipsis overflow-hidden" >{session?.locationIdUsed}</p>
                         </>

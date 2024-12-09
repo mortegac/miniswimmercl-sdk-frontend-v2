@@ -255,8 +255,8 @@ const CardCourses: React.FC<Props> = ({courses}) => {
                               autoApply: true,
                               showWeekNumbers: false,
                               dropdowns: {
-                                minYear: 1990,
-                                maxYear: null,
+                                minYear: new Date().getFullYear() - 2,
+                                maxYear: new Date().getFullYear() + 1,
                                 months: true,
                                 years: true,
                               },

@@ -86,7 +86,7 @@ export const getStudents = createAsyncThunk(
       const response:any = await fetchData(objFilter);
       return response;
     } catch (error) {
-      console.error(">>>>ERROR FETCH AcademyStudentsS", error)
+      console.error(">>>>ERROR FETCH Enrollment/list", error)
       return Promise.reject(error);
     }
   }

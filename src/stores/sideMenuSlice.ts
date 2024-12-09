@@ -8,6 +8,7 @@ import {
   LEADS,
   STUDENTS, 
   ATTENDANCE,
+  STUDENTS_DATA,
   LOCATIONS, 
   COURSES,
   QUICK_REGISTRATION,
@@ -53,6 +54,12 @@ const initialState: SideMenuState = {
     //   pathname: LEADS,
     //   title: "Leads",
     // },
+    "Estudiantes",
+    {
+      icon: "UserCheck",
+      pathname: STUDENTS_DATA,
+      title: "Administrador Alumno",
+    },
     {
       icon: "Users",
       pathname: STUDENTS,

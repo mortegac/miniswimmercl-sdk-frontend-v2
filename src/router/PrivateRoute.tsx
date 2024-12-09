@@ -12,7 +12,8 @@ import {
     PRIVATE,
     HOME,
     LEADS,
-    STUDENTS, 
+    STUDENTS,
+    STUDENTS_DATA,
     LOCATIONS, 
     COURSES,
     COURSES_QUOTAS,
@@ -36,6 +37,7 @@ import {
   const Leads = lazy(() => import("../pages/private/Leads"));
   // const Students = lazy(() => import("../pages/private/Students"));
   import Students from "../pages/private/Students";
+  import StudentData from "../pages/private/StudentData";
   const Locations = lazy(() => import("../pages/private/Locations"));
   // const Courses = lazy(() => import("../pages/private/Courses"));
   import Courses from "../pages/private/Courses";
@@ -107,6 +109,10 @@ export const privateRoutes = {
         {
           path: STUDENTS,
           element: <Students />,
+        },
+        {
+          path: STUDENTS_DATA,
+          element: <StudentData />,
         },
         {
           path: ATTENDANCE,

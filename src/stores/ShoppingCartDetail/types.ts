@@ -28,5 +28,6 @@ export const emptyShoppingCartDetail: ShoppingCartDetail = {
 export type FilterOptions  = {
 
   cartId?: string;
+  enrollmentId?: string;
 
 }

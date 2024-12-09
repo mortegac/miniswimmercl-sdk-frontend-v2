@@ -3,6 +3,8 @@ export const PRIVATE = "/";
 export const HOME = "/start";
 export const LEADS = "/leads";
 export const STUDENTS = "/students";
+export const STUDENTS_DATA = "/students-data";
+
 export const LOCATIONS = "/locations";
 export const COURSES = "/courses";
 export const ATTENDANCE = "/attendance";

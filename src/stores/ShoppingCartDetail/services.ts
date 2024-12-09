@@ -15,10 +15,14 @@ export const fetchOne = async (objFilter: FilterOptions): Promise<any> => {
       
       const filterCartId = (typeof objFilter?.cartId === 'undefined') ?
       {} : { shoppingCartCartDetailsId: { eq: String(objFilter.cartId) } };
+    
+      const filterEnrollmentId = (typeof objFilter?.enrollmentId === 'undefined') ?
+      {} : { shoppingCartDetailEnrollmentId: { eq: String(objFilter.enrollmentId) } };
       
          
       const filter: any = {
         ...filterCartId,
+        ...filterEnrollmentId,
       };
       
       // const getData:any = await client.graphql({

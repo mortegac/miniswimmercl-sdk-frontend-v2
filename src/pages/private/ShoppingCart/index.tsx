@@ -68,17 +68,41 @@ function SendJwtWhatsapp(props: any) {
     "tu_clave_secreta_super_segura_min_32_caracteres"
   );
 
+  function cleanPhoneNumber(phone:string) {
+    // Eliminar el signo más
+    let cleanPhone = phone.replace(/^\+/, '');
+    
+    // Eliminar espacios y caracteres no numéricos
+    cleanPhone = cleanPhone.replace(/\D/g, '');
+    
+    // Verificar que tenga 11 dígitos
+    if (cleanPhone.length === 11) {
+      return {
+        cleanPhone,
+        message: "",
+        status: true
+    };
+    } else {
+      return {
+        message: 'Número de teléfono inválido',
+        status: true
+    };
+    }
+  }
+  
   const sendWhatsAppMessage = async () => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJjcmVhdGU6bWVzc2FnZXMiXSwiY29tcGFueUlkIjoiZTI5NzkzYWUtZmIzYi00MjQxLWFmODQtN2Y4NGZjZWI5NDhlIiwiaWF0IjoxNzMxOTQwODY5fQ.AX1FcQeB5m_e-bsG9W5vSNXQ7JcX2eQxXhknPdPRRZs'; // Replace with your actual token
     
     !clientPhoneNumber && setError("Debe ingresar el teléfono del cliente para continuar")
     
     if(clientPhoneNumber && JWT){
+      
+      const validPhone = cleanPhoneNumber(clientPhoneNumber);
       const payload = {
         whatsappId: "3f327a33-4b6c-47c0-b7bd-7649674907cd",
         messages: [
           {
-            number: clientPhoneNumber,
+            number: validPhone?.cleanPhone,
             name: clientName,
             body: `${clientName}, Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}`
           }
@@ -89,27 +113,30 @@ function SendJwtWhatsapp(props: any) {
         setLoading(true);
         setError(null);
   
-        const response = await fetch(
-          // 'https://api.whaticket.com/api/v1/messages', 
-          '/api/api/v1/messages', 
-          {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Accept': '*/*',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
+        if(validPhone.status){
+          const response = await fetch(
+            // 'https://api.whaticket.com/api/v1/messages', 
+            '/api/api/v1/messages', 
+            {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            }
+          );
+    
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
-        );
-  
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    
+          const responseData = await response.json();
+          /** TODO:  Almacenar envio del whatsapp */
+          console.log('Message sent successfully:', responseData);
         }
-  
-        const responseData = await response.json();
-        /** TODO:  Almacenar envio del whatsapp */
-        console.log('Message sent successfully:', responseData);
+        
       } catch (err:any) {
         setError(err.message);
         console.error('Error sending message:', err);

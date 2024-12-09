@@ -61,6 +61,14 @@ function Litepicker({
     }
 
     tempValue.current = props.value;
+    
+      // Limpieza del picker cuando el componente se desmonte
+      // return () => {
+      //   if (litepickerRef.current) {
+      //     litepickerRef.current.destroy();
+      //   }
+      // };
+      
   }, [props.value]);
 
   return (

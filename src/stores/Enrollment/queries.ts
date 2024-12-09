@@ -148,6 +148,7 @@ export const listEnrollments = /* GraphQL */ `
       }
       sessionDetails{
         items{
+          id
           date
           month
           year
