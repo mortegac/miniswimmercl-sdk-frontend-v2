@@ -16,6 +16,14 @@ type Mutation {
   ): String
   @function(name: "fnCalculateSessionsEnrollment-${env}")
   
+  
+  removeEnrollment(
+    enrollId: String!,
+    employeeId: String! #Funcionario que elimina
+  ): String
+  @function(name: "fnRemoveEnrollment-${env}")
+  
+  
 # # WEBPAY
   setStart(
     # buyOrder: String!, 
@@ -33,14 +41,3 @@ type Mutation {
     @function(name: "webpayStatus-${env}")
     
 }
-
-
-# type Mutation {
-#   setCommit(studentId: String!, startDate: String!, sessionTypeId: String!, scheduleId: String!, courseId: String!): String
-#     @function(name: "webpayCommit-${env}")
-# }
-# type Mutation {
-#   setStatus(studentId: String!, startDate: String!, sessionTypeId: String!, scheduleId: String!, courseId: String!): String
-#     @function(name: "webpayStatus-${env}")
-# }
-

@@ -20,6 +20,11 @@ export const generateEnrollment = /* GraphQL */ `
     )
   }
 `;
+export const removeEnrollment = /* GraphQL */ `
+  mutation RemoveEnrollment($enrollId: String!, $employeeId: String!) {
+    removeEnrollment(enrollId: $enrollId, employeeId: $employeeId)
+  }
+`;
 export const setStart = /* GraphQL */ `
   mutation SetStart(
     $amount: Float!

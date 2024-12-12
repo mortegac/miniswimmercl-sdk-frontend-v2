@@ -5,6 +5,9 @@
  */
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
+    // INPUT
+    // enrollId
+    // employeeId
     return {
         statusCode: 200,
     //  Uncomment below to enable CORS requests

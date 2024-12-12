@@ -30,7 +30,7 @@ function StudentData() {
   const id = useId();
   const { locations, status } = useAppSelector(selectLocation);
 
-  const { resume } = useAppSelector(selectEnrollment);
+  // const { resume } = useAppSelector(selectEnrollment);
 
   const [residenceList, setResidenceList] = useState();
 

@@ -452,85 +452,14 @@ const getEnrollment = gql`
   query GetEnrollment($id: ID!) {
     getEnrollment(id: $id) {
       id
-      amountPaid
-      startDate
-      endDate
-      wasPaid
-      timeAWeek
-      numberOfSessions
-      sessionsLeft
-      sessionsUsed
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        __typename
+      sessionDetails{
+        items{
+          id
+          date
+          status
+        }
       }
-      sessionType {
-        id
-        name
-        description
-        durationSession
-        totalSessions
-        amount
-        createdAt
-        updatedAt
-        __typename
-      }
-      course {
-        id
-        title
-        description
-        startingAge
-        endingAge
-        ageType
-        AgeGroupType
-        duration
-        isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
-        __typename
-      }
-      sessionDetails {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
       studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
-      __typename
     }
   }
 `;

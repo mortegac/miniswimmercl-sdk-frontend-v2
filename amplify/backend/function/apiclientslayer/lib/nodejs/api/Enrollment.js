@@ -1,5 +1,6 @@
 // const { listSessionDetails } = require("./graphql/queries_custom");
 const { createEnrollment, updateEnrollment, deleteEnrollment } = require("./graphql/mutations_custom")
+const { listEnrollments, getEnrollment } = require("./graphql/queries_custom")
 const API = require("../utils/api");
 
 const createEnrollments = async ({ env, variables = {} }) => {
@@ -54,11 +55,47 @@ const deleteEnrollments = async ({ env, variables = {} }) => {
 };
 
 
+const getEnrollments = async ({ env, variables }) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const base = await API({
+                env,
+                _query: getEnrollment,
+                _variables: {
+                    ...variables
+                },
+            });
+            return resolve(base);
+        } catch (error) {
+            console.log(variables, "----ERROR - getEnrollment()----", error);
+            return reject(JSON.stringify(error));
+        }
+    });
+};
 
+const fetchEnrollments = async ({ env, variables }) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const base = await API({
+                env,
+                _query: listEnrollments,
+                _variables: {
+                    ...variables
+                },
+            });
+            return resolve(base);
+        } catch (error) {
+            console.log(variables, "----ERROR - listEnrollments()----", error);
+            return reject(JSON.stringify(error));
+        }
+    });
+};
 
 
 
 module.exports = {
+    fetchEnrollments,
+    getEnrollments,
     createEnrollments,
     updateEnrollments,
     deleteEnrollments
