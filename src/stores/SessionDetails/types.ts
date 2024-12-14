@@ -42,7 +42,9 @@ export type FilterOptions  = {
   
 };
 export type InputOptions  = {
+  userModifyId?: string;
   sessionId?: string;
+  sessionDate?: string;
   status?: string;
   locationIdUsed?: string;
 };

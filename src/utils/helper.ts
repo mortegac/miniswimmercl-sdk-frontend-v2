@@ -56,9 +56,61 @@ export const yearsDate = [
   { id: "2023", name: "2023" },
 ];
 
+export const typeOfMonth: any = {
+  [""]: "",
+  ["01"]: "ENE",
+  ["02"]: "FEB",
+  ["04"]: "ABR",
+  ["03"]: "MAR",
+  ["05"]: "MAY",
+  ["06"]: "JUN",
+  ["07"]: "JUL",
+  ["08"]: "AGO",
+  ["09"]: "SEP",
+  ["10"]: "OCT",
+  ["11"]: "NOV",
+  ["12"]: "DIC",
+};
+
+
 interface YearItem {
   id: string;
   name: string;
+}
+
+
+export function formatDateUTCHour(dateString: string): string {
+  const date = new Date(dateString);
+
+  // const day = date.getUTCDate().toString().padStart(2, "0");
+  // const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
+  // const year = date.getUTCFullYear();
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+
+
+  return `${hours}:${minutes}`;
+}
+export function formatDateUTCFull(dateString: string): string {
+  const date = new Date(dateString);
+
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
+  const year = date.getUTCFullYear();
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+
+
+  return `${day}-${typeOfMonth[month]} ${hours}:${minutes}`;
+}
+export function formatDateUTC(dateString: string): string {
+  const date = new Date(dateString);
+
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
+  const year = date.getUTCFullYear();
+
+  return `${day}-${typeOfMonth[month]}`;
 }
 
 export function generateYearsArray(): YearItem[] {
@@ -80,6 +132,14 @@ export function generateYearsArray(): YearItem[] {
   ];
 
   return yearsArray;
+}
+
+export const getAWSDateStgoChile = () => {
+  const options = { timeZone: 'America/Santiago' };
+  const date = new Date();
+  // Convertir a UTC antes de crear el formato ISO
+  const utcDate = new Date(date.toLocaleString('en-US', options));
+  return utcDate.toISOString();
 }
 
 export const calculateCurrentDate = () => {

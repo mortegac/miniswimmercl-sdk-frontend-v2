@@ -63,6 +63,8 @@ type Enrollment @model {
   course: Course! @belongsTo
   # transaction: Transaction @hasOne   # Relacion ono to one con la transaccion del pago
   sessionDetails: [SessionDetail] @hasMany
+  emailSends: [EmailSend] @hasMany    # Nueva relación con EmailSend
+  
 }
 
 ################################
@@ -72,6 +74,7 @@ enum SessionStatus {
   ACTIVE
   USED
   RECOVERED
+  DELETED
 }
 
 type SessionDetail @model {
@@ -87,6 +90,8 @@ type SessionDetail @model {
   wasEmailSent: Boolean @default(value: "false")
   locationId: String! @default(value: "")  # Id de la sede en la que compro la session
   locationIdUsed: String! @default(value: "")  # Id de la sede en la que USO la session
+  modifiedBy: String! @default(value: "")  # USUARIO QUE REAGENDO
+  modifiedByDate: AWSDateTime!  # USUARIO QUE REAGENDO FECHA 
   #Relation
   student: Student! @belongsTo
 }

@@ -249,8 +249,12 @@ export const getEmailSend = /* GraphQL */ `
   query GetEmailSend($id: ID!) {
     getEmailSend(id: $id) {
       id
+      date
       type
       contentEmail
+      contentMessage
+      phone
+      phoneState
       email
       emailState
       userSend {
@@ -291,9 +295,32 @@ export const getEmailSend = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        usersEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
       createdAt
       updatedAt
       studentEmailSendId
+      enrollmentEmailSendsId
       usersEmailSendId
       __typename
     }
@@ -316,13 +343,18 @@ export const listEmailSends = /* GraphQL */ `
     ) {
       items {
         id
+        date
         type
         contentEmail
+        contentMessage
+        phone
+        phoneState
         email
         emailState
         createdAt
         updatedAt
         studentEmailSendId
+        enrollmentEmailSendsId
         usersEmailSendId
         __typename
       }
@@ -1024,6 +1056,8 @@ export const getStudent = /* GraphQL */ `
         wasEmailSent
         locationId
         locationIdUsed
+        modifiedBy
+        modifiedByDate
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1181,6 +1215,10 @@ export const getEnrollment = /* GraphQL */ `
         nextToken
         __typename
       }
+      emailSends {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       courseEnrollmentsId
@@ -1249,6 +1287,8 @@ export const getSessionDetail = /* GraphQL */ `
       wasEmailSent
       locationId
       locationIdUsed
+      modifiedBy
+      modifiedByDate
       student {
         id
         name
@@ -1300,6 +1340,8 @@ export const listSessionDetails = /* GraphQL */ `
         wasEmailSent
         locationId
         locationIdUsed
+        modifiedBy
+        modifiedByDate
         createdAt
         updatedAt
         enrollmentSessionDetailsId

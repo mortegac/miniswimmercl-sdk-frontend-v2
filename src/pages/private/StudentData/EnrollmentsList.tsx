@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useId } from "react";
 import _ from "lodash";
+import Toastify from "toastify-js";
+
+import Notification from "@/components/Base/Notification";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import Table from "@/components/Base/Table";
@@ -12,13 +15,16 @@ import { formatCurrency } from "../../../utils/helper";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import { Slideover } from "@/components/Base/Headless";
 
-import { useAppSelector, useAppDispatch } from "../../../stores/hooks";
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { selectAuth} from "@/stores/Users/slice";
 import {
   getStudents,
   selectEnrollment,
 } from "../../../stores/Enrollment/slice";
 import { getLocations, selectLocation } from "@/stores/Locations/slice";
+import { setOneSessionDetail, selectSessionDetails } from "@/stores//SessionDetails/slice";
 import { selectShoppingCartDetails, getShoppingCartDetail } from "@/stores/ShoppingCartDetail/slice";
+// import { updateSession } from '@/stores/SessionDetails/services';
 import { typeOfMonth } from "../../../utils/dateHandler";
 
 const typeOfRelationship: any = {
@@ -46,8 +52,14 @@ function formatDate(dateString: string): string {
 }
 
 function Content(props: any) {
-  const { enrollments } = props;
+  
+
+          
+  const { enrollments, locationId, month, year } = props;
   const dispatch = useAppDispatch();
+  
+  const {email}= useAppSelector(selectAuth);
+  const {wasModified}= useAppSelector(selectSessionDetails);
   const { locations, status } = useAppSelector(selectLocation);
   const {shoppingCartDetails} = useAppSelector(selectShoppingCartDetails);
   const [data, setData] = useState({
@@ -55,6 +67,7 @@ function Content(props: any) {
     location: "",
     status: "",
     // SEND REMMENBER PAYMENT
+    sessionId:"", 
     enrollmentId:"", 
     cartId:"", 
     phoneNumber:"", 
@@ -103,22 +116,92 @@ function Content(props: any) {
     setSession({ ...session });
     setData({
       ...data,
-      date: String(session.date),
+      date: String(session.date).replace("T00:00:00.000Z", ''),
       location: session.locationId,
       status: session.status,
+      sessionId: session?.id
     });
   }
+  
+ 
+  
+  async function updateSession(){
+    
+    await Promise.all([
+      await dispatch(
+        setOneSessionDetail({
+          sessionId:data?.sessionId,
+          status:data?.status,
+          locationIdUsed:data?.location,
+          sessionDate:data?.date,
+          userModifyId:email,
+        })),
+      await dispatch(
+        getStudents({
+          month: month,
+          year: year,
+          locationId: locationId,
+        })
+      )
+    ])
+    
+    const successEl = document
+    .querySelectorAll("#success-notification-content")[0]
+    .cloneNode(true) as HTMLElement;
+    successEl.classList.remove("hidden");
+    Toastify({
+      node: successEl,
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+    }).showToast();
+   
+      
+      
+    // if(wasModified){
+    //   const successEl = document
+    //       .querySelectorAll("#success-notification-content")[0]
+    //       .cloneNode(true) as HTMLElement;
+    //       successEl.classList.remove("hidden");
+    //       // Toastify({
+    //       //   node: successEl,
+    //       //   duration: 3000,
+    //       //   newWindow: true,
+    //       //   close: true,
+    //       //   gravity: "top",
+    //       //   position: "right",
+    //       //   stopOnFocus: true,
+    //       // }).showToast();
+    // }
+    
+  }
+ 
 
   useEffect(() => {
     (async () => await dispatch(getLocations()))();
   }, []);
-
+  
   return (
     <>
+    <Notification
+        id="success-notification-content"
+        className="flex hidden"
+      >
+        <Lucide icon="CheckCircle" className="text-success" />
+        <div className="ml-4 mr-4">
+          <div className="font-medium">Sesión actualizada</div>
+          <div className="mt-1 text-slate-500">
+            correctamente
+          </div>
+        </div>
+      </Notification>
     {/* SESIONES */}
       <Slideover
         size="lg"
-        key="Slide-Historial"
+        key="Slide-Historial22"
         open={sessionSlideover}
         onClose={() => {
           setSessionSlideover(false);
@@ -137,47 +220,12 @@ function Content(props: any) {
           </a>
           <Slideover.Description className="p-0">
             <div className="flex flex-col">
+              <pre>{JSON.stringify(data, null, 2 )}</pre>
               <div className="px-8 pt-6 pb-8">
                 <div className="text-base font-medium">Reagendar Sesión</div>
                 <div className="text-slate-500 mt-0.5  mb-12">del Alumno</div>
                 <div className="overflow-auto xl:overflow-visible">
-                  {/* <pre>{JSON.stringify(session, null, 2)}</pre>
-                  <pre>{JSON.stringify(data, null, 2)}</pre> */}
-
-                  {/* <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                  <div className="text-left">
-                    <div className="flex items-center">
-                      <div className="font-medium">Nombres y apellidos</div>
-                      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                        Requerido
-                      </div>
-                    </div>
-                  </div>
-                </label>
-                <div className="flex-1 w-full mt-3 xl:mt-0">
-                  <div className="flex flex-col items-center md:flex-row">
-                    <FormInput
-                      type="text"
-                      className="px-6 py-3 rounded-full mr-8 focus:z-10"
-                      placeholder={"Nicole"}
-                      aria-describedby="studentName"
-                      name="studentName"
-                      value={studentName}
-                      onChange={onChangeSetStore}
-                    />
-                    <FormInput
-                      type="text"
-                      className="px-6 py-3 rounded-full mr-8 focus:z-10"
-                      placeholder={"Ortega"}
-                      aria-describedby="studentLastName"
-                      name="studentLastName"
-                      value={studentLastName}
-                      onChange={onChangeSetStore}
-                    />
-                  </div>
-                </div>
-              </div> */}
+                
                   <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                     <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
                       <div className="text-left">
@@ -203,7 +251,7 @@ function Content(props: any) {
                           type="text"
                           name="studentBithday"
                           onChange={(e) =>
-                            setData({ ...data, date: String(e.target.value) })
+                            setData({ ...data, date: String(e.target.value).replace("T00:00:00.000Z", '') })
                           }
                           options={{
                             autoApply: true,
@@ -215,8 +263,11 @@ function Content(props: any) {
                               picker.on("selected", (date1) => {
                                 // Convertir a formato ISO 8601
                                 const isoDate = date1.format(
-                                  "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                  "YYYY-MM-DD"
                                 );
+                                // const isoDate = date1.format(
+                                //   "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                // );
                                 console.log(
                                   "Fecha seleccionada (ISO 8601):",
                                   isoDate
@@ -281,9 +332,9 @@ function Content(props: any) {
                           setData({ ...data, status: e.target.value })
                         }
                       >
-                        <option value="" selected>
+                        {/* <option value="" selected>
                           {`${"Estados"} `}
-                        </option>
+                        </option> */}
                         {/* {Array.isArray(locations) &&
                           locations?.map((item, i) => ( */}
                             <option
@@ -291,14 +342,28 @@ function Content(props: any) {
                               value={"ACTIVE"}
                               selected={"ACTIVE" === data.status && true}
                             >
-                              {"ACTIVE"}
+                              {"ACTIVA"}
                             </option>
                             <option
                               key={"STATUS-02"}
                               value={"USED"}
                               selected={"USED" === data.status && true}
                             >
-                              {"USED"}
+                              {"USADA"}
+                            </option>
+                            <option
+                              key={"STATUS-03"}
+                              value={"RECOVERED"}
+                              selected={"RECOVERED" === data.status && true}
+                            >
+                              {"RECUPERADA"}
+                            </option>
+                            <option
+                              key={"STATUS-04"}
+                              value={"DELETED"}
+                              selected={"DELETED" === data.status && true}
+                            >
+                              {"ELIMINADA"}
                             </option>
                           {/* ))} */}
                       </FormSelect>
@@ -312,10 +377,7 @@ function Content(props: any) {
                             rounded
                             variant="primary"
                             className={`w-full px-2 py-2  mx-2 font-light uppercase `}
-                            onClick={()=>{
-                             
-                            }
-                          }
+                            onClick={()=>updateSession()}
                           >Actualizar Sesión</Button>
                     </div>
                   </div>
@@ -328,7 +390,7 @@ function Content(props: any) {
     {/* ENVIO RECORDATORIO */}
       <Slideover
         size="lg"
-        key="Slide-send-remmember-pay"
+        key="Slide-send-remmember-pay22"
         open={remmenberSlideover}
         onClose={() => {
           setRemmenberSlideover(false);
@@ -387,7 +449,7 @@ function Content(props: any) {
     {/* ELIMINAR INSCRIPCION */}
       <Slideover
         size="lg"
-        key="Slide-remove-enrollment"
+        key="Slide-remove-enrollment22"
         open={removeEnrollmentSlideover}
         onClose={() => {
           setRemoveEnrollmentSlideover(false);
@@ -437,7 +499,7 @@ function Content(props: any) {
     {/* DATOS ALUMNO */}
       <Slideover
         size="lg"
-        key="Slide-remove-enrollment"
+        key="Slide-students-data22"
         open={dataStudentSlideover}
         onClose={() => {
           setDataStudentSlideover(false);
@@ -693,7 +755,9 @@ function Content(props: any) {
 }
 
 function Main(props: any) {
-  const { status, enrollments } = useAppSelector(selectEnrollment);
+  const {enrollments} = props
+  const { status } = useAppSelector(selectEnrollment);
+  // const { status, enrollments } = useAppSelector(selectEnrollment);
 
   return (
     <>
@@ -708,7 +772,8 @@ function Main(props: any) {
           </div>
         </div>
       )}
-      {status === "idle" && <Content enrollments={enrollments} />}
+      {/* {status === "idle" && <Content {...props} />} */}
+      {status === "idle" && <Content enrollments={enrollments} {...props} />}
     </>
   );
 }

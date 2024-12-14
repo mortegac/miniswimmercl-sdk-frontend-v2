@@ -427,8 +427,12 @@ export const onCreateEmailSend = /* GraphQL */ `
   ) {
     onCreateEmailSend(filter: $filter) {
       id
+      date
       type
       contentEmail
+      contentMessage
+      phone
+      phoneState
       email
       emailState
       userSend {
@@ -469,9 +473,32 @@ export const onCreateEmailSend = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        usersEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
       createdAt
       updatedAt
       studentEmailSendId
+      enrollmentEmailSendsId
       usersEmailSendId
       __typename
     }
@@ -483,8 +510,12 @@ export const onUpdateEmailSend = /* GraphQL */ `
   ) {
     onUpdateEmailSend(filter: $filter) {
       id
+      date
       type
       contentEmail
+      contentMessage
+      phone
+      phoneState
       email
       emailState
       userSend {
@@ -525,9 +556,32 @@ export const onUpdateEmailSend = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        usersEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
       createdAt
       updatedAt
       studentEmailSendId
+      enrollmentEmailSendsId
       usersEmailSendId
       __typename
     }
@@ -539,8 +593,12 @@ export const onDeleteEmailSend = /* GraphQL */ `
   ) {
     onDeleteEmailSend(filter: $filter) {
       id
+      date
       type
       contentEmail
+      contentMessage
+      phone
+      phoneState
       email
       emailState
       userSend {
@@ -581,9 +639,32 @@ export const onDeleteEmailSend = /* GraphQL */ `
         studentSessionDetailId
         __typename
       }
+      enrollment {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        timeAWeek
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        paymentToken
+        createdAt
+        updatedAt
+        courseEnrollmentsId
+        sessionTypeEnrollmentsId
+        studentEnrollmentsId
+        usersEnrollmentsId
+        enrollmentShoppingCartDetailId
+        __typename
+      }
       createdAt
       updatedAt
       studentEmailSendId
+      enrollmentEmailSendsId
       usersEmailSendId
       __typename
     }
@@ -1602,6 +1683,8 @@ export const onCreateStudent = /* GraphQL */ `
         wasEmailSent
         locationId
         locationIdUsed
+        modifiedBy
+        modifiedByDate
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1660,6 +1743,8 @@ export const onUpdateStudent = /* GraphQL */ `
         wasEmailSent
         locationId
         locationIdUsed
+        modifiedBy
+        modifiedByDate
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1718,6 +1803,8 @@ export const onDeleteStudent = /* GraphQL */ `
         wasEmailSent
         locationId
         locationIdUsed
+        modifiedBy
+        modifiedByDate
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1834,6 +1921,10 @@ export const onCreateEnrollment = /* GraphQL */ `
         nextToken
         __typename
       }
+      emailSends {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       courseEnrollmentsId
@@ -1941,6 +2032,10 @@ export const onUpdateEnrollment = /* GraphQL */ `
         __typename
       }
       sessionDetails {
+        nextToken
+        __typename
+      }
+      emailSends {
         nextToken
         __typename
       }
@@ -2054,6 +2149,10 @@ export const onDeleteEnrollment = /* GraphQL */ `
         nextToken
         __typename
       }
+      emailSends {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       courseEnrollmentsId
@@ -2082,6 +2181,8 @@ export const onCreateSessionDetail = /* GraphQL */ `
       wasEmailSent
       locationId
       locationIdUsed
+      modifiedBy
+      modifiedByDate
       student {
         id
         name
@@ -2130,6 +2231,8 @@ export const onUpdateSessionDetail = /* GraphQL */ `
       wasEmailSent
       locationId
       locationIdUsed
+      modifiedBy
+      modifiedByDate
       student {
         id
         name
@@ -2178,6 +2281,8 @@ export const onDeleteSessionDetail = /* GraphQL */ `
       wasEmailSent
       locationId
       locationIdUsed
+      modifiedBy
+      modifiedByDate
       student {
         id
         name

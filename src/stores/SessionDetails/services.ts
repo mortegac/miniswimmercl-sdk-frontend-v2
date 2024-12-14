@@ -1,6 +1,7 @@
 import { generateClient } from 'aws-amplify/api';
 
 
+import { getAWSDateStgoChile } from "@/utils/helper";
 import { FilterOptions, InputOptions } from './types';
 import { listSessionDetails } from './queries';
 import { updateSessionDetail } from './mutation';
@@ -23,6 +24,7 @@ export const updateData = async (objFilter: InputOptions): Promise<any> => {
     try {
   
     
+    
     const inputData: Input = {
       id: String(objFilter?.sessionId),
       status: String(objFilter?.status),
@@ -42,6 +44,57 @@ export const updateData = async (objFilter: InputOptions): Promise<any> => {
     // console.log(">> setData >>", setData)
     
         resolve({ status: "ok"} as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+
+
+
+export const updateSession = async (objFilter: InputOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+  
+    // const newDate:string = objFilter?.sessionDate.replace("T00:00:00.000Z", '')
+    const newDate: string = (objFilter.sessionDate as string).replace("T00:00:00.000Z", '');
+console.log("--newDate--", newDate)
+
+    const inputData: Input = {
+      id: String(objFilter?.sessionId),
+      status: String(objFilter?.status),
+      locationIdUsed: String(objFilter?.locationIdUsed),
+      date:String(`${objFilter?.sessionDate}T00:00:00.000Z`),
+      modifiedBy:String(objFilter?.userModifyId),
+      modifiedByDate: getAWSDateStgoChile(),
+      // day:"",
+      // month:"",
+      // year:"",
+    };
+    // console.log(">> inputData >>", inputData)
+    
+   
+    const setData:any = await client.graphql({
+      query: updateSessionDetail,
+      variables: {
+        input: { ...inputData }
+      }
+    });
+    
+    console.log(">> updateSessionDetail >>", setData?.data?.updateSessionDetail?.id)
+    setData?.data?.updateSessionDetail?.id
+        resolve(setData?.data?.updateSessionDetail?.id && true as any);
         
         // ...userData.data.getUsers
       // } else {

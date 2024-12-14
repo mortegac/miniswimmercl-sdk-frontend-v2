@@ -2,8 +2,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, updateData} from "./services"
+import {fetchData, updateData, updateSession} from "./services"
 import {SessionDetail, emptySessionDetail, FilterOptions, InputOptions} from "./types"
+import { boolean } from "yup";
 
 
 
@@ -12,6 +13,7 @@ export interface SessionDetailsState {
   SessionDetail: SessionDetail;
  sessionDetails: SessionDetail[];
  errorMessage:string;
+ wasModified:boolean;
 }
 
 export const initialState: SessionDetailsState = {
@@ -19,6 +21,7 @@ export const initialState: SessionDetailsState = {
   SessionDetail: emptySessionDetail,
   sessionDetails: [emptySessionDetail],
   errorMessage:"",
+  wasModified:false
 };
 
 
@@ -32,6 +35,21 @@ export const getSessionDetails = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH SessionDetails", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+
+export const setOneSessionDetail = createAsyncThunk(
+  "sessionDetails/updateOne",
+  async (objInput: InputOptions) => {
+    try {
+      const response:any = await updateSession({ ...objInput });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR UPDATE SessionDetails ONE", error)
       return Promise.reject(error);
     }
   }
@@ -92,6 +110,21 @@ export const sessionDetailslice = createSlice({
         //   return new Date(a.date).getTime() - new Date(b.date).getTime();
         // });
         // state.sessionDetails = newArray || [];
+      })
+      
+      // UPDATE SessionDetails
+      .addCase(setOneSessionDetail.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(setOneSessionDetail.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(setOneSessionDetail.fulfilled, (state, action) => {
+        // const objPayload: any = action.payload;
+        state.status = "idle";
+        state.wasModified = action.payload;
       })
       
       

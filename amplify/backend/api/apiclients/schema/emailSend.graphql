@@ -3,21 +3,27 @@
 ################################
 type EmailSend @model {
   id: ID! @primaryKey
-  # date: AWSDateTime
+  date: AWSDateTime
   type: TypeOfEmail!
-  contentEmail: String @default(value: "") 
+  contentEmail: String @default(value: "")  # EMAIL CONTENT
+  contentMessage: String @default(value: "") # WHATSAPP CONTENT
+  phone: String @default(value: "") 
+  phoneState: EmailState  @default(value: "SEND") 
   email: String @default(value: "") 
   emailState: EmailState  @default(value: "SEND") 
   
   #Relations 
-  # user: Users! @belongsTo      #Padre/Madre que se envio el email     
   userSend: Users! @belongsTo  #User que envio el email
   student: Student! @belongsTo
-  
+  enrollment: Enrollment @belongsTo   # Nueva relación opcional con Enrollment
+
 }
 enum TypeOfEmail {
+  WHATSAPP_LINK_PAGO     #
+  WHATSAPP_LINK_RENOVACION     #
   WELCOME     # ESCUELA | Email de bienvenida
   NOSESSION   # ESCUELA | Email de Renovacion 
+  UPDATE_SESSION   # ESCUELA | SESION REAGENDADA
 }
 
 
