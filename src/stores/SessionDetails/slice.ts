@@ -4,7 +4,6 @@ import { RootState } from "../store";
 
 import {fetchData, updateData, updateSession} from "./services"
 import {SessionDetail, emptySessionDetail, FilterOptions, InputOptions} from "./types"
-import { boolean } from "yup";
 
 
 

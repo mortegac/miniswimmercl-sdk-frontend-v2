@@ -21,6 +21,7 @@ import { getStudents, selectEnrollment } from "@/stores/Enrollment/slice";
 import EnrollmentsList from "./EnrollmentsList";
 import EnrollmentsListGroupBy from "./EnrollmentsListGroupBy";
 
+const currentDay = calculateCurrentDate().day;
 const currentYear = calculateCurrentDate().year;
 const currentMonth = calculateCurrentDate().month;
 
@@ -38,6 +39,7 @@ function StudentData() {
   const [groupByEmail, setGroupByEmail] = useState(false);
   const [filter, setFilter] = useState<FilterUseState>({
     locationId: "",
+    day: currentDay,
     month: currentMonth,
     year: currentYear,
     state: "",
@@ -101,6 +103,7 @@ function StudentData() {
   useEffect(() => {
     dispatch(
       getStudents({
+        day: filter.day,
         month: filter.month,
         year: filter.year,
         locationId: filter.locationId,
@@ -120,7 +123,7 @@ function StudentData() {
 
   return (
     <>
-      {/* <pre>{JSON.stringify(locations, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(filter, null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 2xl:col-span-12">
           <div className="col-span-12 mt-8">

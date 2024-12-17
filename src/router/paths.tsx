@@ -10,6 +10,8 @@ export const COURSES = "/courses";
 export const ATTENDANCE = "/attendance";
 export const QUICK_REGISTRATION = "/quick-registration";
 export const ENROLLMENTS = "/enrollments";
+export const ENROLLMENTS_READ = "/enrollments-read";
+export const ENROLLMENTS_CREATE = "/enrollments-create";
 export const PAYMENTS = "/payments";
 export const TICKETS = "/tickets";
 
