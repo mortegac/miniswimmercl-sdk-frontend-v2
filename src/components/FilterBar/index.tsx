@@ -4,6 +4,7 @@ import { Dialog, Menu } from "@/components/Base/Headless";
 import {
   formatCurrency,
   monthsDate,
+  daysDate,
   generateYearsArray,
   calculateCurrentDate,
 } from "@/utils/helper";
@@ -18,6 +19,7 @@ import {FormSelect, } from "@/components/Base/Form";
 interface FilterProps {
   filter: {
     residenceId?: string;
+    day?: string;
     month?: string;
     year?: string;
     // mes?: string;
@@ -27,6 +29,7 @@ interface FilterProps {
   setFilter: React.Dispatch<
     React.SetStateAction<{
       residenceId?: string;
+      day?: string;
       month?: string;
       year?: string;
       state?: string;
@@ -58,6 +61,7 @@ export const List: React.FC<FilterProps> = ({
           setFilter((prevFilter) => ({
             ...prevFilter,
             ...(typeOfList === "residence" && { residenceId: e.target.value }),
+            ...(typeOfList === "day" && { day: e.target.value }),
             ...(typeOfList === "month" && { month: e.target.value }),
             ...(typeOfList === "year" && { year: e.target.value }),
           }))
@@ -111,6 +115,16 @@ export const FilterBar: React.FC<FilterProps> = ({
         {/* Month and Year container */}
         {hasDate && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-1/2 lg:flex lg:items-center">
+            <div className="w-full lg:w-1/2 min-w-36">
+              <List
+                selected={filter.day}
+                typeTextList={"-Todos-"}
+                filter={filter}
+                setFilter={setFilter}
+                dataList={daysDate}
+                typeOfList="day"
+              />
+            </div>
             <div className="w-full lg:w-1/2 min-w-36">
               <List
                 selected={filter.month}

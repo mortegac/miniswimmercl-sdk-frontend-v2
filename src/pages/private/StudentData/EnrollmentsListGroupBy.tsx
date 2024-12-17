@@ -583,7 +583,7 @@ function Content(props: any) {
                   >
                     <Table.Td className=" py-4 border-dashed">
                       <div className="flex items-center">
-                        <div className="w-12 text-sm">
+                        <div className="w-14 text-sm">
                           {formatDate(item?.startDate)}
                         </div>
                       </div>

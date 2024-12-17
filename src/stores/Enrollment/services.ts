@@ -14,6 +14,10 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
       
       const month:number = Number(filter?.month)
       
+      
+      const filterDay = (typeof filter?.day === 'undefined' && filter?.day === '') ?
+      "" : filter?.day;
+      
       // filter.locationId
       // filter.month
       // filter.year
@@ -23,17 +27,15 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
          variables: { 
           filter: {
             startDate: {
+              // 2024-12-16T19:01:29.732Z
               between: [
-                `${filter?.month}-01-${filter?.year}`,`${filter?.month}-31-${filter?.year}`,
+                `${filter?.month}-${filterDay==="" ? "01":filterDay}-${filter?.year}`,`${filter?.month}-${filterDay==="" ? "31":filterDay}-${filter?.year}`,
               ],
             },
-            or: [
-              { startDate: { contains: `${filter.month}-` } },
-              { startDate: { contains: `-${filter?.year}` } },
-              // { startDate: { contains: `${Number(filter.month-1)}-` } },
-              // { startDate: { contains: `-${month}-${filter?.year}` } },
-              // { startDate: { contains: `-${Number(month-1)}-${filter?.year}` } }
-            ]
+            // or: [
+            //   { startDate: { contains: `${filter.month}-` } },
+            //   { startDate: { contains: `-${filter?.year}` } },
+            // ]
           },
           limit:100000000
         },

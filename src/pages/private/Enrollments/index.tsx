@@ -53,39 +53,7 @@ const typeOfRelationship: any = {
   ["FAMILYS_FRIEND"]: "Amigo familia",
   ["Primo/a"]: "",
 };
-// const typeOfMonth: any = {
-//   [""]: "",
-//   ["01"]: "ENE",
-//   ["02"]: "FEB",
-//   ["04"]: "ABR",
-//   ["03"]: "MAR",
-//   ["05"]: "MAY",
-//   ["06"]: "JUN",
-//   ["07"]: "JUL",
-//   ["08"]: "AGO",
-//   ["09"]: "SEP",
-//   ["10"]: "OCT",
-//   ["11"]: "NOV",
-//   ["12"]: "DIC",
-// };
 
-
-
-// function sortByEndDate(data: any[]): any[] {
-//   console.log(data)
-//   return data.sort((a, b) => {
-//     const dateA = convertToDate(a.date);
-//     const dateB = convertToDate(b.date);
-//     return dateA.getTime() - dateB.getTime();
-//   });
-// }
-// function sortByEndDate(array: any[]): any[] {
-//   return array.sort((a, b) => {
-//     const dateA = new Date(a.date);
-//     const dateB = new Date(b.date);
-//     return dateA.getTime() - dateB.getTime();
-//   });
-// }
 function sortByEndDate(array: any[] | undefined | null): any[] {
   
   if(array?.length ===1) return array

@@ -104,7 +104,7 @@ function SendJwtWhatsapp(props: any) {
           {
             number: validPhone?.cleanPhone,
             name: clientName,
-            body: `${clientName}, Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}`
+            body: `${clientName}, Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}   El link de pago tiene una vigencia de 48 horas.`
           }
         ]
       };
@@ -315,7 +315,7 @@ function SendJwtWhatsapp(props: any) {
                     rows={4}
                     cols={2}
                     placeholder="Mensaje"
-                    value={`${clientName}, Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}`}
+                    value={`${clientName}, Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}   El link de pago tiene una vigencia de 48 horas.`}
                     className="sm:py-3"
                   />
                 </div>
