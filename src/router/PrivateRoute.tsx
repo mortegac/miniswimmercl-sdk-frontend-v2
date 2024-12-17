@@ -53,8 +53,8 @@ import {
   // const Attendance = lazy(() => import("../pages/private/Attendance"));
   
   import StartAdmin from "../pages/private/StartAmin";
-  import EnrollmentsRead from "../pages/private/EnrollmentsRead";
-  import EnrollmentsCreate from "../pages/private/EnrollmentsCreate";
+  // import EnrollmentsRead from "../pages/private/EnrollmentsRead";
+  // import EnrollmentsCreate from "../pages/private/EnrollmentsCreate";
   
   import Attendance from "../pages/private/Attendance";
   const Payments = lazy(() => import("../pages/private/Payments"));
@@ -132,14 +132,14 @@ export const privateRoutes = {
           path: ENROLLMENTS,
           element: <Enrollments />,
         },
-        {
-          path: ENROLLMENTS_READ,
-          element: <EnrollmentsRead />,
-        },
-        {
-          path: ENROLLMENTS_CREATE,
-          element: <EnrollmentsCreate />,
-        },
+        // {
+        //   path: ENROLLMENTS_READ,
+        //   element: <EnrollmentsRead />,
+        // },
+        // {
+        //   path: ENROLLMENTS_CREATE,
+        //   element: <EnrollmentsCreate />,
+        // },
         {
           path: COURSES,
           element: <Courses />,
