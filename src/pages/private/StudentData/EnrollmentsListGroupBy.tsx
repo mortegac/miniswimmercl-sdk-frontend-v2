@@ -539,6 +539,9 @@ function Content(props: any) {
               <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Fecha
               </Table.Td>
+              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              Email enviado
+              </Table.Td>
               <Table.Td className=" py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-left">
                 Estado
               </Table.Td>
@@ -561,6 +564,10 @@ function Content(props: any) {
               {Array.isArray(sortedEnrollments) &&
               sortedEnrollments.map((item: any, index) => {
                 
+                const emailWelcomeCount = item?.emailSends?.items.filter((sendEmail:any) => 
+                  sendEmail?.type === "WELCOME" && 
+                  sendEmail?.enrollmentEmailSendsId === item?.id).length;
+                  
           const showUserId = item.student?.relationships?.items[0]?.usersRelationshipsId !== currentUserId;
           if (showUserId) {
             currentUserId = item.student?.relationships?.items[0]?.usersRelationshipsId;
@@ -588,6 +595,13 @@ function Content(props: any) {
                         </div>
                       </div>
                     </Table.Td>
+                    <Table.Td className="w-12 py-4 border-dashed">
+                <p className="my-2 border-slate-300 border rounded-full text-center p-2">
+                  {emailWelcomeCount === 0 && <Lucide icon="XCircle" className="text-red-600" />}
+                  {emailWelcomeCount >= 1 && <div className="flex"><Lucide icon="CheckCircle" className="text-green-600 mr-2" />{emailWelcomeCount}</div>}
+                  {/* {emailWelcomeCount >= 1 && emailWelcomeCount} */}
+                  </p>
+                </Table.Td>
                     <Table.Td className=" py-4 border-dashed">
                       <div className="flex items-center">
                         <div
