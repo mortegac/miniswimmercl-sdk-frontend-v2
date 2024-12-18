@@ -99,7 +99,8 @@ export const EmailSendSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
      
-        // state.courses = objPayload?.items || [];
+                console.log("---getEmails-objPayload---", objPayload)
+
         state.emailSends = objPayload || [];
         
       })

@@ -157,6 +157,15 @@ export const listEnrollments = /* GraphQL */ `
           locationIdUsed
         }
       }
+      emailSends{
+        items{
+          type
+          date
+          enrollmentEmailSendsId
+          usersEmailSendId
+          userSend{name}
+        }
+      }
     }
       nextToken
       __typename

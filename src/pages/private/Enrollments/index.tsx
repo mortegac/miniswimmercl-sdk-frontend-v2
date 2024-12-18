@@ -10,8 +10,8 @@ init("Csc41asZklkk5HTWk");
 import {typeOfMonth} from "../../../utils/dateHandler";
 
 import {
-  formatCurrency,
   calculateCurrentDate,
+  locationsShortName
 } from "@/utils/helper";
 
 import Notification from "@/components/Base/Notification";
@@ -120,9 +120,11 @@ function Content(props: any) {
   const { enrollments, locations } = props;
   const [switcherSlideover, setSwitcherSlideover] = useState(false);
   const [switcherSlideHistorial, setSwitcherSlideHistorial] = useState(false);
-  const [studentListId, setStudentListId] = useState("");
+  // const [studentListId, setStudentListId] = useState("");
+  const [showId, setShowId] = useState(false);
   const [dataEMail, setDataEMail] = useState({
     reply_to: "",
+    enrollmentId: "",
     to_client_email: "",
     to_student_name: "",
     to_student_id: "",
@@ -169,9 +171,12 @@ function Content(props: any) {
           email:  dataEMail.to_client_email,
           usersEmailSendId: email,
           studentEmailSendId: dataEMail.to_student_id,
-          
+          contentMessage :"",
+          phone :"",
+          phoneState :"SEND",
+          emailState :"SEND",
+          enrollmentEmailSendsId :dataEMail?.enrollmentId,          
         }))
-        
         
         const successEl = document
         .querySelectorAll("#success-notification-content")[0]
@@ -192,11 +197,16 @@ function Content(props: any) {
       function (error) {
         dispatch(setEmailSend({
           type:  "WELCOME",
-          contentEmail:  templateEmail,
-          email:  dataEMail.to_client_email,
-          usersEmailSendId: email,
-          studentEmailSendId: dataEMail.to_student_id,
-        
+            contentEmail:  templateEmail,
+            email:  dataEMail.to_client_email,
+            usersEmailSendId: email,
+            studentEmailSendId: dataEMail.to_student_id,
+            contentMessage :"",
+            phone :"",
+            phoneState :"RENDERING_FAILURE",
+            emailState :"RENDERING_FAILURE",
+            enrollmentEmailSendsId :dataEMail?.enrollmentId,   
+         
         }))
         
         console.log("FAILED...", error);
@@ -204,10 +214,15 @@ function Content(props: any) {
     ).catch(err => {
       dispatch(setEmailSend({
         type:  "WELCOME",
-        contentEmail:  templateEmail,
-        email:  dataEMail.to_client_email,
-        usersEmailSendId: email,
-        studentEmailSendId: dataEMail.to_student_id,
+          contentEmail:  templateEmail,
+          email:  dataEMail.to_client_email,
+          usersEmailSendId: email,
+          studentEmailSendId: dataEMail.to_student_id,
+          contentMessage :"",
+          phone :"",
+          phoneState :"RENDERING_FAILURE",
+          emailState :"RENDERING_FAILURE",
+          enrollmentEmailSendsId :dataEMail?.enrollmentId,   
        
       }))
       
@@ -267,7 +282,7 @@ function Content(props: any) {
                 <div className="text-slate-500 mt-0.5  mb-12">
                   Revise el detalle de email enviado
                 </div>
-                { studentListId && <EmailHistorial studentId={studentListId}/>}
+                { dataEMail && <EmailHistorial data={dataEMail}/>}
               </div>
             </div>
           </Slideover.Description>
@@ -313,11 +328,6 @@ function Content(props: any) {
                     <h3 className="mt-3 text-2xl font-medium leading-none">
                       Email enviado!
                     </h3>
-                    {/* <Alert.DismissButton type="button" className="text-white" aria-label="Close" 
-                        onClick={dismiss}
-                        >
-                          <Lucide icon="X" className="w-4 h-4" />
-                    </Alert.DismissButton> */}
                   </>
                   
               </Alert>
@@ -388,25 +398,25 @@ function Content(props: any) {
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
             <Table.Tr>
-            <Table.Td className="w-5 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                {/* <FormCheck.Input type="checkbox" /> */}
+            {/* <Table.Td className="w-5 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                
+              </Table.Td> */}
+              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                Email enviado
               </Table.Td>
-              <Table.Td className="w-52 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Alumno
               </Table.Td>
-              <Table.Td className="w-60 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
+              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
                 Apoderado
               </Table.Td>
-              <Table.Td className="w-60 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Curso
               </Table.Td>
-              {/* <Table.Td className="w-72 py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                Sede
-              </Table.Td> */}
-              <Table.Td className="w-44 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
+              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
                 Sesiones
               </Table.Td>
-              <Table.Td className="w-40 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
+              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
                 Estado
               </Table.Td>
               <Table.Td className="py-4 font-medium text-center border-t bg-slate-50 border-slate-200/60 text-slate-500">
@@ -420,22 +430,31 @@ function Content(props: any) {
               const [month, day, year] = item?.startDate.split('-');
               const edad:{años:"0", meses:"0"} = item?.student?.birthdate && calcularEdad(String(item?.student?.birthdate === "" ? "1800/01/01":item?.student?.birthdate ));                
               
+              const emailWelcomeCount = item?.emailSends?.items.filter((sendEmail:any) => 
+                sendEmail?.type === "WELCOME" && 
+                sendEmail?.enrollmentEmailSendsId === item?.id).length;
               // const sortedSessions = Array.isArray(item?.sessionDetails?.items) &&  sortByEndDate(item?.sessionDetails?.items);
               
               return (
               <Table.Tr key={`ENROLLMENTS-${index}`} className="[&_td]:last:border-b-0 ">
-                <Table.Td 
-                className={`${item?.wasPaid ? "":"bg-red-200"} py-4 border-dashed dark:bg-darkmode-600`}>
-                
-                  {index+1}
+                <Table.Td className="w-12 py-4 border-dashed">
+                <p className="my-2 bg-red-50 rounded-full text-center p-2">{emailWelcomeCount}</p>
                 </Table.Td>
                 <Table.Td className="w-52 py-4 border-dashed">
                   <div className="flex items-center">
                     <div className="text-lg">
-                      {item?.student?.name} {item?.student?.lastName}
+                      <span className="mr-1" onClick={()=>setShowId(!showId)}>{item?.student?.name}</span><span>{item?.student?.lastName}</span>
                       <div className="text-slate-500 text-xs whitespace-nowrap mt-0.5">
                       { item?.student?.birthdate &&  Number(edad?.años) > 100 ? "SIN EDAD":`${edad?.años} años, ${edad?.meses} meses`}
-                      {/* {item?.student?.birthdate} */}
+                    
+                      { showId &&
+                      <>
+                        <p className="text-sm text-slate-300">Student:</p>
+                        <p className="text-sm text-slate-300">{item?.student?.id}</p>
+                        <p className="text-sm text-slate-300">Enroll:</p>
+                        <p className="text-sm text-slate-300">{item?.id}</p>
+                      </>
+                      }
                       </div>
                     </div>
                   </div>
@@ -453,9 +472,15 @@ function Content(props: any) {
                 ))}
                 </Table.Td>
                 <Table.Td className="w-60 py-4 border-dashed">
-                  <div className="flex items-center justify-start flex-col">
-                    {item?.course?.title}
+                <div className="my-2 bg-purple-50 rounded-full text-center p-2">
+                    
+                    <p className="uppercase font-medium text-sm text-center">{item?.course?.title}</p>
+                    <p className="uppercase font-medium text-sm text-center">{item?.scheduleName}</p>
+                    
+                  
+                </div>
                     <p className="uppercase font-thin text-sm text-center">{item?.course?.location?.name}</p>
+                  <div className="flex items-center justify-start flex-col">
                     <p className="font-thin text-green-700">Inscripción: {`${formatDate(item?.startDate)}`}</p>
                   </div>
                    
@@ -465,16 +490,16 @@ function Content(props: any) {
                     <>
                           {/* <pre>{JSON.stringify(session?.id, null, 2)}</pre> */}
                       <div className={`my-2 ${session?.status==="ACTIVE"? " bg-green-50":" bg-slate-50"} rounded-full text-center p-2 flex flex-col flex-wrap`}>
-                        <pre>{session?.id}</pre>
+                        {/* <pre>{session?.id}</pre> */}
                         { session?.status==="ACTIVE" && <>
                           <small className="mt-1">{formatDate(session?.date)} | <i className=" font-thin">{session?.status}</i></small>
-                          <p className="w-40 truncate text-xs font-thin text-ellipsis overflow-hidden" >{session?.locationId}</p>
+                          <p className="w-40 truncate text-xs font-thin text-ellipsis overflow-hidden" >{locationsShortName[session?.locationId]}</p>
                         </>
                         }
                         { session?.status==="USED" && <>
                           
                           <small className="mt-1 line-through text-slate-400">{formatDate(session?.date)} | <i className=" font-thin">{session?.status}</i></small>
-                          <p className="w-40 truncate text-xs font-thin text-ellipsis overflow-hidden" >{session?.locationIdUsed}</p>
+                          <p className="w-40 truncate text-xs font-thin text-ellipsis overflow-hidden" >{locationsShortName[session?.locationIdUsed]}</p>
                         </>
                         }
                       </div>
@@ -483,8 +508,7 @@ function Content(props: any) {
                   
                 </Table.Td>
                 <Table.Td 
-                className={`${item?.wasPaid ? "":"bg-red-200"} py-4 border-dashed dark:bg-darkmode-600 relative text-center`}>
-                 {/* <pre>wasPaid = {JSON.stringify(item?.wasPaid, null, 2)}</pre> */}
+                className={`${item?.wasPaid ? "":"bg-red-200"} py-4 border-dashed dark:bg-darkmode-600 relative text-center`}>                 
                   <span className={`${item?.wasPaid ? "text-slate-400":"text-slate-700"}`}>{item?.wasPaid ? "PAGADO":"SIN PAGO"}</span>
                 </Table.Td>
                 <Table.Td className="relative py-4 border-dashed">
@@ -503,9 +527,10 @@ function Content(props: any) {
                           const location = findLocationById(locations, item?.course?.location?.id);
                           setDataEMail({
                             reply_to:"hola@miniswimmer.cl",
+                            enrollmentId:item?.id,
+                            to_student_id:item?.student?.id,
                             to_client_email:item?.student?.emailPhone,
                             to_student_name:`${item?.student?.name} ${item?.student?.lastName}`,
-                            to_student_id:item?.student?.id,
                             to_course_name:item?.course?.title,
                             to_schedule:`${item?.scheduleName} hrs`,
                             to_session_1:item?.sessionDetails?.items[0]?.date && formatDate(item?.sessionDetails?.items[0].date),
@@ -536,7 +561,33 @@ function Content(props: any) {
                       <Menu.Item 
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
-                          setStudentListId(item?.student?.id)
+                          // setStudentListId(item?.student?.id)
+                          const location = findLocationById(locations, item?.course?.location?.id);
+                          setDataEMail({
+                            reply_to:"hola@miniswimmer.cl",
+                            enrollmentId:item?.id,
+                            to_student_id:item?.student?.id,
+                            to_client_email:item?.student?.emailPhone,
+                            to_student_name:`${item?.student?.name} ${item?.student?.lastName}`,
+                            to_course_name:item?.course?.title,
+                            to_schedule:`${item?.scheduleName} hrs`,
+                            to_session_1:item?.sessionDetails?.items[0]?.date && formatDate(item?.sessionDetails?.items[0].date),
+                            to_session_2:item?.sessionDetails?.items[1]?.date && formatDate(item?.sessionDetails?.items[1].date),
+                            to_session_3:item?.sessionDetails?.items[2]?.date && formatDate(item?.sessionDetails?.items[2].date),
+                            to_session_4:item?.sessionDetails?.items[3]?.date && formatDate(item?.sessionDetails?.items[3].date),
+                            to_session_5:item?.sessionDetails?.items[4]?.date && formatDate(item?.sessionDetails?.items[4].date),
+                            to_session_6:item?.sessionDetails?.items[5]?.date && formatDate(item?.sessionDetails?.items[6].date),
+                            to_session_7:item?.sessionDetails?.items[7]?.date && formatDate(item?.sessionDetails?.items[7].date),
+                            to_session_8:item?.sessionDetails?.items[8]?.date && formatDate(item?.sessionDetails?.items[8].date),
+                            to_location:item?.course?.location?.name,
+                            to_location_id:item?.course?.location?.id,
+                            to_pack_vigencia:item?.sessionType.totalSessions===8 ? "45":"30",
+                            to_mapurl:location?.urlMap || "",
+                            to_mapimage:location?.imageMap || "",
+                            to_location_address:location?.address || "",
+                            to_location_temperature:`entre ${location?.minimumTemperature} C a ${location?.maximumTemperature} C` || "",
+                            to_recomendation:location?.directions || "",
+                          })
                           setSwitcherSlideHistorial(true);
                         }}>
                           <Lucide
@@ -545,21 +596,6 @@ function Content(props: any) {
                           />{" "}
                           Histórico envíos
                         </Menu.Item>
-                        {/* 
-                        <Menu.Item>
-                          <Lucide
-                            icon="CheckSquare"
-                            className="w-4 h-4 mr-2"
-                          />{" "}
-                          Edit
-                        </Menu.Item>
-                        <Menu.Item className="text-danger">
-                          <Lucide
-                            icon="Trash2"
-                            className="w-4 h-4 mr-2"
-                          />
-                          Delete
-                        </Menu.Item> */}
                       </Menu.Items>
                     </Menu>
                   </div>

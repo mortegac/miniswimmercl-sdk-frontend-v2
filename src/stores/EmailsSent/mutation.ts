@@ -3,6 +3,6 @@ export const createEmailSend = /* GraphQL */ `
     $input: CreateEmailSendInput!
     $condition: ModelEmailSendConditionInput
   ) {
-    createEmailSend(input: $input, condition: $condition) { id }
+    createEmailSend(input: $input, condition: $condition) {id}
   }
 `;

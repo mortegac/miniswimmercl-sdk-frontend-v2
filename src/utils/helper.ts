@@ -55,6 +55,12 @@ export const yearsDate = [
   { id: "2022", name: "2022" },
   { id: "2023", name: "2023" },
 ];
+export const locationsShortName:any = {
+  ["CLUB-PATO-CORNEJO"]: "PATO-CORNEJO",
+  ["VITACURA-PISCINA-MUNICIPAL"]: "VITACURA",
+  ["COLEGIO-JOHN-ANDREWS"]: "JOHN-ANDREWS",
+  ["MI-CLUB-PREMIUM"]: "CLUB-PREMIUM",
+};
 
 export const typeOfMonth: any = {
   [""]: "",

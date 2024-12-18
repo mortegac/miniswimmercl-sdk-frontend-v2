@@ -49,9 +49,16 @@ export type InputOptions  = {
 export type FilterOptions  = { 
   type?: string;
   contentEmail?: string;
+  contentMessage?: string;
+  phone?: string;
   email?: string;
-  emailState?: boolean;
+  emailState?: string;
+  phoneState?: string;
+  
+  
+  enrollmentEmailSendsId?: string;
   usersEmailSendId?: string;
+  
   studentEmailSendId?: string;
   
 }

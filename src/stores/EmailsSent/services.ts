@@ -4,7 +4,7 @@ import emailjs, { init } from "emailjs-com";
 const SERVICE = "service_ucb8wga";
 const TEMPLATE = "template_rbmzu0w";
 init("Csc41asZklkk5HTWk");
-
+import {getAWSDateStgoChile} from "@/utils/helper";
 import { InputOptions, FilterOptions } from "./types";
 
 import { listEmailSends } from './queries';
@@ -18,17 +18,24 @@ export const createEmailSent = async (objFilter: FilterOptions): Promise<any> =>
   return new Promise(async (resolve, reject) => {
     try {
      
+      
+      console.log("--createEmailSent--", objFilter)
       const setData:any = await client.graphql({
         query: createEmailSend,
         variables: {
           input: {            
-            // date:  new Date(Date.now()).toISOString(),
-            type:  objFilter.type,
-            contentEmail:  objFilter.contentEmail,
-            email:  objFilter.email,
-            emailState: "SEND",
-            usersEmailSendId: objFilter.usersEmailSendId,
-            studentEmailSendId: objFilter.studentEmailSendId,
+            date:  getAWSDateStgoChile(), //new Date(Date.now()).toISOString(),
+            type:  objFilter?.type,
+            contentEmail:  objFilter?.contentEmail,
+            contentMessage: objFilter?.contentMessage,
+            email:  objFilter?.email,
+            emailState: objFilter?.emailState,
+            phone: objFilter?.phone,
+            phoneState: objFilter?.phoneState,
+            
+            studentEmailSendId: objFilter?.studentEmailSendId,
+            usersEmailSendId: objFilter?.usersEmailSendId,
+            enrollmentEmailSendsId :objFilter?.enrollmentEmailSendsId,    
           }
         }
       });
@@ -151,7 +158,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       });
       
       const data = getData.data;
-      // console.log("<<< EMAILS DATA <<<<< ", data.listEmailSends.items)
+      console.log("<<< EMAILS DATA <<<<< ", data.listEmailSends.items)
       
         resolve([ ...data.listEmailSends.items] as any);
         

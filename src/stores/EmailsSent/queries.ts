@@ -18,28 +18,35 @@ export const listEmailSends = /* GraphQL */ `
       sortDirection: $sortDirection
     ) {
       items {
-        id
-        # date
-        type
-        # contentEmail
-        email
-        createdAt
-        # emailState
-        # userSend{
-        #   id
-        #   name
-        # }
-        # student{ 
-        #   id
-        #   name
-        #   lastName
-        # }
-        # createdAt
-        # updatedAt
-        usersEmailSendId
-        studentEmailSendId
-        __typename
+      id
+      date
+      type
+      # contentEmail
+      contentMessage
+      phone
+      phoneState
+      email
+      emailState
+      userSend{
+        id 
+        name
       }
+      student{ 
+        id 
+        name 
+        lastName
+      }
+      enrollment{
+        courseEnrollmentsId
+        scheduleId
+        scheduleName
+      }
+      createdAt
+      # updatedAt
+      studentEmailSendId
+      enrollmentEmailSendsId
+      usersEmailSendId
+    }
       nextToken
       __typename
     }

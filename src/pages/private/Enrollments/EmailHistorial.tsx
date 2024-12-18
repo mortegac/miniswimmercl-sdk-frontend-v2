@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 
+import {formatDateUTCFull} from "@/utils/helper";
+
+
 import Table from "@/components/Base/Table";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 
@@ -24,35 +27,40 @@ const typeOfMonth: any = {
 
 function Content(props: any) {
     const {email} = props;
-    const [date, hour] = email.createdAt.split('T');
-    const [year, month, day] = date.split('-');
-    const [hourFull, rest] = hour.split('.');
+    // const [date, hour] = email.createdAt.split('T');
+    // const [year, month, day] = date.split('-');
+    // const [hourFull, rest] = hour.split('.');
     return(
         <>
         {/* <pre>{JSON.stringify(email, null, 2 )}</pre> */}
             <Table.Tr key={email.id} className="[&_td]:last:border-b-0">
-                    <Table.Td className="w-60 py-4 border-dashed">
-                    <div className="flex items-center justify-start">
+                    
+                    <Table.Td className="w-40 py-4 border-dashed">
+                    <p className="text-left font-thin text-sm">Destino: </p>
+                    <p className="text-left font-medium text-sm">
                         {email.email}
-                    </div>
+                    </p>
+                    <p className="text-left font-thin text-sm mt-2">Enviado por: </p>
+                    <p className="text-left font-medium text-sm">
+                    {email?.usersEmailSendId}
+                    </p>
+                    
                     </Table.Td>
-                    <Table.Td className="py-4 border-dashed dark:bg-darkmode-600">
-                    <div className="flex flex-col items-center justify-center">
-                   
-                    {/* <p className="text-sm">{`${email.createdAt}`}</p> */}
-                    <p className="text-sm">{`${date}`}</p>
-                    <p className="font-thin text-sm">{hourFull}</p>
-                    </div>
+                    <Table.Td className=" w-32 py-4 border-dashed">
+                    <p className="text-sm text-left">{`${formatDateUTCFull(email?.date)}`}</p>
                     </Table.Td>
-                    <Table.Td className="w-60 py-4 border-dashed">
-                    <div className="flex items-center justify-start">
+                    <Table.Td className="w-16 py-4 border-dashed">
+                    <div className="text-left">
                         {email.type}
                     </div>
                     </Table.Td>
-                    <Table.Td className="w-52 py-4 border-dashed">
-                    <div className="flex items-center justify-start">
-                    {email?.usersEmailSendId}
-                    </div>
+                    <Table.Td className="w-64 py-4 border-dashed">
+                    <p className="text-left font-medium text-sm">
+                        {email?.enrollment?.courseEnrollmentsId}
+                    </p>
+                    <p className="text-left font-thin text-sm">
+                        {email?.enrollment?.scheduleName}
+                    </p>
                     </Table.Td>
             </Table.Tr>
         </>
@@ -61,41 +69,36 @@ function Content(props: any) {
 
 export function EmailHistorial(props: any) {
     
-    const {studentId} = props;
+    const {data} = props;
     const {status, emailSends} = useAppSelector(selectEmailSend);
     const dispatch = useAppDispatch();
 
     
       
   useEffect(() => { 
-    (async () => await dispatch(getEmails({studentEmailSendId: studentId})) )(); 
+    (async () => await dispatch(getEmails({studentEmailSendId: data?.to_student_id})) )(); 
   }, []);
   
     return(
         <div className="overflow-auto xl:overflow-visible">
-     
-          
-                
-             
-                
+   
+        {/* <pre>{JSON.stringify(data, null, 2)}</pre>
+        <pre>{JSON.stringify(emailSends, null, 2)}</pre> */}
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
             <Table.Tr>
-              <Table.Td className="w-72 py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              <Table.Td className="py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Destinatario
               </Table.Td>
-              <Table.Td className="w-52 py-4 font-medium text-center border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              <Table.Td className="py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Fecha
               </Table.Td>
-              <Table.Td className="w-60 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              <Table.Td className="py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Tipo
               </Table.Td>
-              <Table.Td className="w-60 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
-                Usuario
+              <Table.Td className="py-4 font-medium text-left border-t bg-slate-50 border-slate-200/60 text-slate-500 ">
+                Detalle
               </Table.Td>
-              {/* <Table.Td className="w-40 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
-                Sesiones
-              </Table.Td> */}
            
             </Table.Tr>
           </Table.Thead>
