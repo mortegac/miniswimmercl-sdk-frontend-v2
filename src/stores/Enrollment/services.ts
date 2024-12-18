@@ -29,7 +29,8 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
             startDate: {
               // 2024-12-16T19:01:29.732Z
               between: [
-                `${filter?.month}-${filterDay==="" ? "01":filterDay}-${filter?.year}`,`${filter?.month}-${filterDay==="" ? "31":filterDay}-${filter?.year}`,
+                `${filter?.month}-${filterDay==="" ? "01":filterDay}-${filter?.year}`,
+                `${filter?.month}-${filterDay==="" ? "31":filterDay}-${filter?.year}`,
               ],
             },
             // or: [

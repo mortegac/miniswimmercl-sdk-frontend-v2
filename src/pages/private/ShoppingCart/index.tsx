@@ -115,13 +115,15 @@ function SendJwtWhatsapp(props: any) {
   
         if(validPhone.status){
           const response = await fetch(
-            'https://api.whaticket.com/api/v1/messages', 
-            // '/api/api/v1/messages', 
+            // 'https://api.whaticket.com/api/v1/messages', 
+            '/api/api/v1/messages', 
             {
               method: 'POST',
+              credentials: 'include', // Importante para algunos casos de CORS
               headers: {
                 'Authorization': `Bearer ${token}`,
-                'Accept': '*/*',
+                // 'Accept': '*/*',
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify(payload)
