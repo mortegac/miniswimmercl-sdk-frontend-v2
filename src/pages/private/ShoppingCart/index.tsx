@@ -115,8 +115,8 @@ function SendJwtWhatsapp(props: any) {
   
         if(validPhone.status){
           const response = await fetch(
-            // 'https://api.whaticket.com/api/v1/messages', 
-            '/api/api/v1/messages', 
+            'https://api.whaticket.com/api/v1/messages', 
+            // '/api/api/v1/messages', 
             {
               method: 'POST',
               headers: {
