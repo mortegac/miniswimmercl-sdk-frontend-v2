@@ -36,10 +36,10 @@ function StudentData() {
 
   const [residenceList, setResidenceList] = useState();
 
-  const [groupByEmail, setGroupByEmail] = useState(false);
+  const [groupByEmail, setGroupByEmail] = useState(true);
   const [filter, setFilter] = useState<FilterUseState>({
     locationId: "",
-    day: currentDay,
+    day: "",
     month: currentMonth,
     year: currentYear,
     state: "",
@@ -153,7 +153,7 @@ function StudentData() {
                   }}
                 >
                   <Lucide icon="User" className="text-slate-400" />
-                  <span className="mx-4 upp">Agrupar por apoderado</span>
+                  <span className="mx-4 upp">Desagrupar por apoderado</span>
                 </Button>
               </div>
 

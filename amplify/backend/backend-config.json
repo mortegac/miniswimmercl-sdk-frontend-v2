@@ -137,6 +137,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "fnRenovationEnrollment": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "sendEmailResolver": {
       "build": true,
       "dependsOn": [
@@ -304,6 +318,22 @@
         {
           "category": "function",
           "resourceName": "fnRemoveEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_fnRenovationEnrollment_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnRenovationEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_fnRenovationEnrollment_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnRenovationEnrollment"
         }
       ]
     },

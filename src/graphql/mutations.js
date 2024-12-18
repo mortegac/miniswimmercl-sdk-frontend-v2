@@ -25,6 +25,11 @@ export const removeEnrollment = /* GraphQL */ `
     removeEnrollment(enrollId: $enrollId, employeeId: $employeeId)
   }
 `;
+export const renovationEnrollment = /* GraphQL */ `
+  mutation RenovationEnrollment($enrollId: String!) {
+    renovationEnrollment(enrollId: $enrollId)
+  }
+`;
 export const setStart = /* GraphQL */ `
   mutation SetStart(
     $amount: Float!

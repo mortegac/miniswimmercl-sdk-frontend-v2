@@ -60,6 +60,10 @@
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/fnRemoveEnrollment-53756d704174526b796e-build.zip"
+        },
+        "fnRenovationEnrollment": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/fnRenovationEnrollment-306a38734e2f56626665-build.zip"
         }
       },
       "api": {

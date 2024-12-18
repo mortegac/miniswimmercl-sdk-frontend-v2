@@ -24,6 +24,13 @@ type Mutation {
   @function(name: "fnRemoveEnrollment-${env}")
   
   
+  
+  renovationEnrollment(
+    enrollId: String!,
+  ): String
+  @function(name: "fnRenovationEnrollment-${env}")
+  
+  
 # # WEBPAY
   setStart(
     # buyOrder: String!, 

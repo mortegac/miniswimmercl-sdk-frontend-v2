@@ -576,9 +576,10 @@ function Content(props: any) {
 const date = new Date();
 const month:string = date.toLocaleString('es', { month: '2-digit' });
 const year:string = date.getFullYear().toString();
-const currentYear = calculateCurrentDate().year;
-const currentMonth = calculateCurrentDate().month;
 
+const currentDay = calculateCurrentDate().day;
+const currentMonth = calculateCurrentDate().month;
+const currentYear = calculateCurrentDate().year;
 
 import { FilterBar } from "@/components/FilterBar";
 import { FilterUseState } from "./types";
@@ -594,6 +595,8 @@ function Main() {
   const [residenceList, setResidenceList] = useState();
   const [filter, setFilter] = useState<FilterUseState>({
     locationId: "",
+    // day: currentDay,
+    day: "",
     month: currentMonth,
     year: currentYear,
     state: "",
@@ -655,8 +658,9 @@ function Main() {
   
   useEffect(() => {
     dispatch(getStudents({ 
-      month: filter.month,
-      year: filter.year,
+      day: filter?.day,
+      month: filter?.month,
+      year: filter?.year,
       locationId: filter.locationId,
     }));
   }, [filter]);
@@ -685,6 +689,7 @@ function Main() {
           <div className="text-base font-medium group-[.mode--light]:text-white">
             Alumnos Incritos en {`${typeOfMonth[filter?.month || month]} ${filter.year}`}
           </div>
+          {/* <pre>{JSON.stringify(filter, null, 2 )}</pre> */}
           <div className ="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
                 <FilterBar
                   filter={filter}
