@@ -119,7 +119,8 @@ function SendJwtWhatsapp(props: any) {
             '/api/api/v1/messages', 
             {
               method: 'POST',
-              credentials: 'include', // Importante para algunos casos de CORS
+              credentials: 'include',
+              referrerPolicy: 'no-referrer',
               headers: {
                 'Authorization': `Bearer ${token}`,
                 // 'Accept': '*/*',
