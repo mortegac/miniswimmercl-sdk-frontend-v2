@@ -124,7 +124,10 @@ function SendJwtWhatsapp(props: any) {
                 'Authorization': `Bearer ${token}`,
                 // 'Accept': '*/*',
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*", // O tu dominio específico
+                "Access-Control-Allow-Headers": "Content-Type,Authorization",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
               },
               body: JSON.stringify(payload)
             }
