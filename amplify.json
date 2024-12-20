@@ -1,0 +1,22 @@
+{
+    "hosting": {
+      "redirects": [
+        {
+          "source": "/api/<*>",
+          "destination": "https://api.whaticket.com/api/:splat",
+          "status": "200"
+        }
+      ],
+      "headers": [
+        {
+          "source": "/api/**",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
+        }
+      ]
+    }
+  }
