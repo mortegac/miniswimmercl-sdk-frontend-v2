@@ -140,6 +140,7 @@ export function generateYearsArray(): YearItem[] {
   return yearsArray;
 }
 
+
 export const getAWSDateStgoChile = () => {
   const options = { timeZone: 'America/Santiago' };
   const date = new Date();
@@ -183,6 +184,17 @@ const cutText = (text: string, length: number) => {
     return text;
   }
 };
+
+
+export function formatDateUTCShort(dateString: string): string {
+  const date = new Date(dateString);
+
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
+  const year = date.getUTCFullYear();
+
+  return `${day}-${typeOfMonth[month]}`;
+}
 
 const formatDate = (date: string, format: string) => {
   return dayjs(date).format(format);

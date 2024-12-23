@@ -55,7 +55,7 @@
         },
         "sendEmailResolver": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/sendEmailResolver-6b6b534a7a72546d5353-build.zip"
+          "s3Key": "amplify-builds/sendEmailResolver-69436b63506437497273-build.zip"
         },
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -64,6 +64,14 @@
         "fnRenovationEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/fnRenovationEnrollment-306a38734e2f56626665-build.zip"
+        },
+        "sendWhatsappResolver": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/sendWhatsappResolver-647771394e3475712f61-build.zip"
+        },
+        "sendEmailResolveremailJs": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/sendEmailResolveremailJs-4b33747445557954466f-build.zip"
         }
       },
       "api": {

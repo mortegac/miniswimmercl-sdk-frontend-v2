@@ -29,6 +29,22 @@ type Mutation {
     enrollId: String!,
   ): String
   @function(name: "fnRenovationEnrollment-${env}")
+ 
+#  ENVIO WHATSAPP 
+  sendWhatsapp(
+    JWT: String!,
+    clientPhoneNumber: String!,
+    clientName: String!,
+  ): String
+  @function(name: "sendWhatsappResolver-${env}")
+  
+#  ENVIO EMAILJS 
+  sendEmail(
+    JWT: String!,
+    clientEmail: String!,
+    clientName: String!,
+  ): String
+  @function(name: "sendEmailResolveremailJs-${env}")
   
   
 # # WEBPAY

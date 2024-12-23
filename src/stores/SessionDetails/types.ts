@@ -36,6 +36,7 @@ export const emptySessionDetail: SessionDetail = {
 
 export type FilterOptions  = {
   studentId?: string;
+  enrollmentId?: string;
   status?: string;
   sessionDate?: string;
   locationId?: string;

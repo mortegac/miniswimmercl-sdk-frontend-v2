@@ -116,6 +116,10 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
     try {
      
     
+    const filterEnrollment= typeof objFilter?.enrollmentId === 'undefined'
+      ? {}
+      : { enrollmentSessionDetailsId: { eq: String(objFilter?.enrollmentId) } };
+      
     const filterLocation= typeof objFilter?.locationId === 'undefined'
       ? {}
       : { locationId: { eq: String(objFilter?.locationId) } };
@@ -140,6 +144,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       ...filterStatus,
       ...filterSessionDate,
       ...filterLocation,
+      ...filterEnrollment,
     };
    
     let getData:any;

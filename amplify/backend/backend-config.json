@@ -165,6 +165,34 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "sendEmailResolveremailJs": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "sendWhatsappResolver": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "webpayCommit": {
       "build": true,
       "dependsOn": [
@@ -350,6 +378,38 @@
         {
           "category": "function",
           "resourceName": "sendEmailResolver"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendEmailResolveremailJs_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendEmailResolveremailJs"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendEmailResolveremailJs_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendEmailResolveremailJs"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendWhatsappResolver_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendWhatsappResolver"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendWhatsappResolver_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendWhatsappResolver"
         }
       ]
     },

@@ -16,6 +16,7 @@ import { formatCurrency } from "../../../utils/helper";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import { Slideover } from "@/components/Base/Headless";
 
+import {SessionList} from "./SessionList";
 import { useAppSelector, useAppDispatch } from "../../../stores/hooks";
 import {
   getStudents,
@@ -25,6 +26,7 @@ import { selectAuth} from "@/stores/Users/slice";
 import { setOneSessionDetail, selectSessionDetails } from "@/stores//SessionDetails/slice";
 import { getLocations, selectLocation } from "@/stores/Locations/slice";
 import { selectShoppingCartDetails, getShoppingCartDetail } from "@/stores/ShoppingCartDetail/slice";
+
 import { typeOfMonth } from "../../../utils/dateHandler";
 
 const typeOfRelationship: any = {
@@ -65,14 +67,14 @@ function Content(props: any) {
     status: "",
     // SEND REMMENBER PAYMENT
     enrollmentId:"", 
+    sessionId:"",
+    studentId:"",
     cartId:"", 
     phoneNumber:"", 
     clientName:"", 
     clientId:"", 
-    sessionId:"", 
-    
   });
-  const [session, setSession] = useState({});
+  // const [session, setSession] = useState({});
   const [sessionSlideover, setSessionSlideover] = useState(false);
   const [remmenberSlideover, setRemmenberSlideover] = useState(false);
   const [removeEnrollmentSlideover, setRemoveEnrollmentSlideover] = useState(false);
@@ -117,15 +119,18 @@ function Content(props: any) {
       cartId:cartData?.shoppingCartCartDetailsId, 
   })
   }
-  function handleSession(session: any) {
+  function handleSession(data:any) {
     setSessionSlideover(true);
-    setSession({ ...session });
+    // setSession({ ...session });
     setData({
       ...data,
-      date: String(session.date).replace("T00:00:00.000Z", ''),
-      location: session.locationId,
-      status: session.status,
-      sessionId: session?.id
+      studentId: data?.studentId,
+      enrollmentId: data?.enrollmentId,   
+      sessionId: data?.sessionId,   
+      // date: String(session.date).replace("T00:00:00.000Z", ''),
+      // location: session.locationId,
+      // status: session.status,
+      // sessionId: session?.id
     });
   }
 
@@ -185,7 +190,7 @@ function Content(props: any) {
       </Notification>
     {/* SESIONES */}
       <Slideover
-        size="lg"
+        size="xl"
         key="Slide-Historial333"
         open={sessionSlideover}
         onClose={() => {
@@ -204,7 +209,8 @@ function Content(props: any) {
             <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
           </a>
           <Slideover.Description className="p-0">
-            <div className="flex flex-col">
+            <SessionList enrollmentId={data?.enrollmentId} sessionId={data?.sessionId} studentId={data?.studentId}/>
+            {/* <div className="flex flex-col">
               <pre>{JSON.stringify(data, null, 2 )}</pre>
               <div className="px-8 pt-6 pb-8">
                 <div className="text-base font-medium">Reagendar Sesión</div>
@@ -317,11 +323,7 @@ function Content(props: any) {
                           setData({ ...data, status: e.target.value })
                         }
                       >
-                        {/* <option value="" selected>
-                          {`${"Estados"} `}
-                        </option> */}
-                        {/* {Array.isArray(locations) &&
-                          locations?.map((item, i) => ( */}
+                       
                             <option
                               key={"STATUS-01"}
                               value={"ACTIVE"}
@@ -350,7 +352,6 @@ function Content(props: any) {
                             >
                               {"ELIMINADA"}
                             </option>
-                          {/* ))} */}
                       </FormSelect>
                     </div>
                   </div>
@@ -368,7 +369,7 @@ function Content(props: any) {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
@@ -398,7 +399,7 @@ function Content(props: any) {
                 <div className="text-base font-medium">Enviar recordatorio</div>
                 <div className="text-slate-500 mt-0.5  mb-12">de pago</div>
                 <div className="overflow-auto xl:overflow-visible">
-                  <pre>{JSON.stringify(data, null, 2)}</pre>
+                  {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
                   {/* 
                   <pre>{JSON.stringify(data, null, 2)}</pre> */}
 
@@ -587,7 +588,7 @@ function Content(props: any) {
                     className={`[&_td]:last:border-b-0 ${
                       !item?.wasPaid && "bg-red-50"
                     }  ${item?.wasPaid && "bg-white"}`}
-                  >
+                  > 
                     <Table.Td className=" py-4 border-dashed">
                       <div className="flex items-center">
                         <div className="w-14 text-sm">
@@ -663,8 +664,14 @@ function Content(props: any) {
                         item?.sessionDetails?.items.map(
                           (session: any, i: any) => (
                             <>
+                            {/* <pre>{JSON.stringify(item?.student?.id, null, 2)}</pre>
+                            <pre>{JSON.stringify(item?.id, null, 2)}</pre> */}
                               <Button
-                                onClick={() => handleSession(session)}
+                                onClick={() => handleSession({
+                                  studentId: item?.student?.id,
+                                  enrollmentId: item?.id,                                  
+                                  sessionId: session?.id
+                                })}
                                 className={` mx-1 my-1 rounded-full p-0 w-28 h-12
                                   ${session?.status === "ACTIVE" && " bg-green-50"}
                                   ${session?.status === "USED" && " bg-red-50 border-red-200"}

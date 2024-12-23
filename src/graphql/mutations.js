@@ -30,6 +30,28 @@ export const renovationEnrollment = /* GraphQL */ `
     renovationEnrollment(enrollId: $enrollId)
   }
 `;
+export const sendWhatsapp = /* GraphQL */ `
+  mutation SendWhatsapp(
+    $JWT: String!
+    $clientPhoneNumber: String!
+    $clientName: String!
+  ) {
+    sendWhatsapp(
+      JWT: $JWT
+      clientPhoneNumber: $clientPhoneNumber
+      clientName: $clientName
+    )
+  }
+`;
+export const sendEmail = /* GraphQL */ `
+  mutation SendEmail(
+    $JWT: String!
+    $clientEmail: String!
+    $clientName: String!
+  ) {
+    sendEmail(JWT: $JWT, clientEmail: $clientEmail, clientName: $clientName)
+  }
+`;
 export const setStart = /* GraphQL */ `
   mutation SetStart(
     $amount: Float!
