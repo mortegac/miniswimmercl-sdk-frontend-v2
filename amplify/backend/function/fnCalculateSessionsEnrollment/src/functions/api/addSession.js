@@ -29,12 +29,8 @@ const addSession = async (props) => {
               year:String(_year),
               status: "ACTIVE",
               wasEmailSent: false,
-
-                  //  sessionNumber:parseInt(props.sessionNumber),
-                  //  totalSessions:parseInt(props.totalSessions),
-                  //  proratedValue: parseFloat(props.proratedValue),
-                  //  enrollmentSessionDetailsId: props.enrollmentId,   //InscripcionId
-                  //  sessionDetailStudentId: props.studentId          //StudentId
+              modifiedBy :"",
+              modifiedByDate:"1800-01-01T00:00:00.000Z"
             },
         }));
     } catch (error) {

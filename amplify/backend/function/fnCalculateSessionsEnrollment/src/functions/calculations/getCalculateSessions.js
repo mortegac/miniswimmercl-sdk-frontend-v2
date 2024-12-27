@@ -10,6 +10,7 @@ const getCalculateSessions = (obj) => {
       // fechaInicio | obj.startDate
       
       const weekDays = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+      const monthShort = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
       const valorPorSesion = obj.amountCourse / obj.numberOfSessions;
       const daySessions = [];
       let courseStartDate = new Date(obj.startDate);
@@ -23,6 +24,7 @@ const getCalculateSessions = (obj) => {
       for (let i = 0; i < obj.numberOfSessions; i++) {
           daySessions.push({
             day: weekDays[courseStartDate.getDay()],
+            month: monthShort[courseStartDate.getMonth()],
             date: courseStartDate.toISOString().split('T')[0],
             proratedValue: valorPorSesion.toFixed(2),
             sessionNumber:parseInt(i+1),

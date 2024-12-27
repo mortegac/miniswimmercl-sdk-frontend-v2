@@ -10,7 +10,7 @@ const addShoppingCart = async (props) => {
             variables: {
                 ...props,
             },
-        })).data;
+        })).data.createShoppingCart;
     } catch (error) {
         throw new Error("failed create ShoppingCart: " + error);
     }
@@ -24,13 +24,29 @@ const addShoppingCartDetail = async (props) => {
             variables: {
                 ...props,
             },
-        })).data;
+        })).data?.createShoppingCartDetail;
     } catch (error) {
         throw new Error("failed create ShoppingCart Detail: " + error);
     }
 };
   
+const fetchShoppingCart = async (props) => {
+    try {
+    
+        return (await api.getShoppingCart({
+            env: ENVIROMENT,
+            variables: {
+                ...props,
+            },
+        })).data.listShoppingCarts;
+    } catch (error) {
+        throw new Error("failed create ShoppingCart Detail: " + error);
+    }
+};
+  
+
   module.exports = {
     addShoppingCart,
-    addShoppingCartDetail
+    addShoppingCartDetail,
+    fetchShoppingCart
   }

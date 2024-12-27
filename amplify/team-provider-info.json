@@ -18,7 +18,7 @@
       "function": {
         "apiclientslayer": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion81eebb1f-build.zip"
+          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion7c674a3f-build.zip"
         },
         "authPostAuthentication": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -38,7 +38,7 @@
         },
         "fnCalculateSessionsEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-594b514f6e376746572f-build.zip"
+          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-684b644c655368477a43-build.zip"
         },
         "webpayStart": {
           "env": "PROD",

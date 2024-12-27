@@ -113,7 +113,7 @@ const createSessionDetail = gql `
     $input: CreateSessionDetailInput!
     $condition: ModelSessionDetailConditionInput
   ) {
-    createSessionDetail(input: $input, condition: $condition) {id}
+    createSessionDetail(input: $input, condition: $condition) {id, day, month}
   }
 `;
 const updateSessionDetail = gql`
