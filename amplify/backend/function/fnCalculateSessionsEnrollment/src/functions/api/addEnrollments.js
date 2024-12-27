@@ -18,17 +18,18 @@ const addEnrollments = async (props) => {
         return (await api.createEnrollments({
             env: ENVIROMENT,
             variables: {
-                startDate: props.startDate,  //"07-01-2024" 
+                ...props,
                 endDate: endDateFormatted, 
-                numberOfSessions:  props.numberOfSessions,
-                amountPaid:  props.amountPaid,
-                wasPaid:  props.wasPaid,
-                timeAWeek:  props.timeAWeek,
-                sessionsLeft: props.sessionsLeft,
-                sessionsUsed: props.sessionsUsed,
-                studentEnrollmentsId:  props.studentEnrollmentsId,
-                courseEnrollmentsId:  props.courseEnrollmentsId,
-                sessionTypeEnrollmentsId:  props.sessionTypeEnrollmentsId
+                // startDate: props.startDate,  //"07-01-2024" 
+                // numberOfSessions:  props.numberOfSessions,
+                // amountPaid:  props.amountPaid,
+                // wasPaid:  props.wasPaid,
+                // timeAWeek:  props.timeAWeek,
+                // sessionsLeft: props.sessionsLeft,
+                // sessionsUsed: props.sessionsUsed,
+                // studentEnrollmentsId:  props.studentEnrollmentsId,
+                // courseEnrollmentsId:  props.courseEnrollmentsId,
+                // sessionTypeEnrollmentsId:  props.sessionTypeEnrollmentsId
             },
         })).data.createEnrollment;
     } catch (error) {

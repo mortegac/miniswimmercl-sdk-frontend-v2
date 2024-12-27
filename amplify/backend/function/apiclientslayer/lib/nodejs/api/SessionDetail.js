@@ -1,6 +1,6 @@
 const { listSessionDetails } = require("./graphql/queries_custom");
 const { createSessionDetail, deleteSessionDetail } = require("./graphql/mutations_custom")
-const API = require("../utils/api");
+const {API} = require("../utils/api");
 
 
 const fetchSessionDetail = async ({ env, variables, access }) => {

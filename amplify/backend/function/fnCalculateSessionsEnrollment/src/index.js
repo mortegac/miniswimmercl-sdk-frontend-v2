@@ -13,6 +13,7 @@ const { getSchedule } = require("./functions/api/getSchedule")
 const { getSessionType } = require("./functions/api/getSessionType")
 const { addEnrollments } = require("./functions/api/addEnrollments")
 const { addSession } = require("./functions/api/addSession")
+const { addShoppingCart, addShoppingCartDetail } = require("./functions/api/addShoppingCart")
 const { getCalculateSessions } = require("./functions/calculations/getCalculateSessions")
 
 
@@ -24,11 +25,11 @@ exports.handler = async (event) => {
         console.log(`1.---------- param ----------${JSON.stringify(param)}`);
         
          // Verificar que las tres variables requeridas existan y no sean undefined
-        if (!param.studentId || !param.startDate || !param.sessionTypeId || !param.scheduleId || !param.courseId) {
+        if (!param.studentId || !param.userId || !param.startDate || !param.sessionTypeId || !param.scheduleId || !param.courseId) {
             return {
             statusCode: 400,
             body: JSON.stringify({ 
-                error: 'Missing required fields. studentId, startDate, and sessionTypeId are all required.'
+                error: 'Missing required fields. studentId, userId, startDate, and sessionTypeId are all required.'
             })
             };
         }
@@ -71,10 +72,10 @@ exports.handler = async (event) => {
         
         console.log(`addEnrollments -pARAMS: ${JSON.stringify(dataEnrollment)}`);
         
-        const enrollment = await addEnrollments({
+        const enrollmentResult = await addEnrollments({
            ...dataEnrollment
         })
-        console.log(`createEnrollment: ${JSON.stringify(enrollment)}`);
+        console.log(`createEnrollment: ${JSON.stringify(enrollmentResult)}`);
 
 
         const obj = {  
@@ -100,7 +101,7 @@ exports.handler = async (event) => {
                 const sessionPromises = calculateSession.map((item, key) => {
                   return addSession({
                     date: item.date,
-                    enrollmentSessionDetailsId: enrollment.id,
+                    enrollmentSessionDetailsId: enrollmentResult.id,
                     sessionDetailStudentId: param.studentId,
                     sessionNumber: parseInt(item.sessionNumber),
                     totalSessions: parseInt(item.totalSessions),
@@ -137,14 +138,53 @@ exports.handler = async (event) => {
         } else {
           console.log('calculateSession no es un array válido');
         }
-             
         
+// CREAR SHOPPING CART ENCABEZADO      
+        console.log(`7.---------- CREATE SHOPPING CART ----------`);
+        const dataShoppingCart = {
+          totalPrice:sessiontype.amount,    
+          status: "PENDING",
+          usersShoppingCartId: param?.userId,
+        }
+
+        console.log(`7.---------- addShoppingCart -pARAMS: ${JSON.stringify(dataShoppingCart)}`);
         
+        const cartResult = await addShoppingCart({
+          ...dataShoppingCart
+        })
+        console.log(`7.---------- CREATE SHOPPING CART DETALLE -- cartResult: ${JSON.stringify(cartResult)}`);
+
+
+// CREAR SHOPPING CART DETALLE
+console.log(`8.---------- CREATE SHOPPING CART DETAIL ----------`);
+        const dataShoppingCartDetail = {
+          type: "ENROLLMENTS", 
+          quantity: 1,
+          amount:sessiontype.amount,    
+          // detail: "4 clases Bebes, Ninos - 2 a 3 anos, VITACURA-PISCINA-MUNICIPAL, martes 15:30",
+          detail: `${sessiontype.totalSessions} clases ${schedule?.courseSchedulesId}, ${schedule?.location.id}, ${schedule?.day} ${schedule?.startHour}`,
+          shoppingCartCartDetailsId: cartResult?.createShoppingCart?.id,
+          shoppingCartDetailEnrollmentId: enrollmentResult?.id,
+          
+        }
+
+console.log(`8.---------- addShoppingCart -pARAMS: ${JSON.stringify(dataShoppingCartDetail)}`);
+
+const cartResultDetail = await addShoppingCartDetail({
+  ...dataShoppingCart
+})
+console.log(`8.----------cartResultDetail : ${JSON.stringify(cartResultDetail)}`);
+
+
+        
+        const responseData = {
+          sessions: sessionInfoArray,
+          cartId:cartResult?.id
+        }
         
         return {
             statusCode: 200,
-            body: sessionInfoArray,
-            // body: calculateSession,
+            body: JSON.stringify(responseData),
           };
         
     } catch (error) {

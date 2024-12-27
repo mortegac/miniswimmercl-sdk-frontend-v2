@@ -34,17 +34,19 @@ import { selectLocation } from "@/stores/Locations/slice";
 export function SessionList(props: any) {
     const {enrollmentId, sessionId, studentId } = props;
     const [data, setData] = useState({
-        date: "",
-        location: "",
-        status: "",
         // SEND REMMENBER PAYMENT
         enrollmentId:"", 
         cartId:"", 
         phoneNumber:"", 
         clientName:"", 
         clientId:"", 
-        sessionId:"",
         studentId:"",
+        
+        
+        date: "",
+        location: "",
+        status: "",
+        sessionId:"",
       });
       const dispatch = useAppDispatch();
       
@@ -54,6 +56,38 @@ export function SessionList(props: any) {
       
       
       
+      async function deleteSession(sessionId:string){
+    alert("deleteSession")
+    
+    await dispatch(
+        setOneSessionDetail({
+          sessionId:sessionId,
+          status: "DELETED",
+          userModifyId:email,
+        }))
+        
+        await  dispatch(getSessionDetails(
+            {
+                studentId:studentId, 
+                enrollmentId:enrollmentId
+            }))
+        
+        // await Promise.all([
+        //   await dispatch(
+        //     setOneSessionDetail({
+        //       sessionId:sessionId,
+        //       status: "DELETED",
+        //       userModifyId:email,
+        //     })),
+        //   await  dispatch(getSessionDetails(
+        //     {
+        //         studentId:studentId, 
+        //         enrollmentId:enrollmentId
+        //     }))
+        
+        // ])
+        
+    }
       async function updateSession(){
     
         await Promise.all([
@@ -109,7 +143,7 @@ export function SessionList(props: any) {
     return(
         <>
          <div className="flex flex-col">
-              <pre>{JSON.stringify(props, null, 2 )}</pre>
+              {/* <pre>{JSON.stringify(props, null, 2 )}</pre> */}
               
               <div className="px-8 pt-6 pb-8">
                 <div className="text-base font-medium">Reagendar Sesión</div>
@@ -327,40 +361,6 @@ export function SessionList(props: any) {
                       Usada:<b>{item?.locationIdUsed}</b></div>
                     </Table.Td>
                     
-                    {/* <Table.Td className=" min-h-20  py-4 border-0  flex items-center justify-center flex-row flex-wrap">
-                      {Array.isArray(item?.sessionDetails?.items) &&
-                        item?.sessionDetails?.items.map(
-                          (session: any, i: any) => (
-                            <>
-                              <Button
-                                onClick={() => handleSession(session)}
-                                className={` mx-1 my-1 rounded-full p-0 ${
-                                  session?.status === "ACTIVE"
-                                    ? " bg-green-50"
-                                    : " bg-red-50 border-red-200"
-                                }`}
-                              >
-                                <div className={`text-center px-2`}>
-                                  {session?.status === "ACTIVE" && (
-                                    <>
-                                      <small className="">
-                                        {formatDate(session?.date)}
-                                      </small>
-                                    </>
-                                  )}
-                                  {session?.status != "ACTIVE" && (
-                                    <>
-                                      <small className="line-through">
-                                        {formatDate(session?.date)}
-                                      </small>
-                                    </>
-                                  )}
-                                </div>
-                              </Button>
-                            </>
-                          )
-                        )}
-                    </Table.Td> */}
                     <Table.Td className=" m-0">
                       <div className="flex flex-row">
                            <>
@@ -381,7 +381,7 @@ export function SessionList(props: any) {
                               className="mr-2 px-2 py-2 border border-slate-200 hover:bg-red-300"
                               onClick={(event: React.MouseEvent) => {
                                 event.preventDefault();
-                               
+                                deleteSession(item?.id);
                               }}
                             >
                               <Tippy  content="Eliminar sesión">

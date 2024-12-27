@@ -3,7 +3,8 @@ const util = require("util");
 const { listUsers } = require("./graphql/queries_custom");
 const { createUsers, updateUsers } = require("./graphql/mutations_custom");
 
-const API = require('../utils/api');
+const {API} = require("../utils/api");
+
 
 const createUser = async ({ env, variables, access }) => {
     return new Promise(async (resolve, reject) => {

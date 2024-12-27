@@ -5,6 +5,12 @@
 # CUSTOM RESOLVERS
 ################################
 
+
+interface EmailParams {
+  to_client_email: String!
+  subject: String!
+}
+
 type Mutation {
   generateEnrollment(
     userId: String!, 
@@ -27,6 +33,7 @@ type Mutation {
   
   renovationEnrollment(
     enrollId: String!,
+    startDate: AWSDateTime!,
   ): String
   @function(name: "fnRenovationEnrollment-${env}")
  
@@ -40,9 +47,8 @@ type Mutation {
   
 #  ENVIO EMAILJS 
   sendEmail(
-    JWT: String!,
-    clientEmail: String!,
-    clientName: String!,
+    templateParams: AWSJSON!,
+    type: String!,
   ): String
   @function(name: "sendEmailResolveremailJs-${env}")
   
@@ -62,5 +68,9 @@ type Mutation {
     
   setStatus( token: String!): String
     @function(name: "webpayStatus-${env}")
+    
+    
+  #getEconomicParams(t: String!): String
+  #  @function(name: "fngGetEconomicParams-${env}")
     
 }

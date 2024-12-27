@@ -18,7 +18,7 @@
       "function": {
         "apiclientslayer": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion6373117a-build.zip"
+          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion81eebb1f-build.zip"
         },
         "authPostAuthentication": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -38,7 +38,7 @@
         },
         "fnCalculateSessionsEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-32694e502f2f57334663-build.zip"
+          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-594b514f6e376746572f-build.zip"
         },
         "webpayStart": {
           "env": "PROD",
@@ -55,7 +55,9 @@
         },
         "sendEmailResolver": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/sendEmailResolver-69436b63506437497273-build.zip"
+          "s3Key": "amplify-builds/sendEmailResolver-69436b63506437497273-build.zip",
+          "apiKey": "da2-vk3lmmvnk5bmbpt6vkfz7xghpi",
+          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
         },
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -63,7 +65,9 @@
         },
         "fnRenovationEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/fnRenovationEnrollment-306a38734e2f56626665-build.zip"
+          "s3Key": "amplify-builds/fnRenovationEnrollment-36706d70393148456151-build.zip",
+          "apiKey": "da2-vk3lmmvnk5bmbpt6vkfz7xghpi",
+          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
         },
         "sendWhatsappResolver": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -71,7 +75,11 @@
         },
         "sendEmailResolveremailJs": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/sendEmailResolveremailJs-4b33747445557954466f-build.zip"
+          "s3Key": "amplify-builds/sendEmailResolveremailJs-42584f796475644d5157-build.zip"
+        },
+        "fngGetEconomicParams": {
+          "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
+          "s3Key": "amplify-builds/fngGetEconomicParams-41362b4f4a75764f6133-build.zip"
         }
       },
       "api": {

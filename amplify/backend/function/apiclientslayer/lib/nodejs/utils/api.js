@@ -13,6 +13,7 @@ const { print } = graphql;
 const { getEnviroment } = require("./enviroment");
 
 
+
 const API = async ({ env, type = "", _query, _variables = {} }) => {
     return new Promise(async (resolve, reject) => {
 
@@ -55,54 +56,52 @@ const API = async ({ env, type = "", _query, _variables = {} }) => {
         }
     })
 };
+const APIv2 = async ({ env, type = "", _query, _variables = {}, access }) => {
+    return new Promise(async (resolve, reject) => {
 
-// const API = async ({ env, type = "", _query, _variables = {}, access }) => {
-//     return new Promise(async (resolve, reject) => {
+        // console.log(`------ENV-------: ${env}`);
 
-//         // console.log(`------ENV-------: ${env}`);
+        if (env === "") return reject("The enviroment does not exist");
 
-//         if (env === "") return reject("The enviroment does not exist");
+        const ENV = getEnviroment(env);
 
-//         const ENV = getEnviroment(env);
+        // console.log(`------getEnviroment-------: ${JSON.stringify(ENV.message)}`);
+        // console.log(`env:${env} ------getEnviroment-------: ${JSON.stringify(ENV)}`);
+        // console.log(`------_variables-------: ${JSON.stringify(_variables)}`);
+        // console.log(`------_query-------: ${JSON.stringify(_query)}`);
 
-//         // console.log(`------getEnviroment-------: ${JSON.stringify(ENV.message)}`);
-//         // console.log(`env:${env} ------getEnviroment-------: ${JSON.stringify(ENV)}`);
-//         // console.log(`------_variables-------: ${JSON.stringify(_variables)}`);
-//         // console.log(`------_query-------: ${JSON.stringify(_query)}`);
+        try {
+            const params = {
+                url: access.endpoint,
+                method: "post",
+                headers: { "x-api-key": access.apikey },
+                data: {
+                    query: print(_query),
+                    variables: { ..._variables }
+                },
+            };
 
-//         try {
-//             const params = {
-//                 url: ENV.API_ENDPOINT,
-//                 method: "post",
-//                 headers: { "x-api-key": ENV.API_KEY },
-//                 data: {
-//                     query: print(_query),
-//                     variables: { ..._variables }
-//                 },
-//             };
+            // console.log(`------params-------: ${JSON.stringify(params)}`);
 
-//             console.log(`API ------params-------: ${JSON.stringify(params)}`);
+            const graphqlData = await axios(params);
+            if (graphqlData.data?.errors) {
+                console.log(`ERROR GRAPHQL - ${util.inspect(graphqlData.data)}`);
+                console.log(_variables)
 
-//             const graphqlData = await axios(params);
-//             console.log("API - graphqlData:", graphqlData);
-            
-//             if (graphqlData.data?.errors) {
-//                 console.log(`ERROR GRAPHQL - ${util.inspect(graphqlData.data)}`);
-//                 console.log("_variables ---", _variables)
+                return reject(JSON.stringify(graphqlData.data.errors));
+            }
+            console.log(`OK - ${type} - ${util.inspect(graphqlData.data)}`);
 
-//                 return reject(JSON.stringify(graphqlData.data.errors));
-//             }
-//             console.log(`OK - ${type} - ${util.inspect(graphqlData.data)}`);
+            return resolve(graphqlData.data);
 
-//             return resolve(graphqlData.data);
+        } catch (err) {
+            console.log(`ERROR TRY/CATCH - ${util.inspect(err)}`);
+            return reject(JSON.stringify(err));
+        }
+    })
+};
 
-//         } catch (err) {
-//             console.log(`ERROR TRY/CATCH - ${util.inspect(err)}`);
-//             return reject(JSON.stringify(err));
-//         }
-//     })
-// };
-
-
-
-module.exports = API;
+module.exports = {
+    API,
+    APIv2
+}

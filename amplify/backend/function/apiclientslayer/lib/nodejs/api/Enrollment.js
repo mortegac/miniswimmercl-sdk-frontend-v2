@@ -1,7 +1,7 @@
 // const { listSessionDetails } = require("./graphql/queries_custom");
 const { createEnrollment, updateEnrollment, deleteEnrollment } = require("./graphql/mutations_custom")
 const { listEnrollments, getEnrollment } = require("./graphql/queries_custom")
-const API = require("../utils/api");
+const {API} = require("../utils/api");
 
 const createEnrollments = async ({ env, variables = {} }) => {
 

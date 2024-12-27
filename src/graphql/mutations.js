@@ -26,8 +26,8 @@ export const removeEnrollment = /* GraphQL */ `
   }
 `;
 export const renovationEnrollment = /* GraphQL */ `
-  mutation RenovationEnrollment($enrollId: String!) {
-    renovationEnrollment(enrollId: $enrollId)
+  mutation RenovationEnrollment($enrollId: String!, $startDate: AWSDateTime!) {
+    renovationEnrollment(enrollId: $enrollId, startDate: $startDate)
   }
 `;
 export const sendWhatsapp = /* GraphQL */ `
@@ -44,12 +44,8 @@ export const sendWhatsapp = /* GraphQL */ `
   }
 `;
 export const sendEmail = /* GraphQL */ `
-  mutation SendEmail(
-    $JWT: String!
-    $clientEmail: String!
-    $clientName: String!
-  ) {
-    sendEmail(JWT: $JWT, clientEmail: $clientEmail, clientName: $clientName)
+  mutation SendEmail($templateParams: AWSJSON!, $type: String!) {
+    sendEmail(templateParams: $templateParams, type: $type)
   }
 `;
 export const setStart = /* GraphQL */ `

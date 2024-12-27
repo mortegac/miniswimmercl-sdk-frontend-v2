@@ -115,6 +115,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
      
+      console.log(">> objFilter >>", objFilter)
     
     const filterEnrollment= typeof objFilter?.enrollmentId === 'undefined'
       ? {}
@@ -193,12 +194,12 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       //   });
       // }
     } catch (err) {
-      reject(
-        JSON.stringify({
-          errorMessage: err,
-        })
-      );
-    }
+      console.log(">> err >>", err)
+      reject({
+        errorMessage:JSON.stringify(err)
+      }
+    );
+  }
   });
 };
 

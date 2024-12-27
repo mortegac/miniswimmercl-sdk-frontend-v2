@@ -19,6 +19,12 @@
     "functionapiclientslayerArn": {
       "Type": "String",
       "Default": "functionapiclientslayerArn"
+    },
+    "apiKey": {
+      "Type": "String"
+    },
+    "apiEndpoint": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -73,6 +79,12 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "API_KEY": {
+              "Ref": "apiKey"
+            },
+            "API_ENDPOINT": {
+              "Ref": "apiEndpoint"
             }
           }
         },

@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.13.0\",\"stackType\":\"function-Lambda\",\"metadata\":{\"whyContinueWithGen1\":\"\"}}",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.13.1\",\"stackType\":\"function-Lambda\",\"metadata\":{\"whyContinueWithGen1\":\"\"}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -19,12 +19,6 @@
     "functionapiclientslayerArn": {
       "Type": "String",
       "Default": "functionapiclientslayerArn"
-    },
-    "apiKey": {
-      "Type": "String"
-    },
-    "apiEndpoint": {
-      "Type": "String"
     }
   },
   "Conditions": {
@@ -57,12 +51,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "sendEmailResolver",
+            "fngGetEconomicParams",
             {
               "Fn::Join": [
                 "",
                 [
-                  "sendEmailResolver",
+                  "fngGetEconomicParams",
                   "-",
                   {
                     "Ref": "env"
@@ -79,12 +73,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "API_KEY": {
-              "Ref": "apiKey"
-            },
-            "API_ENDPOINT": {
-              "Ref": "apiEndpoint"
             }
           }
         },
@@ -109,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "apiclientsLambdaRoleba067ddb",
+            "apiclientsLambdaRole1e2a3e15",
             {
               "Fn::Join": [
                 "",
                 [
-                  "apiclientsLambdaRoleba067ddb",
+                  "apiclientsLambdaRole1e2a3e15",
                   "-",
                   {
                     "Ref": "env"
@@ -184,72 +172,6 @@
           ]
         }
       }
-    },
-    "CloudWatchEvent": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "Description": "Schedule rule for Lambda",
-        "ScheduleExpression": {
-          "Ref": "CloudWatchRule"
-        },
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "LambdaFunction",
-                "Arn"
-              ]
-            },
-            "Id": {
-              "Ref": "LambdaFunction"
-            }
-          }
-        ]
-      }
-    },
-    "PermissionForEventsToInvokeLambda": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "LambdaFunction"
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "CloudWatchEvent",
-            "Arn"
-          ]
-        }
-      }
-    },
-    "CustomLambdaExecutionPolicy": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "custom-lambda-execution-policy",
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Action": [
-                "ses:SendEmail",
-                "ses:SendRawEmail"
-              ],
-              "Resource": [
-                "*"
-              ],
-              "Effect": "Allow"
-            }
-          ]
-        },
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ]
-      },
-      "DependsOn": "LambdaExecutionRole"
     }
   },
   "Outputs": {
@@ -274,11 +196,6 @@
     "LambdaExecutionRole": {
       "Value": {
         "Ref": "LambdaExecutionRole"
-      }
-    },
-    "CloudWatchEventRule": {
-      "Value": {
-        "Ref": "CloudWatchEvent"
       }
     },
     "LambdaExecutionRoleArn": {

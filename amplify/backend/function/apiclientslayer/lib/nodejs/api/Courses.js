@@ -1,6 +1,6 @@
 const { getCourse, listCourses } = require("./graphql/queries_custom");
 // const { createEnrollment } = require("./graphql/mutations_custom")
-const API = require("../utils/api");
+const {API} = require("../utils/api");
 
 
 

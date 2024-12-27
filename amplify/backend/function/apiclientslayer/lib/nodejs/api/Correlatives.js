@@ -3,7 +3,7 @@ const util = require("util");
 const { getCorrelatives } = require("./graphql/queries_custom");
 const { updateCorrelatives } = require("./graphql/mutations_custom");
 
-const API = require('../utils/api');
+const {API} = require("../utils/api");
 
 const increaseCorrelative = async ({ env, nameParam }) => {
   return new Promise(async (resolve, reject) => {

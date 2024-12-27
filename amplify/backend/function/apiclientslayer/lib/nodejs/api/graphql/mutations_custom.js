@@ -1,6 +1,21 @@
 
 const gql = require("graphql-tag");
 
+
+// -------------------------------------------------
+// SEND EMAIL WITH EmailJs
+// -------------------------------------------------
+
+const createEmailSend = gql`
+  mutation CreateEmailSend(
+    $input: CreateEmailSendInput!
+    $condition: ModelEmailSendConditionInput
+  ) {
+    createEmailSend(input: $input, condition: $condition) {id}
+  }
+`;
+
+
 // -------------------------------------------------
 // USERS
 // -------------------------------------------------
@@ -254,6 +269,8 @@ const deleteShoppingCartDetail = gql`
   }
 `;
 module.exports = {
+  createEmailSend,
+  
   createUsers,
   updateUsers,
   deleteUsers,

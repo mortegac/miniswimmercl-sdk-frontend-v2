@@ -151,6 +151,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "fngGetEconomicParams": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "sendEmailResolver": {
       "build": true,
       "dependsOn": [
@@ -349,6 +363,22 @@
         }
       ]
     },
+    "AMPLIFY_function_fnRenovationEnrollment_apiEndpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnRenovationEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_fnRenovationEnrollment_apiKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnRenovationEnrollment"
+        }
+      ]
+    },
     "AMPLIFY_function_fnRenovationEnrollment_deploymentBucketName": {
       "usedBy": [
         {
@@ -362,6 +392,38 @@
         {
           "category": "function",
           "resourceName": "fnRenovationEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_fngGetEconomicParams_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fngGetEconomicParams"
+        }
+      ]
+    },
+    "AMPLIFY_function_fngGetEconomicParams_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fngGetEconomicParams"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendEmailResolver_apiEndpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendEmailResolver"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendEmailResolver_apiKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendEmailResolver"
         }
       ]
     },
