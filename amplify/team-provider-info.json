@@ -38,7 +38,7 @@
         },
         "fnCalculateSessionsEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-684b644c655368477a43-build.zip"
+          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-2b51306e6c48586f5a53-build.zip"
         },
         "webpayStart": {
           "env": "PROD",
@@ -51,7 +51,7 @@
         },
         "webpayStatus": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/webpayStatus-706d4542784e61786a73-build.zip"
+          "s3Key": "amplify-builds/webpayStatus-373676526d4c65685166-build.zip"
         },
         "sendEmailResolver": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -61,7 +61,9 @@
         },
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/fnRemoveEnrollment-53756d704174526b796e-build.zip"
+          "s3Key": "amplify-builds/fnRemoveEnrollment-794750485a4c4d6b4732-build.zip",
+          "apiKey": "da2-vk3lmmvnk5bmbpt6vkfz7xghpi",
+          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
         },
         "fnRenovationEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -71,11 +73,11 @@
         },
         "sendWhatsappResolver": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/sendWhatsappResolver-647771394e3475712f61-build.zip"
+          "s3Key": "amplify-builds/sendWhatsappResolver-4b43712b5350467a3767-build.zip"
         },
         "sendEmailResolveremailJs": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/sendEmailResolveremailJs-42584f796475644d5157-build.zip"
+          "s3Key": "amplify-builds/sendEmailResolveremailJs-764454346e5134544a6e-build.zip"
         },
         "fngGetEconomicParams": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",

@@ -118,7 +118,7 @@ exports.handler = async (event) => {
                 console.log(`6.---------- results ----------`, JSON.stringify(results, null, 2 ));
 
 
-                const monthShort = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
+                // const monthShort = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
                 
 
                 results.forEach((req, index) => {
@@ -130,7 +130,7 @@ exports.handler = async (event) => {
                   sessionInfoArray.push({
                     id: sessionId,
                     sesionNumber,
-                    date:`${sessionDay} - ${monthShort[sessionMonth]}`,
+                    date:`${sessionDay} - ${sessionMonth}`,
                     locationId:schedule.location.id,
                   });
 

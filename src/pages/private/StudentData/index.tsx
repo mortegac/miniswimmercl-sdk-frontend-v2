@@ -43,6 +43,8 @@ function StudentData() {
     month: currentMonth,
     year: currentYear,
     state: "",
+    wasPaid: "true",
+    // wasDeleted: "",
   });
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -106,7 +108,9 @@ function StudentData() {
         day: filter.day,
         month: filter.month,
         year: filter.year,
-        locationId: filter.locationId,
+        wasPaid: filter.wasPaid,
+        // locationId: filter.locationId,
+        // wasDeleted: filter.wasDeleted,
       })
     );
   }, [filter]);

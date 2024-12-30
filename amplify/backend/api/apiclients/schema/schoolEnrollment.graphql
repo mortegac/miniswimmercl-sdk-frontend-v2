@@ -43,6 +43,7 @@ type Enrollment @model {
   amountPaid: Float!
   startDate: String!
   endDate: String!  
+  wasDeleted: Boolean @default(value: "false")
   wasPaid: Boolean @default(value: "false")
   timeAWeek: Float          # Cantidad de veces por semana contratadas
   numberOfSessions: Int!    # Cantidad de sesiones contratadas

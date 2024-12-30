@@ -8,4 +8,5 @@ export interface FilterUseState {
     month?: string;
     year?: string;
     state?: string;
+    wasPaid?: string;
 }

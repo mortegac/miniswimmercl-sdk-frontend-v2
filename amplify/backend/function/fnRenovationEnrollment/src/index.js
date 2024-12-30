@@ -9,6 +9,8 @@ const { getEnrollment } = require("./api/enrollment")
 const { getSchedule } = require("./api/getSchedule")
 const { getSessionType } = require("./api/getSessionType")
 
+const { getCalculateSessions } = require("./calculations/getCalculateSessions")
+
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
     const {arguments: {enrollId, startDate}} = event;
@@ -25,21 +27,21 @@ exports.handler = async (event) => {
 
     
             
-// OBTIENE HORARIOS DEL CURSO A INSCRIBIR
-console.log(`2.---------- SCHEDULE ----------`);
-const schedule = await getSchedule({id:oldEnrollment.scheduleId})
-console.log(`2.---------- schedule ----------`, schedule.location.id);
-console.log(`2.---------- schedule ----------`);
+    // OBTIENE HORARIOS DEL CURSO A INSCRIBIR
+    console.log(`2.---------- SCHEDULE ----------`);
+    const schedule = await getSchedule({id:oldEnrollment.scheduleId})
+    console.log(`2.---------- schedule ----------`, schedule.location.id);
+    console.log(`2.---------- schedule ----------`);
 
-// OBTIENE PACK DE SESSIONES DEL CURSO A INSCRIBIR
-console.log(`3.---------- SESSION TYPE ----------`);
-const sessiontype = await getSessionType({id:oldEnrollment.sessionTypeEnrollmentsId})
-console.log(`sessiontype: ${JSON.stringify(sessiontype)}`);
-// console.log(`ID_CURSO: ${param.courseId}`);
+    // OBTIENE PACK DE SESSIONES DEL CURSO A INSCRIBIR
+    console.log(`3.---------- SESSION TYPE ----------`);
+    const sessiontype = await getSessionType({id:oldEnrollment.sessionTypeEnrollmentsId})
+    console.log(`sessiontype: ${JSON.stringify(sessiontype)}`);
+    // console.log(`ID_CURSO: ${param.courseId}`);
 
 
 
-    // 2.- Crear enrollment
+    // 4.- Crear enrollment
     // CREA LA INSCRIPCION DEL ALUMNO EN EL CURSO
     console.log(`4.---------- ENROLLMENT ----------`);
     const dataEnrollment = {
@@ -69,36 +71,36 @@ console.log(`sessiontype: ${JSON.stringify(sessiontype)}`);
 
 
 
-    // 3.- Crear sessiones
+    // 5.- Crear sessiones
     // CALCULA EL DETALLE DE LAS SESIONES
 
     const obj = {  
         courseDay: schedule.day,
         amountCourse:sessiontype.amount, //param.valorCurso, 
         numberOfSessions:sessiontype.totalSessions, //param.cantidadSesiones, 
-        startDate:param.startDate, 
+        startDate:startDate, 
     }
 
     console.log(`obj create sessions: ${JSON.stringify(obj)}`);
 
     console.log(`5.---------- CALCULATE SESSIONS ----------`);
     const calculateSession = await getCalculateSessions(obj)  // TODO:  SE PUEDEN ACEPTAR MAS DE UN CURSO (cursos con 8 sessiones)*/
-    //  console.log(`calculateSession: ${JSON.stringify(calculateSession)}`);
+    console.log(`calculateSession: ${JSON.stringify(calculateSession)}`);
 
 
-    // 4.- Crear Shoping cart Encabezado
-    // 5.- Crear Shoping cart detalle
+    // 6.- Crear Shoping cart Encabezado
+    
+    // 7.- Crear Shoping cart detalle
 
 
 
 // 6.- Enviar email
     //SEND EMAIl
     const params = {
-        to_client_email: "mortegac@gmail.com",
-        reply_to: "mortegac@gmail.com",
-        course_name: "BEBES 2 a 3 Años",
+        to_client_email: oldEnrollment?.student?.emailPhone,
+        reply_to: oldEnrollment?.student?.emailPhone,
+        course_name: oldEnrollment?.course?.title,
         payment_link: "https://pagos.miniswimmer.cl/",
-        
       };
     const variables = {
         templateParams: JSON.stringify(params),

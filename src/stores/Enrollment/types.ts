@@ -159,6 +159,8 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
 export type FilterOptions  = {
   name?: string;
     
+  wasPaid?: string;
+  wasDeleted?: string;
   userId?: string;
   locationId?: string;
   studentId?: string;

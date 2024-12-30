@@ -347,6 +347,22 @@
         }
       ]
     },
+    "AMPLIFY_function_fnRemoveEnrollment_apiEndpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnRemoveEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_fnRemoveEnrollment_apiKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnRemoveEnrollment"
+        }
+      ]
+    },
     "AMPLIFY_function_fnRemoveEnrollment_deploymentBucketName": {
       "usedBy": [
         {

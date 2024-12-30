@@ -14,24 +14,40 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
       
       const month:number = Number(filter?.month)
    
+      console.log("--fetchData--filter", filter)
       
       const filterDay = (typeof filter?.day === 'undefined' && filter?.day === '') ?
       "" : filter?.day;
+       
+          
+      // let filterPaid = (typeof filter?.wasPaid === 'undefined' && {}|| filter?.wasPaid === "" || filter?.wasPaid) ?
+      // { } : { wasPaid: { eq: filter?.wasPaid } };
+          
+      let filterPaid = (typeof filter?.wasPaid === 'undefined' || filter?.wasPaid === "" ) ?
+      { } : { wasPaid: { eq: filter?.wasPaid } };
       
-      // filter.locationId
-      // filter.month
-      // filter.year
+      // const filterRemoved = (typeof filter?.wasDeleted === 'undefined' && filter?.wasDeleted === "") ?
+      // { } : { wasDeleted: { eq: filter?.wasDeleted } };
+      
+      const filterAll: any = {
+        ...filterPaid,
+        // ...filterRemoved,
+      };
+      
+   
       
        const getData:any = await client.graphql({
          query: listEnrollments,
          variables: { 
           filter: {
+            ...filterAll,
             startDate: {
               // 2024-12-16T19:01:29.732Z
               between: [
                 `${filter?.month}-${filterDay==="" ? "01":filterDay}-${filter?.year}`,
                 `${filter?.month}-${filterDay==="" ? "31":filterDay}-${filter?.year}`,
               ],
+              
             },
             // or: [
             //   { startDate: { contains: `${filter.month}-` } },

@@ -51,7 +51,7 @@ type ShoppingCartDetail @model @auth(rules: [{ allow: public }]) {
   quantity: Int!
   amount: Float!      # Precio unitario
   detail: String!     # Descripción o detalle adicional
-  
+  wasDeleted: Boolean @default(value: "false")
   #Relations
   enrollment: Enrollment @belongsTo
   cart: ShoppingCart! @belongsTo

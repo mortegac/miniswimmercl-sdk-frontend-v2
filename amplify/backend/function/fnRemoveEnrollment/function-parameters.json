@@ -7,5 +7,15 @@
       "version": "Always choose latest version",
       "isLatestVersionSelected": true
     }
+  ],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "apiKey",
+      "environmentVariableName": "API_KEY"
+    },
+    {
+      "cloudFormationParameterName": "apiEndpoint",
+      "environmentVariableName": "API_ENDPOINT"
+    }
   ]
 }

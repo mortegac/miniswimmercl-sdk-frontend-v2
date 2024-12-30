@@ -36,6 +36,14 @@ export const daysDate = [
   { id: "30", name: "30" },
   { id: "31", name: "31" },
 ];
+export const booleanOption = [
+  { id: "true", name: "Vigentes" },
+  { id: "false", name: "No Vigentes" },
+];
+export const paidedOption = [
+  { id: "true", name: "Pagados" },
+  { id: "false", name: "Pendientes" },
+];
 export const monthsDate = [
   { id: "01", name: "ENERO" },
   { id: "02", name: "FEBRERO" },

@@ -635,6 +635,7 @@ function Main() {
     day: "",
     month: currentMonth,
     year: currentYear,
+    wasPaid: "true",
     state: "",
   });
   const [searchTerm, setSearchTerm] = useState('');
@@ -697,7 +698,8 @@ function Main() {
       day: filter?.day,
       month: filter?.month,
       year: filter?.year,
-      locationId: filter.locationId,
+      wasPaid: filter?.wasPaid,
+      // locationId: filter.locationId,
     }));
   }, [filter]);
   
@@ -705,16 +707,16 @@ function Main() {
   useEffect(() => { setFilteredStudents( [...enrollments]); }, [enrollments]);
   
   
-  useEffect(() => {
-    setFilter({
-      ...filter,
-      locationId: locations[0]?.id || "",
-    });
+  // useEffect(() => {
+  //   setFilter({
+  //     ...filter,
+  //     locationId: locations[0]?.id || "",
+  //   });
 
-    const data: any =
-    locations && transformResidenceData(locations);
-    setResidenceList(data);
-  }, [location]);
+  //   const data: any =
+  //   locations && transformResidenceData(locations);
+  //   setResidenceList(data);
+  // }, [location]);
   
   
   return (
@@ -726,15 +728,7 @@ function Main() {
             Alumnos Incritos en {`${typeOfMonth[filter?.month || month]} ${filter.year}`}
           </div>
           {/* <pre>{JSON.stringify(filter, null, 2 )}</pre> */}
-          <div className ="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
-                <FilterBar
-                  filter={filter}
-                  setFilter={setFilter}
-                  residences={residenceList}
-                  hasDate={true}
-                  onlyDate={true}
-                />
-              </div>
+          
           {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
             <Button
             variant="primary"
@@ -744,7 +738,15 @@ function Main() {
             Nueva inscripción
             </Button>
             </div> */}
-        </div>
+        </div><div className ="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
+                <FilterBar
+                  filter={filter}
+                  setFilter={setFilter}
+                  residences={residenceList}
+                  hasDate={true}
+                  onlyDate={true}
+                />
+              </div>
         <div className="flex flex-col gap-8 mt-3.5">
           <div className="flex flex-col box min-h-screen">
             {/* <pre>{JSON.stringify(enrollments, null, 2)}</pre> */}

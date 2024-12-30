@@ -300,6 +300,7 @@ export const getEmailSend = /* GraphQL */ `
         amountPaid
         startDate
         endDate
+        wasDeleted
         wasPaid
         timeAWeek
         numberOfSessions
@@ -1125,6 +1126,7 @@ export const getEnrollment = /* GraphQL */ `
       amountPaid
       startDate
       endDate
+      wasDeleted
       wasPaid
       timeAWeek
       numberOfSessions
@@ -1190,6 +1192,7 @@ export const getEnrollment = /* GraphQL */ `
         quantity
         amount
         detail
+        wasDeleted
         createdAt
         updatedAt
         shoppingCartCartDetailsId
@@ -1250,6 +1253,7 @@ export const listEnrollments = /* GraphQL */ `
         amountPaid
         startDate
         endDate
+        wasDeleted
         wasPaid
         timeAWeek
         numberOfSessions
@@ -1529,11 +1533,13 @@ export const getShoppingCartDetail = /* GraphQL */ `
       quantity
       amount
       detail
+      wasDeleted
       enrollment {
         id
         amountPaid
         startDate
         endDate
+        wasDeleted
         wasPaid
         timeAWeek
         numberOfSessions
@@ -1587,6 +1593,7 @@ export const listShoppingCartDetails = /* GraphQL */ `
         quantity
         amount
         detail
+        wasDeleted
         createdAt
         updatedAt
         shoppingCartCartDetailsId

@@ -7,6 +7,8 @@ import {
   daysDate,
   generateYearsArray,
   calculateCurrentDate,
+  booleanOption,
+  paidedOption
 } from "@/utils/helper";
 
 const yearsDate = generateYearsArray();
@@ -25,6 +27,8 @@ interface FilterProps {
     // mes?: string;
     // ano?: string;
     state?: string;
+    wasPaid?: string;
+    wasDeleted?: string;
   };
   setFilter: React.Dispatch<
     React.SetStateAction<{
@@ -33,6 +37,8 @@ interface FilterProps {
       month?: string;
       year?: string;
       state?: string;
+      wasPaid?: string;
+      wasDeleted?: string;
     }>
   >;
   residences?: { id: string; name: string }[];
@@ -64,6 +70,8 @@ export const List: React.FC<FilterProps> = ({
             ...(typeOfList === "day" && { day: e.target.value }),
             ...(typeOfList === "month" && { month: e.target.value }),
             ...(typeOfList === "year" && { year: e.target.value }),
+            ...(typeOfList === "wasPaid" && { wasPaid: e.target.value }),
+            ...(typeOfList === "wasRemoved" && { wasRemoved: e.target.value }),
           }))
       }
     >
@@ -111,7 +119,28 @@ export const FilterBar: React.FC<FilterProps> = ({
           //   />
           // </div>
         )}
-
+          <div className="w-full lg:w-1/2 min-w-36">
+              <List
+                selected={filter.wasPaid}
+                typeTextList={"-Pagados-"}
+                filter={filter}
+                setFilter={setFilter}
+                dataList={paidedOption}
+                typeOfList="wasPaid"
+                
+              />
+            </div>
+          {/* <div className="w-full lg:w-1/2 min-w-36">
+              <List
+                selected={filter.wasDeleted}
+                typeTextList={"-Vigentes-"}
+                filter={filter}
+                setFilter={setFilter}
+                dataList={booleanOption}
+                typeOfList="wasDeleted"
+                
+              />
+            </div> */}
         {/* Month and Year container */}
         {hasDate && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-1/2 lg:flex lg:items-center">

@@ -56,7 +56,7 @@ function formatDate(dateString: string): string {
 function Content(props: any) {
   let currentUserId:string | null = null;
   
-  const { enrollments, locationId, month, year } = props;
+  const { enrollments, locationId, month, year, statusEnroll } = props;
   const dispatch = useAppDispatch();
   const {email}= useAppSelector(selectAuth);
   const { locations, status } = useAppSelector(selectLocation);
@@ -134,22 +134,57 @@ function Content(props: any) {
     });
   }
 
-  async function updateSession(){
+  // async function updateSession(){
+    
+  //   await Promise.all([
+  //     await dispatch(
+  //       setOneSessionDetail({
+  //         sessionId:data?.sessionId,
+  //         status:data?.status,
+  //         locationIdUsed:data?.location,
+  //         sessionDate:data?.date,
+  //         userModifyId:email,
+  //       })),
+  //     await dispatch(
+  //       getStudents({
+  //         month: month,
+  //         year: year,
+  //         // locationId: locationId,
+  //       })
+  //     )
+  //   ])
+    
+  //   const successEl = document
+  //   .querySelectorAll("#success-notification-content")[0]
+  //   .cloneNode(true) as HTMLElement;
+  //   successEl.classList.remove("hidden");
+  //   Toastify({
+  //     node: successEl,
+  //     duration: 3000,
+  //     newWindow: true,
+  //     close: true,
+  //     gravity: "top",
+  //     position: "right",
+  //     stopOnFocus: true,
+  //   }).showToast();
+  // }
+  
+  async function deleteEnrollment(enrollmentId:string){
     
     await Promise.all([
-      await dispatch(
-        setOneSessionDetail({
-          sessionId:data?.sessionId,
-          status:data?.status,
-          locationIdUsed:data?.location,
-          sessionDate:data?.date,
-          userModifyId:email,
-        })),
+      // await dispatch(
+      //   setOneSessionDetail({
+      //     sessionId:data?.sessionId,
+      //     status:data?.status,
+      //     locationIdUsed:data?.location,
+      //     sessionDate:data?.date,
+      //     userModifyId:email,
+      //   })),
       await dispatch(
         getStudents({
           month: month,
           year: year,
-          locationId: locationId,
+          wasPaid: "false",
         })
       )
     ])
@@ -169,6 +204,7 @@ function Content(props: any) {
     }).showToast();
   }
  
+  
   
   useEffect(() => {
     (async () => await dispatch(getLocations()))();
@@ -562,6 +598,17 @@ function Content(props: any) {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
+          {statusEnroll === "loading" && (
+                   <div className="flex justify-center w-full">
+                     <div className="w-16 h-16">
+                       <LoadingIcon
+                         color="#AE5EAB"
+                         icon="three-dots"
+                         className="w-10 h-10 mt-10"
+                       />
+                     </div>
+                   </div>
+                 )}
               {Array.isArray(sortedEnrollments) &&
               sortedEnrollments.map((item: any, index) => {
                 
@@ -651,9 +698,12 @@ function Content(props: any) {
                     </Table.Td>
                     <Table.Td className=" py-4 border-dashed w-32">
                       <div className="w-48 flex items-start justify-start flex-col">
-                        <p className="uppercase font-thin text-sm text-left">
+                      <p className="uppercase font-thin text-sm text-left">{item?.course?.title}</p>
+                      <p className="uppercase font-thin text-sm text-left">{item?.scheduleName}</p>
+                        {/* <p className="uppercase font-thin text-sm text-left">
                           {item?.course?.title}
-                        </p>
+                          
+                        </p> */}
                         <p className="uppercase font-dm-sans text-base text-left">
                           {item?.course?.location?.id}
                         </p>
@@ -714,6 +764,7 @@ function Content(props: any) {
                               onClick={(event: React.MouseEvent) => {
                                 event.preventDefault();
                                 setRemoveEnrollmentSlideover(true);
+                                deleteEnrollment(item?.id)
                               }}
                             >
                               <Tippy  content="Eliminar inscripción">
@@ -775,18 +826,19 @@ function Main(props: any) {
 
   return (
     <>
-      {status === "loading" && (
+      {/* {status === "loading" && (
         <div className="flex justify-center">
           <div className="w-16 h-16">
             <LoadingIcon
               color="#AE5EAB"
-              icon="oval"
+              icon="three-dots"
               className="w-10 h-10 mt-10"
             />
           </div>
         </div>
-      )}
-      {status === "idle" && <Content enrollments={enrollments}  {...props}/>}
+      )} */}
+      {/* {status === "idle" && <Content enrollments={enrollments}  {...props}/>} */}
+      <Content enrollments={enrollments} statusEnroll={status} {...props}/>
     </>
   );
 }
