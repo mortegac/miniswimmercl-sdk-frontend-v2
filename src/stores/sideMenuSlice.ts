@@ -20,7 +20,8 @@ import {
   ACADEMYSTUDENTS,
   ENROLLMENTS,
   TRANSACTIONS,
-  SHOPPING_CART
+  SHOPPING_CART,
+  REPORT_COURSES
 } from "@/router/paths";
 
 export interface Menu {
@@ -114,6 +115,13 @@ const initialState: SideMenuState = {
             pathname: SHOPPING_CART,
             title: "Carros de compra",
           },
+        "Informes",
+        {
+            icon: "CheckSquare",
+            pathname: REPORT_COURSES,
+            title: "Incritos por curso",
+          },
+
         // {
           //   icon: "PlusCircle",
           //   pathname: NEW_EXPENSE,

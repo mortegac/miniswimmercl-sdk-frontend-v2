@@ -61,7 +61,7 @@
         },
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/fnRemoveEnrollment-794750485a4c4d6b4732-build.zip",
+          "s3Key": "amplify-builds/fnRemoveEnrollment-41534142447a36417776-build.zip",
           "apiKey": "da2-vk3lmmvnk5bmbpt6vkfz7xghpi",
           "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
         },

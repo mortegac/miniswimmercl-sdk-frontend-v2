@@ -22,12 +22,53 @@ type AcademyStudents @model {
 
   #Relations
   certificate: Certificates @hasOne
+  enrollments: [AcademyEnrollment] @hasMany
 }
 enum TypeStatus {
   CERTIFICATION_COMPLETED
   CERTIFICATION_IN_PROGRESS
   
 }
+
+
+type AcademyEnrollment @model {  
+  id: ID! @primaryKey
+  amountPaid: Float!
+  date: String!
+  wasDeleted: Boolean @default(value: "false")
+  wasPaid: Boolean @default(value: "false")
+ 
+  #Relations  
+  students: AcademyStudents! @belongsTo
+  user: String!   # Creado por
+  shoppingCartDetail: ShoppingCartDetail @hasOne  # Unir la inscripcion con el carro
+  course: AcademyCourses! @belongsTo
+  # emailSends: [EmailSend] @hasMany    # Nueva relación con EmailSend
+  
+}
+
+
+
+
+################################
+# CURSOS
+################################
+type AcademyCourses @model {
+  id: ID! @primaryKey
+  name: String!
+  description: String
+  Address: String
+  mapurl: String
+  isActive: Boolean @default(value: "true")
+  
+  #Relations
+  enrollments: [AcademyEnrollment] @hasMany  
+  certificate: Certificates @hasOne
+}
+
+
+
+
 
 enum TypeOfTitle {
   CERTIFICATE_OF_ATTENDANCE
@@ -52,20 +93,4 @@ type Certificates @model {
   student: AcademyStudents @belongsTo
   course: AcademyCourses @belongsTo
 }
-
-
-################################
-# CURSOS
-################################
-type AcademyCourses @model {
-  id: ID! @primaryKey
-  name: String!
-  description: String
-  isActive: Boolean @default(value: "true")
-  
-  #Relations
-  students: [AcademyStudents] @hasMany        # Alumnos inscritos en este curso
-  certificate: Certificates @hasOne
-}
-
 

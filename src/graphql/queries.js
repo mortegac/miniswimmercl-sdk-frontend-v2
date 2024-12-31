@@ -37,9 +37,12 @@ export const getAcademyStudents = /* GraphQL */ `
         certificatesCourseId
         __typename
       }
+      enrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
-      academyCoursesStudentsId
       academyStudentsCertificateId
       __typename
     }
@@ -78,7 +81,6 @@ export const listAcademyStudents = /* GraphQL */ `
         isSponsored
         createdAt
         updatedAt
-        academyCoursesStudentsId
         academyStudentsCertificateId
         __typename
       }
@@ -87,21 +89,15 @@ export const listAcademyStudents = /* GraphQL */ `
     }
   }
 `;
-export const getCertificates = /* GraphQL */ `
-  query GetCertificates($id: ID!) {
-    getCertificates(id: $id) {
+export const getAcademyEnrollment = /* GraphQL */ `
+  query GetAcademyEnrollment($id: ID!) {
+    getAcademyEnrollment(id: $id) {
       id
-      title
-      studentName
-      instructorName
-      instructorSignature
-      descriptionOne
-      theoreticalHours
-      practicalHours
+      amountPaid
       date
-      isOfficialCertification
-      location
-      student {
+      wasDeleted
+      wasPaid
+      students {
         id
         status
         name
@@ -119,14 +115,30 @@ export const getCertificates = /* GraphQL */ `
         isSponsored
         createdAt
         updatedAt
-        academyCoursesStudentsId
         academyStudentsCertificateId
+        __typename
+      }
+      user
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        wasDeleted
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
         __typename
       }
       course {
         id
         name
         description
+        Address
+        mapurl
         isActive
         createdAt
         updatedAt
@@ -135,21 +147,22 @@ export const getCertificates = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      certificatesStudentId
-      certificatesCourseId
+      academyStudentsEnrollmentsId
+      academyCoursesEnrollmentsId
+      academyEnrollmentShoppingCartDetailId
       __typename
     }
   }
 `;
-export const listCertificates = /* GraphQL */ `
-  query ListCertificates(
+export const listAcademyEnrollments = /* GraphQL */ `
+  query ListAcademyEnrollments(
     $id: ID
-    $filter: ModelCertificatesFilterInput
+    $filter: ModelAcademyEnrollmentFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
-    listCertificates(
+    listAcademyEnrollments(
       id: $id
       filter: $filter
       limit: $limit
@@ -158,20 +171,16 @@ export const listCertificates = /* GraphQL */ `
     ) {
       items {
         id
-        title
-        studentName
-        instructorName
-        instructorSignature
-        descriptionOne
-        theoreticalHours
-        practicalHours
+        amountPaid
         date
-        isOfficialCertification
-        location
+        wasDeleted
+        wasPaid
+        user
         createdAt
         updatedAt
-        certificatesStudentId
-        certificatesCourseId
+        academyStudentsEnrollmentsId
+        academyCoursesEnrollmentsId
+        academyEnrollmentShoppingCartDetailId
         __typename
       }
       nextToken
@@ -185,8 +194,10 @@ export const getAcademyCourses = /* GraphQL */ `
       id
       name
       description
+      Address
+      mapurl
       isActive
-      students {
+      enrollments {
         nextToken
         __typename
       }
@@ -234,10 +245,105 @@ export const listAcademyCourses = /* GraphQL */ `
         id
         name
         description
+        Address
+        mapurl
         isActive
         createdAt
         updatedAt
         academyCoursesCertificateId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getCertificates = /* GraphQL */ `
+  query GetCertificates($id: ID!) {
+    getCertificates(id: $id) {
+      id
+      title
+      studentName
+      instructorName
+      instructorSignature
+      descriptionOne
+      theoreticalHours
+      practicalHours
+      date
+      isOfficialCertification
+      location
+      student {
+        id
+        status
+        name
+        urlImage
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyStudentsCertificateId
+        __typename
+      }
+      course {
+        id
+        name
+        description
+        Address
+        mapurl
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      createdAt
+      updatedAt
+      certificatesStudentId
+      certificatesCourseId
+      __typename
+    }
+  }
+`;
+export const listCertificates = /* GraphQL */ `
+  query ListCertificates(
+    $id: ID
+    $filter: ModelCertificatesFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCertificates(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
         __typename
       }
       nextToken
@@ -1197,6 +1303,7 @@ export const getEnrollment = /* GraphQL */ `
         updatedAt
         shoppingCartCartDetailsId
         shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
         __typename
       }
       course {
@@ -1557,6 +1664,20 @@ export const getShoppingCartDetail = /* GraphQL */ `
         enrollmentShoppingCartDetailId
         __typename
       }
+      academyEnrollment {
+        id
+        amountPaid
+        date
+        wasDeleted
+        wasPaid
+        user
+        createdAt
+        updatedAt
+        academyStudentsEnrollmentsId
+        academyCoursesEnrollmentsId
+        academyEnrollmentShoppingCartDetailId
+        __typename
+      }
       cart {
         id
         totalPrice
@@ -1572,6 +1693,7 @@ export const getShoppingCartDetail = /* GraphQL */ `
       updatedAt
       shoppingCartCartDetailsId
       shoppingCartDetailEnrollmentId
+      shoppingCartDetailAcademyEnrollmentId
       __typename
     }
   }
@@ -1598,6 +1720,7 @@ export const listShoppingCartDetails = /* GraphQL */ `
         updatedAt
         shoppingCartCartDetailsId
         shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
         __typename
       }
       nextToken

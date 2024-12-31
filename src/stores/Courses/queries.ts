@@ -108,7 +108,62 @@ export const listCourses = /* GraphQL */ `
 
 
 /********************************************************
-*                    MUTATIONS
+*                    CUSTOM
 ********************************************************/
 
 
+export const listCoursesStudent = /* GraphQL */ `
+  query ListCourses(
+    $id: ID
+    $filter: ModelCourseFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCourses(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        ageType
+        title
+        locationCoursesId
+        enrollments(
+          filter:{
+            startDate: {between: [
+              "01-01-2025",
+              "01-31-2025"
+              ]},
+            wasPaid: { eq: true}
+          }
+        ){
+          items{
+            wasPaid
+            startDate
+            student{
+              id
+              name
+              lastName
+              birthdate
+              emailPhone
+            }
+            sessionDetails{
+              items{
+                date
+                month
+                year
+                status
+              }
+            }
+          }
+      }
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

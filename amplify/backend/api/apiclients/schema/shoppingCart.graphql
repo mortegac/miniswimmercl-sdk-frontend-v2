@@ -42,6 +42,7 @@ type ShoppingCart @model @auth(rules: [{ allow: public }]) {
 # ENUM PARAMETERS
 enum TypeDetail {
   ENROLLMENTS
+  ACADEMY
   PRODUCTS
 }
 # Tabla de detalles del carrito
@@ -53,7 +54,8 @@ type ShoppingCartDetail @model @auth(rules: [{ allow: public }]) {
   detail: String!     # Descripción o detalle adicional
   wasDeleted: Boolean @default(value: "false")
   #Relations
-  enrollment: Enrollment @belongsTo
+  enrollment: Enrollment @belongsTo                   # Alumnos Escuela
+  academyEnrollment: AcademyEnrollment @belongsTo     # Alumnos Academia
   cart: ShoppingCart! @belongsTo
   
 }

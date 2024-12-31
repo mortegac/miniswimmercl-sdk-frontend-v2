@@ -107,9 +107,12 @@ export const createAcademyStudents = /* GraphQL */ `
         certificatesCourseId
         __typename
       }
+      enrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
-      academyCoursesStudentsId
       academyStudentsCertificateId
       __typename
     }
@@ -154,9 +157,12 @@ export const updateAcademyStudents = /* GraphQL */ `
         certificatesCourseId
         __typename
       }
+      enrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
-      academyCoursesStudentsId
       academyStudentsCertificateId
       __typename
     }
@@ -201,10 +207,340 @@ export const deleteAcademyStudents = /* GraphQL */ `
         certificatesCourseId
         __typename
       }
+      enrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
-      academyCoursesStudentsId
       academyStudentsCertificateId
+      __typename
+    }
+  }
+`;
+export const createAcademyEnrollment = /* GraphQL */ `
+  mutation CreateAcademyEnrollment(
+    $input: CreateAcademyEnrollmentInput!
+    $condition: ModelAcademyEnrollmentConditionInput
+  ) {
+    createAcademyEnrollment(input: $input, condition: $condition) {
+      id
+      amountPaid
+      date
+      wasDeleted
+      wasPaid
+      students {
+        id
+        status
+        name
+        urlImage
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyStudentsCertificateId
+        __typename
+      }
+      user
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        wasDeleted
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
+        __typename
+      }
+      course {
+        id
+        name
+        description
+        Address
+        mapurl
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyStudentsEnrollmentsId
+      academyCoursesEnrollmentsId
+      academyEnrollmentShoppingCartDetailId
+      __typename
+    }
+  }
+`;
+export const updateAcademyEnrollment = /* GraphQL */ `
+  mutation UpdateAcademyEnrollment(
+    $input: UpdateAcademyEnrollmentInput!
+    $condition: ModelAcademyEnrollmentConditionInput
+  ) {
+    updateAcademyEnrollment(input: $input, condition: $condition) {
+      id
+      amountPaid
+      date
+      wasDeleted
+      wasPaid
+      students {
+        id
+        status
+        name
+        urlImage
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyStudentsCertificateId
+        __typename
+      }
+      user
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        wasDeleted
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
+        __typename
+      }
+      course {
+        id
+        name
+        description
+        Address
+        mapurl
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyStudentsEnrollmentsId
+      academyCoursesEnrollmentsId
+      academyEnrollmentShoppingCartDetailId
+      __typename
+    }
+  }
+`;
+export const deleteAcademyEnrollment = /* GraphQL */ `
+  mutation DeleteAcademyEnrollment(
+    $input: DeleteAcademyEnrollmentInput!
+    $condition: ModelAcademyEnrollmentConditionInput
+  ) {
+    deleteAcademyEnrollment(input: $input, condition: $condition) {
+      id
+      amountPaid
+      date
+      wasDeleted
+      wasPaid
+      students {
+        id
+        status
+        name
+        urlImage
+        email
+        birthdate
+        years
+        address
+        phone
+        profession
+        studiesRelated
+        medicalHistory
+        emergencyContact
+        isPaid
+        isSponsored
+        createdAt
+        updatedAt
+        academyStudentsCertificateId
+        __typename
+      }
+      user
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        wasDeleted
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
+        __typename
+      }
+      course {
+        id
+        name
+        description
+        Address
+        mapurl
+        isActive
+        createdAt
+        updatedAt
+        academyCoursesCertificateId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyStudentsEnrollmentsId
+      academyCoursesEnrollmentsId
+      academyEnrollmentShoppingCartDetailId
+      __typename
+    }
+  }
+`;
+export const createAcademyCourses = /* GraphQL */ `
+  mutation CreateAcademyCourses(
+    $input: CreateAcademyCoursesInput!
+    $condition: ModelAcademyCoursesConditionInput
+  ) {
+    createAcademyCourses(input: $input, condition: $condition) {
+      id
+      name
+      description
+      Address
+      mapurl
+      isActive
+      enrollments {
+        nextToken
+        __typename
+      }
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesCertificateId
+      __typename
+    }
+  }
+`;
+export const updateAcademyCourses = /* GraphQL */ `
+  mutation UpdateAcademyCourses(
+    $input: UpdateAcademyCoursesInput!
+    $condition: ModelAcademyCoursesConditionInput
+  ) {
+    updateAcademyCourses(input: $input, condition: $condition) {
+      id
+      name
+      description
+      Address
+      mapurl
+      isActive
+      enrollments {
+        nextToken
+        __typename
+      }
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesCertificateId
+      __typename
+    }
+  }
+`;
+export const deleteAcademyCourses = /* GraphQL */ `
+  mutation DeleteAcademyCourses(
+    $input: DeleteAcademyCoursesInput!
+    $condition: ModelAcademyCoursesConditionInput
+  ) {
+    deleteAcademyCourses(input: $input, condition: $condition) {
+      id
+      name
+      description
+      Address
+      mapurl
+      isActive
+      enrollments {
+        nextToken
+        __typename
+      }
+      certificate {
+        id
+        title
+        studentName
+        instructorName
+        instructorSignature
+        descriptionOne
+        theoreticalHours
+        practicalHours
+        date
+        isOfficialCertification
+        location
+        createdAt
+        updatedAt
+        certificatesStudentId
+        certificatesCourseId
+        __typename
+      }
+      createdAt
+      updatedAt
+      academyCoursesCertificateId
       __typename
     }
   }
@@ -244,7 +580,6 @@ export const createCertificates = /* GraphQL */ `
         isSponsored
         createdAt
         updatedAt
-        academyCoursesStudentsId
         academyStudentsCertificateId
         __typename
       }
@@ -252,6 +587,8 @@ export const createCertificates = /* GraphQL */ `
         id
         name
         description
+        Address
+        mapurl
         isActive
         createdAt
         updatedAt
@@ -301,7 +638,6 @@ export const updateCertificates = /* GraphQL */ `
         isSponsored
         createdAt
         updatedAt
-        academyCoursesStudentsId
         academyStudentsCertificateId
         __typename
       }
@@ -309,6 +645,8 @@ export const updateCertificates = /* GraphQL */ `
         id
         name
         description
+        Address
+        mapurl
         isActive
         createdAt
         updatedAt
@@ -358,7 +696,6 @@ export const deleteCertificates = /* GraphQL */ `
         isSponsored
         createdAt
         updatedAt
-        academyCoursesStudentsId
         academyStudentsCertificateId
         __typename
       }
@@ -366,6 +703,8 @@ export const deleteCertificates = /* GraphQL */ `
         id
         name
         description
+        Address
+        mapurl
         isActive
         createdAt
         updatedAt
@@ -376,123 +715,6 @@ export const deleteCertificates = /* GraphQL */ `
       updatedAt
       certificatesStudentId
       certificatesCourseId
-      __typename
-    }
-  }
-`;
-export const createAcademyCourses = /* GraphQL */ `
-  mutation CreateAcademyCourses(
-    $input: CreateAcademyCoursesInput!
-    $condition: ModelAcademyCoursesConditionInput
-  ) {
-    createAcademyCourses(input: $input, condition: $condition) {
-      id
-      name
-      description
-      isActive
-      students {
-        nextToken
-        __typename
-      }
-      certificate {
-        id
-        title
-        studentName
-        instructorName
-        instructorSignature
-        descriptionOne
-        theoreticalHours
-        practicalHours
-        date
-        isOfficialCertification
-        location
-        createdAt
-        updatedAt
-        certificatesStudentId
-        certificatesCourseId
-        __typename
-      }
-      createdAt
-      updatedAt
-      academyCoursesCertificateId
-      __typename
-    }
-  }
-`;
-export const updateAcademyCourses = /* GraphQL */ `
-  mutation UpdateAcademyCourses(
-    $input: UpdateAcademyCoursesInput!
-    $condition: ModelAcademyCoursesConditionInput
-  ) {
-    updateAcademyCourses(input: $input, condition: $condition) {
-      id
-      name
-      description
-      isActive
-      students {
-        nextToken
-        __typename
-      }
-      certificate {
-        id
-        title
-        studentName
-        instructorName
-        instructorSignature
-        descriptionOne
-        theoreticalHours
-        practicalHours
-        date
-        isOfficialCertification
-        location
-        createdAt
-        updatedAt
-        certificatesStudentId
-        certificatesCourseId
-        __typename
-      }
-      createdAt
-      updatedAt
-      academyCoursesCertificateId
-      __typename
-    }
-  }
-`;
-export const deleteAcademyCourses = /* GraphQL */ `
-  mutation DeleteAcademyCourses(
-    $input: DeleteAcademyCoursesInput!
-    $condition: ModelAcademyCoursesConditionInput
-  ) {
-    deleteAcademyCourses(input: $input, condition: $condition) {
-      id
-      name
-      description
-      isActive
-      students {
-        nextToken
-        __typename
-      }
-      certificate {
-        id
-        title
-        studentName
-        instructorName
-        instructorSignature
-        descriptionOne
-        theoreticalHours
-        practicalHours
-        date
-        isOfficialCertification
-        location
-        createdAt
-        updatedAt
-        certificatesStudentId
-        certificatesCourseId
-        __typename
-      }
-      createdAt
-      updatedAt
-      academyCoursesCertificateId
       __typename
     }
   }
@@ -2063,6 +2285,7 @@ export const createEnrollment = /* GraphQL */ `
         updatedAt
         shoppingCartCartDetailsId
         shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
         __typename
       }
       course {
@@ -2180,6 +2403,7 @@ export const updateEnrollment = /* GraphQL */ `
         updatedAt
         shoppingCartCartDetailsId
         shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
         __typename
       }
       course {
@@ -2297,6 +2521,7 @@ export const deleteEnrollment = /* GraphQL */ `
         updatedAt
         shoppingCartCartDetailsId
         shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
         __typename
       }
       course {
@@ -2872,6 +3097,20 @@ export const createShoppingCartDetail = /* GraphQL */ `
         enrollmentShoppingCartDetailId
         __typename
       }
+      academyEnrollment {
+        id
+        amountPaid
+        date
+        wasDeleted
+        wasPaid
+        user
+        createdAt
+        updatedAt
+        academyStudentsEnrollmentsId
+        academyCoursesEnrollmentsId
+        academyEnrollmentShoppingCartDetailId
+        __typename
+      }
       cart {
         id
         totalPrice
@@ -2887,6 +3126,7 @@ export const createShoppingCartDetail = /* GraphQL */ `
       updatedAt
       shoppingCartCartDetailsId
       shoppingCartDetailEnrollmentId
+      shoppingCartDetailAcademyEnrollmentId
       __typename
     }
   }
@@ -2926,6 +3166,20 @@ export const updateShoppingCartDetail = /* GraphQL */ `
         enrollmentShoppingCartDetailId
         __typename
       }
+      academyEnrollment {
+        id
+        amountPaid
+        date
+        wasDeleted
+        wasPaid
+        user
+        createdAt
+        updatedAt
+        academyStudentsEnrollmentsId
+        academyCoursesEnrollmentsId
+        academyEnrollmentShoppingCartDetailId
+        __typename
+      }
       cart {
         id
         totalPrice
@@ -2941,6 +3195,7 @@ export const updateShoppingCartDetail = /* GraphQL */ `
       updatedAt
       shoppingCartCartDetailsId
       shoppingCartDetailEnrollmentId
+      shoppingCartDetailAcademyEnrollmentId
       __typename
     }
   }
@@ -2980,6 +3235,20 @@ export const deleteShoppingCartDetail = /* GraphQL */ `
         enrollmentShoppingCartDetailId
         __typename
       }
+      academyEnrollment {
+        id
+        amountPaid
+        date
+        wasDeleted
+        wasPaid
+        user
+        createdAt
+        updatedAt
+        academyStudentsEnrollmentsId
+        academyCoursesEnrollmentsId
+        academyEnrollmentShoppingCartDetailId
+        __typename
+      }
       cart {
         id
         totalPrice
@@ -2995,6 +3264,7 @@ export const deleteShoppingCartDetail = /* GraphQL */ `
       updatedAt
       shoppingCartCartDetailsId
       shoppingCartDetailEnrollmentId
+      shoppingCartDetailAcademyEnrollmentId
       __typename
     }
   }

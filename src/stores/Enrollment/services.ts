@@ -54,7 +54,7 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
             //   { startDate: { contains: `-${filter?.year}` } },
             // ]
           },
-          limit:100000000
+          limit:1000000000
         },
         //  variables: { 
           //  input: {

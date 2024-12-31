@@ -29,7 +29,8 @@ import {
     INCOME,
     ACADEMYSTUDENTS,
     TRANSACTIONS,
-    SHOPPING_CART
+    SHOPPING_CART,
+    REPORT_COURSES
   } from "./paths";
   
 
@@ -65,7 +66,9 @@ import {
   
   
   const AcademyStudents = lazy(() => import("../pages/private/AcademyStudents"));
-
+  const ReportCourseStudent = lazy(() => import("../pages/private/ReportCourseStudent"));
+  
+  
   export function PrivateValidation() {
     const { isAuthenticated, ...auth } = useAppSelector(selectAuth);
     const location = useLocation();
@@ -184,9 +187,15 @@ export const privateRoutes = {
         },
         
         {
-          path: ACADEMYSTUDENTS,
-          element: <AcademyStudents />,
+          path: REPORT_COURSES,
+          element: <ReportCourseStudent />,         
           
+        },
+        
+  
+        {
+          path: ACADEMYSTUDENTS,
+          element: <AcademyStudents />,         
           
         },
         

@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData} from "./services"
+import {fetchData, fetchDataStudent} from "./services"
 import {Course, emptyCourse, FilterOptions} from "./types"
 
 
@@ -31,6 +31,20 @@ export const getCourses = createAsyncThunk(
   async (objFilter: FilterOptions) => {
     try {
       const response:any = await fetchData({...objFilter});
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH CourseS", error)
+      return Promise.reject(error);
+    }
+  }
+);
+  
+
+export const getCourseStudent = createAsyncThunk(
+  "Courses/listStudent",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchDataStudent({...objFilter});
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH CourseS", error)
@@ -69,6 +83,43 @@ export const CourseSlice = createSlice({
           // Si locationCoursesId es igual, comparamos por AgeGroupType
           if (a.AgeGroupType < b.AgeGroupType) return -1;
           if (a.AgeGroupType > b.AgeGroupType) return 1;
+          
+          // Si ambos son iguales, no cambiamos el orden
+          return 0;
+        });
+  
+        // state.courses = objPayload?.items || [];
+        state.courses = sortedArray || [];
+        
+      })
+      
+      // GET CourseS
+      .addCase(getCourseStudent.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getCourseStudent.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getCourseStudent.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        console.log("---getCourses Students --action---", objPayload)
+         
+        const sortedArray = objPayload?.items.sort((a:any, b:any) => {
+          // Primero, comparamos por locationCoursesId
+          if (a.locationCoursesId < b.locationCoursesId) return -1;
+          if (a.locationCoursesId > b.locationCoursesId) return 1;
+          
+          // Si locationCoursesId es igual, comparamos por AgeGroupType
+          if (a.AgeGroupType < b.AgeGroupType) return -1;
+          if (a.AgeGroupType > b.AgeGroupType) return 1;
+          
+          // Por id
+          if (a.id < b.id) return -1;
+          if (a.id > b.id) return 1;
           
           // Si ambos son iguales, no cambiamos el orden
           return 0;

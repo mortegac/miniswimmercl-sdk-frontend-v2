@@ -16,6 +16,9 @@ export const PAYMENTS = "/payments";
 export const TICKETS = "/tickets";
 
 
+export const REPORT_COURSES = "/report-courses";
+
+
 
 export const COURSES_QUOTAS= "/courses-quotas";
 export const SHOPPING_CART = "/shopping-cart";

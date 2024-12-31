@@ -14,7 +14,7 @@ import IconStatus from "@/components/IconStatus";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getLocations, selectLocation } from "@/stores/Locations/slice";
-import { getStudents, selectEnrollment } from "@/stores/Enrollment/slice";
+import { getCourseStudent, selectCourse } from "@/stores/Courses/slice";
 
 import EnrollmentsList from "./EnrollmentsList";
 import EnrollmentsListGroupBy from "./EnrollmentsListGroupBy";
@@ -25,11 +25,11 @@ const currentMonth = calculateCurrentDate().month;
 
 import { FilterUseState } from "./types";
 
-function StudentData() {
+function CourseStudentData() {
   const dispatch = useAppDispatch();
   const id = useId();
   const { locations, status } = useAppSelector(selectLocation);
-  const { enrollments } = useAppSelector(selectEnrollment);
+  const { courses } = useAppSelector(selectCourse);
   // const { resume } = useAppSelector(selectEnrollment);
 
   const [residenceList, setResidenceList] = useState();
@@ -47,7 +47,7 @@ function StudentData() {
 
   const [searchSlideover, setSearchSlideover] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredStudents, setFilteredStudents] = useState(enrollments);
+  const [filteredStudents, setFilteredStudents] = useState(courses);
 
   const sortStudents = (a: any, b: any) => {
     // const aSessionsCount = a.enrollments.items.reduce((acc: any, enrollment: any) => acc + enrollment.sessionDetails.items.length, 0);
@@ -60,7 +60,7 @@ function StudentData() {
   
     // Función para filtrar estudiantes
     const filterStudents = (term: string) => {
-      const filtered = enrollments.filter((item:any) => {
+      const filtered = courses.filter((item:any) => {
       // console.log("--student--", item)
         return item?.student?.name.toLowerCase().includes(term.toLowerCase()) ||
         item?.student?.lastName.toLowerCase().includes(term.toLowerCase())
@@ -74,7 +74,7 @@ function StudentData() {
   // Creamos una versión debounced de la función de filtrado
   const debouncedFilter = useCallback(
     debounce((term: string) => filterStudents(term), 300),
-    [enrollments] // Dependencia del array de estudiantes
+    [courses] // Dependencia del array de estudiantes
   );
 
   // Manejador para el cambio en el input
@@ -97,17 +97,17 @@ function StudentData() {
     (async () => await dispatch(getLocations()))();
   }, []);
   
-  useEffect(() => { setFilteredStudents( [...enrollments]); }, [enrollments]);
+  useEffect(() => { setFilteredStudents( [...courses]); }, [courses]);
   
   
   
   useEffect(() => {
     dispatch(
-      getStudents({
-        day: filter.day,
-        month: filter.month,
-        year: filter.year,
-        wasPaid: filter.wasPaid,
+      getCourseStudent({
+        // day: filter.day,
+        // month: filter.month,
+        // year: filter.year,
+        // wasPaid: filter.wasPaid,
         // locationId: filter.locationId,
         // wasDeleted: filter.wasDeleted,
       })
@@ -126,74 +126,21 @@ function StudentData() {
 
   return (
     <>
-        {/* SEARCH STUDENTS */}
-        <Slideover
-        size="xl"
-        key="Slide-HSearchStudent33"
-        open={searchSlideover}
-        onClose={() => {
-          setSearchSlideover(false);
-        }}
-      >
-        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
-          <a
-            href=""
-            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
-            onClick={(e) => {
-              e.preventDefault();
-              setSearchSlideover(false);
-            }}
-          >
-            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
-          </a>
-          <Slideover.Description className="p-0">
-          <div className="flex flex-col">
-            <div className="px-8 pt-6 pb-8">
-              <div className="text-base font-medium">Reagendar Sesión</div>
-              <div className="text-slate-500 mt-0.5  mb-12">del Alumno</div>
-              
-              
-                <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                <div className="relative">
-                  <Lucide
-                    icon="Search"
-                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                  />
-                   <FormInput
-                      formInputSize="lg"
-                      placeholder="Buscar apoderado..."
-                      aria-label="name" 
-                      aria-describedby="input-group-name"
-                      type="text"
-                      tabIndex={1} 
-                      className="pl-9 w-96 rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
-                      name="guardianEmail"
-                      // value={searchTerm}
-                      // onChange={handleSearchChange}
-                    />
-          </div>
-                </div>
-              </div>
-            </div>
 
-
-          </Slideover.Description>
-        </Slideover.Panel>
-      </Slideover>
-      {/* <pre>{JSON.stringify(filter, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(courses[0], null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 2xl:col-span-12">
           <div className="col-span-12 mt-8">
             <div className="flex items-center h-10 intro-y">
               <h2 className="mr-5 text-lg font-medium truncate">
-                Administrador inscripciones Alumno
+                Listado de Alumnos por curso
               </h2>
               <a href="" className="flex items-center ml-auto text-primary">
                 <Lucide icon="RefreshCcw" className="w-4 h-4 mr-3" /> Actualizar
               </a>
             </div>
             <div className="grid grid-cols-12 gap-6 mt-5">
-              <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
+              {/* <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
                 <FilterBar
                   filter={filter}
                   setFilter={setFilter}
@@ -248,13 +195,13 @@ function StudentData() {
                       onChange={handleSearchChange}
                     />
                 </div>
-              </div>
+              </div> */}
               
               <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap ">
                 <div className="text-slate-500 mt-0.5 text-center font-light text-2xl">
-                  { groupByEmail && <EnrollmentsListGroupBy {...filter} enrollments={filteredStudents}/>}
-                  { !groupByEmail && <EnrollmentsList {...filter} enrollments={filteredStudents} />}
-                  
+                  {/* { groupByEmail && <EnrollmentsListGroupBy {...filter} enrollments={filteredStudents}/>}
+                  { !groupByEmail && } */}
+                  <EnrollmentsList {...filter} courses={filteredStudents} />
                 </div>
               </div>
             </div>
@@ -265,4 +212,4 @@ function StudentData() {
   );
 }
 
-export default StudentData;
+export default CourseStudentData;
