@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useId, useCallback } from "react";
 import debounce from 'lodash/debounce';
 import _, { isArray } from "lodash";
-import clsx from "clsx";
+import LoadingIcon from "@/components/Base/LoadingIcon";
 // import Lucide from "../../../base-components/Lucide";\
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
@@ -28,8 +28,8 @@ import { FilterUseState } from "./types";
 function StudentData() {
   const dispatch = useAppDispatch();
   const id = useId();
-  const { locations, status } = useAppSelector(selectLocation);
-  const { enrollments } = useAppSelector(selectEnrollment);
+  const { locations } = useAppSelector(selectLocation);
+  const { enrollments, status } = useAppSelector(selectEnrollment);
   // const { resume } = useAppSelector(selectEnrollment);
 
   const [residenceList, setResidenceList] = useState();
@@ -188,16 +188,34 @@ function StudentData() {
               <h2 className="mr-5 text-lg font-medium truncate">
                 Administrador inscripciones Alumno
               </h2>
-              <a href="" className="flex items-center ml-auto text-primary">
-                <Lucide icon="RefreshCcw" className="w-4 h-4 mr-3" /> Actualizar
-              </a>
+              <Button
+                className=" bg-primary flex items-center ml-auto text-white shadow-none border-2 rounded-full min-w-40 min-h-12"
+                    onClick={async (e:any) => {
+                      e.preventDefault();
+                      await  dispatch(
+                        getStudents({
+                          day: filter.day,
+                          month: filter.month,
+                          year: filter.year,
+                          wasPaid: filter.wasPaid,
+                        })
+                      );
+                    }}
+                    >                    
+                   {status === "loading" ? <div className="w-14 h-7"><LoadingIcon
+                    color="#FFFFFF"
+                    icon="three-dots"
+                    className=""
+                  /></div>: <><Lucide icon="RefreshCcw" className="w-4 h-4 mr-3" />ACTUALIZAR</>}
+                  
+                  </Button>
             </div>
             <div className="grid grid-cols-12 gap-6 mt-5">
               <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
                 <FilterBar
                   filter={filter}
                   setFilter={setFilter}
-                  residences={residenceList}
+                  locations={residenceList}
                   hasDate={true}
                   onlyDate={true}
                 />

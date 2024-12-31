@@ -12,6 +12,7 @@ export interface CourseState {
   course: Course;
  courses: Course[];
  errorMessage:string;
+ resumeByLocation:any;
 }
 
 export const initialState: CourseState = {
@@ -19,8 +20,8 @@ export const initialState: CourseState = {
   course: emptyCourse,
   courses: [emptyCourse],
   errorMessage:"",
+  resumeByLocation:[],
 };
-
 
 // locationId?: string;
 // isActive?: boolean;
@@ -124,9 +125,50 @@ export const CourseSlice = createSlice({
           // Si ambos son iguales, no cambiamos el orden
           return 0;
         });
-  
-        // state.courses = objPayload?.items || [];
         state.courses = sortedArray || [];
+        
+        // Función para contar enrollments por locationCoursesId y id
+        const countEnrollments = (data:any) => {
+          // Objeto para almacenar los conteos
+          const counts:any = {};
+          
+          // Recorrer el array
+          data.forEach((item:any) => {
+            const locationId = item.locationCoursesId;
+            const courseId = item.id;
+            const enrollmentCount = item.enrollments.items.length;
+            
+            // Inicializar la ubicación si no existe
+            if (!counts[locationId]) {
+              counts[locationId] = {
+                totalEnrollments: 0,
+                courses: {}
+              };
+            }
+            
+            // Agregar conteo para el curso específico
+            counts[locationId].courses[courseId] = enrollmentCount;
+            
+            // Actualizar el total de la ubicación
+            counts[locationId].totalEnrollments += enrollmentCount;
+          });
+          
+          return counts;
+        };
+
+        const getEnrollmentSummary = (data:any) => {
+          const counts = countEnrollments(data);
+          
+          return Object.entries(counts).map(([location, data]:[any,any]) => ({
+            location,
+            totalEnrollments: data.totalEnrollments,
+            courseDetails: Object.entries(data.courses).map(([courseId, count]) => ({
+              courseId,
+              enrollments: count
+            }))
+          }));
+        };
+        state.resumeByLocation=getEnrollmentSummary(sortedArray);
         
       })
       

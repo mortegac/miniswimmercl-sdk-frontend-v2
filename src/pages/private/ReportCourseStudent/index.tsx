@@ -2,6 +2,7 @@ import React, { useEffect, useState, useId, useCallback } from "react";
 import debounce from 'lodash/debounce';
 import _, { isArray } from "lodash";
 import clsx from "clsx";
+import LoadingIcon from "@/components/Base/LoadingIcon";
 // import Lucide from "../../../base-components/Lucide";\
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
@@ -13,7 +14,7 @@ import { FilterBar } from "@/components/FilterBar";
 import IconStatus from "@/components/IconStatus";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { getLocations, selectLocation } from "@/stores/Locations/slice";
+import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
 import { getCourseStudent, selectCourse } from "@/stores/Courses/slice";
 
 import EnrollmentsList from "./EnrollmentsList";
@@ -25,16 +26,96 @@ const currentMonth = calculateCurrentDate().month;
 
 import { FilterUseState } from "./types";
 
+function Resume(props:any) {
+  const {data} = props;
+  
+  return(
+    <>
+      <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
+          <div
+            className={clsx([
+              "relative zoom-in",
+              "before:content-[''] before:w-[90%] ",
+            ])}
+          >
+              <div className="p-5 box min-h-60 max-h-6">
+                {/* <div className="flex">
+                  <IconStatus subType={"returns"} />
+                </div> */}
+                <p className="truncate  text-2xl">
+                      Inscripciones por Sede
+                      </p>
+                    
+                      <div className="mt-6 text-sm font-medium leading-8 flex flex-col ">
+                        { Array.isArray(data) && data.map((item:any, i)=>
+                        <>
+                            <div className="flex flex-row justify-between">
+                                  <p className="truncate hover:text-clip">
+                                    {item?.location}
+                                  </p>                
+                                  <p className="hover:text-clip">
+                                    {item?.totalEnrollments}
+                                  </p>                
+                            </div>
+                        </>
+                        )}
+                        
+                      </div>
+              </div>
+          </div>
+      </div>
+      <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
+          <div
+            className={clsx([
+              "relative zoom-in",
+              "before:content-[''] before:w-[90%] ",
+            ])}
+          >
+              <div className="p-5 box min-h-60 max-h-6">
+                {/* <div className="flex">
+                  <IconStatus subType={"returns"} />
+                </div> */}
+                <p className="truncate  text-2xl">
+                      Detalle por curso
+                      </p>
+                      <div className="mt-4 overflow-auto h-40 relative max-w-sm mx-auto flex flex-col divide-y dark:divide-slate-200/5">
+                      { Array.isArray(data) && data.map((item:any, i)=>
+                      <div className="mt-6 text-sm font-medium leading-8 flex flex-col ">
+                        <p className=" font-thin text-lg mb-4">{item?.location}</p>
+                      { Array.isArray(item?.courseDetails) && item?.courseDetails.map((course:any, i:number)=>
+                      <>
+                          <div className="flex flex-row justify-between">
+                                <p className="w-56 truncate hover:text-clip text-sm font-normal">
+                                  {course?.courseId}
+                                </p>                
+                                <p className="hover:text-clip">
+                                  {course?.enrollments}
+                                </p>                
+                          </div>
+                      </>
+                      )}
+                      
+                    </div>
+                      )}
+                    </div>
+                      
+              </div>
+          </div>
+      </div>
+    </>
+  )
+  
+}
 function CourseStudentData() {
   const dispatch = useAppDispatch();
-  const id = useId();
-  const { locations, status } = useAppSelector(selectLocation);
-  const { courses } = useAppSelector(selectCourse);
+  // const id = useId();
+  const { locations } = useAppSelector(selectLocation);
+  const { courses, status, resumeByLocation  } = useAppSelector(selectCourse);
   // const { resume } = useAppSelector(selectEnrollment);
 
-  const [residenceList, setResidenceList] = useState();
+  // const [residenceList, setResidenceList] = useState();
 
-  const [groupByEmail, setGroupByEmail] = useState(true);
+  // const [groupByEmail, setGroupByEmail] = useState(true);
   const [filter, setFilter] = useState<FilterUseState>({
     locationId: "",
     day: "",
@@ -45,8 +126,8 @@ function CourseStudentData() {
     // wasDeleted: "",
   });
 
-  const [searchSlideover, setSearchSlideover] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  // const [searchSlideover, setSearchSlideover] = useState(false);
+  // const [searchTerm, setSearchTerm] = useState('');
   const [filteredStudents, setFilteredStudents] = useState(courses);
 
   const sortStudents = (a: any, b: any) => {
@@ -72,29 +153,29 @@ function CourseStudentData() {
       setFilteredStudents( [...filtered].sort(sortStudents));
     };
   // Creamos una versión debounced de la función de filtrado
-  const debouncedFilter = useCallback(
-    debounce((term: string) => filterStudents(term), 300),
-    [courses] // Dependencia del array de estudiantes
-  );
+  // const debouncedFilter = useCallback(
+  //   debounce((term: string) => filterStudents(term), 300),
+  //   [courses] // Dependencia del array de estudiantes
+  // );
 
   // Manejador para el cambio en el input
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value;
-    setSearchTerm(term);
-    debouncedFilter(term);
-  };
+  // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const term = event.target.value;
+  //   setSearchTerm(term);
+  //   debouncedFilter(term);
+  // };
   
-  function transformResidenceData(
-    locations: any
-  ): { id: string; name: string }[] {
-    return locations.map((item: any) => ({
-      id: item?.id,
-      name: `${item?.name}`,
-    }));
-  }
+  // function transformResidenceData(
+  //   locations: any
+  // ): { id: string; name: string }[] {
+  //   return locations.map((item: any) => ({
+  //     id: item?.id,
+  //     name: `${item?.name}`,
+  //   }));
+  // }
 
   useEffect(() => {
-    (async () => await dispatch(getLocations()))();
+    (async () => await dispatch(getLocationsOnly()))();
   }, []);
   
   useEffect(() => { setFilteredStudents( [...courses]); }, [courses]);
@@ -104,11 +185,11 @@ function CourseStudentData() {
   useEffect(() => {
     dispatch(
       getCourseStudent({
-        // day: filter.day,
-        // month: filter.month,
-        // year: filter.year,
-        // wasPaid: filter.wasPaid,
-        // locationId: filter.locationId,
+        day: filter.day,
+        month: filter.month,
+        year: filter.year,
+        wasPaid: filter.wasPaid,
+        locationId: filter.locationId,
         // wasDeleted: filter.wasDeleted,
       })
     );
@@ -120,14 +201,14 @@ function CourseStudentData() {
       locationId: locations[0]?.id || "",
     });
 
-    const data: any = locations && transformResidenceData(locations);
-    setResidenceList(data);
-  }, [location]);
+    // const data: any = locations && transformResidenceData(locations);
+    // setResidenceList(data);
+  }, [locations]);
 
   return (
     <>
 
-      {/* <pre>{JSON.stringify(courses[0], null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(resumeByLocation, null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 2xl:col-span-12">
           <div className="col-span-12 mt-8">
@@ -135,73 +216,52 @@ function CourseStudentData() {
               <h2 className="mr-5 text-lg font-medium truncate">
                 Listado de Alumnos por curso
               </h2>
-              <a href="" className="flex items-center ml-auto text-primary">
-                <Lucide icon="RefreshCcw" className="w-4 h-4 mr-3" /> Actualizar
-              </a>
+              <Button
+                className=" bg-primary flex items-center ml-auto text-white shadow-none border-2 rounded-full min-w-40 min-h-12"
+                    onClick={async (e:any) => {
+                      e.preventDefault();
+                      await  dispatch(
+                        getCourseStudent({
+                          day: filter.day,
+                          month: filter.month,
+                          year: filter.year,
+                          wasPaid: filter.wasPaid,
+                          locationId: filter.locationId,
+                        })
+                      );
+                    }}
+                    >                    
+                   {status === "loading" ? <div className="w-14 h-7"><LoadingIcon
+                    color="#FFFFFF"
+                    icon="three-dots"
+                    className=""
+                  /></div>: <><Lucide icon="RefreshCcw" className="w-4 h-4 mr-3" />ACTUALIZAR</>}
+                  
+                  </Button>
+              
+              {/* } */}
+              {/* </a> */}
             </div>
             <div className="grid grid-cols-12 gap-6 mt-5">
-              {/* <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
+              <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
                 <FilterBar
                   filter={filter}
                   setFilter={setFilter}
-                  residences={residenceList}
+                  locations={locations}
                   hasDate={true}
                   onlyDate={true}
                 />
-                <div>
-                  <Button
-                    rounded
-                    className="mr-4 px-2 py-2 border bg-white border-slate-400 hover:bg-slate-300"
-                    onClick={(event: React.MouseEvent) => {
-                      event.preventDefault();
-                      setGroupByEmail(!groupByEmail);
-                    }}
-                  >
-                    <Lucide icon="User" className="text-slate-400" />
-                    <span className="mx-4 upp">Desagrupar</span>
-                  </Button>
-                  <Button
-                    rounded
-                    className="px-2 py-2 border bg-white border-slate-400 hover:bg-slate-300"
-                    onClick={(event: React.MouseEvent) => {
-                      event.preventDefault();
-                      setSearchSlideover(true);
-                    }}
-                  >
-                    <Lucide icon="Search" className="text-slate-400" />
-                    <span className="mx-4 upp">Buscar apoderado</span>
-                  </Button>
-                  
-                </div>
-              </div>
-
-              <div>
-                <div className="relative">
-                  <Lucide
-                    icon="Search"
-                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                  />
-                   <FormInput
-                      formInputSize="lg"
-                      placeholder="Buscar alumnos..."
-                      aria-label="name" 
-                      aria-describedby="input-group-name"
-                      type="text"
-                      tabIndex={1} 
-                      // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
-                      className="pl-9 sm:w-64 rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
-                      name="guardianEmail"
-                      value={searchTerm}
-                      onChange={handleSearchChange}
-                    />
-                </div>
-              </div> */}
-              
+                </div>              
+                  { resumeByLocation && <Resume data={resumeByLocation} />}
               <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap ">
                 <div className="text-slate-500 mt-0.5 text-center font-light text-2xl">
-                  {/* { groupByEmail && <EnrollmentsListGroupBy {...filter} enrollments={filteredStudents}/>}
-                  { !groupByEmail && } */}
-                  <EnrollmentsList {...filter} courses={filteredStudents} />
+                { status === "loading" &&   <div className="w-16 h-16"><LoadingIcon
+                    color="white"
+                    icon="oval"
+                    className="w-10 h-10 mt-10"
+                /></div>}
+                  { status === "idle" && <EnrollmentsList {...filter} courses={filteredStudents} />}
+                  
                 </div>
               </div>
             </div>

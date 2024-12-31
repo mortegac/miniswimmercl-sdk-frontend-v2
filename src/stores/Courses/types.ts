@@ -68,5 +68,8 @@ export const emptyCourse: Course = {
 export type FilterOptions  = {
   locationId?: string;
   isActive?: boolean;
-
+  wasPaid?: string;
+  day?: string;
+  month?: string;
+  year?: string;
 }

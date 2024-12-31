@@ -742,7 +742,7 @@ function Main() {
                 <FilterBar
                   filter={filter}
                   setFilter={setFilter}
-                  residences={residenceList}
+                  locations={residenceList}
                   hasDate={true}
                   onlyDate={true}
                 />

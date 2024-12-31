@@ -20,7 +20,7 @@ import {FormSelect, } from "@/components/Base/Form";
 
 interface FilterProps {
   filter: {
-    residenceId?: string;
+    locationId?: string;
     day?: string;
     month?: string;
     year?: string;
@@ -32,7 +32,7 @@ interface FilterProps {
   };
   setFilter: React.Dispatch<
     React.SetStateAction<{
-      residenceId?: string;
+      locationId?: string;
       day?: string;
       month?: string;
       year?: string;
@@ -41,7 +41,7 @@ interface FilterProps {
       wasDeleted?: string;
     }>
   >;
-  residences?: { id: string; name: string }[];
+  locations?: { id: string; name: string }[];
   dataList?: { id: string; name: string }[];
   selected?: string;
   typeTextList?: string;
@@ -56,7 +56,7 @@ export const List: React.FC<FilterProps> = ({
   filter,
   setFilter,
   dataList,
-  residences,
+  locations,
   typeOfList,
 }) => {
   return (
@@ -66,7 +66,7 @@ export const List: React.FC<FilterProps> = ({
         (e) =>
           setFilter((prevFilter) => ({
             ...prevFilter,
-            ...(typeOfList === "residence" && { residenceId: e.target.value }),
+            ...(typeOfList === "locationId" && { locationId: e.target.value }),
             ...(typeOfList === "day" && { day: e.target.value }),
             ...(typeOfList === "month" && { month: e.target.value }),
             ...(typeOfList === "year" && { year: e.target.value }),
@@ -96,7 +96,7 @@ export const FilterBar: React.FC<FilterProps> = ({
   filter,
   setFilter,
   dataList,
-  residences,
+  locations,
   hasDate,
   onlyDate,
 }) => {
@@ -104,20 +104,20 @@ export const FilterBar: React.FC<FilterProps> = ({
     <div className="mt-2">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:flex lg:items-center lg:gap-4">
         {/* Residence List */}
-        {/* <pre>onlyDate={JSON.stringify(typeof onlyDate)}</pre> */}
+        {/* <pre>onlyDate={JSON.stringify(locations)}</pre> */}
         {(typeof onlyDate !== "undefined" || onlyDate === false) && (
-          <></>
-          // <div className={`w-full ${hasDate && "lg:w-1/2"}`}>
-          //   <List
-          //     selected={filter.residenceId}
-          //     typeTextList={"-SEDES"}
-          //     filter={filter}
-          //     setFilter={setFilter}
-          //     dataList={residences}
-          //     typeOfList="residence"
-          //     // className="w-full"
-          //   />
-          // </div>
+          // <></>
+          <div className={`w-full ${hasDate && "lg:w-1/2"}`}>
+            <List
+              selected={filter.locationId}
+              typeTextList={"-SEDES"}
+              filter={filter}
+              setFilter={setFilter}
+              dataList={locations}
+              typeOfList="locationId"
+              // className="w-full"
+            />
+          </div>
         )}
           <div className="w-full lg:w-1/2 min-w-36">
               <List
