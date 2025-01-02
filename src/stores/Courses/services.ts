@@ -116,6 +116,7 @@ export const fetchDataStudent = async (objFilter: FilterOptions): Promise<any> =
                     lastName
                     birthdate
                     emailPhone
+                    contactPhone
                   }
                   sessionDetails{
                     items{

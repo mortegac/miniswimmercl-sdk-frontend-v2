@@ -43,24 +43,57 @@ const typeOfRelationship: any = {
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
-
+  
   const day = date.getUTCDate().toString().padStart(2, "0");
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
   const year = date.getUTCFullYear();
-
+  
   return `${day}-${typeOfMonth[month]}`;
 }
 
 function Content(props: any) {
-  
-
-          
-  const { courses, locationId, month, year } = props;
-  const dispatch = useAppDispatch();
+  const { courses } = props;
+  const [switcherSlideRemember, setSwitcherSlideRemember] = useState(false);
+  // const dispatch = useAppDispatch();
 
 
   return (
     <>
+          <Slideover
+        size="lg"
+        key="Slide-Students"
+        open={switcherSlideRemember}
+        onClose={() => {
+          setSwitcherSlideRemember(false);
+        }}
+      >
+        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+          <a
+            href=""
+            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
+            onClick={(e) => {
+              e.preventDefault();
+              setSwitcherSlideRemember(false);
+            }}
+          >
+            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
+          </a>
+          <Slideover.Description className="p-0">
+            <div className="flex flex-col">
+              <div className="px-8 pt-6 pb-8">
+                <div className="text-base font-medium">Enviar recordatorio de pago vía Whastapp</div>
+              
+                <div className="flex flex-col items-startgap-y-2">
+              <div>
+                
+                {/* <StudentList/> */}
+              </div>  
+              </div>  
+              </div>
+            </div>
+          </Slideover.Description>
+        </Slideover.Panel>
+      </Slideover>
       <div className="overflow-auto xl:overflow-visible text-base">
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
@@ -97,9 +130,9 @@ function Content(props: any) {
                   <>
                   {Array.isArray(course?.enrollments?.items) &&
                   course?.enrollments?.items.map((item: any, index:number) => {
-                    
                     return (
                       <>
+                      {/* <pre>{JSON.stringify(course?.enrollments, null, 2)}</pre> */}
                     <Table.Tr
                       key={i}
                       className={`[&_td]:last:border-b-0 bg-white`}
@@ -160,9 +193,26 @@ function Content(props: any) {
                             <p className=" uppercase font-dm-sans font-normal text-base text-left">
                           {item?.student?.name} {item?.student?.lastName}{" "}
                         </p>
-                            <p className=" block font-dm-sans text-sm text-left">
+                        <p className=" block font-dm-sans text-sm text-left">
                           {item?.student?.emailPhone}
                         </p>
+                        
+                        {item?.wasPaid && <p className=" block font-dm-sans text-sm text-left text-slate-400">
+                          {item?.student?.contactPhone}
+                        </p>}
+                        {!item?.wasPaid &&  <Button
+                                onClick={() => setSwitcherSlideRemember(true)}
+                                className={` mx-1 my-1 rounded-full p-0  w-40 h-12 bg-green-50`}
+                              >
+                                <div className={`text-center px-2`}>
+                                  
+                                      <small className="text-xs">
+                                      Enviar Recordatorio {item?.student?.contactPhone}
+                                      </small>
+                                  
+                                </div>
+                              </Button>}
+                        
                         </Table.Td>
                         <Table.Td className=" py-4 border-dashed w-40">
                         {Array.isArray(item?.sessionDetails?.items) &&
