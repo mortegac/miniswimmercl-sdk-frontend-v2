@@ -21,9 +21,10 @@ import { useAppSelector, useAppDispatch } from "../../../stores/hooks";
 import {
   getStudents,
   selectEnrollment,
+  removeEnrollment,
 } from "../../../stores/Enrollment/slice";
 import { selectAuth} from "@/stores/Users/slice";
-import { setOneSessionDetail, selectSessionDetails } from "@/stores//SessionDetails/slice";
+// import { setOneSessionDetail, selectSessionDetails } from "@/stores/SessionDetails/slice";
 import { getLocations, selectLocation } from "@/stores/Locations/slice";
 import { selectShoppingCartDetails, getShoppingCartDetail } from "@/stores/ShoppingCartDetail/slice";
 
@@ -56,7 +57,7 @@ function formatDate(dateString: string): string {
 function Content(props: any) {
   let currentUserId:string | null = null;
   
-  const { enrollments, locationId, month, year, statusEnroll } = props;
+  const { enrollments, locationId, wasPaid, day, month, year, statusEnroll } = props;
   const dispatch = useAppDispatch();
   const {email}= useAppSelector(selectAuth);
   const { locations, status } = useAppSelector(selectLocation);
@@ -170,27 +171,29 @@ function Content(props: any) {
   // }
   
   async function deleteEnrollment(enrollmentId:string){
-    
+   console.log("eliminacion enrollmentId = ", enrollmentId)
     await Promise.all([
-      // await dispatch(
-      //   setOneSessionDetail({
-      //     sessionId:data?.sessionId,
-      //     status:data?.status,
-      //     locationIdUsed:data?.location,
-      //     sessionDate:data?.date,
-      //     userModifyId:email,
-      //   })),
+      await dispatch(
+        removeEnrollment({
+          enrollmentId:enrollmentId,
+          employeeId:email,
+        })),
       await dispatch(
         getStudents({
+          // day: filter.day,
+          // month: filter.month,
+          // year: filter.year,
+          // wasPaid: filter.wasPaid,
           month: month,
           year: year,
-          wasPaid: "false",
+          day:day,
+          wasPaid: wasPaid,
         })
       )
     ])
     
     const successEl = document
-    .querySelectorAll("#success-notification-content")[0]
+    .querySelectorAll("#deleted-enrollment")[0]
     .cloneNode(true) as HTMLElement;
     successEl.classList.remove("hidden");
     Toastify({
@@ -224,6 +227,18 @@ function Content(props: any) {
           </div>
         </div>
       </Notification>
+   <Notification
+        id="deleted-enrollment"
+        className="flex hidden"
+      >
+        <Lucide icon="XCircle" className="text-danger" />
+        <div className="ml-4 mr-4">
+          <div className="font-medium">Inscripción eliminada</div>
+          <div className="mt-1 text-slate-500">
+            correctamente
+          </div>
+        </div>
+      </Notification>
     {/* SESIONES */}
       <Slideover
         size="xl"
@@ -246,166 +261,7 @@ function Content(props: any) {
           </a>
           <Slideover.Description className="p-0">
             <SessionList enrollmentId={data?.enrollmentId} sessionId={data?.sessionId} studentId={data?.studentId}/>
-            {/* <div className="flex flex-col">
-              <pre>{JSON.stringify(data, null, 2 )}</pre>
-              <div className="px-8 pt-6 pb-8">
-                <div className="text-base font-medium">Reagendar Sesión</div>
-                <div className="text-slate-500 mt-0.5  mb-12">del Alumno</div>
-                <div className="overflow-auto xl:overflow-visible">
-                
-                  <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                    <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                      <div className="text-left">
-                        <div className="flex items-center">
-                          <div className="font-medium">Fecha sesión</div>
-                          <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                            Requerido
-                          </div>
-                        </div>
-                        <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-                          (Formato fecha año - mes - dia)
-                        </div>
-                      </div>
-                    </label>
-                    <div className="flex flex-row mt-3 xl:mt-0 w-[140] justify-center items-center">
-                      <div className="relative">
-                        <Lucide
-                          icon="Calendar"
-                          className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
-                        />
-                        <Litepicker
-                          value={data.date}
-                          type="text"
-                          name="studentBithday"
-                          onChange={(e) =>
-                            setData({ ...data, date: String(e.target.value).replace("T00:00:00.000Z", '') })
-                          }
-                          options={{
-                            autoApply: true,
-                            showWeekNumbers: false,
-                            format: "YYYY-MM-DD",
-                            singleMode: true,
-                            // Formatear la fecha de salida como ISO 8601
-                            setup: (picker) => {
-                              picker.on("selected", (date1) => {
-                                // Convertir a formato ISO 8601
-                                const isoDate = date1.format(
-                                  "YYYY-MM-DD"
-                                );
-                                // const isoDate = date1.format(
-                                //   "YYYY-MM-DDTHH:mm:ss.SSSZ"
-                                // );
-                                console.log(
-                                  "Fecha seleccionada (ISO 8601):",
-                                  isoDate
-                                );
-                              });
-                            },
-                            dropdowns: {
-                              minYear: new Date().getFullYear() - 2,
-                              maxYear: new Date().getFullYear() + 1,
-                              months: true,
-                              years: true,
-                            },
-                          }}
-                          className="px-6 py-3 pl-12 rounded-full mr-8 focus:z-10"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                    <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                      <div className="text-left">
-                        <div className="flex items-center">
-                          <div className="font-medium">Sede</div>
-                        </div>
-                      </div>
-                    </label>
-                    <div className="flex-1 w-full mt-3 xl:mt-0">
-                      <FormSelect
-                        className="!box uppercase mr-3"
-                        onChange={(e) =>
-                          setData({ ...data, location: e.target.value })
-                        }
-                      >
-                        <option value="" selected>
-                          {`${"Sedes"} `}
-                        </option>
-                        {Array.isArray(locations) &&
-                          locations?.map((item, i) => (
-                            <option
-                              key={i}
-                              value={item?.id}
-                              selected={item?.id === data.location && true}
-                            >
-                              {item.name}
-                            </option>
-                          ))}
-                      </FormSelect>
-                    </div>
-                  </div>
-                  <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                    <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                      <div className="text-left">
-                        <div className="flex items-center">
-                          <div className="font-medium">Estado</div>
-                        </div>
-                      </div>
-                    </label>
-                    <div className="flex-1 w-full mt-3 xl:mt-0">
-                      <FormSelect
-                        className="!box uppercase mr-3"
-                        onChange={(e) =>
-                          setData({ ...data, status: e.target.value })
-                        }
-                      >
-                       
-                            <option
-                              key={"STATUS-01"}
-                              value={"ACTIVE"}
-                              selected={"ACTIVE" === data.status && true}
-                            >
-                              {"ACTIVA"}
-                            </option>
-                            <option
-                              key={"STATUS-02"}
-                              value={"USED"}
-                              selected={"USED" === data.status && true}
-                            >
-                              {"USADA"}
-                            </option>
-                            <option
-                              key={"STATUS-03"}
-                              value={"RECOVERED"}
-                              selected={"RECOVERED" === data.status && true}
-                            >
-                              {"RECUPERADA"}
-                            </option>
-                            <option
-                              key={"STATUS-04"}
-                              value={"DELETED"}
-                              selected={"DELETED" === data.status && true}
-                            >
-                              {"ELIMINADA"}
-                            </option>
-                      </FormSelect>
-                    </div>
-                  </div>
-                  <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                   
-                    <div className="flex-1 w-full mt-3 xl:mt-0">
-                    <Button
-                            key={`${"UPDATE_SESSION"}-span-buttons`} 
-                            rounded
-                            variant="primary"
-                            className={`w-full px-2 py-2  mx-2 font-light uppercase `}
-                            onClick={()=>updateSession()}
-                          >Actualizar Sesión</Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+           
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
@@ -651,6 +507,8 @@ function Content(props: any) {
                   </p>
                 </Table.Td>
                     <Table.Td className=" py-4 border-dashed">
+                      
+                    {!item?.wasDeleted &&
                       <div className="flex items-center">
                         <div
                           className={`flex justify-center items-center text-xs border rounded-full px-2 py-2 
@@ -664,6 +522,19 @@ function Content(props: any) {
                           </span>
                         </div>
                       </div>
+                    }
+                      {item?.wasDeleted &&
+                        <div className="flex items-center">
+                          <div
+                            className={`flex justify-center items-center text-xs border rounded-full px-2 py-2 
+                            text-danger bg-danger/10 font-thin`}
+                          >
+                            <span className="-mt-px text-center p-1">
+                              INSCRIPCION ELIMINADO
+                            </span>
+                          </div>
+                        </div>
+                      }
                     </Table.Td>
 
                     <Table.Td className=" py-4 border-dashed">
@@ -763,7 +634,7 @@ function Content(props: any) {
                               className="mr-2 px-2 py-2 border border-red-400 hover:bg-red-300"
                               onClick={(event: React.MouseEvent) => {
                                 event.preventDefault();
-                                setRemoveEnrollmentSlideover(true);
+                                // setRemoveEnrollmentSlideover(true);
                                 deleteEnrollment(item?.id)
                               }}
                             >

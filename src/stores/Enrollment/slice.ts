@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 // import {transformResponse} from "../../utils/parser";
-import {fetchData, createEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
+import {fetchData, createEnrollment, deleteEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
 import {Enrollment, emptyEnrollment, EnrollmentExtra, emptyEnrollmentExtra, FilterOptions} from "./types"
 
 export interface EnrollmentState {
@@ -41,6 +41,22 @@ export const setEnrollment = createAsyncThunk(
     try {
       // console.error(">>>>setEnrollment-objFilter", objFilter)
       const response:any = await createEnrollment({ ...objFilter });
+      // console.error(">>>>setEnrollment-response", response)
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH setEnrollment", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+export const removeEnrollment = createAsyncThunk(
+  "Enrollment/deleteEnroll",
+  async (objFilter: FilterOptions, { dispatch }) => {
+    try {
+      // console.error(">>>>setEnrollment-objFilter", objFilter)
+      const response:any = await deleteEnrollment({ ...objFilter });
       // console.error(">>>>setEnrollment-response", response)
       return response;
     } catch (error) {
@@ -279,6 +295,25 @@ export const enrollmentSlice = createSlice({
           
         state.sessions = jsonResponse?.sessions || [];
         state.cartId = jsonResponse?.cartId || [];
+      })
+      
+      
+      // REMOVE ENROLLMENT
+      .addCase(removeEnrollment.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(removeEnrollment.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeEnrollment.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        console.log("---setEnrollment --action---", objPayload)
+        
+          
       })
       
       

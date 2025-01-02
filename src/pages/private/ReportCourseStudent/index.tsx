@@ -27,7 +27,7 @@ const currentMonth = calculateCurrentDate().month;
 import { FilterUseState } from "./types";
 
 function Resume(props:any) {
-  const {data} = props;
+  const {data, total} = props;
   
   return(
     <>
@@ -42,8 +42,8 @@ function Resume(props:any) {
                 {/* <div className="flex">
                   <IconStatus subType={"returns"} />
                 </div> */}
-                <p className="truncate  text-2xl">
-                      Inscripciones por Sede
+                <p className="truncate  text-lg text-primary">
+                      <b className="text-4xl mr-2">{total}</b>{" "}Inscripciones en total
                       </p>
                     
                       <div className="mt-6 text-sm font-medium leading-8 flex flex-col ">
@@ -59,7 +59,7 @@ function Resume(props:any) {
                             </div>
                         </>
                         )}
-                        
+                      
                       </div>
               </div>
           </div>
@@ -110,7 +110,7 @@ function CourseStudentData() {
   const dispatch = useAppDispatch();
   // const id = useId();
   const { locations } = useAppSelector(selectLocation);
-  const { courses, status, resumeByLocation  } = useAppSelector(selectCourse);
+  const { courses, status, resumeByLocation, resumeByLocationTotal  } = useAppSelector(selectCourse);
   // const { resume } = useAppSelector(selectEnrollment);
 
   // const [residenceList, setResidenceList] = useState();
@@ -152,28 +152,7 @@ function CourseStudentData() {
       // setFilteredStudents(filtered);
       setFilteredStudents( [...filtered].sort(sortStudents));
     };
-  // Creamos una versión debounced de la función de filtrado
-  // const debouncedFilter = useCallback(
-  //   debounce((term: string) => filterStudents(term), 300),
-  //   [courses] // Dependencia del array de estudiantes
-  // );
-
-  // Manejador para el cambio en el input
-  // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const term = event.target.value;
-  //   setSearchTerm(term);
-  //   debouncedFilter(term);
-  // };
   
-  // function transformResidenceData(
-  //   locations: any
-  // ): { id: string; name: string }[] {
-  //   return locations.map((item: any) => ({
-  //     id: item?.id,
-  //     name: `${item?.name}`,
-  //   }));
-  // }
-
   useEffect(() => {
     (async () => await dispatch(getLocationsOnly()))();
   }, []);
@@ -252,7 +231,7 @@ function CourseStudentData() {
                   onlyDate={true}
                 />
                 </div>              
-                  { resumeByLocation && <Resume data={resumeByLocation} />}
+                  { resumeByLocation && <Resume data={resumeByLocation}  total={resumeByLocationTotal}/>}
               <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap ">
                 <div className="text-slate-500 mt-0.5 text-center font-light text-2xl">
                 { status === "loading" &&   <div className="w-16 h-16"><LoadingIcon

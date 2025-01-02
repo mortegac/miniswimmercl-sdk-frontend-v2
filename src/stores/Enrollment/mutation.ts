@@ -1,6 +1,4 @@
 
-
-
 export const generateEnrollment = /* GraphQL */ `
   mutation GenerateEnrollment(
     $userId: String!
@@ -17,6 +15,19 @@ export const generateEnrollment = /* GraphQL */ `
       sessionTypeId: $sessionTypeId
       scheduleId: $scheduleId
       courseId: $courseId
+    )
+  }
+`;
+
+
+export const removeEnrollment = /* GraphQL */ `
+  mutation RemoveEnrollment(
+    $enrollId: String!, 
+    $employeeId: String!
+  ) {
+    removeEnrollment(
+      enrollId: $enrollId, 
+      employeeId: $employeeId
     )
   }
 `;

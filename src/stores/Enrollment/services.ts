@@ -2,7 +2,7 @@ import { generateClient } from 'aws-amplify/api';
 
 
 import { listEnrollments } from './queries';
-import { generateEnrollment } from './mutation';
+import { generateEnrollment, removeEnrollment } from './mutation';
 import { FilterOptions } from './types';
 const client = generateClient();
 
@@ -127,6 +127,45 @@ export const createEnrollment = async (objFilter: FilterOptions): Promise<any> =
       // resolve({ ...data.generateEnrollment } as any);
       
       const data = setData?.data?.generateEnrollment || {};
+      resolve({ data } as any);
+        
+      // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+
+// }
+
+export const deleteEnrollment = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const deleteData:any = await client.graphql({
+        query: removeEnrollment,
+        variables: {
+          // input: {            
+            enrollId: objFilter?.enrollmentId,
+            employeeId: objFilter?.employeeId,
+          // }
+        }
+      });
+      
+      // console.log("<<< ENROLLMENT CREADO <<<<< ", setData)
+      // const data = setData.data;
+      // resolve({ ...data.generateEnrollment } as any);
+      
+      const data = deleteData?.data?.removeEnrollment || {};
       resolve({ data } as any);
         
       // ...userData.data.getUsers

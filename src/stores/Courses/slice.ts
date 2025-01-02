@@ -13,6 +13,7 @@ export interface CourseState {
  courses: Course[];
  errorMessage:string;
  resumeByLocation:any;
+ resumeByLocationTotal:number;
 }
 
 export const initialState: CourseState = {
@@ -21,6 +22,7 @@ export const initialState: CourseState = {
   courses: [emptyCourse],
   errorMessage:"",
   resumeByLocation:[],
+  resumeByLocationTotal:0,
 };
 
 // locationId?: string;
@@ -127,6 +129,7 @@ export const CourseSlice = createSlice({
         });
         state.courses = sortedArray || [];
         
+        let totalCounts:number = 0;
         // Función para contar enrollments por locationCoursesId y id
         const countEnrollments = (data:any) => {
           // Objeto para almacenar los conteos
@@ -151,6 +154,8 @@ export const CourseSlice = createSlice({
             
             // Actualizar el total de la ubicación
             counts[locationId].totalEnrollments += enrollmentCount;
+            totalCounts += enrollmentCount;
+            // console.log("--totalCounts-", totalCounts)
           });
           
           return counts;
@@ -169,6 +174,8 @@ export const CourseSlice = createSlice({
           }));
         };
         state.resumeByLocation=getEnrollmentSummary(sortedArray);
+        console.log("--totalCounts 22-", totalCounts)
+        state.resumeByLocationTotal=Number(totalCounts);
         
       })
       

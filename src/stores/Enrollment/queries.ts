@@ -111,6 +111,7 @@ export const listEnrollments = /* GraphQL */ `
       startDate
       endDate
       wasPaid
+      wasDeleted
       numberOfSessions
       scheduleId,
       scheduleName,
