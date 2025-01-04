@@ -132,7 +132,7 @@ function Content(props: any) {
                   course?.enrollments?.items.map((item: any, index:number) => {
                     return (
                       <>
-                      {/* <pre>{JSON.stringify(course?.enrollments, null, 2)}</pre> */}
+                      {/* <pre>{JSON.stringify(course, null, 2)}</pre> */}
                     <Table.Tr
                       key={i}
                       className={`[&_td]:last:border-b-0 bg-white`}
@@ -147,8 +147,13 @@ function Content(props: any) {
                             </p>
                         </Table.Td>
                         <Table.Td className=" py-4 border-dashed w-80">
+                        
+                        
                             <p className="text-sm">
                               {course?.id}
+                            </p>
+                            <p className="text-sm uppercase font-thin text-green-600">
+                              {item?.scheduleName}
                             </p>
                             <p className="text-sm font-thin">
                               {course?.locationCoursesId}

@@ -108,6 +108,7 @@ export const fetchDataStudent = async (objFilter: FilterOptions): Promise<any> =
                 }
               ){
                 items{
+                  scheduleName
                   wasPaid
                   startDate
                   student{
@@ -120,6 +121,7 @@ export const fetchDataStudent = async (objFilter: FilterOptions): Promise<any> =
                   }
                   sessionDetails{
                     items{
+                      
                       date
                       month
                       year

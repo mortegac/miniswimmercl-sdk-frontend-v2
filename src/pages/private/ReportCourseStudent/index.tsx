@@ -28,45 +28,9 @@ import { FilterUseState } from "./types";
 
 function Resume(props:any) {
   const {data, total} = props;
-  const [switcherSlideRemember, setSwitcherSlideRemember] = useState(false);
   
   return(
     <>
-          <Slideover
-        size="lg"
-        key="Slide-Students"
-        open={switcherSlideRemember}
-        onClose={() => {
-          setSwitcherSlideRemember(false);
-        }}
-      >
-        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
-          <a
-            href=""
-            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
-            onClick={(e) => {
-              e.preventDefault();
-              setSwitcherSlideRemember(false);
-            }}
-          >
-            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
-          </a>
-          <Slideover.Description className="p-0">
-            <div className="flex flex-col">
-              <div className="px-8 pt-6 pb-8">
-                <div className="text-base font-medium">Enviar recordatio de pago vía Whastapp</div>
-              
-                <div className="flex flex-col items-startgap-y-2">
-              <div>
-                
-                {/* <StudentList/> */}
-              </div>  
-              </div>  
-              </div>
-            </div>
-          </Slideover.Description>
-        </Slideover.Panel>
-      </Slideover>
       <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
           <div
             className={clsx([
