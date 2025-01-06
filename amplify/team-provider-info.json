@@ -18,7 +18,7 @@
       "function": {
         "apiclientslayer": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
-          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion7c674a3f-build.zip"
+          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion18a42778-build.zip"
         },
         "authPostAuthentication": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -56,19 +56,19 @@
         "sendEmailResolver": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/sendEmailResolver-69436b63506437497273-build.zip",
-          "apiKey": "da2-vk3lmmvnk5bmbpt6vkfz7xghpi",
+          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
           "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
         },
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/fnRemoveEnrollment-41534142447a36417776-build.zip",
-          "apiKey": "da2-vk3lmmvnk5bmbpt6vkfz7xghpi",
+          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
           "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
         },
         "fnRenovationEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/fnRenovationEnrollment-36706d70393148456151-build.zip",
-          "apiKey": "da2-vk3lmmvnk5bmbpt6vkfz7xghpi",
+          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
           "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
         },
         "sendWhatsappResolver": {

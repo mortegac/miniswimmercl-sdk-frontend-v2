@@ -57,7 +57,7 @@ let awsExports: AwsConfig ={
   "aws_appsync_graphqlEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql",
   "aws_appsync_region": "us-east-2",
   "aws_appsync_authenticationType": "API_KEY",
-  "aws_appsync_apiKey": "da2-vk3lmmvnk5bmbpt6vkfz7xghpi",
+  "aws_appsync_apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
   "aws_cognito_identity_pool_id": "us-east-2:63f9c713-19f8-40ff-a99b-1d7006191372",
   "aws_cognito_region": "us-east-2",
   "aws_user_pools_id": "us-east-2_bpfOANSWX",

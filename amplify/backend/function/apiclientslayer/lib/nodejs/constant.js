@@ -13,12 +13,14 @@ const RETURN_URL_WEBPAY_PROD = "https://pagos.miniswimmer.cl/return/"
 
 // GRAPHQL
 const API_ID_DEV = "ksgltqya2bdynm5pa3jia4ydse";
-const API_KEY_DEV = "da2-vk3lmmvnk5bmbpt6vkfz7xghpi";
+// const API_KEY_DEV = "da2-vk3lmmvnk5bmbpt6vkfz7xghpi";
+const API_KEY_DEV = "da2-m5bsmkwimrcizbfqykts667yyy";
 const API_ENDPOINT_DEV = "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql";
 
 
 const API_ID_PROD = "ksgltqya2bdynm5pa3jia4ydse";
-const API_KEY_PROD = "da2-vk3lmmvnk5bmbpt6vkfz7xghpi";
+const API_KEY_PROD = "da2-m5bsmkwimrcizbfqykts667yyy";
+// const API_KEY_PROD = "da2-vk3lmmvnk5bmbpt6vkfz7xghpi";
 const API_ENDPOINT_PROD = "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql";
 
 
