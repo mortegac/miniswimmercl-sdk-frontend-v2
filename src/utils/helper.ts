@@ -124,7 +124,7 @@ export function formatDateUTC(dateString: string): string {
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
   const year = date.getUTCFullYear();
 
-  return `${day}-${typeOfMonth[month]}`;
+  return `${day}-${typeOfMonth[month]}-${year}`;
 }
 
 export function generateYearsArray(): YearItem[] {
@@ -203,6 +203,15 @@ export function formatDateUTCShort(dateString: string): string {
 
   return `${day}-${typeOfMonth[month]}`;
 }
+// export function formatDateUTC(dateString: string): string {
+//   const date = new Date(dateString);
+
+//   const day = date.getUTCDate().toString().padStart(2, "0");
+//   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
+//   const year = date.getUTCFullYear();
+
+//   return `${day}-${typeOfMonth[month]}-${typeOfMonth[year]}`;
+// }
 
 const formatDate = (date: string, format: string) => {
   return dayjs(date).format(format);

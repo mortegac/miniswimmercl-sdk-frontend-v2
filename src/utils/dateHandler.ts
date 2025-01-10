@@ -29,6 +29,29 @@ export const typeOfMonth: any = {
 
 
 
+export function convertirFecha(fechaString: string): Date {
+  // Asumimos que la fecha viene en formato "dd/mm/yyyy"
+  const [dia, mes, anio] = fechaString.split('/');
+  
+  // Creamos una nueva fecha en formato "yyyy-mm-dd"
+  return new Date(`${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`);
+}
+export function calcularEdad(fechaNacimientoString: string): { años: number; meses: number } {
+  const fechaNacimiento = convertirFecha(fechaNacimientoString);
+  const hoy = new Date();
+  let años = hoy.getFullYear() - fechaNacimiento.getFullYear();
+  let meses = hoy.getMonth() - fechaNacimiento.getMonth();
+
+  if (meses < 0 || (meses === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+    años--;
+    meses += 12;
+  }
+
+  meses = meses % 12;
+
+  return { años, meses };
+}
+
 export const FormatDate = ({
   date,
   options = optDefault,

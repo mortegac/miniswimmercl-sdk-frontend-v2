@@ -4,7 +4,7 @@ import { RootState } from "../store";
 import { setDataEnroll } from '../Enrollment/slice';
 import { setRelationship } from '../Relationships/slice';
 
-import {fetchData, fetchDataSearchName, createStudentquick} from "./services"
+import {fetchData, fetchOneData,  fetchDataSearchName, createStudentquick} from "./services"
 import {Student, emptyStudent, FilterOptions} from "./types"
 
 
@@ -45,6 +45,18 @@ export const setStudent = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH create Student and relationship", error)
+      return Promise.reject(error);
+    }
+  }
+);
+export const getStudent = createAsyncThunk(
+  "students/one",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchOneData({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH ONE STUDENT", error)
       return Promise.reject(error);
     }
   }
@@ -98,6 +110,29 @@ export const studentSlice = createSlice({
         state.students = objPayload?.items || [];
         
       })
+      
+      // GET ONE Student
+      .addCase(getStudent.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getStudent.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getStudent.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        // console.log("---getStudents --action---", objPayload)
+        state.student = objPayload || [];
+        
+      })
+      
+      
+      
+      
+      
       .addCase(getStudentsSearchName.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";

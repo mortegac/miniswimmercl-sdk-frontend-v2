@@ -21,7 +21,8 @@ import {
   ENROLLMENTS,
   TRANSACTIONS,
   SHOPPING_CART,
-  REPORT_COURSES
+  REPORT_COURSES,
+  ADMIN_STUDENT,
 } from "@/router/paths";
 
 export interface Menu {
@@ -61,6 +62,11 @@ const initialState: SideMenuState = {
       pathname: STUDENTS_DATA,
       title: "Administrador Alumno",
     },
+    // {
+    //   icon: "UserCheck",
+    //   pathname: ADMIN_STUDENT,
+    //   title: "Perfil Estudiante",
+    // },
     {
       icon: "Users",
       pathname: STUDENTS,

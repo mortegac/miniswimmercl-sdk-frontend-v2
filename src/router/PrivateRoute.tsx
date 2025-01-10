@@ -30,12 +30,13 @@ import {
     ACADEMYSTUDENTS,
     TRANSACTIONS,
     SHOPPING_CART,
-    REPORT_COURSES
+    REPORT_COURSES,
+    ADMIN_STUDENT,
   } from "./paths";
-  
 
   import Layout from "../themes";
   
+  const AdminStudents = lazy(() => import("../pages/private/StudentProfile"));
   const Dashboard = lazy(() => import("../pages/private/Dashboard"));
   const Leads = lazy(() => import("../pages/private/Leads"));
   // const Students = lazy(() => import("../pages/private/Students"));
@@ -126,6 +127,10 @@ export const privateRoutes = {
         {
           path: ATTENDANCE,
           element: <Attendance />,
+        },
+        {
+          path: ADMIN_STUDENT,
+          element: <AdminStudents />,
         },
         {
           path: QUICK_REGISTRATION,

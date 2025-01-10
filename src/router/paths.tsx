@@ -16,6 +16,9 @@ export const PAYMENTS = "/payments";
 export const TICKETS = "/tickets";
 
 
+// ADMINISTRATOR
+export const ADMIN_STUDENT = "/admin-student";
+
 export const REPORT_COURSES = "/report-courses";
 
 

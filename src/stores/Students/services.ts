@@ -1,7 +1,7 @@
 import { generateClient } from 'aws-amplify/api';
 
 
-import { listStudents } from './queries';
+import { listStudents, getStudent } from './queries';
 import { createStudent } from './mutation';
 import { FilterOptions } from './types';
 
@@ -64,6 +64,38 @@ export const fetchData = async (): Promise<any> => {
       const data = getData.data;
       
         resolve({ ...data.listStudents } as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+export const fetchOneData = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const getData:any = await client.graphql({
+        query: getStudent,
+        variables: { id: objFilter?.studentId },
+        // variables: { 
+        //   limit: 100000000
+        // },
+      });
+      
+      console.log("<<< STUDENTS DATA <<<<< ", getData)
+      const data = getData.data;
+      
+        resolve({ ...data.getStudent } as any);
         
         // ...userData.data.getUsers
       // } else {

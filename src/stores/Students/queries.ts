@@ -22,14 +22,42 @@ export const getStudent = /* GraphQL */ `
       waterOnHisFaceBothersHim
       putYourFaceInTheWater
       anyIllnessInjuryMedicalCondition
-      enrollments {
-        nextToken
-        __typename
+      relationships{
+          items{
+            id
+            relationType
+            user{
+              name
+              id
+              contactPhone
+            }
+          }
       }
-      relationships {
-        nextToken
-        __typename
-      }
+      enrollments{
+          items{
+            id
+            startDate
+            amountPaid
+            courseEnrollmentsId
+            scheduleName
+            wasPaid
+            sessionDetails
+            {
+              items{
+                id
+                sessionNumber              
+                date
+                month
+                year
+                status
+                locationId
+                locationIdUsed
+            
+            
+              }
+            }
+          }
+        }
       sessionDetail {
         id
         date
@@ -100,30 +128,30 @@ export const listStudents = /* GraphQL */ `
           }
         }
         enrollments{
-        items{
-          id
-          amountPaid
-          courseEnrollmentsId
-          # sessionDetails( filter:{ status: {eq: ACTIVE}}){
-          sessionDetails( filter:{ 
-            or: [
-            { status: { eq: ACTIVE } },
-            { status: { eq: RECOVERED } }
-          ]
-          }){
-            items{
-              id
-              sessionNumber              
-              date
-              month
-              year
-              status
-              locationId
-              locationIdUsed
-          
-          
+          items{
+            id
+            amountPaid
+            courseEnrollmentsId
+            # sessionDetails( filter:{ status: {eq: ACTIVE}}){
+            sessionDetails( filter:{ 
+              or: [
+              { status: { eq: ACTIVE } },
+              { status: { eq: RECOVERED } }
+            ]
+            }){
+              items{
+                id
+                sessionNumber              
+                date
+                month
+                year
+                status
+                locationId
+                locationIdUsed
+            
+            
+              }
             }
-          }
           }
         }
         __typename

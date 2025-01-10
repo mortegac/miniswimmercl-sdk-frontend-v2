@@ -418,7 +418,7 @@ function Main() {
               </Breadcrumb> */}
               {/* END: Breadcrumb */}
               {/* BEGIN: Search */}
-              {/* <div
+              <div
                 className="relative justify-center flex-1 hidden xl:flex"
                 onClick={() => setQuickSearch(true)}
               >
@@ -431,7 +431,7 @@ function Main() {
               <QuickSearch
                 quickSearch={quickSearch}
                 setQuickSearch={setQuickSearch}
-              /> */}
+              />
               {/* END: Search */}
               {/* BEGIN: Notification & User Menu */}
               <div className="flex items-center flex-1">

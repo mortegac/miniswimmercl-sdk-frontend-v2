@@ -44,6 +44,7 @@ export type Student = {
   putYourFaceInTheWater: boolean;
 
   anyIllnessInjuryMedicalCondition: string;
+  createdAt: string;
   
  
   
@@ -73,6 +74,7 @@ export const emptyStudent: Student = {
   putYourFaceInTheWater: false,
 
   anyIllnessInjuryMedicalCondition: "",
+  createdAt: "",
   enrollments: [emptyEnrollment],
   relationships: [emptyRelationship],
   // sessionDetail: [emptySchedules],
@@ -81,6 +83,7 @@ export const emptyStudent: Student = {
 
 
 export type FilterOptions  = {
+  studentId?: string;
   name?: string;
   lastName?: string;
   middleName?: string;
