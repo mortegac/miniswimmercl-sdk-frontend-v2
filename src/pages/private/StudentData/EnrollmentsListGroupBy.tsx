@@ -215,29 +215,29 @@ function Content(props: any) {
 
   return (
     <>
-   <Notification
-        id="success-notification-content"
-        className="flex hidden"
-      >
-        <Lucide icon="CheckCircle" className="text-success" />
-        <div className="ml-4 mr-4">
-          <div className="font-medium">Sesión actualizada</div>
-          <div className="mt-1 text-slate-500">
-            correctamente
+      <Notification
+          id="success-notification-content"
+          className="flex hidden"
+        >
+          <Lucide icon="CheckCircle" className="text-success" />
+          <div className="ml-4 mr-4">
+            <div className="font-medium">Sesión actualizada</div>
+            <div className="mt-1 text-slate-500">
+              correctamente
+            </div>
           </div>
-        </div>
       </Notification>
-   <Notification
-        id="deleted-enrollment"
-        className="flex hidden"
-      >
-        <Lucide icon="XCircle" className="text-danger" />
-        <div className="ml-4 mr-4">
-          <div className="font-medium">Inscripción eliminada</div>
-          <div className="mt-1 text-slate-500">
-            correctamente
+      <Notification
+          id="deleted-enrollment"
+          className="flex hidden"
+        >
+          <Lucide icon="XCircle" className="text-danger" />
+          <div className="ml-4 mr-4">
+            <div className="font-medium">Inscripción eliminada</div>
+            <div className="mt-1 text-slate-500">
+              correctamente
+            </div>
           </div>
-        </div>
       </Notification>
     {/* SESIONES */}
       <Slideover
@@ -548,19 +548,32 @@ function Content(props: any) {
                         <p className=" uppercase font-dm-sans font-normal text-base text-left">
                           {item?.student?.name} {item?.student?.lastName}{" "}
                         </p>
+                        {/* <p className="font-dm-sans text-sm font-thin text-left">
+                          {item?.student?.contactPhone}
+                        </p> */}
 
                         {Array.isArray(item?.student?.relationships?.items) &&
                           item?.student?.relationships?.items.map(
                             (relation: any, i: any) => (
                               <p className=" font-thin text-sm text-left text-slate-10">
-                                
+                                { !relation?.user?.contactPhone &&   <p className="font-dm-sans text-sm font-thin text-left">
+                                {item?.student?.contactPhone}
+                              </p>}
                                 <span className=" font-mono">
                                   {typeOfRelationship[relation?.relationType]}
                                 </span>{" "}
                                 {relation?.user?.name}{" "}
                                 <p className="mt-1">
                                   {relation?.user?.id}{" "}
-                                  {relation?.user?.contactPhone}
+                                  
+                                  <span className="mt-1 flex flex-row">
+                                  { relation?.user?.contactPhone && 
+                                  <><Lucide icon="PhoneOutgoing" className=" w-4 h-4 text-success mr-2" /> {relation?.user?.contactPhone}</>
+                                  }
+                                  { !relation?.user?.contactPhone && 
+                                  <><Lucide icon="PhoneOff" className=" w-4 h-4 text-red-500 mr-2" /> {relation?.user?.contactPhone}</>
+                                  }
+                                  </span>
                                 </p>
                               </p>
                             )

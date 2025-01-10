@@ -18,8 +18,11 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
       
       const filterDay = (typeof filter?.day === 'undefined' && filter?.day === '') ?
       "" : filter?.day;
-       
+      
           
+      const filterStudentId = (typeof filter?.studentId === 'undefined') ?
+      { } : { studentEnrollmentsId : { eq: filter?.studentId } };
+      
       // let filterPaid = (typeof filter?.wasPaid === 'undefined' && {}|| filter?.wasPaid === "" || filter?.wasPaid) ?
       // { } : { wasPaid: { eq: filter?.wasPaid } };
           
@@ -31,37 +34,52 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
       
       const filterAll: any = {
         ...filterPaid,
+        // ...filterStudentId,
         // ...filterRemoved,
       };
-      
-   
-      
-       const getData:any = await client.graphql({
-         query: listEnrollments,
-         variables: { 
-          filter: {
-            ...filterAll,
-            startDate: {
-              // 2024-12-16T19:01:29.732Z
-              between: [
-                `${filter?.month}-${filterDay==="" ? "01":filterDay}-${filter?.year}`,
-                `${filter?.month}-${filterDay==="" ? "31":filterDay}-${filter?.year}`,
-              ],
-              
-            },
-            // or: [
-            //   { startDate: { contains: `${filter.month}-` } },
-            //   { startDate: { contains: `-${filter?.year}` } },
-            // ]
+     
+      let getData:any;
+   if (typeof filter?.studentId === 'undefined' || filter?.studentId === ""){
+     getData= await client.graphql({
+       query: listEnrollments,
+       variables: { 
+        filter: {
+          ...filterAll,
+          startDate: {
+            // 2024-12-16T19:01:29.732Z
+            between: [
+              `${filter?.month}-${filterDay==="" ? "01":filterDay}-${filter?.year}`,
+              `${filter?.month}-${filterDay==="" ? "31":filterDay}-${filter?.year}`,
+            ],
+            
           },
-          limit:1000000000
+          // or: [
+          //   { startDate: { contains: `${filter.month}-` } },
+          //   { startDate: { contains: `-${filter?.year}` } },
+          // ]
         },
-        //  variables: { 
-          //  input: {
-          //    id: filter.name
-          //  } 
-        //  },
-       });
+        limit:1000000000
+      },
+      //  variables: { 
+        //  input: {
+        //    id: filter.name
+        //  } 
+      //  },
+     });
+    
+   }else{
+    getData= await client.graphql({
+      query: listEnrollments,
+      variables: { 
+       filter: {
+         ...filterStudentId,
+       },
+       limit:1000000000
+     },
+    
+    });
+   }
+      
        // Update USER
         // Save o update RELATION
       

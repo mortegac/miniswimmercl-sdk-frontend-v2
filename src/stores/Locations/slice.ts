@@ -97,10 +97,26 @@ export const locationSlice = createSlice({
           const orderArray = [...objPayload].sort((a, b) => 
             a.name.localeCompare(b.name)
           );
-          
-          return orderArray.map((item) => ({
+          const newArray = [
+            {
+              "id": "TODOS",
+              "name": "Todos",
+              "city": "NA",
+              "minimumTemperature": 0,
+              "maximumTemperature": 0,
+              "address": "-",
+              "phone": "-",
+              "imageMap": "-",
+              "urlMap": "",
+              "directions": "-",
+              "__typename": "Location"
+            },
+            ...orderArray
+          ];
+          // console.log("--orderArray--", orderArray)
+          return newArray.map((item) => ({
                 label: `${String(item.id).toUpperCase()}`,
-                value: String(item.id)
+                value: String(item.id === "TODOS"? "" : item.id)
           }))
         }
         state.locationsList = transformList(objPayload?.items) || [];

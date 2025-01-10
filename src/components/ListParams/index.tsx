@@ -37,7 +37,7 @@ const ListParams: React.FC<Props> = ({
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
-              borderRadius: 9999,
+              // borderRadius: 9999,
               paddingTop: 3,
               paddingBottom: 3,
               paddingLeft: 6,
@@ -73,8 +73,7 @@ const ListParams: React.FC<Props> = ({
           value={selected}
           // value={{ label: text, value: value }}
           // className="text-lg py-0.5 rounded-md "
-          className="rounded-full mr-8 focus:z-10"
-        // classNamePrefix="react-select"
+          className="mr-8 focus:z-10"
         />
       </div>
     </>

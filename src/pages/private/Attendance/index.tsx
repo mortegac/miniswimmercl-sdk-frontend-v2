@@ -7,6 +7,8 @@ import LoadingIcon from "@/components/Base/LoadingIcon";
 import Table from "@/components/Base/Table";
 import { Slideover } from "@/components/Base/Headless";
 
+import { FilterUseState } from "./types";
+
 import ListParams from "@/components/ListParams";
 // import {FormInput, FormSelect } from "@/components/Base/Form";
 import Lucide from "@/components/Base/Lucide";
@@ -79,8 +81,18 @@ function Main() {
   })
   // console.log("---newDate---", formatDateToISO(nowDate))
   const [date, setDate] = useState(nowDate22);
-  const [locationSelected, setLocationSelected] = useState("");
+  // const [locationSelected, setLocationSelected] = useState("");
   const [locationIdSelected, setLocationIdSelected] = useState("");
+  const [filter, setFilter] = useState<FilterUseState>({
+    locationId: "",
+    dateSelected: "",
+    // day: "",
+    // month: currentMonth,
+    // year: currentYear,
+    // state: "",
+    // wasPaid: "true",
+    // wasDeleted: "",
+  });
   const [dataStudent, setDataStudent] = useState({
     id:"",
     name:"",
@@ -88,6 +100,7 @@ function Main() {
     gender:"",
     birthdate:"",
   });
+  const [locations, setLocations] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const {sessionDetails, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
@@ -105,19 +118,19 @@ function Main() {
     return 1;
   };
   
-      // Función para filtrar estudiantes
-      const filterStudents = (term: string) => {
-        const filtered = sessionDetails.filter((item:any) => {
-        // console.log("--student--", item)
-          return item?.student?.name.toLowerCase().includes(term.toLowerCase()) ||
-          item?.student?.lastName.toLowerCase().includes(term.toLowerCase())
-        }
-          // student.middleName.toLowerCase().includes(term.toLowerCase())
-        );
-        
-        // setFilteredStudents(filtered);
-        setFilteredStudents( [...filtered].sort(sortStudents));
-      };
+  // Función para filtrar estudiantes
+  const filterStudents = (term: string) => {
+    const filtered = sessionDetails.filter((item:any) => {
+    // console.log("--student--", item)
+      return item?.student?.name.toLowerCase().includes(term.toLowerCase()) ||
+      item?.student?.lastName.toLowerCase().includes(term.toLowerCase())
+    }
+      // student.middleName.toLowerCase().includes(term.toLowerCase())
+    );
+    
+    // setFilteredStudents(filtered);
+    setFilteredStudents( [...filtered].sort(sortStudents));
+  };
   
    // Creamos una versión debounced de la función de filtrado
    const debouncedFilter = useCallback(
@@ -163,7 +176,8 @@ function Main() {
       // }))
       await dispatch(getSessionDetails({ 
         sessionDate: formatDateToISO(isValidDate(dateAttendence) ? dateAttendence : new Date()),
-        ...(idLocation !== "" && { locationId: idLocation })
+        locationId:idLocation
+        // ...(idLocation !== "" && { locationId: idLocation })
       }))
       
       // locationId:idLocation
@@ -183,7 +197,7 @@ function Main() {
       await dispatch(setSessionDetails({ 
         sessionId: params.sessionId, 
         status: params.status,
-        locationIdUsed:locationSelected })),
+        locationIdUsed:locationIdSelected })),
       await dispatch(getSessionDetails({
         sessionDate: formatDateToISO(new Date(date)),
         ...(locationIdSelected !== "" && { locationId: locationIdSelected })
@@ -193,9 +207,21 @@ function Main() {
   }
   
   useEffect(() => { 
-    (async () => await getSessions({dateSTR:formatDateToISO(nowDate), idLocation:locationIdSelected}))() 
+    (async () => await getSessions({
+      dateSTR:formatDateToISO(filter?.dateSelected ? new Date(filter.dateSelected) : nowDate),
+      idLocation:filter?.locationId 
+      // dateSTR:formatDateToISO(nowDate), 
+      // idLocation:locationIdSelected 
+    }))() 
+    // dispatch(getLocationsOnly())
+  }, [filter]);
+  
+  useEffect(() => { 
     dispatch(getLocationsOnly())
-  }, []);
+  }, [])
+  
+  
+  // }, [locationsList]);
   useEffect(() => { setFilteredStudents( [...sessionDetails]); }, [sessionDetails]);
   
   return (
@@ -285,7 +311,8 @@ function Main() {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
-    {/* <pre>{JSON.stringify(filteredStudents, null, 2)}</pre> */}
+    <pre>{JSON.stringify(filter, null, 2)}</pre>
+    <pre>{JSON.stringify(locationsList, null, 2)}</pre>
     {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
@@ -310,119 +337,94 @@ function Main() {
             </div>
           </div>
           
-          <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
+          <div className="flex flex-col justify-between md:h-10 gap-y-3 md:items-center md:flex-row">
             <div className=" text-base font-medium group-[.mode--light]:text-white">
               Listado de asistencia: <b className="text-lg">{date}</b>
-              <p  className="text-sm font-thin">Sede: {locationIdSelected && locationIdSelected} {!locationIdSelected && "Todas"}</p>
+              <p className="text-2xl">{locationIdSelected || "-"}</p>
+              {/* <p  className="text-sm font-thin">Sede: {locationIdSelected && locationIdSelected} {!locationIdSelected && "Todas"}</p> */}
             </div>
+            <Button variant="primary" rounded 
+            className="px-4 py-3 border border-white" 
+            onClick={() => setSwitcherSlideStudent(true)}
+            >
+              <Lucide
+                icon="Search"
+                className="w-4 h-4 stroke-[1] mr-4"
+              />Buscar Alumno
+            </Button>
+          
+          
            
-              <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-              
-                <div className="relative">
-                  <Lucide
-                    icon="Calendar"
-                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
-                  />
-                  
-                <Litepicker value={date} onChange={(e)=> {
-                      // setDate(e.target.value);
-                      updateDate(e.target.value)
-                      }}
-                      options={{
-                        autoApply: true,
-                        showWeekNumbers: false,
-                        dropdowns: {
-                          minYear: 1990,
-                          maxYear: null,
-                          months: true,
-                          years: true,
-                        },
-                      }}
-                      className="pl-12 rounded-full"
-                      />
-                      
-                      
-                      
-                </div>
-                <Button variant="primary" rounded 
-              className="px-4 py-3 border border-white" 
-              onClick={() => setSwitcherSlideStudent(true)}
-              >
-                <Lucide
-                  icon="Search"
-                  className="w-4 h-4 stroke-[1] mr-4"
-                />Buscar Alumno
-              </Button>
-              </div>
-              
-           
-            {/* </div> */}
           </div>
-          <div className="flex flex-col p-5  sm:flex-row gap-y-2">
-              <div>
-                <div className="relative">
-                  <Lucide
-                    icon="Search"
-                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                  />
-                   <FormInput
-                      formInputSize="lg"
-                      placeholder="Buscar alumnos..."
-                      aria-label="name" 
-                      aria-describedby="input-group-name"
-                      type="text"
-                      tabIndex={1} 
-                      // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
-                      className="pl-9 sm:w-64 rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
-                      name="guardianEmail"
-                      value={searchTerm}
-                      onChange={handleSearchChange}
+          
+          <div className="flex flex-row justify-between items-center w-full mt-4">
+            <div className="flex flex-row justify-start items-center w-full ">
+              <div className="mr-4 w-96"><div className="relative">
+                    <Lucide
+                      icon="Search"
+                      className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
                     />
-                </div>
+                    <FormInput
+                        formInputSize="lg"
+                        placeholder="Buscar alumnos..."
+                        aria-label="name" 
+                        aria-describedby="input-group-name"
+                        type="text"
+                        tabIndex={1} 
+                        // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
+                        className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
+                        name="guardianEmail"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                      />
+                  </div></div>
+              <div className="mr-4 w-80">
+                <ListParams
+                  key={"LIST_LOCATIONS"}
+                  list={locationsList}
+                  // list={locationsList}
+                  text={""}
+                  value={filter?.locationId || ""}
+                  isLoading={false}
+                  fn={(e)=>setFilter({...filter, locationId:e.target.value})}
+                  // fn={(e)=>setLocationIdSelected(e.target.value)}
+                  // fn={(e)=>setLocationSelected(e.target.value)}
+                  handleCreate={(e)=>console.log(e.target.value)}
+                  name={"location"}
+                />
               </div>
-              {/* <pre>{JSON.stringify(sessionDetails, null, 2 )}</pre> */}
-              {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 sm:ml-auto">
-                <Popover className="inline-block">
-                  {({ close }) => (
-                    <>
-                      <Popover.Button
-                        as={Button}
-                        variant="outline-secondary"
-                        className="w-full sm:w-auto bg-white"
-                      >
-                        <Lucide
-                          icon="ArrowDownWideNarrow"
-                          className="stroke-[1.3] w-4 h-4 mr-2"
-                        />
-                        Filtros
-                      </Popover.Button>
-                      <Popover.Panel placement="bottom-end">
-                        <div className="p-2">
-                          <div>
-                            <div className="text-left text-slate-500">
-                              Sede
-                            </div>
-                            <FormSelect className="flex-1 mt-2 w-56" 
-                              onChange={
-                                (e)=>{
-                                  setLocationIdSelected(e.target.value)
-                                  getSessions({dateSTR: String(date), idLocation:e.target.value})
-                                }
-                                }>
-                              <option key={""} value={""} selected={locationIdSelected==="" && true}>Todos</option>
-                              <option key={"COLEGIO-JOHN-ANDREWS"} value={"COLEGIO-JOHN-ANDREWS"}  selected={locationIdSelected==="COLEGIO-JOHN-ANDREWS" && true}>COLEGIO-JOHN-ANDREWS</option>
-                              <option key={"CLUB-PATO-CORNEJO"} value={"CLUB-PATO-CORNEJO"}  selected={locationIdSelected==="CLUB-PATO-CORNEJO" && true}>CLUB-PATO-CORNEJO</option>
-                              <option key={"MI-CLUB-PREMIUM"} value={"MI-CLUB-PREMIUM"}  selected={locationIdSelected==="MI-CLUB-PREMIUM" && true}>MI-CLUB-PREMIUM</option>
-                              <option key={"VITACURA-PISCINA-MUNICIPAL"} value={"VITACURA-PISCINA-MUNICIPAL"}  selected={locationIdSelected==="VITACURA-PISCINA-MUNICIPAL" && true}>VITACURA-PISCINA-MUNICIPAL</option>
-                            </FormSelect>
-                          </div>
-                        </div>
-                      </Popover.Panel>
-                    </>
-                  )}
-                </Popover>
-              </div> */}
+              
             </div>
+            <div className="mr-4">
+              <div className="relative">
+                <Lucide
+                  icon="Calendar"
+                  className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
+                />
+                
+              <Litepicker value={date} onChange={(e)=> {
+                    // setDate(e.target.value);
+                    updateDate(e.target.value)
+                    }}
+                    options={{
+                      autoApply: true,
+                      showWeekNumbers: false,
+                      dropdowns: {
+                        minYear: 1990,
+                        maxYear: null,
+                        months: true,
+                        years: true,
+                      },
+                    }}
+                    className="pl-12 rounded-lg text-xl"
+                    />
+                    
+                    
+                    
+              </div>
+            </div>
+          </div>
+          
           <div className="mt-2 overflow-auto lg:overflow-visible">
  
           { status === "loading" &&   <div className="flex justify-center items-center w-full h-10"><LoadingIcon
@@ -488,7 +490,7 @@ function Main() {
                       <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
                       {item.status==="ACTIVE" &&
                       <div className="flex flex-col justify-start items-start ">
-                        <div className="w-[100%] mb-2">
+                        {/* <div className="w-[100%] mb-2">
                           <ListParams
                           key={item.id}
                             list={locationsList}
@@ -500,14 +502,14 @@ function Main() {
                             handleCreate={(e)=>console.log(e.target.value)}
                             name={"location"}
                           />                          
-                        </div>
+                        </div> */}
                         {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
                         <Button variant="soft-danger" rounded 
                         className="w-[85%] px-4 py-3" 
                         onClick={() => updateSession({
                           sessionId: item.id,
                           status: "USED",
-                          locationIdUsed:locationSelected,
+                          locationIdUsed:locationIdSelected,
                         })}
                         >MARCAR PRESENTE</Button>
                       </div>
@@ -519,10 +521,10 @@ function Main() {
                       key={item.id}
                         list={locationsList}
                         text={""}
-                        value={locationSelected || ""}
+                        value={locationIdSelected || ""}
                         isLoading={false}
                         
-                        fn={(e)=>setLocationSelected(e.target.value)}
+                        fn={(e)=>setLocationIdSelected(e.target.value)}
                         handleCreate={(e)=>console.log(e.target.value)}
                         name={"location"}
                       />                          
@@ -532,7 +534,7 @@ function Main() {
                     onClick={() => updateSession({
                       sessionId: item.id,
                       status: "USED",
-                      locationIdUsed:locationSelected,
+                      locationIdUsed:locationIdSelected,
                     })}
                     >MARCAR PRESENTE</Button>
                   </div>

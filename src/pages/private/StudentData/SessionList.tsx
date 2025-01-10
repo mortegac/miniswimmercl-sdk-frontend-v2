@@ -57,7 +57,6 @@ export function SessionList(props: any) {
       
       
       async function deleteSession(sessionId:string){
-    alert("deleteSession")
     
     await dispatch(
         setOneSessionDetail({
@@ -339,6 +338,7 @@ export function SessionList(props: any) {
                           {formatDateUTCShort(item?.date)}
                         </div>
                       </div>
+                      {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
                     </Table.Td>
                    
 
@@ -397,6 +397,7 @@ export function SessionList(props: any) {
               })}
           </Table.Tbody>
         </Table>
+        <p className="p-4">Total sesiones: {Array.isArray(sessionDetails) && sessionDetails.length}</p>
       </div>
                   
                 </div>

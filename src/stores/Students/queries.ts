@@ -95,6 +95,7 @@ export const listStudents = /* GraphQL */ `
             relationType
             user{
               name
+              id
             }
           }
         }

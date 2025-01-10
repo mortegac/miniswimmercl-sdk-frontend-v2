@@ -121,7 +121,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       ? {}
       : { enrollmentSessionDetailsId: { eq: String(objFilter?.enrollmentId) } };
       
-    const filterLocation= typeof objFilter?.locationId === 'undefined'
+    const filterLocation= typeof objFilter?.locationId === 'undefined' || objFilter?.locationId === ""
       ? {}
       : { locationId: { eq: String(objFilter?.locationId) } };
       
@@ -166,7 +166,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
                     {status: { eq: "RECOVERED" }}            
                   ]
           
-          }, limit:100000000
+          }, limit:1000000000
         },
       });
   }else{
@@ -174,7 +174,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       query: listSessionDetails,
       variables: { 
         filter: {...filter},
-        limit: 100000000
+        limit: 1000000000
       },
     });
   }

@@ -21,7 +21,7 @@ export const fetchDataSearchName = async (objFilter: FilterOptions): Promise<any
             or: [
               { name: { contains: objFilter?.name } },
               { lastName: { contains: objFilter?.name } },
-              { middleName: { contains: objFilter?.name } }
+              // { middleName: { contains: objFilter?.name } }
             ]
           },
           limit: 100000000

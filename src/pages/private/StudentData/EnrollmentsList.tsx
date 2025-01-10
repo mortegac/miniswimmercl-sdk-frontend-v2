@@ -220,7 +220,7 @@ function Content(props: any) {
           </a>
           <Slideover.Description className="p-0">
             <div className="flex flex-col">
-              <pre>{JSON.stringify(data, null, 2 )}</pre>
+              {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
               <div className="px-8 pt-6 pb-8">
                 <div className="text-base font-medium">Reagendar Sesión</div>
                 <div className="text-slate-500 mt-0.5  mb-12">del Alumno</div>
@@ -413,7 +413,7 @@ function Content(props: any) {
                 <div className="text-base font-medium">Enviar recordatorio</div>
                 <div className="text-slate-500 mt-0.5  mb-12">de pago</div>
                 <div className="overflow-auto xl:overflow-visible">
-                  <pre>{JSON.stringify(data, null, 2)}</pre>
+                  {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
                   {/* 
                   <pre>{JSON.stringify(data, null, 2)}</pre> */}
 

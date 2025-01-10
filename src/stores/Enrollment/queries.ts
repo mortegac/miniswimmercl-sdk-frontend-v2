@@ -125,8 +125,8 @@ export const listEnrollments = /* GraphQL */ `
         id
         name
         lastName
-          birthdate
-          emailPhone
+        birthdate
+        contactPhone
         relationships{
           items{
             usersRelationshipsId
