@@ -23,7 +23,7 @@ import { cleanSentVar } from '@/stores/EmailsSent/slice';
 export function ResumenPage(props:any) {
     
     const {data, edad } = props;
-  
+        
     return <>
      <div className="grid grid-cols-12 gap-y-7 gap-x-6 mt-3.5">
                   <div className="col-span-12 xl:col-span-8">

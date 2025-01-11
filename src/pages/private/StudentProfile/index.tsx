@@ -6,6 +6,7 @@ import clsx from "clsx";
 import _ from "lodash";
 
 import { ResumenPage } from "./components/ResumenPage";
+import { ResumenTransactions } from "./components/ResumenTransactions";
 import { SessionsPage } from "./components/SessionsPage";
 import { MessagesPage } from "./components/MessagesPage";
 import { ModifyPage } from "./components/ModifyPage";
@@ -40,10 +41,12 @@ function Main() {
       setSelectedIndex(0);
     } else if (queryParams.get("page") == "sessions") {
       setSelectedIndex(1);
-    } else if (queryParams.get("page") == "messages") {
+    } else if (queryParams.get("page") == "transactions") {
       setSelectedIndex(2);
-    } else if (queryParams.get("page") == "modify") {
+    } else if (queryParams.get("page") == "messages") {
       setSelectedIndex(3);
+    } else if (queryParams.get("page") == "modify") {
+      setSelectedIndex(4);
     } else {
       setSelectedIndex(0);
     }
@@ -188,7 +191,7 @@ function Main() {
           </div>
           <Tab.Panels>
             <Tab.Panel><ResumenPage data={student} edad={edad}/></Tab.Panel>
-            <Tab.Panel><ResumenPage data={student} edad={edad}/></Tab.Panel>
+            <Tab.Panel><ResumenTransactions data={student?.relationships}/></Tab.Panel>
             <Tab.Panel><SessionsPage/></Tab.Panel>
             <Tab.Panel><MessagesPage/></Tab.Panel>
             <Tab.Panel><ModifyPage/></Tab.Panel>

@@ -40,7 +40,7 @@ import { CartDetail} from "./components/cartDetail";
 const typeOfName:any = {
   ["CREATE"]: "ABANDONADA",
   ["AUTHORIZED"]: "PAGADA",
-  // ["AUTHORIZED"]: "AUTORIZADA",
+  ["FAILED"]: "FALLIDA",
   ["INITIALIZED"]: "INICIALIZADA",
   [""]: "-",
 };

@@ -92,6 +92,14 @@ export const listShoppingCarts = /* GraphQL */ `
           id
           amount
           detail
+          enrollment{
+        id
+        student{
+          id 
+          name
+          lastName
+        }
+      }
         }
       }
       }
