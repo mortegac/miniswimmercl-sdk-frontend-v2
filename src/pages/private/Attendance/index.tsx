@@ -71,7 +71,7 @@ function Resume(props:any) {
   return(
     <>
     {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
+      <div className="col-span-12 sm:col-span-4 xl:col-span-3 intro-y ">
           <div
             className={clsx([
               "relative zoom-in",
@@ -85,7 +85,7 @@ function Resume(props:any) {
               </div>
           </div>
       </div>
-      <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
+      <div className="col-span-12 sm:col-span-4 xl:col-span-3 intro-y mb-4">
           <div
             className={clsx([
               "relative zoom-in",
@@ -99,7 +99,7 @@ function Resume(props:any) {
               </div>
           </div>
       </div>
-      <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
+      <div className="col-span-12 sm:col-span-4 xl:col-span-3 intro-y mb-4">
           <div
             className={clsx([
               "relative zoom-in",
@@ -269,7 +269,7 @@ function Main() {
   
   return (
     <>
-      <Slideover
+      {/* <Slideover
         size="xl"
         key="Slide-Students"
         open={switcherSlideStudent}
@@ -299,11 +299,7 @@ function Main() {
                 <StudentList/>
               </div>  
               </div>  
-                {/* <div className="flex items-center mt-8">
-
-                  
-                </div> */}
-                {/* <pre>{JSON.stringify(dataStudent, null, 2 )}</pre> */}
+                
               </div>
             </div>
           </Slideover.Description>
@@ -338,22 +334,22 @@ function Main() {
                 <div className="flex items-center mt-8">
                   <IcoGender gender={dataStudent?.gender || ""}/>
                   <div className="ml-3.5">
-                    <a href="" className="font-medium whitespace-nowrap text-xl">
+                    <a href="" className="font-medium  text-xl">
                       {dataStudent?.name || ""}{" "}{dataStudent?.lastName || ""}
                     </a>
 
-                    <div className="mt-1 text-xs text-slate-500 whitespace-nowrap">
-                    {/* {item?.student?.birthdate || ""} */}
+                    <div className="mt-1 text-xs text-slate-500 ">
+                  
                     <CalculateAge birthdate={String(dataStudent?.birthdate)} />
                     </div>
                   </div>
                 </div>
-                {/* <pre>{JSON.stringify(dataStudent, null, 2 )}</pre> */}
+                
               </div>
             </div>
           </Slideover.Description>
         </Slideover.Panel>
-      </Slideover>
+      </Slideover> */}
     {/* <pre>{JSON.stringify(date, null, 2)}</pre> */}
     {date?.locationId==="" && 
       <>
@@ -394,56 +390,45 @@ function Main() {
       </>
     }
     {date?.locationId!=="" && 
-      <div className="grid grid-cols-12 gap-y-10 gap-x-6">
+      <div className="grid grid-cols-12">
         <div className="col-span-12">
               
-        <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row mb-6">
+        {/* <div className="flex flex-col">
             
             <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
             </div>
-          </div>
+          </div> */}
           
-          <div className="flex flex-col justify-between md:h-10 gap-y-3 md:items-center md:flex-row">
+          <div className="flex flex-col justify-between md:items-center md:flex-row">
             <div className=" text-base font-medium group-[.mode--light]:text-white">
               Listado de asistencia: <b className="text-lg">{date?.dateShow}</b> 
             </div>
-            
-            {/* <Button variant="primary" rounded 
-            className="px-4 py-3 border border-white" 
-            onClick={() => setSwitcherSlideStudent(true)}
-            >
-              <Lucide
-                icon="Search"
-                className="w-4 h-4 stroke-[1] mr-4"
-              />Buscar Alumno
-            </Button> */}
-          
-          
-           
           </div>
           
           <div className="flex flex-row justify-between items-center w-full mt-4">
             <div className="flex flex-row justify-start items-center w-full ">
-              <div className="mr-4 w-96"><div className="relative">
-                    <Lucide
-                      icon="Search"
-                      className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                    />
-                    <FormInput
-                        formInputSize="lg"
-                        placeholder="Buscar alumnos..."
-                        aria-label="name" 
-                        aria-describedby="input-group-name"
-                        type="text"
-                        tabIndex={1} 
-                        // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
-                        className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
-                        name="guardianEmail"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
+              <div className="mr-2 w-96">
+                  <div className="relative">
+                      <Lucide
+                        icon="Search"
+                        className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
                       />
-                  </div></div>
-              <div className="mr-4 w-80">
+                      <FormInput
+                          formInputSize="lg"
+                          placeholder="Buscar alumnos..."
+                          aria-label="name" 
+                          aria-describedby="input-group-name"
+                          type="text"
+                          tabIndex={1} 
+                          // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
+                          className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
+                          name="guardianEmail"
+                          value={searchTerm}
+                          onChange={handleSearchChange}
+                        />
+                  </div>
+              </div>
+              <div className="w-96">
                 <ListParams
                   key={"LIST_LOCATIONS"}
                   list={locationsList}
@@ -455,39 +440,39 @@ function Main() {
                   name={"location"}
                 />
               </div>
-              
-            </div>
-            <div className="mr-4">
-              <div className="relative">
-                <Lucide
-                  icon="Calendar"
-                  className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
+              <div className=" w-16">
+                <div className="relative">
+                  <Lucide
+                    icon="Calendar"
+                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
+                  />
+                  
+                <Litepicker value={date?.dateChile} 
+                  onChange={(e)=> {
+                    updateDate(e.target.value);    
+                    }}
+                    options={{
+                      autoApply: true,
+                      singleMode: true, // Cambia a false si necesitas selección de rango
+                      showWeekNumbers: true,
+                      // format: 'DD-MM-YYYY',
+                      // format: 'YYYY-MM-DD',
+                      
+                      dropdowns: {
+                        minYear: 2024,
+                        maxYear: null,
+                        months: true,
+                        years: false,
+                      },
+                    }}
+                    className="pl-12 rounded-lg text-xl"
                 />
-                
-              <Litepicker value={date?.dateChile} 
-                onChange={(e)=> {
-                  updateDate(e.target.value);    
-                  }}
-                  options={{
-                    autoApply: true,
-                    singleMode: true, // Cambia a false si necesitas selección de rango
-                    showWeekNumbers: true,
-                    // format: 'DD-MM-YYYY',
-                    // format: 'YYYY-MM-DD',
-                    
-                    dropdowns: {
-                      minYear: 2024,
-                      maxYear: null,
-                      months: true,
-                      years: false,
-                    },
-                  }}
-                  className="pl-12 rounded-lg text-xl"
-              />
-                    
-                    
-                    
+                      
+                      
+                      
+                </div>
               </div>
+              
             </div>
           </div>
           <div className="grid grid-cols-12 gap-6 mt-5">
@@ -506,8 +491,8 @@ function Main() {
            {
               Array.isArray(sessionDetails) &&
               (sessionDetails.length === 0 ? (
-                <div className="flex justify-center items-center w-ful">
-                  <span className="text-lg mr-4 text-slate-400">😴</span>{" "}
+                <div className="flex justify-center items-center">
+                  <span className="text-lg text-slate-400">😴</span>{" "}
                   <span className="text-lg">Sin sesiones encontradas</span>
                 </div>
               ) : (
@@ -548,65 +533,47 @@ function Main() {
                       
                       
                       
-                      <Table.Td className={``}>
+                      <Table.Td className={`w-16`}>
                         <div className="flex items-center">
                           <IcoGender gender={item?.student?.gender || ""}/>
-                          <div className="ml-3.5">
-                            <p className="font-medium whitespace-nowrap text-xl">
+                          <div className="ml-2">
+                            <p className="font-medium  text-xl">
                               {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
                             </p>
-                            <div className="mt-1 text-xs text-slate-500 whitespace-nowrap">
+                            <div className="mt-1 text-xs text-slate-500 ">
                               <CalculateAge birthdate={String(item?.student?.birthdate)} />
                             </div>
                           </div>
                         </div>
                       </Table.Td>
                       <Table.Td className={``}>
-                        <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
+                        {/* <div className="mb-1 text-xs text-slate-500 ">
                           Tipo de sesión
-                        </div>
-                        <div className="ml-1.5 whitespace-nowrap text-lg">
+                        </div> */}
+                        <div className="text-lg text-center">
                           {item?.status === "RECOVERED" && "SESION RECUPERADA"}
                           {item?.status === "ACTIVE" && "VIGENTE"}
                           {item?.status === "USED" && "UTILIZADA"}
                           {item?.status === "DELETED" && "ELIMINADA"}
-                        </div>
-                        {/* <small>{item?.status}</small> */}
-                        <p className="text-xs font-thin" >Sesión: { formatDateToISOShort(new Date(item?.date))}</p>
-                        
-                      </Table.Td>
-                      <Table.Td className={``}>
-                      {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
-                      { item?.locationId && item?.locationId !=="" && <>
-                          <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
+                          <p className="text-xs font-thin" >{ formatDateToISOShort(new Date(item?.date))}</p>
+                          { item?.locationId && item?.locationId !=="" && <>
+                          {/* <div className="mb-1 text-xs text-slate-500 ">
                             Sede
-                          </div>  
-                          <p className="text-xs font-thin" >{item?.locationId}</p>
+                          </div>   */}
+                          {/* <p className=" bg-slate-100 p-1 mt-1 rounded-full text-xs font-thin" >{item?.locationId}</p> */}
                           
                           
                         </>
                       }
-                       
+                        </div>
+                        {/* <small>{item?.status}</small> */}
+                        
                       </Table.Td>
                       <Table.Td className={``}>
                       {item.status==="ACTIVE" &&
-                      <div className="flex flex-col justify-start items-start ">
-                        {/* <div className="w-[100%] mb-2">
-                          <ListParams
-                          key={item.id}
-                            list={locationsList}
-                            text={""}
-                            value={locationSelected || ""}
-                            isLoading={false}
-                            
-                            fn={(e)=>setLocationSelected(e.target.value)}
-                            handleCreate={(e)=>console.log(e.target.value)}
-                            name={"location"}
-                          />                          
-                        </div> */}
-                        {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
-                        <Button variant="soft-danger" rounded 
-                        className="w-[85%] px-4 py-3" 
+                      <div className="">
+                        <Button variant="soft-primary" rounded 
+                        className="px-4 py-3" 
                         onClick={() => updateSession({
                           sessionId: item.id,
                           status: "USED",
@@ -641,7 +608,7 @@ function Main() {
                   </div>
                     }
                     {item?.locationIdUsed && item?.status === "USED" && <>
-                            <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
+                            <div className="mb-1 text-xs text-slate-500 ">
                             Utilizada en:
                             </div>  
                             <p className="text-xs font-thin" >{item?.locationIdUsed}</p>
