@@ -146,6 +146,7 @@ function Main() {
     locationId: "",
   });
 
+  const [atendanceId, setAtendanceId] = useState("");
   const [locationIdSelected, setLocationIdSelected] = useState("");
 
   const [dataStudent, setDataStudent] = useState({
@@ -235,11 +236,8 @@ function Main() {
   
    
   async function updateSession(params:InputOptions){
-    // const newDate = transformDate(date)
+    setAtendanceId(params.sessionId || "")
     
-     /** TODO: 
-      * Validar locationIdUsed:locationSelected que no se encunetre vacio  
-      * */
     await Promise.all([
       await dispatch(setSessionDetails({ 
         sessionId: params.sessionId, 
@@ -249,7 +247,8 @@ function Main() {
       await dispatch(getSessionDetails({
         sessionDate: String(date?.dateUtc), 
         locationId: date?.locationId
-      }))
+      })),
+      setAtendanceId("")
       
     ]);
   }
@@ -507,7 +506,7 @@ function Main() {
            {
               Array.isArray(sessionDetails) &&
               (sessionDetails.length === 0 ? (
-                <div className="flex justify-center items-center w-full text-center mt-8 h-24 box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600">
+                <div className="flex justify-center items-center w-ful">
                   <span className="text-lg mr-4 text-slate-400">😴</span>{" "}
                   <span className="text-lg">Sin sesiones encontradas</span>
                 </div>
@@ -541,21 +540,28 @@ function Main() {
           .map((item: any, i: number) => {
                  
                     return(     
-                    <Table.Tr key={item.id} className={`bg-slate-500 ${item?.status === "USED" && "bg-green-100"}`}>
-                      <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
+                    <Table.Tr key={item.id} 
+                    className={`box
+                      ${atendanceId === item?.id && "bg-yellow-100"}
+                      ${atendanceId !== item?.id && item?.status === "USED" && "bg-green-100"}
+                      `}>
+                      
+                      
+                      
+                      <Table.Td className={``}>
                         <div className="flex items-center">
                           <IcoGender gender={item?.student?.gender || ""}/>
                           <div className="ml-3.5">
-                            <a href="" className="font-medium whitespace-nowrap text-xl">
+                            <p className="font-medium whitespace-nowrap text-xl">
                               {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
-                            </a>
+                            </p>
                             <div className="mt-1 text-xs text-slate-500 whitespace-nowrap">
                               <CalculateAge birthdate={String(item?.student?.birthdate)} />
                             </div>
                           </div>
                         </div>
                       </Table.Td>
-                      <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
+                      <Table.Td className={``}>
                         <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
                           Tipo de sesión
                         </div>
@@ -569,7 +575,7 @@ function Main() {
                         <p className="text-xs font-thin" >Sesión: { formatDateToISOShort(new Date(item?.date))}</p>
                         
                       </Table.Td>
-                      <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
+                      <Table.Td className={``}>
                       {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
                       { item?.locationId && item?.locationId !=="" && <>
                           <div className="mb-1 text-xs text-slate-500 whitespace-nowrap">
@@ -582,7 +588,7 @@ function Main() {
                       }
                        
                       </Table.Td>
-                      <Table.Td className={`${item?.status === "USED" && "bg-green-100"} box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600`}>
+                      <Table.Td className={``}>
                       {item.status==="ACTIVE" &&
                       <div className="flex flex-col justify-start items-start ">
                         {/* <div className="w-[100%] mb-2">
@@ -643,9 +649,9 @@ function Main() {
                     }
                       </Table.Td>
                     
-                      <Table.Td className={`relative py-4 ${item?.status === "USED" ? "bg-green-100": "bg-white"}`}>
+                      {/* <Table.Td className={`relative py-4 ${item?.status === "USED" ? "bg-green-100": "bg-white"}`}>
                   <div className="flex items-center justify-center ">
-                    {/* <Menu className="h-5 ">
+                    <Menu className="h-5 ">
                       <Menu.Button className="w-5 h-5 text-slate-500">
                         <Lucide
                           icon="MoreVertical"
@@ -689,9 +695,9 @@ function Main() {
                             Datos Alumno
                           </Menu.Item>
                       </Menu.Items>
-                    </Menu> */}
+                    </Menu> 
                   </div>
-                </Table.Td>
+                </Table.Td>*/}
                     </Table.Tr>
               )})}
               </Table.Tbody>
