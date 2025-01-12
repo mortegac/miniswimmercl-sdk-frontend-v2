@@ -59,7 +59,7 @@ export function ResumenPage(props:any) {
                                             className={clsx([
                                                 "group flex items-center text-xs font-medium rounded-md sm:ml-2 border px-0.5 py-1 mr-auto sm:mr-0",
                                                 "bg-slate-700 text-white",
-                                                "w-32",
+                                                "w-36",
                                             ])}
                                             >
                                             <span className="w-1.5 h-1.5 mr-1.5 rounded-full group-[.success]:bg-success/80 group-[.primary]:bg-primary/80 group-[.warning]:bg-warning/80 group-[.info]:bg-info/80"></span>
@@ -73,13 +73,13 @@ export function ResumenPage(props:any) {
                                                 // "bg-slate-700 text-white",
                                                 item?.wasPaid && "text-success bg-success/10 font-thin ",
                                                 !item?.wasPaid && "text-black bg-red-300 font-semibold ",
-                                                "w-32",
+                                                "w-56",
                                             ])}
                                             >
                                             <span className="w-1.5 h-1.5 mr-1.5 rounded-full group-[.success]:bg-success/80 group-[.primary]:bg-primary/80 group-[.warning]:bg-warning/80 group-[.info]:bg-info/80"></span>
                                             <span className="-mt-px">
                                             {item?.wasPaid && "PAGADO"}
-                                            {!item?.wasPaid && "PENDIENTE"}
+                                            {!item?.wasPaid && "PENDIENTE DE PAGO"}
                                             </span>
                                         </span>
                                         <div className="w-full border-b border-dashed"></div>
@@ -104,7 +104,7 @@ export function ResumenPage(props:any) {
                                       {"$ "}{formatCurrency(item?.amountPaid)}
                                     </div>
                                     
-                                    <div className="flex flex-col sm:flex-row sm:items-center gap-y-1.5 mt-1.5 leading-relaxed text-slate-500 text-[0.8rem]">
+                                    <div className="flex flex-col  flex-wrap sm:flex-row items-center gap-y-1.5 mt-1.5 leading-relaxed text-slate-500 text-[0.8rem]">
                                      
                                        {Array.isArray(item?.sessionDetails?.items) &&
                                        [...item?.sessionDetails?.items]
@@ -116,44 +116,44 @@ export function ResumenPage(props:any) {
                                        .map(
                           (session: any, i: any) => (
                             <>
-                            {/* <pre>{JSON.stringify(item?.student?.id, null, 2)}</pre>
+                            {/* <pre>{JSON.stringify(session, null, 2)}</pre> */}
+                            {/* 
                             <pre>{JSON.stringify(item?.id, null, 2)}</pre> */}
-                              <Button
-                                // onClick={() => handleSession({
-                                //   studentId: item?.student?.id,
-                                //   enrollmentId: item?.id,                                  
-                                //   sessionId: session?.id
-                                // })}
-                                className={` mx-1 my-1 rounded-full p-0 w-40
-                                  ${session?.status === "ACTIVE" && " bg-green-50"}
-                                  ${session?.status === "USED" && " bg-red-50 border-red-200"}
-                                  ${session?.status === "RECOVERED" && " bg-blue-50 border-blue-200"}
-                                  ${session?.status === "DELETED" && " bg-slate-500 border-slate-200 text-slate-100"}
-                                `}
-                              >
-                                <div className={`text-center px-2`}>
+                            <div  className=" relative">
+                              <span
+                                  className={clsx([
+                                      "group flex justify-center items-center text-xs rounded-md border pt-4 mr-2 mb-1",
+                                      // "bg-slate-700 text-white",
+                                      session?.status === "ACTIVE" &&  "bg-green-50 font-thin ",
+                                      session?.status === "USED" &&  "bg-red-50 border-red-200",
+                                      session?.status === "RECOVERED" &&  "bg-blue-50 border-blue-200",
+                                      session?.status === "DELETED" &&  "bg-slate-200 border-slate-200 text-slate-500",
+                                      
+                                      "w-32 h-16",
+                                  ])}
+                                  >
+                                  <span className="-mt-px text-center">
                                   {session?.status === "ACTIVE" && (
                                     <>
-                                      <small className="">
+                                      <small className=" text-xs font-semibold">
                                         {formatDateUTC(session?.date)}
-                                        
                                       </small>
+                                      <p className="text-sm"></p>
                                     </>
                                   )}
                                   {session?.status != "ACTIVE" && (
                                     <>
-                                      <small className="line-through">
+                                      <small className="line-through text-xs">
                                         {formatDateUTC(session?.date)}
                                       </small>
-                                        <p className="text-sm">{session?.status}</p>
+                                        <p className=" text-[0.74rem]">{session?.status}</p>
                                     </>
                                   )}
-                                  <p className="text-left"> <small className="">{session?.locationId}</small></p>
-                                  {/* <p> <small className="">Usada:{session?.locationIdUsed}</small></p> */}
-                                  
-                                </div>
-                              </Button>
-                            </>
+                                  <p className="text-center line-clamp-1 text-[0.54rem]">{session?.locationId}</p>
+                                  </span>
+                              </span>
+                              <span className=" text-center w-5 h4 absolute -top-1 left-1 bg-slate-400 text-white rounded-full text-[0.74rem]">{session?.sessionNumber}</span>
+                              </div>                            </>
                           )
                         )}
                                     </div>
@@ -319,14 +319,14 @@ export function ResumenPage(props:any) {
                               </div>
                               <div className="flex items-center mt-3">
                                 <Lucide
-                                  icon="Calendar"
+                                  icon="User"
                                   className="w-4 h-4 mr-2 stroke-[1.3] text-slate-500"
                                 />
                                 <span className="w-40">Edad:</span>{ data?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad?.años || ""} años, ${edad?.meses || ""} meses`}
                               </div>
                               <div className="flex items-center mt-3">
                                 <Lucide
-                                  icon="Calendar"
+                                  icon="Hotel"
                                   className="w-4 h-4 mr-2 stroke-[1.3] text-slate-500"
                                 />
                                 <span className="w-40">Comuna:</span>{data?.placeOfResidence}

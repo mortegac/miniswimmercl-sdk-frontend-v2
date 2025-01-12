@@ -156,6 +156,13 @@ export const getAWSDateStgoChile = () => {
   const utcDate = new Date(date.toLocaleString('en-US', options));
   return utcDate.toISOString();
 }
+const transformAWSDateStgoChile = (dateString: string) => {
+  const options = { timeZone: 'America/Santiago' };
+  const date = new Date(dateString);
+  // Convertir a UTC antes de crear el formato ISO
+  const utcDate = new Date(date.toLocaleString('en-US', options));
+  return utcDate.toISOString();
+}
 
 export const calculateCurrentDate = () => {
   // const date = new Date();
@@ -412,4 +419,5 @@ export {
   stringToHTML,
   slideUp,
   slideDown,
+  transformAWSDateStgoChile,
 };

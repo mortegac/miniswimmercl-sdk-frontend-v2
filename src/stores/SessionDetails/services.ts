@@ -164,7 +164,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
             or: [
                     {status: { eq: "ACTIVE" }},
                     {status: { eq: "RECOVERED" }}            
-                  ]
+                ]
           
           }, limit:1000000000
         },
@@ -173,7 +173,12 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
     getData = await client.graphql({
       query: listSessionDetails,
       variables: { 
-        filter: {...filter},
+        filter: {
+          ...filter,
+          or: [
+            {status: { ne: "DELETED" }},
+        ]
+        },
         limit: 1000000000
       },
     });

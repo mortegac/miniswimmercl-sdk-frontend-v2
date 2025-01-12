@@ -252,7 +252,7 @@ export function ResumenTransactions(props:any) {
                                       <p>
                                         <span className="mr-4">{"$ "}{formatCurrency(item?.amount)}</span>
                                         <span className="mr-4">{item?.glosa}</span>
-                                        <span className="mr-4">xxxxxx {item?.card_number}</span>
+                                        <span className="mr-4">{item?.card_number && "xxxxxx-"} {item?.card_number}</span>
                                         <span className="mr-4 font-thin"> {item?.usersPaymentTransactionsId}</span>
                                       </p>
                                     </div>

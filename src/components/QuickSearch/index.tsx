@@ -3,13 +3,7 @@ import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
-import users from "@/fakers/users";
-import departments from "@/fakers/departments";
-import products from "@/fakers/products";
-import { Menu } from "@/components/Base/Headless";
 import Lucide from "@/components/Base/Lucide";
-import Table from "@/components/Base/Table";
-import Button from "@/components/Base/Button";
 import { FormInput } from "@/components/Base/Form";
 import { typeOfRelationship } from "@/utils/dictionary";
 import { calcularEdad, convertirFecha } from "@/utils/dateHandler";

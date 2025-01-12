@@ -1,22 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import debounce from 'lodash/debounce';
 import { Link } from "react-router-dom";
-import { parse, format } from 'date-fns';
+import clsx from "clsx";
 import _, { now } from "lodash";
-import LoadingIcon from "@/components/Base/LoadingIcon";
+
 import Table from "@/components/Base/Table";
 import { Slideover } from "@/components/Base/Headless";
-
-import { FilterUseState } from "./types";
-
 import ListParams from "@/components/ListParams";
-// import {FormInput, FormSelect } from "@/components/Base/Form";
 import Lucide from "@/components/Base/Lucide";
-import { Menu, Popover } from "@/components/Base/Headless"
 import {CalculateAge} from "@/components/CalculateAge";
 import Button from "@/components/Base/Button";
 import Litepicker from "@/components/Base/Litepicker";
-import {FormatDate} from "@/utils/dateHandler"
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getSessionDetails, selectSessionDetails, setSessionDetails } from "@/stores/SessionDetails/slice";
@@ -28,27 +22,27 @@ import { getLocationsOnly, selectLocation } from '../../../stores/Locations/slic
 import {typeOfGender} from "@/pages/private/Students/components/Card";
 import StudentList from "./studentList";
 
-function transformDate(dateString:string) {
-  try {
-    const parsedDate = parse(dateString, 'd MMM, yyyy', new Date());
-    return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+// function transformDate(dateString:string) {
+//   try {
+//     const parsedDate = parse(dateString, 'd MMM, yyyy', new Date());
+//     return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     
-  } catch (error) {
-    return new Date(dateString)
-  }
-}
+//   } catch (error) {
+//     return new Date(dateString)
+//   }
+// }
 
-function formatDateToISO(date:Date) {
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  const hours = String(date.getUTCHours()).padStart(2, '0');
-  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-  const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0');
+// function formatDateToISO(date:Date) {
+//   const year = date.getUTCFullYear();
+//   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+//   const day = String(date.getUTCDate()).padStart(2, '0');
+//   const hours = String(date.getUTCHours()).padStart(2, '0');
+//   const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+//   const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+//   const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0');
 
-  return `${year}-${month}-${day}T00:00:00.000Z`;
-}
+//   return `${year}-${month}-${day}T00:00:00.000Z`;
+// }
 function formatDateToISOShort(date:Date) {
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -69,30 +63,91 @@ const IcoGender: React.FC<Props> = ({gender}) => {
   const IcoSvg = typeOfGender[String(gender)] || typeOfGender[""]
   return<IcoSvg/>
 }
+
+
+function Resume(props:any) {
+  const {data, total} = props;
+  
+  return(
+    <>
+    {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+      <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
+          <div
+            className={clsx([
+              "relative zoom-in",
+              "before:content-[''] before:w-[90%] ",
+            ])}
+          >
+              <div className="p-5 box min-h-24 max-h-6 bg-green-200">
+                <p className="truncate  text-lg text-slate-700">
+                      <b className="text-4xl mr-2">{total}</b>{" "} Total de Alumnos
+                      </p>
+              </div>
+          </div>
+      </div>
+      <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
+          <div
+            className={clsx([
+              "relative zoom-in",
+              "before:content-[''] before:w-[90%] ",
+            ])}
+          >
+              <div className="p-5 box min-h-24 max-h-6 ">
+                <p className="truncate  text-lg text-primary">
+                      <b className="text-4xl mr-2">{data?.USED}</b>{" "} Asistentes
+                      </p>
+              </div>
+          </div>
+      </div>
+      <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y mb-4">
+          <div
+            className={clsx([
+              "relative zoom-in",
+              "before:content-[''] before:w-[90%] ",
+            ])}
+          >
+              <div className="p-5 box min-h-24 max-h-6 bg-slate-700">
+                <p className="truncate  text-lg text-white">
+                      <b className="text-4xl mr-2">{Number(total) - Number(data?.USED)}</b>{" "} Faltantes
+                      </p>
+              </div>
+          </div>
+      </div>
+    
+    </>
+  )
+  
+}
+
 function Main() {
   
   const [switcherSlideSessions, setSwitcherSlideSessions] = useState(false);
   const [switcherSlideStudent, setSwitcherSlideStudent] = useState(false);
    
-  const nowDate = new Date();
-  const nowDate22 =  FormatDate({
-    date: String(nowDate),
-    options: { month: "short", day: "numeric", year: "numeric"},
-  })
-  // console.log("---newDate---", formatDateToISO(nowDate))
-  const [date, setDate] = useState(nowDate22);
-  // const [locationSelected, setLocationSelected] = useState("");
-  const [locationIdSelected, setLocationIdSelected] = useState("");
-  const [filter, setFilter] = useState<FilterUseState>({
+  // const nowDate:Date = new Date();
+  // const nowDate22 = FormatDate({
+  //   date: nowDate.toISOString(),
+  //   options: { month: "short", day: "numeric", year: "numeric"},
+  // });
+  
+  // const utcDate = new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000));
+  // const utcDateString = utcDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  // console.log('Fecha en UTC:', utcDate.toISOString());
+  const selectedDate = new Date();
+  const day2 = String(selectedDate.getDate()).padStart(2, '0');
+  const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+  const fullYear = String(selectedDate.getFullYear());
+          
+  
+  const [date, setDate] = useState({
+    dateChile: String(selectedDate),
+    dateShow: String(`${day2}-${month}-${fullYear}`),
+    dateUtc: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`),
     locationId: "",
-    dateSelected: "",
-    // day: "",
-    // month: currentMonth,
-    // year: currentYear,
-    // state: "",
-    // wasPaid: "true",
-    // wasDeleted: "",
   });
+
+  const [locationIdSelected, setLocationIdSelected] = useState("");
+
   const [dataStudent, setDataStudent] = useState({
     id:"",
     name:"",
@@ -100,13 +155,12 @@ function Main() {
     gender:"",
     birthdate:"",
   });
-  const [locations, setLocations] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
-  const {sessionDetails, status } = useAppSelector(selectSessionDetails);
+  const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
   const {locationsList } = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
-  dispatch(setBreadcrumb({first:"Asistencia", firstURL:"attendance"}));
+  // dispatch(setBreadcrumb({first:"Asistencia", firstURL:"attendance"}));
   
   
   const sortStudents = (a: any, b: any) => {
@@ -146,13 +200,28 @@ function Main() {
     };
     
   async function updateDate(dateStr:any){
-    setDate(dateStr);
-    const newDate = transformDate(dateStr)
-    // console.log("---newDate---", newDate)
-    await getSessions({
-      dateSTR: String(newDate), 
-      idLocation:locationIdSelected
-    })
+    
+    const selectedDate = new Date(dateStr);
+    
+    console.log("---dateStr---", dateStr)
+    
+    const day2 = String(selectedDate.getDate()).padStart(2, '0');
+    // const day = String(selectedDate.getDay() + 1).padStart(2, '0');
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+    const fullYear = String(selectedDate.getFullYear());
+
+    setDate({
+      ...date,
+      dateChile: String(selectedDate), //newDateChile
+      dateUtc: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`),
+      dateShow: String(`${day2}-${month}-${fullYear}`),
+    });
+    
+
+    await dispatch(getSessionDetails({
+      sessionDate: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`), 
+      locationId: date?.locationId
+    }))
   }
   
   interface Params {
@@ -164,29 +233,7 @@ function Main() {
     return date instanceof Date && !isNaN(date.getTime());
   }
   
-  async function getSessions(param:Params){
-    const {dateSTR, idLocation} = param;
-    const dateAttendence = dateSTR && new Date(dateSTR);
-    return await Promise.all([
-      // await dispatch(getSessionDetails({ 
-      //   // status: "ACTIVE",
-      //   // sessionDate: formatDateToISO(dateAttendence),
-      //   isValidDate(dateAttendence) ? dateAttendence : new Date(),
-      //   ...(idLocation && { locationId: idLocation })
-      // }))
-      await dispatch(getSessionDetails({ 
-        sessionDate: formatDateToISO(isValidDate(dateAttendence) ? dateAttendence : new Date()),
-        locationId:idLocation
-        // ...(idLocation !== "" && { locationId: idLocation })
-      }))
-      
-      // locationId:idLocation
-    ])
-    
-    
-    
-  };
-  
+   
   async function updateSession(params:InputOptions){
     // const newDate = transformDate(date)
     
@@ -197,31 +244,28 @@ function Main() {
       await dispatch(setSessionDetails({ 
         sessionId: params.sessionId, 
         status: params.status,
-        locationIdUsed:locationIdSelected })),
+        locationIdUsed:date?.locationId
+      })),
       await dispatch(getSessionDetails({
-        sessionDate: formatDateToISO(new Date(date)),
-        ...(locationIdSelected !== "" && { locationId: locationIdSelected })
+        sessionDate: String(date?.dateUtc), 
+        locationId: date?.locationId
       }))
-      // await dispatch(getSessionDetails({ status: "ACTIVE"}))
+      
     ]);
   }
   
   useEffect(() => { 
-    (async () => await getSessions({
-      dateSTR:formatDateToISO(filter?.dateSelected ? new Date(filter.dateSelected) : nowDate),
-      idLocation:filter?.locationId 
-      // dateSTR:formatDateToISO(nowDate), 
-      // idLocation:locationIdSelected 
-    }))() 
-    // dispatch(getLocationsOnly())
-  }, [filter]);
+    (async () =>  await dispatch(getSessionDetails({
+      sessionDate: String(date?.dateUtc), 
+      locationId: date?.locationId
+    }))
+  )()
+  }, [date]);
   
   useEffect(() => { 
-    dispatch(getLocationsOnly())
+    locationsList.length === 0 && dispatch(getLocationsOnly())
   }, [])
   
-  
-  // }, [locationsList]);
   useEffect(() => { setFilteredStudents( [...sessionDetails]); }, [sessionDetails]);
   
   return (
@@ -311,39 +355,61 @@ function Main() {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
-    <pre>{JSON.stringify(filter, null, 2)}</pre>
-    <pre>{JSON.stringify(locationsList, null, 2)}</pre>
-    {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre> */}
+    {/* <pre>{JSON.stringify(date, null, 2)}</pre> */}
+    {date?.locationId==="" && 
+      <>
+        <div className="p-1.5 box flex flex-col ">
+          <div className="flex flex-col items-center justify-center pt-20 pb-28">
+            <Lucide
+              icon="Hotel"
+              className="w-20 h-20 text-theme-1/20 fill-theme-1/5 stroke-[0.5]"
+            />
+            <div className="mt-5 text-xl font-medium">
+              Seleccione la sede para continuar
+            </div>
+          <div className=" flex flex-wrap justify-center items-center mt-8">
+            { Array.isArray(locationsList) && locationsList.map((location:any, index:number)=>
+              <>
+              {/* <pre>{JSON.stringify(location, null, 2)}</pre> */}
+              { location?.value !== "" && 
+                  <Button
+                        onClick={() => 
+                          setDate({...date, locationId:location?.value})
+                        }
+                        
+                        className={` mx-1 my-1 rounded-full p-0 w-80 h-16 mr-6 mb-6
+                          bg-slate-200 border-slate-300 text-slate-700
+                        `}
+                      >
+                        <div className={`text-center px-2`}>
+                          {location?.value}
+                        </div>
+                  </Button>
+              }
+              
+              </>
+            )}
+                          </div>
+        </div>
+      </div>
+      </>
+    }
+    {date?.locationId!=="" && 
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
               
         <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row mb-6">
             
             <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-            {/* <Link
-              to="/students"
-              // state={{ id: data.id }}
-              className="px-8 py-3 border border-slate-200 rounded-full"
-            ><span className="text-white">Sesiones alumno</span></Link>
-            <Link
-              to="/quick-registration"
-              // state={{ id: data.id }}
-              className="px-8 py-3 border border-slate-200 rounded-full bg-white/80"
-            ><span className="text-primary">Nueva Inscripción</span></Link>
-             */}
-            
-            
-            
             </div>
           </div>
           
           <div className="flex flex-col justify-between md:h-10 gap-y-3 md:items-center md:flex-row">
             <div className=" text-base font-medium group-[.mode--light]:text-white">
-              Listado de asistencia: <b className="text-lg">{date}</b>
-              <p className="text-2xl">{locationIdSelected || "-"}</p>
-              {/* <p  className="text-sm font-thin">Sede: {locationIdSelected && locationIdSelected} {!locationIdSelected && "Todas"}</p> */}
+              Listado de asistencia: <b className="text-lg">{date?.dateShow}</b> 
             </div>
-            <Button variant="primary" rounded 
+            
+            {/* <Button variant="primary" rounded 
             className="px-4 py-3 border border-white" 
             onClick={() => setSwitcherSlideStudent(true)}
             >
@@ -351,7 +417,7 @@ function Main() {
                 icon="Search"
                 className="w-4 h-4 stroke-[1] mr-4"
               />Buscar Alumno
-            </Button>
+            </Button> */}
           
           
            
@@ -382,13 +448,10 @@ function Main() {
                 <ListParams
                   key={"LIST_LOCATIONS"}
                   list={locationsList}
-                  // list={locationsList}
                   text={""}
-                  value={filter?.locationId || ""}
+                  value={date?.locationId || ""}
                   isLoading={false}
-                  fn={(e)=>setFilter({...filter, locationId:e.target.value})}
-                  // fn={(e)=>setLocationIdSelected(e.target.value)}
-                  // fn={(e)=>setLocationSelected(e.target.value)}
+                  fn={(e)=>setDate({...date, locationId:e.target.value})}
                   handleCreate={(e)=>console.log(e.target.value)}
                   name={"location"}
                 />
@@ -402,38 +465,46 @@ function Main() {
                   className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
                 />
                 
-              <Litepicker value={date} onChange={(e)=> {
-                    // setDate(e.target.value);
-                    updateDate(e.target.value)
-                    }}
-                    options={{
-                      autoApply: true,
-                      showWeekNumbers: false,
-                      dropdowns: {
-                        minYear: 1990,
-                        maxYear: null,
-                        months: true,
-                        years: true,
-                      },
-                    }}
-                    className="pl-12 rounded-lg text-xl"
-                    />
+              <Litepicker value={date?.dateChile} 
+                onChange={(e)=> {
+                  updateDate(e.target.value);    
+                  }}
+                  options={{
+                    autoApply: true,
+                    singleMode: true, // Cambia a false si necesitas selección de rango
+                    showWeekNumbers: true,
+                    // format: 'DD-MM-YYYY',
+                    // format: 'YYYY-MM-DD',
+                    
+                    dropdowns: {
+                      minYear: 2024,
+                      maxYear: null,
+                      months: true,
+                      years: false,
+                    },
+                  }}
+                  className="pl-12 rounded-lg text-xl"
+              />
                     
                     
                     
               </div>
             </div>
           </div>
+          <div className="grid grid-cols-12 gap-6 mt-5">
+            { resume && <Resume data={resume} total={sessionDetails?.length}/>}
+            
+          </div>
           
           <div className="mt-2 overflow-auto lg:overflow-visible">
  
-          { status === "loading" &&   <div className="flex justify-center items-center w-full h-10"><LoadingIcon
+          {/* { status === "loading" &&   <div className="flex justify-center items-center w-full h-10"><LoadingIcon
                     color="white"
                     icon="oval"
                     className="w-10 h-10 mt-10"
-                  /></div>}
-          {
-            status === "idle" &&
+                  /></div>} */}
+          {/* { status === "idle" && */}
+           {
               Array.isArray(sessionDetails) &&
               (sessionDetails.length === 0 ? (
                 <div className="flex justify-center items-center w-full text-center mt-8 h-24 box shadow-[5px_3px_5px_#00000005] first:border-l last:border-r first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] rounded-l-none rounded-r-none border-x-0 dark:bg-darkmode-600">
@@ -445,7 +516,29 @@ function Main() {
               <Table.Tbody>
                 
                 { Array.isArray(filteredStudents) &&
-                    filteredStudents.map((item: any, i: number) => {
+        [...filteredStudents]
+          .sort((a:any, b:any) => {
+            
+            // const nameComparison = a.student?.name.localeCompare(b.student?.name);
+            // if (nameComparison === 0) { // Si los nombres son iguales, ordenamos por apellido
+            //   return a.student?.lastName.localeCompare(b.student?.lastName);
+            // }
+            // return nameComparison;
+            if (a.status === "USED" && b.status !== "USED") return 1;
+            if (a.status !== "USED" && b.status === "USED") return -1;
+            
+            // Si tienen el mismo status, ordenamos por nombre
+            const nameComparison = a.student?.name.localeCompare(b.student?.name);
+            
+            // Si los nombres son iguales, ordenamos por apellido
+            if (nameComparison === 0) {
+              return a.student?.lastName.localeCompare(b.student?.lastName);
+            }
+            
+            return nameComparison;
+            
+          })
+          .map((item: any, i: number) => {
                  
                     return(     
                     <Table.Tr key={item.id} className={`bg-slate-500 ${item?.status === "USED" && "bg-green-100"}`}>
@@ -470,7 +563,9 @@ function Main() {
                           {item?.status === "RECOVERED" && "SESION RECUPERADA"}
                           {item?.status === "ACTIVE" && "VIGENTE"}
                           {item?.status === "USED" && "UTILIZADA"}
+                          {item?.status === "DELETED" && "ELIMINADA"}
                         </div>
+                        {/* <small>{item?.status}</small> */}
                         <p className="text-xs font-thin" >Sesión: { formatDateToISOShort(new Date(item?.date))}</p>
                         
                       </Table.Td>
@@ -509,7 +604,7 @@ function Main() {
                         onClick={() => updateSession({
                           sessionId: item.id,
                           status: "USED",
-                          locationIdUsed:locationIdSelected,
+                          locationIdUsed:date?.locationId,
                         })}
                         >MARCAR PRESENTE</Button>
                       </div>
@@ -550,7 +645,7 @@ function Main() {
                     
                       <Table.Td className={`relative py-4 ${item?.status === "USED" ? "bg-green-100": "bg-white"}`}>
                   <div className="flex items-center justify-center ">
-                    <Menu className="h-5 ">
+                    {/* <Menu className="h-5 ">
                       <Menu.Button className="w-5 h-5 text-slate-500">
                         <Lucide
                           icon="MoreVertical"
@@ -594,7 +689,7 @@ function Main() {
                             Datos Alumno
                           </Menu.Item>
                       </Menu.Items>
-                    </Menu>
+                    </Menu> */}
                   </div>
                 </Table.Td>
                     </Table.Tr>
@@ -602,8 +697,7 @@ function Main() {
               </Table.Tbody>
             </Table>
               ))
-
-                
+    
           }
         
             
@@ -614,6 +708,7 @@ function Main() {
           
         {/* </div> */}
       </div>
+    }
     </>
   );
 }

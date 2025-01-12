@@ -11,6 +11,7 @@ export interface SessionDetailsState {
   status: "idle" | "loading" | "failed";
   SessionDetail: SessionDetail;
  sessionDetails: SessionDetail[];
+ resume: any;
  errorMessage:string;
  wasModified:boolean;
 }
@@ -19,6 +20,7 @@ export const initialState: SessionDetailsState = {
   status: "idle",
   SessionDetail: emptySessionDetail,
   sessionDetails: [emptySessionDetail],
+  resume:{},
   errorMessage:"",
   wasModified:false
 };
@@ -89,7 +91,18 @@ export const sessionDetailslice = createSlice({
         const newArray = objPayload.items.sort((a:any, b:any) => {
           return new Date(a.date).getTime() - new Date(b.date).getTime();
         });
+        
+        const counts = objPayload?.items.reduce((acc:any, item:any) => {
+          acc[item.status] = (acc[item.status] || 0) + 1;
+          return acc;
+        }, {
+          USED: 0,
+          RECOVERED: 0,
+          ACTIVE: 0
+        });
+        
         state.sessionDetails = newArray || [];
+        state.resume = counts || {};
       })
       
       // UPDATE SessionDetails
