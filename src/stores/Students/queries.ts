@@ -52,8 +52,8 @@ export const getStudent = /* GraphQL */ `
                 status
                 locationId
                 locationIdUsed
-            
-            
+                modifiedBy
+                modifiedByDate
               }
             }
           }

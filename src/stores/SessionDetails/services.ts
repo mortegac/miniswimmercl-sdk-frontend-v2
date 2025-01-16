@@ -134,7 +134,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       : { 
         // date: { eq: String(objFilter?.sessionDate) } 
         // date: { eq: "2024-08-13T00:00:00.000Z"},
-        date: { eq: objFilter?.sessionDate},
+        date: { contains: objFilter?.sessionDate},
       };
     const filterStatus = (typeof objFilter?.status === 'undefined') ?
     {}

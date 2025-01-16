@@ -80,7 +80,8 @@ enum SessionStatus {
 
 type SessionDetail @model {
   id: ID!
-  date: AWSDateTime
+  date: AWSDateTime! @index
+  # date: AWSDateTime
   day: String! @default(value: "")
   month: String!
   year: String
@@ -89,10 +90,10 @@ type SessionDetail @model {
   status: SessionStatus!
   proratedValue: Float @default(value: "0")  #Valor de la sesion prorraterado por lo que pago
   wasEmailSent: Boolean @default(value: "false")
-  locationId: String! @default(value: "")  # Id de la sede en la que compro la session
+  locationId: String! @index @default(value: "") # Id de la sede en la que compro la session
   locationIdUsed: String! @default(value: "")  # Id de la sede en la que USO la session
-  modifiedBy: String! @default(value: "")  # USUARIO QUE REAGENDO
-  modifiedByDate: AWSDateTime!  # USUARIO QUE REAGENDO FECHA 
+  modifiedBy: String @default(value: "")  # USUARIO QUE REAGENDO
+  modifiedByDate: AWSDateTime  # USUARIO QUE REAGENDO FECHA 
   #Relation
   student: Student! @belongsTo
 }

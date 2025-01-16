@@ -47,5 +47,6 @@ export type InputOptions  = {
   sessionId?: string;
   sessionDate?: string;
   status?: string;
+  locationId?: string;
   locationIdUsed?: string;
 };

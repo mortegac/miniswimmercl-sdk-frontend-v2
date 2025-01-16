@@ -26,7 +26,7 @@ enum StatusCommission {
 type ShoppingCart @model @auth(rules: [{ allow: public }]) {
   id: ID!
   totalPrice: Float!
-  status: String @default(value: "PENDING")  # PENDING, COMPLETED, CANCELLED
+  status: String @default(value: "PENDING")  # PENDING, COMPLETED, CANCELLED, BANK_TRANSFER
   createdAt: String!
   
   #Relations

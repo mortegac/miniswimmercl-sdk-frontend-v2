@@ -23,8 +23,8 @@ function Content(props: any) {
                     </span>
                     </Table.Td>
                     <Table.Td className="w-80 py-4 border-dashed">
-                    <div className="flex items-start justify-start">
-                    {detail?.type}
+                    <div className="flex items-start justify-start text-slate-400">
+                    {typeOfDetail[detail?.type]}
                     </div>
                     <div className="flex items-center justify-start">
                     {detail?.detail}
@@ -60,6 +60,14 @@ function Content(props: any) {
         </>
     )
 }
+
+
+
+const typeOfDetail: any = {
+  ["ENROLLMENTS"]: "INSCRIPCION",
+  ["PRODUCT"]: "PRODUCTO",
+  [""]: "-",
+};
 
 export function CartDetail(props: any) {
     

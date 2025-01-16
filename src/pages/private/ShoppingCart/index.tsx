@@ -38,10 +38,12 @@ import { CartDetail } from "./components/cartDetail";
 const typeOfName: any = {
   ["CREATE"]: "CREADA",
   ["AUTHORIZED"]: "PAGADA",
+  ["BANK_TRANSFER"]: "TRANSFERENCIA",
   ["PENDING"]: "PENDING",
   ["INITIALIZED"]: "INICIALIZADA",
   [""]: "-",
 };
+
 
 function sumCartAmounts(cartDetails: any) {
   return cartDetails.items.reduce(
@@ -568,6 +570,10 @@ function Content(props: any) {
                       "text-primary border-primary font-black font-dm-sans "
                     }
                     ${
+                      item?.status === "BANK_TRANSFER" &&
+                      "text-primary border-primary font-black font-dm-sans "
+                    }
+                    ${
                       item?.status === "INITIALIZED" &&
                       "text-gray-600 bg-gray-200 font-thin "
                     }
@@ -610,7 +616,8 @@ function Content(props: any) {
                       </Button>
                     </Table.Td>
                     <Table.Td className="border-dashed w-1">
-                      {item?.status !== "AUTHORIZED" && (
+                      {/* {item?.status !== "AUTHORIZED" || item?.status !== "BANK_TRANSFER" && ( */}
+                      {item?.status === "PENDING" && (
                         <Jwt cartId={item?.id} />
                       )}
                     </Table.Td>

@@ -13,3 +13,20 @@ export const typeOfRelationship: any = {
     ["FAMILYS_FRIEND"]: "Amigo familia",
     ["Primo/a"]: "",
   };
+  
+  
+export const typeOfSession: any = {
+    [""]: "",
+    ["ACTIVE"]: "ACTIVA",
+    ["USED"]: "USADA",
+    ["RECOVERED"]: "REAGENDADA",
+    ["DELETED"]: "ELIMINADA",
+  };
+  
+  
+  export const statusSession:any=[
+    { id:"ACTIVE", name:"ACTIVA" },
+    { id:"USED", name:"USADA" },
+    { id:"RECOVERED", name:"REAGENDADA" },
+    { id:"DELETED", name:"ELIMINADA" },
+  ]

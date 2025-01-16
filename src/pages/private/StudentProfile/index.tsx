@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 import _ from "lodash";
 
-import LoadingIcon from "@/components/Base/LoadingIcon";
+// import LoadingIcon from "@/components/Base/LoadingIcon";
 import { ResumenPage } from "./components/ResumenPage";
 import { ResumenTransactions } from "./components/ResumenTransactions";
 import { SessionsPage } from "./components/SessionsPage";
@@ -64,18 +64,8 @@ function Main() {
  
   return (
     <>
-    { status === "loading" && 
-      <div className="flex justify-center items-center text-center h-56">
-        <div className="w-16 h-16">
-          <LoadingIcon
-        color="white"
-        icon="oval"
-        className="w-10 h-10 mt-10"
-      /></div>
-      </div>
-    }
     
-    { state?.id && status === "idle" && 
+    { state?.id &&
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
           <div className="p-1.5 box flex flex-col ">
@@ -143,7 +133,7 @@ function Main() {
             <div className="flex flex-col 2xl:items-center 2xl:flex-row gap-y-3">
               <Tab.List
                 variant="boxed-tabs"
-                className="flex-col sm:flex-row w-full 2xl:w-auto mr-auto bg-white box rounded-[0.6rem] border-slate-200"
+                className="flex-col sm:flex-row w-full mr-auto bg-white box rounded-[0.6rem] border-slate-200"
               >
                 <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
                   <Tab.Button
@@ -167,9 +157,9 @@ function Main() {
                     as="button"
                   >
                     Gestión de Sesiones
-                    <div className="flex items-center justify-center h-5 px-1.5 ml-2 text-xs font-medium border rounded-full text-theme-1/70 bg-theme-1/10 border-theme-1/10">
+                    {/* <div className="flex items-center justify-center h-5 px-1.5 ml-2 text-xs font-medium border rounded-full text-theme-1/70 bg-theme-1/10 border-theme-1/10">
                       7
-                    </div>
+                    </div> */}
                   </Tab.Button>
                 </Tab>
                 <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
@@ -193,9 +183,9 @@ function Main() {
             
             </div>
             <Tab.Panels>
-              <Tab.Panel><ResumenPage data={student} edad={edad}/></Tab.Panel>
-              <Tab.Panel><ResumenTransactions data={student?.relationships}/></Tab.Panel>
-              <Tab.Panel><SessionsPage/></Tab.Panel>
+              <Tab.Panel><ResumenPage data={student} edad={edad} status={status}/></Tab.Panel>
+              <Tab.Panel><ResumenTransactions data={student?.relationships}  status={status}/></Tab.Panel>
+              <Tab.Panel><SessionsPage data={student} studentId={student?.id} status={status}/></Tab.Panel>
               <Tab.Panel><MessagesPage/></Tab.Panel>
               <Tab.Panel><ModifyPage/></Tab.Panel>
             </Tab.Panels>
