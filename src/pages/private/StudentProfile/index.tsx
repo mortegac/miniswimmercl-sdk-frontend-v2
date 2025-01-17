@@ -4,7 +4,8 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import clsx from "clsx";
 import _ from "lodash";
-
+import { FormInput, FormLabel, FormTextarea } from "@/components/Base/Form";
+import { Slideover } from "@/components/Base/Headless";
 // import LoadingIcon from "@/components/Base/LoadingIcon";
 import { ResumenPage } from "./components/ResumenPage";
 import { ResumenTransactions } from "./components/ResumenTransactions";
@@ -13,10 +14,15 @@ import { MessagesPage } from "./components/MessagesPage";
 import { ModifyPage } from "./components/ModifyPage";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
 import { getStudent,  selectStudent } from "@/stores/Students/slice";
+import { selectAuth} from "@/stores/Users/slice";
 import { calcularEdad, convertirFecha } from "@/utils/dateHandler";
 import {formatDateUTC} from "@/utils/helper";
 import {typeOfGender} from "@/pages/private/Students/components/Card";
+import Button from "@/components/Base/Button";
+import TicketList from "./components/TicketList";
+
 
 interface Props {
   gender: string;  
@@ -29,11 +35,23 @@ const IcoGender: React.FC<Props> = ({gender}) => {
 
 function Main() {
   const { search, state } = useLocation();
+  const [sessionSlideover, setSessionSlideover] = useState(false);
+  const [dataNew, setDataNew] = useState({
+    id: "",
+    locationId:  "",
+    email:  "",
+    phone:  "",
+    student:  "",
+    title:  "",
+    description:  "",
+  });
   const queryParams = new URLSearchParams(search);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const dispatch = useAppDispatch();
   const studentId: string | null = queryParams.get("id" ?? "");
   const { student, status } = useAppSelector(selectStudent);
+  const {email}= useAppSelector(selectAuth);
+  const { locations } = useAppSelector(selectLocation);
   const edad:any = student?.birthdate && calcularEdad(String(student?.birthdate === "" ? "1800/01/01":student?.birthdate));
   
   
@@ -61,10 +79,155 @@ function Main() {
     return () => {};
   }, [state?.id]);
   
+  useEffect(() => {
+    (async () => await dispatch(getLocationsOnly()))();
+  }, []);
+  
+  useEffect(() => {
+    dataNew?.id === "" && setDataNew({
+      ...dataNew,
+      id:  `${student?.id}`,
+      email:  `${student?.emailPhone}`,
+      phone:  `${student?.contactPhone}`,
+      student:  `${student?.name} ${student?.middleName} ${student?.lastName}`,
+    })
+  }, [student]);
  
   return (
     <>
-    
+         {/* SESIONES */}
+         <Slideover
+        size="xl"
+        key="Slide-tickets333"
+        open={sessionSlideover}
+        onClose={() => {
+          setSessionSlideover(false);
+        }}
+      >
+        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+          <a
+            href=""
+            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
+            onClick={(e) => {
+              e.preventDefault();
+              setSessionSlideover(false);
+            }}
+          >
+            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
+          </a>
+          <Slideover.Title>
+            <h2 className="mr-auto text-base font-medium">Ticket de soporte</h2>
+          </Slideover.Title>
+          <Slideover.Description className="p-8">
+           
+            <div className="mt-3">
+              <FormLabel htmlFor="modal-form-2"><span className="min-w-40 pr-12">Email:</span><b>{dataNew?.email}</b></FormLabel>
+            </div>
+            <div className="mt-3">
+              <FormLabel htmlFor="modal-form-2"><span className="min-w-40 pr-6">Telefono:</span><b>{dataNew?.phone}</b></FormLabel>
+            </div>
+            <div className="mt-3">
+              <FormLabel htmlFor="modal-form-2"><span className="min-w-40 pr-2">Estudiante:</span> <b>{dataNew?.student}</b></FormLabel>
+            </div> 
+            <div className="mt-10">
+              <FormLabel htmlFor="modal-form-1">Titulo</FormLabel>
+              <FormInput
+                id="name"
+                type="text"
+                value={dataNew?.title}
+                placeholder=""
+                onChange={(e) =>
+                 setDataNew({
+                    ...dataNew,
+                    title: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="mt-3">
+              <FormLabel htmlFor="modal-form-4">Sede</FormLabel>
+              {/* <div className="flex flex-row flex-wrap"> */}
+              <div className="flex-1 w-full mt-3 xl:mt-0">
+                        {Array.isArray(locations) &&
+                          locations?.map((item, i) => (
+                            <>
+                              <Button
+                              key={`${i}-LOCATIONS-USED`}
+                              onClick={(event: React.MouseEvent) => {
+                              event.preventDefault();
+                                setDataNew({ ...dataNew, locationId: item?.id })
+                            }}                              
+                            className={`shadow-none border m-0 p-0 mr-2 mb-1 w-40 h-12  ${item?.id === dataNew?.locationId && "bg-green-200"}`}>
+                              <span
+                                  className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                  <span className="-mt-px text-center">
+                                  
+                                  {/* <p className="text-center line-clamp-1 text-xs text-slate-400">{item?.name}</p> */}
+                                  <p className={`text-center line-clamp-1 text-xs text-slate-400  ${item?.id === dataNew?.locationId && "text-slate-500"}`}>{item?.name}</p>
+                                  </span>
+                              </span>
+                              
+                            </Button>
+                            </>
+                          ))}
+                    </div>
+            </div>
+            <div className="mt-3">
+              <FormLabel htmlFor="modal-form-3">Descripción</FormLabel>
+              <FormTextarea
+                name="postContent"
+                defaultValue=""
+                className="w-full border border-slate-300 rounded-lg "
+                rows={4}
+                cols={40}
+                onChange={async (e) => {
+                  console.log("e---", e.target.value);
+                  setDataNew({
+                    ...dataNew,
+                    description: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className="mt-3 mb-16">
+              <Button
+                variant="primary"
+                type="button"
+                className="w-28 px-2 py-3 rounded-xl"
+                // onClick={createTicket}
+              >
+                Grabar Ticket
+              </Button>
+            </div>
+            <p className="text-2xl text-left mt-4">
+              Listado de Tickets creados
+            </p>
+            <p className="text-sm mb-8 text-left text-slate-500">
+              Asociados a {" "}
+              {
+              dataNew.email
+              }
+            </p>
+            <pre>{JSON.stringify(dataNew, null, 2 )}</pre>
+            <TicketList email={dataNew?.email} />
+           
+          </Slideover.Description>
+          <Slideover.Footer>
+            <div className="flex justify-between">
+              <Button
+                variant="outline-secondary"
+                type="button"
+                onClick={() => {
+                  setSessionSlideover(false);
+                }}
+                className="w-20 px-2 py-3 rounded-xl"
+              >
+                Volver
+              </Button>
+            </div>
+          </Slideover.Footer>
+        </Slideover.Panel>
+      </Slideover>
     { state?.id &&
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
@@ -91,7 +254,15 @@ function Main() {
                 <Lucide
                   icon="BadgeCheck"
                   className="w-5 h-5 ml-2 text-blue-500 fill-blue-500/30"
-                />
+                  />
+              </div>
+              <div className="flex items-center justify-center m-4">
+                  <Button 
+                    rounded
+                    onClick={()=>setSessionSlideover(true)}
+                    className="bg-red-200/30 border border-red-700/30 p-3"
+                  ><Lucide icon="HelpCircle" className="w-5 h-5 ml-2 text-red-400 fill-black-500/30 mr-4"/>
+                  <span className=" text-red-400">Crear Ticket de soporte</span></Button>
               </div>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-y-2 gap-x-5 mt-2.5">
                 <div className="flex items-center text-slate-500">
@@ -184,7 +355,11 @@ function Main() {
             </div>
             <Tab.Panels>
               <Tab.Panel><ResumenPage data={student} edad={edad} status={status}/></Tab.Panel>
-              <Tab.Panel><ResumenTransactions data={student?.relationships}  status={status}/></Tab.Panel>
+              <Tab.Panel><ResumenTransactions 
+                            data={student?.relationships}  
+                            studentId={student?.id}  
+                            status={status}/>
+                          </Tab.Panel>
               <Tab.Panel><SessionsPage data={student} studentId={student?.id} status={status}/></Tab.Panel>
               <Tab.Panel><MessagesPage/></Tab.Panel>
               <Tab.Panel><ModifyPage/></Tab.Panel>

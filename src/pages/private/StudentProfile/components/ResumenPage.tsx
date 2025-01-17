@@ -1,30 +1,64 @@
+import {useState, useEffect} from "react";
 import clsx from "clsx";
 import _ from "lodash";
 
 
 
 import Lucide from "@/components/Base/Lucide";
-import { FormCheck } from "@/components/Base/Form";
-import activities from "@/fakers/activities";
-import users from "@/fakers/users";
-import messages from "@/fakers/messages";
-import events from "@/fakers/events";
-import projectDetails from "@/fakers/project-details";
 import Button from "@/components/Base/Button";
 import {typeOfRelationship} from "@/utils/dictionary";
 import {formatDateUTC, formatCurrency} from "@/utils/helper";
-import { cleanSentVar } from '@/stores/EmailsSent/slice';
 import LoadingIcon from "@/components/Base/LoadingIcon";
+import { Slideover } from "@/components/Base/Headless";
+
+import {CourseModify} from "../components/CourseModify";
 
 
 
 
 
 export function ResumenPage(props:any) {
-    
-    const {data, edad, status } = props;
-        
+  const [sessionSlideover, setSessionSlideover] = useState(false);
+    const {data, edad, status, studentId } = props;
+    const [dataCourse, setDataCourse] = useState({
+      id: data?.id,
+      locationId: data?.locationId,
+      courseId: data?.courseId,
+      scheduleId: data?.scheduleId,      
+    });
     return <>
+    
+         {/* SESIONES */}
+         <Slideover
+        size="xl"
+        key="Slide-sessions333"
+        open={sessionSlideover}
+        onClose={() => {
+          setSessionSlideover(false);
+        }}
+      >
+        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+          <a
+            href=""
+            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
+            onClick={(e) => {
+              e.preventDefault();
+              setSessionSlideover(false);
+            }}
+          >
+            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
+          </a>
+          <Slideover.Description className="p-0">
+            {/* <pre>{JSON.stringify(dataCourse, null, 2)}</pre> */}
+            <CourseModify 
+              data={dataCourse} 
+              studentId={studentId} 
+              setSessionSlideover={setSessionSlideover}
+            />
+           
+          </Slideover.Description>
+        </Slideover.Panel>
+      </Slideover>
      <div className="grid grid-cols-12 gap-y-7 gap-x-6 mt-3.5">
                   <div className="col-span-12 xl:col-span-8">
                     <div className="flex flex-col gap-y-7">
@@ -105,16 +139,26 @@ export function ResumenPage(props:any) {
                                       //   "after:content-[''] after:absolute after:w-1.5 after:h-1.5 after:bg-slate-500 after:rounded-full after:inset-y-0 after:my-auto after:left-0 after:ml-[11px] after:dark:bg-darkmode-200 after:z-10",
                                       ])}
                                     >
-                                      <a
-                                        href=""
-                                        className="font-medium text-slate-500"
-                                      >
-                                      {item?.courseEnrollmentsId}
-                                      </a>
-                                      
-                                      <div className="mt-1.5 text-xs text-slate-500">
-                                        {"$ "}{formatCurrency(item?.amountPaid)}
+                                      <div className="flex justify-between">
+                                        <p className="uppercase font-thin text-sm text-left my-2">{item?.courseEnrollmentsId} - <b>{item?.scheduleName}</b></p>
+                                        <Button
+                                          variant="soft-primary"
+                                          className=""
+                                          onClick={()=> {
+                                            setDataCourse({
+                                              id: item?.id,
+                                              locationId: item?.course?.location?.id,
+                                              courseId: item?.courseEnrollmentsId,
+                                              scheduleId: item?.scheduleId,      
+                                            })
+                                            setSessionSlideover(true)
+                                          }}
+                                        >Editar Curso</Button>
                                       </div>
+                                      
+                                      {/* <div className="mt-1.5 text-xs text-slate-500">
+                                        {"$ "}{formatCurrency(item?.amountPaid)}
+                                      </div> */}
                                       
                                       <div className="flex flex-col  flex-wrap sm:flex-row items-center gap-y-1.5 mt-1.5 leading-relaxed text-slate-500 text-[0.8rem]">
                                       

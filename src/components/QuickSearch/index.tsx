@@ -123,25 +123,53 @@ function StudentSearchList(props:any) {
     </>
    )
 }
+// Hook personalizado para debounce
+const useDebounce = (value:string, delay:number) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  
+  useEffect(() => {
+    // Configurar el timer
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    // Limpiar el timer en cada cambio
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 function Main(props: MainProps) {
   // const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const [searchTermStudent, setSearchTermStudent] = useState('');
-  
+  const debouncedSearchTerm = useDebounce(searchTermStudent, 500); // 500ms de delay
+
   const { students } = useAppSelector(selectStudent);
   
-  const handleSearchChangeStudents = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value;
-    setSearchTermStudent(term);
+  // const handleSearchChangeStudents = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const term = event.target.value;
+  //   setSearchTermStudent(term);
     
-    dispatch(getStudentsSearchName({ 
-      name: term,
-    }))
-    // debouncedFilter(term);
-  };
+    
+  //   dispatch(getStudentsSearchName({ 
+  //     name: term,
+  //   }))
+  
+  // };
   
 
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      // Aquí va tu llamada a la API
+      dispatch(getStudentsSearchName({ 
+        name: searchTermStudent,
+      }))
+    }
+  }, [debouncedSearchTerm]);
   
   useEffect(() => {
     document.onkeydown = function (evt) {
@@ -196,7 +224,8 @@ function Main(props: MainProps) {
                       type="text"
                       placeholder="Búsqueda rápida..."
                       value={searchTermStudent}
-                      onChange={handleSearchChangeStudents}
+                      // onChange={handleSearchChangeStudents}
+                      onChange={(e)=>setSearchTermStudent(e.target.value)}
                       // value={search}
                       // onChange={(e) => {
                       //   setSearch(e.target.value);

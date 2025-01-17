@@ -22,6 +22,7 @@ import shoppingCartDetailsReducer from "./ShoppingCartDetail/slice";
 import schedulesReducer from "./Schedule/slice";
 import shoppingCartsReducer from "./ShoppingCarts/slice";
 import WPReducer from "./WP/slice";
+import supportTicketsReducer from "./SupportTicket/slice";
 
 export const store = configureStore({
   reducer: {
@@ -48,6 +49,7 @@ export const store = configureStore({
     schedules: schedulesReducer,
     shoppingCarts: shoppingCartsReducer,
     WP: WPReducer,
+    supportTickets: supportTicketsReducer,
   },
 });
 

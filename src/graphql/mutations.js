@@ -2071,6 +2071,10 @@ export const createStudent = /* GraphQL */ `
         nextToken
         __typename
       }
+      supportTickets {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       studentSessionDetailId
@@ -2134,6 +2138,10 @@ export const updateStudent = /* GraphQL */ `
         nextToken
         __typename
       }
+      supportTickets {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       studentSessionDetailId
@@ -2194,6 +2202,10 @@ export const deleteStudent = /* GraphQL */ `
         __typename
       }
       emailSend {
+        nextToken
+        __typename
+      }
+      supportTickets {
         nextToken
         __typename
       }
@@ -3472,8 +3484,32 @@ export const createSupportTicket = /* GraphQL */ `
         nextToken
         __typename
       }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
       createdAt
       updatedAt
+      studentSupportTicketsId
       __typename
     }
   }
@@ -3504,8 +3540,32 @@ export const updateSupportTicket = /* GraphQL */ `
         nextToken
         __typename
       }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
       createdAt
       updatedAt
+      studentSupportTicketsId
       __typename
     }
   }
@@ -3536,8 +3596,32 @@ export const deleteSupportTicket = /* GraphQL */ `
         nextToken
         __typename
       }
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        __typename
+      }
       createdAt
       updatedAt
+      studentSupportTicketsId
       __typename
     }
   }
@@ -4580,6 +4664,7 @@ export const createTicketUser = /* GraphQL */ `
         reason
         createdAt
         updatedAt
+        studentSupportTicketsId
         __typename
       }
       users {
@@ -4627,6 +4712,7 @@ export const updateTicketUser = /* GraphQL */ `
         reason
         createdAt
         updatedAt
+        studentSupportTicketsId
         __typename
       }
       users {
@@ -4674,6 +4760,7 @@ export const deleteTicketUser = /* GraphQL */ `
         reason
         createdAt
         updatedAt
+        studentSupportTicketsId
         __typename
       }
       users {
@@ -4721,6 +4808,7 @@ export const createComments = /* GraphQL */ `
         reason
         createdAt
         updatedAt
+        studentSupportTicketsId
         __typename
       }
       commentTickets {
@@ -4762,6 +4850,7 @@ export const updateComments = /* GraphQL */ `
         reason
         createdAt
         updatedAt
+        studentSupportTicketsId
         __typename
       }
       commentTickets {
@@ -4803,6 +4892,7 @@ export const deleteComments = /* GraphQL */ `
         reason
         createdAt
         updatedAt
+        studentSupportTicketsId
         __typename
       }
       commentTickets {

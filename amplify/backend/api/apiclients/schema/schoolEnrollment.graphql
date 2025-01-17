@@ -32,6 +32,8 @@ type Student @model {
   relationships: [Relationship] @hasMany
   sessionDetail: SessionDetail @hasOne
   emailSend: [EmailSend] @hasMany  # Email enviados al student
+  supportTickets: [SupportTicket] @hasMany # Relación con SupportTicket
+
 }
 
 

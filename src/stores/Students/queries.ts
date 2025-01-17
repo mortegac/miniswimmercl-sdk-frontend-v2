@@ -39,8 +39,17 @@ export const getStudent = /* GraphQL */ `
             startDate
             amountPaid
             courseEnrollmentsId
+            scheduleId
             scheduleName
             wasPaid
+            course{
+              id
+              title
+              location{
+                id
+                name
+              }
+            }
             sessionDetails
             {
               items{

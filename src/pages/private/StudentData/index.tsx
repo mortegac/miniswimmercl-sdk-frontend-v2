@@ -188,6 +188,26 @@ function StudentSearchList(props:any) {
    )
 }
 
+// Hook personalizado para debounce
+const useDebounce = (value:string, delay:number) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  
+  useEffect(() => {
+    // Configurar el timer
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    // Limpiar el timer en cada cambio
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
+
 function StudentData() {
   const dispatch = useAppDispatch();
   const id = useId();
@@ -213,6 +233,8 @@ function StudentData() {
   const [searchSlideover, setSearchSlideover] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermStudent, setSearchTermStudent] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTermStudent, 500); // 500ms de delay
+
   const [filteredStudents, setFilteredStudents] = useState(enrollments);
 
   const sortStudents = (a: any, b: any) => {
@@ -254,9 +276,9 @@ function StudentData() {
     const term = event.target.value;
     setSearchTermStudent(term);
     
-    dispatch(getStudentsSearchName({ 
-      name: term,
-    }))
+    // dispatch(getStudentsSearchName({ 
+    //   name: term,
+    // }))
     // debouncedFilter(term);
   };
   
@@ -269,6 +291,16 @@ function StudentData() {
     }));
   }
 
+  
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      // Aquí va tu llamada a la API
+      dispatch(getStudentsSearchName({ 
+        name: searchTermStudent,
+      }))
+    }
+  }, [debouncedSearchTerm]);
+  
   useEffect(() => {
     (async () => await dispatch(getLocations()))();
   }, []);
@@ -345,7 +377,8 @@ function StudentData() {
                           className="pl-9 w-96 rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
                           name="studentName"
                           value={searchTermStudent}
-                          onChange={handleSearchChangeStudents}
+                          onChange={(e)=>setSearchTermStudent(e.target.value)}
+                          // onChange={handleSearchChangeStudents}
                         />
               </div>
                     </div>
@@ -368,7 +401,7 @@ function StudentData() {
           <div className="col-span-12 mt-8">
             <div className="flex items-center h-10 intro-y">
               <h2 className="mr-5 text-lg font-medium truncate">
-                Administrador inscripciones Alumno
+                Administrador de Inscripciones
               </h2>
               <Button
                 className=" bg-primary flex items-center ml-auto text-white shadow-none border-2 rounded-full min-w-40 min-h-12"
@@ -422,7 +455,7 @@ function StudentData() {
                     }}
                   >
                     <Lucide icon="Search" className="text-slate-400" />
-                    <span className="mx-4 upp">Buscar apoderado</span>
+                    <span className="mx-4 upp">Buscar Alumno</span>
                   </Button>
                   
                 </div>

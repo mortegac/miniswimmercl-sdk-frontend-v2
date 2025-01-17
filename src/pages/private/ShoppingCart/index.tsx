@@ -39,6 +39,7 @@ const typeOfName: any = {
   ["CREATE"]: "CREADA",
   ["AUTHORIZED"]: "PAGADA",
   ["BANK_TRANSFER"]: "TRANSFERENCIA",
+  ["PAYMENT_ON_SITE"]: "PAGO EN SEDE",
   ["PENDING"]: "PENDING",
   ["INITIALIZED"]: "INICIALIZADA",
   [""]: "-",
@@ -567,6 +568,10 @@ function Content(props: any) {
                     }
                     ${
                       item?.status === "AUTHORIZED" &&
+                      "text-primary border-primary font-black font-dm-sans "
+                    }
+                    ${
+                      item?.status === "PAYMENT_ON_SITE" &&
                       "text-primary border-primary font-black font-dm-sans "
                     }
                     ${

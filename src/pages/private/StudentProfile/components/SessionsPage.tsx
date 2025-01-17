@@ -5,10 +5,10 @@ import _ from "lodash";
 
 import Table from "@/components/Base/Table";
 import Lucide from "@/components/Base/Lucide";
+import { Slideover } from "@/components/Base/Headless";
 import Button from "@/components/Base/Button";
 import {formatDateUTC, formatCurrency} from "@/utils/helper";
 import {typeOfSession} from "@/utils/dictionary";
-import { Slideover } from "@/components/Base/Headless";
 import {SessionList} from "./SessionList";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 
