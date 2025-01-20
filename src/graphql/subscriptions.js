@@ -690,6 +690,7 @@ export const onCreateEmailSend = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       enrollment {
@@ -774,6 +775,7 @@ export const onUpdateEmailSend = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       enrollment {
@@ -858,6 +860,7 @@ export const onDeleteEmailSend = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       enrollment {
@@ -1907,10 +1910,10 @@ export const onCreateStudent = /* GraphQL */ `
         locationIdUsed
         modifiedBy
         modifiedByDate
+        sessionDetailStudentId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
-        sessionDetailStudentId
         __typename
       }
       emailSend {
@@ -1924,6 +1927,7 @@ export const onCreateStudent = /* GraphQL */ `
       createdAt
       updatedAt
       studentSessionDetailId
+      studentSessionDetailDate
       __typename
     }
   }
@@ -1971,10 +1975,10 @@ export const onUpdateStudent = /* GraphQL */ `
         locationIdUsed
         modifiedBy
         modifiedByDate
+        sessionDetailStudentId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
-        sessionDetailStudentId
         __typename
       }
       emailSend {
@@ -1988,6 +1992,7 @@ export const onUpdateStudent = /* GraphQL */ `
       createdAt
       updatedAt
       studentSessionDetailId
+      studentSessionDetailDate
       __typename
     }
   }
@@ -2035,10 +2040,10 @@ export const onDeleteStudent = /* GraphQL */ `
         locationIdUsed
         modifiedBy
         modifiedByDate
+        sessionDetailStudentId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
-        sessionDetailStudentId
         __typename
       }
       emailSend {
@@ -2052,6 +2057,7 @@ export const onDeleteStudent = /* GraphQL */ `
       createdAt
       updatedAt
       studentSessionDetailId
+      studentSessionDetailDate
       __typename
     }
   }
@@ -2095,6 +2101,7 @@ export const onCreateEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       user {
@@ -2212,6 +2219,7 @@ export const onUpdateEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       user {
@@ -2329,6 +2337,7 @@ export const onDeleteEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       user {
@@ -2447,12 +2456,13 @@ export const onCreateSessionDetail = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
+      sessionDetailStudentId
       createdAt
       updatedAt
       enrollmentSessionDetailsId
-      sessionDetailStudentId
       __typename
     }
   }
@@ -2497,12 +2507,13 @@ export const onUpdateSessionDetail = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
+      sessionDetailStudentId
       createdAt
       updatedAt
       enrollmentSessionDetailsId
-      sessionDetailStudentId
       __typename
     }
   }
@@ -2547,12 +2558,13 @@ export const onDeleteSessionDetail = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
+      sessionDetailStudentId
       createdAt
       updatedAt
       enrollmentSessionDetailsId
-      sessionDetailStudentId
       __typename
     }
   }
@@ -3311,6 +3323,7 @@ export const onCreateSupportTicket = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       createdAt
@@ -3366,6 +3379,7 @@ export const onUpdateSupportTicket = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       createdAt
@@ -3421,6 +3435,7 @@ export const onDeleteSupportTicket = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       createdAt
@@ -3949,6 +3964,7 @@ export const onCreateRelationship = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       relationType
@@ -4002,6 +4018,7 @@ export const onUpdateRelationship = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       relationType
@@ -4055,6 +4072,7 @@ export const onDeleteRelationship = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       relationType

@@ -399,6 +399,7 @@ export const getEmailSend = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       enrollment {
@@ -1165,10 +1166,10 @@ export const getStudent = /* GraphQL */ `
         locationIdUsed
         modifiedBy
         modifiedByDate
+        sessionDetailStudentId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
-        sessionDetailStudentId
         __typename
       }
       emailSend {
@@ -1182,6 +1183,7 @@ export const getStudent = /* GraphQL */ `
       createdAt
       updatedAt
       studentSessionDetailId
+      studentSessionDetailDate
       __typename
     }
   }
@@ -1222,6 +1224,7 @@ export const listStudents = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       nextToken
@@ -1266,6 +1269,7 @@ export const getEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       user {
@@ -1388,8 +1392,8 @@ export const listEnrollments = /* GraphQL */ `
   }
 `;
 export const getSessionDetail = /* GraphQL */ `
-  query GetSessionDetail($id: ID!) {
-    getSessionDetail(id: $id) {
+  query GetSessionDetail($id: ID!, $date: AWSDateTime!) {
+    getSessionDetail(id: $id, date: $date) {
       id
       date
       day
@@ -1425,12 +1429,13 @@ export const getSessionDetail = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
+      sessionDetailStudentId
       createdAt
       updatedAt
       enrollmentSessionDetailsId
-      sessionDetailStudentId
       __typename
     }
   }
@@ -1438,6 +1443,7 @@ export const getSessionDetail = /* GraphQL */ `
 export const listSessionDetails = /* GraphQL */ `
   query ListSessionDetails(
     $id: ID
+    $date: ModelStringKeyConditionInput
     $filter: ModelSessionDetailFilterInput
     $limit: Int
     $nextToken: String
@@ -1445,6 +1451,7 @@ export const listSessionDetails = /* GraphQL */ `
   ) {
     listSessionDetails(
       id: $id
+      date: $date
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -1465,10 +1472,10 @@ export const listSessionDetails = /* GraphQL */ `
         locationIdUsed
         modifiedBy
         modifiedByDate
+        sessionDetailStudentId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
-        sessionDetailStudentId
         __typename
       }
       nextToken
@@ -1889,6 +1896,7 @@ export const getSupportTicket = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       createdAt
@@ -2251,6 +2259,7 @@ export const getRelationship = /* GraphQL */ `
         createdAt
         updatedAt
         studentSessionDetailId
+        studentSessionDetailDate
         __typename
       }
       relationType
@@ -2589,47 +2598,6 @@ export const listComments = /* GraphQL */ `
     }
   }
 `;
-export const sessionDetailsByDate = /* GraphQL */ `
-  query SessionDetailsByDate(
-    $date: AWSDateTime!
-    $sortDirection: ModelSortDirection
-    $filter: ModelSessionDetailFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    sessionDetailsByDate(
-      date: $date
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        date
-        day
-        month
-        year
-        sessionNumber
-        totalSessions
-        status
-        proratedValue
-        wasEmailSent
-        locationId
-        locationIdUsed
-        modifiedBy
-        modifiedByDate
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const sessionDetailsByLocationId = /* GraphQL */ `
   query SessionDetailsByLocationId(
     $locationId: String!
@@ -2660,10 +2628,51 @@ export const sessionDetailsByLocationId = /* GraphQL */ `
         locationIdUsed
         modifiedBy
         modifiedByDate
+        sessionDetailStudentId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
+  query SessionDetailsBySessionDetailStudentId(
+    $sessionDetailStudentId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionDetailsBySessionDetailStudentId(
+      sessionDetailStudentId: $sessionDetailStudentId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        locationId
+        locationIdUsed
+        modifiedBy
+        modifiedByDate
         sessionDetailStudentId
+        createdAt
+        updatedAt
+        enrollmentSessionDetailsId
         __typename
       }
       nextToken

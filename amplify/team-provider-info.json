@@ -88,5 +88,95 @@
         "apiclients": {}
       }
     }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-apiclients-prod-c7835-authRole",
+      "UnauthRoleArn": "arn:aws:iam::995007408497:role/amplify-apiclients-prod-c7835-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::995007408497:role/amplify-apiclients-prod-c7835-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+      "UnauthRoleName": "amplify-apiclients-prod-c7835-unauthRole",
+      "StackName": "amplify-apiclients-prod-c7835",
+      "StackId": "arn:aws:cloudformation:us-east-2:995007408497:stack/amplify-apiclients-prod-c7835/1a2d3310-d775-11ef-965f-0a256ce16093",
+      "AmplifyAppId": "d37ftx9odrh330"
+    },
+    "categories": {
+      "auth": {
+        "apiclientsbb306568": {}
+      },
+      "function": {
+        "apiclientslayer": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion9feac791-build.zip"
+        },
+        "authPostAuthentication": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/authPostAuthentication-7639546a3270716a2b70-build.zip"
+        },
+        "authPostConfirmation": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/authPostConfirmation-45505743616d64733768-build.zip"
+        },
+        "authPreAuthentication": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/authPreAuthentication-55373035417965354571-build.zip"
+        },
+        "authPreSignup": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/authPreSignup-41742f376f7a764c4436-build.zip"
+        },
+        "fnCalculateSessionsEnrollment": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-2b51306e6c48586f5a53-build.zip"
+        },
+        "fnRemoveEnrollment": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/fnRemoveEnrollment-41534142447a36417776-build.zip",
+          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
+          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+        },
+        "fnRenovationEnrollment": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/fnRenovationEnrollment-36706d70393148456151-build.zip",
+          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
+          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+        },
+        "fngGetEconomicParams": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/fngGetEconomicParams-41362b4f4a75764f6133-build.zip"
+        },
+        "sendEmailResolver": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/sendEmailResolver-69436b63506437497273-build.zip",
+          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
+          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+        },
+        "sendEmailResolveremailJs": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/sendEmailResolveremailJs-764454346e5134544a6e-build.zip"
+        },
+        "sendWhatsappResolver": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/sendWhatsappResolver-4b43712b5350467a3767-build.zip"
+        },
+        "webpayCommit": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/webpayCommit-317855724c79424f3744-build.zip"
+        },
+        "webpayStart": {
+          "env": "PROD",
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/webpayStart-59644e486d3231544f5a-build.zip"
+        },
+        "webpayStatus": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/webpayStatus-373676526d4c65685166-build.zip"
+        }
+      },
+      "api": {
+        "apiclients": {}
+      }
+    }
   }
 }

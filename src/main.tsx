@@ -54,16 +54,16 @@ type AmplifyConfig = AwsConfig & {
 
 let awsExports: AwsConfig ={
   "aws_project_region": "us-east-2",
-  "aws_appsync_graphqlEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql",
+  "aws_appsync_graphqlEndpoint": "https://m2hmnszh4je2rk3mdemcrudxw4.appsync-api.us-east-2.amazonaws.com/graphql",
   "aws_appsync_region": "us-east-2",
   "aws_appsync_authenticationType": "API_KEY",
-  "aws_appsync_apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
-  "aws_cognito_identity_pool_id": "us-east-2:63f9c713-19f8-40ff-a99b-1d7006191372",
+  "aws_appsync_apiKey": "da2-ccnqqjpecvc33ijvwiphn2gjku",
+  "aws_cognito_identity_pool_id": "us-east-2:70055e20-cfe6-4cef-9b1c-4a0649c450d5",
   "aws_cognito_region": "us-east-2",
-  "aws_user_pools_id": "us-east-2_bpfOANSWX",
-  "aws_user_pools_web_client_id": "6rq7qopcr25728fuc62k9k8igv",
+  "aws_user_pools_id": "us-east-2_RnbT7nPr9",
+  "aws_user_pools_web_client_id": "3c7425phukqjelo0mt3833h6kj",
   "oauth": {
-      "domain": "apiclientsbb306568-bb306568-main.auth.us-east-2.amazoncognito.com",
+      "domain": "apiclientsbb306568-bb306568-prod.auth.us-east-2.amazoncognito.com",
       "scope": [
           "phone",
           "email",

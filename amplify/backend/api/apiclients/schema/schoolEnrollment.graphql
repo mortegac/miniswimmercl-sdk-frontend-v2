@@ -43,7 +43,7 @@ type Student @model {
 type Enrollment @model {  
   id: ID! @primaryKey
   amountPaid: Float!
-  startDate: String!
+  startDate: String! 
   endDate: String!  
   wasDeleted: Boolean @default(value: "false")
   wasPaid: Boolean @default(value: "false")
@@ -81,8 +81,10 @@ enum SessionStatus {
 }
 
 type SessionDetail @model {
-  id: ID! @primaryKey
-  date: AWSDateTime! @index
+   id: ID! @primaryKey(sortKeyFields: ["date"])  # Esto hace que date sea Sort Key de la tabla principal
+  date: AWSDateTime!
+  # id: ID! @primaryKey
+  # date: AWSDateTime! @index
   # date: AWSDateTime
   day: String! @default(value: "")
   month: String!
@@ -97,6 +99,9 @@ type SessionDetail @model {
   modifiedBy: String @default(value: "")  # USUARIO QUE REAGENDO
   modifiedByDate: AWSDateTime  # USUARIO QUE REAGENDO FECHA 
   #Relation
-  student: Student! @belongsTo 
+  student: Student! @belongsTo
+  sessionDetailStudentId: ID! @index(name: "bySessionDetailStudent") # Índice usando el nombre que genera Amplify
+
+
 }
 
