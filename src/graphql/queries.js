@@ -1437,11 +1437,19 @@ export const getSessionDetail = /* GraphQL */ `
 `;
 export const listSessionDetails = /* GraphQL */ `
   query ListSessionDetails(
+    $id: ID
     $filter: ModelSessionDetailFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listSessionDetails(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listSessionDetails(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         date
@@ -1841,18 +1849,18 @@ export const getSupportTicket = /* GraphQL */ `
   query GetSupportTicket($id: ID!) {
     getSupportTicket(id: $id) {
       id
+      date
       name
       email
       phoneNumber
       description
-      date
       day
       month
       year
       lastModificationUser
       statusTicket
       reason
-      userTickets {
+      users {
         nextToken
         __typename
       }
@@ -1892,18 +1900,26 @@ export const getSupportTicket = /* GraphQL */ `
 `;
 export const listSupportTickets = /* GraphQL */ `
   query ListSupportTickets(
+    $id: ID
     $filter: ModelSupportTicketFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listSupportTickets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listSupportTickets(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -2116,7 +2132,7 @@ export const getUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      userTickets {
+      tickets {
         nextToken
         __typename
       }
@@ -2457,11 +2473,11 @@ export const getTicketUser = /* GraphQL */ `
       usersId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -2522,11 +2538,11 @@ export const getComments = /* GraphQL */ `
       commentTicketsId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -2683,6 +2699,44 @@ export const productsBySku = /* GraphQL */ `
         createdAt
         updatedAt
         supplierProductsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const supportTicketsByDate = /* GraphQL */ `
+  query SupportTicketsByDate(
+    $date: AWSDateTime!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSupportTicketFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    supportTicketsByDate(
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        name
+        email
+        phoneNumber
+        description
+        day
+        month
+        year
+        lastModificationUser
+        statusTicket
+        reason
+        createdAt
+        updatedAt
+        studentSupportTicketsId
         __typename
       }
       nextToken

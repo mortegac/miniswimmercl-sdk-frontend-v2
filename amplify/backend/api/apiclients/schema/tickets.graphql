@@ -3,17 +3,18 @@
 ################################
 # TICKETS - COMENTARIOS
 ################################
-# type SupportTicket @model @auth(rules: [{ allow: public }]) {
-type SupportTicket @model 
-  @auth(rules: [{ allow: public }])
-  @index(name: "byStudent", fields: ["studentId", "statusTicket"])
-  @index(name: "byUser", fields: ["userId", "statusTicket"]) {
-  id: ID!
+type SupportTicket @model @auth(rules: [{ allow: public }]) {
+# type SupportTicket @model 
+#   @auth(rules: [{ allow: public }])
+#   @index(name: "byStudent", fields: ["studentId", "statusTicket"])
+#   @index(name: "byUser", fields: ["userId", "statusTicket"]) {
+  id: ID! @primaryKey
+  date: AWSDateTime! @index
+  # date: String!
   name: String!
   email: String!
   phoneNumber: String!
   description: String!
-  date: String!
   day: String!
   month: String!
   year: String @default(value: " ")
@@ -22,7 +23,10 @@ type SupportTicket @model
   reason: reasonType @default(value: "none")
   
   #Relations
-  userTickets: [Users] @manyToMany(relationName: "TicketUser")
+  # userTickets: [Users] @manyToMany(relationName: "TicketUser")
+   users: [Users] @manyToMany(relationName: "TicketUser")
+
+  
   ticketComments: [CommentTickets] @manyToMany(relationName: "Comments")
   student: Student @belongsTo # Relación con Student
 

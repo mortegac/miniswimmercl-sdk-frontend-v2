@@ -15,10 +15,10 @@ export const getUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      userTickets {
-        nextToken
-        __typename
-      }
+      # userTickets {
+      #   nextToken
+      #   __typename
+      # }
       roles {
         id
         name

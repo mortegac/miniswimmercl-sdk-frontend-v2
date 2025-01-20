@@ -3271,18 +3271,18 @@ export const onCreateSupportTicket = /* GraphQL */ `
   ) {
     onCreateSupportTicket(filter: $filter) {
       id
+      date
       name
       email
       phoneNumber
       description
-      date
       day
       month
       year
       lastModificationUser
       statusTicket
       reason
-      userTickets {
+      users {
         nextToken
         __typename
       }
@@ -3326,18 +3326,18 @@ export const onUpdateSupportTicket = /* GraphQL */ `
   ) {
     onUpdateSupportTicket(filter: $filter) {
       id
+      date
       name
       email
       phoneNumber
       description
-      date
       day
       month
       year
       lastModificationUser
       statusTicket
       reason
-      userTickets {
+      users {
         nextToken
         __typename
       }
@@ -3381,18 +3381,18 @@ export const onDeleteSupportTicket = /* GraphQL */ `
   ) {
     onDeleteSupportTicket(filter: $filter) {
       id
+      date
       name
       email
       phoneNumber
       description
-      date
       day
       month
       year
       lastModificationUser
       statusTicket
       reason
-      userTickets {
+      users {
         nextToken
         __typename
       }
@@ -3735,7 +3735,7 @@ export const onCreateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      userTickets {
+      tickets {
         nextToken
         __typename
       }
@@ -3799,7 +3799,7 @@ export const onUpdateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      userTickets {
+      tickets {
         nextToken
         __typename
       }
@@ -3863,7 +3863,7 @@ export const onDeleteUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      userTickets {
+      tickets {
         nextToken
         __typename
       }
@@ -4424,11 +4424,11 @@ export const onCreateTicketUser = /* GraphQL */ `
       usersId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4471,11 +4471,11 @@ export const onUpdateTicketUser = /* GraphQL */ `
       usersId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4518,11 +4518,11 @@ export const onDeleteTicketUser = /* GraphQL */ `
       usersId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4563,11 +4563,11 @@ export const onCreateComments = /* GraphQL */ `
       commentTicketsId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4602,11 +4602,11 @@ export const onUpdateComments = /* GraphQL */ `
       commentTicketsId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4641,11 +4641,11 @@ export const onDeleteComments = /* GraphQL */ `
       commentTicketsId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year

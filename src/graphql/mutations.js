@@ -3465,18 +3465,18 @@ export const createSupportTicket = /* GraphQL */ `
   ) {
     createSupportTicket(input: $input, condition: $condition) {
       id
+      date
       name
       email
       phoneNumber
       description
-      date
       day
       month
       year
       lastModificationUser
       statusTicket
       reason
-      userTickets {
+      users {
         nextToken
         __typename
       }
@@ -3521,18 +3521,18 @@ export const updateSupportTicket = /* GraphQL */ `
   ) {
     updateSupportTicket(input: $input, condition: $condition) {
       id
+      date
       name
       email
       phoneNumber
       description
-      date
       day
       month
       year
       lastModificationUser
       statusTicket
       reason
-      userTickets {
+      users {
         nextToken
         __typename
       }
@@ -3577,18 +3577,18 @@ export const deleteSupportTicket = /* GraphQL */ `
   ) {
     deleteSupportTicket(input: $input, condition: $condition) {
       id
+      date
       name
       email
       phoneNumber
       description
-      date
       day
       month
       year
       lastModificationUser
       statusTicket
       reason
-      userTickets {
+      users {
         nextToken
         __typename
       }
@@ -3943,7 +3943,7 @@ export const createUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      userTickets {
+      tickets {
         nextToken
         __typename
       }
@@ -4010,7 +4010,7 @@ export const updateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      userTickets {
+      tickets {
         nextToken
         __typename
       }
@@ -4077,7 +4077,7 @@ export const deleteUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      userTickets {
+      tickets {
         nextToken
         __typename
       }
@@ -4651,11 +4651,11 @@ export const createTicketUser = /* GraphQL */ `
       usersId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4699,11 +4699,11 @@ export const updateTicketUser = /* GraphQL */ `
       usersId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4747,11 +4747,11 @@ export const deleteTicketUser = /* GraphQL */ `
       usersId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4795,11 +4795,11 @@ export const createComments = /* GraphQL */ `
       commentTicketsId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4837,11 +4837,11 @@ export const updateComments = /* GraphQL */ `
       commentTicketsId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year
@@ -4879,11 +4879,11 @@ export const deleteComments = /* GraphQL */ `
       commentTicketsId
       supportTicket {
         id
+        date
         name
         email
         phoneNumber
         description
-        date
         day
         month
         year

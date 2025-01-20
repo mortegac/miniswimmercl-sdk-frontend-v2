@@ -15,7 +15,10 @@ type Users @model {
   #Relations
   emailSend: [EmailSend] @hasMany  # Email enviados al user
   relationships: [Relationship] @hasMany
-  userTickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
+  
+  tickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
+  
+  # userTickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
   roles: Roles @hasOne
   userPermissions: [Permissions] @manyToMany(relationName: "UserPermissions")
   shoppingCart: [ShoppingCart] @hasMany  # Carros de compra asociadas 

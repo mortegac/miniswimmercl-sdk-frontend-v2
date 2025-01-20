@@ -81,7 +81,7 @@ enum SessionStatus {
 }
 
 type SessionDetail @model {
-  id: ID!
+  id: ID! @primaryKey
   date: AWSDateTime! @index
   # date: AWSDateTime
   day: String! @default(value: "")
@@ -97,6 +97,6 @@ type SessionDetail @model {
   modifiedBy: String @default(value: "")  # USUARIO QUE REAGENDO
   modifiedByDate: AWSDateTime  # USUARIO QUE REAGENDO FECHA 
   #Relation
-  student: Student! @belongsTo
+  student: Student! @belongsTo 
 }
 
