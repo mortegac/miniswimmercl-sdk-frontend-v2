@@ -80,6 +80,7 @@ console.log("--newDate--", newDate)
       // id: String(objFilter?.sessionId),
       status: String(objFilter?.status),
       locationIdUsed: String(objFilter?.locationIdUsed),
+      locationId: String(objFilter?.locationId),
       date:String(`${objFilter?.sessionDate}T00:00:00.000Z`),
       modifiedBy: String(objFilter?.userModifyId || ""),
       modifiedByDate: getAWSDateStgoChile(),
@@ -93,7 +94,6 @@ console.log("--newDate--", newDate)
 totalSessions: 1,
 proratedValue: 1,
       wasEmailSent:false,
-      locationId:"",
     
     };
     // console.log(">> inputData >>", inputData)
