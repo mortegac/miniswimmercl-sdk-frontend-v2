@@ -46,7 +46,10 @@ export type InputOptions  = {
   userModifyId?: string;
   sessionId?: string;
   sessionDate?: string;
+  currentSession?: string;
   status?: string;
   locationId?: string;
   locationIdUsed?: string;
+  studentId?: string;
+  enrollmentId?: string;
 };

@@ -35,15 +35,19 @@ import { getStudent } from "@/stores/Students/slice";
 // ]
 export function SessionList(props: any) {
     const {studentId, data, setSessionSlideover } = props;
+
     const [dataNew, setDataNew] = useState({
         id: data?.id,
         sessionNumber: data?.sessionNumber,
         date: data?.date.replace("T00:00:00.000Z", ""),
+        currentSession: data?.date,
         month: data?.month,
         year: data?.year,
         status: data?.status,
         locationId: data?.locationId,
         locationIdUsed: data?.locationIdUsed,
+        studentId: data?.studentId,
+        enrollmentId: data?.enrollmentId,
       });
       const dispatch = useAppDispatch();
       const {email}= useAppSelector(selectAuth);
@@ -62,7 +66,10 @@ export function SessionList(props: any) {
               locationId:dataNew?.locationId,
               locationIdUsed:dataNew?.locationIdUsed,
               sessionDate:dataNew?.date,
+              currentSession:dataNew?.currentSession,
               userModifyId:email,
+              studentId:dataNew?.studentId,
+              enrollmentId:dataNew?.enrollmentId,
             })),
             dispatch(getStudent({ studentId })),
             setSessionSlideover(false)
@@ -124,7 +131,7 @@ export function SessionList(props: any) {
             </div>
           </Notification>
           <div className="flex flex-col">
-              {/* <pre>{JSON.stringify(dataNew, null, 2 )}</pre> */}
+              <pre>{JSON.stringify(data, null, 2 )}</pre>
               
               <div className="px-8 pt-6 pb-8">
                 <div className="text-base font-medium">Reagendar Sesión</div>

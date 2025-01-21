@@ -29,7 +29,7 @@ const paramsDEV = {
     CORS: CORS_WEBPAY_QA,
 }
 const paramsPROD = {
-    type: "main",
+    type: "prod",
     message: ">>>>>>>> PRODUCTION <<<<<<<<<<<<",
     // ACCESS_KEY: ACCESS_IAM_KEY,
     // ACCESS_SECRET: ACCESS_IAM_SECRET,
@@ -43,7 +43,7 @@ const paramsPROD = {
     CORS: CORS_WEBPAY_PROD,
 }
 
-const getEnviroment = (ENVIROMENT) => ENVIROMENT === "main" ? paramsPROD : paramsDEV
+const getEnviroment = (ENVIROMENT) => ENVIROMENT === "prod" ? paramsPROD : paramsDEV
 
 module.exports = {
     getEnviroment

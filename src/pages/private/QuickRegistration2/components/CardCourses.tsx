@@ -142,6 +142,12 @@ const CardCourses: React.FC<Props> = ({courses}) => {
   async function setEnrollmentCourse() {
     
     setIsSaved({ state: true })
+    enrollment?.guardianId && 
+    enrollment?.studentId  && 
+    enrollment?.enrollmentStartDate && 
+    enrollment?.enrollmentSessionTypeId && 
+    enrollment?.enrollmentScheduleId && 
+    enrollment?.enrollmentCourseId  && 
     await Promise.all([
       await dispatch(
         setEnrollment({
@@ -155,6 +161,13 @@ const CardCourses: React.FC<Props> = ({courses}) => {
       await dispatch(getUser({userEmail:email})),
       dispatch(setStep(4))
     ]);
+    
+    !enrollment?.guardianId && 
+    !enrollment?.studentId  && 
+    !enrollment?.enrollmentStartDate && 
+    !enrollment?.enrollmentSessionTypeId && 
+    !enrollment?.enrollmentScheduleId && 
+    !enrollment?.enrollmentCourseId  && alert("Debe seleccionar todos los datos para continuar")
     
     setIsSaved({ state: false })
     setSelectedModal(false);

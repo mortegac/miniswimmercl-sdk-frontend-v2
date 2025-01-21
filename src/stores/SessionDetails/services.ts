@@ -4,7 +4,7 @@ import { generateClient } from 'aws-amplify/api';
 import { getAWSDateStgoChile } from "@/utils/helper";
 import { FilterOptions, InputOptions } from './types';
 import { listSessionDetails } from './queries';
-import { updateSessionDetail } from './mutation';
+import { updateSessionDetail, createSessionDetail, deleteSessionDetail } from './mutation';
 const client = generateClient();
 
 
@@ -67,34 +67,65 @@ export const updateSession = async (objFilter: InputOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
   
+      const date = new Date(`${objFilter?.sessionDate}T00:00:00.000Z`);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      
     // const newDate:string = objFilter?.sessionDate.replace("T00:00:00.000Z", '')
     const newDate: string = (objFilter.sessionDate as string).replace("T00:00:00.000Z", '');
 console.log("--newDate--", newDate)
 
     const inputData: Input = {
-      id: String(objFilter?.sessionId),
+      // id: String(objFilter?.sessionId),
       status: String(objFilter?.status),
       locationIdUsed: String(objFilter?.locationIdUsed),
       date:String(`${objFilter?.sessionDate}T00:00:00.000Z`),
-      modifiedBy:String(objFilter?.userModifyId),
+      modifiedBy: String(objFilter?.userModifyId || ""),
       modifiedByDate: getAWSDateStgoChile(),
-      // day:"",
-      // month:"",
-      // year:"",
+      sessionDetailStudentId: objFilter?.studentId || null,
+      enrollmentSessionDetailsId: objFilter?.enrollmentId || null,
+      day: day,
+      month: month,
+      year: year,
+      
+      sessionNumber : 1,
+totalSessions: 1,
+proratedValue: 1,
+      wasEmailSent:false,
+      locationId:"",
+    
     };
     // console.log(">> inputData >>", inputData)
     
-   
+    // deleteSessionDetail(input: {
+    //   id: ${String(objFilter?.sessionId)},
+    //   date: ${String(objFilter?.currentSession)},
+    // }) {
+    //   id
+    // }
+    const removeData:any = await client.graphql({
+      query: deleteSessionDetail,
+      variables: {
+        input: { 
+          id: String(objFilter?.sessionId),
+          date: String(objFilter?.currentSession),
+         }
+      }
+    });
+    
+    console.log(">> removeData >>", removeData)
+    
     const setData:any = await client.graphql({
-      query: updateSessionDetail,
+      query: createSessionDetail,
       variables: {
         input: { ...inputData }
       }
     });
     
-    console.log(">> updateSessionDetail >>", setData?.data?.updateSessionDetail?.id)
-    setData?.data?.updateSessionDetail?.id
-        resolve(setData?.data?.updateSessionDetail?.id && true as any);
+    console.log(">> createSessionDetail >>", setData?.data?.createSessionDetail?.id)
+    // setData?.data?.createSessionDetail?.id
+        resolve(setData?.data?.createSessionDetail?.id && true as any);
         
         // ...userData.data.getUsers
       // } else {

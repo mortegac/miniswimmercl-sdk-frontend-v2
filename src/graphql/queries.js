@@ -2598,47 +2598,6 @@ export const listComments = /* GraphQL */ `
     }
   }
 `;
-export const sessionDetailsByLocationId = /* GraphQL */ `
-  query SessionDetailsByLocationId(
-    $locationId: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelSessionDetailFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    sessionDetailsByLocationId(
-      locationId: $locationId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        date
-        day
-        month
-        year
-        sessionNumber
-        totalSessions
-        status
-        proratedValue
-        wasEmailSent
-        locationId
-        locationIdUsed
-        modifiedBy
-        modifiedByDate
-        sessionDetailStudentId
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
   query SessionDetailsBySessionDetailStudentId(
     $sessionDetailStudentId: ID!

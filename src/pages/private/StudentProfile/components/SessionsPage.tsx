@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import clsx from "clsx";
-import _ from "lodash";
+import _, { iteratee } from "lodash";
 
 
 import Table from "@/components/Base/Table";
@@ -23,6 +23,8 @@ export function SessionsPage(props:any) {
     status: "",
     location: "",
     locationIdUsed: "",
+    studentId: "",
+    enrollmentId: "",
   });
   const {data, studentId, status } = props;
 
@@ -57,6 +59,7 @@ export function SessionsPage(props:any) {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
+      {/* <pre>{JSON.stringify(data?.enrollments?.items[0].id, null, 2)}</pre> */}
      <div className="grid grid-cols-12 gap-y-7 gap-x-6 mt-3.5">
                   <div className="col-span-12">
                     <div className="flex flex-col gap-y-7">
@@ -121,26 +124,6 @@ export function SessionsPage(props:any) {
                                       <Table.Td className="h-[0.2]"></Table.Td>
                                       </Table.Tr>
                                       </Table.Thead>
-                                      {/* <Table.Thead>
-                                      <Table.Tr>
-                                          <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                                          Fecha
-                                          </Table.Td>
-                                          <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                                          Número
-                                          </Table.Td>
-                                          <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                                          Estado
-                                          </Table.Td>
-                                          <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                                          Sede
-                                          </Table.Td>
-                                          <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                                          Modificado por
-                                          </Table.Td>
-                                          <Table.Td className="py-4 font-medium text-center border-t bg-slate-50 border-slate-200/60 text-slate-500"></Table.Td>
-                                      </Table.Tr>
-                                      </Table.Thead> */}
                                       <Table.Tbody>
                                       {Array.isArray(item?.sessionDetails?.items) &&
                                       [...item?.sessionDetails?.items]
@@ -201,7 +184,7 @@ export function SessionsPage(props:any) {
                                                   
                                                   onClick={() => {
                                                     setSessionSlideover(true);
-                                                    setDataSession({...session})
+                                                    setDataSession({...session, studentId:studentId, enrollmentId: item?.id})
                                                   }}
                                                 ><span className="text-sm uppercase">Editar</span></Button>
                                               </div>

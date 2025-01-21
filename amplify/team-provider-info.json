@@ -108,7 +108,7 @@
       "function": {
         "apiclientslayer": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
-          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersion9feac791-build.zip"
+          "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersionedc1c33e-build.zip"
         },
         "authPostAuthentication": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
