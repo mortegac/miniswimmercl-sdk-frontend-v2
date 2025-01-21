@@ -287,10 +287,10 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
                 // y luego llamar a handleNewPasswordRequired
                     //   // El usuario necesita cambiar su contraseña
                 // const newPassword = '87654321'; // Idealmente, esto vendría de un input del usuario
-                // const newPassword = 'Negra.,123'; // Idealmente, esto vendría de un input del usuario
+                // const newPassword = 'lvdp1980'; // Idealmente, esto vendría de un input del usuario
                 // const { isSignedIn: isSignedInAfterConfirm } = await confirmSignIn({ challengeResponse: newPassword });
                 
-                // if (isSignedInAfterConfirm) { }
+                // if (isSignedInAfterConfirm) { console.log("--Cambio confirmado ---: ", isSignedInAfterConfirm) }
                 
                 break;
               case 'RESET_PASSWORD':

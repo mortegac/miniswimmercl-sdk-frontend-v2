@@ -3,6 +3,7 @@ import React, { useState, useId, useMemo } from "react";
 import { Tab } from "@/components/Base/Headless";
 import { FormInput, FormLabel, FormSelect } from "@/components/Base/Form";
 import Button from "@/components/Base/Button";
+import LoadingIcon from "@/components/Base/LoadingIcon";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { Course } from '../../../../stores/Courses/types';
@@ -149,7 +150,7 @@ function Description(props: any) {
 }
 
 function Schedules(props: any) {
-  const {schedules} = props;
+  const {schedules,  courseId, locationSchedulesId} = props;
   const [newSchedule, setNewSchedule] = useState(false)
   const [data, setData] = useState({
     day: "",
@@ -180,12 +181,24 @@ function Schedules(props: any) {
   async function createSchedule(){
     
     setNewSchedule(!newSchedule)
+    
+    !courseId && 
+    !locationSchedulesId &&
+    !data?.day &&
+    !data?.startHour && 
+    !data?.endHour && alert("Debe ingresar todos los datos para continuar")
+    
+    courseId && 
+    locationSchedulesId &&
+    data?.day &&
+    data?.startHour && 
+    data?.endHour && 
     await Promise.all([
       await dispatch(
         setSchedules(
           {
-            courseId: schedules[0]?.courseSchedulesId,
-            locationId: schedules[0]?.locationSchedulesId,
+            courseId: courseId,
+            locationId: locationSchedulesId,
             day: data?.day,
             startHour: data?.startHour,
             endHour: data?.endHour,
@@ -195,12 +208,13 @@ function Schedules(props: any) {
           
         )
       ),
-      await dispatch(getCourses({isActive:true, locationId:schedules[0]?.locationSchedulesId}))
+      await dispatch(getCourses({isActive:true, locationId:locationSchedulesId}))
     ])
   }
   
   return(
     <>
+    
     {/* <pre>schedules = {JSON.stringify(schedules[0].courseSchedulesId, null, 2)}</pre> */}
     {/* <pre>data = {JSON.stringify(data, null, 2)}</pre> */}
           <div className={`grid grid-cols-12 gap-2 mb-2 p-2 -mt-4 border rounded-lg ${!newSchedule ? "":"bg-purple-50"} `}>
@@ -266,16 +280,23 @@ function Schedules(props: any) {
         sortedSessionTypes.map((item: any, i: number) => 
           <div className="box p-3 mx-2 bg-slate-100 text-center">
             <h2 className=" text-center font-thin uppercase">
-              <b className="">{item.day}</b> 
-            </h2>
+              <b className="">{item?.day}</b> {item?.startHour}
+            </h2>            
+            <p className="flex justify-start flex-col">
+              <span className="mt-1 text-[.6rem] text-left text-slate-400">Cupo máximo:<b>{item?.minimumQuotas}</b></span>
+              <span className="mt-0 text-[.6rem] text-left text-slate-400">Cupo mínimo:<b>{item?.maximumQuotas}</b></span>
+            </p>
             {/* <span className="mt-2 text-sm text-slate-500">{item.startHour} a {item.endHour}</span> */}
-            <span className="mt-2 text-sm text-slate-500">{item.startHour}</span>
             
           </div>
       )
       }
+      {/* <pre>schedules = {JSON.stringify(schedules, null, 2)}</pre> */}
       </div>
       </div>
+      {/* 
+      <pre>courseId {JSON.stringify(courseId, null, 2)}</pre>
+      <pre>locationSchedulesId = {JSON.stringify(locationSchedulesId, null, 2)}</pre> */}
     </>
   )
 }
@@ -312,10 +333,14 @@ function Sessions(props: any) {
 
 interface Props {
   courses: Course;
+  locationId:string;
+  status:string;
   
 }
 
-const Card: React.FC<Props> = ({courses}) => {
+const Card: React.FC<Props> = (props:any) => {
+  
+  const {courses, locationId, status} = props;
   const id = useId();
   
 
@@ -366,7 +391,17 @@ const Card: React.FC<Props> = ({courses}) => {
                     <Description courses={courses}/>
                   </Tab.Panel>
                   <Tab.Panel>
-                    <Schedules schedules={courses?.schedules?.items || []}/>
+                    {/* <pre>{JSON.stringify(courses, null, 2)}</pre> */}
+                    { status === "loading" &&   <LoadingIcon
+                    color="#AE5EAB"
+                    icon="oval"
+                    className="w-10 h-10 mt-10"
+                  />}
+                    <Schedules 
+                      schedules={courses?.schedules?.items || []}
+                      courseId={courses?.id || []}
+                      locationSchedulesId={locationId || []}
+                    />
                   </Tab.Panel>
                   <Tab.Panel>
                     <Sessions Sessions={courses.sessionTypes?.items}/>

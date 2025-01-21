@@ -14,7 +14,7 @@ import { getCourses, selectCourse } from "@/stores/Courses/slice";
 import Card from "./components/Card";
 
 function Content(props: any) {
-  const { data } = props;
+  const { data, status } = props;
 
   // Asumimos que data ya está ordenado por locationCoursesId
   let currentLocationId:string | null = null;
@@ -22,8 +22,21 @@ function Content(props: any) {
   return (
     <>
     <div key="COURSES-LIST" className="flex justify-start flex-row flex-wrap">
-      {Array.isArray(data) &&
-        data.map((item: any, i: number) => {
+{Array.isArray(data) &&
+        [...data]
+          .sort((a, b) => {
+            const nameCompare = a.locationCoursesId.localeCompare(b.locationCoursesId);
+            // Si los nombres son iguales, ordenar por apellido
+            if (nameCompare === 0) {
+              return a.id.localeCompare(b.id);
+            }
+            return nameCompare;
+            
+            
+            // return a.locationCoursesId.localeCompare(b.locationCoursesId);
+            // return a.AgeGroupType.localeCompare(b.AgeGroupType);
+          })
+          .map((item: any, i: number) => {
           const showLocationId = item.locationCoursesId !== currentLocationId;
           if (showLocationId) {
             currentLocationId = item.locationCoursesId;
@@ -38,7 +51,7 @@ function Content(props: any) {
                 </div>
               )}
                
-                <Card courses={item} />
+                <Card courses={item} locationId={item.locationCoursesId} status={status}/>
             </Fragment>
           );
         })}
@@ -54,7 +67,7 @@ function Main() {
   const dispatch = useAppDispatch();
   
   
-  dispatch(setBreadcrumb({first:"Listado de cursos", firstURL:"courses"}));
+  // dispatch(setBreadcrumb({first:"Listado de cursos", firstURL:"courses"}));
   
   useEffect(() => { (async () => await dispatch(getCourses({isActive:true})))(); }, []);
 
@@ -117,13 +130,13 @@ function Main() {
             <div className="flex flex-col px-8 py-4">
               <div className="overflow-auto xl:overflow-visible flex justify-cenmter items-center">
                 
-              { status === "loading" &&   <LoadingIcon
+              {/* { status === "loading" &&   <LoadingIcon
                     color="white"
                     icon="oval"
                     className="w-10 h-10 mt-10"
-                  />}
-              { status === "idle" && <div className=""><Content data={courses}/></div>}
-              
+                  />} */}
+              {/* { status === "idle" && <div className=""><Content data={courses}/></div>} */}
+              <Content data={courses} status={status}/>
               
               
               </div>
