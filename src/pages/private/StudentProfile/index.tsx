@@ -208,7 +208,7 @@ function Main() {
               dataNew.email
               }
             </p>
-            <pre>{JSON.stringify(dataNew, null, 2 )}</pre>
+            {/* <pre>{JSON.stringify(dataNew, null, 2 )}</pre> */}
             <TicketList email={dataNew?.email} />
            
           </Slideover.Description>
