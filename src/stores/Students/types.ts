@@ -1,9 +1,11 @@
 
 export type Enrollment = {
   id: string
+  items?:any[]
 }
 export const emptyEnrollment: Enrollment = {
   id: "",
+  items:[]
 };
 
 export type User = {

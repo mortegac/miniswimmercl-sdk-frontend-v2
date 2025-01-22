@@ -85,6 +85,7 @@ export const listUsers = /* GraphQL */ `
                 id
                 amountPaid
                 courseEnrollmentsId
+                sessionTypeEnrollmentsId
                 sessionDetails{
                   items{
                     id

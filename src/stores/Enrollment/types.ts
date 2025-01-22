@@ -102,6 +102,7 @@ export type EnrollmentExtra = {
   guardianId?: string
   guardianEmail?: string
   guardianName?: string
+  guardianPhone?: string
   guardianRelation?: string
   
   // STUDENT
@@ -132,6 +133,7 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
   guardianId: "",
   guardianEmail: "",
   guardianName: "",
+  guardianPhone: "",
   guardianRelation: "",
   
   // STUDENT

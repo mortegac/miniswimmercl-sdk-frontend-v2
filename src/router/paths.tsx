@@ -9,6 +9,7 @@ export const LOCATIONS = "/locations";
 export const COURSES = "/courses";
 export const ATTENDANCE = "/attendance";
 export const QUICK_REGISTRATION = "/quick-registration";
+export const QUICK_REGISTRATION2 = "/quick-registration2";
 export const ENROLLMENTS = "/enrollments";
 export const ENROLLMENTS_READ = "/enrollments-read";
 export const ENROLLMENTS_CREATE = "/enrollments-create";

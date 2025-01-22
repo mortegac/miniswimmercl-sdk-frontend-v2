@@ -40,6 +40,7 @@ export const getStudent = /* GraphQL */ `
             amountPaid
             courseEnrollmentsId
             scheduleId
+            sessionTypeEnrollmentsId
             scheduleName
             wasPaid
             course{
