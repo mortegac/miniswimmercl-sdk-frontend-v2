@@ -6,11 +6,16 @@ import Card from "./Card";
 import Alert from "@/components/Base/Alert";
 import Button from "@/components/Base/Button";
 import Lucide from "@/components/Base/Lucide";
+import { Slideover } from "@/components/Base/Headless";
 
 import {EnrollmentList} from "./EnrollmentList";
+
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getStudent,  selectStudent } from "@/stores/Students/slice";
-import { Slideover } from "@/components/Base/Headless";
+import {
+  setStep,
+} from "@/stores/Enrollment/slice";
+
 // interface Props {
 //   students?: any;
 //   setSessionSlideover
@@ -112,7 +117,7 @@ export const IcoSvg: React.FC<any> = ({gender}) => {
 }
 export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
 
-  
+  const dispatch = useAppDispatch();
   // useEffect(() => {
   //   typeof state?.id !== "undefined" &&
   //     dispatch(getStudent({ studentId: state?.id || ""}))
@@ -175,17 +180,16 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
                   type="button"
                   variant="primary"
                   className="w-full mt-6"
-                  onClick={()=>setDataStudent({
-                    studentId: student?.student?.id,
-                    studentName: `${student?.student?.name} ${student?.student?.lastName}`,
-                    studentAge: edad,
-                    studentGender: student?.student?.gender,
-                    // locationId: "",
-                    // courseId: "",
-                    // scheduleId: "",
-                    // packId: "",
-                    // studentId: "",
-                    })}
+                  onClick={()=>{
+                    setDataStudent({
+                      studentId: student?.student?.id,
+                      studentName: `${student?.student?.name} ${student?.student?.lastName}`,
+                      studentAge: edad,
+                      studentGender: student?.student?.gender,
+                    })
+                    dispatch(setStep(1))
+                  }
+                }
                 >
                   NUEVA INSCRIPCION
                 </Button>

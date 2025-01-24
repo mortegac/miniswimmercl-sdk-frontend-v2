@@ -121,13 +121,17 @@ export type EnrollmentExtra = {
   studentPhone?: string
   
   // ENROLLMENT
+  enrollmentLocationName?: string
+  enrollmentPackName?: string
+  enrollmentScheduleName?: string
+  enrollmentCourseName?: string
+
+  
   enrollmentStartDate?: string
   enrollmentSessionTypeId?: string
   enrollmentSessionTypeName?: string
   enrollmentScheduleId?: string
-  enrollmentScheduleName?: string
   enrollmentCourseId?: string
-  enrollmentCourseName?: string
   
   
   id?:string;
@@ -168,8 +172,9 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
   enrollmentSessionTypeId: "",
   enrollmentSessionTypeName: "",
   enrollmentScheduleId: "",
-  enrollmentScheduleName: "",
   enrollmentCourseId: "",
+  
+  enrollmentScheduleName: "",
   enrollmentCourseName: "",
   id: "",
   name: "",
