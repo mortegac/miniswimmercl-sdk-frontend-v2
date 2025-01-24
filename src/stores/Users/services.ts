@@ -26,11 +26,11 @@ export const createApoderado = async (objFilter: FilterOptions): Promise<any> =>
         query: createUsers,
         variables: {
           input: {
-            id: objFilter.userEmail, 
-            name: objFilter.name, 
-            email: objFilter.userEmail, 
+            id: objFilter?.userEmail, 
+            name: objFilter?.name, 
+            email: objFilter?.userEmail, 
             validated: true, 
-            contactPhone: "", 
+            contactPhone: objFilter?.userPhone, 
             ig: "", 
             firstContact: false, 
             usersRolesId: "parents", 

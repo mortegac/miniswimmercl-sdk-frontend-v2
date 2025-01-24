@@ -1,4 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
+import './phone.css'
+
+
 import Button from "@/components/Base/Button";
 import Litepicker from "@/components/Base/Litepicker";
 import Alert from "@/components/Base/Alert";
@@ -9,13 +14,16 @@ import { HeaderTitle } from "./HeaderTitle";
 import _ from "lodash";
 import Lucide from "@/components/Base/Lucide";
 
+
+
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { selectEnrollment, setDataEnroll} from "@/stores/Enrollment/slice";
+import { selectEnrollment, getGuardian} from "@/stores/Enrollment/slice";
+import { setStudent, selectStudent } from "@/stores/Students/slice";
 import {
   selectParameters,
   getParameters,
 } from "@/stores/Parameters/slice";
-import { setSessionDetails } from "@/stores/SessionDetails/slice";
+// import { setSessionDetails } from "@/stores/SessionDetails/slice";
 
 
 function convertirFecha(fechaString: string): Date {
@@ -66,9 +74,18 @@ function tiempoTranscurrido(fechaString: string): { años: number; meses: number
 
   return { años, meses };
 }
-export const FormStep02 = ({ onChangeSetStore }: any) => {
+
+
+
+export const FormStep02 = ({ onChangeSetStore, setStudentSlide }: any) => {
+  const [error, setError] = useState<any>(null);
+  const [phoneInput, setPhoneInput] = useState('');
+  const [isValid, setIsValid] = useState(false);
+  
   const [birthday, setBirthday] = useState({month:"", years:""})
   const {genders, cityOfResidence, relationship} = useAppSelector(selectParameters);
+  
+  const {student}= useAppSelector(selectStudent);
   const {enrollment}= useAppSelector(selectEnrollment);
   const {
     studentId,
@@ -80,14 +97,13 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
     studentEmail,
     studentPhone,
     guardianRelation,
+    guardianEmail,
+    guardianName,
   } = enrollment;
   const dispatch = useAppDispatch();
   
   
   
-
-  
-  // const [dateOfBirth, setDateOfBirth] = useState<string>();
   function transformDate(isoDate:string) {
     const date = new Date(isoDate);
     
@@ -120,10 +136,65 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
     
   }
   
+  const validatePhoneNumber = (value:any) => {
+    setPhoneInput(value);
+    
+    if (!value) {
+      setError('El número de teléfono es requerido');
+      setIsValid(false);
+      return;
+    }
+
+    try {
+      if (isValidPhoneNumber(value)) {
+        setError('');
+        setIsValid(true);
+        
+        const event = {
+          target:{
+            name:"studentPhone",
+            value:value,
+            type: "text",
+          },
+          preventDefault:()=>null,
+        }      
+        onChangeSetStore({...event})
+        
+      } else {
+        setError('Número de teléfono inválido');
+        setIsValid(false);
+      }
+    } catch (err) {
+      setError('Error al validar el número');
+      setIsValid(false);
+    }
+  };
   
-  // function edad(dateChild:string) { return calcularEdad(dateChild)}
   
   
+   async function saveData(){
+    
+    studentName !== "" && studentBithday !== "" && studentResidence !== "" && studentEmail !== "" && studentGender !== "" && guardianRelation &&
+        await Promise.all([
+          await dispatch(setStudent({
+            name: studentName,
+            lastName: studentLastName,
+            birthdate: studentBithday,
+            placeOfResidence: studentResidence,
+            contactPhone: studentPhone,
+            emailPhone: studentEmail,
+            gender: studentGender,
+            idUser: studentEmail,
+            relation: guardianRelation,
+          })),
+          await dispatch(getGuardian({userEmail:guardianEmail})),
+          setStudentSlide(false),
+        ]);
+      
+    }
+    
+    
+    
   useEffect(() => {
     dispatch(getParameters({ key: "TYPEOFGENDERS" }));
     dispatch(getParameters({ key: "CITYOFRESIDENCE" }));
@@ -132,51 +203,56 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
   }, []);
 
   
+    
+ 
+  // }
+  
   return (
     <>
-      <HeaderTitle
-        title={"Información del Alumno"}
-        description={"Paso 2"}
-      />
-
-      <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                  <div className="text-left">
-                    <div className="flex items-center">
-                      <div className="font-medium">Nombres y apellidos</div>
-                      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                        Requerido
-                      </div>
-                    </div>
-                    {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-                      Enter your full legal name as it appears on your official
-                      identification.
-                    </div> */}
-                  </div>
-                </label>
-                <div className="flex-1 w-full mt-3 xl:mt-0">
-                  <div className="flex flex-col items-center md:flex-row">
-                    <FormInput
-                      type="text"
-                      className="px-6 py-3 rounded-full mr-8 focus:z-10"
-                      placeholder={"Nicole"}
-                      aria-describedby="studentName"
-                      name="studentName"
-                      value={studentName}
-                      onChange={onChangeSetStore}
-                    />
-                    <FormInput
-                      type="text"
-                      className="px-6 py-3 rounded-full mr-8 focus:z-10"
-                      placeholder={"Ortega"}
-                      aria-describedby="studentLastName"
-                      name="studentLastName"
-                      value={studentLastName}
-                      onChange={onChangeSetStore}
-                    />
-                  </div>
-                </div>
+    <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+  <div className="w-full sm:w-auto">
+    <div className="flex flex-col">
+      <h3 className="text-xl font-medium">Creación de un nuevo Alumno</h3>
+      <span className="text-base font-light mt-2">Ingrese los datos para continuar</span>
+    </div>
+  </div>
+  <div className="w-full sm:w-auto flex flex-col justify-end items-end bg-primary/20 rounded-xl p-4">
+    <p>Apoderado: <b>{guardianName}</b></p>
+    <p>{guardianEmail}</p>
+  </div>
+</div>
+        <div className="flex flex-col pt-5 mt-5 sm:flex-row xl:items-center first:mt-0 first:pt-0">
+          <label className="mb-2 sm:mr-5 sm:text-right sm:w-60 xl:mr-14">
+            <div className="flex items-center">
+              <div className="font-medium">Nombres y apellidos</div>
+              <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
+                Requerido
               </div>
+            </div>
+          </label>
+          <div className="flex-1 w-full mt-3 xl:mt-0">
+            <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
+              <FormInput
+                type="text"
+                className="w-full md:w-auto px-6 py-3 rounded-full focus:z-10"
+                placeholder="Nicole"
+                aria-describedby="studentName"
+                name="studentName"
+                value={studentName}
+                onChange={onChangeSetStore}
+              />
+              <FormInput
+                type="text"
+                className="w-full md:w-auto px-6 py-3 rounded-full focus:z-10"
+                placeholder="Ortega"
+                aria-describedby="studentLastName"
+                name="studentLastName"
+                value={studentLastName}
+                onChange={onChangeSetStore}
+              />
+            </div>
+          </div>
+        </div>     
               <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                 <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
                   <div className="text-left">
@@ -191,32 +267,38 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                     </div>
                   </div>
                 </label>
-                <div className="flex flex-row mt-3 xl:mt-0 w-[140] justify-center items-center">    
-                  <div className="relative">
-                    <Lucide
-                      icon="Calendar"
-                      className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
-                    />
-                    <Litepicker value={studentBithday} type="text" name="studentBithday" 
-                      onChange={(e)=>setDateBirthday(e)}
-                      options={{
-                        autoApply: true,
-                        showWeekNumbers: false,
-                        dropdowns: {
-                          minYear: 1990,
-                          maxYear: null,
-                          months: true,
-                          years: true,
-                        },
-                      }}
-                      className="px-6 py-3 pl-12 rounded-full mr-8 focus:z-10"
-                    />    
-              </div>
-                <Alert variant="soft-secondary" className=" ml-6 flex items-center justify-center rounded-full mb-2 w-full">
-                  <div className=" uppercase font-thin text-slate-900">
-                    { `${birthday.years} años, ${birthday.month} meses`}
-                  </div>
-                </Alert>
+                <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3 xl:mt-0">
+                <div className="relative w-full sm:w-auto">
+                  <Lucide
+                    icon="Calendar"
+                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
+                  />
+                  <Litepicker 
+                    value={studentBithday} 
+                    type="text" 
+                    name="studentBithday" 
+                    onChange={(e)=>setDateBirthday(e)}
+                    options={{
+                      autoApply: true,
+                      showWeekNumbers: false,
+                      dropdowns: {
+                        minYear: 1990,
+                        maxYear: null,
+                        months: true,
+                        years: true,
+                      },
+                    }}
+                    className="px-6 py-3 pl-12 rounded-full w-full sm:w-auto focus:z-10"
+                  />    
+                </div>
+                  <Alert 
+                    variant="soft-secondary" 
+                    className="flex items-center justify-center rounded-full w-full sm:w-auto"
+                  >
+                    <div className="uppercase font-thin text-slate-900 text-nowrap overflow-hidden text-ellipsis">
+                      {`${birthday.years} años, ${birthday.month} meses`}
+                    </div>
+                  </Alert>
                 </div>
               </div>
               <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
@@ -245,6 +327,8 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
               
               </div>
               
+             
+              
               {/* COMUNA DE RESIDENCIA */}
               <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                 <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
@@ -270,18 +354,37 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                 </div>
               </div>
               
+              {/* PARENTESCO */}
+              <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
+                  <div className="text-left">
+                    <div className="flex items-center">
+                      <div className="font-medium">Relación con el alumno</div>
+                    </div>
+                  </div>
+                </label>
+                <div className="flex-1 w-full mt-3 xl:mt-0">
+                <ListParams
+                  list={relationship}
+                  text={guardianRelation}
+                  value={guardianRelation || ""}
+                  isLoading={false}
+                  fn={onChangeSetStore}
+                  handleCreate={(value) => null }
+                  name={"guardianRelation"}
+                />
+                </div>
+              </div>
+              
+              
               <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                 <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
                   <div className="text-left">
                     <div className="flex items-center">
                       <div className="font-medium">Email</div>
-                      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                        Requerido
-                      </div>
+                      
                     </div>
-                    <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-                     Ingrese un email válido de contacto
-                    </div>
+                    
                   </div>
                 </label>
                 <div className="flex-1 w-full mt-3 xl:mt-0">
@@ -301,18 +404,12 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                   <div className="text-left">
                     <div className="flex items-center">
                       <div className="font-medium">Teléfono de contacto</div>
-                      {/* <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                        Requerido
-                      </div> */}
                     </div>
-                    {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-                    Ingrese un teléfono válido de contacto
-                    </div> */}
                   </div>
                 </label>
                 <div className="flex-1 w-full mt-3 xl:mt-0">
                   <div className="flex flex-col items-center md:flex-row">
-                    <FormInput
+                    {/* <FormInput
                       type="text"
                       className="px-6 py-3 rounded-full mr-8 focus:z-10"
                       placeholder={users.fakeUsers()[0].phone}
@@ -320,45 +417,48 @@ export const FormStep02 = ({ onChangeSetStore }: any) => {
                       name="studentPhone"
                       value={studentPhone}
                       onChange={onChangeSetStore}
-                    />
+                    /> */}
+                     <>
+                    <PhoneInput
+                        international
+                        defaultCountry="CL"
+                        name="guardianPhone"
+                        value={studentPhone}
+                        onChange={validatePhoneNumber}
+                        className=" px-6 py-1 border rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                        error={error}
+                      />
+                  { error && <p className="text-red-500 mt-2">{error}</p>}
+                  </>
                   </div>
-                </div>
-              </div>
-              <div className="bg-purple-100 px-8 py-4 rounded-full flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                  <div className="text-left">
-                    <div className="flex items-center">
-                      <div className="font-medium">Parentesco</div>
-                      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                        Requerido
-                      </div>
-                    </div>
-                    {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-                      Choose your department or division from the list of
-                      available options.
-                    </div> */}
-                  </div>
-                </label>
-                <div className="flex-1 w-full mt-3 xl:mt-0 mr-8">
-                {/* guardianRelation */}
-                <ListParams
-                  list={relationship}
-                  text={guardianRelation}
-                  value={guardianRelation || ""}
-                  isLoading={false}
-                  fn={onChangeSetStore}
-                  handleCreate={(value) => null }
-                  name={"guardianRelation"}
-                />
-              {/* {errors.typeOfVehicle && (
-                <div className="mt-2 text-danger">
-                  {typeof errors.typeOfVehicle === "string" &&
-                    errors.typeOfVehicle}
-                </div>
-              )} */}
                 </div>
               </div>
               
+              
+              <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
+                  <div className="text-left">
+                    <div className="flex items-center">
+                      <div className="font-medium"></div>
+                    </div>
+                  </div>
+                </label>
+                <div className="flex-1 w-full mt-3 xl:mt-0">
+                  <div className="flex flex-col items-center md:flex-row mb-10">
+                    <Button
+                      rounded
+                      variant="primary"
+                      className="border border-slate-200 px-8 py-3 w-full xl:w-96"
+                      onClick={() => saveData()}
+                    >
+                      <Lucide icon="Plus" className="w-6 h-6 mr-2" />{" "}
+                      Grabar y continuar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              
+              <pre>{JSON.stringify(enrollment, null, 2 )}</pre>
     </>
   );
 };

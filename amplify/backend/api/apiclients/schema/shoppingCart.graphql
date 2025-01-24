@@ -44,6 +44,7 @@ enum TypeDetail {
   ENROLLMENTS
   ACADEMY
   PRODUCTS
+  DISCOUNT
 }
 # Tabla de detalles del carrito
 type ShoppingCartDetail @model @auth(rules: [{ allow: public }]) {

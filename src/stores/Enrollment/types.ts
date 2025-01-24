@@ -97,6 +97,9 @@ export const emptyEnrollment: Enrollment = {
 
 
 
+export type Relationships = {
+  
+}
 export type EnrollmentExtra = {
   // GUARDIAN
   guardianId?: string
@@ -126,6 +129,18 @@ export type EnrollmentExtra = {
   enrollmentCourseId?: string
   enrollmentCourseName?: string
   
+  
+  id?:string;
+  name?:string;
+  email?:string;
+  validated?:string;
+  contactPhone?:string;
+  ig?:string;
+  firstContact?:string;
+  createdAt?:string;
+  updatedAt?:string;
+  usersRolesId?:string;
+  relationships?: any;
 }
 
 export const emptyEnrollmentExtra : EnrollmentExtra = {
@@ -156,8 +171,22 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
   enrollmentScheduleName: "",
   enrollmentCourseId: "",
   enrollmentCourseName: "",
+  id: "",
+  name: "",
+  email: "",
+  validated: "",
+  contactPhone: "",
+  ig: "",
+  firstContact: "",
+  createdAt: "",
+  updatedAt: "",
+  usersRolesId: "",
+  relationships: { items:[]}
 }
 
+export type FilterUser  = {
+  userEmail?: string | undefined;
+}
 export type FilterOptions  = {
   name?: string;
     

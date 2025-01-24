@@ -10,7 +10,7 @@ import Lucide from "@/components/Base/Lucide";
 import {EnrollmentList} from "./EnrollmentList";
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getStudent,  selectStudent } from "@/stores/Students/slice";
-
+import { Slideover } from "@/components/Base/Headless";
 // interface Props {
 //   students?: any;
 //   setSessionSlideover
@@ -112,6 +112,7 @@ export const IcoSvg: React.FC<any> = ({gender}) => {
 }
 export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
 
+  
   // useEffect(() => {
   //   typeof state?.id !== "undefined" &&
   //     dispatch(getStudent({ studentId: state?.id || ""}))
@@ -120,6 +121,7 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
   // }, [state?.id]);
   return(
     <>
+ 
     {/* <pre>{JSON.stringify(students.items, null, 2 )}</pre> */}
     
       { Array.isArray(students.items) &&

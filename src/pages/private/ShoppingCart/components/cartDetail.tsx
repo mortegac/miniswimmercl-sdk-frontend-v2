@@ -7,7 +7,7 @@ import Button from "@/components/Base/Button";
 
 import { formatCurrency } from "@/utils/moneyHandler";
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { selectShoppingCartDetails, getShoppingCartDetail } from "@/stores/ShoppingCartDetail/slice";
+import { selectShoppingCartDetails, getShoppingCartDetail, setShoppingCartDetail } from "@/stores/ShoppingCartDetail/slice";
 
 
 
@@ -80,6 +80,14 @@ export function CartDetail(props: any) {
     shoppingCartDetails?.reduce((sum: number, item: any) => sum + item.amount, 0);
 
       
+   async function generateDisscount(payload: any){
+    // const {type, amount, detail, shoppingCart } = payload
+    Promise.all([
+      await dispatch(setShoppingCartDetail({ ...payload})),
+      await dispatch(getShoppingCartDetail({cartId: cartId}))
+    ])
+   }
+    
   useEffect(() => { 
     (async () => await dispatch(getShoppingCartDetail({cartId: cartId})) )(); 
   }, []);
@@ -130,6 +138,38 @@ export function CartDetail(props: any) {
         <div className="pt-14 flex justify-between">
           <span className="text-primary">Total</span>
           <span className="text-primary text-xl">$ {formatCurrency(Number(total))}</span>
+        </div>
+        <div className=" -mx-4 mt-6 pt-4  border-t-dashed border-t-4 flex flex-col">
+          <p className="text-[.7rem]">Descuentos disponibles</p>
+        
+          <div className="flex flex-row flex-wrap mt-1">
+            <Button 
+              onClick={()=>
+                generateDisscount({ 
+                  type:"DISCOUNT", 
+                  amount:-1 * Number(Math.round(Number(total) * 0.10)), 
+                  detail:"Descuento hermanos",  
+                  shoppingCartId:cartId 
+                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.10)))}</span><span className="text-[.7rem]">Hermanos</span>
+            </Button>
+            <Button 
+              onClick={()=>
+                generateDisscount({ 
+                  type:"DISCOUNT", 
+                  amount:-1 * Number(16800), 
+                  detail:"Descuento pack",  
+                  shoppingCartId:cartId 
+                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ 16.800</span><span className="text-[.7rem]">Pack 8 Sesiones</span></Button>
+            <Button 
+              onClick={()=>
+                generateDisscount({ 
+                  type:"DISCOUNT", 
+                  amount:-1 * Number(20000), 
+                  detail:"Descuento pack Premium", 
+                  shoppingCartId:cartId 
+                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ 20.000</span><span className="text-[.7rem]">Pack 8 Sesiones Premium</span>
+            </Button>
+          </div>
         </div>
       </>
     )

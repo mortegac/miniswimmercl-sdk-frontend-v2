@@ -2,7 +2,8 @@ import { generateClient } from 'aws-amplify/api';
 
 
 import { listShoppingCartDetails } from './queries';
-import { FilterOptions } from './types';
+import { createShoppingCartDetail } from './mutation';
+import { FilterOptions, InputOptions } from './types';
 const client = generateClient();
 
 
@@ -60,3 +61,48 @@ export const fetchOne = async (objFilter: FilterOptions): Promise<any> => {
   });
 };
 
+
+export const createShoppinCartDetail = async (objInput: InputOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      
+      console.log("--createEmailSent--", objInput)
+      const setData:any = await client.graphql({
+        query: createShoppingCartDetail,
+        variables: {
+          input: {
+            
+            type: objInput?.type, 
+            quantity: 1,
+            amount: objInput?.amount, 
+            detail: objInput?.detail, 
+            shoppingCartCartDetailsId: objInput?.shoppingCartId, 
+            
+            // shoppingCartDetailEnrollmentId : objInput?.enrollmentId, 
+          }
+        }
+      });
+      
+      console.log("<<< EMAIL CREADO <<<<< ", setData)
+      const data = setData.data;
+      
+      if(data?.createShoppingCartDetail?.id !== undefined){
+        resolve({ ...data.createShoppingCartDetail } as any);
+      }else{
+          reject({
+            errorMessage: "Fallo al crear el email",
+          });
+        
+      }
+        
+      // ...userData.data.getUsers
+      // } else {
+      // }
+    } catch (err) {
+      reject({
+        errorMessage: JSON.stringify(err),
+    });
+    }
+  });
+};

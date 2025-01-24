@@ -2,9 +2,57 @@ import { generateClient } from 'aws-amplify/api';
 
 
 import { listEnrollments } from './queries';
+import { getUsers } from '../Users/queries';
 import { generateEnrollment, removeEnrollment } from './mutation';
-import { FilterOptions } from './types';
+import { FilterOptions, FilterUser } from './types';
 const client = generateClient();
+
+
+
+export const fetchGuardian = async (objFilter: FilterUser): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      // console.log("<<< objFilter <<<<< ", objFilter)
+      
+      // const filterEmail = (typeof objFilter?.userEmail === 'undefined') ?
+      // {}
+      // : { email: { eq: String(objFilter.userEmail) } };
+      
+      // const filter: any = {
+      //   ...filterEmail,
+      // };
+      
+      const getData:any = await client.graphql({
+        query: getUsers,
+        variables: { id: objFilter.userEmail },
+        // variables: { 
+        //   filter: {...filter}
+        //   , limit:100000000
+        // },
+        
+      });
+      
+      // console.log("<<< USERS DATA <<<<< ", getData)
+      const data = getData.data;
+      
+        resolve({ ...data.getUsers} as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
 
 
 export const fetchData = async (filter: FilterOptions): Promise<any> => {

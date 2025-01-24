@@ -13,13 +13,19 @@ export function HeaderTitle({
 
   return (
     <>
-      <div className="flex justify-between px-2">
+    <div className="w-full sm:w-auto">
+    <div className="flex flex-col">
+      <h3 className="text-xl font-medium">{title}</h3>
+      <span className="text-base font-light mt-2">{description}</span>
+    </div>
+  </div>
+      {/* <div className="flex justify-between px-2">
         <div className="flex flex-col">
           <h3 className="text-xl font-medium">{title}</h3>
           <span className="text-base font-light mt-2">{description}</span>
         </div>
        
-      </div>
+      </div> */}
     </>
   );
 }

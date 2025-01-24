@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 // import {transformResponse} from "../../utils/parser";
-import {fetchData, createEnrollment, deleteEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
-import {Enrollment, emptyEnrollment, EnrollmentExtra, emptyEnrollmentExtra, FilterOptions} from "./types"
+import {fetchGuardian, fetchData, createEnrollment, deleteEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
+import {Enrollment, emptyEnrollment, EnrollmentExtra, emptyEnrollmentExtra, FilterOptions, FilterUser} from "./types"
 
 export interface EnrollmentState {
   currentStep: number,
@@ -33,6 +33,19 @@ export const initialState: EnrollmentState = {
   }
 };
 
+
+export const getGuardian = createAsyncThunk(
+  "Enrollment/getGuardian ",
+  async (objFilter: FilterUser) => {
+    try {
+      const response:any = await fetchGuardian({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH getUser", error)
+      return Promise.reject(error);
+    }
+  }
+);
 
 
 export const setEnrollment = createAsyncThunk(
@@ -150,8 +163,11 @@ export const enrollmentSlice = createSlice({
         ...state.enrollment,
         guardianId: objAction.id,
         guardianEmail: objAction.email,
+        guardianPhone: objAction.phone,
         guardianName: objAction.name,
         studentEmail: objAction.email,
+        
+        
       };
     },
     setDataStudent: (state, action: PayloadAction<{}>) => {
@@ -172,11 +188,11 @@ export const enrollmentSlice = createSlice({
     },
     cleanData: (state) => {
       state.enrollment = {
+        ...emptyEnrollmentExtra,
         guardianId: "",
         guardianEmail: "",
         guardianName: "",
         guardianRelation: "",
-        
         // STUDENT
         studentId: "",
         studentName: "",
@@ -186,7 +202,6 @@ export const enrollmentSlice = createSlice({
         studentResidence: "",
         studentEmail: "",
         studentPhone: "",
-        
         // ENROLLMENT
         enrollmentStartDate: "",
         enrollmentSessionTypeId: "",
@@ -195,9 +210,7 @@ export const enrollmentSlice = createSlice({
         enrollmentScheduleName: "",
         enrollmentCourseId: "",
         enrollmentCourseName: "",
-        
       }
-      
     },
   },
   
@@ -245,6 +258,41 @@ export const enrollmentSlice = createSlice({
 
       })
       
+      
+       // get Guardian
+       .addCase(getGuardian.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getGuardian.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getGuardian.fulfilled, (state, action) => {
+        state.status = "idle";
+        const objPayload: any = action.payload;
+        console.log("---objPayload---", objPayload)
+        
+        // if(objPayload?.id !== ""){
+        const data:{} = objPayload?.id && {
+          guardianId:objPayload?.id,
+          guardianEmail: objPayload?.email,
+          guardianPhone: objPayload?.contactPhone,
+          guardianName: objPayload?.name
+        }
+          state.enrollment = {
+            ...state.enrollment,
+            ...action.payload,
+            ...data
+            // guardianId:objPayload?.id,
+            // guardianEmail: objPayload?.email,
+            // guardianPhone: objPayload?.contactPhone,
+            // guardianName: objPayload?.name
+            
+          // };
+        }
+       
+      })
       
       // SET ENROLLMENT
       .addCase(setEnrollment.rejected, (state, action) => {

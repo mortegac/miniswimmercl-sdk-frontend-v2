@@ -5,9 +5,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchOne} from "./services"
-import {ShoppingCartDetail, emptyShoppingCartDetail, FilterOptions} from "./types"
-
+import {createShoppinCartDetail, fetchOne} from "./services"
+import {ShoppingCartDetail, emptyShoppingCartDetail, FilterOptions, InputOptions} from "./types"
 
 
 export interface ShoppingCartDetailState {
@@ -38,6 +37,23 @@ export const getShoppingCartDetail = createAsyncThunk(
 
 
 
+  
+
+export const setShoppingCartDetail = createAsyncThunk(
+  "shoppingCartDetail/create",
+  async (objFilter: InputOptions) => {
+    try {
+      const response:any = await createShoppinCartDetail({...objFilter});
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH Create shoppingCartDetails", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+
 export const ShoppingCartDetailsSlice = createSlice({
   name: "shoppingCartDetails",
   initialState,
@@ -54,6 +70,22 @@ export const ShoppingCartDetailsSlice = createSlice({
         state.status = "loading";
       })
       .addCase(getShoppingCartDetail.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        state.shoppingCartDetails = objPayload?.items || [];
+        
+      })
+      // set ShoppingCartDetail
+      .addCase(setShoppingCartDetail.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(setShoppingCartDetail.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(setShoppingCartDetail.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "idle";
         

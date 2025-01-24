@@ -5,20 +5,57 @@ export const getUsers = /* GraphQL */ `
   query GetUsers($id: ID!) {
     getUsers(id: $id) {
       id
-      name
-      email
-      validated
-      contactPhone
-      ig
-      firstContact
-      relationships {
-        nextToken
-        __typename
+        name
+        email
+        validated
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        relationships{
+        items{
+          relationType
+          usersRelationshipsId
+          user{
+            id
+            name
+          }
+          student{
+            id
+            name
+            lastName
+            gender
+            birthdate
+            placeOfResidence
+            enrollments{
+              items{
+                id
+                amountPaid
+                courseEnrollmentsId
+                sessionTypeEnrollmentsId
+                sessionDetails{
+                  items{
+                    id
+                    sessionNumber
+                  }
+                }
+              }
+            }
+          }
+          relationType
+          usersRelationshipsId
+          studentRelationshipsId
+          user{
+            id
+            email
+            name
+            contactPhone
+          }
+        }
       }
-      # userTickets {
-      #   nextToken
-      #   __typename
-      # }
+        __typename
       roles {
         id
         name

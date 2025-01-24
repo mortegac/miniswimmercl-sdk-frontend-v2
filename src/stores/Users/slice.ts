@@ -14,6 +14,7 @@ export interface UserState {
   id: string;
   name: string;
   email: string;
+  phone: string;
   firstLogin: boolean;
   status: "idle" | "loading" | "failed";
   step: "initial" | "login" | "autenticated";
@@ -27,6 +28,7 @@ export const initialState: UserState = {
   isAuthenticated: false,
   id: "",
   name: "",
+  phone: "",
   email: "",
   firstLogin: true,
   status: "idle",
@@ -130,6 +132,7 @@ export const authSlice = createSlice({
         state.isAuthenticated = action?.payload?.id ? true:false;
         state.name = action?.payload?.name || "";
         state.email = action?.payload?.email || "";
+        state.phone = action?.payload?.contactPhone || "";
       })
       
       // getUser
@@ -149,6 +152,7 @@ export const authSlice = createSlice({
         state.id = objPayload[0]?.id || "";
         state.name = objPayload[0]?.name || "";
         state.email = objPayload[0]?.email || "";
+        state.phone =  objPayload[0]?.contactPhone || "";
       })
       
       // set Apoderado 

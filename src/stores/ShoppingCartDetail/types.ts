@@ -25,6 +25,16 @@ export const emptyShoppingCartDetail: ShoppingCartDetail = {
 
 
 
+export type InputOptions  = {
+
+  type?: string;
+  amount?: string;
+  detail?: string;
+  shoppingCartId?: string;
+
+  enrollmentId?: string;
+
+}
 export type FilterOptions  = {
 
   cartId?: string;
