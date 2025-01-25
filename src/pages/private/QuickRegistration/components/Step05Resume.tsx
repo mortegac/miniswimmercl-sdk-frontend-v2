@@ -20,23 +20,18 @@ import { selectCourse, getCourses} from "@/stores/Courses/slice";
 import { selectEnrollment, setDataUser, increment, cleanData} from "@/stores/Enrollment/slice";
 
 function SendJwtWhatsapp(props: any) {
-  const [JWT, setJWT] = useState("");
+  const { phoneNumber, clientName, clientId, courseName, locationName  } = props;
+  // const [JWT, setJWT] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   
   const [phone, setPhone] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [clientPhoneNumber, setClientPhoneNumber] = useState(props?.phoneNumber || "");
-  const { cartId, phoneNumber, clientName, clientId,  cartStatus } = props;
 
   const dispatch = useAppDispatch();
   
   
-  
-  // const secretKey = new TextEncoder().encode(
-  //   "tu_clave_secreta_super_segura_min_32_caracteres"
-  // );
-
   function cleanPhoneNumber(phone:string) {
     // Eliminar el signo más
     let cleanPhone = phone.replace(/^\+/, '');
@@ -122,50 +117,33 @@ function SendJwtWhatsapp(props: any) {
     }
   };
   
-  // async function createJWT() {
-  //   const payload = {
-  //     sub: cartId,
-  //     iat: 1516239022,
-  //   };
-
-  //   const jwt = await new jose.SignJWT(payload)
-  //     .setProtectedHeader({ alg: "HS256" })
-  //     .setIssuedAt() // Establece iat (issued at)
-  //     .setExpirationTime("2h") // El token expira en 2 horas
-  //     .sign(secretKey);
-  //   setJWT(jwt);
-
-  //   console.log(jwt);
-
-  //   return jwt;
-  // }
-  async function setPhoneUser(){
-    clientId !== "" && 
-    phone !== "" && dispatch(setPhoneApoderado({userId:clientId, userPhone:phone}));
-    setClientPhoneNumber(phone)
-  }
-  const validatePhoneNumber = (value:any) => {
-    setPhone(value);
-    
-    if (!value) {
-      setError('El número de teléfono es requerido');
-      setIsValid(false);
-      return;
+    async function setPhoneUser(){
+      clientId !== "" && 
+      phone !== "" && dispatch(setPhoneApoderado({userId:clientId, userPhone:phone}));
+      setClientPhoneNumber(phone)
     }
+    const validatePhoneNumber = (value:any) => {
+      setPhone(value);
+      
+      if (!value) {
+        setError('El número de teléfono es requerido');
+        setIsValid(false);
+        return;
+      }
 
-    try {
-      if (isValidPhoneNumber(value)) {
-        setError('');
-        setIsValid(true);
-      } else {
-        setError('Número de teléfono inválido');
+      try {
+        if (isValidPhoneNumber(value)) {
+          setError('');
+          setIsValid(true);
+        } else {
+          setError('Número de teléfono inválido');
+          setIsValid(false);
+        }
+      } catch (err) {
+        setError('Error al validar el número');
         setIsValid(false);
       }
-    } catch (err) {
-      setError('Error al validar el número');
-      setIsValid(false);
-    }
-  };
+    };
   
   // useEffect(() => {
   //   (async () => {
@@ -178,7 +156,7 @@ function SendJwtWhatsapp(props: any) {
         <div className="px-8 pt-6 pb-8 mt-3.5 bg-purple-100">
           <div className="text-base font-medium">Envio mensaje informativo</div>
           <div className="text-slate-500 mt-0.5 mb-2">
-            Con esta funcionalidad puede enviar directo al whatsapp la información de la inscripción
+            Con esta funcionalidad puedes enviar directo al whatsapp la información de la inscripción
           </div>
           <div className="p-5 box box--stacked">
             <div className="pb-5 mb-5 border-b border-dashed border-slate-300/70">
@@ -270,40 +248,29 @@ function SendJwtWhatsapp(props: any) {
                     rows={8}
                     cols={2}
                     placeholder="Mensaje"
-                    value={`${clientName}, Quedo lista la inscripción 🎉, 
-                    detallo las fechas agendadas:
-                    
+                    value={`${clientName}, hemos realizado su inscripción 🎉 en el *curso ${courseName} en la sede ${locationName}*, \ncon las siguientes fechas agendadas:
                     ${props?.sessions?.map((item:any, i:number) => {
                       const [day, month] = item?.date.replace(/\s/g, '').split('-');
-                      return `- ${props?.courseDay || ''} ${day} ${typeOfMonth[month]}`;
+                      return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${day}-${typeOfMonth[month]}`;
                     }).join('\n')}
-`}
+                    `}
                     className="sm:py-3"
                   />
                 </div>
                 <div className="mt-4">
-                {/* <div className="mt-4 flex justify-between items-center"> */}
-                  {/* <FormInput
-                    type="text"
-                    placeholder="56988889988"
-                    className="sm:py-3"
-                  /> */}
                   <Button
                     variant="primary"
-                    // size="lg"
                     disabled={loading}
-                    // className="w-full sm:w-auto sm:absolute inset-y-0 right-0 pl-3.5 pr-4 my-auto mt-2 sm:mt-auto mr-2 h-9 sm:h-8 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
                     className="px-3 py-2 w-full sm:w-auto bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
                     onClick={()=>sendWhatsAppMessage({
                       name:clientName, 
-                      msg:`${clientName}, Quedo lista la inscripción 🎉, 
-                    detallo las fechas agendadas:
-                    
-                    ${props?.sessions?.map((item:any, i:number) => {
-                      const [day, month] = item?.date.replace(/\s/g, '').split('-');
-                      return `- ${props?.courseDay || ''} ${day} ${typeOfMonth[month]}`;
-                    }).join('\n')}
-                    `}
+                      msg:`${clientName}, hemos realizado su inscripción en el *curso ${courseName} en la sede ${locationName}* 🎉, \ncon las siguientes fechas agendadas:
+                      ${props?.sessions?.map((item:any, i:number) => {
+                        const [day, month] = item?.date.replace(/\s/g, '').split('-');
+                        return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${day}-${typeOfMonth[month]}`;
+                      }).join('\n')}
+                      `
+                    }
                     )}
                   >
                     <Lucide
@@ -446,6 +413,8 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
               sessions={sessions} 
               clientName={guardianName}
               courseDay={courseDay[0]}
+              courseName={String(enrollment.enrollmentCourseName).toUpperCase()}
+              locationName={String(enrollment.enrollmentLocationName).toUpperCase()}
             />
               
               <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>

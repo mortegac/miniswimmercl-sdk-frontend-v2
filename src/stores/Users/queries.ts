@@ -39,6 +39,7 @@ export const getUsers = /* GraphQL */ `
                   items{
                     id
                     sessionNumber
+                    status
                   }
                 }
               }

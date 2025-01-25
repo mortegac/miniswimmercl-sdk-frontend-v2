@@ -840,20 +840,10 @@ function Main() {
               {/* FORM */}
               <div className="flex flex-col justify-between box  p-10 space-y-4 ">
                 <div className="flex flex-col justify-start ">
-                  {/* { status === "loading" &&
-                <div className="flex justify-center items-center w-full h-48"><LoadingIcon
-                  color="#AE5EAB"
-                  icon="oval"
-                  className="w-10 h-10 mt-10"
-                /></div>
-              } */}
-
                   <FormStep01
                     onChangeSetStore={onChangeSetStore}
                     onSetNewStudent={onSetNewStudent}
                   />
-                  {/* { status === "idle" &&
-              } */}
                 </div>
               </div>
             </div>
@@ -870,7 +860,6 @@ function Main() {
                           </h3>
                           <a
                             href=""
-                            // className="flex items-center text-primary"
                             className="text-primary"
                             onClick={async (e) => {
                               e.preventDefault();
@@ -891,8 +880,10 @@ function Main() {
                         </span>
                       </div>
                     </div>
-                    <div className="mt-4">
+                    <div className=" relative overflow-auto h-80 ">
+                    <div className="overflow-x-auto flex p-2">
                       <ResumenTransactions userId={guardianId} />
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -911,7 +902,6 @@ function Main() {
                     rounded
                     variant="soft-primary"
                     className="border border-slate-200 px-1 py-1 flex justify-center items-center -mr-8"
-                    // className="border border-slate-200 px-0 py-1 text-center"
                     onClick={() => {
                       setStudentSlide(true);
 
@@ -929,10 +919,8 @@ function Main() {
                       );
                     }}
                   >
-                    {/* <Lucide icon="Plus" className="w-8 h-9 ml-2 mr-2" /> */}
                     <Lucide icon="Plus" className="w-8 h-9 ml-2 mr-2" />
                     <span className="text-sm">Nuevo Alumno</span>
-                    {/* { guardianId === "" ? "Grabar y crear Alumno" :"Crear nuevo Alumno"} */}
                   </Button>
                 </>
               )}
@@ -949,7 +937,7 @@ function Main() {
                 </div>
               )}
 
-              {/* <pre>enrollment = {JSON.stringify(enrollment?.relationships, null, 2 )}</pre> */}
+              {/* <pre>enrollment = {JSON.stringify(enrollment?.relationships?.items[0].student?.enrollments?.items, null, 2 )}</pre> */}
               <div className="mt-4 py-10 -mb-30 -ml-8 -mr-8 relative overflow-auto">
                 <div className="overflow-x-auto flex">
                   {status === "idle" && enrollment?.relationships && (

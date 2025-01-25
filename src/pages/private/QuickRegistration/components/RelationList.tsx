@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 
-import {typeOfRelationship} from "@/utils/dictionary";
+import {typeOfSession} from "@/utils/dictionary";
 import Card from "./Card";
 import Alert from "@/components/Base/Alert";
 import Button from "@/components/Base/Button";
@@ -127,23 +127,25 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
   return(
     <>
  
-    {/* <pre>{JSON.stringify(students.items, null, 2 )}</pre> */}
+    {/* <pre>{JSON.stringify(students.items[0].student?.enrollments?.items, null, 2 )}</pre> */}
     
       { Array.isArray(students.items) &&
         students.items.map((student: any, i: number) => {
           const edad = student?.student?.birthdate && calcularEdad(String(student?.student?.birthdate === "" ? "1800/01/01":student?.student?.birthdate ));
-  
+          
+          const allSessionDetails = student?.student.enrollments.items.flatMap(
+            (enrollment:any) => enrollment.sessionDetails.items
+          );
+          const sessionStatusCount = Object.entries(
+            allSessionDetails.reduce((acc:any, session:any) => {
+              acc[session.status] = (acc[session.status] || 0) + 1;
+              return acc;
+            }, {} as Record<string, number>)
+           ).map(([status, count]) => ({ status, count }));
+          
         return (
           <>
-            {/* <Card key={`${i}-STUDENTS-RELATIONSHIP`} student={item} /> */}
-            {/* <Button 
-              onClick={()=>setDataStudent({
-                studentId: student?.student?.id,
-                studentName: `${student?.student?.name} ${student?.student?.lastName}`,
-                studentAge: edad,
-                studentGender: student?.student?.gender,
-                })}
-              className="m-0 px-10 border-none"> */}
+          {/* <pre>{JSON.stringify(sessionStatusCount, null, 2 )}</pre> */}
               <div className="m-0 px-10 border-none">
                 <div className="box" key={`${student?.student?.id}-${student?.student?.id}`}>
               <div className="flex flex-col items-center px-5 pt-5 pb-7 min-w-80">
@@ -164,16 +166,20 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
                     </Alert>
                 </div>
                 <div className="flex items-center px-2 mt-6">
-                  <div className="w-full text-center">
-                    <div className="font-medium text-xl">3</div>
-                    <div className="mt-0.5 text-slate-500">Sesiones</div>
-                  </div>
-                  <div className="w-px mx-5 border-l border-dashed sm:mx-7 border-slate-300/70 h-7"></div>
-                  <div className="w-full text-center">
-                    <div className="font-medium">Inscripciones</div>
-                    <div className="mt-0.5 text-slate-500">3</div>
-                  </div>
-                 
+                  {Array.isArray(sessionStatusCount)&& sessionStatusCount.map((item:any, index:number)=>
+                    <>
+                    {item?.status !== "DELETED" &&
+                    <>
+                      <div className="w-full text-center">
+                        <div className="font-medium text-xl">{item?.count}</div>
+                        <div className="mt-0.5 text-slate-500">{typeOfSession[item?.status]}</div>
+                      </div>
+                      <div className="w-px mx-5 border-l border-dashed sm:mx-7 border-slate-300/70 h-7"></div>
+                    </>
+                  }
+                    </>
+
+                  )}
                 </div>
               <Button
                   rounded
@@ -196,22 +202,25 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
               </div>
               <div className="flex flex-col items-center p-5 border-t rounded-b-lg border-slate-200/80 bg-slate-50">
                 <div className="leading-relaxed text-center mx-14">
-                  Ultimas Inscripciones
+                  Ultimas Inscripciones pagadas
                 </div>
-               
-               <EnrollmentList 
-                studentId={student?.student?.id}
-                studentSelected={{
-                  studentId: student?.student?.id,
-                  studentName: `${student?.student?.name} ${student?.student?.lastName}`,
-                  studentAge: edad,
-                  studentGender: student?.student?.gender,
-                  locationId: "",
-                  courseId: "",
-                  scheduleId: "",
-                  packId: "",
-                }}
-                setDataStudent={setDataStudent}/>
+                <div className=" relative overflow-auto h-64 ">
+                <div className="overflow-x-auto flex p-2">
+                  <EnrollmentList 
+                    studentId={student?.student?.id}
+                    studentSelected={{
+                      studentId: student?.student?.id,
+                      studentName: `${student?.student?.name} ${student?.student?.lastName}`,
+                      studentAge: edad,
+                      studentGender: student?.student?.gender,
+                      locationId: "",
+                      courseId: "",
+                      scheduleId: "",
+                      packId: "",
+                    }}
+                    setDataStudent={setDataStudent}/>
+                </div>
+                </div>
                
               </div>
                 </div>
