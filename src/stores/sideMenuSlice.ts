@@ -83,13 +83,13 @@ const initialState: SideMenuState = {
     {
       icon: "PlusSquare",
       pathname: QUICK_REGISTRATION,
-      title: "Inscripción rápida",
-    },
-    {
-      icon: "PlusSquare",
-      pathname: QUICK_REGISTRATION2,
       title: "Inscripción",
     },
+    // {
+    //   icon: "PlusSquare",
+    //   pathname: QUICK_REGISTRATION2,
+    //   title: "Inscripción OLD",
+    // },
     {
       icon: "Send",
       pathname: ENROLLMENTS,

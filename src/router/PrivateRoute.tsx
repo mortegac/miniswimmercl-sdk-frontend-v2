@@ -47,8 +47,8 @@ import {
   // const Courses = lazy(() => import("../pages/private/Courses"));
   import Courses from "../pages/private/Courses";
   import CoursesQuotas from "../pages/private/CoursesQuotas";
-  import QuickRegistration from "../pages/private/QuickRegistration2";
-  import QuickRegistration2 from "../pages/private/QuickRegistration";
+  import QuickRegistration2 from "../pages/private/QuickRegistration2";
+  import QuickRegistration from "../pages/private/QuickRegistration";
  
   const Enrollments = lazy(() => import("../pages/private/Enrollments"));
   const Transactions = lazy(() => import("../pages/private/Transactions"));
