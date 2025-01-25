@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import { Link } from "react-router-dom";
 
 import {typeOfSession} from "@/utils/dictionary";
 import Card from "./Card";
@@ -155,10 +155,10 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
                   </div>
                 </div>
                 <div className="mt-3 text-base font-medium">
-                <p className="m-0 p-0 uppercase text-2xl">{student?.student?.name}{" "}</p>
-                <p className="m-0 p-0 uppercase text-lg">{student?.student?.lastName}{" "}</p>
+                <p className="m-0 p-0 uppercase text-center text-2xl">{student?.student?.name}{" "}</p>
+                <p className="m-0 p-0 uppercase text-lg text-slate-400">{student?.student?.lastName}{" "}</p>
                 </div>
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center mt-2">
                     <Alert className="flex items-center justify-center rounded-full my-2 w-full bg-slate-300/60">
                       <div className=" uppercase font-semibold text-slate-700">
                         { student?.student?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad?.años || ""} años, ${edad?.meses || ""} meses`}
@@ -181,24 +181,38 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
 
                   )}
                 </div>
-              <Button
-                  rounded
-                  type="button"
-                  variant="primary"
-                  className="w-full mt-6"
-                  onClick={()=>{
-                    setDataStudent({
-                      studentId: student?.student?.id,
-                      studentName: `${student?.student?.name} ${student?.student?.lastName}`,
-                      studentAge: edad,
-                      studentGender: student?.student?.gender,
-                    })
-                    dispatch(setStep(1))
-                  }
-                }
-                >
-                  NUEVA INSCRIPCION
-                </Button>
+                <div className="flex flex-row">
+                  <Link
+                    to="/admin-student"
+                    state={{ id: student?.student?.id }}
+                    // onClick={()=>simulateEscKey()}
+                    className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
+                  >
+                  <div
+                      className="w-24 mr-2 text-primary border px-2 py-3 text-center border-primary rounded-full"
+                    >Ver Perfil
+                  </div>
+                  </Link>
+                  <Button
+                      rounded
+                      type="button"
+                      variant="primary"
+                      className="w-56 px-2 py-3 "
+                      onClick={()=>{
+                        setDataStudent({
+                          studentId: student?.student?.id,
+                          studentName: `${student?.student?.name} ${student?.student?.lastName}`,
+                          studentAge: edad,
+                          studentGender: student?.student?.gender,
+                        })
+                        dispatch(setStep(1))
+                      }
+                    }
+                    >
+                      NUEVA INSCRIPCION
+                  </Button>
+                  
+                </div>
               </div>
               <div className="flex flex-col items-center p-5 border-t rounded-b-lg border-slate-200/80 bg-slate-50">
                 <div className="leading-relaxed text-center mx-14">
