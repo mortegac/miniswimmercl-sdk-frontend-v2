@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 // import {transformResponse} from "../../utils/parser";
-import {fetchGuardian, fetchData, createEnrollment, deleteEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
+import {fetchGuardian, fetchData, createEnrollment, deleteEnrollment, updatePayEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
 import {Enrollment, emptyEnrollment, EnrollmentExtra, emptyEnrollmentExtra, FilterOptions, FilterUser} from "./types"
 
 export interface EnrollmentState {
@@ -74,6 +74,18 @@ export const removeEnrollment = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH setEnrollment", error)
+      return Promise.reject(error);
+    }
+  }
+);
+export const updateEnrollmentPay = createAsyncThunk(
+  "Enrollment/updateEnrollmentPay",
+  async (objFilter: FilterOptions, { dispatch }) => {
+    try {
+      const response:any = await updatePayEnrollment({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH updatePayEnrollment", error)
       return Promise.reject(error);
     }
   }
@@ -358,10 +370,23 @@ export const enrollmentSlice = createSlice({
       .addCase(removeEnrollment.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "idle";
-        
         console.log("---setEnrollment --action---", objPayload)
-        
-          
+      })
+      
+      
+      // UPDATE PAYMENT ENROLLMENT
+      .addCase(updateEnrollmentPay.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(updateEnrollmentPay.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateEnrollmentPay.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        console.log("---updateEnrollmentPay --action---", objPayload)
       })
       
       

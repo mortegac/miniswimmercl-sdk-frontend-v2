@@ -3,6 +3,8 @@ import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
+
+import LoadingIcon from "@/components/Base/LoadingIcon";
 import Lucide from "@/components/Base/Lucide";
 import { FormInput } from "@/components/Base/Form";
 import { typeOfRelationship } from "@/utils/dictionary";
@@ -12,6 +14,8 @@ import { calcularEdad, convertirFecha } from "@/utils/dateHandler";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getStudentsSearchName,  selectStudent } from "@/stores/Students/slice";
+import { getApoderadoSearchName,  selectAuth } from "@/stores/Users/slice";
+import Button from '@/components/Base/Button';
 
 interface MainProps {
   quickSearch: boolean;
@@ -19,6 +23,110 @@ interface MainProps {
 }
 
 
+function ApoderadosSearchList(props:any) {
+  
+  const {list, searchText,} = props;
+  const dispatch = useAppDispatch();
+  
+    
+  const simulateEscKey = () => {
+    // Crear un nuevo evento de teclado
+    const event = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      code: 'Escape',
+      keyCode: 27,
+      which: 27,
+      bubbles: true,
+      cancelable: true
+    });
+    
+    // Disparar el evento
+    document.dispatchEvent(event);
+  };
+  
+  const highlightText = (text:string, search:string) => {
+    if (!search) return text;
+    
+    const parts = text.split(new RegExp(`(${search})`, 'gi'));
+    return parts.map((part, index) => 
+      part.toLowerCase() === search.toLowerCase() 
+        ? <span key={index} className="bg-yellow-200">{part}</span>
+        : part
+    );
+  };
+    
+   return(
+    <>
+          {/* <pre>{JSON.stringify(searchText, null, 2 )}</pre> */}
+              {Array.isArray(list) &&
+        [...list]
+          .sort((a, b) => {
+            const nameCompare = a.name.localeCompare(b.name);
+            // Si los nombres son iguales, ordenar por apellido
+            if (nameCompare === 0) {
+              return a.lastName.localeCompare(b.lastName);
+            }
+            return nameCompare;
+          })
+          .map((item: any, index) => {
+            const fullName = `${item?.name}`;
+            const edad = item?.birthdate && calcularEdad(String(item?.birthdate === "" ? "1800/01/01":item?.birthdate));
+  
+          return (
+          // <Link
+          //     to="/admin-student"
+          //     state={{ id: item?.id }}
+          //     onClick={()=>simulateEscKey()}
+          //     className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
+          //   >
+            
+            <div className="flex flex-col">
+              <div className="flex items-center justify-start">
+                <div className="flex items-center justify-center w-6 h-6 overflow-hidden border rounded-md zoom-in border-green-400 box bg-green-700/10">
+                <Lucide
+                  icon="User"
+                  className="w-3.5 h-3.5 stroke-[1.3] text-green-500"
+                />
+                </div>
+                {/* <div className="font-medium truncate"> */}
+                  <p className=" font-thin  text-base truncate ml-3">{highlightText(fullName, searchText)}</p>
+                {/* </div> */}
+                <span className="hidden text-slate-500 sm:block  ml-3">
+                {item?.email}
+                </span>
+              </div>
+              
+              <div className="flex items-center flex-row justify-start">
+                {Array.isArray(item?.relationships?.items) &&
+                  item?.relationships?.items.map(
+                    (relation: any, i: any) => (
+                      <Link
+                      key={`STUDENT-${i}`}
+                        to="/admin-student"
+                        state={{ id: relation?.student?.id }}
+                        onClick={()=>simulateEscKey()}
+                        className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
+                      >
+                      <p className="font-medium text-base text-left text-slate-10 border m-2 px-6 py-3 rounded-full bg-primary/15">
+                      
+                        {`${relation?.student?.name} ${relation?.student?.lastName}`}{" "}
+                        <span className="mt-1  text-left ">
+                        {relation?.student?.birthdate}{" "}
+                        </span>
+                      </p>
+                      </Link>
+                    )
+                  )}
+              </div>
+              
+              
+            </div>
+          );
+        })}
+        {/* </a> */}
+    </>
+   )
+}
 function StudentSearchList(props:any) {
   
   const {list, searchText,} = props;
@@ -144,11 +252,16 @@ const useDebounce = (value:string, delay:number) => {
 
 function Main(props: MainProps) {
   // const [search, setSearch] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const [whoFind, setWhoFind] = useState("students");  //students - users
+
+  
   const dispatch = useAppDispatch();
-  const [searchTermStudent, setSearchTermStudent] = useState('');
+  const [searchTermStudent, setSearchTermStudent] = useState("");
   const debouncedSearchTerm = useDebounce(searchTermStudent, 500); // 500ms de delay
 
-  const { students } = useAppSelector(selectStudent);
+  const { students, status } = useAppSelector(selectStudent);
+  const { apoderados, status: statusApoderados  } = useAppSelector(selectAuth);
   
   // const handleSearchChangeStudents = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   const term = event.target.value;
@@ -165,9 +278,13 @@ function Main(props: MainProps) {
   useEffect(() => {
     if (debouncedSearchTerm) {
       // Aquí va tu llamada a la API
-      dispatch(getStudentsSearchName({ 
+      whoFind==="students" && dispatch(getStudentsSearchName({ 
         name: searchTermStudent,
       }))
+      whoFind==="users" && dispatch(getApoderadoSearchName({ 
+        name: searchTermStudent,
+      }))
+      setIsSearching(false);
     }
   }, [debouncedSearchTerm]);
   
@@ -180,6 +297,9 @@ function Main(props: MainProps) {
       }
     };
   }, []);
+  // useEffect(() => {
+  //   setSearchTermStudent("")
+  // }, []);
 
   return (
     <>
@@ -225,7 +345,11 @@ function Main(props: MainProps) {
                       placeholder="Búsqueda rápida..."
                       value={searchTermStudent}
                       // onChange={handleSearchChangeStudents}
-                      onChange={(e)=>setSearchTermStudent(e.target.value)}
+                      onChange={(e)=>{
+                        setSearchTermStudent(e.target.value)
+                        setIsSearching(true)
+                      }
+                      }
                       // value={search}
                       // onChange={(e) => {
                       //   setSearch(e.target.value);
@@ -262,26 +386,32 @@ function Main(props: MainProps) {
                             </div>
                           </div>
                           <div className="flex flex-wrap gap-2 mt-3.5">
-                            <a
-                              href=""
-                              className="flex items-center gap-x-1.5 border rounded-full px-3 py-0.5 border-slate-300/70 hover:bg-slate-50"
+                            <Button
+                            className={`px-4 rounded-full ${whoFind==="students" && "bg-primary text-white"}`}
+                            onClick={()=>{
+                              setWhoFind("students")
+                              setSearchTermStudent("")
+                            }}
                             >
                               <Lucide
-                                icon="UsersRound"
-                                className="w-4 h-4 stroke-[1.3]"
-                              />
-                              Alumnos
-                            </a>
-                            <a
-                              href=""
-                              className="flex items-center gap-x-1.5 border rounded-full px-3 py-0.5 border-slate-300/70 hover:bg-slate-50"
+                                  icon="UsersRound"
+                                  className="w-4 h-4 stroke-[1.3]"
+                                />
+                                <span className="ml-4">Alumnos</span>
+                            </Button>
+                            <Button
+                            className={`px-4 rounded-full ${whoFind==="users" && "bg-primary text-white"}`}
+                            onClick={()=>{
+                              setWhoFind("users")
+                              setSearchTermStudent("")
+                            }}
                             >
                               <Lucide
-                                icon="Users"
-                                className="w-4 h-4 stroke-[1.3]"
-                              />
-                              Apoderados
-                            </a>
+                                  icon="Users"
+                                  className="w-4 h-4 stroke-[1.3]"
+                                />
+                                <span className="ml-4">Apoderados</span>
+                            </Button>
                           </div>
                         </div>
                         <div className="px-5 py-4 border-t border-dashed">
@@ -289,18 +419,37 @@ function Main(props: MainProps) {
                             <div className="text-xs uppercase text-slate-500">
                             Alumnos
                             </div>
-                            {/* <a
-                              className="ml-auto text-xs text-slate-500"
-                              href=""
-                            >
-                              Ver Todos
-                            </a> */}
                           </div>
                           <div className="flex flex-col gap-1 mt-3.5">
-                          <StudentSearchList 
-                            list={students} searchText={searchTermStudent}
-                            // setSearchSlideover={setSearchSlideover}
-                          />
+                            
+                            
+                            
+                            
+                          {isSearching || status === "loading" && (
+                            <div className="flex justify-center">
+                              <div className="w-16 h-16">
+                                <LoadingIcon
+                                  color="#AE5EAB"
+                                  icon="three-dots"
+                                  className="w-10 h-10 mt-10"
+                                />
+                              </div>
+                            </div>
+                          )}
+                          
+                          {whoFind==="students" && status === "idle" &&
+                            <StudentSearchList 
+                              list={students} searchText={searchTermStudent}
+                            />
+                          }
+                          {whoFind==="users" && status === "idle" &&
+                          <>
+                            <ApoderadosSearchList 
+                              list={apoderados} searchText={searchTermStudent}
+                            />
+                              {/* <pre>{JSON.stringify(apoderados, null, 2)}</pre> */}
+                          </>
+                          }
                           </div>
                         </div>
                         {/* <div className="px-5 py-4 border-t border-dashed">

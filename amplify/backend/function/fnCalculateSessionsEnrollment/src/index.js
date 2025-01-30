@@ -99,19 +99,20 @@ exports.handler = async (event) => {
 // CREA CADA SESION DEL ALUMNO EN LA BD,  SEGUN EL CALCULO ANTERIOR
         console.log(`6.---------- CREATE SESSIONS ----------`);
         if (Array.isArray(calculateSession)) {
-            try {
-                const sessionPromises = calculateSession.map((item, key) => {
-                  return addSession({
-                    date: item.date,
-                    sessionDetailStudentId: param.studentId,
-                    sessionNumber: parseInt(item.sessionNumber),
-                    totalSessions: parseInt(item.totalSessions),
-                    proratedValue: parseFloat(item.proratedValue),
-                    locationId: schedule.location.id,
-                    locationIdUsed: "",                    
-                    enrollmentSessionDetailsId: enrollmentResult?.id,
-                  });
-                });
+          const sessionPromises = calculateSession.map((item, key) => {
+            return addSession({
+              date: item.date,
+              sessionDetailStudentId: param.studentId,
+              sessionNumber: parseInt(item.sessionNumber),
+              totalSessions: parseInt(item.totalSessions),
+              proratedValue: parseFloat(item.proratedValue),
+              locationId: schedule.location.id,
+              locationIdUsed: "",                    
+              enrollmentSessionDetailsId: enrollmentResult?.id,
+              courseId: param.courseId,
+              scheduleId: param.scheduleId
+            });
+          });
 
                 const results = await Promise.all(sessionPromises);
             

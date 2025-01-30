@@ -2,7 +2,9 @@ import {useState, useEffect} from "react";
 import clsx from "clsx";
 import _ from "lodash";
 
+import Toastify from "toastify-js";
 
+import Notification from "@/components/Base/Notification";
 
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
@@ -15,6 +17,12 @@ import {CourseModify} from "../components/CourseModify";
 
 
 
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import {
+  removeEnrollment,
+} from "@/stores/Enrollment/slice";
+import { getStudent,  selectStudent } from "@/stores/Students/slice";
+import { selectAuth} from "@/stores/Users/slice";
 
 
 export function ResumenPage(props:any) {
@@ -26,8 +34,59 @@ export function ResumenPage(props:any) {
       courseId: data?.courseId,
       scheduleId: data?.scheduleId,      
     });
+    const dispatch = useAppDispatch();
+    const {email}= useAppSelector(selectAuth);
+    
+    async function deleteEnrollment(enrollmentId:string){
+      console.log("eliminacion enrollmentId = ", enrollmentId)
+       await Promise.all([
+         await dispatch(
+           removeEnrollment({
+             enrollmentId:enrollmentId,
+             employeeId:email,
+           })),
+           await dispatch(getStudent({ studentId: studentId || ""}))
+        //  await dispatch(
+        //    getStudents({
+        //      month: month,
+        //      year: year,
+        //      day:day,
+        //      wasPaid: wasPaid,
+        //    })
+        //  )
+       ])
+       
+       const successEl = document
+       .querySelectorAll("#deleted-enrollment")[0]
+       .cloneNode(true) as HTMLElement;
+       successEl.classList.remove("hidden");
+       Toastify({
+         node: successEl,
+         duration: 3000,
+         newWindow: true,
+         close: true,
+         gravity: "top",
+         position: "right",
+         stopOnFocus: true,
+       }).showToast();
+     }
+    
+    
     return <>
     
+    <Notification
+          id="deleted-enrollment"
+          className="flex hidden"
+        >
+          <Lucide icon="CheckCircle" className="text-green-600" />
+          <div className="ml-4 mr-4">
+            <div className="font-medium">Inscripción eliminada</div>
+            <div className="mt-1 text-slate-500">
+              correctamente
+            </div>
+          </div>
+      </Notification>
+      
          {/* SESIONES */}
          <Slideover
         size="xl"
@@ -90,6 +149,7 @@ export function ResumenPage(props:any) {
                               .map((item:any, index:number)=>{
                                   
                                   return <>
+                                  {/* {!item?.wasDeleted && */}
                                   <div
                                     className={clsx([
                                       "mb-3 last:mb-0 relative",
@@ -99,6 +159,7 @@ export function ResumenPage(props:any) {
                                     ])}
                                     key={index}
                                   >
+                                    
                                       <div className="flex flex-row justify-start items-center">
                                           <div className="h-3 w-4 bg-slate-700 ml-2 rounded-full"></div>
                                           <span
@@ -109,10 +170,11 @@ export function ResumenPage(props:any) {
                                               ])}
                                               >
                                               <span className="w-1.5 h-1.5 mr-1.5 rounded-full group-[.success]:bg-success/80 group-[.primary]:bg-primary/80 group-[.warning]:bg-warning/80 group-[.info]:bg-info/80"></span>
-                                              <span className="-mt-px">
+                                              <span className="-mt-px w-20">
                                               {item?.startDate}
                                               </span>
                                           </span>
+                                          <p>{JSON.stringify(item?.wasDeleted)}</p>
                                           <span
                                               className={clsx([
                                                   "group flex items-center text-xs font-medium rounded-md sm:ml-2 border px-0.5 py-1 mr-auto sm:mr-0",
@@ -123,7 +185,7 @@ export function ResumenPage(props:any) {
                                               ])}
                                               >
                                               <span className="w-1.5 h-1.5 mr-1.5 rounded-full group-[.success]:bg-success/80 group-[.primary]:bg-primary/80 group-[.warning]:bg-warning/80 group-[.info]:bg-info/80"></span>
-                                              <span className="-mt-px">
+                                              <span className="-mt-px w-36">
                                               {item?.wasPaid && "PAGADO"}
                                               {!item?.wasPaid && "PENDIENTE DE PAGO"}
                                               </span>
@@ -141,19 +203,43 @@ export function ResumenPage(props:any) {
                                     >
                                       <div className="flex justify-between">
                                         <p className="uppercase font-thin text-sm text-left my-2">{item?.courseEnrollmentsId} - <b>{item?.scheduleName}</b></p>
-                                        <Button
-                                          variant="soft-primary"
-                                          className=""
-                                          onClick={()=> {
-                                            setDataCourse({
-                                              id: item?.id,
-                                              locationId: item?.course?.location?.id,
-                                              courseId: item?.courseEnrollmentsId,
-                                              scheduleId: item?.scheduleId,      
-                                            })
-                                            setSessionSlideover(true)
-                                          }}
-                                        >Editar Curso</Button>
+                                        
+                                        <div className="flex flex-end -mr-6">
+                                          <Button
+                                            variant="soft-primary"
+                                            // className=""
+                                            className="mr-2 flex items-center justify-center w-12 h-12 border rounded-full border-success/10 bg-success/10"
+                                            onClick={()=> {
+                                              setDataCourse({
+                                                id: item?.id,
+                                                locationId: item?.course?.location?.id,
+                                                courseId: item?.courseEnrollmentsId,
+                                                scheduleId: item?.scheduleId,      
+                                              })
+                                              setSessionSlideover(true)
+                                            }}
+                                          > <Lucide
+                                          icon="Files"
+                                          className="w-6 h-6 text-success fill-success/10"
+                                        /></Button>
+                                        {/* {!item?.wasPaid &&  */}
+                                          <Button
+                                            variant="soft-danger"
+                                            className="mr-2 flex items-center justify-center w-12 h-12 border rounded-full border-danger/10 bg-danger/10"
+                                            onClick={(event: React.MouseEvent) => {
+                                              event.preventDefault();
+                                              deleteEnrollment(item?.id)
+                                            }}
+                                          >
+                                          <Lucide
+                                          icon="Trash2"
+                                          className="w-6 h-6 text-danger fill-danger/10"
+                                        />
+                                          </Button>
+                                        
+                                        {/* // } */}
+                                          
+                                        </div>
                                       </div>
                                       
                                       {/* <div className="mt-1.5 text-xs text-slate-500">
@@ -218,6 +304,7 @@ export function ResumenPage(props:any) {
                                     
                                     </div>
                                   </div>     
+                                  {/* } */}
                                   </>
                               })}
                               

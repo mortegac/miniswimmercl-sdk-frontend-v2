@@ -91,19 +91,12 @@ console.log("--newDate--", newDate)
       year: year,
       
       sessionNumber : 1,
-totalSessions: 1,
-proratedValue: 1,
+      totalSessions: 1,
+      proratedValue: 1,
       wasEmailSent:false,
     
     };
-    // console.log(">> inputData >>", inputData)
-    
-    // deleteSessionDetail(input: {
-    //   id: ${String(objFilter?.sessionId)},
-    //   date: ${String(objFilter?.currentSession)},
-    // }) {
-    //   id
-    // }
+
     const removeData:any = await client.graphql({
       query: deleteSessionDetail,
       variables: {
@@ -222,6 +215,63 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       // data.listSessionDetails.items.length > 0 && console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data.listSessionDetails)
       
         resolve({ ...data.listSessionDetails } as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      console.log(">> err >>", err)
+      reject({
+        errorMessage:JSON.stringify(err)
+      }
+    );
+  }
+  });
+};
+
+
+// COURSES QUOTE 
+export const fetchDataCourseQuote = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+    
+      const filterLocation= typeof objFilter?.locationId === 'undefined' || objFilter?.locationId === ""
+      ? {}
+      : { locationId: { eq: String(objFilter?.locationId) } };
+      
+      // locationId
+      
+      const getData:any = await client.graphql({
+        query: listSessionDetails,
+        variables: { 
+          filter:{
+            ...filterLocation,
+            date: {
+              between: [
+              `2025-01-01T00:00:00.000Z`,
+              `2025-01-31T00:00:00.000Z`
+              ]
+            },            
+            or: [
+                    {status: { eq: "ACTIVE" }},
+                    {status: { eq: "RECOVERED" }}            
+                ]
+          
+          }, limit:1000000000
+        },
+      });
+  
+
+  
+      
+      const data:any = getData.data;
+      // console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data)
+      // data.listSessionDetails.items.length > 0 && console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data.listSessionDetails)
+      
+        resolve({ ...data?.listSessionDetails } as any);
         
         // ...userData.data.getUsers
       // } else {

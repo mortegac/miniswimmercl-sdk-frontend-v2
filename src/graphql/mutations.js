@@ -1676,6 +1676,10 @@ export const createCourse = /* GraphQL */ `
         nextToken
         __typename
       }
+      sessionDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationCoursesId
@@ -1725,6 +1729,10 @@ export const updateCourse = /* GraphQL */ `
         nextToken
         __typename
       }
+      sessionDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationCoursesId
@@ -1771,6 +1779,10 @@ export const deleteCourse = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      sessionDetails {
         nextToken
         __typename
       }
@@ -1824,6 +1836,10 @@ export const createSchedule = /* GraphQL */ `
         updatedAt
         __typename
       }
+      sessionDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationSchedulesId
@@ -1875,6 +1891,10 @@ export const updateSchedule = /* GraphQL */ `
         updatedAt
         __typename
       }
+      sessionDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationSchedulesId
@@ -1924,6 +1944,10 @@ export const deleteSchedule = /* GraphQL */ `
         directions
         createdAt
         updatedAt
+        __typename
+      }
+      sessionDetails {
+        nextToken
         __typename
       }
       createdAt
@@ -2065,6 +2089,8 @@ export const createStudent = /* GraphQL */ `
         modifiedBy
         modifiedByDate
         sessionDetailStudentId
+        courseId
+        scheduleId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -2133,6 +2159,8 @@ export const updateStudent = /* GraphQL */ `
         modifiedBy
         modifiedByDate
         sessionDetailStudentId
+        courseId
+        scheduleId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -2201,6 +2229,8 @@ export const deleteStudent = /* GraphQL */ `
         modifiedBy
         modifiedByDate
         sessionDetailStudentId
+        courseId
+        scheduleId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -2624,6 +2654,37 @@ export const createSessionDetail = /* GraphQL */ `
         __typename
       }
       sessionDetailStudentId
+      courseId
+      scheduleId
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
       createdAt
       updatedAt
       enrollmentSessionDetailsId
@@ -2676,6 +2737,37 @@ export const updateSessionDetail = /* GraphQL */ `
         __typename
       }
       sessionDetailStudentId
+      courseId
+      scheduleId
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
       createdAt
       updatedAt
       enrollmentSessionDetailsId
@@ -2728,6 +2820,37 @@ export const deleteSessionDetail = /* GraphQL */ `
         __typename
       }
       sessionDetailStudentId
+      courseId
+      scheduleId
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
       createdAt
       updatedAt
       enrollmentSessionDetailsId

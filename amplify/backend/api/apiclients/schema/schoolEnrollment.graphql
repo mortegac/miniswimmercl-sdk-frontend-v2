@@ -82,10 +82,10 @@ enum SessionStatus {
 
 type SessionDetail @model {
    id: ID! @primaryKey(sortKeyFields: ["date"])  # Esto hace que date sea Sort Key de la tabla principal
+  # id: ID! @primaryKey(sortKeyFields: ["courseId", "date"])
+
   date: AWSDateTime!
-  # id: ID! @primaryKey
-  # date: AWSDateTime! @index
-  # date: AWSDateTime
+
   day: String! @default(value: "")
   month: String!
   year: String
@@ -103,6 +103,13 @@ type SessionDetail @model {
   student: Student! @belongsTo
   sessionDetailStudentId: ID! @index(name: "bySessionDetailStudent") # Índice usando el nombre que genera Amplify
 
-
+  # Optional relations
+  courseId: ID @default(value: "SIN-CURSO")
+  scheduleId: ID  @default(value: "SIN-SCHEDULE")
+  course: Course @belongsTo(fields: ["courseId"])
+  schedule: Schedule @belongsTo
 }
 
+# SIN-CURSO
+# SIN-SEDE
+# SIN-SCHEDULE

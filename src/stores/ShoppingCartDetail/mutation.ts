@@ -9,3 +9,13 @@ export const createShoppingCartDetail = /* GraphQL */ `
     createShoppingCartDetail(input: $input, condition: $condition) {id}
   }
 `;
+
+
+export const updateShoppingCart = /* GraphQL */ `
+  mutation UpdateShoppingCart(
+    $input: UpdateShoppingCartInput!
+    $condition: ModelShoppingCartConditionInput
+  ) {
+    updateShoppingCart(input: $input, condition: $condition) {id}
+  }
+`;

@@ -46,7 +46,9 @@ type Course @model {
   location: Location @belongsTo               # relación muchos a uno.
   schedules: [Schedule] @hasMany              # relación uno a muchos
   sessionTypes: [SessionType] @manyToMany(relationName: "CourseSessionType")
-  enrollments: [Enrollment] @hasMany  
+  enrollments: [Enrollment] @hasMany
+  
+  sessionDetails: [SessionDetail] @hasMany(fields: ["id"])
   # CourseStudentsRelation: [CoursesStudentsRelations] @hasMany
   # coursesLocationRelation: [Locations] @manyToMany(relationName: "CoursesLocations")
 }
@@ -61,7 +63,8 @@ enum AgeGroupType {
 }
 enum AgeType {
   MONTHS
-  YEARS  
+  YEARS
+  ALL
 }
 
 
@@ -80,6 +83,8 @@ type Schedule @model {
   #Relations
   course: Course @belongsTo
   location: Location @belongsTo
+  
+  sessionDetails: [SessionDetail] @hasMany(fields: ["id"])
   # enrollment: Enrollment @belongsTo # 1 a 1 
   # enrollments: [Enrollment] @hasMany
 }

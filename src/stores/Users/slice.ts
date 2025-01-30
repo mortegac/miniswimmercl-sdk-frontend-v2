@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchAuthUser, handleLogin, fetchData, createApoderado, updateApoderado} from "./services"
+import {fetchAuthUser, handleLogin, fetchData, fetchDataSearchName, createApoderado, updateApoderado} from "./services"
 
 import { Roles } from "../Roles/types";
 import { UserPermissions } from "../UserPermissions/types";
@@ -20,6 +20,7 @@ export interface UserState {
   step: "initial" | "login" | "autenticated";
   Roles?: Roles;
   users?: Users;
+  apoderados: Users[];
   UserPermissions?: UserPermissions[];
   errorMessage?: string;
 }
@@ -32,6 +33,7 @@ export const initialState: UserState = {
   email: "",
   firstLogin: true,
   status: "idle",
+  apoderados: [emptyUser],
   step: "initial",
   errorMessage: "",
 };
@@ -49,6 +51,24 @@ export const getUser = createAsyncThunk(
     }
   }
 );
+
+
+export const getApoderadoSearchName = createAsyncThunk(
+  "apoderado/listSearchName",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchDataSearchName({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH STUDENTS", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+
+
 export const setApoderado = createAsyncThunk(
   "users/createApoderado",
   async (objFilter: FilterOptions) => {
@@ -154,6 +174,27 @@ export const authSlice = createSlice({
         state.email = objPayload[0]?.email || "";
         state.phone =  objPayload[0]?.contactPhone || "";
       })
+      
+      
+      // getApoderadoSearchName
+      
+      .addCase(getApoderadoSearchName.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getApoderadoSearchName.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getApoderadoSearchName.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        // console.log("---getStudents --action---", objPayload)
+        state.apoderados = objPayload?.items || [];
+        
+      })
+      
       
       // set Apoderado 
       .addCase(setApoderado.rejected, (state, action) => {

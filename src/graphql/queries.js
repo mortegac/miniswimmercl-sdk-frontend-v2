@@ -941,6 +941,10 @@ export const getCourse = /* GraphQL */ `
         nextToken
         __typename
       }
+      sessionDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationCoursesId
@@ -1021,6 +1025,10 @@ export const getSchedule = /* GraphQL */ `
         directions
         createdAt
         updatedAt
+        __typename
+      }
+      sessionDetails {
+        nextToken
         __typename
       }
       createdAt
@@ -1167,6 +1175,8 @@ export const getStudent = /* GraphQL */ `
         modifiedBy
         modifiedByDate
         sessionDetailStudentId
+        courseId
+        scheduleId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -1433,6 +1443,37 @@ export const getSessionDetail = /* GraphQL */ `
         __typename
       }
       sessionDetailStudentId
+      courseId
+      scheduleId
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
       createdAt
       updatedAt
       enrollmentSessionDetailsId
@@ -1473,6 +1514,8 @@ export const listSessionDetails = /* GraphQL */ `
         modifiedBy
         modifiedByDate
         sessionDetailStudentId
+        courseId
+        scheduleId
         createdAt
         updatedAt
         enrollmentSessionDetailsId
@@ -2629,6 +2672,8 @@ export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
         modifiedBy
         modifiedByDate
         sessionDetailStudentId
+        courseId
+        scheduleId
         createdAt
         updatedAt
         enrollmentSessionDetailsId

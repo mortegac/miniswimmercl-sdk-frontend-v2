@@ -148,9 +148,9 @@ export function CartDetail(props: any) {
                 generateDisscount({ 
                   type:"DISCOUNT", 
                   amount:-1 * Number(Math.round(Number(total) * 0.10)), 
-                  detail:"Descuento hermanos",  
+                  detail:"Descuento",  
                   shoppingCartId:cartId 
-                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.10)))}</span><span className="text-[.7rem]">Hermanos</span>
+                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.10)))}</span><span className="text-[.7rem]">Descuento 10%</span>
             </Button>
             <Button 
               onClick={()=>

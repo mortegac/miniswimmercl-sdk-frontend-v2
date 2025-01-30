@@ -354,7 +354,11 @@ function Main() {
             
             </div>
             <Tab.Panels>
-              <Tab.Panel><ResumenPage data={student} edad={edad} status={status}/></Tab.Panel>
+              <Tab.Panel><ResumenPage 
+                            data={student} 
+                            edad={edad} 
+                            status={status} 
+                            studentId={student?.id}  /></Tab.Panel>
               <Tab.Panel><ResumenTransactions 
                             data={student?.relationships}  
                             studentId={student?.id}  

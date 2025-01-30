@@ -31,3 +31,14 @@ export const removeEnrollment = /* GraphQL */ `
     )
   }
 `;
+
+
+
+export const updateEnrollment = /* GraphQL */ `
+  mutation UpdateEnrollment(
+    $input: UpdateEnrollmentInput!
+    $condition: ModelEnrollmentConditionInput
+  ) {
+    updateEnrollment(input: $input, condition: $condition) {id}
+  }
+`;

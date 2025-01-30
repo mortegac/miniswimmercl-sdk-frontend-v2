@@ -142,6 +142,47 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   });
 };
 
+export const fetchDataSearchName = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const getData:any = await client.graphql({
+        query: listUsers,
+        variables: { 
+          filter: {
+            isEmployed: {eq: "false"},
+            or: [
+              { name: { contains: objFilter?.name } },
+              { email: { contains: objFilter?.name } },
+              // { middleName: { contains: objFilter?.name } }
+            ]
+          },
+          limit: 100000000
+        },
+      });
+      
+      // console.log("<<< STUDENTS DATA <<<<< ", getData)
+      const data = getData.data;
+      
+        resolve({ ...data.listUsers } as any);
+        
+        // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+
+
 // --------  AUTH   ------
 
 // export const checkAuthStatus: () => Promise<AuthResponse> = async () => {

@@ -4,7 +4,9 @@ import _ from "lodash";
 
 
 
+
 import Lucide from "@/components/Base/Lucide";
+import Button from "@/components/Base/Button";
 import {typeOfRelationship} from "@/utils/dictionary";
 import {formatDateUTC, formatCurrency} from "@/utils/helper";
 import { cleanSentVar } from '@/stores/EmailsSent/slice';
@@ -109,9 +111,11 @@ export function ResumenTransactions(props:any) {
                                             </span>
                                         </span>
                                         <div className="w-full border-b border-dashed"></div>
+                                          
+                                       
                                     </div>
                                     
-                                    
+                                      
                                   <div
                                     className={clsx([
                                       "px-4 py-3 ml-8",
@@ -139,18 +143,48 @@ export function ResumenTransactions(props:any) {
                                         total = total + detail?.amount;
                                         return (
                                           <div key={i} className="mt-4 pb-4 border-b">
-                                            <p>
-                                            <span className="mr-4">{"$ "}{formatCurrency(detail?.amount)}</span>
-                                            <span className="mr-4 font-thin"> {`${detail?.enrollment?.student?.name || ""} ${detail?.enrollment?.student?.lastName || ""}`}</span>
-                                              
-                                            </p>
-                                            <p>
-                                            <span className="mr-4 font-thin"> {detail?.detail}</span>
-                                              
-                                            </p>
                                             
+                                            <div className="flex flex-row justify-between">
+                                              <p>
+                                              <span className="mr-4">{"$ "}{formatCurrency(detail?.amount)}</span>
+                                              <span className="mr-4 font-thin"> {`${detail?.enrollment?.student?.name || ""} ${detail?.enrollment?.student?.lastName || ""}`}</span>
+                                                
+                                              </p>
+                                              <p>
+                                              <span className="mr-4 font-thin"> {detail?.detail}</span>
+                                                
+                                              </p>
+                                                            
+                                              {/* ------------------ */}
+                                              <div className="flex flex-end">
+                                                <Button
+                                                  variant="soft-dark"
+                                                  className=""
+                                                  onClick={async ()=> {
+                                                    // Promise.all([
+                                                    //   await dispatch(updateEnrollmentPay({
+                                                    //     enrollmentId: detail?.enrollment.id,
+                                                    //     wasPaid:true
+                                                    //    })),
+                                                      
+                                                    // ])
+                                                     
+                                                     
+                                                    // carroId = item?.id
+                                                    // enrollmentId = detail?.enrollment.id
+                                                  }}
+                                                >
+                                                <Lucide
+                                                  icon="DollarSign"
+                                                  className="w-4 h-4 stroke-[1.3] text-slate-500"
+                                                /></Button>                                                
+                                              </div>
+                                              {/* ------------------ */}
                                             
-                         
+                                            </div>
+                                            
+                                            <pre>carroId = {JSON.stringify(item?.id, null, 2)}</pre>
+                                            <pre>enrollmentId = {JSON.stringify(detail?.enrollment?.id, null, 2)}</pre>
                                           </div>
                                         );
                                       })}
@@ -231,6 +265,9 @@ export function ResumenTransactions(props:any) {
                                             </span>
                                         </span>
                                         <div className="w-full border-b border-dashed"></div>
+                                        
+                                      
+                                        
                                     </div>
                                     
                                     

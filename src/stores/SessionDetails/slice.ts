@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, updateData, updateSession} from "./services"
+import {fetchData, fetchDataCourseQuote, updateData, updateSession} from "./services"
 import {SessionDetail, emptySessionDetail, FilterOptions, InputOptions} from "./types"
 
 
@@ -11,6 +11,7 @@ export interface SessionDetailsState {
   status: "idle" | "loading" | "failed";
   SessionDetail: SessionDetail;
  sessionDetails: SessionDetail[];
+ sessionDetailsQuote: any[];
  resume: any;
  errorMessage:string;
  wasModified:boolean;
@@ -20,6 +21,7 @@ export const initialState: SessionDetailsState = {
   status: "idle",
   SessionDetail: emptySessionDetail,
   sessionDetails: [emptySessionDetail],
+  sessionDetailsQuote: [],
   resume:{},
   errorMessage:"",
   wasModified:false
@@ -36,6 +38,20 @@ export const getSessionDetails = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH SessionDetails", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+export const getSessionQuote = createAsyncThunk(
+  "sessionDetails/quote",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchDataCourseQuote({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH getSessionQuote", error)
       return Promise.reject(error);
     }
   }
@@ -103,6 +119,52 @@ export const sessionDetailslice = createSlice({
         
         state.sessionDetails = newArray || [];
         state.resume = counts || {};
+      })
+      
+      // GET getSessionQuote COURSES
+      .addCase(getSessionQuote.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getSessionQuote.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getSessionQuote.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        // const newArray = objPayload.sort((a:any, b:any) => {
+        //   return new Date(a.date).getTime() - new Date(b.date).getTime();
+        // });
+        
+        // {
+        //   title: "8 | Bebes - 2 a 12 meses - 10:00 ",
+        //  
+        // },
+        console.log("---objPayload GET QUOTES----", objPayload)
+        
+        // const newArray = objPayload?.items?.map((item:any, i:number) => {
+        //   // if (item?.sessionNumber === 4) {
+        //     return {
+        //       title:`${item?.student?.lastName} ${item?.student?.lastName}\n${item?.sessionNumber}-${item?.totalSessions} `, //${item?.locationId}
+        //       start: item?.date.replace('T00:00:00.000Z', ''),
+        //       end: item?.date.replace('T00:00:00.000Z', ''),
+        //     }
+        //   // }
+        // });
+        
+        const newArray = objPayload?.items
+        ?.filter((item:any) => item?.totalSessions === item?.sessionNumber)
+        ?.map((item:any, i:number) => ({
+          title: `${item?.student?.name} ${item?.student?.lastName}\n${item?.sessionNumber}-${item?.totalSessions}`,
+          start: item?.date.replace('T00:00:00.000Z', ''),
+          end: item?.date.replace('T00:00:00.000Z', '')
+        }));
+        
+        
+        state.sessionDetails = objPayload || [];
+        state.sessionDetailsQuote = newArray || [];
+        
       })
       
       // UPDATE SessionDetails

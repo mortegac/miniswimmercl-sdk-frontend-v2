@@ -428,10 +428,12 @@ function Main() {
                   <div>⌘K</div>
                 </div>
               </div>
-              <QuickSearch
-                quickSearch={quickSearch}
-                setQuickSearch={setQuickSearch}
-              />
+              {quickSearch && 
+                <QuickSearch
+                  quickSearch={quickSearch}
+                  setQuickSearch={setQuickSearch}
+                />
+              }
               {/* END: Search */}
               {/* BEGIN: Notification & User Menu */}
               <div className="flex items-center flex-1">

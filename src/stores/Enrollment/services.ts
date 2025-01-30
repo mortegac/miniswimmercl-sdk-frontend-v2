@@ -3,7 +3,7 @@ import { generateClient } from 'aws-amplify/api';
 
 import { listEnrollments } from './queries';
 import { getUsers } from '../Users/queries';
-import { generateEnrollment, removeEnrollment } from './mutation';
+import { generateEnrollment, removeEnrollment, updateEnrollment } from './mutation';
 import { FilterOptions, FilterUser } from './types';
 const client = generateClient();
 
@@ -214,6 +214,42 @@ export const deleteEnrollment = async (objFilter: FilterOptions): Promise<any> =
       // resolve({ ...data.generateEnrollment } as any);
       
       const data = deleteData?.data?.removeEnrollment || {};
+      resolve({ data } as any);
+        
+      // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+export const updatePayEnrollment = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const updatePayData:any = await client.graphql({
+        query: updateEnrollment,
+        variables: {
+          // input: {            
+            id: objFilter?.enrollmentId,
+            wasPaid: objFilter?.wasPaid,
+          // }
+        }
+      });
+      
+      // console.log("<<< ENROLLMENT CREADO <<<<< ", setData)
+      // const data = setData.data;
+      // resolve({ ...data.generateEnrollment } as any);
+      
+      const data = updatePayData?.data?.updateEnrollment || {};
       resolve({ data } as any);
         
       // ...userData.data.getUsers

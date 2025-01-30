@@ -409,12 +409,14 @@ function Main() {
                                 <div className="">
                                   <div className="px-5">
                                     {currentStep === 1 &&
-                                      <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                        <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                      // <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                      <div className="flex-row pt-0 mt-2 flex-wrap">
+                                        <div className=" -mb-30 -ml-8 -mr-8 relative">
                                           <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
                                             Seleccione la sede
                                           </h3>
-                                          <div className="overflow-x-auto flex p-2">
+                                          <div className="flex flex-row justify-start flex-wrap p-4">
+                                          {/* <div className="overflow-x-auto flex p-2"> */}
                                             {Array.isArray(locations) &&
                                               locations?.map((item, i) => (
                                                 <>
@@ -438,7 +440,7 @@ function Main() {
                                                       })
                                                       dispatch(setStep(2))
                                                     }}
-                                                    className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-44 h-20  ${
+                                                    className={`shadow-none border m-0 p-2 mr-2 min-w-full lg:min-w-44 h-20 mb-2  ${
                                                       item?.id ===
                                                         dataNew?.locationId &&
                                                       "bg-slate-300 "
@@ -471,7 +473,8 @@ function Main() {
                                           <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
                                             Seleccione el Curso
                                           </h3>
-                                          <div className="overflow-x-auto flex p-2">
+                                          {/* <div className="overflow-x-auto flex p-2"> */}
+                                          <div className="flex flex-row justify-start flex-wrap p-4">
                                             {status === "loading" && (
                                               <div className="flex justify-center items-center w-full h-12">
                                                 <LoadingIcon
@@ -525,7 +528,7 @@ function Main() {
                                                             ],
                                                           });
                                                         }}
-                                                        className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-44 h-10  ${
+                                                        className={`shadow-none border m-0 p-2 mr-2 min-w-full lg:min-w-44 h-14 mb-2  ${
                                                           schedule?.id ===
                                                             dataNew?.courseId &&
                                                           "bg-purple-200"
@@ -651,10 +654,25 @@ function Main() {
                                                   {scheduleFilter.length}
                                                 </p>
                                               )}
-                                            {Array.isArray(
+                                            {/* {Array.isArray(
                                               coursesFilter?.packFilter
                                             ) &&
-                                              coursesFilter?.packFilter?.map(
+                                              coursesFilter?.packFilter?.map */}
+                                              
+                                      {Array.isArray(coursesFilter?.packFilter) &&
+                                              [...coursesFilter?.packFilter]
+                                                .sort((a:any, b:any) => {
+                                                  // const ad = new Date(a.startDate);
+                                                  // const bd = new Date(b.startDate);
+                                                  // return ad > bd ? -1 : ad < bd ? 1 : 0;
+                                                  if (a.sessionType?.totalSessions !== b.sessionType?.totalSessions) {
+                                                    return a.sessionType?.totalSessions - b.sessionType?.totalSessions;
+                                                  }
+                                                  // Then sort by sessionType id
+                                                  return (a.sessionType?.id || '').localeCompare(b.sessionType?.id || '');
+                                                })
+                                                .map
+                                              (
                                                 (pack, i) => (
                                                   <>
                                                     <Button
@@ -693,8 +711,9 @@ function Main() {
                                                                 dataNew?.packId &&
                                                               "text-slate-500"
                                                             }`}
-                                                          >
-                                                            Pack
+                                                          > 
+                                                            {!pack?.sessionType?.id.includes("CAMBIO-SEDE") && "Pack"}
+                                                            {pack?.sessionType?.id.includes("CAMBIO-SEDE") &&  <span className="text-[.6rem] bg-slate-200 rounded-xl text-slate-800 font-thin  p-1">CAMBIO-SEDE</span>}
                                                           </p>
                                                           <p
                                                             className={`text-center  text-lg text-slate-400  ${
@@ -724,6 +743,7 @@ function Main() {
                                                                 ?.amount
                                                             }
                                                           </p>
+                                                          
                                                         </span>
                                                       </span>
                                                     </Button>
