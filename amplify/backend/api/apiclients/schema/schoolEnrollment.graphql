@@ -107,7 +107,7 @@ type SessionDetail @model {
   courseId: ID @default(value: "SIN-CURSO")
   scheduleId: ID  @default(value: "SIN-SCHEDULE")
   course: Course @belongsTo(fields: ["courseId"])
-  schedule: Schedule @belongsTo
+  schedule: Schedule @belongsTo(fields: ["scheduleId"])
 }
 
 # SIN-CURSO

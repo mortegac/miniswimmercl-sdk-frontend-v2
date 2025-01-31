@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback,Fragment } from "react";
 import debounce from 'lodash/debounce';
 import { Link } from "react-router-dom";
 import clsx from "clsx";
@@ -120,9 +120,9 @@ function Resume(props:any) {
 }
 
 function Main() {
-  
-  const [switcherSlideSessions, setSwitcherSlideSessions] = useState(false);
-  const [switcherSlideStudent, setSwitcherSlideStudent] = useState(false);
+  let currentScheduleId:string | null = null;
+  // const [switcherSlideSessions, setSwitcherSlideSessions] = useState(false);
+  // const [switcherSlideStudent, setSwitcherSlideStudent] = useState(false);
    
   // const nowDate:Date = new Date();
   // const nowDate22 = FormatDate({
@@ -149,13 +149,13 @@ function Main() {
   const [atendanceId, setAtendanceId] = useState("");
   const [locationIdSelected, setLocationIdSelected] = useState("");
 
-  const [dataStudent, setDataStudent] = useState({
-    id:"",
-    name:"",
-    lastName:"",
-    gender:"",
-    birthdate:"",
-  });
+  // const [dataStudent, setDataStudent] = useState({
+  //   id:"",
+  //   name:"",
+  //   lastName:"",
+  //   gender:"",
+  //   birthdate:"",
+  // });
   const [searchTerm, setSearchTerm] = useState('');
   const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
@@ -350,7 +350,7 @@ function Main() {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover> */}
-    {/* <pre>{JSON.stringify(date, null, 2)}</pre> */}
+    {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre> */}
     {date?.locationId==="" && 
       <>
         <div className="p-1.5 box flex flex-col ">
@@ -391,14 +391,7 @@ function Main() {
     }
     {date?.locationId!=="" && 
       <div className="grid grid-cols-12">
-        <div className="col-span-12">
-              
-        {/* <div className="flex flex-col">
-            
-            <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-            </div>
-          </div> */}
-          
+        <div className="col-span-12">          
           <div className="flex flex-col justify-between md:items-center md:flex-row">
             <div className=" text-base font-medium group-[.mode--light]:text-white">
               Listado de asistencia: <b className="text-lg">{date?.dateShow}</b> 
@@ -507,30 +500,82 @@ function Main() {
             // if (nameComparison === 0) { // Si los nombres son iguales, ordenamos por apellido
             //   return a.student?.lastName.localeCompare(b.student?.lastName);
             // }
+             // Handle "SIN-SCHEDULE" case
+            if (a.scheduleId === "SIN-SCHEDULE" && b.scheduleId !== "SIN-SCHEDULE") return 1;
+            if (a.scheduleId !== "SIN-SCHEDULE" && b.scheduleId === "SIN-SCHEDULE") return -1;
+
             // return nameComparison;
             if (a.status === "USED" && b.status !== "USED") return 1;
             if (a.status !== "USED" && b.status === "USED") return -1;
             
+           // Then compare start hour
+            // const startHourA = a.schedule?.startHour || '';
+            // const startHourB = b.schedule?.startHour || '';
+            // const startHourComparison = startHourA.localeCompare(startHourB);
+            // if (startHourComparison !== 0) return startHourComparison;
+              // Convert start hours to Date objects for comparison
+            const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
+            const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
+            const timeComparison = timeA.getTime() - timeB.getTime();
+            if (timeComparison !== 0) return timeComparison;
+            
+            // Then compare scheduleId
+            const scheduleIdComparison = a.scheduleId.localeCompare(b.scheduleId);
+            if (scheduleIdComparison !== 0) return scheduleIdComparison;
+            
+
+            
+              // If status is the same, compare courseId
+              // const courseIdComparison = a.courseId.localeCompare(b.courseId);
+              // if (courseIdComparison !== 0) return courseIdComparison;
+              
+              
             // Si tienen el mismo status, ordenamos por nombre
-            const nameComparison = a.student?.name.localeCompare(b.student?.name);
+            // const nameComparison = a.student?.name.localeCompare(b.student?.name);
             
-            // Si los nombres son iguales, ordenamos por apellido
-            if (nameComparison === 0) {
-              return a.student?.lastName.localeCompare(b.student?.lastName);
-            }
+            // // Si los nombres son iguales, ordenamos por apellido
+            // if (nameComparison === 0) {
+            //   return a.student?.lastName.localeCompare(b.student?.lastName);
+            // }
             
-            return nameComparison;
+            // return nameComparison;
             
+            
+            // Finally, compare student name
+            return a.student?.name.localeCompare(b.student?.name);
+              
           })
           .map((item: any, i: number) => {
-                 
-                    return(     
+            const showLocationId = item.scheduleId !== currentScheduleId;
+            if (showLocationId) {
+              currentScheduleId = item.scheduleId;
+            }
+                    return(  
+                      <Fragment key={`${i}-SCHEDULES`}>
+                      { showLocationId &&
+                        item?.courseId !== "SIN-CURSO" &&
+                        <div className="flex flex-col mt-10">
+                           <h2 className="text-xl font-medium leading-none text-slate-600 uppercase">
+                           {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
+                           </h2>
+                           <p className="px-3 my-2 text-left bg-slate-100 mt-1 rounded-full text-xs font-thin py-1 uppercase" >{item?.course?.description}</p>
+                        </div>
+                      }
+                      { showLocationId &&
+                        item?.courseId === "SIN-CURSO" &&
+                        <div className="w-full mt-12">
+                           <h2 className="w-96 mt-3 text-xl font-medium leading-none text-slate-600 my-2 uppercase">
+                           Sesión sin horarios asignado
+                           </h2>
+                           {/* <span className=" bg-slate-100 p-1 mt-1 rounded-full text-xs font-thin" >{item?.courseId}</span> */}
+                        </div>
+                      }
+                            
                     <Table.Tr key={item.id} 
                     className={`box
                       ${atendanceId === item?.id && "bg-yellow-100"}
                       ${atendanceId !== item?.id && item?.status === "USED" && "bg-green-100"}
-                      `}>
-                      
+                      `}>                 
                       
                       
                       <Table.Td className={`w-16`}>
@@ -547,9 +592,6 @@ function Main() {
                         </div>
                       </Table.Td>
                       <Table.Td className={``}>
-                        {/* <div className="mb-1 text-xs text-slate-500 ">
-                          Tipo de sesión
-                        </div> */}
                         <div className="text-lg text-center">
                           {item?.status === "RECOVERED" && "SESION RECUPERADA"}
                           {item?.status === "ACTIVE" && "VIGENTE"}
@@ -557,12 +599,8 @@ function Main() {
                           {item?.status === "DELETED" && "ELIMINADA"}
                           <p className="text-xs font-thin" >{ formatDateToISOShort(new Date(item?.date))}</p>
                           { item?.locationId && item?.locationId !=="" && <>
-                          {/* <div className="mb-1 text-xs text-slate-500 ">
-                            Sede
-                          </div>   */}
-                          {/* <p className=" bg-slate-100 p-1 mt-1 rounded-full text-xs font-thin" >{item?.locationId}</p> */}
                           
-                          
+                          {/* <span className=" bg-slate-100 p-1 mt-1 rounded-full text-xs font-thin" >{item?.courseId}-{item?.scheduleId}</span> */}
                         </>
                       }
                         </div>
@@ -666,6 +704,8 @@ function Main() {
                   </div>
                 </Table.Td>*/}
                     </Table.Tr>
+                    </Fragment>
+                    
               )})}
               </Table.Tbody>
             </Table>

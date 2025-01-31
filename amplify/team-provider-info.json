@@ -128,7 +128,7 @@
         },
         "fnCalculateSessionsEnrollment": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
-          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-2b51306e6c48586f5a53-build.zip"
+          "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-6767794e61756d6e3955-build.zip"
         },
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",

@@ -251,7 +251,6 @@ const useDebounce = (value:string, delay:number) => {
 };
 
 function Main(props: MainProps) {
-  // const [search, setSearch] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [whoFind, setWhoFind] = useState("students");  //students - users
 
