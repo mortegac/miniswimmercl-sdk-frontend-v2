@@ -54,7 +54,9 @@ function Main() {
   const { locations } = useAppSelector(selectLocation);
   const edad:any = student?.birthdate && calcularEdad(String(student?.birthdate === "" ? "1800/01/01":student?.birthdate));
   
-  
+  async function fnUpdateState(studentId:string){
+    await dispatch(getStudent({ studentId: state?.id || ""}))
+  }
   useEffect(() => {
     if (queryParams.get("page") == "resume") {
       setSelectedIndex(0);
@@ -70,6 +72,8 @@ function Main() {
       setSelectedIndex(0);
     }
   }, [search]);
+  
+  
   
   
   useEffect(() => {
@@ -256,6 +260,7 @@ function Main() {
                   className="w-5 h-5 ml-2 text-blue-500 fill-blue-500/30"
                   />
               </div>
+              <p className="text-center text-slate-300 text-[0,6rem] pt-2">{student?.id}</p>
               <div className="flex items-center justify-center m-4">
                   <Button 
                     rounded
@@ -362,7 +367,9 @@ function Main() {
               <Tab.Panel><ResumenTransactions 
                             data={student?.relationships}  
                             studentId={student?.id}  
-                            status={status}/>
+                            status={status}
+                            fnUpdateState={fnUpdateState}
+                            />
                           </Tab.Panel>
               <Tab.Panel><SessionsPage data={student} studentId={student?.id} status={status}/></Tab.Panel>
               <Tab.Panel><MessagesPage/></Tab.Panel>

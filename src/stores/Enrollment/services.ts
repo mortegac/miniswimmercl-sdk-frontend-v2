@@ -238,10 +238,10 @@ export const updatePayEnrollment = async (objFilter: FilterOptions): Promise<any
       const updatePayData:any = await client.graphql({
         query: updateEnrollment,
         variables: {
-          // input: {            
+          input: {            
             id: objFilter?.enrollmentId,
-            wasPaid: objFilter?.wasPaid,
-          // }
+            wasPaid: String(objFilter?.wasPaid),
+          }
         }
       });
       

@@ -29,6 +29,7 @@ export const emptyShoppingCart: ShoppingCart = {
 
 export type FilterOptions  = {
 
+  shoppingCartId?: string;
   userId?: string;
   status?: string;
 

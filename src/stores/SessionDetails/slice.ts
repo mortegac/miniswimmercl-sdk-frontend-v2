@@ -156,7 +156,7 @@ export const sessionDetailslice = createSlice({
         const newArray = objPayload?.items
         ?.filter((item:any) => item?.totalSessions === item?.sessionNumber)
         ?.map((item:any, i:number) => ({
-          title: `${item?.student?.name} ${item?.student?.lastName}\n${item?.sessionNumber}-${item?.totalSessions}`,
+          title: `${item?.student?.name} ${item?.student?.lastName}\n${item?.sessionNumber}-${item?.totalSessions} ${item?.schedule?.day}-${item?.schedule?.startHour}`,
           start: item?.date.replace('T00:00:00.000Z', ''),
           end: item?.date.replace('T00:00:00.000Z', '')
         }));

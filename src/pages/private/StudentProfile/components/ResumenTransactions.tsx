@@ -3,6 +3,10 @@ import clsx from "clsx";
 import _ from "lodash";
 
 
+import Toastify from "toastify-js";
+import Notification from "@/components/Base/Notification";
+
+
 
 
 import Lucide from "@/components/Base/Lucide";
@@ -19,24 +23,55 @@ import { setWPStatus} from "@/stores/WP/slice";
 
 
 import { getPaymentTransactions, selectPaymentTransactions } from "@/stores/PaymentTransactions/slice";
+import { updateEnrollmentPay } from "@/stores/Enrollment/slice";
 import {
   getShoppingCart,
   selectShoppingCarts,
+  updatePayment,
 } from "@/stores/ShoppingCarts/slice";
 
-
+import { getStudent } from "@/stores/Students/slice";
 
 
 
 export function ResumenTransactions(props:any) {
     
-    const {data } = props;
+    const {data, studentId, fnUpdateState } = props;
     
     const { shoppingCarts} = useAppSelector(selectShoppingCarts);  
     const {paymentTransactions} = useAppSelector(selectPaymentTransactions);
     const dispatch = useAppDispatch();
     
-    
+    async function updatePaymente(payload:any){
+      
+      const {enrollmentId,shoppingCartId} = payload;
+      
+      Promise.all([
+        dispatch(updateEnrollmentPay({
+          enrollmentId:enrollmentId, 
+          wasPaid:"true"
+        })),
+        dispatch(updatePayment({
+          shoppingCartId:shoppingCartId, 
+        })),
+        await fnUpdateState(studentId)
+      ])
+      
+      const successEl = document
+      .querySelectorAll("#update-payment")[0]
+      .cloneNode(true) as HTMLElement;
+      successEl.classList.remove("hidden");
+      Toastify({
+        node: successEl,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+      }).showToast();
+      
+    }
     useEffect(() => { 
         (async () => {
             if (Array.isArray(data?.items)) {
@@ -51,7 +86,18 @@ export function ResumenTransactions(props:any) {
     }, [data]);
       
     return <>
-    
+        <Notification
+          id="update-payment"
+          className="flex hidden"
+        >
+          <Lucide icon="CheckCircle" className="text-green-600" />
+          <div className="ml-4 mr-4">
+            <div className="font-medium">Inscripción y  pago Actualizado</div>
+            <div className="mt-1 text-slate-500">
+              correctamente
+            </div>
+          </div>
+      </Notification>
     {/* <pre>{JSON.stringify(shoppingCarts, null, 2)}</pre> */}
      <div className="grid grid-cols-12 gap-y-7 gap-x-6 mt-3.5">
                   <div className="col-span-12 xl:col-span-6">
@@ -156,7 +202,7 @@ export function ResumenTransactions(props:any) {
                                               </p>
                                                             
                                               {/* ------------------ */}
-                                              <div className="flex flex-end">
+                                              {/* <div className="flex flex-end">
                                                 <Button
                                                   variant="soft-dark"
                                                   className=""
@@ -178,13 +224,28 @@ export function ResumenTransactions(props:any) {
                                                   icon="DollarSign"
                                                   className="w-4 h-4 stroke-[1.3] text-slate-500"
                                                 /></Button>                                                
-                                              </div>
+                                              </div> */}
+                                              <div className="flex flex-end -mr-6">
+                                          <Button
+                                            variant="soft-primary"
+                                            // className=""
+                                            className="mr-2 flex items-center justify-center w-12 h-12 border rounded-full border-success/10 bg-success/10"
+                                            onClick={()=> {
+                                              updatePaymente({
+                                                enrollmentId: detail?.enrollment?.id,
+                                                shoppingCartId: item?.id})
+                                            }}
+                                          > <Lucide
+                                          icon="DollarSign"
+                                          className="w-6 h-6 text-success fill-success/10"
+                                        /></Button>
+                                        </div>
                                               {/* ------------------ */}
                                             
                                             </div>
                                             
-                                            <pre>carroId = {JSON.stringify(item?.id, null, 2)}</pre>
-                                            <pre>enrollmentId = {JSON.stringify(detail?.enrollment?.id, null, 2)}</pre>
+                                            {/* <pre>carroId = {JSON.stringify(item?.id, null, 2)}</pre>
+                                            <pre>enrollmentId = {JSON.stringify(detail?.enrollment?.id, null, 2)}</pre> */}
                                           </div>
                                         );
                                       })}

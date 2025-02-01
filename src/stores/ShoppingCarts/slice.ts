@@ -5,7 +5,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData} from "./services"
+import {fetchData, updatePay} from "./services"
 import {ShoppingCart, emptyShoppingCart, FilterOptions} from "./types"
 
 
@@ -36,6 +36,19 @@ export const getShoppingCart = createAsyncThunk(
   }
 );
 
+
+export const updatePayment = createAsyncThunk(
+  "ShoppingCart/updatePay",
+  async (objFilter: FilterOptions, { dispatch }) => {
+    try {
+      const response:any = await updatePay({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH updatePay", error)
+      return Promise.reject(error);
+    }
+  }
+);
 
 
 export const ShoppingCartsSlice = createSlice({
@@ -71,6 +84,22 @@ export const ShoppingCartsSlice = createSlice({
         state.shoppingCarts = sortedShoppingCarts || [];
         // state.shoppingCarts = objPayload?.items || [];
         
+      })
+      
+      
+       // UPDATE PAYMENT 
+       .addCase(updatePayment.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(updatePayment.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updatePayment.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        console.log("---updateEnrollmentPay --action---", objPayload)
       })
       
       
