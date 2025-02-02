@@ -52,4 +52,5 @@ export type InputOptions  = {
   locationIdUsed?: string;
   studentId?: string;
   enrollmentId?: string;
+  date?: string;
 };

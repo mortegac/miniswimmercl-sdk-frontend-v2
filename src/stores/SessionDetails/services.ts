@@ -29,6 +29,7 @@ export const updateData = async (objFilter: InputOptions): Promise<any> => {
       id: String(objFilter?.sessionId),
       status: String(objFilter?.status),
       locationIdUsed: String(objFilter?.locationIdUsed),
+      date: String(objFilter?.date),
       
     };
     // console.log(">> inputData >>", inputData)

@@ -242,7 +242,8 @@ function Main() {
       await dispatch(setSessionDetails({ 
         sessionId: params.sessionId, 
         status: params.status,
-        locationIdUsed:date?.locationId
+        locationIdUsed:date?.locationId,
+        date:params?.date
       })),
       await dispatch(getSessionDetails({
         sessionDate: String(date?.dateUtc), 
@@ -615,6 +616,7 @@ function Main() {
                         onClick={() => updateSession({
                           sessionId: item.id,
                           status: "USED",
+                          date: item?.date,
                           locationIdUsed:date?.locationId,
                         })}
                         >MARCAR PRESENTE</Button>
