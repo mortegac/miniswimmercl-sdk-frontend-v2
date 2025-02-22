@@ -55,7 +55,8 @@ export const getStudent = /* GraphQL */ `
             {
               items{
                 id
-                sessionNumber              
+                sessionNumber
+                totalSessions             
                 date
                 month
                 year

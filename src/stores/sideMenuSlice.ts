@@ -11,6 +11,8 @@ import {
   STUDENTS_DATA,
   LOCATIONS, 
   COURSES,
+  REPORT_OF_REGISTERED,
+  COURSES_QUOTAS,
   QUICK_REGISTRATION,
   QUICK_REGISTRATION2,
   PAYMENTS,
@@ -24,6 +26,7 @@ import {
   SHOPPING_CART,
   REPORT_COURSES,
   ADMIN_STUDENT,
+  
 } from "@/router/paths";
 
 export interface Menu {
@@ -129,10 +132,20 @@ const initialState: SideMenuState = {
           },
         "Informes",
         {
-            icon: "CheckSquare",
-            pathname: REPORT_COURSES,
-            title: "Incritos por curso",
-          },
+          icon: "CheckSquare",
+          pathname: REPORT_COURSES,
+          title: "Incritos por curso",
+        },
+        {
+          icon: "UserPlus",
+          pathname: REPORT_OF_REGISTERED,
+          title: "Cupos por curso",
+        },
+        {
+          icon: "Calendar",
+          pathname: COURSES_QUOTAS,
+          title: "Cupos calendario",
+        },
 
         // {
           //   icon: "PlusCircle",
@@ -149,11 +162,16 @@ const initialState: SideMenuState = {
               //   pathname: INCOME,
               //   title: "Ingresos",
               // },
-          "Academia",
+          "Profesores",
           {
             icon: "UserCheck",
             pathname: ACADEMYSTUDENTS,
-            title: "Instructores Inscritos",
+            title: "Certificaciones",
+          },
+          {
+            icon: "Users",
+            pathname: ACADEMYSTUDENTS,
+            title: "Horas Profesores",
           },
               
             ],

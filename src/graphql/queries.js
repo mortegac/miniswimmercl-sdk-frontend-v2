@@ -356,6 +356,7 @@ export const getEmailSend = /* GraphQL */ `
     getEmailSend(id: $id) {
       id
       date
+      typeSend
       type
       contentEmail
       contentMessage
@@ -363,21 +364,7 @@ export const getEmailSend = /* GraphQL */ `
       phoneState
       email
       emailState
-      userSend {
-        id
-        name
-        email
-        validated
-        isEmployed
-        salesCommission
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
+      studentId
       student {
         id
         name
@@ -400,6 +387,21 @@ export const getEmailSend = /* GraphQL */ `
         updatedAt
         studentSessionDetailId
         studentSessionDetailDate
+        __typename
+      }
+      userSend {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       enrollment {
@@ -452,6 +454,7 @@ export const listEmailSends = /* GraphQL */ `
       items {
         id
         date
+        typeSend
         type
         contentEmail
         contentMessage
@@ -459,6 +462,7 @@ export const listEmailSends = /* GraphQL */ `
         phoneState
         email
         emailState
+        studentId
         createdAt
         updatedAt
         studentEmailSendId
@@ -2634,6 +2638,45 @@ export const listComments = /* GraphQL */ `
         commentTicketsId
         createdAt
         updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const emailSendsByStudentId = /* GraphQL */ `
+  query EmailSendsByStudentId(
+    $studentId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelEmailSendFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    emailSendsByStudentId(
+      studentId: $studentId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        typeSend
+        type
+        contentEmail
+        contentMessage
+        phone
+        phoneState
+        email
+        emailState
+        studentId
+        createdAt
+        updatedAt
+        studentEmailSendId
+        enrollmentEmailSendsId
+        usersEmailSendId
         __typename
       }
       nextToken

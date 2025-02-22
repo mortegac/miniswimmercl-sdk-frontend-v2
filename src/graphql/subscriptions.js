@@ -647,6 +647,7 @@ export const onCreateEmailSend = /* GraphQL */ `
     onCreateEmailSend(filter: $filter) {
       id
       date
+      typeSend
       type
       contentEmail
       contentMessage
@@ -654,21 +655,7 @@ export const onCreateEmailSend = /* GraphQL */ `
       phoneState
       email
       emailState
-      userSend {
-        id
-        name
-        email
-        validated
-        isEmployed
-        salesCommission
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
+      studentId
       student {
         id
         name
@@ -691,6 +678,21 @@ export const onCreateEmailSend = /* GraphQL */ `
         updatedAt
         studentSessionDetailId
         studentSessionDetailDate
+        __typename
+      }
+      userSend {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       enrollment {
@@ -732,6 +734,7 @@ export const onUpdateEmailSend = /* GraphQL */ `
     onUpdateEmailSend(filter: $filter) {
       id
       date
+      typeSend
       type
       contentEmail
       contentMessage
@@ -739,21 +742,7 @@ export const onUpdateEmailSend = /* GraphQL */ `
       phoneState
       email
       emailState
-      userSend {
-        id
-        name
-        email
-        validated
-        isEmployed
-        salesCommission
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
+      studentId
       student {
         id
         name
@@ -776,6 +765,21 @@ export const onUpdateEmailSend = /* GraphQL */ `
         updatedAt
         studentSessionDetailId
         studentSessionDetailDate
+        __typename
+      }
+      userSend {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       enrollment {
@@ -817,6 +821,7 @@ export const onDeleteEmailSend = /* GraphQL */ `
     onDeleteEmailSend(filter: $filter) {
       id
       date
+      typeSend
       type
       contentEmail
       contentMessage
@@ -824,21 +829,7 @@ export const onDeleteEmailSend = /* GraphQL */ `
       phoneState
       email
       emailState
-      userSend {
-        id
-        name
-        email
-        validated
-        isEmployed
-        salesCommission
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
+      studentId
       student {
         id
         name
@@ -861,6 +852,21 @@ export const onDeleteEmailSend = /* GraphQL */ `
         updatedAt
         studentSessionDetailId
         studentSessionDetailDate
+        __typename
+      }
+      userSend {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       enrollment {

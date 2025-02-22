@@ -5,6 +5,7 @@ import Toastify from "toastify-js";
 import {formatDateUTCShort} from "@/utils/helper";
 import {statusSession} from "@/utils/dictionary";
 import Notification from "@/components/Base/Notification";
+import { addDaysToDate } from "@/utils/dateHandler";
 
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
@@ -136,7 +137,18 @@ export function SessionList(props: any) {
               <div className="px-8 pt-6 pb-8">
                 <div className="text-base font-medium">Reagendar Sesión</div>
                 <div className="text-slate-500 mt-0.5  mb-12">del Alumno</div>
-                
+                <div className="bg-red-100 p-4 rounded-xl flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                    <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
+                      <div className="text-left">
+                        <div className="flex items-center">
+                          <div className="font-medium">Vigencia del pack</div>
+                        </div>
+                      </div>
+                    </label>
+                    <div className="flex-1 w-full mt-3 xl:mt-0">
+                    {addDaysToDate(data?.startDate, 30)}
+                    </div>
+                  </div>
                 
                   <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                     <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
@@ -230,6 +242,7 @@ export function SessionList(props: any) {
                       </FormSelect>
                     </div>
                   </div>
+                  
                   <div className="bg-yellow-50 p-4 rounded-xl flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                     <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
                       <div className="text-left">

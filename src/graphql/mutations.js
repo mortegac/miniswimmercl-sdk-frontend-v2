@@ -727,6 +727,7 @@ export const createEmailSend = /* GraphQL */ `
     createEmailSend(input: $input, condition: $condition) {
       id
       date
+      typeSend
       type
       contentEmail
       contentMessage
@@ -734,21 +735,7 @@ export const createEmailSend = /* GraphQL */ `
       phoneState
       email
       emailState
-      userSend {
-        id
-        name
-        email
-        validated
-        isEmployed
-        salesCommission
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
+      studentId
       student {
         id
         name
@@ -771,6 +758,21 @@ export const createEmailSend = /* GraphQL */ `
         updatedAt
         studentSessionDetailId
         studentSessionDetailDate
+        __typename
+      }
+      userSend {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       enrollment {
@@ -813,6 +815,7 @@ export const updateEmailSend = /* GraphQL */ `
     updateEmailSend(input: $input, condition: $condition) {
       id
       date
+      typeSend
       type
       contentEmail
       contentMessage
@@ -820,21 +823,7 @@ export const updateEmailSend = /* GraphQL */ `
       phoneState
       email
       emailState
-      userSend {
-        id
-        name
-        email
-        validated
-        isEmployed
-        salesCommission
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
+      studentId
       student {
         id
         name
@@ -857,6 +846,21 @@ export const updateEmailSend = /* GraphQL */ `
         updatedAt
         studentSessionDetailId
         studentSessionDetailDate
+        __typename
+      }
+      userSend {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       enrollment {
@@ -899,6 +903,7 @@ export const deleteEmailSend = /* GraphQL */ `
     deleteEmailSend(input: $input, condition: $condition) {
       id
       date
+      typeSend
       type
       contentEmail
       contentMessage
@@ -906,21 +911,7 @@ export const deleteEmailSend = /* GraphQL */ `
       phoneState
       email
       emailState
-      userSend {
-        id
-        name
-        email
-        validated
-        isEmployed
-        salesCommission
-        contactPhone
-        ig
-        firstContact
-        createdAt
-        updatedAt
-        usersRolesId
-        __typename
-      }
+      studentId
       student {
         id
         name
@@ -943,6 +934,21 @@ export const deleteEmailSend = /* GraphQL */ `
         updatedAt
         studentSessionDetailId
         studentSessionDetailDate
+        __typename
+      }
+      userSend {
+        id
+        name
+        email
+        validated
+        isEmployed
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       enrollment {

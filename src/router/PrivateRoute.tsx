@@ -17,6 +17,7 @@ import {
     LOCATIONS, 
     COURSES,
     COURSES_QUOTAS,
+    REPORT_OF_REGISTERED,
     QUICK_REGISTRATION,
     QUICK_REGISTRATION2,
     ENROLLMENTS,
@@ -33,6 +34,7 @@ import {
     SHOPPING_CART,
     REPORT_COURSES,
     ADMIN_STUDENT,
+    DOCUMENTATION
   } from "./paths";
 
   import Layout from "../themes";
@@ -46,6 +48,7 @@ import {
   const Locations = lazy(() => import("../pages/private/Locations"));
   // const Courses = lazy(() => import("../pages/private/Courses"));
   import Courses from "../pages/private/Courses";
+  import ReportOfRegistered from "../pages/private/ReportOfRegistered";
   import CoursesQuotas from "../pages/private/CoursesQuotas";
   import QuickRegistration2 from "../pages/private/QuickRegistration2";
   import QuickRegistration from "../pages/private/QuickRegistration";
@@ -70,6 +73,8 @@ import {
   
   const AcademyStudents = lazy(() => import("../pages/private/AcademyStudents"));
   const ReportCourseStudent = lazy(() => import("../pages/private/ReportCourseStudent"));
+  const Documentation = lazy(() => import("../pages/private/Documentation"));
+  
   
   
   export function PrivateValidation() {
@@ -159,7 +164,15 @@ export const privateRoutes = {
           element: <Courses />,
         },
         {
-           
+          path: REPORT_OF_REGISTERED,
+          element: <ReportOfRegistered />,
+        },
+        {
+          path: REPORT_COURSES,
+          element: <ReportCourseStudent />,         
+          
+        },
+        {
           path: COURSES_QUOTAS,
           element: <CoursesQuotas />,
         },
@@ -197,16 +210,17 @@ export const privateRoutes = {
           element: <Income />,
         },
         
-        {
-          path: REPORT_COURSES,
-          element: <ReportCourseStudent />,         
-          
-        },
+      
         
   
         {
           path: ACADEMYSTUDENTS,
           element: <AcademyStudents />,         
+          
+        },
+        {
+          path: DOCUMENTATION,
+          element: <Documentation />,         
           
         },
         

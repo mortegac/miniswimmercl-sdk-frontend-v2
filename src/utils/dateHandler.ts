@@ -29,6 +29,24 @@ export const typeOfMonth: any = {
 
 
 
+export const addDaysToDate = (dateString: string, daysToAdd: number): string => {
+  // Convertir el string "MM-DD-YYYY" a un array [MM, DD, YYYY]
+  const [month, day, year] = dateString.split('-').map(num => parseInt(num));
+  
+  // Crear objeto Date (el mes en JS es 0-based, por eso restamos 1 al mes)
+  const date = new Date(year, month - 1, day);
+  
+  // Añadir 30 días
+  date.setDate(date.getDate() + daysToAdd);
+  
+  // Formatear la fecha de vuelta al formato deseado
+  const newMonth = (date.getMonth() + 1).toString().padStart(2, '0');
+  const newDay = date.getDate().toString().padStart(2, '0');
+  const newYear = date.getFullYear();
+  
+  return `${newDay}-${typeOfMonth[newMonth]}-${newYear}`;
+}
+
 export function convertirFecha(fechaString: string): Date {
   // Asumimos que la fecha viene en formato "dd/mm/yyyy"
   const [dia, mes, anio] = fechaString.split('/');

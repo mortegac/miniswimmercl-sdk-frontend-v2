@@ -1,13 +1,17 @@
 
 
 import { signOut } from "aws-amplify/auth";
-
+import { Link } from "react-router-dom";
 import "@/assets/css/vendors/simplebar.css";
 import "@/assets/css/themes/echo.css";
 import { Transition } from "react-transition-group";
 // import Breadcrumb from "@/components/Base/Breadcrumb";
 import { useState, useEffect, createRef } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
+
+import { DOCUMENTATION } from "../../router/paths";
+
 import { selectSideMenu } from "@/stores/sideMenuSlice";
 import {
   selectCompactMenu,
@@ -448,12 +452,18 @@ function Main() {
                   >
                     <Lucide icon="LayoutGrid" className="w-[18px] h-[18px]" />
                   </a> */}
+                  <Link
+                    to={ DOCUMENTATION }
+                    // onClick={()=>simulateEscKey()}
+                    className="p-2 text-white rounded-full hover:bg-white/5"
+                  >
                   {/* <a
                     href=""
                     className="p-2 text-white rounded-full hover:bg-white/5"
-                  >
-                    <Lucide icon="Moon" className="w-[18px] h-[18px]" />
-                  </a> */}
+                  > */}
+                    <Lucide icon="ShoppingBag" className="w-[18px] h-[18px]" />
+                  {/* </a> */}
+                  </Link>
                   <a
                     href=""
                     className="p-2 text-white rounded-full hover:bg-white/5"

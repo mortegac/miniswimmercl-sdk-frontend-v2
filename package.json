@@ -1,5 +1,5 @@
 {
-  "name": "Miniswimmer",
+  "name": "miniswimmer",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -18,6 +18,9 @@
     "@fullcalendar/timegrid": "^6.1.10",
     "@headlessui/react": "^1.7.18",
     "@hookform/resolvers": "^3.3.4",
+    "@prismicio/client": "^7.16.0",
+    "@prismicio/react": "^3.0.0",
+    "@prismicio/types": "^0.2.9",
     "@reduxjs/toolkit": "^2.2.3",
     "@types/file-saver": "^2.0.7",
     "@types/html2canvas": "^1.0.0",
@@ -50,6 +53,7 @@
     "tiny-slider": "^2.9.4",
     "tippy.js": "^6.3.7",
     "toastify-js": "^1.12.0",
+    "uuid": "^11.0.3",
     "xlsx": "^0.18.5",
     "yup": "^1.3.3"
   },

@@ -25,6 +25,7 @@ export function SessionsPage(props:any) {
     locationIdUsed: "",
     studentId: "",
     enrollmentId: "",
+    startDate: "",
   });
   const {data, studentId, status } = props;
 
@@ -184,7 +185,7 @@ export function SessionsPage(props:any) {
                                                   
                                                   onClick={() => {
                                                     setSessionSlideover(true);
-                                                    setDataSession({...session, studentId:studentId, enrollmentId: item?.id})
+                                                    setDataSession({...session, studentId:studentId, enrollmentId: item?.id, startDate:item?.startDate})
                                                   }}
                                                 ><span className="text-sm uppercase">Editar</span></Button>
                                               </div>

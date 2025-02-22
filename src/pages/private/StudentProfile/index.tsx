@@ -48,7 +48,7 @@ function Main() {
   const queryParams = new URLSearchParams(search);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const dispatch = useAppDispatch();
-  const studentId: string | null = queryParams.get("id" ?? "");
+  const studentId: string | null = queryParams.get("id");
   const { student, status } = useAppSelector(selectStudent);
   const {email}= useAppSelector(selectAuth);
   const { locations } = useAppSelector(selectLocation);
@@ -363,7 +363,10 @@ function Main() {
                             data={student} 
                             edad={edad} 
                             status={status} 
-                            studentId={student?.id}  /></Tab.Panel>
+                            studentId={student?.id}  
+                            studentEmail={student?.emailPhone}
+                            studentName={`${student?.name} ${student?.middleName} ${student?.lastName}`}
+                            /></Tab.Panel>
               <Tab.Panel><ResumenTransactions 
                             data={student?.relationships}  
                             studentId={student?.id}  
@@ -371,8 +374,12 @@ function Main() {
                             fnUpdateState={fnUpdateState}
                             />
                           </Tab.Panel>
-              <Tab.Panel><SessionsPage data={student} studentId={student?.id} status={status}/></Tab.Panel>
-              <Tab.Panel><MessagesPage/></Tab.Panel>
+              <Tab.Panel><SessionsPage 
+                            data={student} 
+                            studentId={student?.id} 
+                            status={status}/>
+              </Tab.Panel>
+              <Tab.Panel><MessagesPage studentEmail={student?.emailPhone} studentId={student?.id} /></Tab.Panel>
               <Tab.Panel><ModifyPage/></Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

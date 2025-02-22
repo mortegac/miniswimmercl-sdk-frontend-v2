@@ -15,6 +15,7 @@ export const ENROLLMENTS_READ = "/enrollments-read";
 export const ENROLLMENTS_CREATE = "/enrollments-create";
 export const PAYMENTS = "/payments";
 export const TICKETS = "/tickets";
+export const DOCUMENTATION = "/documentation";
 
 
 // ADMINISTRATOR
@@ -24,7 +25,9 @@ export const REPORT_COURSES = "/report-courses";
 
 
 
+export const REPORT_OF_REGISTERED= "/report-of-registered";
 export const COURSES_QUOTAS= "/courses-quotas";
+
 export const SHOPPING_CART = "/shopping-cart";
 export const TRANSACTIONS = "/transactions";
 export const NEW_EXPENSE = "/new-expense";

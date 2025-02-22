@@ -1,4 +1,5 @@
 import { generateClient } from 'aws-amplify/api';
+import { v4 as uuid } from 'uuid'
 
 import emailjs, { init } from "emailjs-com";
 const SERVICE = "service_ucb8wga";
@@ -17,15 +18,17 @@ const client = generateClient();
 export const createEmailSent = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
-     
+      const newUuid = uuid()
       
       console.log("--createEmailSent--", objFilter)
       const setData:any = await client.graphql({
         query: createEmailSend,
         variables: {
-          input: {            
+          input: {
+            id:newUuid,         
             date:  getAWSDateStgoChile(), //new Date(Date.now()).toISOString(),
             type:  objFilter?.type,
+            typeSend:"EMAIL",
             contentEmail:  objFilter?.contentEmail,
             contentMessage: objFilter?.contentMessage,
             email:  objFilter?.email,
@@ -150,6 +153,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
         // variables: { studentEmailSendId: objFilter.studentEmailSendId },
         variables: { 
           filter:{
+            // email: {eq: String(objFilter.studentEmailSendId)},
             studentEmailSendId: {eq: String(objFilter.studentEmailSendId)},
           }
           , limit:100000000

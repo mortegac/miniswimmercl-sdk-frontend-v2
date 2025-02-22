@@ -3,7 +3,9 @@
 ################################
 type EmailSend @model {
   id: ID! @primaryKey
+  # id: ID! @primaryKey(sortKeyFields: ["typeSend"])
   date: AWSDateTime
+  typeSend: TypeSend! @default(value: "NONE")
   type: TypeOfEmail!
   contentEmail: String @default(value: "")  # EMAIL CONTENT
   contentMessage: String @default(value: "") # WHATSAPP CONTENT
@@ -13,17 +15,27 @@ type EmailSend @model {
   emailState: EmailState  @default(value: "SEND") 
   
   #Relations 
+  studentId: ID! @index(name: "byStudentEmailSendId") @default(value: "SIN-ESTUDIANTE")  # Made non-null
+  student: Student! @belongsTo(fields: ["studentId"])
+  # studentEmailSendId: ID! @index(name: "byStudentEmailSendId") # Índice usando el nombre que genera Amplify
+
+
   userSend: Users! @belongsTo  #User que envio el email
-  student: Student! @belongsTo
   enrollment: Enrollment @belongsTo   # Nueva relación opcional con Enrollment
 
 }
 enum TypeOfEmail {
+  WHATSAPP
   WHATSAPP_LINK_PAGO     #
   WHATSAPP_LINK_RENOVACION     #
   WELCOME     # ESCUELA | Email de bienvenida
   NOSESSION   # ESCUELA | Email de Renovacion 
   UPDATE_SESSION   # ESCUELA | SESION REAGENDADA
+}
+enum TypeSend {
+  NONE
+  WHATSAPP
+  EMAIL
 }
 
 
