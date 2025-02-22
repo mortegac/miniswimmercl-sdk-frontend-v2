@@ -77,30 +77,29 @@ function Card(props:any) {
         e.preventDefault();
         setHtml({status:true, html:doc?.html})
       }}
-      className="z-40 w-full h-full cursor-pointer  ">
+      className="z-40 w-full h-full  cursor-pointer  ">
       
-      <div className="overflow-hidden rounded-lg h-52 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-slate-900/90 before:to-black/20">
+      <div className="overflow-hidden rounded-lg h-52 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-slate-700/90 before:to-slate-50/20">
+      
         <img
-          alt="Tailwise - Admin Dashboard Template"
+          alt="Miniswimmer"
           className="rounded-md"
           src={doc?.image?.url}
-          // src={"https://tailwise.vercel.app/assets/product2-400x400-C8nZ4yFy.jpg"}
         />
-        <div className="absolute bottom-0 z-10 w-full px-5 pb-6 text-white">
-          <a
-            href=""
-            className="block text-lg font-medium truncate"
-          >
-          {doc?.title[0]?.text}
-          </a>
-          <span className="mt-3 text-xs text-white/80">
-          category
-          </span>
+        <div className="absolute bottom-0 z-10 w-full text-white text-xs font-medium rounded-md bg-slate-700/45 border border-success/10 px-4 py-4">
+ 
+          <div className="flex justify-between">
+            <span className="-mt-px">Categoría:</span>
+            <span className="-mt-px uppercase bg-green-400 rounded-lg px-3 py-1 text-slate-800 ">
+            {doc?.type}
+            </span>
+          </div>
         </div>
       </div>
       <div className="pt-5">
         <div className="flex flex-col gap-3.5 mb-5 pb-5 mt-auto border-b border-dashed border-slate-300/70">
-          <div className="flex items-center">
+          <h3 className="text-xl font-medium py-2 min-h-32"><p className="min-h-32">{doc?.title[0]?.text}</p></h3>
+          {/* <div className="flex items-center">
             <div className="text-slate-500">Categoria:</div>
             <div className="ml-auto">
               <div className="flex items-center text-xs font-medium rounded-md text-success bg-success/10 border border-success/10 px-4 py-px">
@@ -109,7 +108,7 @@ function Card(props:any) {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="flex items-center">
             <div className="text-slate-500">Creado:</div>
             <div className="ml-auto">
@@ -309,13 +308,13 @@ function Main() {
 
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
       <div className="col-span-12">
-        <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
+        <div className="flex flex-col justify-between md:h-10 gap-y-3 md:items-center md:flex-row">
           <div className="text-base font-medium group-[.mode--light]:text-white">
             Documentación
           </div>
           <button 
         onClick={refreshContent}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="mb-4 px-4 py-2 bg-primary text-slate-200 hover:bg-purple-400 border border-slate-200 rounded-lg"
       >
         Actualizar contenido
       </button>
