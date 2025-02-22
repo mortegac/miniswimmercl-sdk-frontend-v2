@@ -160,56 +160,7 @@ function Main() {
     setContent(html)
     
   }
-  
-  // useEffect(() => { (async () => {
-  //   // const blogPosts:any = await client.getAllByType("documentation")
-  //   const blogPosts:any = await client.getByType("documentation", {
-  //     orderings: {
-  //       field: "document.first_publication_date",
-  //       direction: "desc",
-  //     },
-  //   });
-  //   setData(blogPosts?.results)
-  // })(); }, []);
 
-  // useEffect(() => {
-  //   const fetchContent = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const client = createPrismicClient();
-        
-  //       // Obtener el masterRef más reciente
-  //       const repository = await client.getRepository();
-  //       const masterRef = repository.refs.find(ref => ref.isMasterRef)?.ref;
-        
-  //       if (!masterRef) {
-  //         throw new Error('No se pudo obtener la referencia master');
-  //       }
-
-  //       const blogPosts = await client.getByType("documentation", {
-  //         ref: masterRef, // Usar la referencia más reciente
-  //         // orderings: {
-  //         //   field: "document.first_publication_date",
-  //         //   direction: "desc",
-  //         // },
-  //         // Forzar revalidación
-  //         pageSize: 100, // Ajusta según tus necesidades
-  //       });
-
-  //       setData(blogPosts.results);
-  //       setError(null);
-  //     } catch (err) {
-  //       setError(err instanceof Error ? err.message : 'Error al cargar el contenido');
-  //       console.error('Error fetching Prismic content:', err);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchContent();
-  // }, []);
-  
-   // Función para refrescar manualmente el contenido
    const refreshContent = async () => {
     setIsLoading(true);
     try {
@@ -310,13 +261,13 @@ function Main() {
       <div className="col-span-12">
         <div className="flex flex-col justify-between md:h-10 gap-y-3 md:items-center md:flex-row">
           <div className="text-base font-medium group-[.mode--light]:text-white">
-            Documentación
+            Documentación Miniswimmer
           </div>
           <button 
         onClick={refreshContent}
         className="mb-4 px-4 py-2 bg-primary text-slate-200 hover:bg-purple-400 border border-slate-200 rounded-lg"
       >
-        Actualizar contenido
+        Actualizar
       </button>
         </div>
         <div className="mt-3.5">
