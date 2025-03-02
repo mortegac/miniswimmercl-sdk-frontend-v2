@@ -1,6 +1,7 @@
 import React, { useState, useId, useMemo } from "react";
 // import { Link } from "react-router-dom";
 import { Tab } from "@/components/Base/Headless";
+import Table from "@/components/Base/Table";
 import { FormInput, FormLabel, FormSelect } from "@/components/Base/Form";
 import Button from "@/components/Base/Button";
 import LoadingIcon from "@/components/Base/LoadingIcon";
@@ -214,67 +215,98 @@ function Schedules(props: any) {
   
   return(
     <>
-    
-    {/* <pre>schedules = {JSON.stringify(schedules[0].courseSchedulesId, null, 2)}</pre> */}
-    {/* <pre>data = {JSON.stringify(data, null, 2)}</pre> */}
-          <div className={`grid grid-cols-12 gap-2 mb-2 p-2 -mt-4 border rounded-lg ${!newSchedule ? "":"bg-purple-50"} `}>
-        { !newSchedule &&
-          <Button className="col-span-4 bg-purple-50" onClick={()=>setNewSchedule(!newSchedule)}>Nuevo Horario</Button>        
+    <div className="flex flex-col">
+    { !newSchedule &&
+          <Button className="
+          
+          bg-purple-50" onClick={()=>setNewSchedule(!newSchedule)}>Nuevo Horario</Button>        
         }
         { newSchedule &&
           <>
-          <FormSelect className="col-span-3" 
-            onChange={(e)=>setData({
-                ...data,
-                day: e.target.value
-              })}
-            >
-            <option key={""} value={""} selected={data?.day==="" && true}>Todos</option>
-            <option key={"lunes"} value={"lunes"}  selected={data?.day==="lunes" && true}>Lunes</option>
-            <option key={"martes"} value={"martes"}  selected={data?.day==="martes" && true}>Martes</option>
-            <option key={"miercoles"} value={"miercoles"}  selected={data?.day==="miercoles" && true}>Miercoles</option>
-            <option key={"jueves"} value={"jueves"}  selected={data?.day==="jueves" && true}>Jueves</option>
-            <option key={"viernes"} value={"viernes"}  selected={data?.day==="viernes" && true}>Viernes</option>
-            <option key={"sabado"} value={"sabado"}  selected={data?.day==="sabado" && true}>Sabádos</option>
-            <option key={"domingo"} value={"domingo"}  selected={data?.day==="domingo" && true}>Domingos</option>
-            
-          </FormSelect>
-                            
-            {/* <FormSelect 
-              onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setData({
-                ...data,
-                startHour: e.target.value
-              })}
-              className="col-span-3" aria-label=".form-select-lg example">
-                <option>Lunes</option>
-                <option>Martes</option>
-                <option>Miercoles</option>
-                <option>Jueves</option>
-                <option>Viernes</option>
-                <option></option>
-                <option>Domingos</option>
-            </FormSelect> */}
+          <div className="flex flex-row">
+            <FormSelect 
+              onChange={(e)=>setData({
+                  ...data,
+                  day: e.target.value
+                })}
+                className="mr-2"
+              >
+              <option key={""} value={""} selected={data?.day==="" && true}>Todos</option>
+              <option key={"lunes"} value={"lunes"}  selected={data?.day==="lunes" && true}>Lunes</option>
+              <option key={"martes"} value={"martes"}  selected={data?.day==="martes" && true}>Martes</option>
+              <option key={"miercoles"} value={"miercoles"}  selected={data?.day==="miercoles" && true}>Miercoles</option>
+              <option key={"jueves"} value={"jueves"}  selected={data?.day==="jueves" && true}>Jueves</option>
+              <option key={"viernes"} value={"viernes"}  selected={data?.day==="viernes" && true}>Viernes</option>
+              <option key={"sabado"} value={"sabado"}  selected={data?.day==="sabado" && true}>Sabádos</option>
+              <option key={"domingo"} value={"domingo"}  selected={data?.day==="domingo" && true}>Domingos</option>
+              
+            </FormSelect>
             <FormInput type="text"
-              value={data?.startHour}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setData({
-                ...data,
-                startHour: e.target.value
-              })}
-               
-              className="col-span-2" placeholder="Inicio" aria-label="Hora de inicio horario" />
+                value={data?.startHour}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setData({
+                  ...data,
+                  startHour: e.target.value
+                })}
+                
+                className="mr-2"
+                placeholder="Inicio" aria-label="Hora de inicio horario" />
             <FormInput type="text" 
-              value={data?.endHour}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setData({
-                ...data,
-                endHour: e.target.value
-              })}
-              className="col-span-2" placeholder="Fin" aria-label="Hora de término horario" />
-            <Button variant="primary" onClick={()=>createSchedule()} className="col-span-4">Crear Horario</Button>      
-          </>
-          }
+                value={data?.endHour}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setData({
+                  ...data,
+                  endHour: e.target.value
+                })}
+                // className="col-span-2" 
+                placeholder="Fin" aria-label="Hora de término horario" />  
           </div>
+          <div className="flex flex-row justify-between items-center py-2">
+            <Button variant="soft-primary" 
+            onClick={()=>setNewSchedule(!newSchedule)}
+            className="mr-2"
+              >Volver</Button>      
+            <Button variant="primary" onClick={()=>createSchedule()} 
+            className=" w-40"
+              >Crear Horario</Button>      
+          </div>
+          </>
+          
+          }
+    </div>
+   
+           { !newSchedule &&
+      <div className="relative overflow-auto w-full h-32">
+      <div className="overflow-y-auto flex p-2">
     
-      <div className="border-1 mt-4 overflow-x-auto">
+          <div className="overflow-x-auto">
+      <Table className="w-full">
+        {/* <Table.Thead>
+          
+          <Table.Tr>
+            <Table.Th className="whitespace-nowrap">Día</Table.Th>
+            <Table.Th className="whitespace-nowrap">Cupo Máximo</Table.Th>
+            <Table.Th className="whitespace-nowrap">Cupo Mínimo</Table.Th>
+          </Table.Tr>
+        
+        </Table.Thead> */}
+        <Table.Tbody>        
+        {Array.isArray(sortedSessionTypes) &&
+        sortedSessionTypes.map((item: any, i: number) => 
+              <Table.Tr>
+                <Table.Td>  <b className=" uppercase">{item?.day}</b> {item?.startHour}</Table.Td>
+                <Table.Td>{item?.minimumQuotas} máximo</Table.Td>
+                <Table.Td>{item?.maximumQuotas} mínimo</Table.Td>
+                
+              </Table.Tr>
+          )
+        }
+    </Table.Tbody>
+    </Table>
+      </div>
+      </div>
+      </div>
+}
+      
+      {/* <div className="border-1 mt-4 overflow-x-auto">
       <div className="flex flex-row justify-center max-w-md mx-auto">
       {Array.isArray(sortedSessionTypes) &&
         sortedSessionTypes.map((item: any, i: number) => 
@@ -286,14 +318,13 @@ function Schedules(props: any) {
               <span className="mt-1 text-[.6rem] text-left text-slate-400">Cupo máximo:<b>{item?.minimumQuotas}</b></span>
               <span className="mt-0 text-[.6rem] text-left text-slate-400">Cupo mínimo:<b>{item?.maximumQuotas}</b></span>
             </p>
-            {/* <span className="mt-2 text-sm text-slate-500">{item.startHour} a {item.endHour}</span> */}
             
           </div>
       )
       }
+      </div>
+      </div> */}
       {/* <pre>schedules = {JSON.stringify(schedules, null, 2)}</pre> */}
-      </div>
-      </div>
       {/* 
       <pre>courseId {JSON.stringify(courseId, null, 2)}</pre>
       <pre>locationSchedulesId = {JSON.stringify(locationSchedulesId, null, 2)}</pre> */}
@@ -314,18 +345,30 @@ function Sessions(props: any) {
   
   return(
     <>
-      <div className="flex flex-row border-1 ">
-      {Array.isArray(sortedSessionTypes) &&
-        sortedSessionTypes.map((item: any, i: number) => 
-          <div className="box p-4 mx-2 bg-purple-50">
-            <h2 className=" text-center mt-2 font-thin uppercase">
-              <b className="">{item.sessionType.name}</b> 
-            </h2>
-            <h3 className="mt-4 text-slate-500">{"$ "}{formatCurrency(item.sessionType.amount)}</h3>
+      <div className="overflow-x-auto">
+      <Table>
+        <Table.Tbody>        
+          {/* {Array.isArray(sortedSessionTypes) &&
+            sortedSessionTypes. */}
             
-          </div>
-      )
-      }
+{Array.isArray(sortedSessionTypes) &&
+        [...sortedSessionTypes]
+          .sort((a, b) => {
+            const ad = Number(a.sessionType.totalSessions);
+            const bd = Number(b.sessionType.totalSessions);
+            return ad > bd ? -1 : ad < bd ? 1 : 0;
+          })
+          .map((item: any, i: number) => 
+              <Table.Tr>
+                {/* <Table.Td className=" uppercase"><pre>{JSON.stringify(item, null, 2)}</pre></Table.Td> */}
+                <Table.Td className=" uppercase">{item.sessionType.totalSessions}</Table.Td>
+                <Table.Td className=" uppercase">{item.sessionType.name}</Table.Td>
+                <Table.Td>{"$ "}{formatCurrency(item.sessionType.amount)}</Table.Td>
+              </Table.Tr>
+          )
+        }
+    </Table.Tbody>
+    </Table>
       </div>
     </>
   )
@@ -354,7 +397,7 @@ const Card: React.FC<Props> = (props:any) => {
         className="w-1/2 px-2 py-2"
         >
             <div
-              className={`p-5 box h-[300px] w-full cursor-pointer`}
+              className={`p-4 box h-[300px] w-full cursor-pointer`}
             >
               <h2 className="w-full text-center mb-4 text-lg font-medium uppercase text-primary">{courses.title}{" "}</h2>
                 
@@ -386,25 +429,28 @@ const Card: React.FC<Props> = (props:any) => {
                     </Tab.Button>
                   </Tab>
                 </Tab.List>
-                <Tab.Panels className="mt-8">
+                <Tab.Panels className="mt-6">
                   <Tab.Panel>
                     <Description courses={courses}/>
                   </Tab.Panel>
                   <Tab.Panel>
-                    {/* <pre>{JSON.stringify(courses, null, 2)}</pre> */}
-                    { status === "loading" &&   <LoadingIcon
+                    { status === "loading" && <div><LoadingIcon
                     color="#AE5EAB"
                     icon="oval"
                     className="w-10 h-10 mt-10"
-                  />}
-                    <Schedules 
-                      schedules={courses?.schedules?.items || []}
-                      courseId={courses?.id || []}
-                      locationSchedulesId={locationId || []}
-                    />
+                  /></div>}
+                      <Schedules 
+                        schedules={courses?.schedules?.items || []}
+                        courseId={courses?.id || []}
+                        locationSchedulesId={locationId || []}
+                      />                  
                   </Tab.Panel>
                   <Tab.Panel>
-                    <Sessions Sessions={courses.sessionTypes?.items}/>
+                  <div className="relative overflow-auto w-full h-40">
+                    <div className="overflow-y-auto flex p-2">
+                      <Sessions Sessions={courses.sessionTypes?.items}/>
+                    </div>
+                  </div>
                   </Tab.Panel>
                 </Tab.Panels>
               </Tab.Group>

@@ -41,6 +41,7 @@ type ShoppingCart @model @auth(rules: [{ allow: public }]) {
 
 # ENUM PARAMETERS
 enum TypeDetail {
+  COURSE_REGISTRATION
   ENROLLMENTS
   ACADEMY
   PRODUCTS

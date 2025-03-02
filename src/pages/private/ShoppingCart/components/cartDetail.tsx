@@ -146,6 +146,15 @@ export function CartDetail(props: any) {
             <Button 
               onClick={()=>
                 generateDisscount({ 
+                  type:"COURSE_REGISTRATION", 
+                  amount:30000, 
+                  detail:"Matricula",  
+                  shoppingCartId:cartId 
+                })}  variant="soft-pending" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(30000))}</span><span className="text-[.7rem]">Matricula</span>
+            </Button>
+            <Button 
+              onClick={()=>
+                generateDisscount({ 
                   type:"DISCOUNT", 
                   amount:-1 * Number(Math.round(Number(total) * 0.10)), 
                   detail:"Descuento",  

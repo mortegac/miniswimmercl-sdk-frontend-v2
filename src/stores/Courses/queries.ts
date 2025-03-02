@@ -91,10 +91,17 @@ export const listCourses = /* GraphQL */ `
             maximumQuotas
           }
       }
-      sessionTypes{
+      sessionTypes
+      # (
+      #     filter:{
+      #       isActive : {eq: true}
+      #     }
+      #   )
+        {
         items{
           sessionType{
             id
+            isActive
             name
             totalSessions
             amount

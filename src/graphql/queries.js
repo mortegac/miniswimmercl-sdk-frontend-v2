@@ -1087,6 +1087,7 @@ export const getSessionType = /* GraphQL */ `
       timeAWeek
       totalSessions
       amount
+      isActive
       packValidity
       courses {
         nextToken
@@ -1125,6 +1126,7 @@ export const listSessionTypes = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt
@@ -1309,6 +1311,7 @@ export const getEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt
@@ -2486,6 +2489,7 @@ export const getCourseSessionType = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt

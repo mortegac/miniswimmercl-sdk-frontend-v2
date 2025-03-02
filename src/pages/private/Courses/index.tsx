@@ -50,7 +50,6 @@ function Content(props: any) {
                    {item.locationCoursesId}</h2>
                 </div>
               )}
-               
                 <Card courses={item} locationId={item.locationCoursesId} status={status}/>
             </Fragment>
           );

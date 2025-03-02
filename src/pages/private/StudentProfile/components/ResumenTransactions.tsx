@@ -29,7 +29,7 @@ import {
   selectShoppingCarts,
   updatePayment,
 } from "@/stores/ShoppingCarts/slice";
-
+import { selectAuth } from "@/stores/Users/slice";
 import { getStudent } from "@/stores/Students/slice";
 
 
@@ -38,8 +38,10 @@ export function ResumenTransactions(props:any) {
     
     const {data, studentId, fnUpdateState } = props;
     
+    const { email } = useAppSelector(selectAuth);
     const { shoppingCarts} = useAppSelector(selectShoppingCarts);  
     const {paymentTransactions} = useAppSelector(selectPaymentTransactions);
+    
     const dispatch = useAppDispatch();
     
     async function updatePaymente(payload:any){
@@ -226,6 +228,9 @@ export function ResumenTransactions(props:any) {
                                                 /></Button>                                                
                                               </div> */}
                                               <div className="flex flex-end -mr-6">
+                                          
+                                          
+                                          {email === "hi@manuelo.dev" && 
                                           <Button
                                             variant="soft-primary"
                                             // className=""
@@ -239,6 +244,7 @@ export function ResumenTransactions(props:any) {
                                           icon="DollarSign"
                                           className="w-6 h-6 text-success fill-success/10"
                                         /></Button>
+                                          }
                                         </div>
                                               {/* ------------------ */}
                                             

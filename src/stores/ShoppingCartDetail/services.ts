@@ -61,7 +61,6 @@ export const fetchOne = async (objFilter: FilterOptions): Promise<any> => {
   });
 };
 
-
 export const createShoppinCartDetail = async (objInput: InputOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {

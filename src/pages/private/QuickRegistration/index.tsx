@@ -1,14 +1,14 @@
 import React, { useEffect, useState, Fragment, useMemo } from "react";
-import Lucide from "@/components/Base/Lucide";
-import users from "@/fakers/users";
-import Button from "@/components/Base/Button";
-import Litepicker from "@/components/Base/Litepicker";
-import { FormInput, FormSelect, FormCheck } from "@/components/Base/Form";
-import { Tab } from "@/components/Base/Headless";
 import clsx from "clsx";
 import _ from "lodash";
+import { formatCurrency } from "@/utils/helper";
+import Lucide from "@/components/Base/Lucide";
+import { FormCheck, FormLabel } from "@/components/Base/Form";
+import Alert from "@/components/Base/Alert";
+import Button from "@/components/Base/Button";
+import Litepicker from "@/components/Base/Litepicker";
+import { Tab } from "@/components/Base/Headless";
 import { Slideover } from "@/components/Base/Headless";
-// import { HeaderTitle } from "./components/HeaderTitle";
 import { ResumenTransactions } from "./components/ResumenTransactions";
 import { Navigator } from "./components/Navigator";
 
@@ -34,9 +34,10 @@ import {
   cleanDataUser,
 } from "@/stores/Users/slice";
 import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
-import { getStudent } from "@/stores/Students/slice";
+// import { getStudent } from "@/stores/Students/slice";
 import { selectCourse, getCourses } from "@/stores/Courses/slice";
 import { getShoppingCart } from "@/stores/ShoppingCarts/slice";
+import { setShoppingCartDetail } from "@/stores/ShoppingCartDetail/slice";
 import { FormStep02 } from "./components/FormStep02";
 import { Step05Resume } from "./components/Step05Resume";
 
@@ -72,9 +73,11 @@ function Main() {
 
   const [scheduleFilter, setScheduleFilter] = useState<any>([]);
   const [packFilter, setPackFilter] = useState<any>([]);
-  const [isSaved, setIsSaved] = useState<any>({ state: false});
-  const { currentStep, enrollment } = useAppSelector(selectEnrollment);
+  const [isSaved, setIsSaved] = useState<any>({ state: false });
   
+  const [doesNotPayRegistration, setDoesNotPayRegistration] = useState<boolean>(true);
+  const { currentStep, enrollment, cartId } = useAppSelector(selectEnrollment);
+
   // const {id, name, email, users }= useAppSelector(selectAuth);
   const user = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
@@ -86,22 +89,23 @@ function Main() {
     studentId,
     guardianEmail,
     guardianPhone,
-    enrollmentStartDate
+    enrollmentStartDate,
+    enrollmentSessionTypeId,
+    // enrollmentScheduleId,
+    // enrollmentCourseId,
     // guardianName,
     // guardianRelation,
   } = enrollment;
-  
 
-  function transformDate(isoDate:string) {
+  function transformDate(isoDate: string) {
     const date = new Date(isoDate);
-    
-    const day = date.getUTCDate().toString().padStart(2, '0');
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
+
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Los meses en JavaScript van de 0 a 11
     const year = date.getUTCFullYear();
-  
+
     return `${month}-${day}-${year}`;
   }
-  
 
   const onSetNewStudent = async (userEmail: any) => {
     const event = {
@@ -167,7 +171,7 @@ function Main() {
       packFilter: [],
     });
   };
-  
+
   type SetValueEnrollmentParams = {
     key: string;
     value: string;
@@ -177,12 +181,11 @@ function Main() {
     dispatch(
       setDataEnroll({
         key,
-        value
+        value,
       })
     );
   }
-  
-  
+
   const setStudent = async (e: any) => {
     console.log("--e--", e);
     setSessionSlideover(!sessionSlideover);
@@ -195,54 +198,61 @@ function Main() {
       // studentAge: e?.studentAge,
       // studentGender: e?.studentGender,
     });
-    setValueEnrrollment({key:"studentId", value: e?.studentId || ""})
+    setValueEnrrollment({ key: "studentId", value: e?.studentId || "" });
   };
-  
-  async function setDate(e:any){
-    // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z") 
+
+  async function setDate(e: any) {
+    // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z")
 
     // console.log("e>>> ", e)
-    
-    const date:string= new Date(e.target.value).toISOString()
-    setValueEnrrollment({key:"enrollmentStartDate", value:transformDate(date)})
 
-    
+    const date: string = new Date(e.target.value).toISOString();
+    setValueEnrrollment({
+      key: "enrollmentStartDate",
+      value: transformDate(date),
+    });
   }
-  
+
   async function setEnrollmentCourse() {
-    
-    setIsSaved({ state: true })
-    enrollment?.guardianId && 
-    enrollment?.studentId  && 
-    enrollment?.enrollmentStartDate && 
-    enrollment?.enrollmentSessionTypeId && 
-    enrollment?.enrollmentScheduleId && 
-    enrollment?.enrollmentCourseId  && 
-    await Promise.all([
-      await dispatch(
-        setEnrollment({
-          userId: enrollment?.guardianId,
-          studentId: enrollment?.studentId,
-          enrollmentStartDate: enrollment?.enrollmentStartDate,
-          enrollmentSessionTypeId: enrollment?.enrollmentSessionTypeId,
-          enrollmentScheduleId: enrollment?.enrollmentScheduleId,
-          enrollmentCourseId: enrollment?.enrollmentCourseId
-        })),
-      await dispatch(getUser({userEmail:enrollment?.guardianId})),
-      // dispatch(setStep(4))
-    ]);
-    
-    !enrollment?.guardianId && 
-    !enrollment?.studentId  && 
-    !enrollment?.enrollmentStartDate && 
-    !enrollment?.enrollmentSessionTypeId && 
-    !enrollment?.enrollmentScheduleId && 
-    !enrollment?.enrollmentCourseId  && alert("Debe seleccionar todos los datos para continuar")
-    
-    setIsSaved({ state: false })
-      dispatch(setStep(5))
+    setIsSaved({ state: true });
+    enrollment?.guardianId &&
+      enrollment?.studentId &&
+      enrollment?.enrollmentStartDate &&
+      enrollment?.enrollmentSessionTypeId &&
+      enrollment?.enrollmentScheduleId &&
+      enrollment?.enrollmentCourseId &&
+      (await Promise.all([
+        await dispatch(
+          setEnrollment({
+            userId: enrollment?.guardianId,
+            studentId: enrollment?.studentId,
+            enrollmentStartDate: enrollment?.enrollmentStartDate,
+            enrollmentSessionTypeId: enrollment?.enrollmentSessionTypeId,
+            enrollmentScheduleId: enrollment?.enrollmentScheduleId,
+            enrollmentCourseId: enrollment?.enrollmentCourseId,
+          })
+        ),
+        // cartId && doesNotPayRegistration===true && await dispatch(setShoppingCartDetail({
+        //   type: "COURSE_REGISTRATION",
+        //   amount: "30000",
+        //   detail: "Matricula",
+        //   shoppingCartId: cartId
+        // })),
+        await dispatch(getUser({ userEmail: enrollment?.guardianId })),
+        // dispatch(setStep(4))
+      ]));
+
+    !enrollment?.guardianId &&
+      !enrollment?.studentId &&
+      !enrollment?.enrollmentStartDate &&
+      !enrollment?.enrollmentSessionTypeId &&
+      !enrollment?.enrollmentScheduleId &&
+      !enrollment?.enrollmentCourseId &&
+      alert("Debe seleccionar todos los datos para continuar");
+
+    setIsSaved({ state: false });
+    dispatch(setStep(5));
     // setSelectedModal(false);
-    
   }
 
   useEffect(() => {
@@ -400,447 +410,630 @@ function Main() {
                       <Tab.Panels className="mt-3.5">
                         <Tab.Panel className="flex flex-col xl:flex-row gap-2 p-1.5 leading-relaxed">
                           <>
-                          <div className="flex flex-col w-full">
-                            
-                              <Navigator/> 
-                            
-                            <div className="grid grid-cols-12 mt-3.5">
-                              <div className="col-span-12 xl:col-span-12">
-                                <div className="">
-                                  <div className="px-5">
-                                    {currentStep === 1 &&
-                                      // <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                      <div className="flex-row pt-0 mt-2 flex-wrap">
-                                        <div className=" -mb-30 -ml-8 -mr-8 relative">
-                                          <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
-                                            Seleccione la sede
-                                          </h3>
-                                          <div className="flex flex-row justify-start flex-wrap p-4">
-                                          {/* <div className="overflow-x-auto flex p-2"> */}
-                                            {Array.isArray(locations) &&
-                                              locations?.map((item, i) => (
+                            <div className="flex flex-col w-full">
+                              <Navigator />
+
+                              <div className="grid grid-cols-12 mt-3.5">
+                                <div className="col-span-12 xl:col-span-12">
+                                  <div className="">
+                                    <div className="px-5">
+                                      {currentStep === 1 && (
+                                        // <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                        <div className="flex-row pt-0 mt-2 flex-wrap">
+                                          <div className=" -mb-30 -ml-8 -mr-8 relative">
+                                            <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
+                                              Seleccione la sede
+                                            </h3>
+                                            <div className="flex flex-row justify-start flex-wrap p-4">
+                                              {/* <div className="overflow-x-auto flex p-2"> */}
+                                              {Array.isArray(locations) &&
+                                                locations?.map((item, i) => (
+                                                  <>
+                                                    <Button
+                                                      key={`${i}-LOCATIONS-USED`}
+                                                      onClick={(
+                                                        event: React.MouseEvent
+                                                      ) => {
+                                                        event.preventDefault();
+                                                        getCoursesByLocation(
+                                                          item?.id
+                                                        );
+                                                        setDataNew({
+                                                          ...dataNew,
+                                                          locationId: item?.id,
+                                                        });
+
+                                                        setValueEnrrollment({
+                                                          key: "enrollmentLocationName",
+                                                          value: item?.name,
+                                                        });
+                                                        dispatch(setStep(2));
+                                                      }}
+                                                      className={`shadow-none border m-0 p-2 mr-2 min-w-full lg:min-w-44 h-20 mb-2  ${
+                                                        item?.id ===
+                                                          dataNew?.locationId &&
+                                                        "bg-slate-300 "
+                                                      }`}
+                                                    >
+                                                      <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                                        <span className="-mt-px text-center">
+                                                          <p
+                                                            className={`text-center  text-xs text-slate-400  ${
+                                                              item?.id ===
+                                                                dataNew?.locationId &&
+                                                              "text-slate-500"
+                                                            }`}
+                                                          >
+                                                            {item?.name}
+                                                          </p>
+                                                        </span>
+                                                      </span>
+                                                    </Button>
+                                                  </>
+                                                ))}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      )}
+
+                                      {currentStep === 2 && (
+                                        <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                          <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                            <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
+                                              Seleccione el Curso
+                                            </h3>
+                                            {/* <div className="overflow-x-auto flex p-2"> */}
+                                            <div className="flex flex-row justify-start flex-wrap p-4">
+                                              {status === "loading" && (
+                                                <div className="flex justify-center items-center w-full h-12">
+                                                  <LoadingIcon
+                                                    color="#AE5EAB"
+                                                    icon="three-dots"
+                                                    className="w-10 h-10 mt-10"
+                                                  />
+                                                </div>
+                                              )}
+
+                                              {status === "idle" && (
                                                 <>
-                                                  <Button
-                                                    key={`${i}-LOCATIONS-USED`}
-                                                    onClick={(
-                                                      event: React.MouseEvent
-                                                    ) => {
-                                                      event.preventDefault();
-                                                      getCoursesByLocation(
-                                                        item?.id
-                                                      );
-                                                      setDataNew({
-                                                        ...dataNew,
-                                                        locationId: item?.id,
-                                                      });
-                                                      
-                                                      setValueEnrrollment({
-                                                        key:"enrollmentLocationName", 
-                                                        value:item?.name
-                                                      })
-                                                      dispatch(setStep(2))
-                                                    }}
-                                                    className={`shadow-none border m-0 p-2 mr-2 min-w-full lg:min-w-44 h-20 mb-2  ${
-                                                      item?.id ===
-                                                        dataNew?.locationId &&
-                                                      "bg-slate-300 "
-                                                    }`}
-                                                  >
-                                                    <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
-                                                      <span className="-mt-px text-center">
-                                                        <p
-                                                          className={`text-center  text-xs text-slate-400  ${
-                                                            item?.id ===
-                                                              dataNew?.locationId &&
-                                                            "text-slate-500"
+                                                  {Array.isArray(courses) &&
+                                                    courses.map(
+                                                      (schedule, i) => (
+                                                        <>
+                                                          <Button
+                                                            key={`${i}-SCHEDULES-`}
+                                                            onClick={(
+                                                              event: React.MouseEvent
+                                                            ) => {
+                                                              event.preventDefault();
+                                                              setDataNew({
+                                                                ...dataNew,
+                                                                courseId:
+                                                                  schedule?.id,
+                                                              });
+
+                                                              setValueEnrrollment(
+                                                                {
+                                                                  key: "enrollmentCourseId",
+                                                                  value:
+                                                                    schedule?.id,
+                                                                }
+                                                              );
+                                                              setValueEnrrollment(
+                                                                {
+                                                                  key: "enrollmentScheduleName",
+                                                                  value:
+                                                                    schedule?.title,
+                                                                }
+                                                              );
+                                                              dispatch(
+                                                                setStep(3)
+                                                              );
+
+                                                              // setScheduleFilter([...schedule?.schedules?.items])
+                                                              // setPackFilter([...schedule?.sessionTypes?.items])
+
+                                                              setCoursesFilter({
+                                                                ...coursesFilter,
+                                                                scheduleFilter:
+                                                                  [
+                                                                    ...schedule
+                                                                      ?.schedules
+                                                                      ?.items,
+                                                                  ],
+                                                                packFilter: [
+                                                                  ...schedule
+                                                                    ?.sessionTypes
+                                                                    ?.items,
+                                                                ],
+                                                              });
+                                                            }}
+                                                            className={`shadow-none border m-0 p-2 mr-2 min-w-full lg:min-w-44 h-14 mb-2  ${
+                                                              schedule?.id ===
+                                                                dataNew?.courseId &&
+                                                              "bg-purple-200"
+                                                            }`}
+                                                          >
+                                                            <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                                              <span className="-mt-px text-center">
+                                                                <p
+                                                                  className={`text-center  text-xs text-slate-400  ${
+                                                                    schedule?.id ===
+                                                                      dataNew?.scheduleId &&
+                                                                    "text-slate-600"
+                                                                  }`}
+                                                                >
+                                                                  {
+                                                                    schedule?.title
+                                                                  }
+                                                                </p>
+                                                              </span>
+                                                            </span>
+                                                          </Button>
+                                                          {/* <pre>{JSON.stringify(schedule, null, 2 )}</pre> */}
+                                                        </>
+                                                      )
+                                                    )}
+                                                </>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      )}
+                                      {currentStep === 3 && (
+                                        <>
+                                          <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                            <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                              <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
+                                                Seleccione el Horario
+                                              </h3>
+                                              <div className="overflow-x-auto flex p-2">
+                                                {/* <pre>{JSON.stringify(setPackFilter, null, 2 )}</pre> */}
+                                                {Array.isArray(
+                                                  coursesFilter?.scheduleFilter
+                                                ) &&
+                                                  coursesFilter?.scheduleFilter
+                                                    .length === 0 && (
+                                                    <p className="text-lg font-thin text-slate-400 text-center ">
+                                                      👻 Sin horarios
+                                                      disponibles ={" "}
+                                                      {scheduleFilter.length}
+                                                    </p>
+                                                  )}
+                                                {Array.isArray(
+                                                  coursesFilter?.scheduleFilter
+                                                ) &&
+                                                  coursesFilter?.scheduleFilter?.map(
+                                                    (schedule, i) => (
+                                                      <>
+                                                        <Button
+                                                          key={`${i}-SCHEDULES-`}
+                                                          onClick={(
+                                                            event: React.MouseEvent
+                                                          ) => {
+                                                            event.preventDefault();
+                                                            setDataNew({
+                                                              ...dataNew,
+                                                              scheduleId:
+                                                                schedule?.id,
+                                                            });
+                                                            setValueEnrrollment(
+                                                              {
+                                                                key: "enrollmentScheduleId",
+                                                                value:
+                                                                  schedule?.id,
+                                                              }
+                                                            );
+                                                            setValueEnrrollment(
+                                                              {
+                                                                key: "enrollmentCourseName",
+                                                                value: `${schedule?.day}-${schedule?.startHour}`,
+                                                              }
+                                                            );
+                                                          }}
+                                                          className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-44 h-14  ${
+                                                            schedule?.id ===
+                                                              dataNew?.scheduleId &&
+                                                            "bg-green-200"
                                                           }`}
                                                         >
-                                                          {item?.name}
-                                                        </p>
-                                                      </span>
-                                                    </span>
-                                                  </Button>
-                                                </>
-                                              ))}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    }
-
-                                    {currentStep === 2 &&
-                                      <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                        <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                                          <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
-                                            Seleccione el Curso
-                                          </h3>
-                                          {/* <div className="overflow-x-auto flex p-2"> */}
-                                          <div className="flex flex-row justify-start flex-wrap p-4">
-                                            {status === "loading" && (
-                                              <div className="flex justify-center items-center w-full h-12">
-                                                <LoadingIcon
-                                                  color="#AE5EAB"
-                                                  icon="three-dots"
-                                                  className="w-10 h-10 mt-10"
-                                                />
-                                              </div>
-                                            )}
-
-                                            {status === "idle" && (
-                                              <>
-                                                {Array.isArray(courses) &&
-                                                  courses.map((schedule, i) => (
-                                                    <>
-                                                      <Button
-                                                        key={`${i}-SCHEDULES-`}
-                                                        onClick={(
-                                                          event: React.MouseEvent
-                                                        ) => {
-                                                          event.preventDefault();
-                                                          setDataNew({
-                                                            ...dataNew,
-                                                            courseId:
-                                                              schedule?.id,
-                                                          });
-                                                         
-                                                          setValueEnrrollment({
-                                                            key:"enrollmentCourseId", 
-                                                            value:schedule?.id
-                                                          })
-                                                          setValueEnrrollment({
-                                                            key:"enrollmentScheduleName", 
-                                                            value:schedule?.title
-                                                          })
-                                                          dispatch(setStep(3))
-
-                                                          // setScheduleFilter([...schedule?.schedules?.items])
-                                                          // setPackFilter([...schedule?.sessionTypes?.items])
-
-                                                          setCoursesFilter({
-                                                            ...coursesFilter,
-                                                            scheduleFilter: [
-                                                              ...schedule?.schedules
-                                                                ?.items,
-                                                            ],
-                                                            packFilter: [
-                                                              ...schedule
-                                                                ?.sessionTypes
-                                                                ?.items,
-                                                            ],
-                                                          });
-                                                        }}
-                                                        className={`shadow-none border m-0 p-2 mr-2 min-w-full lg:min-w-44 h-14 mb-2  ${
-                                                          schedule?.id ===
-                                                            dataNew?.courseId &&
-                                                          "bg-purple-200"
-                                                        }`}
-                                                      >
-                                                        <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
-                                                          <span className="-mt-px text-center">
-                                                            <p
-                                                              className={`text-center  text-xs text-slate-400  ${
-                                                                schedule?.id ===
-                                                                  dataNew?.scheduleId &&
-                                                                "text-slate-600"
-                                                              }`}
-                                                            >
-                                                              {schedule?.title}
-                                                            </p>
+                                                          <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                                            <span className="-mt-px text-center">
+                                                              <p
+                                                                className={`text-center  text-xs text-slate-400  ${
+                                                                  schedule?.id ===
+                                                                    dataNew?.scheduleId &&
+                                                                  "text-slate-500"
+                                                                }`}
+                                                              >
+                                                                {schedule?.day}
+                                                              </p>
+                                                              <p
+                                                                className={`text-center  text-lg text-slate-400  ${
+                                                                  schedule?.id ===
+                                                                    dataNew?.scheduleId &&
+                                                                  "text-slate-500"
+                                                                }`}
+                                                              >
+                                                                {
+                                                                  schedule?.startHour
+                                                                }
+                                                              </p>
+                                                            </span>
                                                           </span>
-                                                        </span>
-                                                      </Button>
-                                                      {/* <pre>{JSON.stringify(schedule, null, 2 )}</pre> */}
-                                                    </>
-                                                  ))}
-                                              </>
-                                            )}
+                                                        </Button>
+                                                      </>
+                                                    )
+                                                  )}
+                                              </div>
+                                            </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                    } 
-                                    {currentStep === 3 &&
-                                    <>
-                                      <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                        <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                                          <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
-                                            Seleccione el Horario
-                                          </h3>
-                                          <div className="overflow-x-auto flex p-2">
-                                            {/* <pre>{JSON.stringify(setPackFilter, null, 2 )}</pre> */}
-                                            {Array.isArray(
-                                              coursesFilter?.scheduleFilter
-                                            ) &&
-                                              coursesFilter?.scheduleFilter
-                                                .length === 0 && (
-                                                <p className="text-lg font-thin text-slate-400 text-center ">
-                                                  👻 Sin horarios disponibles ={" "}
-                                                  {scheduleFilter.length}
-                                                </p>
-                                              )}
-                                            {Array.isArray(
-                                              coursesFilter?.scheduleFilter
-                                            ) &&
-                                              coursesFilter?.scheduleFilter?.map(
-                                                (schedule, i) => (
-                                                  <>
-                                                    <Button
-                                                      key={`${i}-SCHEDULES-`}
-                                                      onClick={(
-                                                        event: React.MouseEvent
-                                                      ) => {
-                                                        event.preventDefault();
-                                                        setDataNew({
-                                                          ...dataNew,
-                                                          scheduleId: schedule?.id,
-                                                        });
-                                                        setValueEnrrollment({
-                                                          key:"enrollmentScheduleId", 
-                                                          value:schedule?.id
-                                                        })
-                                                        setValueEnrrollment({
-                                                          key:"enrollmentCourseName", 
-                                                          value:`${schedule?.day}-${schedule?.startHour}`
-                                                        })
-                                                        
-                                                      }}
-                                                      className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-44 h-14  ${
-                                                        schedule?.id ===
-                                                          dataNew?.scheduleId &&
-                                                        "bg-green-200"
-                                                      }`}
-                                                    >
-                                                      <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
-                                                        <span className="-mt-px text-center">
-                                                          <p
-                                                            className={`text-center  text-xs text-slate-400  ${
-                                                              schedule?.id ===
-                                                                dataNew?.scheduleId &&
-                                                              "text-slate-500"
-                                                            }`}
-                                                          >
-                                                            {schedule?.day}
-                                                          </p>
-                                                          <p
-                                                            className={`text-center  text-lg text-slate-400  ${
-                                                              schedule?.id ===
-                                                                dataNew?.scheduleId &&
-                                                              "text-slate-500"
-                                                            }`}
-                                                          >
-                                                            {schedule?.startHour}
-                                                          </p>
-                                                        </span>
-                                                      </span>
-                                                    </Button>
-                                                  </>
-                                                )
-                                              )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                        <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                                          <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
-                                            Seleccione el Pack
-                                          </h3>
-                                          {/* <pre>{JSON.stringify(packFilter, null, 2 )}</pre> */}
-                                          <div className="overflow-x-auto flex p-2">
-                                            {Array.isArray(
-                                              coursesFilter?.packFilter
-                                            ) &&
-                                              coursesFilter?.packFilter.length ===
-                                                0 && (
-                                                <p className="text-lg font-thin text-slate-400 text-center ">
-                                                  👻 Sin horarios disponibles ={" "}
-                                                  {scheduleFilter.length}
-                                                </p>
-                                              )}
-                                            {/* {Array.isArray(
-                                              coursesFilter?.packFilter
-                                            ) &&
-                                              coursesFilter?.packFilter?.map */}
-                                              
-                                      {Array.isArray(coursesFilter?.packFilter) &&
-                                              [...coursesFilter?.packFilter]
-                                                .sort((a:any, b:any) => {
-                                                  // const ad = new Date(a.startDate);
-                                                  // const bd = new Date(b.startDate);
-                                                  // return ad > bd ? -1 : ad < bd ? 1 : 0;
-                                                  if (a.sessionType?.totalSessions !== b.sessionType?.totalSessions) {
-                                                    return a.sessionType?.totalSessions - b.sessionType?.totalSessions;
-                                                  }
-                                                  // Then sort by sessionType id
-                                                  return (a.sessionType?.id || '').localeCompare(b.sessionType?.id || '');
-                                                })
-                                                .map
-                                              (
-                                                (pack, i) => (
-                                                  <>
-                                                    <Button
-                                                      key={`${i}-PACK-`}
-                                                      onClick={(
-                                                        event: React.MouseEvent
-                                                      ) => {
-                                                        event.preventDefault();
-                                                        setDataNew({
-                                                          ...dataNew,
-                                                          packId:
-                                                            pack?.sessionType?.id,
-                                                        });
-                                                        setValueEnrrollment({
-                                                          key:"enrollmentSessionTypeId", 
-                                                          value:pack?.sessionType?.id
-                                                        })
-                                                        setValueEnrrollment({
-                                                          key:"enrollmentPackName", 
-                                                          value:`Pack ${pack?.sessionType?.totalSessions} clases`
-                                                        })
-                                                        dispatch(setStep(4))
-                                                      }}
-                                                      className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-44 h-20  ${
-                                                        pack?.sessionType?.id ===
-                                                          dataNew?.packId &&
-                                                        "bg-yellow-200"
-                                                      }`}
-                                                    >
-                                                      <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
-                                                        <span className="-mt-px text-center">
-                                                          <p
-                                                            className={`text-center  text-xs text-slate-400  ${
+                                          <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                            <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                              <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
+                                                Seleccione el Pack
+                                              </h3>
+                                              {/* <pre>{JSON.stringify(packFilter, null, 2 )}</pre> */}
+                                              <div className="overflow-x-auto flex p-2 px-5">
+                                                {Array.isArray(
+                                                  coursesFilter?.packFilter
+                                                ) &&
+                                                  coursesFilter?.packFilter
+                                                    .length === 0 && (
+                                                    <p className="text-lg font-thin text-slate-400 text-center ">
+                                                      👻 Sin horarios
+                                                      disponibles ={" "}
+                                                      {scheduleFilter.length}
+                                                    </p>
+                                                  )}
+                                                {Array.isArray(
+                                                  coursesFilter?.packFilter
+                                                ) &&
+                                                  [...coursesFilter?.packFilter]
+                                                    .sort((a: any, b: any) => {
+                                                      // const ad = new Date(a.startDate);
+                                                      // const bd = new Date(b.startDate);
+                                                      // return ad > bd ? -1 : ad < bd ? 1 : 0;
+                                                      if (
+                                                        a.sessionType
+                                                          ?.totalSessions !==
+                                                        b.sessionType
+                                                          ?.totalSessions
+                                                      ) {
+                                                        return (
+                                                          a.sessionType
+                                                            ?.totalSessions -
+                                                          b.sessionType
+                                                            ?.totalSessions
+                                                        );
+                                                      }
+                                                      // Then sort by sessionType id
+                                                      return (
+                                                        a.sessionType?.id || ""
+                                                      ).localeCompare(
+                                                        b.sessionType?.id || ""
+                                                      );
+                                                    })
+                                                    .map((pack, i) => (
+                                                      <>
+                                                        {/* <pre>{JSON.stringify(pack, null, 2 )}</pre> */}
+                                                        {pack?.sessionType
+                                                          ?.isActive ===
+                                                          true && (
+                                                          <Button
+                                                            key={`${i}-PACK-`}
+                                                            onClick={(
+                                                              event: React.MouseEvent
+                                                            ) => {
+                                                              event.preventDefault();
+                                                              setDataNew({
+                                                                ...dataNew,
+                                                                packId:
+                                                                  pack
+                                                                    ?.sessionType
+                                                                    ?.id,
+                                                              });
+                                                              setValueEnrrollment(
+                                                                {
+                                                                  key: "enrollmentSessionTypeId",
+                                                                  value:
+                                                                    pack
+                                                                      ?.sessionType
+                                                                      ?.id,
+                                                                }
+                                                              );
+                                                              setValueEnrrollment(
+                                                                {
+                                                                  key: "enrollmentPackName",
+                                                                  value: `Pack ${pack?.sessionType?.totalSessions} clases`,
+                                                                }
+                                                              );
+                                                              dispatch(
+                                                                setStep(4)
+                                                              );
+                                                            }}
+                                                            className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-44 h-20  ${
                                                               pack?.sessionType
                                                                 ?.id ===
                                                                 dataNew?.packId &&
-                                                              "text-slate-500"
-                                                            }`}
-                                                          > 
-                                                            {!pack?.sessionType?.id.includes("CAMBIO-SEDE") && "Pack"}
-                                                            {pack?.sessionType?.id.includes("CAMBIO-SEDE") &&  <span className="text-[.6rem] bg-slate-200 rounded-xl text-slate-800 font-thin  p-1">CAMBIO-SEDE</span>}
-                                                          </p>
-                                                          <p
-                                                            className={`text-center  text-lg text-slate-400  ${
-                                                              pack?.sessionType
-                                                                ?.id ===
-                                                                dataNew?.packId &&
-                                                              "text-slate-500"
+                                                              "bg-yellow-200"
                                                             }`}
                                                           >
-                                                            {
-                                                              pack?.sessionType
-                                                                ?.totalSessions
-                                                            }{" "}
-                                                            Clases
-                                                          </p>
-                                                          <p
-                                                            className={`text-center text-[.8rem] pt-2 text-slate-400  ${
-                                                              pack?.sessionType
-                                                                ?.id ===
-                                                                dataNew?.packId &&
-                                                              "text-slate-500"
-                                                            }`}
-                                                          >
-                                                            {"$ "}
-                                                            {
-                                                              pack?.sessionType
-                                                                ?.amount
-                                                            }
-                                                          </p>
-                                                          
-                                                        </span>
-                                                      </span>
-                                                    </Button>
-                                                  </>
-                                                )
-                                              )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                    }
+                                                            <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                                              <span className="-mt-px text-center">
+                                                                <p
+                                                                  className={`text-center  text-xs text-slate-400  ${
+                                                                    pack
+                                                                      ?.sessionType
+                                                                      ?.id ===
+                                                                      dataNew?.packId &&
+                                                                    "text-slate-500"
+                                                                  }`}
+                                                                >
+                                                                  {pack
+                                                                    ?.sessionType
+                                                                    ?.totalSessions <
+                                                                    9 && (
+                                                                    <span className="text-green-600/50">
+                                                                      MENSUAL
+                                                                    </span>
+                                                                  )}
+                                                                  {pack
+                                                                    ?.sessionType
+                                                                    ?.totalSessions ===
+                                                                    12 && (
+                                                                    <span className="text-purple-500 flex justify-center items-center">
+                                                                      {" "}
+                                                                      <Lucide
+                                                                        className="w-5 h-5 mr-2"
+                                                                        icon="Star"
+                                                                      />
+                                                                      TRIMESTRAL
+                                                                    </span>
+                                                                  )}
+                                                                  {pack
+                                                                    ?.sessionType
+                                                                    ?.totalSessions ===
+                                                                    24 && (
+                                                                    <span className="text-purple-500 flex justify-center items-center">
+                                                                      {" "}
+                                                                      <Lucide
+                                                                        className="w-5 h-5 mr-2"
+                                                                        icon="Star"
+                                                                      />
+                                                                      SEMESTRAL
+                                                                    </span>
+                                                                  )}
+                                                                  {/* {!pack?.sessionType?.id.includes("CAMBIO-SEDE") && "Pack"} */}
+                                                                  {/* {pack?.sessionType?.id.includes("CAMBIO-SEDE") &&  <span className="text-[.6rem] bg-slate-200 rounded-xl text-slate-800 font-thin  p-1">CAMBIO-SEDE</span>} */}
+                                                                </p>
 
-                                    {currentStep === 4 &&  
-                                      <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                        <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                                          <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
-                                            Fecha de Inicio
-                                          </h3>
-                                          {/* <pre>{JSON.stringify(packFilter, null, 2 )}</pre> */}
-                                          <div className="relative">
-                                            <Lucide
-                                              icon="Calendar"
-                                              className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
-                                            />
-                                            <Litepicker value={enrollmentStartDate} type="text" name="enrollmentStartDate" 
-                                              onChange={(e)=>setDate(e)}
-                                              options={{
-                                                autoApply: true,
-                                                showWeekNumbers: false,
-                                                dropdowns: {
-                                                  minYear: new Date().getFullYear() - 2,
-                                                  maxYear: new Date().getFullYear() + 1,
-                                                  months: true,
-                                                  years: true,
-                                                },
-                                              }}
-                                              className="px-6 py-3 pl-12 rounded-full mr-8 focus:z-10"
-                                            />    
+                                                                <p
+                                                                  className={`text-center  text-lg text-slate-400  ${
+                                                                    pack
+                                                                      ?.sessionType
+                                                                      ?.id ===
+                                                                      dataNew?.packId &&
+                                                                    "text-slate-500"
+                                                                  }
+                                                            ${
+                                                              pack?.sessionType
+                                                                ?.totalSessions >
+                                                                9 &&
+                                                              " text-purple-500"
+                                                            }
+                                                            `}
+                                                                >
+                                                                  {
+                                                                    pack
+                                                                      ?.sessionType
+                                                                      ?.totalSessions
+                                                                  }{" "}
+                                                                  Clases
+                                                                </p>
+                                                                <p
+                                                                  className={`text-center text-[.8rem] pt-2 text-slate-400  ${
+                                                                    pack
+                                                                      ?.sessionType
+                                                                      ?.id ===
+                                                                      dataNew?.packId &&
+                                                                    "text-slate-500"
+                                                                  }
+                                                            ${
+                                                              pack?.sessionType
+                                                                ?.totalSessions >
+                                                                9 &&
+                                                              " text-purple-500"
+                                                            }
+                                                            `}
+                                                                >
+                                                                  {"$ "}
+                                                                  {formatCurrency(
+                                                                    pack
+                                                                      ?.sessionType
+                                                                      ?.amount
+                                                                  )}
+                                                                </p>
+                                                              </span>
+                                                            </span>
+                                                          </Button>
+                                                        )}
+                                                      </>
+                                                    ))}
+                                              </div>
+                                            </div>
                                           </div>
-                                          {/* <div className="overflow-x-auto flex p-2">
+
+                                          {/* enrollmentPackName?: string
+enrollmentScheduleName?: string
+enrollmentCourseName?: string
+
+enrollmentSessionTypeId?: string
+enrollmentScheduleId?: string
+enrollmentCourseId?: string */}
+                                        </>
+                                      )}
+
+                                      {currentStep === 4 && (
+                                        <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                          <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                            <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
+                                              Fecha de Inicio
+                                            </h3>
+                                            {/* <pre>{JSON.stringify(packFilter, null, 2 )}</pre> */}
+                                            <div className="relative">
+                                              <Lucide
+                                                icon="Calendar"
+                                                className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
+                                              />
+                                              <Litepicker
+                                                value={enrollmentStartDate}
+                                                type="text"
+                                                name="enrollmentStartDate"
+                                                onChange={(e) => setDate(e)}
+                                                options={{
+                                                  autoApply: true,
+                                                  showWeekNumbers: false,
+                                                  dropdowns: {
+                                                    minYear:
+                                                      new Date().getFullYear() -
+                                                      2,
+                                                    maxYear:
+                                                      new Date().getFullYear() +
+                                                      1,
+                                                    months: true,
+                                                    years: true,
+                                                  },
+                                                }}
+                                                className="px-6 py-3 pl-12 rounded-full mr-8 focus:z-10"
+                                              />
+                                            </div>
+                                            {/* <div className="overflow-x-auto flex p-2">
                                           CALENDAR
                                           </div> */}
+                                            {/* <pre>
+                                              enrollmentSessionTypeId=
+                                              {JSON.stringify(
+                                                enrollmentSessionTypeId
+                                              )}
+                                            </pre> */}
+                                            {/* <div className="flex-col block pt-4 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                              <div className=" relative overflow-auto">
+                                                <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
+                                                  Matricula
+                                                </h3>
+                                                {!enrollmentSessionTypeId?.includes(
+                                                  "1-CLASE"
+                                                ) && (
+                                                  <div className="text-left p-2 px-5 mt-3">
+                                                    <Button
+                                                      onClick={(
+                                                        event: React.MouseEvent
+                                                      ) => {
+                                                        event.preventDefault();
+                                                        setDoesNotPayRegistration(!doesNotPayRegistration)
+                                                      }}
+                                                      
+                                                      className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-60 h-20  ${!doesNotPayRegistration ? " bg-slate-300":" bg-green-50"} `}
+                                                    >
+                                                      <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                                        <span className="-mt-px text-center">
+                                                          <p
+                                                            className={`text-center  text-xs text-slate-400  
+                                                    `}
+                                                          >
+                                                            <span className={` text-[.9rem] ${!doesNotPayRegistration ? " text-slate-500":" text-green-600/90"}`}>
+                                                              {doesNotPayRegistration ? "SE COBRARÁ MATRICULA": "NO APLICA"}
+                                                            </span>
+                                                          </p>
+                                                          <p
+                                                            className={`text-center text-[.8rem] pt-2 text-slate-400                                                             
+                                                  `}
+                                                          >
+                                                            {"$ 30.000"}
+                                                          </p>
+                                                        </span>
+                                                      </span>
+                                                    </Button>
+                                                  </div>
+                                                )}
+                                                {enrollmentSessionTypeId?.includes(
+                                                  "1-CLASE"
+                                                ) && (
+                                                  <>
+                                                    <Button
+                                                      onClick={(
+                                                        event: React.MouseEvent
+                                                      ) => {
+                                                        event.preventDefault();
+                                                      }}
+                                                      className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-44 h-20 bg-slate `}
+                                                    >
+                                                      <div className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                                        
+                                                        <p
+                                                          className={`text-center  text-xs text-green-600/90`}
+                                                        >
+                                                          APLICAR MATRICULA
+                                                        </p>
+                                                        <p
+                                                          className={`text-center text-[.8rem] pt-2 text-slate-400                                                             
+                                            `}
+                                                        >
+                                                          {"$ 30.000"}
+                                                        </p>
+                                                      </div>
+                                                    </Button>
+                                                    <Lucide
+                                                      icon="CheckCircle"
+                                                      className="text-success"
+                                                    />
+                                                  </>
+                                                )}
+                                              </div>
+                                            </div> */}
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+
+                                    {currentStep === 4 && (
+                                      <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                        <div className="flex-1 w-full mt-3 xl:mt-0">
+                                          <Button
+                                            key={`${"UPDATE_SESSION"}-span-buttons`}
+                                            rounded
+                                            variant="primary"
+                                            className={`w-full px-2 py-2  mx-2 font-light uppercase `}
+                                            onClick={() =>
+                                              setEnrollmentCourse()
+                                            }
+                                            disabled={isSaved.state}
+                                          >
+                                            {isSaved.state && (
+                                              <LoadingIcon
+                                                icon="puff"
+                                                color="#FFFFFF"
+                                                className="mr-2 w-8 h-8"
+                                              />
+                                            )}
+                                            Inscribir Curso
+                                          </Button>
                                         </div>
                                       </div>
-                                    }
-                                    
+                                    )}
+
+                                    {currentStep === 5 && (
+                                      <div className="flex-col block xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                        <div className="flex-1 w-full xl:mt-0">
+                                          <Step05Resume />
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
-
-                                  {currentStep === 4 &&  
-                                    <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                      <div className="flex-1 w-full mt-3 xl:mt-0">
-                                        <Button
-                                          key={`${"UPDATE_SESSION"}-span-buttons`}
-                                          rounded
-                                          variant="primary"
-                                          className={`w-full px-2 py-2  mx-2 font-light uppercase `}
-                                          onClick={()=>setEnrollmentCourse()}
-                                          disabled = {isSaved.state}
-                                        >
-                                          {isSaved.state && <LoadingIcon icon="puff" color="#FFFFFF" className="mr-2 w-8 h-8" />}
-                                          Inscribir Curso
-                                        </Button>
-                                      </div>
-                                    </div>
-                                  }
-                                  
-                                  {currentStep === 5 &&  
-                                    <div className="flex-col block xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                      <div className="flex-1 w-full xl:mt-0">
-                                        <Step05Resume/>
-                                      </div>
-                                    </div>
-                                  }
-                                  
                                 </div>
-                              {/* <p><pre>guardianId= {JSON.stringify(enrollment?.guardianId, null, 2 )}</pre></p>
-                              <p><pre>studentId = {JSON.stringify(enrollment?.studentId, null, 2 )}</pre></p>
-                              <p><pre>enrollmentStartDate = {JSON.stringify(enrollment?.enrollmentStartDate, null, 2 )}</pre></p>
-                              <p><pre>enrollmentSessionTypeId = {JSON.stringify(enrollment?.enrollmentSessionTypeId, null, 2 )}</pre></p>
-                              <p><pre>enrollmentScheduleId = {JSON.stringify(enrollment?.enrollmentScheduleId, null, 2 )}</pre></p>
-                              <p><pre>enrollmentCourseId = {JSON.stringify(enrollment?.enrollmentCourseId, null, 2 )}</pre></p>
-                              
-
-  
-                              <p><pre>enrollmentLocationName = {JSON.stringify(enrollment?.enrollmentLocationName, null, 2 )}</pre></p>
-                              <p><pre>enrollmentPackName = {JSON.stringify(enrollment?.enrollmentPackName, null, 2 )}</pre></p>
-                              <p><pre>enrollmentScheduleName = {JSON.stringify(enrollment?.enrollmentScheduleName, null, 2 )}</pre></p>
-                              <p><pre>enrollmentCourseName = {JSON.stringify(enrollment?.enrollmentCourseName, null, 2 )}</pre></p>
-                               */}
-                              
-                              
                               </div>
-
                             </div>
-                          </div>
-                            
-                            
                           </>
                         </Tab.Panel>
                         <Tab.Panel className="p-5 leading-relaxed"></Tab.Panel>
@@ -901,9 +1094,9 @@ function Main() {
                       </div>
                     </div>
                     <div className=" relative overflow-auto h-80 ">
-                    <div className="overflow-x-auto flex p-2">
-                      <ResumenTransactions userId={guardianId} />
-                    </div>
+                      <div className="overflow-x-auto flex p-2">
+                        <ResumenTransactions userId={guardianId} />
+                      </div>
                     </div>
                   </div>
                 </div>

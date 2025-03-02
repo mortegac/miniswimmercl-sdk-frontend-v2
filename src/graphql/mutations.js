@@ -1977,6 +1977,7 @@ export const createSessionType = /* GraphQL */ `
       timeAWeek
       totalSessions
       amount
+      isActive
       packValidity
       courses {
         nextToken
@@ -2005,6 +2006,7 @@ export const updateSessionType = /* GraphQL */ `
       timeAWeek
       totalSessions
       amount
+      isActive
       packValidity
       courses {
         nextToken
@@ -2033,6 +2035,7 @@ export const deleteSessionType = /* GraphQL */ `
       timeAWeek
       totalSessions
       amount
+      isActive
       packValidity
       courses {
         nextToken
@@ -2324,6 +2327,7 @@ export const createEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt
@@ -2443,6 +2447,7 @@ export const updateEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt
@@ -2562,6 +2567,7 @@ export const deleteEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt
@@ -4690,6 +4696,7 @@ export const createCourseSessionType = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt
@@ -4733,6 +4740,7 @@ export const updateCourseSessionType = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt
@@ -4776,6 +4784,7 @@ export const deleteCourseSessionType = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
+        isActive
         packValidity
         createdAt
         updatedAt

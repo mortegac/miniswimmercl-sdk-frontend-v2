@@ -108,6 +108,7 @@ type SessionType @model {
   timeAWeek: Float          # Cantidad de veces por semana contratadas
   totalSessions: Float        # Cantidad de sesiones
   amount: Float
+  isActive: Boolean @default(value: "false")
   packValidity: Int # Vigencia en dias el pack
   #Relations
   courses: [Course] @manyToMany(relationName: "CourseSessionType")
