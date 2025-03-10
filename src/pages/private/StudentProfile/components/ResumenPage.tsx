@@ -305,7 +305,7 @@ export function ResumenPage(props: any) {
                             return (
                               <>
                                 {/* {!item?.wasDeleted && */}
-                                <pre>vigencia = {JSON.stringify(vigencia, null, 2 )}</pre>
+                                {/* <pre>vigencia = {JSON.stringify(vigencia, null, 2 )}</pre> */}
                                 <div
                                   className={clsx([
                                     "mb-3 last:mb-0 relative",
