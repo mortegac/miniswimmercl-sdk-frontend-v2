@@ -37,13 +37,17 @@ import {
 import type { Location } from "@/stores/Locations/types";
 
 function formatDate(dateString: string): string {
+  const diasSemana = ['DOM', 'LUN', 'MAR', 'MIE', 'JUE', 'VIE', 'SAB'];
+                            
+  
   const date = new Date(dateString);
 
   const day = date.getUTCDate().toString().padStart(2, "0");
+  const dayText = diasSemana[date.getDay()];
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
   const year = date.getUTCFullYear();
 
-  return `${day}-${typeOfMonth[month]}`;
+  return `${dayText}, ${day}-${typeOfMonth[month]}`;
   // return `${day}-${typeOfMonth[month]}`;
   // return `${day}-${month}-${year}`;
 }
@@ -269,9 +273,21 @@ export function ResumenPage(props: any) {
                             return ad > bd ? -1 : ad < bd ? 1 : 0;
                           })
                           .map((item: any, index: number) => {
+                            let vigencia:string = "30 días";
+                            vigencia = item?.sessionDetails?.items[0]?.totalSessions === 4 ? "30 días": "0 días"
+                            vigencia = item?.sessionDetails?.items[0]?.totalSessions === 8 ? "45 días": "0 días"
+                            vigencia = item?.sessionDetails?.items[0]?.totalSessions === 12 ? "90 días": "0 días"
+                            vigencia = item?.sessionDetails?.items[0]?.totalSessions === 24 ? "180 días": "0 días"
+                            
+                            
+                            const sortedSessionsAsc = [...item?.sessionDetails?.items].sort((a, b) => {
+                              return new Date(a.date).getTime() - new Date(b.date).getTime();
+                            });
+                            
                             return (
                               <>
                                 {/* {!item?.wasDeleted && */}
+                                {/* <pre>{JSON.stringify(item?.sessionDetails?.items, null, 2 )}</pre> */}
                                 <div
                                   className={clsx([
                                     "mb-3 last:mb-0 relative",
@@ -394,6 +410,8 @@ export function ResumenPage(props: any) {
                                               locations,
                                               item?.course?.location?.id
                                             );
+                                            
+                                            
                                             onSendEmail({
                                               reply_to: "hola@miniswimmer.cl",
                                               enrollmentId: item?.id,
@@ -404,70 +422,102 @@ export function ResumenPage(props: any) {
                                                 item?.course?.title,
                                               to_schedule: `${item?.scheduleName} hrs`,
                                               to_session_1:
-                                                item?.sessionDetails?.items[0]
+                                                sortedSessionsAsc[0]
                                                   ?.date &&
                                                 formatDate(
-                                                  item?.sessionDetails?.items[0]
+                                                  sortedSessionsAsc[0]
                                                     .date
                                                 ),
                                               to_session_2:
-                                                item?.sessionDetails?.items[1]
+                                                sortedSessionsAsc[1]
                                                   ?.date &&
                                                 formatDate(
-                                                  item?.sessionDetails?.items[1]
+                                                  sortedSessionsAsc[1]
                                                     .date
                                                 ),
                                               to_session_3:
-                                                item?.sessionDetails?.items[2]
+                                                sortedSessionsAsc[2]
                                                   ?.date &&
                                                 formatDate(
-                                                  item?.sessionDetails?.items[2]
+                                                  sortedSessionsAsc[2]
                                                     .date
                                                 ),
                                               to_session_4:
-                                                item?.sessionDetails?.items[3]
+                                                sortedSessionsAsc[3]
                                                   ?.date &&
                                                 formatDate(
-                                                  item?.sessionDetails?.items[3]
+                                                  sortedSessionsAsc[3]
                                                     .date
                                                 ),
                                               to_session_5:
-                                                item?.sessionDetails?.items[4]
+                                                sortedSessionsAsc[4]
                                                   ?.date &&
                                                 formatDate(
-                                                  item?.sessionDetails?.items[4]
+                                                  sortedSessionsAsc[4]
                                                     .date
                                                 ),
                                               to_session_6:
-                                                item?.sessionDetails?.items[5]
+                                                sortedSessionsAsc[5]
                                                   ?.date &&
                                                 formatDate(
-                                                  item?.sessionDetails?.items[6]
+                                                  sortedSessionsAsc[5]
                                                     .date
                                                 ),
                                               to_session_7:
-                                                item?.sessionDetails?.items[7]
+                                                sortedSessionsAsc[6]
                                                   ?.date &&
                                                 formatDate(
-                                                  item?.sessionDetails?.items[7]
+                                                  sortedSessionsAsc[6]
                                                     .date
                                                 ),
                                               to_session_8:
-                                                item?.sessionDetails?.items[8]
+                                                sortedSessionsAsc[7]
                                                   ?.date &&
                                                 formatDate(
-                                                  item?.sessionDetails?.items[8]
+                                                  sortedSessionsAsc[7]
                                                     .date
                                                 ),
+                                              to_session_9:
+                                              sortedSessionsAsc[8]?.date && formatDate(sortedSessionsAsc[8].date),
+                                              to_session_10:
+                                              sortedSessionsAsc[9]?.date && formatDate(sortedSessionsAsc[9].date),
+                                              to_session_11:
+                                              sortedSessionsAsc[10]?.date && formatDate(sortedSessionsAsc[10].date),
+                                              to_session_12:
+                                              sortedSessionsAsc[11]?.date && formatDate(sortedSessionsAsc[11].date),
+                                              to_session_13:
+                                              sortedSessionsAsc[12]?.date && formatDate(sortedSessionsAsc[12].date),
+                                              to_session_14:
+                                              sortedSessionsAsc[13]?.date && formatDate(sortedSessionsAsc[13].date),
+                                              to_session_15:
+                                              sortedSessionsAsc[14]?.date && formatDate(sortedSessionsAsc[14].date),
+                                              to_session_16:
+                                              sortedSessionsAsc[15]?.date && formatDate(sortedSessionsAsc[15].date),
+                                              to_session_17:
+                                              sortedSessionsAsc[16]?.date && formatDate(sortedSessionsAsc[16].date),
+                                              to_session_18:
+                                              sortedSessionsAsc[17]?.date && formatDate(sortedSessionsAsc[17].date),
+                                              to_session_19:
+                                              sortedSessionsAsc[18]?.date && formatDate(sortedSessionsAsc[18].date),
+                                              to_session_20:
+                                              sortedSessionsAsc[19]?.date && formatDate(sortedSessionsAsc[19].date),
+                                              to_session_21:
+                                              sortedSessionsAsc[20]?.date && formatDate(sortedSessionsAsc[20].date),
+                                              to_session_22:
+                                              sortedSessionsAsc[21]?.date && formatDate(sortedSessionsAsc[21].date),
+                                              to_session_23:
+                                              sortedSessionsAsc[22]?.date && formatDate(sortedSessionsAsc[22].date),
+                                              to_session_24:
+                                              sortedSessionsAsc[23]?.date && formatDate(sortedSessionsAsc[23].date),
+                                              
+                                              
+                                              
                                               to_location:
                                                 item?.course?.location?.name,
                                               to_location_id:
                                                 item?.course?.location?.id,
-                                              to_pack_vigencia:
-                                                item?.sessionDetails?.items[0]
-                                                  ?.totalSessions === 8
-                                                  ? "45"
-                                                  : "30",
+                                              to_pack_vigencia:vigencia,
+                                                
                                               // to_pack_vigencia:item?.sessionType.totalSessions===8 ? "45":"30",
                                               to_mapurl: location?.urlMap || "",
                                               to_mapimage:
