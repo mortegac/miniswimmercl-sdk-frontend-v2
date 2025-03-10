@@ -273,11 +273,29 @@ export function ResumenPage(props: any) {
                             return ad > bd ? -1 : ad < bd ? 1 : 0;
                           })
                           .map((item: any, index: number) => {
-                            let vigencia:string = "30 días";
-                            vigencia = item?.sessionDetails?.items[0]?.totalSessions === 4 ? "30 días": "0 días"
-                            vigencia = item?.sessionDetails?.items[0]?.totalSessions === 8 ? "45 días": "0 días"
-                            vigencia = item?.sessionDetails?.items[0]?.totalSessions === 12 ? "90 días": "0 días"
-                            vigencia = item?.sessionDetails?.items[0]?.totalSessions === 24 ? "180 días": "0 días"
+                            const totalSessions = item?.sessionDetails?.items[0]?.totalSessions;
+                            let vigencia:string;
+                            switch (totalSessions) {
+                              case 1:
+                              case 4:
+                                vigencia = "30 días";
+                                break;
+                              case 8:
+                                vigencia = "45 días";
+                                break;
+                              case 12:
+                                vigencia = "90 días";
+                                break;
+                              case 24:
+                                vigencia = "180 días";
+                                break;
+                            }
+                            
+                            // vigencia = item?.sessionDetails?.items[0]?.totalSessions === 1 ? "30 días": "0 días"
+                            // vigencia = item?.sessionDetails?.items[0]?.totalSessions === 4 ? "30 días": "0 días"
+                            // vigencia = item?.sessionDetails?.items[0]?.totalSessions === 8 ? "45 días": "0 días"
+                            // vigencia = item?.sessionDetails?.items[0]?.totalSessions === 12 ? "90 días": "0 días"
+                            // vigencia = item?.sessionDetails?.items[0]?.totalSessions === 24 ? "180 días": "0 días"
                             
                             
                             const sortedSessionsAsc = [...item?.sessionDetails?.items].sort((a, b) => {
@@ -287,7 +305,7 @@ export function ResumenPage(props: any) {
                             return (
                               <>
                                 {/* {!item?.wasDeleted && */}
-                                {/* <pre>{JSON.stringify(item?.sessionDetails?.items, null, 2 )}</pre> */}
+                                <pre>vigencia = {JSON.stringify(vigencia, null, 2 )}</pre>
                                 <div
                                   className={clsx([
                                     "mb-3 last:mb-0 relative",

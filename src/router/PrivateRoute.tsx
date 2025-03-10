@@ -39,7 +39,8 @@ import {
 
   import Layout from "../themes";
   
-  const AdminStudents = lazy(() => import("../pages/private/StudentProfile"));
+  // const AdminStudents = lazy(() => import("../pages/private/StudentProfile"));
+  import AdminStudents from "../pages/private/StudentProfile";
   const Dashboard = lazy(() => import("../pages/private/Dashboard"));
   const Leads = lazy(() => import("../pages/private/Leads"));
   // const Students = lazy(() => import("../pages/private/Students"));
