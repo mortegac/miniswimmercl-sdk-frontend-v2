@@ -43,13 +43,11 @@ function formatDate(dateString: string): string {
   const date = new Date(dateString);
 
   const day = date.getUTCDate().toString().padStart(2, "0");
-  const dayText = diasSemana[date.getDay()];
+  const dayText = diasSemana[date.getUTCDay()];
   const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
   const year = date.getUTCFullYear();
 
   return `${dayText}, ${day}-${typeOfMonth[month]}`;
-  // return `${day}-${typeOfMonth[month]}`;
-  // return `${day}-${month}-${year}`;
 }
 
 export function ResumenPage(props: any) {
