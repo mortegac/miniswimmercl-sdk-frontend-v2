@@ -553,6 +553,7 @@ function Main() {
             }
                     return(  
                       <Fragment key={`${i}-SCHEDULES`}>
+                        <pre>{JSON.stringify(filteredStudents, null, 2 )}</pre>
                       { showLocationId &&
                         item?.courseId !== "SIN-CURSO" &&
                         <div className="flex flex-col mt-10">

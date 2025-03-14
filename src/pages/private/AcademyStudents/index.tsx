@@ -45,8 +45,11 @@ function Content(props: any) {
             <Tab.Panel className="leading-relaxed">
               <div key="ACADEMY-LIST" className="flex justify-start flex-row flex-wrap flex-1">
                 {Array.isArray(data) &&
-                  data.map((item: any, i: number) => item?.status === "CERTIFICATION_IN_PROGRESS" && <Card key={`${i}-ACADEMY-LOCATIONS`} student={item} />)}
+                  data.map((item: any, i: number) => item?.status === "CERTIFICATION_IN_PROGRESS" || item?.status === "WEB_FORM_ENTRY"  && <Card key={`${i}-ACADEMY-LOCATIONS`} student={item} />)}
               
+              {/* CERTIFICATION_COMPLETED
+  CERTIFICATION_IN_PROGRESS
+  WEB_FORM_ENTRY */}
                 
               </div>
 

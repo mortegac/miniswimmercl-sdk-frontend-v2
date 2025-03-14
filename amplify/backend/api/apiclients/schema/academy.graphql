@@ -27,7 +27,7 @@ type AcademyStudents @model {
 enum TypeStatus {
   CERTIFICATION_COMPLETED
   CERTIFICATION_IN_PROGRESS
-  
+  WEB_FORM_ENTRY
 }
 
 

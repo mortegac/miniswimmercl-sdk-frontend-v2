@@ -39,6 +39,7 @@ export const listSessionDetails = /* GraphQL */ `
         }
         __typename
         # enrollment{
+        #   wasPaid
         #   id
         #   startDate
         #   course{
@@ -52,6 +53,12 @@ export const listSessionDetails = /* GraphQL */ `
           lastName
           birthdate
           gender
+          enrollments{
+          items{
+            id
+            wasPaid
+          }
+        }
         }
       }
       nextToken
