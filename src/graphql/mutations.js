@@ -76,12 +76,14 @@ export const createAcademyStudents = /* GraphQL */ `
     createAcademyStudents(input: $input, condition: $condition) {
       id
       status
+      presence
       name
       urlImage
       email
       birthdate
       years
       address
+      country
       phone
       profession
       studiesRelated
@@ -126,12 +128,14 @@ export const updateAcademyStudents = /* GraphQL */ `
     updateAcademyStudents(input: $input, condition: $condition) {
       id
       status
+      presence
       name
       urlImage
       email
       birthdate
       years
       address
+      country
       phone
       profession
       studiesRelated
@@ -176,12 +180,14 @@ export const deleteAcademyStudents = /* GraphQL */ `
     deleteAcademyStudents(input: $input, condition: $condition) {
       id
       status
+      presence
       name
       urlImage
       email
       birthdate
       years
       address
+      country
       phone
       profession
       studiesRelated
@@ -232,12 +238,14 @@ export const createAcademyEnrollment = /* GraphQL */ `
       students {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated
@@ -300,12 +308,14 @@ export const updateAcademyEnrollment = /* GraphQL */ `
       students {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated
@@ -368,12 +378,14 @@ export const deleteAcademyEnrollment = /* GraphQL */ `
       students {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated
@@ -565,12 +577,14 @@ export const createCertificates = /* GraphQL */ `
       student {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated
@@ -623,12 +637,14 @@ export const updateCertificates = /* GraphQL */ `
       student {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated
@@ -681,12 +697,14 @@ export const deleteCertificates = /* GraphQL */ `
       student {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated

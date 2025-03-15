@@ -270,87 +270,7 @@ function Main() {
   
   return (
     <>
-      {/* <Slideover
-        size="xl"
-        key="Slide-Students"
-        open={switcherSlideStudent}
-        onClose={() => {
-          setSwitcherSlideStudent(false);
-        }}
-      >
-        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
-          <a
-            href=""
-            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
-            onClick={(e) => {
-              e.preventDefault();
-              setSwitcherSlideStudent(false);
-            }}
-          >
-            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
-          </a>
-          <Slideover.Description className="p-0">
-            <div className="flex flex-col">
-              <div className="px-8 pt-6 pb-8">
-                <div className="text-base font-medium">Busque al alumno para ver sus sesiones</div>
-              
-                <div className="flex flex-col items-startgap-y-2">
-              <div>
-                
-                <StudentList/>
-              </div>  
-              </div>  
-                
-              </div>
-            </div>
-          </Slideover.Description>
-        </Slideover.Panel>
-      </Slideover>
-      
-      
-      <Slideover
-        size="lg"
-        key="Slide-Historial"
-        open={switcherSlideSessions}
-        onClose={() => {
-          setSwitcherSlideSessions(false);
-        }}
-      >
-        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
-          <a
-            href=""
-            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
-            onClick={(e) => {
-              e.preventDefault();
-              setSwitcherSlideSessions(false);
-            }}
-          >
-            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
-          </a>
-          <Slideover.Description className="p-0">
-            <div className="flex flex-col">
-              <div className="px-8 pt-6 pb-8">
-                <div className="text-base font-medium">Detalle de sesiones</div>
-                
-                <div className="flex items-center mt-8">
-                  <IcoGender gender={dataStudent?.gender || ""}/>
-                  <div className="ml-3.5">
-                    <a href="" className="font-medium  text-xl">
-                      {dataStudent?.name || ""}{" "}{dataStudent?.lastName || ""}
-                    </a>
-
-                    <div className="mt-1 text-xs text-slate-500 ">
-                  
-                    <CalculateAge birthdate={String(dataStudent?.birthdate)} />
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-          </Slideover.Description>
-        </Slideover.Panel>
-      </Slideover> */}
+     
     {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre> */}
     {date?.locationId==="" && 
       <>
@@ -551,9 +471,11 @@ function Main() {
             if (showLocationId) {
               currentScheduleId = item.scheduleId;
             }
+            const filteredArray = item?.student?.enrollments?.items?.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId);
+
                     return(  
                       <Fragment key={`${i}-SCHEDULES`}>
-                        <pre>{JSON.stringify(filteredStudents, null, 2 )}</pre>
+                        {/* <pre>{JSON.stringify(filteredStudents, null, 2 )}</pre> */}
                       { showLocationId &&
                         item?.courseId !== "SIN-CURSO" &&
                         <div className="flex flex-col mt-10">
@@ -575,6 +497,7 @@ function Main() {
                             
                     <Table.Tr key={item.id} 
                     className={`box
+                      ${!filteredArray[0].wasPaid &&  "bg-red-300/50"}
                       ${atendanceId === item?.id && "bg-yellow-100"}
                       ${atendanceId !== item?.id && item?.status === "USED" && "bg-green-100"}
                       `}>                 
@@ -582,7 +505,15 @@ function Main() {
                       
                       <Table.Td className={`w-16`}>
                         <div className="flex items-center">
-                          <IcoGender gender={item?.student?.gender || ""}/>
+                          {/* <Button className="border-none" > */}
+                          <Link
+                              to="/admin-student"
+                              state={{ id: item?.student?.id }}
+                              // onClick={()=>simulateEscKey()}
+                              className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
+                            >
+                            <IcoGender gender={item?.student?.gender || ""}/>
+                            </Link>
                           <div className="ml-2">
                             <p className="font-medium  text-xl">
                               {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
@@ -594,11 +525,17 @@ function Main() {
                         </div>
                       </Table.Td>
                       <Table.Td className={``}>
-                        <div className="text-lg text-center">
+                        <div className="text-lg flex justify-center items-center flex-col">
+                        {!filteredArray[0].wasPaid && <span className="text-sm uppercase text-red-500 bg-red-50 py-2 px-2 rounded-full">
+                          Pendiente de Pago</span>}
+                        <p className="text-sm mt-2">
                           {item?.status === "RECOVERED" && "SESION RECUPERADA"}
                           {item?.status === "ACTIVE" && "VIGENTE"}
                           {item?.status === "USED" && "UTILIZADA"}
                           {item?.status === "DELETED" && "ELIMINADA"}
+                        </p>
+                          
+                          
                           <p className="text-xs font-thin" >{ formatDateToISOShort(new Date(item?.date))}</p>
                           { item?.locationId && item?.locationId !=="" && <>
                           
@@ -609,6 +546,16 @@ function Main() {
                         {/* <small>{item?.status}</small> */}
                         
                       </Table.Td>
+                      
+                      {/* <Table.Td className={`w-16`}>
+                       
+                            <pre>
+                              {item?.enrollmentSessionDetailsId}
+                              {JSON.stringify(filteredArray[0].wasPaid, null, 2 )}
+                            </pre>
+                       
+                      </Table.Td> */}
+                      
                       <Table.Td className={``}>
                       {item.status==="ACTIVE" &&
                       <div className="">

@@ -6,12 +6,14 @@ export const getAcademyStudents = /* GraphQL */ `
     getAcademyStudents(id: $id) {
       id
       status
+      presence
       name
       urlImage
       email
       birthdate
       years
       address
+      country
       phone
       profession
       studiesRelated
@@ -66,12 +68,14 @@ export const listAcademyStudents = /* GraphQL */ `
       items {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated
@@ -100,12 +104,14 @@ export const getAcademyEnrollment = /* GraphQL */ `
       students {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated
@@ -275,12 +281,14 @@ export const getCertificates = /* GraphQL */ `
       student {
         id
         status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated

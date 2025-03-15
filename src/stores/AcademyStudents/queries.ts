@@ -13,6 +13,7 @@ export const getAcademyStudents = /* GraphQL */ `
       medicalHistory
       emergencyContact
       isPaid
+      presence
       createdAt
       updatedAt
       __typename
@@ -50,6 +51,7 @@ export const listAcademyStudents = /* GraphQL */ `
         isPaid
         status
         isSponsored
+        presence
         createdAt
         updatedAt
         __typename

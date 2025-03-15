@@ -1,6 +1,13 @@
 
 
 
+export const typeOfPresence: any = {
+  [""]: "",
+  ["VIRTUAL"]: "CURSO ONLINE",
+  ["IN_PERSON"]: "CURSO PRESENCIAL",
+  ["HYBRID"]: "CURSO PRESENCIAL y ONLINE",
+};
+
 export const typeOfMonth: any = {
   [""]: "",
   ["01"]: "ENE",

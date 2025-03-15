@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useId } from "react";
 // import { Link } from "react-router-dom";
-import LoadingIcon from "@/components/Base/LoadingIcon";
-import Lucide from "@/components/Base/Lucide";
-import Button from "@/components/Base/Button";
+// import LoadingIcon from "@/components/Base/LoadingIcon";
+// import Lucide from "@/components/Base/Lucide";
+// import Button from "@/components/Base/Button";
 import Alert from "@/components/Base/Alert";
+import { typeOfPresence }  from "@/utils/dictionary";
 
 import { AcademyStudents } from "@/stores/AcademyStudents/types";
 
@@ -34,11 +35,16 @@ const Card: React.FC<Props> = ({ student }) => {
       <div key={`${id}-${student?.id}`} className={`w-[33%] px-2 py-2`}>
         <div className={`p-2 box h-[500px] cursor-pointer  ${student?.isPaid===false && student?.isSponsored === false && "bg-red-100/90"}`}>
           <div className="flex items-center justify-center my-2">
-            <div className="flex justify-between items-center flex-row  text-slate-500">
+            <div className="flex justify-between flex-col  items-center   text-slate-500">
               <h2 className="text-sm font-medium uppercase text-primary text-center">
                 {student?.name}{" "}
               </h2>
-            
+              <p className="text-right font-thin text-[0.7rem] my-2">
+                  <b className={` 
+                    ${student?.presence === "IN_PERSON" && "bg-slate-300"}
+                    ${student?.presence === "VIRTUAL" && "bg-pink-300"}
+                    ${student?.presence === "HYBRID" && "bg-blue-200"}
+                     py-1 px-2 rounded-full`}>{typeOfPresence[student?.presence || "'"]}</b></p>
             </div>
           </div>
 

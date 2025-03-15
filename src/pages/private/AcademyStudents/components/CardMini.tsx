@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useId } from "react";
 // import { Link } from "react-router-dom";
-import LoadingIcon from "@/components/Base/LoadingIcon";
-import Lucide from "@/components/Base/Lucide";
-import Button from "@/components/Base/Button";
+// import LoadingIcon from "@/components/Base/LoadingIcon";
+// import Lucide from "@/components/Base/Lucide";
+// import Button from "@/components/Base/Button";
 import Alert from "@/components/Base/Alert";
+
+import { typeOfPresence }  from "@/utils/dictionary";
 
 import { AcademyStudents } from "@/stores/AcademyStudents/types";
 
@@ -35,13 +37,21 @@ const CardMini: React.FC<Props> = ({ student }) => {
       <div key={`${id}-${student?.id}`} className={`w-[33%] px-2 py-2`}>
         <div className={`p-2 box h-[580px] cursor-pointer bg-white`}>
           <div className="flex items-center justify-center my-2">
-            <div className="flex justify-between items-center w-full flex-row  text-slate-500 pr-4">
-              <img src={student?.urlImage} className="rounded-full w-24 h-24 mr-8"/>              
-              <h2 className="text-sm font-medium uppercase text-primary text-left w-full">
-                {student?.name}{" "}
-              </h2>
-            
+            <div className="flex flex-col justify-center"> 
+              <div className="flex justify-between items-center w-full flex-row  text-slate-500 pr-4">
+                <img src={student?.urlImage} className="rounded-full w-24 h-24 mr-8"/>              
+                <h2 className="text-sm font-medium uppercase text-primary text-left w-full">
+                  {student?.name}{" "}
+                </h2>
+              </div>
+                <p className="text-right font-thin text-[0.7rem]">
+                  <b className={` 
+                    ${student?.presence === "IN_PERSON" && "bg-slate-300"}
+                    ${student?.presence === "VIRTUAL" && "bg-pink-300"}
+                    ${student?.presence === "HYBRID" && "bg-blue-200"}
+                     py-1 px-2 rounded-full`}>{typeOfPresence[student?.presence || "'"]}</b></p>
             </div>
+            
           </div>
 
           <div className="flex flex-row border-1">

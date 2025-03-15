@@ -361,23 +361,7 @@ function Main(props: MainProps) {
                     </div>
                   </div>
                   <div className="relative z-10 pb-1 mt-1 bg-white rounded-lg shadow-lg max-h-[468px] sm:max-h-[615px] overflow-y-auto">
-                    {students.length === 0 ? (
-                      <div className="flex flex-col items-center justify-center pt-20 pb-28">
-                        <Lucide
-                          icon="SearchX"
-                          className="w-20 h-20 text-theme-1/20 fill-theme-1/5 stroke-[0.5]"
-                        />
-                        <div className="mt-5 text-xl font-medium">
-                          No se encontrarón coincidencias
-                        </div>
-                        <div className="w-2/3 mt-3 leading-relaxed text-center text-slate-500">
-                        No se encontrarón coincidencias para{" "}
-                          <span className="italic font-medium">"{searchTermStudent}</span>
-                          ". Intente con un término de búsqueda diferente o verifique su ortografía.
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
+                  <div>
                         <div className="px-5 py-4">
                           <div className="flex items-center">
                             <div className="text-xs uppercase text-slate-500">
@@ -414,11 +398,11 @@ function Main(props: MainProps) {
                           </div>
                         </div>
                         <div className="px-5 py-4 border-t border-dashed">
-                          <div className="flex items-center">
+                          {/* <div className="flex items-center">
                             <div className="text-xs uppercase text-slate-500">
                             Alumnos
                             </div>
-                          </div>
+                          </div> */}
                           <div className="flex flex-col gap-1 mt-3.5">
                             
                             
@@ -437,12 +421,22 @@ function Main(props: MainProps) {
                           )}
                           
                           {whoFind==="students" && status === "idle" &&
+                          <>
+                          
+                            <h3 className="text-xs uppercase text-slate-500 mb-3">
+                            Alumnos
+                            </h3>
+                          
                             <StudentSearchList 
                               list={students} searchText={searchTermStudent}
                             />
+                          </>
                           }
                           {whoFind==="users" && status === "idle" &&
                           <>
+                          <h3 className="text-xs uppercase text-slate-500 mb-3">
+                            Apoderados
+                            </h3>
                             <ApoderadosSearchList 
                               list={apoderados} searchText={searchTermStudent}
                             />
@@ -451,53 +445,27 @@ function Main(props: MainProps) {
                           }
                           </div>
                         </div>
-                        {/* <div className="px-5 py-4 border-t border-dashed">
-                          <div className="flex items-center">
-                            <div className="text-xs uppercase text-slate-500">
-                              Apoderados
-                            </div>
-                            <a
-                              className="ml-auto text-xs text-slate-500"
-                              href=""
-                            >
-                              Ver Todos
-                            </a>
-                          </div>
-                          <div className="flex flex-col gap-1 mt-3.5">
-                            {_.take(departments.fakeDepartments(), 3).map(
-                              (faker, fakerKey) => (
-                                <a
-                                  href=""
-                                  key={fakerKey}
-                                  className="flex items-center gap-2.5 hover:bg-slate-50/80 border border-transparent hover:border-slate-100 p-1 rounded-md"
-                                >
-                                  <div className="flex items-center justify-center w-6 h-6 overflow-hidden border rounded-md zoom-in border-theme-1/10 box bg-theme-1/10">
-                                    {_.random(0, 1) ? (
-                                      <Lucide
-                                        icon="Store"
-                                        className="w-3.5 h-3.5 stroke-[1.3] text-theme-1"
-                                      />
-                                    ) : (
-                                      <Lucide
-                                        icon="Hotel"
-                                        className="w-3.5 h-3.5 stroke-[1.3] text-theme-1"
-                                      />
-                                    )}
-                                  </div>
-                                  <div className="font-medium truncate">
-                                    {faker.name}
-                                  </div>
-                                  <div className="hidden text-slate-500 sm:block">
-                                    {faker.location.name}
-                                  </div>
-                                </a>
-                              )
-                            )}
-                          </div>
-                        </div> */}
+                        
                        
                       </div>
-                    )}
+                    {/* {whoFind==="users" && students.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center pt-20 pb-28">
+                        <Lucide
+                          icon="SearchX"
+                          className="w-20 h-20 text-theme-1/20 fill-theme-1/5 stroke-[0.5]"
+                        />
+                        <div className="mt-5 text-xl font-medium">
+                          No se encontrarón coincidencias
+                        </div>
+                        <div className="w-2/3 mt-3 leading-relaxed text-center text-slate-500">
+                        No se encontrarón coincidencias para{" "}
+                          <span className="italic font-medium">"{searchTermStudent}</span>
+                          ". Intente con un término de búsqueda diferente o verifique su ortografía.
+                        </div>
+                      </div>
+                    ) : (
+                      null
+                    )} */}
                   </div>
                 </HeadlessDialog.Panel>
               </Transition.Child>
