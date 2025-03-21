@@ -784,6 +784,7 @@ export const createEmailSend = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -872,6 +873,7 @@ export const updateEmailSend = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -960,6 +962,7 @@ export const deleteEmailSend = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -1042,6 +1045,627 @@ export const deleteSentEmail = /* GraphQL */ `
       body
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const createEvaluationLevel = /* GraphQL */ `
+  mutation CreateEvaluationLevel(
+    $input: CreateEvaluationLevelInput!
+    $condition: ModelEvaluationLevelConditionInput
+  ) {
+    createEvaluationLevel(input: $input, condition: $condition) {
+      id
+      ico
+      name
+      description
+      startingAge
+      endingAge
+      order
+      evaluationObjectives {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateEvaluationLevel = /* GraphQL */ `
+  mutation UpdateEvaluationLevel(
+    $input: UpdateEvaluationLevelInput!
+    $condition: ModelEvaluationLevelConditionInput
+  ) {
+    updateEvaluationLevel(input: $input, condition: $condition) {
+      id
+      ico
+      name
+      description
+      startingAge
+      endingAge
+      order
+      evaluationObjectives {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteEvaluationLevel = /* GraphQL */ `
+  mutation DeleteEvaluationLevel(
+    $input: DeleteEvaluationLevelInput!
+    $condition: ModelEvaluationLevelConditionInput
+  ) {
+    deleteEvaluationLevel(input: $input, condition: $condition) {
+      id
+      ico
+      name
+      description
+      startingAge
+      endingAge
+      order
+      evaluationObjectives {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createEvaluationObjetives = /* GraphQL */ `
+  mutation CreateEvaluationObjetives(
+    $input: CreateEvaluationObjetivesInput!
+    $condition: ModelEvaluationObjetivesConditionInput
+  ) {
+    createEvaluationObjetives(input: $input, condition: $condition) {
+      id
+      texto
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const updateEvaluationObjetives = /* GraphQL */ `
+  mutation UpdateEvaluationObjetives(
+    $input: UpdateEvaluationObjetivesInput!
+    $condition: ModelEvaluationObjetivesConditionInput
+  ) {
+    updateEvaluationObjetives(input: $input, condition: $condition) {
+      id
+      texto
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const deleteEvaluationObjetives = /* GraphQL */ `
+  mutation DeleteEvaluationObjetives(
+    $input: DeleteEvaluationObjetivesInput!
+    $condition: ModelEvaluationObjetivesConditionInput
+  ) {
+    deleteEvaluationObjetives(input: $input, condition: $condition) {
+      id
+      texto
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const createStudentEvaluations = /* GraphQL */ `
+  mutation CreateStudentEvaluations(
+    $input: CreateStudentEvaluationsInput!
+    $condition: ModelStudentEvaluationsConditionInput
+  ) {
+    createStudentEvaluations(input: $input, condition: $condition) {
+      id
+      date
+      previousLevel
+      sessionsCarriedOut
+      age
+      wasApproved
+      observations
+      studentId
+      evaluationLevelId
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      userId
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelStudentEvaluationsId
+      studentStudentEvaluationsId
+      usersStudentEvaluationsId
+      __typename
+    }
+  }
+`;
+export const updateStudentEvaluations = /* GraphQL */ `
+  mutation UpdateStudentEvaluations(
+    $input: UpdateStudentEvaluationsInput!
+    $condition: ModelStudentEvaluationsConditionInput
+  ) {
+    updateStudentEvaluations(input: $input, condition: $condition) {
+      id
+      date
+      previousLevel
+      sessionsCarriedOut
+      age
+      wasApproved
+      observations
+      studentId
+      evaluationLevelId
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      userId
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelStudentEvaluationsId
+      studentStudentEvaluationsId
+      usersStudentEvaluationsId
+      __typename
+    }
+  }
+`;
+export const deleteStudentEvaluations = /* GraphQL */ `
+  mutation DeleteStudentEvaluations(
+    $input: DeleteStudentEvaluationsInput!
+    $condition: ModelStudentEvaluationsConditionInput
+  ) {
+    deleteStudentEvaluations(input: $input, condition: $condition) {
+      id
+      date
+      previousLevel
+      sessionsCarriedOut
+      age
+      wasApproved
+      observations
+      studentId
+      evaluationLevelId
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      userId
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelStudentEvaluationsId
+      studentStudentEvaluationsId
+      usersStudentEvaluationsId
+      __typename
+    }
+  }
+`;
+export const createStudentEvaluationsDetail = /* GraphQL */ `
+  mutation CreateStudentEvaluationsDetail(
+    $input: CreateStudentEvaluationsDetailInput!
+    $condition: ModelStudentEvaluationsDetailConditionInput
+  ) {
+    createStudentEvaluationsDetail(input: $input, condition: $condition) {
+      id
+      text
+      wasAchieved
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjective {
+        id
+        texto
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
+      studentStudentEvaluationsDetailsId
+      __typename
+    }
+  }
+`;
+export const updateStudentEvaluationsDetail = /* GraphQL */ `
+  mutation UpdateStudentEvaluationsDetail(
+    $input: UpdateStudentEvaluationsDetailInput!
+    $condition: ModelStudentEvaluationsDetailConditionInput
+  ) {
+    updateStudentEvaluationsDetail(input: $input, condition: $condition) {
+      id
+      text
+      wasAchieved
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjective {
+        id
+        texto
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
+      studentStudentEvaluationsDetailsId
+      __typename
+    }
+  }
+`;
+export const deleteStudentEvaluationsDetail = /* GraphQL */ `
+  mutation DeleteStudentEvaluationsDetail(
+    $input: DeleteStudentEvaluationsDetailInput!
+    $condition: ModelStudentEvaluationsDetailConditionInput
+  ) {
+    deleteStudentEvaluationsDetail(input: $input, condition: $condition) {
+      id
+      text
+      wasAchieved
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjective {
+        id
+        texto
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
+      studentStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -2131,6 +2755,14 @@ export const createStudent = /* GraphQL */ `
         nextToken
         __typename
       }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       studentSessionDetailId
@@ -2198,6 +2830,14 @@ export const updateStudent = /* GraphQL */ `
         __typename
       }
       supportTickets {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      studentEvaluationsDetails {
         nextToken
         __typename
       }
@@ -2271,6 +2911,14 @@ export const deleteStudent = /* GraphQL */ `
         nextToken
         __typename
       }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       studentSessionDetailId
@@ -2328,6 +2976,7 @@ export const createEnrollment = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2448,6 +3097,7 @@ export const updateEnrollment = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2568,6 +3218,7 @@ export const deleteEnrollment = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2907,6 +3558,7 @@ export const createSellersCommission = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2954,6 +3606,7 @@ export const updateSellersCommission = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3001,6 +3654,7 @@ export const deleteSellersCommission = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3045,6 +3699,7 @@ export const createShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3060,6 +3715,7 @@ export const createShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3115,6 +3771,7 @@ export const updateShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3130,6 +3787,7 @@ export const updateShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3185,6 +3843,7 @@ export const deleteShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3200,6 +3859,7 @@ export const deleteShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3934,6 +4594,7 @@ export const createPaymentTransactions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3997,6 +4658,7 @@ export const updatePaymentTransactions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4060,6 +4722,7 @@ export const deletePaymentTransactions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4099,6 +4762,7 @@ export const createUsers = /* GraphQL */ `
       email
       validated
       isEmployed
+      isAcademyStudent
       salesCommission
       contactPhone
       ig
@@ -4145,6 +4809,10 @@ export const createUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
         nextToken
         __typename
       }
@@ -4166,6 +4834,7 @@ export const updateUsers = /* GraphQL */ `
       email
       validated
       isEmployed
+      isAcademyStudent
       salesCommission
       contactPhone
       ig
@@ -4212,6 +4881,10 @@ export const updateUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
         nextToken
         __typename
       }
@@ -4233,6 +4906,7 @@ export const deleteUsers = /* GraphQL */ `
       email
       validated
       isEmployed
+      isAcademyStudent
       salesCommission
       contactPhone
       ig
@@ -4279,6 +4953,10 @@ export const deleteUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
         nextToken
         __typename
       }
@@ -4302,6 +4980,7 @@ export const createRelationship = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4357,6 +5036,7 @@ export const updateRelationship = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4412,6 +5092,7 @@ export const deleteRelationship = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4585,6 +5266,7 @@ export const createUserPermissions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4626,6 +5308,7 @@ export const updateUserPermissions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4667,6 +5350,7 @@ export const deleteUserPermissions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4847,6 +5531,7 @@ export const createTicketUser = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4895,6 +5580,7 @@ export const updateTicketUser = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4943,6 +5629,7 @@ export const deleteTicketUser = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig

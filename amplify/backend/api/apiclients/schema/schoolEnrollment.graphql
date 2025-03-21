@@ -34,6 +34,8 @@ type Student @model {
   emailSend: [EmailSend] @hasMany  # Email enviados al student
   supportTickets: [SupportTicket] @hasMany # Relación con SupportTicket
 
+  studentEvaluations: [StudentEvaluations] @hasMany # Evaluaciones del estudiante
+  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany # Detalle de las Evaluaciones del estudiante
 }
 
 

@@ -45,6 +45,24 @@ const Card: React.FC<Props> = ({ student }) => {
                     ${student?.presence === "VIRTUAL" && "bg-pink-300"}
                     ${student?.presence === "HYBRID" && "bg-blue-200"}
                      py-1 px-2 rounded-full`}>{typeOfPresence[student?.presence || "'"]}</b></p>
+                     <div className="flex flex-row justify-center items-center">
+                     <span className="text-3xl">
+                     {(() => {
+                      switch(student?.country) {
+                        case "Chile": return "🇨🇱";
+                        case "Colombia": return "🇨🇴";
+                        case "Perú": return "🇵🇪";
+                        case "Argentina": return "🇦🇷";
+                        case "Uruguay": return "🇨🇺";
+                        case "Venezuela": return "🇨🇻";
+                        default:
+                          return "";
+                      }
+                    })()}
+                     </span>
+                      <p className="text-sm ml-2">  {student?.country} </p>
+                     </div>
+                     
             </div>
           </div>
 

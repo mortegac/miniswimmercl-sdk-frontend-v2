@@ -704,6 +704,7 @@ export const onCreateEmailSend = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -791,6 +792,7 @@ export const onUpdateEmailSend = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -878,6 +880,7 @@ export const onDeleteEmailSend = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -957,6 +960,615 @@ export const onDeleteSentEmail = /* GraphQL */ `
       body
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateEvaluationLevel = /* GraphQL */ `
+  subscription OnCreateEvaluationLevel(
+    $filter: ModelSubscriptionEvaluationLevelFilterInput
+  ) {
+    onCreateEvaluationLevel(filter: $filter) {
+      id
+      ico
+      name
+      description
+      startingAge
+      endingAge
+      order
+      evaluationObjectives {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateEvaluationLevel = /* GraphQL */ `
+  subscription OnUpdateEvaluationLevel(
+    $filter: ModelSubscriptionEvaluationLevelFilterInput
+  ) {
+    onUpdateEvaluationLevel(filter: $filter) {
+      id
+      ico
+      name
+      description
+      startingAge
+      endingAge
+      order
+      evaluationObjectives {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteEvaluationLevel = /* GraphQL */ `
+  subscription OnDeleteEvaluationLevel(
+    $filter: ModelSubscriptionEvaluationLevelFilterInput
+  ) {
+    onDeleteEvaluationLevel(filter: $filter) {
+      id
+      ico
+      name
+      description
+      startingAge
+      endingAge
+      order
+      evaluationObjectives {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateEvaluationObjetives = /* GraphQL */ `
+  subscription OnCreateEvaluationObjetives(
+    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
+  ) {
+    onCreateEvaluationObjetives(filter: $filter) {
+      id
+      texto
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const onUpdateEvaluationObjetives = /* GraphQL */ `
+  subscription OnUpdateEvaluationObjetives(
+    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
+  ) {
+    onUpdateEvaluationObjetives(filter: $filter) {
+      id
+      texto
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const onDeleteEvaluationObjetives = /* GraphQL */ `
+  subscription OnDeleteEvaluationObjetives(
+    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
+  ) {
+    onDeleteEvaluationObjetives(filter: $filter) {
+      id
+      texto
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const onCreateStudentEvaluations = /* GraphQL */ `
+  subscription OnCreateStudentEvaluations(
+    $filter: ModelSubscriptionStudentEvaluationsFilterInput
+  ) {
+    onCreateStudentEvaluations(filter: $filter) {
+      id
+      date
+      previousLevel
+      sessionsCarriedOut
+      age
+      wasApproved
+      observations
+      studentId
+      evaluationLevelId
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      userId
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelStudentEvaluationsId
+      studentStudentEvaluationsId
+      usersStudentEvaluationsId
+      __typename
+    }
+  }
+`;
+export const onUpdateStudentEvaluations = /* GraphQL */ `
+  subscription OnUpdateStudentEvaluations(
+    $filter: ModelSubscriptionStudentEvaluationsFilterInput
+  ) {
+    onUpdateStudentEvaluations(filter: $filter) {
+      id
+      date
+      previousLevel
+      sessionsCarriedOut
+      age
+      wasApproved
+      observations
+      studentId
+      evaluationLevelId
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      userId
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelStudentEvaluationsId
+      studentStudentEvaluationsId
+      usersStudentEvaluationsId
+      __typename
+    }
+  }
+`;
+export const onDeleteStudentEvaluations = /* GraphQL */ `
+  subscription OnDeleteStudentEvaluations(
+    $filter: ModelSubscriptionStudentEvaluationsFilterInput
+  ) {
+    onDeleteStudentEvaluations(filter: $filter) {
+      id
+      date
+      previousLevel
+      sessionsCarriedOut
+      age
+      wasApproved
+      observations
+      studentId
+      evaluationLevelId
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      userId
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelStudentEvaluationsId
+      studentStudentEvaluationsId
+      usersStudentEvaluationsId
+      __typename
+    }
+  }
+`;
+export const onCreateStudentEvaluationsDetail = /* GraphQL */ `
+  subscription OnCreateStudentEvaluationsDetail(
+    $filter: ModelSubscriptionStudentEvaluationsDetailFilterInput
+  ) {
+    onCreateStudentEvaluationsDetail(filter: $filter) {
+      id
+      text
+      wasAchieved
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjective {
+        id
+        texto
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
+      studentStudentEvaluationsDetailsId
+      __typename
+    }
+  }
+`;
+export const onUpdateStudentEvaluationsDetail = /* GraphQL */ `
+  subscription OnUpdateStudentEvaluationsDetail(
+    $filter: ModelSubscriptionStudentEvaluationsDetailFilterInput
+  ) {
+    onUpdateStudentEvaluationsDetail(filter: $filter) {
+      id
+      text
+      wasAchieved
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjective {
+        id
+        texto
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
+      studentStudentEvaluationsDetailsId
+      __typename
+    }
+  }
+`;
+export const onDeleteStudentEvaluationsDetail = /* GraphQL */ `
+  subscription OnDeleteStudentEvaluationsDetail(
+    $filter: ModelSubscriptionStudentEvaluationsDetailFilterInput
+  ) {
+    onDeleteStudentEvaluationsDetail(filter: $filter) {
+      id
+      text
+      wasAchieved
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjective {
+        id
+        texto
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
+      studentStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -1977,6 +2589,14 @@ export const onCreateStudent = /* GraphQL */ `
         nextToken
         __typename
       }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       studentSessionDetailId
@@ -2041,6 +2661,14 @@ export const onUpdateStudent = /* GraphQL */ `
         __typename
       }
       supportTickets {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      studentEvaluationsDetails {
         nextToken
         __typename
       }
@@ -2111,6 +2739,14 @@ export const onDeleteStudent = /* GraphQL */ `
         nextToken
         __typename
       }
+      studentEvaluations {
+        nextToken
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       studentSessionDetailId
@@ -2167,6 +2803,7 @@ export const onCreateEnrollment = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2286,6 +2923,7 @@ export const onUpdateEnrollment = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2405,6 +3043,7 @@ export const onDeleteEnrollment = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2740,6 +3379,7 @@ export const onCreateSellersCommission = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2786,6 +3426,7 @@ export const onUpdateSellersCommission = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2832,6 +3473,7 @@ export const onDeleteSellersCommission = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2875,6 +3517,7 @@ export const onCreateShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2890,6 +3533,7 @@ export const onCreateShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2944,6 +3588,7 @@ export const onUpdateShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -2959,6 +3604,7 @@ export const onUpdateShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3013,6 +3659,7 @@ export const onDeleteShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3028,6 +3675,7 @@ export const onDeleteShoppingCart = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3731,6 +4379,7 @@ export const onCreatePaymentTransactions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3793,6 +4442,7 @@ export const onUpdatePaymentTransactions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3855,6 +4505,7 @@ export const onDeletePaymentTransactions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -3891,6 +4542,7 @@ export const onCreateUsers = /* GraphQL */ `
       email
       validated
       isEmployed
+      isAcademyStudent
       salesCommission
       contactPhone
       ig
@@ -3937,6 +4589,10 @@ export const onCreateUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
         nextToken
         __typename
       }
@@ -3955,6 +4611,7 @@ export const onUpdateUsers = /* GraphQL */ `
       email
       validated
       isEmployed
+      isAcademyStudent
       salesCommission
       contactPhone
       ig
@@ -4001,6 +4658,10 @@ export const onUpdateUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
         nextToken
         __typename
       }
@@ -4019,6 +4680,7 @@ export const onDeleteUsers = /* GraphQL */ `
       email
       validated
       isEmployed
+      isAcademyStudent
       salesCommission
       contactPhone
       ig
@@ -4065,6 +4727,10 @@ export const onDeleteUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      studentEvaluations {
         nextToken
         __typename
       }
@@ -4087,6 +4753,7 @@ export const onCreateRelationship = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4141,6 +4808,7 @@ export const onUpdateRelationship = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4195,6 +4863,7 @@ export const onDeleteRelationship = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4364,6 +5033,7 @@ export const onCreateUserPermissions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4404,6 +5074,7 @@ export const onUpdateUserPermissions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4444,6 +5115,7 @@ export const onDeleteUserPermissions = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4620,6 +5292,7 @@ export const onCreateTicketUser = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4667,6 +5340,7 @@ export const onUpdateTicketUser = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig
@@ -4714,6 +5388,7 @@ export const onDeleteTicketUser = /* GraphQL */ `
         email
         validated
         isEmployed
+        isAcademyStudent
         salesCommission
         contactPhone
         ig

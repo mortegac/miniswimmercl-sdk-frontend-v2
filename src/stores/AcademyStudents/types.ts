@@ -7,6 +7,7 @@ export type AcademyStudents = {
   birthdate: string;
   years: number
   address: string;
+  country: string;
   phone: string;
   profession: string;
   studiesRelated: string;
@@ -26,6 +27,7 @@ export const emptyAcademyStudents: AcademyStudents = {
   birthdate:  "",
   years: 0,
   address:  "",
+  country:  "",
   phone:  "",
   profession:  "",
   studiesRelated:  "",

@@ -37,24 +37,25 @@ export const listAcademyStudents = /* GraphQL */ `
     ) {
       items {
         id
+        status
+        presence
         name
         urlImage
         email
         birthdate
         years
         address
+        country
         phone
         profession
         studiesRelated
         medicalHistory
         emergencyContact
         isPaid
-        status
         isSponsored
-        presence
         createdAt
         updatedAt
-        __typename
+        academyStudentsCertificateId
       }
       nextToken
       __typename

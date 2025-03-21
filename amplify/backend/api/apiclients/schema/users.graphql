@@ -7,6 +7,7 @@ type Users @model {
   email: String!
   validated: Boolean
   isEmployed: Boolean @default(value: "false")  # Es empleado
+  isAcademyStudent: Boolean @default(value: "false")  # Es Estudiante de la academia 
   salesCommission: Float @default(value: "0")  # Porcenta de comision por venta
   contactPhone: String @default(value: "")
   ig: String @default(value: "")
@@ -18,7 +19,6 @@ type Users @model {
   
   tickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
   
-  # userTickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
   roles: Roles @hasOne
   userPermissions: [Permissions] @manyToMany(relationName: "UserPermissions")
   shoppingCart: [ShoppingCart] @hasMany  # Carros de compra asociadas 
@@ -26,6 +26,8 @@ type Users @model {
   paymentTransactions: [PaymentTransactions] @hasMany  # Transacciones webpay asociadas 
   sellersCommissions: [SellersCommission] @hasMany     # Comisiones por ventas
   enrollments: [Enrollment] @hasMany
+  
+  studentEvaluations: [StudentEvaluations] @hasMany
 }
 
 

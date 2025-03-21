@@ -1,0 +1,75 @@
+################################
+# EVALUACIONES NINOS
+################################
+
+
+# type Users @model {
+#   id: ID! @primaryKey
+#   studentEvaluations: [StudentEvaluations] @hasMany
+# }
+
+
+type EvaluationLevel @model {
+  id: ID! @primaryKey
+  ico: String
+  name: String
+  description: String
+  startingAge: Float
+  endingAge: Float
+  order: Int
+  
+  #Relations
+  evaluationObjectives: [EvaluationObjetives] @hasMany
+  studentEvaluations: [StudentEvaluations] @hasMany
+  
+ # Relación con Users
+  
+}
+
+type EvaluationObjetives @model {
+  id: ID! @primaryKey
+  texto: String
+  evaluationLevel: EvaluationLevel @belongsTo
+  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+}
+
+# type Student @model {
+#   id: ID! @primaryKey
+#   studentEvaluations: [StudentEvaluations] @hasMany
+#   studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+# }
+
+type StudentEvaluations @model {
+  id: ID! @primaryKey
+  date: AWSDateTime
+  previousLevel: String
+  sessionsCarriedOut: Int
+  age: Float
+  wasApproved: Boolean
+  observations: String
+  
+  # Relations
+  studentId: ID!
+  evaluationLevelId: ID!
+  
+  student: Student @belongsTo(fields: ["studentId"])
+  evaluationLevel: EvaluationLevel @belongsTo(fields: ["evaluationLevelId"])
+  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+  
+  userId: ID!  # Clave foránea para Users
+  user: Users @belongsTo(fields: ["userId"]) 
+  # user: Users @belongsTo(fields: ["userId"])
+  # student: Student @belongsTo
+  # user: Users @belongsTo
+  # evaluationLevel: EvaluationLevel @belongsTo
+  # studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+}
+
+type StudentEvaluationsDetail @model {
+  id: ID! @primaryKey
+  text: String
+  wasAchieved: Boolean
+  student: Student @belongsTo
+  studentEvaluation: StudentEvaluations @belongsTo
+  evaluationObjective: EvaluationObjetives @belongsTo
+}
