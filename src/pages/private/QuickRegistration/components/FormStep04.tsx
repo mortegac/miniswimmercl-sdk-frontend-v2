@@ -1,18 +1,20 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import * as jose from 'jose';
 
-import Lucide from "@/components/Base/Lucide";
-import Button from "@/components/Base/Button";
-import LoadingIcon from "@/components/Base/LoadingIcon";
-import { HeaderTitle } from "./HeaderTitle";
-import CardCourses from "./CardCourses";
+// import Lucide from "@/components/Base/Lucide";
+// import Button from "@/components/Base/Button";
+// import LoadingIcon from "@/components/Base/LoadingIcon";
+// import { HeaderTitle } from "./HeaderTitle";
+// import CardCourses from "./CardCourses";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { selectCourse, getCourses} from "@/stores/Courses/slice";
+// import { selectCourse, getCourses} from "@/stores/Courses/slice";
 import { selectEnrollment, setDataUser, increment, cleanData} from "@/stores/Enrollment/slice";
 
 
 export const FormStep04 = ({ onChangeSetStore }: any) => {
+  const textToCopy = "Este texto será copiado al portapapeles";
+  
   const [JWT, setJWT] = useState("")
   const {enrollment, sessions, cartId}= useAppSelector(selectEnrollment);
   const {
@@ -34,16 +36,6 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
   } = enrollment;
   
   
-  
-
-  // const payload: any = {
-  //   "sub": "1234567890",
-  //   "iat": 1516239022
-  // }
-  // const claims:any = jose.decodeJwt(JWT)
-  
-  // const {courses, status } = useAppSelector(selectCourse);
-  // const dispatch = useAppDispatch();
   const secretKey = new TextEncoder().encode(
     'tu_clave_secreta_super_segura_min_32_caracteres'
   );
@@ -149,6 +141,7 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
               <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
             </div>
 
+
             {/* STEP 03 - CURSOS / HORARIOS */}
             <div className="flex flex-col mb-4 ">
               <h3 className="text-xl font-medium text-primary">
@@ -159,18 +152,15 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
               {"Horario clases:"} <b className="uppercase">{enrollmentScheduleName}</b>
               </span>
               
-              {Array.isArray(sessions ) &&
-              sessions.map((item: any, i: number) => 
-              // <pre>{JSON.stringify(item, null, 2 )}</pre>
+              {/* {Array.isArray(sessions ) &&
+              sessions.map((item: any, i: number) =>
               <span className="text-base font-light mt-2  text-primary m-4">
               {`Sesión ${item?.sessionNumber}:`} <b>{item?.date}</b> <i className="ml-4 rounded-full px-4 py-2 bg-slate-200 text-slate-500">{item?.locationId}</i>
               </span>
-              )}
+              )} */}
               
               <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
-              <div className="font-light text-base text-slate-500 text-left ">
-            
-            </div>
+              <div className="font-light text-base text-slate-500 text-left "> </div>
               
          
 
@@ -183,15 +173,15 @@ export const FormStep04 = ({ onChangeSetStore }: any) => {
               <h3 className="text-xl font-medium text-primary">
                 {"Link de pago"}
               </h3>
-             
+{/*              
               <span className="text-base font-light mt-2  text-primary">
               {"Id Carro:"} <b>{cartId}</b>
-              </span>
+              </span> */}
               <span className="text-base font-light overflow-auto text-primary mt-8 border border-primary p-4 rounded-xl bg-purple-100">
               {
                 cartId &&
                   <a target="_blank" href={`https://pagos.miniswimmer.cl/${JWT}`}>
-                    {`https://pagos.miniswimmer.cl/${JWT}`}
+                    {`Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}   El link de pago tiene una vigencia de 48 horas.`}
                   </a>
               }
               </span>

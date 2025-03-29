@@ -4,6 +4,7 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import './phone.css'
 
+import CopyButton from '@/components/CopyButton';
 import { FormInput, FormSelect, FormTextarea } from "@/components/Base/Form";
 
 import Lucide from "@/components/Base/Lucide";
@@ -30,6 +31,15 @@ function SendJwtWhatsapp(props: any) {
   const [clientPhoneNumber, setClientPhoneNumber] = useState(props?.phoneNumber || "");
 
   const dispatch = useAppDispatch();
+  
+  
+  const paymentLink:string = `Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${props?.JWT}.   El link de pago tiene una vigencia de 48 horas.`;
+  const sessionsDetail:string = `${clientName}, hemos realizado su inscripción 🎉 en el *curso ${courseName} en la sede ${locationName}*, \ncon las siguientes fechas agendadas:
+                    ${props?.sessions?.map((item:any, i:number) => {
+                      const [day, month] = item?.date.replace(/\s/g, '').split('-');
+                      return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${day}-${typeOfMonth[month]}`;
+                    }).join('\n')}
+                    `;
   
   
   function cleanPhoneNumber(phone:string) {
@@ -242,18 +252,41 @@ function SendJwtWhatsapp(props: any) {
               <>
                
                 <div className="relative mt-3">
-                  <span className="font-thin mb-2">Se enviará el siguiente mensaje: </span>
+                  <div className="flex justify-start items-center mb-2">
+                    <CopyButton 
+                    text={sessionsDetail || ""} 
+                    buttonText="" 
+                    successMessage=""
+                    />
+                    <span className="font-thin ml-4">Mensaje con el detalle del curso: </span>
+                    
+                  </div>
                   <FormTextarea
                     disabled
                     rows={8}
                     cols={2}
                     placeholder="Mensaje"
-                    value={`${clientName}, hemos realizado su inscripción 🎉 en el *curso ${courseName} en la sede ${locationName}*, \ncon las siguientes fechas agendadas:
-                    ${props?.sessions?.map((item:any, i:number) => {
-                      const [day, month] = item?.date.replace(/\s/g, '').split('-');
-                      return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${day}-${typeOfMonth[month]}`;
-                    }).join('\n')}
-                    `}
+                    value={`${sessionsDetail}`}
+                    className="sm:py-3"
+                    />
+                </div>
+                <div className="relative mt-3">
+                <div className="flex justify-start items-center mb-2">
+                    <CopyButton 
+                    text={paymentLink || ""} 
+                    buttonText="" 
+                    successMessage=""
+                    />
+                    <span className="font-thin ml-4">Mensaje con link de pago: </span>
+                    
+                  </div>
+ 
+                  <FormTextarea
+                    disabled
+                    rows={5}
+                    cols={2}
+                    placeholder="Mensaje"
+                    value={`${paymentLink}`}
                     className="sm:py-3"
                   />
                 </div>
@@ -319,14 +352,7 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
   
   const courseDay = enrollmentCourseName?.split('-') || [];
 
-  // const payload: any = {
-  //   "sub": "1234567890",
-  //   "iat": 1516239022
-  // }
-  // const claims:any = jose.decodeJwt(JWT)
-  
-  // const {courses, status } = useAppSelector(selectCourse);
-  // const dispatch = useAppDispatch();
+
   const secretKey = new TextEncoder().encode(
     'tu_clave_secreta_super_segura_min_32_caracteres'
   );
@@ -351,21 +377,9 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
   
   
   useEffect(() => { (async () => {
-    // const secret = jose.base64url.decode('zH4NRP1HMALxxCFnRZABFA7GOJtzU_gIj02alfL1lvI')
-    await createJWT()
-    // const jwt = await new jose.EncryptJWT({
-    //   "sub": cartId,
-    //   "iat": 1516239022
-    // })
-    //   .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
-    //   .setIssuedAt()
-    //   .setIssuer('urn:example:issuer')
-    //   .setAudience('urn:example:audience')
-    //   .setExpirationTime('2d')
-    //   .encrypt(secret)
 
-    // console.log(jwt)
-    
+    await createJWT()
+   
   })(); }, [cartId]);
   
   return (
@@ -384,9 +398,9 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
 
             {/* STEP 03 - CURSOS / HORARIOS */}
             <div className="flex flex-col mb-4 ">
-              <h3 className="text-sm font-medium text-primary">
+              {/* <h3 className="text-sm font-medium text-primary">
                 {"Sede:"}
-              </h3>
+              </h3> */}
               <h3 className="text-sm font-medium text-primary">
                 {"Se detallan las fechas agendadas:"}
               </h3>
@@ -399,23 +413,24 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
               return <span className="text-base font-light mt-2  text-primary m-4">
                 {`- (${item?.sesionNumber || "0"}) `}
                 <b><span className="uppercase">{courseDay[0] || ""}</span> {date[0]} {typeOfMonth[date[1]]}</b>
-                {/* <i className="ml-4 rounded-full px-4 py-2 bg-slate-200 text-slate-500">
-                  {item?.locationId}
-                </i> */}
               </span>
               }
               )}
               
+              {!cartId && "No existe el carro de compra"}
+              {/* <h1>cartId={cartId}</h1>
+              <h1>JWT={JWT}</h1> */}
               <SendJwtWhatsapp 
-              cartId={""} 
-              clientId={guardianId} 
-              phoneNumber={guardianPhone}
-              sessions={sessions} 
-              clientName={guardianName}
-              courseDay={courseDay[0]}
-              courseName={String(enrollment.enrollmentCourseName).toUpperCase()}
-              locationName={String(enrollment.enrollmentLocationName).toUpperCase()}
-            />
+                cartId={""} 
+                clientId={guardianId} 
+                phoneNumber={guardianPhone}
+                sessions={sessions} 
+                clientName={guardianName}
+                courseDay={courseDay[0]}
+                courseName={String(enrollment.enrollmentCourseName).toUpperCase()}
+                locationName={String(enrollment.enrollmentLocationName).toUpperCase()}
+                JWT={JWT}
+              />
               
               <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
               <div className="font-light text-base text-slate-500 text-left ">
@@ -429,7 +444,7 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
             </div>
             
             {/* STEP 04 - CARRO DE COMPRAS */}
-            <div className="flex flex-col mb-20 ">
+            {/* <div className="flex flex-col mb-20 ">
               <h3 className="text-xl font-medium text-primary">
                 {"Link de pago"}
               </h3>
@@ -441,46 +456,16 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
               {
                 cartId &&
                   <a target="_blank" href={`https://pagos.miniswimmer.cl/${JWT}`}>
-                    {`https://pagos.miniswimmer.cl/${JWT}`}
+                    {
+                    `Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}   El link de pago tiene una vigencia de 48 horas.`
+                    }
                   </a>
               }
               </span>
-              
-{/*              
-             
-            
-              <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
-              <div className="font-light text-base text-slate-500 text-left ">
-            
             </div>
-               */}
-            
-              
-         
+             */}
 
-              
-              
-            </div>
-            
-
-
-          {/* </div> */}
         </div>
-          {/* <div className="flex justify-center items-center flex-col mt-8">
-            
-            <h4 className="mb-4 font-thin text-xl">Presione el botón para continuar con su oferta</h4>
-            <Button
-                rounded
-                variant="primary"
-                className="w-[60%] py-3 uppercase mr-2"
-                disabled={statusRequest === "loading" && false}
-              >
-                <span className="flex flex-row justify-center items-center">
-                  <Lucide icon={`${canBecreateEconomic ? "Check" : "X"}`} className={`w-6 h-6 mr-2 ${canBecreateEconomic ? "text-white": "text-red-300"}`} />
-                  <span className={`px-4 py-3 text-xl`}>Enviar Email</span>
-                </span>
-              </Button>
-          </div> */}
       </div>
     </>
   );

@@ -152,23 +152,41 @@ export function CartDetail(props: any) {
                   shoppingCartId:cartId 
                 })}  variant="soft-pending" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(30000))}</span><span className="text-[.7rem]">Matricula</span>
             </Button>
+                <Button 
+                  onClick={()=>
+                    generateDisscount({ 
+                      type:"DISCOUNT", 
+                      amount:-1 * Number(Math.round(Number(total) * 0.10)), 
+                      detail:"Descuento",  
+                      shoppingCartId:cartId 
+                    })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.10)))}</span><span className="text-[.7rem]">Descuento 10%</span>
+                </Button>
             <Button 
               onClick={()=>
                 generateDisscount({ 
                   type:"DISCOUNT", 
-                  amount:-1 * Number(Math.round(Number(total) * 0.10)), 
+                  amount:-1 * Number(Math.round(Number(total) * 0.20)), 
                   detail:"Descuento",  
                   shoppingCartId:cartId 
-                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.10)))}</span><span className="text-[.7rem]">Descuento 10%</span>
+                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.20)))}</span><span className="text-[.7rem]">Descuento 20%</span>
             </Button>
             <Button 
+              onClick={()=>
+                generateDisscount({ 
+                  type:"DISCOUNT", 
+                  amount:-1 * Number(Math.round(Number(total) * 0.30)), 
+                  detail:"Descuento",  
+                  shoppingCartId:cartId 
+                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.30)))}</span><span className="text-[.7rem]">Descuento 30%</span>
+            </Button>
+            {/* <Button 
               onClick={()=>
                 generateDisscount({ 
                   type:"DISCOUNT", 
                   amount:-1 * Number(16800), 
                   detail:"Descuento pack",  
                   shoppingCartId:cartId 
-                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ 16.800</span><span className="text-[.7rem]">Pack 8 Sesiones</span></Button>
+                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ 16.800</span><span className="text-[.7rem]">Pack 8 Sesiones</span></Button> */}
             <Button 
               onClick={()=>
                 generateDisscount({ 
@@ -176,7 +194,7 @@ export function CartDetail(props: any) {
                   amount:-1 * Number(20000), 
                   detail:"Descuento pack Premium", 
                   shoppingCartId:cartId 
-                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ 20.000</span><span className="text-[.7rem]">Pack 8 Sesiones Premium</span>
+                })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ 20.000</span><span className="text-[.7rem]">Descuento Pack 8 Sesiones</span>
             </Button>
           </div>
         </div>

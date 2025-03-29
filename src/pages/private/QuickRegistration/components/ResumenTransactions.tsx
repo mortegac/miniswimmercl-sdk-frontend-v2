@@ -130,12 +130,12 @@ export function ResumenTransactions(props:any) {
                   <p className="mr-4 mt-2 text-right">
                     <span className="">Total {"$ "}{formatCurrency(total)}</span>
                   </p>
-                  <div className=" -mx-4 mt-6 pt-4  border-t-dashed border-t-4 ">
+                  {/* <div className=" -mx-4 mt-6 pt-4  border-t-dashed border-t-4 ">
                     <p className="text-[.7rem]">Descuentos disponibles</p>
                     <Button variant="soft-secondary" className="mr-2 mb-2"><span className="text-[.9rem] mr-2">10%</span><span className="text-[.7rem]">Hermanos</span></Button>
                     <Button variant="soft-secondary" className="mr-2 mb-2"><span className="text-[.9rem] mr-2">$ 16.800</span><span className="text-[.7rem]">Pack 8 Sesiones</span></Button>
                     <Button variant="soft-secondary" className="mr-2 mb-2"><span className="text-[.9rem] mr-2">$ 20.000</span><span className="text-[.7rem]">Pack 8 Sesiones Premium</span></Button>
-                  </div>
+                  </div> */}
                   
                   
                   

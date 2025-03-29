@@ -6,6 +6,7 @@ import 'react-phone-number-input/style.css'
 import './phone.css'
 
 
+import CopyButton from '@/components/CopyButton';
 
 import Notification from "@/components/Base/Notification";
 import { NotificationElement } from "@/components/Base/Notification";
@@ -195,9 +196,10 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
           </div>
         </label>
         <div className="flex-1 w-full mt-1 xl:mt-0">
-          <div className="flex flex-col items-center md:flex-row">
+          <div className="flex flex-col-reverse items-center md:flex-row">
             
           { guardianId === "" &&
+          <>
            <FormInput
               type="text"
               tabIndex={1} 
@@ -213,8 +215,17 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
                   getDataUser(e.target.value)
                 }}
             />
+          </>
           }
-          { guardianId && guardianId !== "" && <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianEmail}</h2> }
+
+          { guardianId && guardianId !== "" && <>
+            <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianEmail}</h2>
+            <CopyButton 
+              text={guardianEmail || ""} 
+              buttonText="Copiar texto" 
+              successMessage="¡Texto copiado!"
+            />
+          </>}
         
           </div>
         </div>
@@ -247,6 +258,11 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
           { guardianId && guardianId !== "" && <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianName}</h2> }
           </div>
         </div>
+        
+        {/* <p>{guardianName}</p> */}
+      
+  
+      
       </div>
       <div className="flex-col block pt-2 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
         <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-36 xl:mr-14">
@@ -301,6 +317,7 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
           } 
           rounded variant="soft-primary" className="border border-primary px-4 py-3 focus:z-2">
           <Lucide icon="Delete" className="w-5 h-5 text-primary" />
+          
           <span className="ml-2">Limpiar</span>
         </Button>
         
