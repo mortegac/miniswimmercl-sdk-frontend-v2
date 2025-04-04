@@ -6,6 +6,8 @@ export const STUDENTS = "/students";
 export const STUDENTS_DATA = "/students-data";
 
 export const LOCATIONS = "/locations";
+export const EVALUATIONS_ADMIN = "/evaluations-admin";
+
 export const COURSES = "/courses";
 export const ATTENDANCE = "/attendance";
 export const QUICK_REGISTRATION = "/quick-registration";

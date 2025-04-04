@@ -10,6 +10,7 @@ import {
   ATTENDANCE,
   STUDENTS_DATA,
   LOCATIONS, 
+  EVALUATIONS_ADMIN,
   COURSES,
   REPORT_OF_REGISTERED,
   COURSES_QUOTAS,
@@ -108,6 +109,11 @@ const initialState: SideMenuState = {
       icon: "MapPin",
       pathname: LOCATIONS,
       title: "Sedes",
+    },
+    {
+      icon: "MapPin",
+      pathname: EVALUATIONS_ADMIN,
+      title: "Evaluaciones",
     },
     // {
       //   icon: "DollarSign",

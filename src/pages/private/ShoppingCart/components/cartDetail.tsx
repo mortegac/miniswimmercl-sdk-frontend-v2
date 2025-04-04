@@ -198,6 +198,22 @@ export function CartDetail(props: any) {
             </Button>
           </div>
         </div>
+        <div className=" -mx-4 mt-6 pt-4  border-t-dashed border-t-4 flex flex-col">
+          <p className="text-[.7rem]">Cargos adicionales</p>
+        
+          <div className="flex flex-row flex-wrap mt-1">
+            <Button 
+              onClick={()=>
+                generateDisscount({ 
+                  type:"SERVICES", 
+                  amount:50000, 
+                  detail:"Uso de Pista Personalizado",  
+                  shoppingCartId:cartId 
+                })}  variant="soft-primary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(50000))}</span><span className="text-[.7rem] text-slate-500">Uso de pista Personalizado</span>
+            </Button>
+               
+          </div>
+        </div>
       </>
     )
 }
