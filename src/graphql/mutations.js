@@ -91,6 +91,8 @@ export const createAcademyStudents = /* GraphQL */ `
       emergencyContact
       isPaid
       isSponsored
+      hasAgreement
+      companyAgreement
       certificate {
         id
         title
@@ -143,6 +145,8 @@ export const updateAcademyStudents = /* GraphQL */ `
       emergencyContact
       isPaid
       isSponsored
+      hasAgreement
+      companyAgreement
       certificate {
         id
         title
@@ -195,6 +199,8 @@ export const deleteAcademyStudents = /* GraphQL */ `
       emergencyContact
       isPaid
       isSponsored
+      hasAgreement
+      companyAgreement
       certificate {
         id
         title
@@ -253,6 +259,8 @@ export const createAcademyEnrollment = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -323,6 +331,8 @@ export const updateAcademyEnrollment = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -393,6 +403,8 @@ export const deleteAcademyEnrollment = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -592,6 +604,8 @@ export const createCertificates = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -652,6 +666,8 @@ export const updateCertificates = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -712,6 +728,8 @@ export const deleteCertificates = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -1138,6 +1156,7 @@ export const createEvaluationObjetives = /* GraphQL */ `
     createEvaluationObjetives(input: $input, condition: $condition) {
       id
       texto
+      isMandatory
       evaluationLevel {
         id
         ico
@@ -1150,10 +1169,7 @@ export const createEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
+      isActive
       createdAt
       updatedAt
       evaluationLevelEvaluationObjectivesId
@@ -1169,6 +1185,7 @@ export const updateEvaluationObjetives = /* GraphQL */ `
     updateEvaluationObjetives(input: $input, condition: $condition) {
       id
       texto
+      isMandatory
       evaluationLevel {
         id
         ico
@@ -1181,10 +1198,7 @@ export const updateEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
+      isActive
       createdAt
       updatedAt
       evaluationLevelEvaluationObjectivesId
@@ -1200,6 +1214,7 @@ export const deleteEvaluationObjetives = /* GraphQL */ `
     deleteEvaluationObjetives(input: $input, condition: $condition) {
       id
       texto
+      isMandatory
       evaluationLevel {
         id
         ico
@@ -1212,10 +1227,7 @@ export const deleteEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
+      isActive
       createdAt
       updatedAt
       evaluationLevelEvaluationObjectivesId
@@ -1272,10 +1284,6 @@ export const createStudentEvaluations = /* GraphQL */ `
         order
         createdAt
         updatedAt
-        __typename
-      }
-      studentEvaluationsDetails {
-        nextToken
         __typename
       }
       userId
@@ -1355,10 +1363,6 @@ export const updateStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
       userId
       user {
         id
@@ -1436,10 +1440,6 @@ export const deleteStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
       userId
       user {
         id
@@ -1475,60 +1475,8 @@ export const createStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        studentSessionDetailDate
-        __typename
-      }
-      studentEvaluation {
-        id
-        date
-        previousLevel
-        sessionsCarriedOut
-        age
-        wasApproved
-        observations
-        studentId
-        evaluationLevelId
-        userId
-        createdAt
-        updatedAt
-        evaluationLevelStudentEvaluationsId
-        studentStudentEvaluationsId
-        usersStudentEvaluationsId
-        __typename
-      }
-      evaluationObjective {
-        id
-        texto
-        createdAt
-        updatedAt
-        evaluationLevelEvaluationObjectivesId
-        __typename
-      }
       createdAt
       updatedAt
-      evaluationObjetivesStudentEvaluationsDetailsId
-      studentEvaluationsStudentEvaluationsDetailsId
       studentStudentEvaluationsDetailsId
       __typename
     }
@@ -1543,60 +1491,8 @@ export const updateStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        studentSessionDetailDate
-        __typename
-      }
-      studentEvaluation {
-        id
-        date
-        previousLevel
-        sessionsCarriedOut
-        age
-        wasApproved
-        observations
-        studentId
-        evaluationLevelId
-        userId
-        createdAt
-        updatedAt
-        evaluationLevelStudentEvaluationsId
-        studentStudentEvaluationsId
-        usersStudentEvaluationsId
-        __typename
-      }
-      evaluationObjective {
-        id
-        texto
-        createdAt
-        updatedAt
-        evaluationLevelEvaluationObjectivesId
-        __typename
-      }
       createdAt
       updatedAt
-      evaluationObjetivesStudentEvaluationsDetailsId
-      studentEvaluationsStudentEvaluationsDetailsId
       studentStudentEvaluationsDetailsId
       __typename
     }
@@ -1611,60 +1507,8 @@ export const deleteStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        studentSessionDetailDate
-        __typename
-      }
-      studentEvaluation {
-        id
-        date
-        previousLevel
-        sessionsCarriedOut
-        age
-        wasApproved
-        observations
-        studentId
-        evaluationLevelId
-        userId
-        createdAt
-        updatedAt
-        evaluationLevelStudentEvaluationsId
-        studentStudentEvaluationsId
-        usersStudentEvaluationsId
-        __typename
-      }
-      evaluationObjective {
-        id
-        texto
-        createdAt
-        updatedAt
-        evaluationLevelEvaluationObjectivesId
-        __typename
-      }
       createdAt
       updatedAt
-      evaluationObjetivesStudentEvaluationsDetailsId
-      studentEvaluationsStudentEvaluationsDetailsId
       studentStudentEvaluationsDetailsId
       __typename
     }
@@ -1696,6 +1540,7 @@ export const createExpense = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -1733,6 +1578,7 @@ export const updateExpense = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -1770,6 +1616,7 @@ export const deleteExpense = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2196,6 +2043,7 @@ export const createLocation = /* GraphQL */ `
       imageMap
       urlMap
       directions
+      isActive
       courses {
         nextToken
         __typename
@@ -2230,6 +2078,7 @@ export const updateLocation = /* GraphQL */ `
       imageMap
       urlMap
       directions
+      isActive
       courses {
         nextToken
         __typename
@@ -2264,6 +2113,7 @@ export const deleteLocation = /* GraphQL */ `
       imageMap
       urlMap
       directions
+      isActive
       courses {
         nextToken
         __typename
@@ -2308,6 +2158,7 @@ export const createCourse = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2361,6 +2212,7 @@ export const updateCourse = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2414,6 +2266,7 @@ export const deleteCourse = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2480,6 +2333,7 @@ export const createSchedule = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2535,6 +2389,7 @@ export const updateSchedule = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2590,6 +2445,7 @@ export const deleteSchedule = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2620,6 +2476,7 @@ export const createSessionType = /* GraphQL */ `
       totalSessions
       amount
       isActive
+      isTestClass
       packValidity
       courses {
         nextToken
@@ -2649,6 +2506,7 @@ export const updateSessionType = /* GraphQL */ `
       totalSessions
       amount
       isActive
+      isTestClass
       packValidity
       courses {
         nextToken
@@ -2678,6 +2536,7 @@ export const deleteSessionType = /* GraphQL */ `
       totalSessions
       amount
       isActive
+      isTestClass
       packValidity
       courses {
         nextToken
@@ -2995,6 +2854,7 @@ export const createEnrollment = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -3116,6 +2976,7 @@ export const updateEnrollment = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -3237,6 +3098,7 @@ export const deleteEnrollment = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -5399,6 +5261,7 @@ export const createCourseSessionType = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -5443,6 +5306,7 @@ export const updateCourseSessionType = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -5487,6 +5351,7 @@ export const deleteCourseSessionType = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt

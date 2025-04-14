@@ -29,8 +29,10 @@ type EvaluationLevel @model {
 type EvaluationObjetives @model {
   id: ID! @primaryKey
   texto: String
+  isMandatory: Boolean @default(value: "false")
   evaluationLevel: EvaluationLevel @belongsTo
-  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+  # studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+  isActive: Boolean @default(value: "true")
 }
 
 # type Student @model {
@@ -41,6 +43,7 @@ type EvaluationObjetives @model {
 
 type StudentEvaluations @model {
   id: ID! @primaryKey
+  # id: ID! @primaryKey(sortKeyFields: ["studentId"])
   date: AWSDateTime
   previousLevel: String
   sessionsCarriedOut: Int
@@ -54,9 +57,9 @@ type StudentEvaluations @model {
   
   student: Student @belongsTo(fields: ["studentId"])
   evaluationLevel: EvaluationLevel @belongsTo(fields: ["evaluationLevelId"])
-  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+  # studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
   
-  userId: ID!  # Clave foránea para Users
+  userId: ID!  # Clave foránea para Users/ Profesores
   user: Users @belongsTo(fields: ["userId"]) 
   # user: Users @belongsTo(fields: ["userId"])
   # student: Student @belongsTo
@@ -69,7 +72,7 @@ type StudentEvaluationsDetail @model {
   id: ID! @primaryKey
   text: String
   wasAchieved: Boolean
-  student: Student @belongsTo
-  studentEvaluation: StudentEvaluations @belongsTo
-  evaluationObjective: EvaluationObjetives @belongsTo
+  # student: Student @belongsTo
+  # studentEvaluation: StudentEvaluations @belongsTo
+  # evaluationObjective: EvaluationObjetives @belongsTo
 }

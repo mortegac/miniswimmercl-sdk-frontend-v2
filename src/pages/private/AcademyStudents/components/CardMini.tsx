@@ -35,7 +35,7 @@ const CardMini: React.FC<Props> = ({ student }) => {
   return (
     <>
       <div key={`${id}-${student?.id}`} className={`w-[33%] px-2 py-2`}>
-        <div className={`p-2 box h-[580px] cursor-pointer bg-white`}>
+        <div className={`p-2 box h-[580px] cursor-pointer`}>
           <div className="flex items-center justify-center my-2">
             <div className="flex flex-col justify-center"> 
               <div className="flex justify-between items-center w-full flex-row  text-slate-500 pr-4">

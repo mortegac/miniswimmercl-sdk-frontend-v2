@@ -94,8 +94,7 @@ function Content(props: any) {
     return students.filter(
       student => 
         student.isSponsored && 
-        (student.status === "CERTIFICATION_IN_PROGRESS" || 
-         student.status === "WEB_FORM_ENTRY")
+        (student.status === "WEB_FORM_ENTRY")
     ).length;
   }
   
@@ -103,6 +102,13 @@ function Content(props: any) {
     return students.filter(
       student => 
         student.status === "CERTIFICATION_COMPLETED" 
+    ).length;
+  }
+  
+  function countStudentsProccess(students: Student[]): number {
+    return students.filter(
+      student => 
+        student.status === "CERTIFICATION_IN_PROGRESS" 
     ).length;
   }
   
@@ -117,6 +123,12 @@ function Content(props: any) {
                    Inscripciones Activas 
                    <span className="ml-2 px-2 py-1 mr-1 text-white rounded-full bg-primary">{countStudentsByStatus(data)}</span>
                    
+                </Tab.Button>
+            </Tab>
+            <Tab>
+                <Tab.Button className="w-full py-2" as="button">
+                    Certificaciones en proceso 
+                    <span className="ml-2 px-2 py-1 mr-1 text-white rounded-full bg-slate-600">{countStudentsProccess(data)}</span>
                 </Tab.Button>
             </Tab>
             <Tab>
@@ -204,7 +216,7 @@ function Content(props: any) {
                                   Alumnos becados:
                                   </p>                
                                   <p className="hover:text-clip">
-                                  {countStudentsBySponsored.length}
+                                  {countStudentsBySponsored(data)}
                                   </p>                
                                 </div>
                                     
@@ -226,6 +238,9 @@ function Content(props: any) {
             // Primero ordenar por isPaid (true primero)
             if (a?.isPaid && !b?.isPaid) return -1;
             if (!a?.isPaid && b?.isPaid) return 1;
+            
+            if (a?.isSponsored && !b?.isSponsored) return -1;
+            if (!a?.isSponsored && b?.isSponsored) return 1;
             
       
       
@@ -270,10 +285,18 @@ function Content(props: any) {
               </div>
 
             </Tab.Panel>
+            {/* In PROCESS */}
             <Tab.Panel className="leading-relaxed">
               <div key="ACADEMY-LIST" className="flex justify-start flex-row flex-wrap flex-1">
                 {Array.isArray(data) &&
-                data.map((item: any, i: number) => item?.status === "CERTIFICATION_COMPLETED" && <CardMini key={`${i}-ACADEMY-STUDENTS`} student={item} />)}
+                data.map((item: any, i: number) => item?.status === "CERTIFICATION_IN_PROGRESS" && <Card key={`${i}-ACADEMY-STUDENTS-PROCCESS`} student={item} />)}
+              </div>
+            </Tab.Panel>
+            
+            <Tab.Panel className="leading-relaxed">
+              <div key="ACADEMY-LIST" className="flex justify-start flex-row flex-wrap flex-1">
+                {Array.isArray(data) &&
+                data.map((item: any, i: number) => item?.status === "CERTIFICATION_COMPLETED" && <CardMini key={`${i}-ACADEMY-STUDENTS-FINALIZE`} student={item} />)}
               </div>
             </Tab.Panel>
         </Tab.Panels>
@@ -297,32 +320,6 @@ function Main() {
   const [filteredacademyStudents, setFilteredacademyStudents] = useState(academyStudents);
 
   
-  // const sortacademyStudents = (a: any, b: any) => {
-  //   const aIsPaidCount = a.items.reduce((acc: any, isPaid: any) => acc + items.length, 0);
-  //   const bIsPaidCount = b.items.reduce((acc: any, isPaid: any) => acc + items.length, 0);
-    
-  //   if (aSessionsCount > 0 && bSessionsCount === 0) return -1;
-  //   if (aSessionsCount === 0 && bSessionsCount > 0) return 1;
-  //   return 0;
-  // };
-  // Función para filtrar estudiantes
-  // const filteracademyStudentsSlice = (term: string) => {
-  //   const filtered = academyStudents.filter(student => 
-      // student.name.toLowerCase().includes(term.toLowerCase()) 
-      // student.lastName.toLowerCase().includes(term.toLowerCase()) ||
-      // student.middleName.toLowerCase().includes(term.toLowerCase())
-    // );
-    
-    // setFilteredacademyStudents(filtered);
-    // setFilteredacademyStudents( [...filtered].sort(sortacademyStudentsSlice));
-  // };
-
-  // Creamos una versión debounced de la función de filtrado
-  // const debouncedFilter = useCallback(
-  //   debounce((term: string) => filteredacademyStudents(term), 300),
-  //   [academyStudents] // Dependencia del array de estudiantes
-  // );
-
   // Manejador para el cambio en el input
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const term = event.target.value;
@@ -355,24 +352,6 @@ function Main() {
               </Button> */}
             </div>
           </div>
-          {/* <div className="relative justify-start flex-1 hidden xl:flex my-4 mx-2">
-            <InputGroup>
-              <InputGroup.Text id="input-group-name" className="bg-white/[0.12] border-transparent flex items-center py-2 px-3.5  text-white cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 ">
-                <Lucide icon="Search" className="w-[18px] h-[18px]" />
-              </InputGroup.Text>
-            <FormInput
-                formInputSize="lg"
-                placeholder="" aria-label="name" aria-describedby="input-group-name"
-                type="text"
-                tabIndex={1} 
-                className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
-                name="guardianEmail"
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-            </InputGroup>
-           
-          </div> */}
 
               { status === "loading" &&   <div className="w-16 h-16"><LoadingIcon
                     color="white"
@@ -380,16 +359,10 @@ function Main() {
                     className="w-10 h-10 mt-10"
                   /></div>}
               { status === "idle" && <Content data={academyStudents}/>}
-              {/* { status === "idle" && <Content data={academyStudentsSlice}/>} */}
-              
-              
               
               </div>
               
             </div>
-          {/* </div> */}
-        {/* </div>
-      </div> */}
     </>
   );
 }

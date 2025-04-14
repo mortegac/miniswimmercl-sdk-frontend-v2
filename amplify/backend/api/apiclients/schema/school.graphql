@@ -17,7 +17,7 @@ type Location @model {
   imageMap: String @default(value: "")  #URL de la imagen del mapa 
   urlMap: String @default(value: "")  #URL de google maps de la direccion
   directions: String @default(value: "")  #Indicaciones para la llegada
-  
+  isActive: Boolean @default(value: "true")
   #Relations
   courses: [Course] @hasMany                  # relación una location tiene muchos cursos
   schedules: [Schedule] @hasMany
@@ -109,6 +109,7 @@ type SessionType @model {
   totalSessions: Float        # Cantidad de sesiones
   amount: Float
   isActive: Boolean @default(value: "false")
+  isTestClass: Boolean @default(value: "false")  #¿Es una clase de prueba?
   packValidity: Int # Vigencia en dias el pack
   #Relations
   courses: [Course] @manyToMany(relationName: "CourseSessionType")

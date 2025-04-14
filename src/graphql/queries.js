@@ -21,6 +21,8 @@ export const getAcademyStudents = /* GraphQL */ `
       emergencyContact
       isPaid
       isSponsored
+      hasAgreement
+      companyAgreement
       certificate {
         id
         title
@@ -83,6 +85,8 @@ export const listAcademyStudents = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -119,6 +123,8 @@ export const getAcademyEnrollment = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -296,6 +302,8 @@ export const getCertificates = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -585,6 +593,7 @@ export const getEvaluationObjetives = /* GraphQL */ `
     getEvaluationObjetives(id: $id) {
       id
       texto
+      isMandatory
       evaluationLevel {
         id
         ico
@@ -597,10 +606,7 @@ export const getEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
+      isActive
       createdAt
       updatedAt
       evaluationLevelEvaluationObjectivesId
@@ -626,6 +632,8 @@ export const listEvaluationObjetives = /* GraphQL */ `
       items {
         id
         texto
+        isMandatory
+        isActive
         createdAt
         updatedAt
         evaluationLevelEvaluationObjectivesId
@@ -682,10 +690,6 @@ export const getStudentEvaluations = /* GraphQL */ `
         order
         createdAt
         updatedAt
-        __typename
-      }
-      studentEvaluationsDetails {
-        nextToken
         __typename
       }
       userId
@@ -758,60 +762,8 @@ export const getStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        studentSessionDetailDate
-        __typename
-      }
-      studentEvaluation {
-        id
-        date
-        previousLevel
-        sessionsCarriedOut
-        age
-        wasApproved
-        observations
-        studentId
-        evaluationLevelId
-        userId
-        createdAt
-        updatedAt
-        evaluationLevelStudentEvaluationsId
-        studentStudentEvaluationsId
-        usersStudentEvaluationsId
-        __typename
-      }
-      evaluationObjective {
-        id
-        texto
-        createdAt
-        updatedAt
-        evaluationLevelEvaluationObjectivesId
-        __typename
-      }
       createdAt
       updatedAt
-      evaluationObjetivesStudentEvaluationsDetailsId
-      studentEvaluationsStudentEvaluationsDetailsId
       studentStudentEvaluationsDetailsId
       __typename
     }
@@ -838,8 +790,6 @@ export const listStudentEvaluationsDetails = /* GraphQL */ `
         wasAchieved
         createdAt
         updatedAt
-        evaluationObjetivesStudentEvaluationsDetailsId
-        studentEvaluationsStudentEvaluationsDetailsId
         studentStudentEvaluationsDetailsId
         __typename
       }
@@ -871,6 +821,7 @@ export const getExpense = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -1186,6 +1137,7 @@ export const getLocation = /* GraphQL */ `
       imageMap
       urlMap
       directions
+      isActive
       courses {
         nextToken
         __typename
@@ -1230,6 +1182,7 @@ export const listLocations = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -1262,6 +1215,7 @@ export const getCourse = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -1360,6 +1314,7 @@ export const getSchedule = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -1421,6 +1376,7 @@ export const getSessionType = /* GraphQL */ `
       totalSessions
       amount
       isActive
+      isTestClass
       packValidity
       courses {
         nextToken
@@ -1460,6 +1416,7 @@ export const listSessionTypes = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -1654,6 +1611,7 @@ export const getEnrollment = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -2844,6 +2802,7 @@ export const getCourseSessionType = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt

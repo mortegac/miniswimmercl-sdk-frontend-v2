@@ -33,7 +33,10 @@ const Card: React.FC<Props> = ({ student }) => {
   return (
     <>
       <div key={`${id}-${student?.id}`} className={`w-[33%] px-2 py-2`}>
-        <div className={`p-2 box h-[500px] cursor-pointer  ${student?.isPaid===false && student?.isSponsored === false && "bg-red-100/90"}`}>
+        <div className={`p-2 box h-[550px] cursor-pointer  
+            ${student?.isPaid===false && student?.isSponsored === false && "bg-red-100/90"}
+           
+        `}>
           <div className="flex items-center justify-center my-2">
             <div className="flex justify-between flex-col  items-center   text-slate-500">
               <h2 className="text-sm font-medium uppercase text-primary text-center">
@@ -78,7 +81,7 @@ const Card: React.FC<Props> = ({ student }) => {
               }
               { student?.isSponsored &&              
               <Alert
-                  variant="soft-secondary"
+                  variant="soft-warning"
                   className="rounded-full ml-2 w-full text-center"
                 >{"ALUMNO BECADO"}
                 </Alert>              

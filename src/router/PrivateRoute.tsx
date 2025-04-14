@@ -48,7 +48,7 @@ import {
   import Students from "../pages/private/Students";
   import StudentData from "../pages/private/StudentData";
   const Locations = lazy(() => import("../pages/private/Locations"));
-  const Evaluations = lazy(() => import("../pages/private/Locations"));
+  const Evaluations = lazy(() => import("../pages/private/AdminEvaluations"));
   // const Courses = lazy(() => import("../pages/private/Courses"));
   import Courses from "../pages/private/Courses";
   import ReportOfRegistered from "../pages/private/ReportOfRegistered";

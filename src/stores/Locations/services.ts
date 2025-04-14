@@ -44,8 +44,8 @@ export const fetchDataOnly = async (): Promise<any> => {
     try {
      
       const getData:any = await client.graphql({
-        query: listLocationsOnly,
-        // variables: { id: userId },
+        query: listLocationsOnly, 
+        variables: { filter: { isActive: { eq: true } } },
       });
       
       // console.log("<<< LOCATIONS DATA <<<<< ", getData)

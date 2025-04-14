@@ -23,6 +23,8 @@ export const onCreateAcademyStudents = /* GraphQL */ `
       emergencyContact
       isPaid
       isSponsored
+      hasAgreement
+      companyAgreement
       certificate {
         id
         title
@@ -74,6 +76,8 @@ export const onUpdateAcademyStudents = /* GraphQL */ `
       emergencyContact
       isPaid
       isSponsored
+      hasAgreement
+      companyAgreement
       certificate {
         id
         title
@@ -125,6 +129,8 @@ export const onDeleteAcademyStudents = /* GraphQL */ `
       emergencyContact
       isPaid
       isSponsored
+      hasAgreement
+      companyAgreement
       certificate {
         id
         title
@@ -182,6 +188,8 @@ export const onCreateAcademyEnrollment = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -251,6 +259,8 @@ export const onUpdateAcademyEnrollment = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -320,6 +330,8 @@ export const onDeleteAcademyEnrollment = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -515,6 +527,8 @@ export const onCreateCertificates = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -574,6 +588,8 @@ export const onUpdateCertificates = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -633,6 +649,8 @@ export const onDeleteCertificates = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        hasAgreement
+        companyAgreement
         createdAt
         updatedAt
         academyStudentsCertificateId
@@ -1049,6 +1067,7 @@ export const onCreateEvaluationObjetives = /* GraphQL */ `
     onCreateEvaluationObjetives(filter: $filter) {
       id
       texto
+      isMandatory
       evaluationLevel {
         id
         ico
@@ -1061,10 +1080,7 @@ export const onCreateEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
+      isActive
       createdAt
       updatedAt
       evaluationLevelEvaluationObjectivesId
@@ -1079,6 +1095,7 @@ export const onUpdateEvaluationObjetives = /* GraphQL */ `
     onUpdateEvaluationObjetives(filter: $filter) {
       id
       texto
+      isMandatory
       evaluationLevel {
         id
         ico
@@ -1091,10 +1108,7 @@ export const onUpdateEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
+      isActive
       createdAt
       updatedAt
       evaluationLevelEvaluationObjectivesId
@@ -1109,6 +1123,7 @@ export const onDeleteEvaluationObjetives = /* GraphQL */ `
     onDeleteEvaluationObjetives(filter: $filter) {
       id
       texto
+      isMandatory
       evaluationLevel {
         id
         ico
@@ -1121,10 +1136,7 @@ export const onDeleteEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
+      isActive
       createdAt
       updatedAt
       evaluationLevelEvaluationObjectivesId
@@ -1180,10 +1192,6 @@ export const onCreateStudentEvaluations = /* GraphQL */ `
         order
         createdAt
         updatedAt
-        __typename
-      }
-      studentEvaluationsDetails {
-        nextToken
         __typename
       }
       userId
@@ -1262,10 +1270,6 @@ export const onUpdateStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
       userId
       user {
         id
@@ -1342,10 +1346,6 @@ export const onDeleteStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
       userId
       user {
         id
@@ -1380,60 +1380,8 @@ export const onCreateStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        studentSessionDetailDate
-        __typename
-      }
-      studentEvaluation {
-        id
-        date
-        previousLevel
-        sessionsCarriedOut
-        age
-        wasApproved
-        observations
-        studentId
-        evaluationLevelId
-        userId
-        createdAt
-        updatedAt
-        evaluationLevelStudentEvaluationsId
-        studentStudentEvaluationsId
-        usersStudentEvaluationsId
-        __typename
-      }
-      evaluationObjective {
-        id
-        texto
-        createdAt
-        updatedAt
-        evaluationLevelEvaluationObjectivesId
-        __typename
-      }
       createdAt
       updatedAt
-      evaluationObjetivesStudentEvaluationsDetailsId
-      studentEvaluationsStudentEvaluationsDetailsId
       studentStudentEvaluationsDetailsId
       __typename
     }
@@ -1447,60 +1395,8 @@ export const onUpdateStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        studentSessionDetailDate
-        __typename
-      }
-      studentEvaluation {
-        id
-        date
-        previousLevel
-        sessionsCarriedOut
-        age
-        wasApproved
-        observations
-        studentId
-        evaluationLevelId
-        userId
-        createdAt
-        updatedAt
-        evaluationLevelStudentEvaluationsId
-        studentStudentEvaluationsId
-        usersStudentEvaluationsId
-        __typename
-      }
-      evaluationObjective {
-        id
-        texto
-        createdAt
-        updatedAt
-        evaluationLevelEvaluationObjectivesId
-        __typename
-      }
       createdAt
       updatedAt
-      evaluationObjetivesStudentEvaluationsDetailsId
-      studentEvaluationsStudentEvaluationsDetailsId
       studentStudentEvaluationsDetailsId
       __typename
     }
@@ -1514,60 +1410,8 @@ export const onDeleteStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      student {
-        id
-        name
-        lastName
-        middleName
-        birthdate
-        placeOfResidence
-        contactPhone
-        whoIsTheContact
-        emailPhone
-        gender
-        firstSwimmingClass
-        attendedDaycare
-        immersesWithoutSwallowingWater
-        bornPrematurely
-        waterOnHisFaceBothersHim
-        putYourFaceInTheWater
-        anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
-        studentSessionDetailDate
-        __typename
-      }
-      studentEvaluation {
-        id
-        date
-        previousLevel
-        sessionsCarriedOut
-        age
-        wasApproved
-        observations
-        studentId
-        evaluationLevelId
-        userId
-        createdAt
-        updatedAt
-        evaluationLevelStudentEvaluationsId
-        studentStudentEvaluationsId
-        usersStudentEvaluationsId
-        __typename
-      }
-      evaluationObjective {
-        id
-        texto
-        createdAt
-        updatedAt
-        evaluationLevelEvaluationObjectivesId
-        __typename
-      }
       createdAt
       updatedAt
-      evaluationObjetivesStudentEvaluationsDetailsId
-      studentEvaluationsStudentEvaluationsDetailsId
       studentStudentEvaluationsDetailsId
       __typename
     }
@@ -1596,6 +1440,7 @@ export const onCreateExpense = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -1630,6 +1475,7 @@ export const onUpdateExpense = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -1664,6 +1510,7 @@ export const onDeleteExpense = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2060,6 +1907,7 @@ export const onCreateLocation = /* GraphQL */ `
       imageMap
       urlMap
       directions
+      isActive
       courses {
         nextToken
         __typename
@@ -2091,6 +1939,7 @@ export const onUpdateLocation = /* GraphQL */ `
       imageMap
       urlMap
       directions
+      isActive
       courses {
         nextToken
         __typename
@@ -2122,6 +1971,7 @@ export const onDeleteLocation = /* GraphQL */ `
       imageMap
       urlMap
       directions
+      isActive
       courses {
         nextToken
         __typename
@@ -2163,6 +2013,7 @@ export const onCreateCourse = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2213,6 +2064,7 @@ export const onUpdateCourse = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2263,6 +2115,7 @@ export const onDeleteCourse = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2326,6 +2179,7 @@ export const onCreateSchedule = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2378,6 +2232,7 @@ export const onUpdateSchedule = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2430,6 +2285,7 @@ export const onDeleteSchedule = /* GraphQL */ `
         imageMap
         urlMap
         directions
+        isActive
         createdAt
         updatedAt
         __typename
@@ -2459,6 +2315,7 @@ export const onCreateSessionType = /* GraphQL */ `
       totalSessions
       amount
       isActive
+      isTestClass
       packValidity
       courses {
         nextToken
@@ -2487,6 +2344,7 @@ export const onUpdateSessionType = /* GraphQL */ `
       totalSessions
       amount
       isActive
+      isTestClass
       packValidity
       courses {
         nextToken
@@ -2515,6 +2373,7 @@ export const onDeleteSessionType = /* GraphQL */ `
       totalSessions
       amount
       isActive
+      isTestClass
       packValidity
       courses {
         nextToken
@@ -2822,6 +2681,7 @@ export const onCreateEnrollment = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -2942,6 +2802,7 @@ export const onUpdateEnrollment = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -3062,6 +2923,7 @@ export const onDeleteEnrollment = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -5163,6 +5025,7 @@ export const onCreateCourseSessionType = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -5206,6 +5069,7 @@ export const onUpdateCourseSessionType = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt
@@ -5249,6 +5113,7 @@ export const onDeleteCourseSessionType = /* GraphQL */ `
         totalSessions
         amount
         isActive
+        isTestClass
         packValidity
         createdAt
         updatedAt

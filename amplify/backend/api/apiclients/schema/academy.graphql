@@ -21,6 +21,8 @@ type AcademyStudents @model {
   emergencyContact: String @default(value: "")  #Contacto de emergencia
   isPaid: Boolean   #Campo momentaneao para saber si esta pagado el curso
   isSponsored: Boolean   #El alumno esta becado
+  hasAgreement: Boolean   #El alumno tiene convenio
+  companyAgreement: String @default(value: "")  #Empresa Convenio
 
   #Relations
   certificate: Certificates @hasOne

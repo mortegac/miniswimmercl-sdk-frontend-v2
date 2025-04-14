@@ -106,14 +106,14 @@ function Main() {
               >
                 <span className="text-border-slate-200">Vitacura </span>
               </Button>
-              <Button
+              {/* <Button
                 rounded
                 variant="primary"
                 className="px-8 py-3 border border-slate-200"
                 onClick={()=>dispatch(getCourses({isActive:true, locationId:"COLEGIO-JOHN-ANDREWS"}))}
               >
                 <span className="text-border-slate-200">Colegio John Andrews </span>
-              </Button>
+              </Button> */}
               <Button
                 rounded
                 variant="primary"
