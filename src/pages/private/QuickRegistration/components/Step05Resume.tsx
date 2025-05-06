@@ -33,7 +33,7 @@ function SendJwtWhatsapp(props: any) {
   const dispatch = useAppDispatch();
   
   
-  const paymentLink:string = `Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${props?.JWT}.   El link de pago tiene una vigencia de 48 horas.`;
+  const paymentLink:string = `Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${props?.JWT}   El link de pago tiene una vigencia de 48 horas.`;
   const sessionsDetail:string = `${clientName}, hemos realizado su inscripción 🎉 en el *curso ${courseName} en la sede ${locationName}*, \ncon las siguientes fechas agendadas:
                     ${props?.sessions?.map((item:any, i:number) => {
                       const [day, month] = item?.date.replace(/\s/g, '').split('-');

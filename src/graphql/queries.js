@@ -435,6 +435,7 @@ export const getEmailSend = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId
@@ -1562,6 +1563,7 @@ export const getEnrollment = /* GraphQL */ `
       scheduleId
       scheduleName
       paymentToken
+      typeOfPlan
       student {
         id
         name
@@ -1694,6 +1696,7 @@ export const listEnrollments = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId
@@ -2027,6 +2030,7 @@ export const getShoppingCartDetail = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId

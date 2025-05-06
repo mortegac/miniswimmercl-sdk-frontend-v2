@@ -826,6 +826,7 @@ export const createEmailSend = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId
@@ -915,6 +916,7 @@ export const updateEmailSend = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId
@@ -1004,6 +1006,7 @@ export const deleteEmailSend = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId
@@ -2805,6 +2808,7 @@ export const createEnrollment = /* GraphQL */ `
       scheduleId
       scheduleName
       paymentToken
+      typeOfPlan
       student {
         id
         name
@@ -2927,6 +2931,7 @@ export const updateEnrollment = /* GraphQL */ `
       scheduleId
       scheduleName
       paymentToken
+      typeOfPlan
       student {
         id
         name
@@ -3049,6 +3054,7 @@ export const deleteEnrollment = /* GraphQL */ `
       scheduleId
       scheduleName
       paymentToken
+      typeOfPlan
       student {
         id
         name
@@ -3787,6 +3793,7 @@ export const createShoppingCartDetail = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId
@@ -3856,6 +3863,7 @@ export const updateShoppingCartDetail = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId
@@ -3925,6 +3933,7 @@ export const deleteShoppingCartDetail = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
+        typeOfPlan
         createdAt
         updatedAt
         courseEnrollmentsId
