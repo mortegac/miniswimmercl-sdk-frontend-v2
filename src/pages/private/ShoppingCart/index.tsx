@@ -208,7 +208,7 @@ function SendJwtWhatsapp(props: any) {
   return (
     <>
       { cartStatus !== "AUTHORIZED" && 
-        <div className="px-8 pt-6 pb-8 mt-3.5 bg-purple-100">
+        <div className="px-8 pt-6 pb-8 mt-3.5 ">
           <div className="text-base font-medium">Envio de link de pago</div>
           <div className="text-slate-500 mt-0.5 mb-2">
             Con esta funcionalidad puede enviar directo al whatsapp del
@@ -429,32 +429,6 @@ function Content(props: any) {
   const [cartId, setCartId] = useState({id:"", cartStatus:"", clientName:"", phoneNumber:"", clientId:""});
   const [switcherSlideover, setSwitcherSlideover] = useState(false);
   const { shoppingCarts } = props;
-
-  // const secretKey = new TextEncoder().encode(
-  //   "tu_clave_secreta_super_segura_min_32_caracteres"
-  // );
-
-  // async function createJWT(cartId: string) {
-  //   const payload = {
-  //     sub: cartId,
-  //     iat: 1516239022,
-  //   };
-
-  //   const jwt = await new jose.SignJWT(payload)
-  //     .setProtectedHeader({ alg: "HS256" })
-  //     .setIssuedAt() // Establece iat (issued at)
-  //     .setExpirationTime("2h") // El token expira en 2 horas
-  //     .sign(secretKey);
-  //   // setJWT(jwt)
-
-  //   console.log(jwt);
-
-  //   return jwt;
-  // }
-
-  // useEffect(() => { (async () => {
-  //   await createJWT()
-  // })(); }, [cartId]);
 
   return (
     <>

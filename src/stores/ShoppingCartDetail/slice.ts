@@ -5,7 +5,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {createShoppinCartDetail, fetchOne} from "./services"
+import {createShoppinCartDetail, fetchOne, removeShoppinCartDetail} from "./services"
 import {ShoppingCartDetail, emptyShoppingCartDetail, FilterOptions, InputOptions} from "./types"
 
 
@@ -53,6 +53,22 @@ export const setShoppingCartDetail = createAsyncThunk(
 );
 
 
+  
+
+export const removeShoppingCartDetail = createAsyncThunk(
+  "shoppingCartDetail/remove",
+  async (objFilter: InputOptions) => {
+    try {
+      const response:any = await removeShoppinCartDetail({...objFilter});
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH Create shoppingCartDetails", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
 
 export const ShoppingCartDetailsSlice = createSlice({
   name: "shoppingCartDetails",
@@ -90,7 +106,22 @@ export const ShoppingCartDetailsSlice = createSlice({
         state.status = "idle";
         
         state.shoppingCartDetails = objPayload?.items || [];
+      })
+      
+      // Remove ShoppingCartDetail
+      .addCase(removeShoppingCartDetail.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(removeShoppingCartDetail.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeShoppingCartDetail.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
         
+        state.shoppingCartDetails = objPayload?.items || [];
       })
       
       

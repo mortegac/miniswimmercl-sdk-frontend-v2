@@ -47,6 +47,7 @@ type Course @model {
   schedules: [Schedule] @hasMany              # relación uno a muchos
   sessionTypes: [SessionType] @manyToMany(relationName: "CourseSessionType")
   enrollments: [Enrollment] @hasMany
+  privateEnrollments: [PrivateEnrollment] @hasMany  # Relación con inscripciones privadas
   
   sessionDetails: [SessionDetail] @hasMany(fields: ["id"])
   # CourseStudentsRelation: [CoursesStudentsRelations] @hasMany
@@ -114,6 +115,7 @@ type SessionType @model {
   #Relations
   courses: [Course] @manyToMany(relationName: "CourseSessionType")
   enrollments: [Enrollment] @hasMany
+  privateEnrollments: [PrivateEnrollment] @hasMany  # Relación con inscripciones privadas
 }
 
 

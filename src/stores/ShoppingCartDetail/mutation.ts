@@ -19,3 +19,24 @@ export const updateShoppingCart = /* GraphQL */ `
     updateShoppingCart(input: $input, condition: $condition) {id}
   }
 `;
+
+
+
+export const updateShoppingCartDetail = /* GraphQL */ `
+  mutation UpdateShoppingCartDetail(
+    $input: UpdateShoppingCartDetailInput!
+    $condition: ModelShoppingCartDetailConditionInput
+  ) {
+    updateShoppingCartDetail(input: $input, condition: $condition) { id }
+  }
+`;
+
+
+export const deleteShoppingCartDetail = /* GraphQL */ `
+  mutation DeleteShoppingCartDetail(
+    $input: DeleteShoppingCartDetailInput!
+    $condition: ModelShoppingCartDetailConditionInput
+  ) {
+    deleteShoppingCartDetail(input: $input, condition: $condition) {id}
+  }
+`;

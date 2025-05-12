@@ -31,6 +31,7 @@ export type InputOptions  = {
   amount?: string;
   detail?: string;
   shoppingCartId?: string;
+  shoppingDetailCartId?: string;
 
   enrollmentId?: string;
 

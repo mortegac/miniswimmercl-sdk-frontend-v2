@@ -13,6 +13,16 @@ type Users @model {
   ig: String @default(value: "")
   firstContact: Boolean   # Se usa para saber si hayq ue pedirle mas info al user
   
+  # Location fields
+  streetAddress: String   # Street address
+  city: String           # City
+  state: String          # State
+  zipCode: String        # ZIP code
+  country: String @default(value: "CHILE")  # Country
+  latitude: Float        # Latitude for Google Maps/Waze
+  longitude: Float       # Longitude for Google Maps/Waze
+  zoomLevel: Int @default(value: "15")  # Map zoom level
+  
   #Relations
   emailSend: [EmailSend] @hasMany  # Email enviados al user
   relationships: [Relationship] @hasMany
@@ -26,6 +36,8 @@ type Users @model {
   paymentTransactions: [PaymentTransactions] @hasMany  # Transacciones webpay asociadas 
   sellersCommissions: [SellersCommission] @hasMany     # Comisiones por ventas
   enrollments: [Enrollment] @hasMany
+  privateEnrollments: [PrivateEnrollment] @hasMany  # Relación con inscripciones privadas
+  coachedSessions: [SessionDetail] @hasMany  # Sesiones donde el usuario es coach
   
   studentEvaluations: [StudentEvaluations] @hasMany
 }

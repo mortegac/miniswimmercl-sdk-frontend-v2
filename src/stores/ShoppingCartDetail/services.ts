@@ -2,7 +2,7 @@ import { generateClient } from 'aws-amplify/api';
 
 
 import { listShoppingCartDetails } from './queries';
-import { createShoppingCartDetail } from './mutation';
+import { createShoppingCartDetail, deleteShoppingCartDetail } from './mutation';
 import { FilterOptions, InputOptions } from './types';
 const client = generateClient();
 
@@ -24,6 +24,7 @@ export const fetchOne = async (objFilter: FilterOptions): Promise<any> => {
       const filter: any = {
         ...filterCartId,
         ...filterEnrollmentId,
+        // wasDeleted: { eq: true }
       };
       
       // const getData:any = await client.graphql({
@@ -91,6 +92,45 @@ export const createShoppinCartDetail = async (objInput: InputOptions): Promise<a
       }else{
           reject({
             errorMessage: "Fallo al crear el email",
+          });
+        
+      }
+        
+      // ...userData.data.getUsers
+      // } else {
+      // }
+    } catch (err) {
+      reject({
+        errorMessage: JSON.stringify(err),
+    });
+    }
+  });
+};
+
+export const removeShoppinCartDetail = async (objInput: InputOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      
+      console.log("--removeShoppinCartDetail--", objInput)
+      const setData:any = await client.graphql({
+        query: deleteShoppingCartDetail,
+        variables: {
+          input: {
+            id: objInput?.shoppingDetailCartId, 
+            // wasDeleted: true,            
+          }
+        }
+      });
+      
+      console.log("<<< removeShoppinCartDetail ELIMINADO <<<<< ", setData)
+      const data = setData.data;
+      
+      if(data?.deleteShoppingCartDetail?.id !== undefined){
+        resolve({ ...data.deleteShoppingCartDetail } as any);
+      }else{
+          reject({
+            errorMessage: "Fallo al eliminar removeShoppinCartDetail",
           });
         
       }

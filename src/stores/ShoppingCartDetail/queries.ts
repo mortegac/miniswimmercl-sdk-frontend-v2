@@ -61,6 +61,7 @@ export const listShoppingCartDetails = /* GraphQL */ `
         quantity
         amount
         detail
+        wasDeleted
         createdAt
         updatedAt
         enrollment{

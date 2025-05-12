@@ -7,16 +7,43 @@ import Button from "@/components/Base/Button";
 
 import { formatCurrency } from "@/utils/moneyHandler";
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { selectShoppingCartDetails, getShoppingCartDetail, setShoppingCartDetail } from "@/stores/ShoppingCartDetail/slice";
+import { selectShoppingCartDetails, getShoppingCartDetail, setShoppingCartDetail, removeShoppingCartDetail } from "@/stores/ShoppingCartDetail/slice";
 
 
 
 function Content(props: any) {
-    const {detail} = props;
+    const { detail, onShoppingCartId } = props;
+    
+    
+    // function handlerRemoveDetail(payload:any){
+    //   const { detailId, detailType } = payload;
+      
+    //   // Eliminar detalle carro 
+    //   removeShoppingCartDetail(detailId)
+      
+    //   // Actualziar carro
+    // }
     return(
         <>
         {/* <pre>{JSON.stringify(detail, null, 2 )}</pre> */}
-            <Table.Tr key={""} className="[&_td]:last:border-b-0 w-full">
+        {detail?.wasDeleted === true  ? 
+          <Table.Tr key={""} className="w-full">
+            
+            <Table.Td className="w-8 py-4 border-dashed " colSpan={6}>
+             <p className="bg-red-50 w-full flex flex-row p-4 text-slate-400 line-through">
+              <span className="flex items-center justify-center">
+              {detail?.detail}
+              </span>
+              <span className="text-center w-full block">
+                {`$ ${formatCurrency(detail?.amount)}`}
+              </span>
+              </p> 
+              
+            </Table.Td>
+         </Table.Tr> 
+         
+         :
+         <Table.Tr key={""} className="[&_td]:last:border-b-0 w-full">
                     <Table.Td className="w-8 py-4 border-dashed">
                     <span className="flex items-center justify-center">
                         {detail?.quantity}
@@ -30,9 +57,9 @@ function Content(props: any) {
                     {detail?.detail}
                     </div>
                     </Table.Td>
-                    <Table.Td className="w-12 py-4 text-center border-dashed">
-                    <span className="text-center bg-pink-200 ">
-                    $ {formatCurrency(detail?.amount)}
+                    <Table.Td className="w-36 py-4 text-center border-dashed">
+                    <span className="text-center w-full block">
+                    {`$ ${formatCurrency(detail?.amount)}`}
                     </span>
                     </Table.Td>
                     <Table.Td className="w-52 py-4 border-dashed">
@@ -41,22 +68,31 @@ function Content(props: any) {
                     </span>
                     </Table.Td>
                     <Table.Td className="w-2 py-4 border-dashed">
-                    <Button
-                        rounded
-                        className="border border-red-400 hover:bg-red-100 w-10 h-10 p-1"
-                        onClick={(event: React.MouseEvent) => {
-                          event.preventDefault();
-                     /** TODO */
-                     
-                        }}
-                      >
-                        <Lucide
-                          icon="X"
-                          className="w-10 h-10  text-red-400"
-                        />{" "}
-                      </Button>
+                    
+                    {/* <pre>{JSON.stringify(detail?.wasDeleted, null, 2 )}</pre> */}
+                    { detail?.type !== "ENROLLMENTS" && 
+                      <Button
+                          rounded
+                          className="border border-red-400 hover:bg-red-100 w-10 h-10 p-1"
+                          onClick={(event: React.MouseEvent) => {
+                            event.preventDefault();
+                            onShoppingCartId({ 
+                              shoppingDetailCartId: detail.id
+                              // detailType: detail.type 
+                            })
+                          }}
+                        >
+                          <Lucide
+                            icon="X"
+                            className="w-10 h-10  text-red-400"
+                          />{" "}
+                        </Button>
+                    }
+                      
+                      
                     </Table.Td>
             </Table.Tr>
+        }
         </>
     )
 }
@@ -84,6 +120,16 @@ export function CartDetail(props: any) {
     // const {type, amount, detail, shoppingCart } = payload
     Promise.all([
       await dispatch(setShoppingCartDetail({ ...payload})),
+      await dispatch(getShoppingCartDetail({cartId: cartId}))
+    ])
+   }
+      
+   async function removeDetail(payload: any){
+    // const {type, amount, detail, shoppingCart } = payload
+    
+    // console.log("--payload--", payload)
+    Promise.all([
+      await dispatch(removeShoppingCartDetail({...payload})),
       await dispatch(getShoppingCartDetail({cartId: cartId}))
     ])
    }
@@ -129,7 +175,12 @@ export function CartDetail(props: any) {
                 
             {  status === "idle" && 
                 Array.isArray(shoppingCartDetails) && shoppingCartDetails.map((item:any, index) =>
-                    <Content detail={item}/>
+                    <Content 
+                        key={index}
+                        detail={item} 
+                        shoppingCartId={cartId}
+                        onShoppingCartId={removeDetail}
+                    />
                 )
             }
           </Table.Tbody>

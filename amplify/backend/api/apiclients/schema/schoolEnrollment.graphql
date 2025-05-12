@@ -16,6 +16,7 @@ type Student @model {
   whoIsTheContact: String!
   emailPhone: String!
   gender: String!
+  country: String @default(value: "CHILE")  # Country
   
   firstSwimmingClass: Boolean @default(value: "false")                   #| El alumno, ¿ Es primera vez que toma clases de natación ?
   attendedDaycare: Boolean @default(value: "false")                       #| ¿ Asiste o asistió a sala cuna o jardín ?
@@ -29,6 +30,7 @@ type Student @model {
  
   #Relations
   enrollments: [Enrollment] @hasMany
+  privateEnrollments: [PrivateEnrollment] @hasMany  # Relación opcional con inscripciones privadas
   relationships: [Relationship] @hasMany
   sessionDetail: SessionDetail @hasOne
   emailSend: [EmailSend] @hasMany  # Email enviados al student
@@ -48,6 +50,7 @@ enum typeofPlans {
   QUARTERLY_PLAN
   SEMIANNUAL_PLAN
   INVALID_PLAN
+  PRIVATE_LESSON
 }
 
 type Enrollment @model {  
@@ -122,6 +125,7 @@ type SessionDetail @model {
   scheduleId: ID  @default(value: "SIN-SCHEDULE")
   course: Course @belongsTo(fields: ["courseId"])
   schedule: Schedule @belongsTo(fields: ["scheduleId"])
+  coach: Users @belongsTo # Coach asignado a la sesión (opcional)
 }
 
 # SIN-CURSO

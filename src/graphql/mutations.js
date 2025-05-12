@@ -783,6 +783,7 @@ export const createEmailSend = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -807,6 +808,14 @@ export const createEmailSend = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -838,6 +847,7 @@ export const createEmailSend = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      privateEnrollmentEmailSendsId
       studentEmailSendId
       enrollmentEmailSendsId
       usersEmailSendId
@@ -873,6 +883,7 @@ export const updateEmailSend = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -897,6 +908,14 @@ export const updateEmailSend = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -928,6 +947,7 @@ export const updateEmailSend = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      privateEnrollmentEmailSendsId
       studentEmailSendId
       enrollmentEmailSendsId
       usersEmailSendId
@@ -963,6 +983,7 @@ export const deleteEmailSend = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -987,6 +1008,14 @@ export const deleteEmailSend = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -1018,6 +1047,7 @@ export const deleteEmailSend = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      privateEnrollmentEmailSendsId
       studentEmailSendId
       enrollmentEmailSendsId
       usersEmailSendId
@@ -1264,6 +1294,7 @@ export const createStudentEvaluations = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -1301,6 +1332,14 @@ export const createStudentEvaluations = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -1341,6 +1380,7 @@ export const updateStudentEvaluations = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -1378,6 +1418,14 @@ export const updateStudentEvaluations = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -1418,6 +1466,7 @@ export const deleteStudentEvaluations = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -1455,6 +1504,14 @@ export const deleteStudentEvaluations = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -1847,6 +1904,492 @@ export const deleteParameters = /* GraphQL */ `
     }
   }
 `;
+export const createPrivateEnrollment = /* GraphQL */ `
+  mutation CreatePrivateEnrollment(
+    $input: CreatePrivateEnrollmentInput!
+    $condition: ModelPrivateEnrollmentConditionInput
+  ) {
+    createPrivateEnrollment(input: $input, condition: $condition) {
+      id
+      amountPaid
+      startDate
+      endDate
+      wasDeleted
+      wasPaid
+      timeAWeek
+      numberOfSessions
+      scheduleId
+      scheduleName
+      paymentToken
+      typeOfPlan
+      streetAddress
+      city
+      state
+      zipCode
+      country
+      latitude
+      longitude
+      zoomLevel
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        country
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      sessionType {
+        id
+        name
+        description
+        durationSession
+        timeAWeek
+        totalSessions
+        amount
+        isActive
+        isTestClass
+        packValidity
+        createdAt
+        updatedAt
+        __typename
+      }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        wasDeleted
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
+        __typename
+      }
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      sessionDetails {
+        nextToken
+        __typename
+      }
+      emailSends {
+        nextToken
+        __typename
+      }
+      coach {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      coursePrivateEnrollmentsId
+      sessionTypePrivateEnrollmentsId
+      studentPrivateEnrollmentsId
+      usersPrivateEnrollmentsId
+      privateEnrollmentShoppingCartDetailId
+      __typename
+    }
+  }
+`;
+export const updatePrivateEnrollment = /* GraphQL */ `
+  mutation UpdatePrivateEnrollment(
+    $input: UpdatePrivateEnrollmentInput!
+    $condition: ModelPrivateEnrollmentConditionInput
+  ) {
+    updatePrivateEnrollment(input: $input, condition: $condition) {
+      id
+      amountPaid
+      startDate
+      endDate
+      wasDeleted
+      wasPaid
+      timeAWeek
+      numberOfSessions
+      scheduleId
+      scheduleName
+      paymentToken
+      typeOfPlan
+      streetAddress
+      city
+      state
+      zipCode
+      country
+      latitude
+      longitude
+      zoomLevel
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        country
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      sessionType {
+        id
+        name
+        description
+        durationSession
+        timeAWeek
+        totalSessions
+        amount
+        isActive
+        isTestClass
+        packValidity
+        createdAt
+        updatedAt
+        __typename
+      }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        wasDeleted
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
+        __typename
+      }
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      sessionDetails {
+        nextToken
+        __typename
+      }
+      emailSends {
+        nextToken
+        __typename
+      }
+      coach {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      coursePrivateEnrollmentsId
+      sessionTypePrivateEnrollmentsId
+      studentPrivateEnrollmentsId
+      usersPrivateEnrollmentsId
+      privateEnrollmentShoppingCartDetailId
+      __typename
+    }
+  }
+`;
+export const deletePrivateEnrollment = /* GraphQL */ `
+  mutation DeletePrivateEnrollment(
+    $input: DeletePrivateEnrollmentInput!
+    $condition: ModelPrivateEnrollmentConditionInput
+  ) {
+    deletePrivateEnrollment(input: $input, condition: $condition) {
+      id
+      amountPaid
+      startDate
+      endDate
+      wasDeleted
+      wasPaid
+      timeAWeek
+      numberOfSessions
+      scheduleId
+      scheduleName
+      paymentToken
+      typeOfPlan
+      streetAddress
+      city
+      state
+      zipCode
+      country
+      latitude
+      longitude
+      zoomLevel
+      student {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        country
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      sessionType {
+        id
+        name
+        description
+        durationSession
+        timeAWeek
+        totalSessions
+        amount
+        isActive
+        isTestClass
+        packValidity
+        createdAt
+        updatedAt
+        __typename
+      }
+      shoppingCartDetail {
+        id
+        type
+        quantity
+        amount
+        detail
+        wasDeleted
+        createdAt
+        updatedAt
+        shoppingCartCartDetailsId
+        shoppingCartDetailEnrollmentId
+        shoppingCartDetailAcademyEnrollmentId
+        __typename
+      }
+      course {
+        id
+        title
+        description
+        startingAge
+        endingAge
+        ageType
+        AgeGroupType
+        duration
+        isActive
+        createdAt
+        updatedAt
+        locationCoursesId
+        __typename
+      }
+      sessionDetails {
+        nextToken
+        __typename
+      }
+      emailSends {
+        nextToken
+        __typename
+      }
+      coach {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      coursePrivateEnrollmentsId
+      sessionTypePrivateEnrollmentsId
+      studentPrivateEnrollmentsId
+      usersPrivateEnrollmentsId
+      privateEnrollmentShoppingCartDetailId
+      __typename
+    }
+  }
+`;
 export const createRoles = /* GraphQL */ `
   mutation CreateRoles(
     $input: CreateRolesInput!
@@ -2178,6 +2721,10 @@ export const createCourse = /* GraphQL */ `
         nextToken
         __typename
       }
+      privateEnrollments {
+        nextToken
+        __typename
+      }
       sessionDetails {
         nextToken
         __typename
@@ -2232,6 +2779,10 @@ export const updateCourse = /* GraphQL */ `
         nextToken
         __typename
       }
+      privateEnrollments {
+        nextToken
+        __typename
+      }
       sessionDetails {
         nextToken
         __typename
@@ -2283,6 +2834,10 @@ export const deleteCourse = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      privateEnrollments {
         nextToken
         __typename
       }
@@ -2489,6 +3044,10 @@ export const createSessionType = /* GraphQL */ `
         nextToken
         __typename
       }
+      privateEnrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -2516,6 +3075,10 @@ export const updateSessionType = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      privateEnrollments {
         nextToken
         __typename
       }
@@ -2549,6 +3112,10 @@ export const deleteSessionType = /* GraphQL */ `
         nextToken
         __typename
       }
+      privateEnrollments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -2571,6 +3138,7 @@ export const createStudent = /* GraphQL */ `
       whoIsTheContact
       emailPhone
       gender
+      country
       firstSwimmingClass
       attendedDaycare
       immersesWithoutSwallowingWater
@@ -2579,6 +3147,10 @@ export const createStudent = /* GraphQL */ `
       putYourFaceInTheWater
       anyIllnessInjuryMedicalCondition
       enrollments {
+        nextToken
+        __typename
+      }
+      privateEnrollments {
         nextToken
         __typename
       }
@@ -2606,7 +3178,9 @@ export const createStudent = /* GraphQL */ `
         scheduleId
         createdAt
         updatedAt
+        privateEnrollmentSessionDetailsId
         enrollmentSessionDetailsId
+        usersCoachedSessionsId
         __typename
       }
       emailSend {
@@ -2649,6 +3223,7 @@ export const updateStudent = /* GraphQL */ `
       whoIsTheContact
       emailPhone
       gender
+      country
       firstSwimmingClass
       attendedDaycare
       immersesWithoutSwallowingWater
@@ -2657,6 +3232,10 @@ export const updateStudent = /* GraphQL */ `
       putYourFaceInTheWater
       anyIllnessInjuryMedicalCondition
       enrollments {
+        nextToken
+        __typename
+      }
+      privateEnrollments {
         nextToken
         __typename
       }
@@ -2684,7 +3263,9 @@ export const updateStudent = /* GraphQL */ `
         scheduleId
         createdAt
         updatedAt
+        privateEnrollmentSessionDetailsId
         enrollmentSessionDetailsId
+        usersCoachedSessionsId
         __typename
       }
       emailSend {
@@ -2727,6 +3308,7 @@ export const deleteStudent = /* GraphQL */ `
       whoIsTheContact
       emailPhone
       gender
+      country
       firstSwimmingClass
       attendedDaycare
       immersesWithoutSwallowingWater
@@ -2735,6 +3317,10 @@ export const deleteStudent = /* GraphQL */ `
       putYourFaceInTheWater
       anyIllnessInjuryMedicalCondition
       enrollments {
+        nextToken
+        __typename
+      }
+      privateEnrollments {
         nextToken
         __typename
       }
@@ -2762,7 +3348,9 @@ export const deleteStudent = /* GraphQL */ `
         scheduleId
         createdAt
         updatedAt
+        privateEnrollmentSessionDetailsId
         enrollmentSessionDetailsId
+        usersCoachedSessionsId
         __typename
       }
       emailSend {
@@ -2820,6 +3408,7 @@ export const createEnrollment = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -2844,6 +3433,14 @@ export const createEnrollment = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -2943,6 +3540,7 @@ export const updateEnrollment = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -2967,6 +3565,14 @@ export const updateEnrollment = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3066,6 +3672,7 @@ export const deleteEnrollment = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -3090,6 +3697,14 @@ export const deleteEnrollment = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3189,6 +3804,7 @@ export const createSessionDetail = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -3234,9 +3850,35 @@ export const createSessionDetail = /* GraphQL */ `
         courseSchedulesId
         __typename
       }
+      coach {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
+      privateEnrollmentSessionDetailsId
       enrollmentSessionDetailsId
+      usersCoachedSessionsId
       __typename
     }
   }
@@ -3272,6 +3914,7 @@ export const updateSessionDetail = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -3317,9 +3960,35 @@ export const updateSessionDetail = /* GraphQL */ `
         courseSchedulesId
         __typename
       }
+      coach {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
+      privateEnrollmentSessionDetailsId
       enrollmentSessionDetailsId
+      usersCoachedSessionsId
       __typename
     }
   }
@@ -3355,6 +4024,7 @@ export const deleteSessionDetail = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -3400,9 +4070,35 @@ export const deleteSessionDetail = /* GraphQL */ `
         courseSchedulesId
         __typename
       }
+      coach {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
+      privateEnrollmentSessionDetailsId
       enrollmentSessionDetailsId
+      usersCoachedSessionsId
       __typename
     }
   }
@@ -3431,6 +4127,14 @@ export const createSellersCommission = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3479,6 +4183,14 @@ export const updateSellersCommission = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3527,6 +4239,14 @@ export const deleteSellersCommission = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3572,6 +4292,14 @@ export const createShoppingCart = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3588,6 +4316,14 @@ export const createShoppingCart = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3644,6 +4380,14 @@ export const updateShoppingCart = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3660,6 +4404,14 @@ export const updateShoppingCart = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3716,6 +4468,14 @@ export const deleteShoppingCart = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -3732,6 +4492,14 @@ export const deleteShoppingCart = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -4191,6 +4959,7 @@ export const createSupportTicket = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -4248,6 +5017,7 @@ export const updateSupportTicket = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -4305,6 +5075,7 @@ export const deleteSupportTicket = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -4470,6 +5241,14 @@ export const createPaymentTransactions = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -4534,6 +5313,14 @@ export const updatePaymentTransactions = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -4598,6 +5385,14 @@ export const deletePaymentTransactions = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -4638,6 +5433,14 @@ export const createUsers = /* GraphQL */ `
       contactPhone
       ig
       firstContact
+      streetAddress
+      city
+      state
+      zipCode
+      country
+      latitude
+      longitude
+      zoomLevel
       emailSend {
         nextToken
         __typename
@@ -4680,6 +5483,14 @@ export const createUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      privateEnrollments {
+        nextToken
+        __typename
+      }
+      coachedSessions {
         nextToken
         __typename
       }
@@ -4710,6 +5521,14 @@ export const updateUsers = /* GraphQL */ `
       contactPhone
       ig
       firstContact
+      streetAddress
+      city
+      state
+      zipCode
+      country
+      latitude
+      longitude
+      zoomLevel
       emailSend {
         nextToken
         __typename
@@ -4752,6 +5571,14 @@ export const updateUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      privateEnrollments {
+        nextToken
+        __typename
+      }
+      coachedSessions {
         nextToken
         __typename
       }
@@ -4782,6 +5609,14 @@ export const deleteUsers = /* GraphQL */ `
       contactPhone
       ig
       firstContact
+      streetAddress
+      city
+      state
+      zipCode
+      country
+      latitude
+      longitude
+      zoomLevel
       emailSend {
         nextToken
         __typename
@@ -4824,6 +5659,14 @@ export const deleteUsers = /* GraphQL */ `
         __typename
       }
       enrollments {
+        nextToken
+        __typename
+      }
+      privateEnrollments {
+        nextToken
+        __typename
+      }
+      coachedSessions {
         nextToken
         __typename
       }
@@ -4856,6 +5699,14 @@ export const createRelationship = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -4872,6 +5723,7 @@ export const createRelationship = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -4912,6 +5764,14 @@ export const updateRelationship = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -4928,6 +5788,7 @@ export const updateRelationship = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -4968,6 +5829,14 @@ export const deleteRelationship = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -4984,6 +5853,7 @@ export const deleteRelationship = /* GraphQL */ `
         whoIsTheContact
         emailPhone
         gender
+        country
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -5142,6 +6012,14 @@ export const createUserPermissions = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -5184,6 +6062,14 @@ export const updateUserPermissions = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -5226,6 +6112,14 @@ export const deleteUserPermissions = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -5410,6 +6304,14 @@ export const createTicketUser = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -5459,6 +6361,14 @@ export const updateTicketUser = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
@@ -5508,6 +6418,14 @@ export const deleteTicketUser = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
         createdAt
         updatedAt
         usersRolesId
