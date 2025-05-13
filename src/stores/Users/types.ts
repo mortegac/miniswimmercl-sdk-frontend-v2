@@ -16,6 +16,13 @@ export type Users = {
   updatedAt: string;
   companiesUsersId?: string;
   usersRoleId?: string;
+  streetAddress?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+  latitude?: string;
+  longitude?: string;
 };
 
 export const emptyUser: Users = {
@@ -28,9 +35,16 @@ export const emptyUser: Users = {
   updatedAt: "",
 };
 
-export type FilterOptions  = {
+export type FilterOptions = {
   userEmail?: string;
   userPhone?: string;
   userId?: string;
   name?: string;
-}
+  streetAddress?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+  latitude?: string;
+  longitude?: string;
+};

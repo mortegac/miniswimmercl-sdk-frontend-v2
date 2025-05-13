@@ -165,6 +165,14 @@ export const emptyEnrollmentExtra : EnrollmentExtra = {
   guardianPhone: "",
   guardianRelation: "",
   
+  guardianStreetAddress: "",
+  guardianCity: "",
+  guardianState: "",
+  guardianZipCode: "",
+  guardianCountry: "",
+  guardianLatitude: "",
+  guardianLongitude: "",
+  
   // STUDENT
   studentId: "",
   studentName: "",

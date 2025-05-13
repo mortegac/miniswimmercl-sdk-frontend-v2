@@ -33,7 +33,14 @@ export const createApoderado = async (objFilter: FilterOptions): Promise<any> =>
             contactPhone: objFilter?.userPhone, 
             ig: "", 
             firstContact: false, 
-            usersRolesId: "parents", 
+            usersRolesId: "parents",
+            streetAddress: objFilter?.streetAddress || "" ,
+            city: objFilter?.city || "",
+            state: objFilter?.state || "",
+            zipCode: objFilter?.zipCode || "",
+            country: objFilter?.country || "",
+            latitude: objFilter?.latitude || "",
+            longitude: objFilter?.longitude || "",
           }
         }
       });

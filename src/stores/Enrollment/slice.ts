@@ -173,15 +173,31 @@ export const enrollmentSlice = createSlice({
     },
     setDataUser: (state, action: PayloadAction<{}>) => {
       const objAction: any = action.payload;
-      // console.log(">> objAction >>", objAction)
+      console.log(">> objAction >>", objAction)
       state.enrollment = {
         ...state.enrollment,
-        guardianId: objAction.id,
-        guardianEmail: objAction.email,
-        guardianPhone: objAction.phone,
-        guardianName: objAction.name,
-        studentEmail: objAction.email,
+        guardianId: objAction?.id || "",
+        guardianEmail: objAction?.email || "",
+        guardianPhone: objAction?.phone || "",
+        guardianName: objAction?.name || "",
+        studentEmail: objAction?.email || "",
+       
         
+      };
+    },
+    setDataAddress: (state, action: PayloadAction<{}>) => {
+      const objAction: any = action.payload;
+      console.log(">> objAction >>", objAction)
+      state.enrollment = {
+        ...state.enrollment,
+        guardianStreetAddress: objAction?.StreetAddress || "",
+        guardianCity: objAction?.City || "",
+        studentResidence: objAction?.City || "",
+        guardianState: objAction?.State || "",
+        guardianZipCode: objAction?.ZipCode || "",
+        guardianCountry: objAction?.Country || "",
+        guardianLatitude: objAction?.Latitude || "",
+        guardianLongitude: objAction?.Longitude || "",
         
       };
     },
@@ -293,7 +309,15 @@ export const enrollmentSlice = createSlice({
           guardianId:objPayload?.id,
           guardianEmail: objPayload?.email,
           guardianPhone: objPayload?.contactPhone,
-          guardianName: objPayload?.name
+          guardianName: objPayload?.name,
+          guardianStreetAddress: objPayload?.streetAddress,
+          guardianCity: objPayload?.city,
+          studentResidence: objPayload?.city,
+          guardianState: objPayload?.state,
+          guardianZipCode: objPayload?.zipCode,
+          guardianCountry: objPayload?.country,
+          guardianLatitude: objPayload?.latitude,
+          guardianLongitude: objPayload?.longitude
         }
           state.enrollment = {
             ...state.enrollment,
@@ -403,6 +427,7 @@ export const {
   increment,
   setDataEnroll,
   setDataUser,
+  setDataAddress,
   setDataStudent,
   cleanData,
 } = enrollmentSlice.actions;

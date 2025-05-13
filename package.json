@@ -23,6 +23,7 @@
     "@prismicio/types": "^0.2.9",
     "@reduxjs/toolkit": "^2.2.3",
     "@types/file-saver": "^2.0.7",
+    "@types/google.maps": "^3.58.1",
     "@types/html2canvas": "^1.0.0",
     "aws-amplify": "^6.0.9",
     "axios": "^1.7.7",
@@ -71,6 +72,7 @@
     "@types/tabulator-tables": "^5.5.4",
     "@types/toastify-js": "^1.12.3",
     "@vitejs/plugin-react": "^4.2.1",
+    "add": "^2.0.6",
     "autoprefixer": "^10.4.16",
     "clsx": "^2.1.0",
     "lodash": "^4.17.21",
@@ -83,6 +85,7 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
     "vite-plugin-pwa": "^0.20.5",
-    "vite-plugin-svgr": "^4.2.0"
+    "vite-plugin-svgr": "^4.2.0",
+    "yarn": "^1.22.22"
   }
 }
