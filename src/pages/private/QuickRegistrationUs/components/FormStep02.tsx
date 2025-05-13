@@ -209,123 +209,123 @@ export const FormStep02 = ({ onChangeSetStore, setStudentSlide }: any) => {
   
   return (
     <>
-    <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-  <div className="w-full sm:w-auto">
-    <div className="flex flex-col">
-      <h3 className="text-xl font-medium">Creación de un nuevo Alumno</h3>
-      <span className="text-base font-light mt-2">Ingrese los datos para continuar</span>
-    </div>
-  </div>
-  <div className="w-full sm:w-auto flex flex-col justify-end items-end bg-primary/20 rounded-xl p-4">
-    <p>Apoderado: <b>{guardianName}</b></p>
-    <p>{guardianEmail}</p>
-  </div>
-</div>
-        <div className="flex flex-col pt-5 mt-5 sm:flex-row xl:items-center first:mt-0 first:pt-0">
-          <label className="mb-2 sm:mr-5 sm:text-right sm:w-60 xl:mr-14">
-            <div className="flex items-center">
-              <div className="font-medium">Nombres y apellidos</div>
-              <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                Requerido
-              </div>
-            </div>
-          </label>
-          <div className="flex-1 w-full mt-3 xl:mt-0">
-            <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
-              <FormInput
-                type="text"
-                className="w-full md:w-auto px-6 py-3 rounded-full focus:z-10"
-                placeholder="Nicole"
-                aria-describedby="studentName"
-                name="studentName"
-                value={studentName}
-                onChange={onChangeSetStore}
-              />
-              <FormInput
-                type="text"
-                className="w-full md:w-auto px-6 py-3 rounded-full focus:z-10"
-                placeholder="Ortega"
-                aria-describedby="studentLastName"
-                name="studentLastName"
-                value={studentLastName}
-                onChange={onChangeSetStore}
-              />
+      <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+      <div className="w-full sm:w-auto">
+      <div className="flex flex-col">
+        <h3 className="text-xl font-medium">Creación de un nuevo Alumno</h3>
+        <span className="text-base font-light mt-2">Ingrese los datos para continuar</span>
+      </div>
+      </div>
+      <div className="w-full sm:w-auto flex flex-col justify-end items-end bg-primary/20 rounded-xl p-4">
+      <p>Apoderado: <b>{guardianName}</b></p>
+      <p>{guardianEmail}</p>
+      </div>
+      </div>
+      <div className="flex flex-col pt-5 mt-5 sm:flex-row xl:items-center first:mt-0 first:pt-0">
+      <label className="mb-2 sm:mr-5 sm:text-right sm:w-60 xl:mr-14">
+      <div className="flex items-center">
+      <div className="font-medium">Nombres y apellidos</div>
+      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
+      Requerido
+      </div>
+      </div>
+      </label>
+      <div className="flex-1 w-full mt-3 xl:mt-0">
+      <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
+      <FormInput
+      type="text"
+      className="w-full md:w-auto px-6 py-3 rounded-full focus:z-10"
+      placeholder="Nicole"
+      aria-describedby="studentName"
+      name="studentName"
+      value={studentName}
+      onChange={onChangeSetStore}
+      />
+      <FormInput
+      type="text"
+      className="w-full md:w-auto px-6 py-3 rounded-full focus:z-10"
+      placeholder="Ortega"
+      aria-describedby="studentLastName"
+      name="studentLastName"
+      value={studentLastName}
+      onChange={onChangeSetStore}
+      />
+      </div>
+      </div>
+      </div>     
+      <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+      <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
+        <div className="text-left">
+          <div className="flex items-center">
+            <div className="font-medium">Fecha de nacimiento</div>
+            <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
+              Requerido
             </div>
           </div>
-        </div>     
-              <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                  <div className="text-left">
-                    <div className="flex items-center">
-                      <div className="font-medium">Fecha de nacimiento</div>
-                      <div className="ml-2.5 px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md border border-slate-200">
-                        Requerido
-                      </div>
-                    </div>
-                    <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-                      Información requerida para calcular la edad del alumno
-                    </div>
-                  </div>
-                </label>
-                <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3 xl:mt-0">
-                <div className="relative w-full sm:w-auto">
-                  <Lucide
-                    icon="Calendar"
-                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
-                  />
-                  <Litepicker 
-                    value={studentBithday} 
-                    type="text" 
-                    name="studentBithday" 
-                    onChange={(e)=>setDateBirthday(e)}
-                    options={{
-                      autoApply: true,
-                      showWeekNumbers: false,
-                      dropdowns: {
-                        minYear: 1990,
-                        maxYear: null,
-                        months: true,
-                        years: true,
-                      },
-                    }}
-                    className="px-6 py-3 pl-12 rounded-full w-full sm:w-auto focus:z-10"
-                  />    
-                </div>
-                  <Alert 
-                    variant="soft-secondary" 
-                    className="flex items-center justify-center rounded-full w-full sm:w-auto"
-                  >
-                    <div className="uppercase font-thin text-slate-900 text-nowrap overflow-hidden text-ellipsis">
-                      {`${birthday.years} años, ${birthday.month} meses`}
-                    </div>
-                  </Alert>
-                </div>
-              </div>
-              <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                  <div className="text-left">
-                    <div className="flex items-center">
-                      <div className="font-medium">Sexo</div>
-                    </div>
-                    {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
-                      Select your gender from the options.
-                    </div> */}
-                  </div>
-                </label>
-                
-                <div className="flex-1 w-full mt-3 xl:mt-0">
-                  <ListParams
-                    list={genders}
-                    text={studentGender}
-                    value={studentGender || ""}
-                    name={"studentGender"}
-                    isLoading={false}
-                    fn={onChangeSetStore}
-                    handleCreate={(value) => null }
-                  />
-                  </div>
-              
-              </div>
+          <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
+            Información requerida para calcular la edad del alumno
+          </div>
+        </div>
+      </label>
+      <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3 xl:mt-0">
+      <div className="relative w-full sm:w-auto">
+        <Lucide
+          icon="Calendar"
+          className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
+        />
+        <Litepicker 
+          value={studentBithday} 
+          type="text" 
+          name="studentBithday" 
+          onChange={(e)=>setDateBirthday(e)}
+          options={{
+            autoApply: true,
+            showWeekNumbers: false,
+            dropdowns: {
+              minYear: 1990,
+              maxYear: null,
+              months: true,
+              years: true,
+            },
+          }}
+          className="px-6 py-3 pl-12 rounded-full w-full sm:w-auto focus:z-10"
+        />    
+      </div>
+        <Alert 
+          variant="soft-secondary" 
+          className="flex items-center justify-center rounded-full w-full sm:w-auto"
+        >
+          <div className="uppercase font-thin text-slate-900 text-nowrap overflow-hidden text-ellipsis">
+            {`${birthday.years} años, ${birthday.month} meses`}
+          </div>
+        </Alert>
+      </div>
+      </div>
+      <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+      <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
+        <div className="text-left">
+          <div className="flex items-center">
+            <div className="font-medium">Sexo</div>
+          </div>
+          {/* <div className="mt-1.5 xl:mt-3 text-xs leading-relaxed text-slate-500/80">
+            Select your gender from the options.
+          </div> */}
+        </div>
+      </label>
+
+      <div className="flex-1 w-full mt-3 xl:mt-0">
+        <ListParams
+          list={genders}
+          text={studentGender}
+          value={studentGender || ""}
+          name={"studentGender"}
+          isLoading={false}
+          fn={onChangeSetStore}
+          handleCreate={(value) => null }
+        />
+        </div>
+
+      </div>
               
              
               
@@ -341,6 +341,7 @@ export const FormStep02 = ({ onChangeSetStore, setStudentSlide }: any) => {
                     </div>
                   </div>
                 </label>
+                <pre>studentResidence = {studentResidence}</pre>
                 <div className="flex-1 w-full mt-3 xl:mt-0">
                   <ListParams
                     list={cityOfResidence}

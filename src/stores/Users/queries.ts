@@ -11,6 +11,13 @@ export const getUsers = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
         createdAt
         updatedAt
         usersRolesId
@@ -100,6 +107,13 @@ export const listUsers = /* GraphQL */ `
         contactPhone
         ig
         firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
         createdAt
         updatedAt
         usersRolesId

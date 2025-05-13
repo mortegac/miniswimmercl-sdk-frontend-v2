@@ -1,6 +1,8 @@
 /// <reference types="@types/google.maps" />
 import React, { useState, useEffect, useRef } from 'react';
 
+import { FormInput } from "@/components/Base/Form";
+
 interface Props {
   onSelectAddress: (addressDetails: {
     StreetAddress: string | null;
@@ -13,32 +15,32 @@ interface Props {
   } | null) => void;
 }
 
+interface AddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
+
 const AddressInput: React.FC<Props> = ({ onSelectAddress }) => {
   const [address, setAddress] = useState('');
   const autoCompleteRef = useRef<HTMLInputElement | null>(null);
-  const autoComplete = useRef<google.maps.places.Autocomplete | null>(null);
 
   useEffect(() => {
     if (autoCompleteRef.current) {
-      autoComplete.current = new google.maps.places.Autocomplete(
-        autoCompleteRef.current,
-        {
-          types: ['address'],
-          componentRestrictions: { country: 'us' }, // Restringimos a Estados Unidos
-          fields: ['address_components', 'geometry', 'formatted_address', 'place_id'],
-        }
-      );
+      const autocomplete = new google.maps.places.Autocomplete(autoCompleteRef.current, {
+        types: ['address'],
+        componentRestrictions: { country: 'us' },
+        fields: ['address_components', 'geometry', 'formatted_address']
+      });
 
-      autoComplete.current.addListener('place_changed', () => {
-        const place = autoComplete.current?.getPlace();
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
         if (place?.geometry) {
           console.log('Lugar seleccionado:', place);
           setAddress(place.formatted_address || '');
 
-          // Verificamos si la dirección seleccionada pertenece a Florida
           const stateComponent = place.address_components?.find(comp => comp.types.includes('administrative_area_level_1'));
           if (stateComponent?.short_name === 'FL') {
-            // Procesar los address_components para obtener los campos deseados
             const streetNumber = place.address_components?.find(comp => comp.types.includes('street_number'))?.long_name || null;
             const route = place.address_components?.find(comp => comp.types.includes('route'))?.long_name || null;
             const city = place.address_components?.find(comp => comp.types.includes('locality'))?.long_name ||
@@ -60,7 +62,6 @@ const AddressInput: React.FC<Props> = ({ onSelectAddress }) => {
               Longitude: longitude,
             });
           } else {
-            // Si no es Florida, puedes limpiar los detalles o mostrar un mensaje de error
             setAddress('');
             onSelectAddress(null);
             alert('Por favor, selecciona una dirección en Florida, EE.UU.');
@@ -71,32 +72,23 @@ const AddressInput: React.FC<Props> = ({ onSelectAddress }) => {
         }
       });
     }
-
-    return () => {
-      if (autoComplete.current) {
-        google.maps.event.clearListeners(autoComplete.current, 'place_changed');
-      }
-    };
   }, [onSelectAddress]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddress(event.target.value);
-    // No llamamos a onSelectAddress aquí para esperar la selección del autocompletado
   };
 
   return (
-    <div>
-      <label htmlFor="address" className="block text-gray-700 text-sm font-bold mb-2">
-        Dirección:
-      </label>
-      <input
+    <div className='w-full'>
+      <FormInput
         ref={autoCompleteRef}
         type="text"
         id="address"
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        tabIndex={4} 
         placeholder="Ingresa una dirección en Florida, EE.UU."
         value={address}
         onChange={handleChange}
+        className="px-6 py-3 rounded-full mr-8 focus:z-12 w-full"
       />
     </div>
   );

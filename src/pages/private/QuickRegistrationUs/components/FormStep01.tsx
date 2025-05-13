@@ -19,7 +19,7 @@ import Button from "@/components/Base/Button";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 // import ListParams from "@/components/ListParams";
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { selectEnrollment, getGuardian, setDataUser, increment, cleanData} from "@/stores/Enrollment/slice";
+import { selectEnrollment, getGuardian, setDataAddress, increment, cleanData} from "@/stores/Enrollment/slice";
 import { selectAuth, setApoderado, cleanDataUser} from "@/stores/Users/slice";
 import { selectRelationships, getRelationships} from "@/stores/Relationships/slice";
 import Card from "./Card";
@@ -35,6 +35,12 @@ interface AddressDetailsType {
   Country: string | null;
   Latitude: number | null;
   Longitude: number | null;
+}
+
+declare global {
+  interface Window {
+    initMap: () => void;
+  }
 }
 
 const RelationList: React.FC<Props> = ({students}) => {
@@ -166,7 +172,16 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
           await dispatch(setApoderado({
             userEmail:guardianEmail,
             name:guardianName,
-            userPhone:guardianPhone
+            userPhone:guardianPhone,
+            
+            streetAddress: guardianStreetAddress,
+            city: guardianCity,
+            state: guardianState,
+            zipCode: guardianZipCode,
+            country: guardianCountry,
+            latitude: guardianLatitude,
+            longitude: guardianLongitude
+            
           })),
           
           await dispatch(getGuardian({userEmail:guardianEmail})),
@@ -211,8 +226,22 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
     };
   }, []);
 
-  const handleAddressSelect = (addressDetails: AddressDetailsType | null) => {
+  
+
+  
+  const handleAddressSelect = async (addressDetails: AddressDetailsType | null) => {
     setSelectedAddress(addressDetails);
+    console.log("---addressDetails---", addressDetails)
+    addressDetails && await dispatch(setDataAddress({      
+      StreetAddress: addressDetails?.StreetAddress || "",
+      City: addressDetails?.City || "",
+      State: addressDetails?.State || "",
+      ZipCode: addressDetails?.ZipCode || "",
+      Country: addressDetails?.Country || "USA",
+      Latitude: addressDetails?.Latitude || "",
+      Longitude: addressDetails?.Longitude || "",
+    }))
+    
   };
 
   
@@ -330,12 +359,14 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
           <div className="flex flex-col items-center md:flex-row"> */}
           <div className="flex-1 w-full mt-1 xl:mt-0">
           <div className="flex flex-col items-center md:flex-row">
+          
           { guardianId === "" &&
            <>
            <PhoneInput
               international
               defaultCountry="US"
               name="guardianPhone"
+              tabIndex={3} 
               value={guardianPhone}
               onChange={validatePhoneNumber}
               className=" px-6 py-1 border rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
@@ -366,30 +397,21 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
         </label>
         <div className="flex-1 w-full mt-1 xl:mt-0">
           <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold mb-4">Validación de Direcciones con Google Maps</h1>
+          {/* <h1 className="text-2xl font-bold mb-4">Validación de Direcciones con Google Maps</h1> */}
           
+          { guardianId === "" &&
+           <>
             {isGoogleMapsLoaded ? (
-              <div>
+              <>
                 <AddressInput onSelectAddress={handleAddressSelect} />
-                <AddressDetails selectedAddress={selectedAddress} />
-              </div>
+                
+              </>
             ) : (
               <p>Cargando Google Maps...</p>
             )}
-            {/* {guardianId === "" && (
-              <FormInput
-                type="text"
-                tabIndex={4}
-                className="px-6 py-3 rounded-full mr-8 focus:z-12"
-                placeholder="123 Main St"
-                name="guardianStreetAddress"
-                value={guardianStreetAddress}
-                onChange={onChangeSetStore}
-              />
-            )}
-            {guardianId && guardianId !== "" && (
-              <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianStreetAddress}</h2>
-            )} */}
+            </>
+            }
+            { guardianId && guardianId !== "" && <h2 className="px-6 py-3 w-full mr-8 border rounded-full bg-slate-100">{guardianStreetAddress}</h2> }
           </div>
         </div>
       </div>
@@ -544,7 +566,7 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
               <>
                 <FormInput
                   type="number"
-                  tabIndex={9}
+                  tabIndex={8}
                   className="px-6 py-3 rounded-full mr-4 focus:z-12"
                   placeholder="Latitude"
                   name="guardianLatitude"
@@ -585,6 +607,7 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
         
           <Button
                 rounded
+                tabIndex={9} 
                 variant="primary"
                 className="border border-slate-200 px-4 py-3"
                 onClick={()=>dataValidate()}

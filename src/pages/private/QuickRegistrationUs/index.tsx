@@ -89,6 +89,7 @@ function Main() {
     studentId,
     guardianEmail,
     guardianPhone,
+    guardianCity,
     enrollmentStartDate,
     enrollmentSessionTypeId,
     // enrollmentScheduleId,
