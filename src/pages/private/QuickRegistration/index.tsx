@@ -48,6 +48,42 @@ interface CourseFilter {
 }
 // interface ScheduleFilter{ [];}
 
+const dayOrder = new Map<string, number>([
+  ['lunes', 1],
+  ['martes', 2],
+  ['miercoles', 3],
+  ['jueves', 4],
+  ['viernes', 5],
+  ['sabado', 6],
+  ['domingo', 7]
+]);
+
+function getDayValue(day: string): number {
+  return dayOrder.get(day.toLowerCase()) || 8;
+}
+
+function sortSchedulesByDayAndTime(schedules: any[]): any[] {
+  return [...schedules].sort((a, b) => {
+    const dayComparison = getDayValue(a.day) - getDayValue(b.day);
+    if (dayComparison !== 0) {
+      return dayComparison;
+    }
+    return a.startHour.localeCompare(b.startHour);
+  });
+}
+
+function groupSchedulesByDay(schedules: any[]): { [key: string]: any[] } {
+  const sortedSchedules = sortSchedulesByDayAndTime(schedules);
+  return sortedSchedules.reduce((groups: { [key: string]: any[] }, schedule) => {
+    const day = schedule.day;
+    if (!groups[day]) {
+      groups[day] = [];
+    }
+    groups[day].push(schedule);
+    return groups;
+  }, {});
+}
+
 function Main() {
   const [sessionSlideover, setSessionSlideover] = useState(false);
   const [studentSlide, setStudentSlide] = useState(false);
@@ -588,83 +624,51 @@ function Main() {
                                                 Seleccione el Horario
                                               </h3>
                                               <div className="overflow-x-auto flex p-2">
-                                                {/* <pre>{JSON.stringify(setPackFilter, null, 2 )}</pre> */}
-                                                {Array.isArray(
-                                                  coursesFilter?.scheduleFilter
-                                                ) &&
-                                                  coursesFilter?.scheduleFilter
-                                                    .length === 0 && (
-                                                    <p className="text-lg font-thin text-slate-400 text-center ">
-                                                      👻 Sin horarios
-                                                      disponibles ={" "}
-                                                      {scheduleFilter.length}
-                                                    </p>
-                                                  )}
-                                                {Array.isArray(
-                                                  coursesFilter?.scheduleFilter
-                                                ) &&
-                                                  coursesFilter?.scheduleFilter?.map(
-                                                    (schedule, i) => (
-                                                      <>
+                                                {Array.isArray(coursesFilter?.scheduleFilter) && coursesFilter?.scheduleFilter.length === 0 && (
+                                                  <p className="text-lg font-thin text-slate-400 text-center">
+                                                    👻 Sin horarios disponibles = {scheduleFilter.length}
+                                                  </p>
+                                                )}
+                                                {Array.isArray(coursesFilter?.scheduleFilter) && Object.entries(groupSchedulesByDay(coursesFilter?.scheduleFilter)).map(([day, schedules]) => (
+                                                  <div key={day} className="flex flex-col mr-4">
+                                                    <h4 className="text-sm font-medium text-slate-500 mb-2 text-center">{day.toUpperCase()}</h4>
+                                                    <div className="flex flex-col">
+                                                      {schedules.map((schedule, i) => (
                                                         <Button
                                                           key={`${i}-SCHEDULES-`}
-                                                          onClick={(
-                                                            event: React.MouseEvent
-                                                          ) => {
+                                                          onClick={(event: React.MouseEvent) => {
                                                             event.preventDefault();
                                                             setDataNew({
                                                               ...dataNew,
-                                                              scheduleId:
-                                                                schedule?.id,
+                                                              scheduleId: schedule?.id,
                                                             });
-                                                            setValueEnrrollment(
-                                                              {
-                                                                key: "enrollmentScheduleId",
-                                                                value:
-                                                                  schedule?.id,
-                                                              }
-                                                            );
-                                                            setValueEnrrollment(
-                                                              {
-                                                                key: "enrollmentCourseName",
-                                                                value: `${schedule?.day}-${schedule?.startHour}`,
-                                                              }
-                                                            );
+                                                            setValueEnrrollment({
+                                                              key: "enrollmentScheduleId",
+                                                              value: schedule?.id,
+                                                            });
+                                                            setValueEnrrollment({
+                                                              key: "enrollmentCourseName",
+                                                              value: `${schedule?.day}-${schedule?.startHour}`,
+                                                            });
                                                           }}
-                                                          className={`shadow-none border m-0 p-2 mr-2 mb-1 min-w-44 h-14  ${
-                                                            schedule?.id ===
-                                                              dataNew?.scheduleId &&
-                                                            "bg-green-200"
+                                                          className={`shadow-none border m-0 p-2 mb-1 min-w-44 h-14 ${
+                                                            schedule?.id === dataNew?.scheduleId && "bg-green-200"
                                                           }`}
                                                         >
-                                                          <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                                          <span className="group flex justify-center items-center text-xs rounded-md uppercase">
                                                             <span className="-mt-px text-center">
-                                                              <p
-                                                                className={`text-center  text-xs text-slate-400  ${
-                                                                  schedule?.id ===
-                                                                    dataNew?.scheduleId &&
-                                                                  "text-slate-500"
-                                                                }`}
-                                                              >
-                                                                {schedule?.day}
-                                                              </p>
-                                                              <p
-                                                                className={`text-center  text-lg text-slate-400  ${
-                                                                  schedule?.id ===
-                                                                    dataNew?.scheduleId &&
-                                                                  "text-slate-500"
-                                                                }`}
-                                                              >
-                                                                {
-                                                                  schedule?.startHour
-                                                                }
+                                                              <p className={`text-center text-lg text-slate-400 ${
+                                                                schedule?.id === dataNew?.scheduleId && "text-slate-500"
+                                                              }`}>
+                                                                {schedule?.startHour}
                                                               </p>
                                                             </span>
                                                           </span>
                                                         </Button>
-                                                      </>
-                                                    )
-                                                  )}
+                                                      ))}
+                                                    </div>
+                                                  </div>
+                                                ))}
                                               </div>
                                             </div>
                                           </div>
