@@ -16,7 +16,7 @@ type Student @model {
   whoIsTheContact: String!
   emailPhone: String!
   gender: String!
-  country: String @default(value: "CHILE")  # Country
+  country: String @default(value: "CHILE") @index(name: "byCountry")  # Country
   
   firstSwimmingClass: Boolean @default(value: "false")                   #| El alumno, ¿ Es primera vez que toma clases de natación ?
   attendedDaycare: Boolean @default(value: "false")                       #| ¿ Asiste o asistió a sala cuna o jardín ?

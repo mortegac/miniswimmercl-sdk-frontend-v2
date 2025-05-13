@@ -11,6 +11,7 @@ export const EVALUATIONS_ADMIN = "/evaluations-admin";
 export const COURSES = "/courses";
 export const ATTENDANCE = "/attendance";
 export const QUICK_REGISTRATION = "/quick-registration";
+export const QUICK_REGISTRATION_US = "/quick-registration-us";
 export const QUICK_REGISTRATION2 = "/quick-registration2";
 export const ENROLLMENTS = "/enrollments";
 export const ENROLLMENTS_READ = "/enrollments-read";

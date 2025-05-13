@@ -3372,6 +3372,51 @@ export const emailSendsByStudentId = /* GraphQL */ `
     }
   }
 `;
+export const studentsByCountry = /* GraphQL */ `
+  query StudentsByCountry(
+    $country: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelStudentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    studentsByCountry(
+      country: $country
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        lastName
+        middleName
+        birthdate
+        placeOfResidence
+        contactPhone
+        whoIsTheContact
+        emailPhone
+        gender
+        country
+        firstSwimmingClass
+        attendedDaycare
+        immersesWithoutSwallowingWater
+        bornPrematurely
+        waterOnHisFaceBothersHim
+        putYourFaceInTheWater
+        anyIllnessInjuryMedicalCondition
+        createdAt
+        updatedAt
+        studentSessionDetailId
+        studentSessionDetailDate
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
   query SessionDetailsBySessionDetailStudentId(
     $sessionDetailStudentId: ID!
@@ -3535,6 +3580,50 @@ export const paymentTransactionsByIdAndDayAndMonthAndYearAndHour = /* GraphQL */
         updatedAt
         shoppingCartPaymentTransactionsId
         usersPaymentTransactionsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const usersByCountry = /* GraphQL */ `
+  query UsersByCountry(
+    $country: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUsersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByCountry(
+      country: $country
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
         __typename
       }
       nextToken

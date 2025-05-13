@@ -16,6 +16,7 @@ import {
   COURSES_QUOTAS,
   QUICK_REGISTRATION,
   QUICK_REGISTRATION2,
+  QUICK_REGISTRATION_US,
   PAYMENTS,
   TICKETS,
   NEW_EXPENSE, 
@@ -78,6 +79,12 @@ const initialState: SideMenuState = {
       title: "Alumnnos",
     },
 
+    "US",
+    {
+      icon: "PlusSquare",
+      pathname: QUICK_REGISTRATION_US,
+      title: "Enrollment",
+    },
     "Cursos",
     {
       icon: "CheckSquare",

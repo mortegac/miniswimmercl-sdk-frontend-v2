@@ -18,7 +18,7 @@ type Users @model {
   city: String           # City
   state: String          # State
   zipCode: String        # ZIP code
-  country: String @default(value: "CHILE")  # Country
+  country: String @default(value: "CHILE") @index(name: "byCountry")  # Country
   latitude: Float        # Latitude for Google Maps/Waze
   longitude: Float       # Longitude for Google Maps/Waze
   zoomLevel: Int @default(value: "15")  # Map zoom level
@@ -42,6 +42,16 @@ type Users @model {
   studentEvaluations: [StudentEvaluations] @hasMany
 }
 
+
+
+
+# enum CountryType {
+#   NONE
+#   USA
+#   CHILE
+#   URUGUAY
+#   PANAMA
+# }
 
 
 ################################

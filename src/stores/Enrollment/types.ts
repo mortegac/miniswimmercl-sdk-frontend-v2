@@ -107,6 +107,16 @@ export type EnrollmentExtra = {
   guardianName?: string
   guardianPhone?: string
   guardianRelation?: string
+  guardianStreetAddress?: string
+  guardianCity?: string
+  guardianState?: string
+  guardianZipCode?: string
+  guardianCountry?: string
+  guardianLatitude?: string
+  guardianLongitude?: string
+  
+  
+  
   
   // STUDENT
   studentId?: string

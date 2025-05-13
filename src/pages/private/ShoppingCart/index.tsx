@@ -208,7 +208,7 @@ function SendJwtWhatsapp(props: any) {
   return (
     <>
       { cartStatus !== "AUTHORIZED" && 
-        <div className="px-8 pt-6 pb-8 mt-3.5 ">
+        <div className="px-8 pt-6 pb-8 mt-3.5 bg-purple-100">
           <div className="text-base font-medium">Envio de link de pago</div>
           <div className="text-slate-500 mt-0.5 mb-2">
             Con esta funcionalidad puede enviar directo al whatsapp del
@@ -475,6 +475,7 @@ function Content(props: any) {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
+      
       <div className="overflow-auto xl:overflow-visible">
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
