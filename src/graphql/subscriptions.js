@@ -1493,6 +1493,7 @@ export const onCreateExpense = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -1528,6 +1529,7 @@ export const onUpdateExpense = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -1563,6 +1565,7 @@ export const onDeleteExpense = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -2443,6 +2446,7 @@ export const onCreateLocation = /* GraphQL */ `
       id
       name
       city
+      country
       minimumTemperature
       maximumTemperature
       address
@@ -2475,6 +2479,7 @@ export const onUpdateLocation = /* GraphQL */ `
       id
       name
       city
+      country
       minimumTemperature
       maximumTemperature
       address
@@ -2507,6 +2512,7 @@ export const onDeleteLocation = /* GraphQL */ `
       id
       name
       city
+      country
       minimumTemperature
       maximumTemperature
       address
@@ -2549,6 +2555,7 @@ export const onCreateCourse = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -2604,6 +2611,7 @@ export const onUpdateCourse = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -2659,6 +2667,7 @@ export const onDeleteCourse = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -2727,6 +2736,7 @@ export const onCreateSchedule = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -2780,6 +2790,7 @@ export const onUpdateSchedule = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -2833,6 +2844,7 @@ export const onDeleteSchedule = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address

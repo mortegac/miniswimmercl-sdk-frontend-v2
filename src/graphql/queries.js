@@ -835,6 +835,7 @@ export const getExpense = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -1360,6 +1361,7 @@ export const getLocation = /* GraphQL */ `
       id
       name
       city
+      country
       minimumTemperature
       maximumTemperature
       address
@@ -1405,6 +1407,7 @@ export const listLocations = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -1438,6 +1441,7 @@ export const getCourse = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -1541,6 +1545,7 @@ export const getSchedule = /* GraphQL */ `
         id
         name
         city
+        country
         minimumTemperature
         maximumTemperature
         address
@@ -3365,6 +3370,43 @@ export const emailSendsByStudentId = /* GraphQL */ `
         studentEmailSendId
         enrollmentEmailSendsId
         usersEmailSendId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const locationsByCountry = /* GraphQL */ `
+  query LocationsByCountry(
+    $country: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    locationsByCountry(
+      country: $country
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        city
+        country
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
+        isActive
+        createdAt
+        updatedAt
         __typename
       }
       nextToken

@@ -341,7 +341,7 @@ export const FormStep02 = ({ onChangeSetStore, setStudentSlide }: any) => {
                     </div>
                   </div>
                 </label>
-                <pre>studentResidence = {studentResidence}</pre>
+                
                 <div className="flex-1 w-full mt-3 xl:mt-0">
                   <ListParams
                     list={cityOfResidence}

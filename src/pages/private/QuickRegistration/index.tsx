@@ -292,7 +292,7 @@ function Main() {
   }
 
   useEffect(() => {
-    (async () => await dispatch(getLocationsOnly()))();
+    (async () => await dispatch(getLocationsOnly("CHILE")))();
     // (async () => await dispatch(getCourses({isActive:true})))();
   }, []);
   // useEffect(() => {

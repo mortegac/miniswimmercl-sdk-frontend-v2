@@ -10,6 +10,7 @@ type Location @model {
   id: ID! @primaryKey
   name: String @default(value: "")
   city: String @default(value: "")
+  country: String @default(value: "CHILE") @index(name: "byCountry")  # Country
   minimumTemperature:  Int @default(value: "28")
   maximumTemperature:  Int @default(value: "30")
   address: String @default(value: "")

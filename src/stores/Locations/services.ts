@@ -39,13 +39,23 @@ export const fetchData = async (): Promise<any> => {
     }
   });
 };
-export const fetchDataOnly = async (): Promise<any> => {
+export const fetchDataOnly = async (country?: string): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
      
+
+      let filterCountry = (typeof country === 'undefined' || country === "" ) ?
+      { } : { country: { eq: country } };
+      
+      
       const getData:any = await client.graphql({
         query: listLocationsOnly, 
-        variables: { filter: { isActive: { eq: true } } },
+        variables: { 
+          filter: { 
+            isActive: { eq: true }, 
+            // country: { eq: country } 
+            ...filterCountry
+          } },
       });
       
       // console.log("<<< LOCATIONS DATA <<<<< ", getData)

@@ -41,10 +41,10 @@ export const getLocations = createAsyncThunk(
 );
 export const getLocationsOnly = createAsyncThunk(
   "locations/list-only",
-  async () => {
+  async (country?: string) => {
     try {
       
-      const response:any = await fetchDataOnly();
+      const response:any = await fetchDataOnly(country || "");
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH LOCATIONS", error)
