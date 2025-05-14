@@ -30,6 +30,15 @@ export const getStudent = /* GraphQL */ `
               name
               id
               contactPhone
+              streetAddress
+              city
+              state
+              zipCode
+              country
+              latitude
+              longitude
+              
+              
             }
           }
       }
