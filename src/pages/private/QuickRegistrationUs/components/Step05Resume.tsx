@@ -14,7 +14,7 @@ import { HeaderTitle } from "./HeaderTitle";
 import CardCourses from "./CardCourses";
 import { setPhoneApoderado } from "@/stores/Users/slice";
 
-import {typeOfMonth} from "@/utils/dictionary";
+import {typeOfMonthENG} from "@/utils/dictionary";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { selectCourse, getCourses} from "@/stores/Courses/slice";
@@ -34,10 +34,10 @@ function SendJwtWhatsapp(props: any) {
   
   
   const paymentLink:string = `Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${props?.JWT}   El link de pago tiene una vigencia de 48 horas.`;
-  const sessionsDetail:string = `${clientName}, hemos realizado su inscripción 🎉 en el *curso ${courseName} en la sede ${locationName}*, \ncon las siguientes fechas agendadas:
+  const sessionsDetail:string = `${clientName}, we have completed your registration 🎉 for the ${courseName} en la sede ${locationName}*, \n with the following dates scheduled:
                     ${props?.sessions?.map((item:any, i:number) => {
                       const [day, month] = item?.date.replace(/\s/g, '').split('-');
-                      return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${day}-${typeOfMonth[month]}`;
+                      return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${typeOfMonthENG[month]} - ${day}th`;
                     }).join('\n')}
                     `;
   
@@ -300,7 +300,7 @@ function SendJwtWhatsapp(props: any) {
                       msg:`${clientName}, hemos realizado su inscripción en el *curso ${courseName} en la sede ${locationName}* 🎉, \ncon las siguientes fechas agendadas:
                       ${props?.sessions?.map((item:any, i:number) => {
                         const [day, month] = item?.date.replace(/\s/g, '').split('-');
-                        return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${day}-${typeOfMonth[month]}`;
+                        return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${day}-${typeOfMonthENG[month]}`;
                       }).join('\n')}
                       `
                     }
@@ -412,7 +412,7 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
                 
               return <span className="text-base font-light mt-2  text-primary m-4">
                 {`- (${item?.sesionNumber || "0"}) `}
-                <b><span className="uppercase">{courseDay[0] || ""}</span> {date[0]} {typeOfMonth[date[1]]}</b>
+                <b><span className="uppercase">{courseDay[0] || ""}</span> {date[0]} {typeOfMonthENG[date[1]]}</b>
               </span>
               }
               )}

@@ -85,22 +85,22 @@ export function SessionsPage(props:any) {
                           <Table className="border-b border-slate-200/60">
                           <Table.Thead>
                           <Table.Tr>
-                              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                              <Table.Td className="w-36 text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                               Fecha
                               </Table.Td>
-                              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                              Número
+                              <Table.Td className="w-1 text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                              
                               </Table.Td>
-                              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                              <Table.Td className=" w-24 text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                               Estado
                               </Table.Td>
-                              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                              <Table.Td className=" w-42 text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                               Sede
                               </Table.Td>
-                              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                              Modificado por
+                              <Table.Td className=" w-96 text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                              Horario
                               </Table.Td>
-                              <Table.Td className="py-4 font-medium text-center border-t bg-slate-50 border-slate-200/60 text-slate-500"></Table.Td>
+                              <Table.Td className=" w-10 text-left py-4 font-medium  border-t bg-slate-50 border-slate-200/60 text-slate-500"></Table.Td>
                           </Table.Tr>
                           </Table.Thead>
                           </Table>
@@ -114,8 +114,9 @@ export function SessionsPage(props:any) {
                                 .map((item:any, index:number)=>{
                                     
                                     return <>
+                                    {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
                                      <Table className="border-b border-slate-200/60">
-                                     <Table.Thead>
+                                     {/* <Table.Thead>
                                       <Table.Tr className="bg-slate-500">
                                       <Table.Td className="h-[0.2]"></Table.Td>
                                       <Table.Td className="h-[0.2]"></Table.Td>
@@ -124,7 +125,7 @@ export function SessionsPage(props:any) {
                                       <Table.Td className="h-[0.2]"></Table.Td>
                                       <Table.Td className="h-[0.2]"></Table.Td>
                                       </Table.Tr>
-                                      </Table.Thead>
+                                      </Table.Thead> */}
                                       <Table.Tbody>
                                       {Array.isArray(item?.sessionDetails?.items) &&
                                       [...item?.sessionDetails?.items]
@@ -135,48 +136,49 @@ export function SessionsPage(props:any) {
                                       })
                                       .map(
                                         (session: any, i: any) => {
-                                          const dateSession:string = formatDateUTC(session?.modifiedByDate);
-                                          return(
+                                          // const dateSession:string = formatDateUTC(session?.modifiedByDate);
+                                          const daySchedule: string =  item?.scheduleName.split(" ")[0]
+                                          return session && Object.keys(session).length > 0 ? (
                                           <>  
+                                          {/* <pre>{JSON.stringify(item, null, 2 )}</pre> */}
+                                          {/* <pre>{JSON.stringify(session, null, 2 )}</pre> */}
+                                          {/* <pre>{JSON.stringify(item?.scheduleId, null, 2 )}</pre> */}
+                                          
                                           <Table.Tr key={index} className={`[&_td]:last:border-b-0 `} > 
                                             
                                             <Table.Td className="w-36 py-4 border-dashed">
-                                            <span className=" text-sm">{formatDateUTC(session?.date)}</span>
+                                              <span className=" text-sm">{formatDateUTC(session?.date)}</span>
                                             </Table.Td>
                                             <Table.Td className="w-1 py-4 border-dashed text-center">
-                                            <span className="min-w-3 min-h-2  max-w-3 max-h-2 px-2 py-1 rounded-full text-white bg-slate-400 text-[0.74rem]">{session?.sessionNumber}</span>
-                                            {/* <span className=" text-center w-5 h4 bg-slate-400 text-white rounded-full text-[0.74rem]">{session?.sessionNumber}</span> */}
+                                              <span className="min-w-3 min-h-2  max-w-3 max-h-2 px-2 py-1 rounded-full text-white bg-slate-400 text-[0.74rem]">{session?.sessionNumber}</span>
                                             </Table.Td>
                                             <Table.Td className="w-24 py-4 border-dashed">
-                                              
-                                            {/* <span className="text-sm">{session?.status}</span> */}
-                                            {/* <div  className=" relative"> */}
-                                <span
-                                    className={clsx([
-                                        "group flex justify-center items-center text-xs rounded-md border  mr-2 mb-1",
-                                        // "bg-slate-700 text-white",
-                                        session?.status === "ACTIVE" &&  "bg-green-50 font-thin ",
-                                        session?.status === "USED" &&  "bg-red-50 border-red-200",
-                                        session?.status === "RECOVERED" &&  "bg-blue-50 border-blue-200",
-                                        session?.status === "DELETED" &&  "bg-slate-200 border-slate-200 text-slate-500",
-                                        
-                                        "w-28 h-10",
-                                    ])}
-                                    >
-                                    <span className="text-center">
-                                      <p className="text-sm">{typeOfSession[session?.status || ""]}</p>
-                                    </span>
-                                </span>
-                                {/* <span className=" text-center w-5 h4 absolute -top-1 left-1 bg-slate-400 text-white rounded-full text-[0.74rem]">{session?.sessionNumber}</span> */}
-                                {/* </div>    */}
+                                              <span
+                                                  className={clsx([
+                                                      "group flex justify-center items-center text-xs rounded-md border  mr-2 mb-1",
+                                                      // "bg-slate-700 text-white",
+                                                      session?.status === "ACTIVE" &&  "bg-green-50 font-thin ",
+                                                      session?.status === "USED" &&  "bg-red-50 border-red-200",
+                                                      session?.status === "RECOVERED" &&  "bg-blue-50 border-blue-200",
+                                                      session?.status === "DELETED" &&  "bg-slate-200 border-slate-200 text-slate-500",
+                                                      
+                                                      "w-28 h-10",
+                                                  ])}
+                                                  >
+                                                  <span className="text-center">
+                                                    <p className="text-sm">{typeOfSession[session?.status || ""]}</p>
+                                                  </span>
+                                              </span>
                                             </Table.Td>
                                             <Table.Td className="w-42  py-4 border-dashed">
                                               <p className="text-sm pb-2 font-thin"><b className="pr-2">Creada:</b>{session?.locationId}</p>
                                               <p className="text-sm"><b className="pr-4">Usada:</b>{session?.locationIdUsed}</p>
                                             </Table.Td>
-                                            <Table.Td className="w-42  py-4 border-dashed">
-                                              <p className="text-sm text-slate-400">{session?.modifiedBy}</p>
-                                              <p className="text-sm text-slate-400">{dateSession !== "01-ENE-1800" && dateSession}</p>
+                                            <Table.Td className="w-96  py-4 border-dashed text-left">
+                                              <p className="text-sm text-slate-400">{item?.courseEnrollmentsId}</p>
+                                              <p className="text-sm text-slate-400">{item?.scheduleName}</p>
+                                              {/* <p className="text-sm text-slate-400">{session?.modifiedBy}</p>
+                                              <p className="text-sm text-slate-400">{dateSession !== "01-ENE-1800" && dateSession}</p> */}
                                             </Table.Td>
                                             <Table.Td className="w-10 py-4 border-dashed">
                                               <div className="flex flex-row">
@@ -185,7 +187,15 @@ export function SessionsPage(props:any) {
                                                   
                                                   onClick={() => {
                                                     setSessionSlideover(true);
-                                                    setDataSession({...session, studentId:studentId, enrollmentId: item?.id, startDate:item?.startDate})
+                                                    setDataSession({
+                                                      ...session, 
+                                                      courseEnrollmentsId: item?.courseEnrollmentsId || "",
+                                                      scheduleId: item?.scheduleId || "",
+                                                      studentId:studentId, 
+                                                      enrollmentId: item?.id, 
+                                                      startDate:item?.startDate,
+                                                      scheduleName: daySchedule 
+                                                    })
                                                   }}
                                                 ><span className="text-sm uppercase">Editar</span></Button>
                                               </div>
@@ -193,7 +203,8 @@ export function SessionsPage(props:any) {
                                             
                                         </Table.Tr>
                                           </>
-                                        )}
+                                          ) : null
+                                        }
                                       )}                                    
                                       </Table.Tbody>
                                       </Table>

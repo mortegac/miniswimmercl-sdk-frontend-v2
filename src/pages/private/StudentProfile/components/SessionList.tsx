@@ -18,25 +18,25 @@ import { setOneSessionDetail, selectSessionDetails, getSessionDetails } from "@/
 import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
 import { getStudent } from "@/stores/Students/slice";
 
-// function formatDateUTCShort(dateString: string): string {
-//     const date = new Date(dateString);
-  
-//     const day = date.getUTCDate().toString().padStart(2, "0");
-//     const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Meses son 0-indexados
-//     const year = date.getUTCFullYear();
-  
-//     return `${day}-${typeOfMonth[month]}`;
-//   }
+import { selectCourse, getCourses } from "@/stores/Courses/slice";
 
-// const statusSession:any=[
-//   { id:"ACTIVE", name:"ACTIVA" },
-//   { id:"USED", name:"USADA" },
-//   { id:"RECOVERED", name:"REAGENDADA" },
-//   { id:"DELETED", name:"ELIMINADA" },
-// ]
+interface CourseFilter {
+  // courses: any[];
+  scheduleFilter: any[];
+  // packFilter: any[];
+}
+
+
 export function SessionList(props: any) {
     const {studentId, data, setSessionSlideover } = props;
-
+    const [coursesFilter, setCoursesFilter] = useState<CourseFilter>({
+      // courses: [],
+      scheduleFilter: [],
+      // packFilter: [],
+    });
+    
+    console.log("----data---", data)
+    
     const [dataNew, setDataNew] = useState({
         id: data?.id,
         sessionNumber: data?.sessionNumber,
@@ -49,7 +49,13 @@ export function SessionList(props: any) {
         locationIdUsed: data?.locationIdUsed,
         studentId: data?.studentId,
         enrollmentId: data?.enrollmentId,
+        // courseId: ""
+        scheduleId: data?.scheduleId,
+        courseEnrollmentsId: data?.courseEnrollmentsId,
+        scheduleName: data?.scheduleName,
       });
+      
+      const { courses, status: courseStatus} = useAppSelector(selectCourse);
       const dispatch = useAppDispatch();
       const {email}= useAppSelector(selectAuth);
       const { locations, status } = useAppSelector(selectLocation);
@@ -111,11 +117,92 @@ export function SessionList(props: any) {
       //     id: session?.id
       //   });
       // }
-
-    
+      const dayOrder = new Map<string, number>([
+        ['lunes', 1],
+        ['martes', 2],
+        ['miercoles', 3],
+        ['jueves', 4],
+        ['viernes', 5],
+        ['sabado', 6],
+        ['domingo', 7]
+      ]);
+      
+      function getDayValue(day: string): number {
+        return dayOrder.get(day.toLowerCase()) || 8;
+      }
+      
+      const getCoursesByLocation = async (locationId: any) => {
+        await dispatch(getCourses({ isActive: true, locationId }));
+        setCoursesFilter({
+          scheduleFilter: [],
+          // packFilter: [],
+        });
+      };
+      
+      const filterCourse = async () => {
+        const resultadoFind = data?.courseEnrollmentsId && courses.find(curso => curso.id === data?.courseEnrollmentsId);
+      
+        resultadoFind && setCoursesFilter({
+          ...coursesFilter,
+          scheduleFilter:
+            [
+              ...resultadoFind
+                ?.schedules
+                ?.items,
+            ],
+        });
+      };
+      
+      function sortSchedulesByDayAndTime(schedules: any[]): any[] {
+        return [...schedules].sort((a, b) => {
+          const dayComparison = getDayValue(a.day) - getDayValue(b.day);
+          if (dayComparison !== 0) {
+            return dayComparison;
+          }
+          return a.startHour.localeCompare(b.startHour);
+        });
+      }
+      
+      function groupSchedulesByDay(schedules: any[]): { [key: string]: any[] } {
+        const sortedSchedules = sortSchedulesByDayAndTime(schedules);
+        return sortedSchedules.reduce((groups: { [key: string]: any[] }, schedule) => {
+          const day = schedule.day;
+          if (!groups[day]) {
+            groups[day] = [];
+          }
+          groups[day].push(schedule);
+          return groups;
+        }, {});
+      }
+      
     useEffect(() => {
-      (async () => await dispatch(getLocationsOnly()))();
-    }, []);
+      
+      (async () => 
+        Promise.all([
+          await dispatch(getLocationsOnly()),
+          getCoursesByLocation(data?.locationId )
+          // await dispatch(getCourses({ isActive: true, locationId: data?.locationId })),
+          // courses && filterCourse(),
+          
+        ])
+      )()
+    }, [data?.locationId]);
+    
+  
+    
+    // useEffect(() => {
+    //   const resultadoFind = data?.courseEnrollmentsId && courses.find(curso => curso.id === data?.courseEnrollmentsId);
+      
+    //   resultadoFind && setCoursesFilter({
+    //     ...coursesFilter,
+    //     scheduleFilter:
+    //       [
+    //         ...resultadoFind
+    //           ?.schedules
+    //           ?.items,
+    //       ],
+    //   });
+    // }, [courses]);
     
     return(
         <>
@@ -132,6 +219,9 @@ export function SessionList(props: any) {
             </div>
           </Notification>
           <div className="flex flex-col">
+            {/* <pre>{JSON.stringify(coursesFilter, null, 2 )}</pre> */}
+              
+              {/* <pre>{JSON.stringify(courses, null, 2 )}</pre> */}
               {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
               
               <div className="px-8 pt-6 pb-8">
@@ -222,8 +312,10 @@ export function SessionList(props: any) {
                       <FormSelect
                         key="SELECT-LOCATIONS"
                         className="!box uppercase mr-3"
-                        onChange={(e) =>
-                          setDataNew({ ...dataNew, locationId: e.target.value })
+                        onChange={(e) =>{
+                            setDataNew({ ...dataNew, locationId: e.target.value })
+                            getCoursesByLocation(e.target.value)
+                          }
                         }
                       >
                         <option value="" selected>
@@ -253,6 +345,141 @@ export function SessionList(props: any) {
                     </label>
                     <div className="flex-1 w-full mt-3 xl:mt-0">
                       *Próximamente
+                      
+                      <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                        <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                          <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
+                            Seleccione el Curso
+                          </h3>
+                          <div className="flex flex-row justify-start flex-wrap p-4">
+                            
+                            {courseStatus === "idle" && (
+                              <>
+                                {Array.isArray(courses) &&
+                                  courses.map(
+                                    (schedule, i) => (
+                                      <>
+                                        <Button
+                                          key={`${i}-SCHEDULES-`}
+                                          onClick={(
+                                            event: React.MouseEvent
+                                          ) => {
+                                            event.preventDefault();
+                                            setDataNew({
+                                              ...dataNew,
+                                              courseEnrollmentsId: schedule?.id,
+                                            });
+
+
+                                            setCoursesFilter({
+                                              // ...coursesFilter,
+                                              scheduleFilter:
+                                                [
+                                                  ...schedule
+                                                    ?.schedules
+                                                    ?.items,
+                                                ],
+                                              // packFilter: [
+                                              //   ...schedule
+                                              //     ?.sessionTypes
+                                              //     ?.items,
+                                              // ],
+                                            });
+                                          }}
+                                          className={`shadow-none border m-0 p-2 mr-2 min-w-full lg:min-w-44 h-14 mb-2  ${
+                                            schedule?.id ===
+                                              dataNew?.courseEnrollmentsId &&
+                                            "bg-purple-200"
+                                          }`}
+                                        >
+                                          <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                            <span className="-mt-px text-center">
+                                              <p
+                                                className={`text-center  text-xs text-slate-400  ${
+                                                  schedule?.id ===
+                                                    dataNew?.courseEnrollmentsId &&
+                                                  "text-slate-600"
+                                                }`}
+                                              >
+                                                {/* {
+                                                  schedule?.id
+                                                } -  */}
+                                                {
+                                                  schedule?.title
+                                                }
+                                              </p>
+                                            </span>
+                                          </span>
+                                        </Button>
+                                      </>
+                                    )
+                                  )}
+                              </>
+                            )}
+                          </div>
+                                        {/* <pre>{JSON.stringify(coursesFilter, null, 2 )}</pre> */}
+                        </div>
+                      </div>
+                      
+                      <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                                            <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                              <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
+                                                Seleccione el Horario
+                                              </h3>
+                                              <div className="overflow-x-auto overflow-y-auto max-h-[300px] flex p-2">
+                                                {Array.isArray(coursesFilter?.scheduleFilter) && coursesFilter?.scheduleFilter.length === 0 && (
+                                                  <p className="text-lg font-thin text-slate-400 text-center">
+                                                    👻 Sin horarios disponibles = {coursesFilter?.scheduleFilter.length}
+                                                  </p>
+                                                )}
+                                                {Array.isArray(coursesFilter?.scheduleFilter) && Object.entries(groupSchedulesByDay(coursesFilter?.scheduleFilter)).map(([day, schedules]) => (
+                                                  <div key={day} className="flex flex-col mr-4">
+                                                    <h4 className="text-sm font-medium text-slate-500 mb-2 text-center">{day.toUpperCase()}</h4>
+                                                    <div className="flex flex-col">
+                                                      {coursesFilter?.scheduleFilter.map((schedule, i) => (
+                                                        <Button
+                                                          key={`${i}-SCHEDULES-`}
+                                                          onClick={(event: React.MouseEvent) => {
+                                                            event.preventDefault();
+                                                            setDataNew({
+                                                              ...dataNew,
+                                                              scheduleId: schedule?.id,
+                                                            });
+                                                            // setValueEnrrollment({
+                                                            //   key: "enrollmentScheduleId",
+                                                            //   value: schedule?.id,
+                                                            // });
+                                                            // setValueEnrrollment({
+                                                            //   key: "enrollmentCourseName",
+                                                            //   value: `${schedule?.day}-${schedule?.startHour}`,
+                                                            // });
+                                                          }}
+                                                          className={`shadow-none border m-0 p-2 mb-1 min-w-44 h-14 ${
+                                                            (schedule?.id === dataNew?.scheduleId && schedule?.day === data?.scheduleName) && "bg-green-200"
+                                                          }`}
+                                                        >
+                                                          <span className="group flex justify-center items-center text-xs rounded-md uppercase">
+                                                            <span className="-mt-px text-center">
+                                                              <p className={`text-center text-lg text-slate-400 ${
+                                                                schedule?.id === dataNew?.scheduleId && "text-slate-500"
+                                                              }`}>
+                                                                {schedule?.startHour}
+                                                              </p>
+                                                            </span>
+                                                          </span>
+                                                            <p>                                                              
+                                                                {/* <span className="text-[0.6rem]">{schedule?.id}</span> */}
+                                                                <span className="text-[0.6rem]">{schedule?.day}</span>
+                                                            </p>
+                                                        </Button>
+                                                      ))}
+                                                    </div>
+                                                  </div>
+                                                ))}
+                                              </div>
+                                            </div>
+                      </div>
+                      
                       {/* <FormSelect
                         key="SELECT-LOCATIONS"
                         className="!box uppercase mr-3"

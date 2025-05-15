@@ -33,6 +33,31 @@ export const typeOfMonth: any = {
   ["12"]: "DIC",
 };
 
+export const typeOfMonthENG: any = {
+  [""]: "",
+  ["01"]: "JAN", 
+  ["1"]: "JAN", 
+  ["02"]: "FEB", 
+  ["2"]: "FEB", 
+  ["03"]: "MAR", 
+  ["3"]: "MAR", 
+  ["04"]: "APR", 
+  ["4"]: "APR", 
+  ["05"]: "MAY", 
+  ["5"]: "MAY", 
+  ["06"]: "JUN", 
+  ["6"]: "JUN", 
+  ["07"]: "JUL", 
+  ["7"]: "JUL", 
+  ["08"]: "AUG", 
+  ["8"]: "AUG", 
+  ["09"]: "SEP", 
+  ["9"]: "SEP", 
+  ["10"]: "OCT", 
+  ["11"]: "NOV", 
+  ["12"]: "DEC",
+};
+
 
 
 export const typeOfRelationship: any = {
