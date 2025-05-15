@@ -20,6 +20,7 @@ import { selectEnrollment, getGuardian, setDataUser, increment, cleanData} from 
 import { selectAuth, setApoderado, cleanDataUser} from "@/stores/Users/slice";
 import { selectRelationships, getRelationships} from "@/stores/Relationships/slice";
 import Card from "./Card";
+import { Country } from '../../../../fakers/countries';
 interface Props {
   students?: any;  
 }
@@ -135,7 +136,14 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
           await dispatch(setApoderado({
             userEmail:guardianEmail,
             name:guardianName,
-            userPhone:guardianPhone
+            userPhone:guardianPhone,
+            streetAddress: "",
+            city: "",
+            state: "",
+            zipCode: "",
+            latitude: "0",
+            longitude: "0",
+            country: "CHILE",
           })),
           
           await dispatch(getGuardian({userEmail:guardianEmail})),
