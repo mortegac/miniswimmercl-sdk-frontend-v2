@@ -72,6 +72,17 @@ export const getStudent = /* GraphQL */ `
                 status
                 locationId
                 locationIdUsed
+                courseId
+                scheduleId
+                course{
+                  id
+                  title
+                }
+                schedule{
+                  id
+                  day
+                  startHour
+                }
                 modifiedBy
                 modifiedByDate
               }

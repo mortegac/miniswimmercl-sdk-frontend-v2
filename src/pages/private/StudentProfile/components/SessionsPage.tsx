@@ -141,7 +141,7 @@ export function SessionsPage(props:any) {
                                   // const daySchedule: string =  item?.scheduleName.split(" ")[0]
                                     return item && Object.keys(item).length > 0 ? (
                                     <>
-                                     <pre>{JSON.stringify(item, null, 2)}</pre>
+                                     {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
                                      <Table.Tr key={index} className={`[&_td]:last:border-b-0 `} >
                                       <Table.Td className="w-36 py-4 border-dashed">
                                         <span className=" text-sm">{formatDateUTC(item?.date)}</span>
@@ -172,10 +172,30 @@ export function SessionsPage(props:any) {
                                               <p className="text-sm"><b className="pr-4">Usada:</b>{item?.locationIdUsed}</p>
                                             </Table.Td>
                                             <Table.Td className="w-96  py-4 border-dashed text-left">
-                                              <p className="text-sm text-slate-400">{item?.courseEnrollmentsId}</p>
-                                              <p className="text-sm text-slate-400">{item?.scheduleName}</p>
+                                              <p className="text-sm text-slate-400">{item?.course?.title}</p>
+                                              <p className="text-sm text-slate-400">{item?.schedule?.day}-{item?.schedule?.startHour}</p>
                                             </Table.Td>
-                                      
+                                            <Table.Td className="w-10 py-4 border-dashed">
+                                              <div className="flex flex-row">
+                                                <Button
+                                                  variant="primary"
+                                                  
+                                                  onClick={() => {
+                                                    setSessionSlideover(true);
+                                                    setDataSession({
+                                                      ...item, 
+                                                      studentId:studentId, 
+                                                      enrollmentId: item?.id, 
+                                                      startDate:item?.startDate,
+                                                      
+                                                      courseEnrollmentsId: item?.course?.id || "",
+                                                      scheduleId: item?.schedule?.id || "",
+                                                      scheduleName: `${item?.schedule?.day}-${item?.schedule?.startHour}` 
+                                                    })
+                                                  }}
+                                                ><span className="text-sm uppercase">Editar</span></Button>
+                                              </div>
+                                            </Table.Td>
                                      </Table.Tr>
                                             
                                           </>
