@@ -143,61 +143,64 @@ export function SessionsPage(props:any) {
                                     <>
                                      {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
                                      <Table.Tr key={index} className={`[&_td]:last:border-b-0 `} >
-                                      <Table.Td className="w-36 py-4 border-dashed">
-                                        <span className=" text-sm">{formatDateUTC(item?.date)}</span>
-                                      </Table.Td>
-                                      <Table.Td className="w-1 py-4 border-dashed text-center">
-                                        <span className="min-w-3 min-h-2  max-w-3 max-h-2 px-2 py-1 rounded-full text-white bg-slate-400 text-[0.74rem]">{item?.sessionNumber}</span>
-                                      </Table.Td>
-                                      <Table.Td className="w-24 py-4 border-dashed">
-                                              <span
-                                                  className={clsx([
-                                                      "group flex justify-center items-center text-xs rounded-md border  mr-2 mb-1",
-                                                      // "bg-slate-700 text-white",
-                                                      item?.status === "ACTIVE" &&  "bg-green-50 font-thin ",
-                                                      item?.status === "USED" &&  "bg-red-50 border-red-200",
-                                                      item?.status === "RECOVERED" &&  "bg-blue-50 border-blue-200",
-                                                      item?.status === "DELETED" &&  "bg-slate-200 border-slate-200 text-slate-500",
-                                                      
-                                                      "w-28 h-10",
-                                                  ])}
-                                                  >
-                                                  <span className="text-center">
-                                                    <p className="text-sm">{typeOfSession[item?.status || ""]}</p>
-                                                  </span>
-                                              </span>
-                                            </Table.Td>
-                                            <Table.Td className="w-42  py-4 border-dashed">
-                                              <p className="text-sm pb-2 font-thin"><b className="pr-2">Creada:</b>{item?.locationId}</p>
-                                              <p className="text-sm"><b className="pr-4">Usada:</b>{item?.locationIdUsed}</p>
-                                            </Table.Td>
-                                            <Table.Td className="w-96  py-4 border-dashed text-left">
-                                              <p className="text-sm text-slate-400">{item?.course?.title}</p>
-                                              <p className="text-sm text-slate-400">{item?.schedule?.day}-{item?.schedule?.startHour}</p>
-                                            </Table.Td>
-                                            <Table.Td className="w-10 py-4 border-dashed">
-                                              <div className="flex flex-row">
-                                                <Button
-                                                  variant="primary"
+                                        <Table.Td className="w-36 py-4 border-dashed">
+                                          <span className=" text-sm">{formatDateUTC(item?.date)}</span>
+                                        </Table.Td>
+                                        <Table.Td className="w-1 py-4 border-dashed text-center">
+                                          <span className="min-w-3 min-h-2  max-w-3 max-h-2 px-2 py-1 rounded-full text-white bg-slate-400 text-[0.74rem]">{item?.sessionNumber}</span>
+                                        </Table.Td>
+                                        <Table.Td className="w-24 py-4 border-dashed">
+                                                <span
+                                                    className={clsx([
+                                                        "group flex justify-center items-center text-xs rounded-md border  mr-2 mb-1",
+                                                        // "bg-slate-700 text-white",
+                                                        item?.status === "ACTIVE" &&  "bg-green-50 font-thin ",
+                                                        item?.status === "USED" &&  "bg-red-50 border-red-200",
+                                                        item?.status === "RECOVERED" &&  "bg-blue-50 border-blue-200",
+                                                        item?.status === "DELETED" &&  "bg-slate-200 border-slate-200 text-slate-500",
+                                                        
+                                                        "w-28 h-10",
+                                                    ])}
+                                                    >
+                                                    <span className="text-center">
+                                                      <p className="text-sm">{typeOfSession[item?.status || ""]}</p>
+                                                    </span>
+                                                </span>
+                                        </Table.Td>
+                                        <Table.Td className="w-42  py-4 border-dashed">
+                                          <p className="text-sm pb-2 font-thin"><b className="pr-2">Creada:</b>{item?.locationId}</p>
+                                          <p className="text-sm"><b className="pr-4">Usada:</b>{item?.locationIdUsed}</p>
+                                        </Table.Td>
+                                        <Table.Td className="w-96  py-4 border-dashed text-left">
+                                          <p className="text-sm text-slate-400">{item?.course?.title}</p>
+                                          <p className="text-sm text-slate-400">{item?.schedule?.day}-{item?.schedule?.startHour}</p>
+                                        </Table.Td>
+                                        <Table.Td className="w-10 py-4 border-dashed">
+                                          <div className="flex flex-row">
+                                            {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
+                                            <Button
+                                              variant="primary"
+                                              
+                                              onClick={() => {
+                                                setSessionSlideover(true);
+                                                setDataSession({
+                                                  ...item, 
+                                                  studentId:studentId, 
+                                                  enrollmentId: item?.id, 
+                                                  startDate:item?.startDate,
                                                   
-                                                  onClick={() => {
-                                                    setSessionSlideover(true);
-                                                    setDataSession({
-                                                      ...item, 
-                                                      studentId:studentId, 
-                                                      enrollmentId: item?.id, 
-                                                      startDate:item?.startDate,
-                                                      
-                                                      courseEnrollmentsId: item?.course?.id || "",
-                                                      scheduleId: item?.schedule?.id || "",
-                                                      scheduleName: `${item?.schedule?.day}-${item?.schedule?.startHour}` 
-                                                    })
-                                                  }}
-                                                ><span className="text-sm uppercase">Editar</span></Button>
-                                              </div>
-                                            </Table.Td>
-                                     </Table.Tr>
-                                            
+                                                  courseId: item?.courseId || "",
+                                                  courseName: item?.course?.title || "",
+                                                  scheduleId: item?.scheduleId || "",
+                                                  scheduleName: `${item?.schedule?.day} ${item?.schedule?.startHour}` || "",
+                                                  
+                                                  
+                                                })
+                                              }}
+                                            ><span className="text-sm uppercase">Editar</span></Button>
+                                          </div>
+                                        </Table.Td>
+                                     </Table.Tr>                                            
                                           </>
                                           ) : null
                                           
