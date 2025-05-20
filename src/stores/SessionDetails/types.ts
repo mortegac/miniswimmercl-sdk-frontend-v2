@@ -44,13 +44,21 @@ export type FilterOptions  = {
 };
 export type InputOptions  = {
   userModifyId?: string;
+  sessionNumber?: string;
   sessionId?: string;
   sessionDate?: string;
   currentSession?: string;
+  totalSessions?: string;
+  proratedValue?: string;
   status?: string;
   locationId?: string;
   locationIdUsed?: string;
   studentId?: string;
   enrollmentId?: string;
   date?: string;
+  month?: string;
+  year?: string;
+  courseId?: string;
+  scheduleId?: string;
+  wasEmailSent?: string;
 };

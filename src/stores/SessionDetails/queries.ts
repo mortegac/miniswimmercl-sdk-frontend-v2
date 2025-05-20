@@ -128,6 +128,62 @@ export const getSessionDetail = /* GraphQL */ `
     }
   }
 `;
+
+export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
+  query SessionDetailsBySessionDetailStudentId(
+    $sessionDetailStudentId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionDetailsBySessionDetailStudentId(
+      sessionDetailStudentId: $sessionDetailStudentId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        locationId
+        locationIdUsed
+        modifiedBy
+        modifiedByDate
+        sessionDetailStudentId
+        courseId
+        scheduleId
+        createdAt
+        updatedAt
+        privateEnrollmentSessionDetailsId
+        enrollmentSessionDetailsId
+        usersCoachedSessionsId
+        course{
+          id
+         title
+          description
+        }
+        schedule{
+          id
+          day
+          startHour
+        }
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
 /********************************************************
 *                    MUTATIONS
 ********************************************************/

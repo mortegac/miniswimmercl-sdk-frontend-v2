@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, fetchDataCourseQuote, updateData, updateSession} from "./services"
+import {fetchData, fetchDataCourseQuote, updateData, updateSession, fetchSessionsByStudent} from "./services"
 import {SessionDetail, emptySessionDetail, FilterOptions, InputOptions} from "./types"
 
 
@@ -35,6 +35,20 @@ export const getSessionDetails = createAsyncThunk(
   async (objFilter: FilterOptions) => {
     try {
       const response:any = await fetchData({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH SessionDetails", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+export const getSessionByStudent= createAsyncThunk(
+  "sessionDetails/listByStudent",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchSessionsByStudent({ ...objFilter });
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH SessionDetails", error)
@@ -119,6 +133,36 @@ export const sessionDetailslice = createSlice({
         
         state.sessionDetails = newArray || [];
         state.resume = counts || {};
+      })
+      
+      // getSessionByStudent
+      .addCase(getSessionByStudent.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getSessionByStudent.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getSessionByStudent.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        // const newArray = objPayload.items.sort((a:any, b:any) => {
+        //   return new Date(a.date).getTime() - new Date(b.date).getTime();
+        // });
+        
+        // const counts = objPayload?.items.reduce((acc:any, item:any) => {
+        //   acc[item.status] = (acc[item.status] || 0) + 1;
+        //   return acc;
+        // }, {
+        //   USED: 0,
+        //   RECOVERED: 0,
+        //   ACTIVE: 0
+        // });
+        
+        state.sessionDetails = objPayload.items || [];
+        // state.resume = counts || {};
       })
       
       // GET getSessionQuote COURSES

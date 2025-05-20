@@ -497,7 +497,7 @@ function Main() {
                             
                     <Table.Tr key={item.id} 
                     className={`box
-                      ${!filteredArray[0].wasPaid &&  "bg-red-300/50"}
+                      ${!filteredArray[0]?.wasPaid &&  "bg-red-300/50"}
                       ${atendanceId === item?.id && "bg-yellow-100"}
                       ${atendanceId !== item?.id && item?.status === "USED" && "bg-green-100"}
                       `}>                 
@@ -526,7 +526,7 @@ function Main() {
                       </Table.Td>
                       <Table.Td className={``}>
                         <div className="text-lg flex justify-center items-center flex-col">
-                        {!filteredArray[0].wasPaid && <span className="text-sm uppercase text-red-500 bg-red-50 py-2 px-2 rounded-full">
+                        {!filteredArray[0]?.wasPaid && <span className="text-sm uppercase text-red-500 bg-red-50 py-2 px-2 rounded-full">
                           Pendiente de Pago</span>}
                         <p className="text-sm mt-2">
                           {item?.status === "RECOVERED" && "SESION RECUPERADA"}

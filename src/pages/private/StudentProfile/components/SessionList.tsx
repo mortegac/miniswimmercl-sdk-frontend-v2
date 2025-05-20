@@ -47,7 +47,8 @@ export function SessionList(props: any) {
       
         id: data?.id,
         sessionNumber: data?.sessionNumber,
-        date: formatDateUTC(data?.date),
+        // date: formatDateUTC(data?.date),
+        date: String(data?.date).replace("T00:00:00.000Z", ''),
         //data?.startDate.replace("T00:00:00.000Z", ""),
         currentSession: data?.date,
         month: data?.month,
@@ -63,6 +64,11 @@ export function SessionList(props: any) {
         
         scheduleId: data?.scheduleId,
         scheduleName: data?.scheduleName,
+        
+        userModifyId: data?.userModifyId,
+        totalSessions: data?.totalSessions,
+        proratedValue: data?.proratedValue,
+        wasEmailSent:data?.wasEmailSent,
       });
       
       const { courses, status: courseStatus} = useAppSelector(selectCourse);
@@ -71,6 +77,13 @@ export function SessionList(props: any) {
       const { locations, status } = useAppSelector(selectLocation);
       
   
+      const validityOfThePlan: any = {
+        "1": 1,
+        "4": 30,
+        "12": 100,
+        "24": 200
+      }
+      
       async function updateSession(){
     
         const validation: boolean = dataNew?.id && dataNew?.status && dataNew?.locationId && dataNew?.locationIdUsed && dataNew?.date
@@ -87,6 +100,18 @@ export function SessionList(props: any) {
               userModifyId:email,
               studentId:dataNew?.studentId,
               enrollmentId:dataNew?.enrollmentId,
+              
+              sessionNumber: dataNew?.sessionNumber,
+              // month: dataNew?.month,
+              // year: dataNew?.year,
+              courseId: dataNew?.courseId,
+              scheduleId: dataNew?.scheduleId,
+              
+              totalSessions: dataNew?.totalSessions,
+              proratedValue: dataNew?.proratedValue,
+              wasEmailSent:dataNew?.wasEmailSent,
+
+
             })),
             dispatch(getStudent({ studentId })),
             setSessionSlideover(false)
@@ -149,19 +174,19 @@ export function SessionList(props: any) {
         });
       };
       
-      const filterCourse = async () => {
-        const resultadoFind = data?.courseEnrollmentsId && courses.find(curso => curso.id === data?.courseEnrollmentsId);
+      // const filterCourse = async () => {
+      //   const resultadoFind = data?.courseEnrollmentsId && courses.find(curso => curso.id === data?.courseEnrollmentsId);
       
-        resultadoFind && setCoursesFilter({
-          ...coursesFilter,
-          scheduleFilter:
-            [
-              ...resultadoFind
-                ?.schedules
-                ?.items,
-            ],
-        });
-      };
+      //   resultadoFind && setCoursesFilter({
+      //     ...coursesFilter,
+      //     scheduleFilter:
+      //       [
+      //         ...resultadoFind
+      //           ?.schedules
+      //           ?.items,
+      //       ],
+      //   });
+      // };
       
       function sortSchedulesByDayAndTime(schedules: any[]): any[] {
         return [...schedules].sort((a, b) => {
@@ -227,11 +252,11 @@ export function SessionList(props: any) {
             </div>
           </Notification>
           <div className="flex flex-col">
-            {/* <pre>{JSON.stringify(coursesFilter, null, 2 )}</pre> */}
+            {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
               
               {/* <pre>{JSON.stringify(courses, null, 2 )}</pre> */}
               {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
-              
+              {/* <pre>dataNew==  {JSON.stringify(dataNew, null, 2 )}</pre> */}
               <div className="px-8 pt-6 pb-8">
                 <div className="text-base font-medium">Reagendar Sesión</div>
                 <div className="text-slate-500 mt-0.5  mb-12">del Alumno</div>
@@ -239,12 +264,17 @@ export function SessionList(props: any) {
                     <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
                       <div className="text-left">
                         <div className="flex items-center">
-                          <div className="font-medium">Vigencia del pack</div>
+                          <div className="font-medium">
+                            <p className="uppercase text-xl">Vigencia del pack</p>
+                            <p className="text-[.8rem] text-slate-700">{data?.totalSessions} sesiones, {`${validityOfThePlan[data?.totalSessions]} días`}</p>
+                          </div>
                         </div>
                       </div>
                     </label>
                     <div className="flex-1 w-full mt-3 xl:mt-0">
-                    {/* {addDaysToDate(data?.startDate, 30)} */}
+                      {/* <p className="text-[.8rem] mb-3">Inicio: {addDaysToDate(data?.date, 0)}</p>
+                      <p className="text-[.8rem] mb-3">Término: <span className="text-[1rem] rounded-lg text-white bg-primary p-2">{addDaysToDate(data?.date, validityOfThePlan[data?.totalSessions])}</span>  </p> */}
+                      
                     </div>
                   </div>
                 
@@ -269,7 +299,7 @@ export function SessionList(props: any) {
                           className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-5 stroke-[1.3]"
                         />
                         <Litepicker
-                          value={dataNew.date}
+                          value={String(dataNew.date).replace("T00:00:00.000Z", '')}
                           type="text"
                           name="studentBithday"
                           onChange={(e) =>
@@ -308,42 +338,6 @@ export function SessionList(props: any) {
                       </div>
                     </div>
                   </div>
-                  {/*
-                  <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                    <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                      <div className="text-left">
-                        <div className="flex items-center">
-                          <div className="font-medium">Sede Inscrita</div>
-                        </div>
-                      </div>
-                    </label>
-                     <div className="flex-1 w-full mt-3 xl:mt-0">
-                      <FormSelect
-                        key="SELECT-LOCATIONS"
-                        className="!box uppercase mr-3"
-                        onChange={(e) =>{
-                            setDataNew({ ...dataNew, locationId: e.target.value })
-                            getCoursesByLocation(e.target.value)
-                          }
-                        }
-                      >
-                        <option value="" selected>
-                          {`${"Sedes"} `}
-                        </option>
-                        {Array.isArray(locations) &&
-                          locations?.map((item, i) => (
-                            <option
-                            key={`${i}-LOCATIONS`}
-                              value={item?.id}
-                              selected={item?.id === dataNew.locationId && true}
-                            >
-                              {item.name}
-                            </option>
-                          ))}
-                      </FormSelect>
-                    </div> 
-                  </div>
-                  */}
                   
                   
                   
@@ -378,12 +372,17 @@ export function SessionList(props: any) {
                       <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
                         Seleccione la sede
                       </h3>
-                      <div className="flex flex-row justify-start flex-wrap p-4">
+                      
+                      <div className="flex flex-row justify-start flex-wrap p-4">aa
                       <FormSelect
-                        key="SELECT-LOCATIONS"
+                        key="SELECT-LOCATIONS-origin"
                         className="!box uppercase mr-3"
                         onChange={(e) =>{
-                            setDataNew({ ...dataNew, locationId: e.target.value })
+                            setDataNew({ 
+                              ...dataNew, 
+                              locationId: e.target.value, 
+                              locationIdUsed: e.target.value,
+                            })
                             getCoursesByLocation(e.target.value)
                           }
                         }
@@ -548,7 +547,11 @@ export function SessionList(props: any) {
                         key="SELECT-LOCATIONS"
                         className="!box uppercase mr-3"
                         onChange={(e) =>{
-                            setDataNew({ ...dataNew, locationId: e.target.value })
+                            setDataNew({ 
+                            ...dataNew, 
+                            locationId: e.target.value,
+                            locationIdUsed: e.target.value,
+                        })
                             getCoursesByLocation(e.target.value)
                           }
                         }

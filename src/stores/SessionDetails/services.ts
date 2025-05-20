@@ -3,7 +3,7 @@ import { generateClient } from 'aws-amplify/api';
 
 import { getAWSDateStgoChile } from "@/utils/helper";
 import { FilterOptions, InputOptions } from './types';
-import { listSessionDetails } from './queries';
+import { listSessionDetails, sessionDetailsBySessionDetailStudentId } from './queries';
 import { updateSessionDetail, createSessionDetail, deleteSessionDetail } from './mutation';
 const client = generateClient();
 
@@ -29,6 +29,7 @@ export const updateData = async (objFilter: InputOptions): Promise<any> => {
       id: String(objFilter?.sessionId),
       status: String(objFilter?.status),
       locationIdUsed: String(objFilter?.locationIdUsed),
+      locationId: String(objFilter?.locationIdUsed),
       date: String(objFilter?.date),
       
     };
@@ -83,18 +84,21 @@ console.log("--newDate--", newDate)
       locationIdUsed: String(objFilter?.locationIdUsed),
       locationId: String(objFilter?.locationId),
       date:String(`${objFilter?.sessionDate}T00:00:00.000Z`),
-      modifiedBy: String(objFilter?.userModifyId || ""),
       modifiedByDate: getAWSDateStgoChile(),
       sessionDetailStudentId: objFilter?.studentId || null,
       enrollmentSessionDetailsId: objFilter?.enrollmentId || null,
       day: day,
       month: month,
       year: year,
+      courseId: objFilter?.courseId || null,
+      scheduleId: objFilter?.scheduleId || null,
       
-      sessionNumber : 1,
-      totalSessions: 1,
-      proratedValue: 1,
-      wasEmailSent:false,
+      
+      modifiedBy: String(objFilter?.userModifyId || ""),
+      sessionNumber : objFilter?.sessionNumber || null,
+      totalSessions: objFilter?.totalSessions || null,
+      proratedValue: objFilter?.proratedValue || null,
+      wasEmailSent:objFilter?.wasEmailSent || null,
     
     };
 
@@ -223,6 +227,56 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       //     errorMessage: errorMsg,
       //   });
       // }
+    } catch (err) {
+      console.log(">> err >>", err)
+      reject({
+        errorMessage:JSON.stringify(err)
+      }
+    );
+  }
+  });
+};
+export const fetchSessionsByStudent = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+         
+    let getData:any;
+    
+    if(objFilter?.status === "ACTIVE"){
+      getData = await client.graphql({
+        query: sessionDetailsBySessionDetailStudentId,
+        variables: { 
+          sessionDetailStudentId: String(objFilter?.studentId),
+          filter:{
+            or: [
+                    {status: { eq: "ACTIVE" }},
+                    {status: { eq: "RECOVERED" }}            
+                ]
+          
+          }, limit:1000000000
+        },
+      });
+    }else{
+      getData = await client.graphql({
+        query: sessionDetailsBySessionDetailStudentId,
+        variables: { 
+          sessionDetailStudentId: String(objFilter?.studentId),
+          filter: {
+            or: [
+              {status: { eq: "USED" }},
+              {status: { eq: "DELETED" }},
+          ]
+          },
+          limit: 1000000000
+        },
+      });
+    }
+
+  
+       console.log(">>> getData.data  >>>", getData.data )
+    const data:any = getData.data;
+    resolve({ ...data.sessionDetailsBySessionDetailStudentId } as any);
+        
     } catch (err) {
       console.log(">> err >>", err)
       reject({
