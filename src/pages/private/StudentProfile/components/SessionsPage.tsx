@@ -29,7 +29,7 @@ const validityOfThePlan: any = {
 }
 
 export function Content(props:any) {
-  const { dataSessions, status, studentId } = props;
+  const { dataSessions, statusFilter, studentId } = props;
   const [atendanceId, setAtendanceId] = useState("");
   const [sessionSlideover, setSessionSlideover] = useState(false);
   const [dataSession, setDataSession] = useState({
@@ -191,23 +191,24 @@ export function Content(props:any) {
                     </Table.Td>
                     <Table.Td className="w-10 py-4 border-dashed">
                       <div className="flex flex-row">
-                        {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
-                        <Button
+                        {
+                          statusFilter &&
+                            <Button
+                              className="mr-2 w-full border-primary/80 border-2"
+                              onClick={() => {
+                                  updateSession({
+                                    sessionId: item?.id, 
+                                    status: item?.status,
+                                    locationId:item?.locationId,
+                                    locationIdUsed:item?.locationId,
+                                    date:item?.date
+                                  })
+                                }}
+                            ><Lucide className="w-10 h-10 sm:w-8 sm:h-8 stroke-[1] text-primary" icon="Check" /><p className="text-[.7rem]  uppercase text-primary/80">
+                              Marcar Presente</p>
+                            </Button>
+                        }
                         
-                          // variant="soft-primary"
-                          className="mr-2 w-full border-primary/80 border-2"
-                           onClick={() => {
-                              updateSession({
-                                sessionId: item?.id, 
-                                status: item?.status,
-                                locationId:item?.locationId,
-                                locationIdUsed:item?.locationId,
-                                date:item?.date
-                              })
-                            }}
-                        ><Lucide className="w-10 h-10 sm:w-8 sm:h-8 stroke-[1] text-primary" icon="Check" /><p className="text-[.7rem]  uppercase text-primary/80">
-                          Marcar Presente</p>
-                        </Button>
                         <Button
                           // variant="primary"
                           className="bg-slate-200"
@@ -352,6 +353,7 @@ export function SessionsPage(props:any) {
                   dataSessions={sessionDetails}
                   status={status}
                   studentId={studentId}
+                  statusFilter={statusFilter.status}
                 />
                 
               </div>
