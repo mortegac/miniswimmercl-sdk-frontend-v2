@@ -208,7 +208,8 @@ export function Content(props:any) {
                               Marcar Presente</p>
                             </Button>
                         }
-                        
+                        {/* <pre>id= {JSON.stringify(item?.id, null, 2)}</pre>
+                        <pre>{JSON.stringify(dataSession, null, 2)}</pre> */}
                         <Button
                           // variant="primary"
                           className="bg-slate-200"
@@ -218,7 +219,7 @@ export function Content(props:any) {
                              setDataSession({
                                ...item, 
                                studentId:studentId, 
-                               enrollmentId: item?.id, 
+                               enrollmentId: item?.enrollmentSessionDetailsId, 
                                startDate:item?.date,
                                totalSessions:item?.totalSessions,
                               
