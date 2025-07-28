@@ -50,6 +50,7 @@ function formatDate(dateString: string): string {
   return `${dayText}, ${day}-${typeOfMonth[month]}`;
 }
 
+
 export function ResumenPage(props: any) {
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [sessionSlideover, setSessionSlideover] = useState(false);
@@ -61,6 +62,13 @@ export function ResumenPage(props: any) {
     scheduleId: data?.scheduleId,
   });
 
+  const validityOfThePlan: any = {
+    "1": 1,
+    "4": 30,
+    "12": 100,
+    "24": 200
+  }
+  
   const dispatch = useAppDispatch();
   const { email } = useAppSelector(selectAuth);
   const { locations } = useAppSelector(selectLocation);
@@ -106,6 +114,51 @@ export function ResumenPage(props: any) {
   ): Location | undefined {
     return locations.find((location) => location.id === id);
   }
+  
+    // Función para generar datos de email optimizada
+    const generateEmailData = (item: any, locations: any[], validityOfThePlan: any) => {
+      console.log(`
+        item = ${JSON.stringify(item, null, 2 )}
+        `)
+        // vigencia = ${vigencia}
+        // location = ${location}
+      const vigencia = `${validityOfThePlan[item?.sessionDetails?.items[0].totalSessions]} días`;
+      const location = findLocationById(locations, item?.course?.location?.id);
+      
+      
+      // Ordenar las fechas de las sesiones de menor a mayor
+      const sortedSessions = item?.sessionDetails?.items
+        ?.filter((session: any) => session?.date)
+        ?.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime()) || [];
+  
+      // Crear objeto base de datos de email
+      const emailData: any = {
+        reply_to: "hola@miniswimmer.cl",
+        enrollmentId: item?.id,
+        to_student_id: item?.student?.id,
+        to_client_email: item?.student?.emailPhone,
+        to_student_name: `${item?.student?.name} ${item?.student?.lastName}`,
+        to_course_name: item?.course?.title,
+        to_schedule: `${item?.scheduleName} hrs`,
+        to_location: item?.course?.location?.name,
+        to_location_id: item?.course?.location?.id,
+        to_pack_vigencia: vigencia,
+        to_mapurl: location?.urlMap || "",
+        to_mapimage: location?.imageMap || "",
+        to_location_address: location?.address || "",
+        to_location_temperature: `entre ${location?.minimumTemperature} C a ${location?.maximumTemperature} C` || "",
+        to_recomendation: location?.directions || "",
+      };
+  
+      // Agregar las fechas de sesiones ordenadas (máximo 24 sesiones)
+      for (let i = 0; i < 24; i++) {
+        const sessionKey = `to_session_${i + 1}`;
+        emailData[sessionKey] = sortedSessions[i]?.date ? formatDate(sortedSessions[i].date) : null;
+      }
+  
+      return emailData;
+    };
+  
 
   const onSendEmail = async (data: any) => {
     setIsSaved(true);
@@ -296,9 +349,9 @@ export function ResumenPage(props: any) {
                             // vigencia = item?.sessionDetails?.items[0]?.totalSessions === 24 ? "180 días": "0 días"
                             
                             
-                            const sortedSessionsAsc = [...item?.sessionDetails?.items].sort((a, b) => {
-                              return new Date(a.date).getTime() - new Date(b.date).getTime();
-                            });
+                            // const sortedSessionsAsc = [...item?.sessionDetails?.items].sort((a, b) => {
+                            //   return new Date(a.date).getTime() - new Date(b.date).getTime();
+                            // });
                             
                             return (
                               <>
@@ -422,130 +475,131 @@ export function ResumenPage(props: any) {
                                             event: React.MouseEvent
                                           ) => {
                                             event.preventDefault();
-                                            const location = findLocationById(
-                                              locations,
-                                              item?.course?.location?.id
-                                            );
-                                            
-                                            
-                                            onSendEmail({
-                                              reply_to: "hola@miniswimmer.cl",
-                                              enrollmentId: item?.id,
-                                              to_client_email: studentEmail,
-                                              to_student_name: studentName,
-                                              to_student_id: studentId,
-                                              to_course_name:
-                                                item?.course?.title,
-                                              to_schedule: `${item?.scheduleName} hrs`,
-                                              to_session_1:
-                                                sortedSessionsAsc[0]
-                                                  ?.date &&
-                                                formatDate(
-                                                  sortedSessionsAsc[0]
-                                                    .date
-                                                ),
-                                              to_session_2:
-                                                sortedSessionsAsc[1]
-                                                  ?.date &&
-                                                formatDate(
-                                                  sortedSessionsAsc[1]
-                                                    .date
-                                                ),
-                                              to_session_3:
-                                                sortedSessionsAsc[2]
-                                                  ?.date &&
-                                                formatDate(
-                                                  sortedSessionsAsc[2]
-                                                    .date
-                                                ),
-                                              to_session_4:
-                                                sortedSessionsAsc[3]
-                                                  ?.date &&
-                                                formatDate(
-                                                  sortedSessionsAsc[3]
-                                                    .date
-                                                ),
-                                              to_session_5:
-                                                sortedSessionsAsc[4]
-                                                  ?.date &&
-                                                formatDate(
-                                                  sortedSessionsAsc[4]
-                                                    .date
-                                                ),
-                                              to_session_6:
-                                                sortedSessionsAsc[5]
-                                                  ?.date &&
-                                                formatDate(
-                                                  sortedSessionsAsc[5]
-                                                    .date
-                                                ),
-                                              to_session_7:
-                                                sortedSessionsAsc[6]
-                                                  ?.date &&
-                                                formatDate(
-                                                  sortedSessionsAsc[6]
-                                                    .date
-                                                ),
-                                              to_session_8:
-                                                sortedSessionsAsc[7]
-                                                  ?.date &&
-                                                formatDate(
-                                                  sortedSessionsAsc[7]
-                                                    .date
-                                                ),
-                                              to_session_9:
-                                              sortedSessionsAsc[8]?.date && formatDate(sortedSessionsAsc[8].date),
-                                              to_session_10:
-                                              sortedSessionsAsc[9]?.date && formatDate(sortedSessionsAsc[9].date),
-                                              to_session_11:
-                                              sortedSessionsAsc[10]?.date && formatDate(sortedSessionsAsc[10].date),
-                                              to_session_12:
-                                              sortedSessionsAsc[11]?.date && formatDate(sortedSessionsAsc[11].date),
-                                              to_session_13:
-                                              sortedSessionsAsc[12]?.date && formatDate(sortedSessionsAsc[12].date),
-                                              to_session_14:
-                                              sortedSessionsAsc[13]?.date && formatDate(sortedSessionsAsc[13].date),
-                                              to_session_15:
-                                              sortedSessionsAsc[14]?.date && formatDate(sortedSessionsAsc[14].date),
-                                              to_session_16:
-                                              sortedSessionsAsc[15]?.date && formatDate(sortedSessionsAsc[15].date),
-                                              to_session_17:
-                                              sortedSessionsAsc[16]?.date && formatDate(sortedSessionsAsc[16].date),
-                                              to_session_18:
-                                              sortedSessionsAsc[17]?.date && formatDate(sortedSessionsAsc[17].date),
-                                              to_session_19:
-                                              sortedSessionsAsc[18]?.date && formatDate(sortedSessionsAsc[18].date),
-                                              to_session_20:
-                                              sortedSessionsAsc[19]?.date && formatDate(sortedSessionsAsc[19].date),
-                                              to_session_21:
-                                              sortedSessionsAsc[20]?.date && formatDate(sortedSessionsAsc[20].date),
-                                              to_session_22:
-                                              sortedSessionsAsc[21]?.date && formatDate(sortedSessionsAsc[21].date),
-                                              to_session_23:
-                                              sortedSessionsAsc[22]?.date && formatDate(sortedSessionsAsc[22].date),
-                                              to_session_24:
-                                              sortedSessionsAsc[23]?.date && formatDate(sortedSessionsAsc[23].date),
+                                            // const location = findLocationById(
+                                            //   locations,
+                                            //   item?.course?.location?.id
+                                            // );
+                                            const emailData = generateEmailData(item, locations, validityOfThePlan);
+                                            onSendEmail(emailData);
+                                            // item?.sessionDetails?.items
+                                            // onSendEmail({
+                                            //   reply_to: "hola@miniswimmer.cl",
+                                            //   enrollmentId: item?.id,
+                                            //   to_client_email: studentEmail,
+                                            //   to_student_name: studentName,
+                                            //   to_student_id: studentId,
+                                            //   to_course_name:
+                                            //     item?.course?.title,
+                                            //   to_schedule: `${item?.scheduleName} hrs`,
+                                            //   to_session_1:
+                                            //     sortedSessionsAsc[0]
+                                            //       ?.date &&
+                                            //     formatDate(
+                                            //       sortedSessionsAsc[0]
+                                            //         .date
+                                            //     ),
+                                            //   to_session_2:
+                                            //     sortedSessionsAsc[1]
+                                            //       ?.date &&
+                                            //     formatDate(
+                                            //       sortedSessionsAsc[1]
+                                            //         .date
+                                            //     ),
+                                            //   to_session_3:
+                                            //     sortedSessionsAsc[2]
+                                            //       ?.date &&
+                                            //     formatDate(
+                                            //       sortedSessionsAsc[2]
+                                            //         .date
+                                            //     ),
+                                            //   to_session_4:
+                                            //     sortedSessionsAsc[3]
+                                            //       ?.date &&
+                                            //     formatDate(
+                                            //       sortedSessionsAsc[3]
+                                            //         .date
+                                            //     ),
+                                            //   to_session_5:
+                                            //     sortedSessionsAsc[4]
+                                            //       ?.date &&
+                                            //     formatDate(
+                                            //       sortedSessionsAsc[4]
+                                            //         .date
+                                            //     ),
+                                            //   to_session_6:
+                                            //     sortedSessionsAsc[5]
+                                            //       ?.date &&
+                                            //     formatDate(
+                                            //       sortedSessionsAsc[5]
+                                            //         .date
+                                            //     ),
+                                            //   to_session_7:
+                                            //     sortedSessionsAsc[6]
+                                            //       ?.date &&
+                                            //     formatDate(
+                                            //       sortedSessionsAsc[6]
+                                            //         .date
+                                            //     ),
+                                            //   to_session_8:
+                                            //     sortedSessionsAsc[7]
+                                            //       ?.date &&
+                                            //     formatDate(
+                                            //       sortedSessionsAsc[7]
+                                            //         .date
+                                            //     ),
+                                            //   to_session_9:
+                                            //   sortedSessionsAsc[8]?.date && formatDate(sortedSessionsAsc[8].date),
+                                            //   to_session_10:
+                                            //   sortedSessionsAsc[9]?.date && formatDate(sortedSessionsAsc[9].date),
+                                            //   to_session_11:
+                                            //   sortedSessionsAsc[10]?.date && formatDate(sortedSessionsAsc[10].date),
+                                            //   to_session_12:
+                                            //   sortedSessionsAsc[11]?.date && formatDate(sortedSessionsAsc[11].date),
+                                            //   to_session_13:
+                                            //   sortedSessionsAsc[12]?.date && formatDate(sortedSessionsAsc[12].date),
+                                            //   to_session_14:
+                                            //   sortedSessionsAsc[13]?.date && formatDate(sortedSessionsAsc[13].date),
+                                            //   to_session_15:
+                                            //   sortedSessionsAsc[14]?.date && formatDate(sortedSessionsAsc[14].date),
+                                            //   to_session_16:
+                                            //   sortedSessionsAsc[15]?.date && formatDate(sortedSessionsAsc[15].date),
+                                            //   to_session_17:
+                                            //   sortedSessionsAsc[16]?.date && formatDate(sortedSessionsAsc[16].date),
+                                            //   to_session_18:
+                                            //   sortedSessionsAsc[17]?.date && formatDate(sortedSessionsAsc[17].date),
+                                            //   to_session_19:
+                                            //   sortedSessionsAsc[18]?.date && formatDate(sortedSessionsAsc[18].date),
+                                            //   to_session_20:
+                                            //   sortedSessionsAsc[19]?.date && formatDate(sortedSessionsAsc[19].date),
+                                            //   to_session_21:
+                                            //   sortedSessionsAsc[20]?.date && formatDate(sortedSessionsAsc[20].date),
+                                            //   to_session_22:
+                                            //   sortedSessionsAsc[21]?.date && formatDate(sortedSessionsAsc[21].date),
+                                            //   to_session_23:
+                                            //   sortedSessionsAsc[22]?.date && formatDate(sortedSessionsAsc[22].date),
+                                            //   to_session_24:
+                                            //   sortedSessionsAsc[23]?.date && formatDate(sortedSessionsAsc[23].date),
                                               
                                               
                                               
-                                              to_location:
-                                                item?.course?.location?.name,
-                                              to_location_id:
-                                                item?.course?.location?.id,
-                                              to_pack_vigencia:vigencia,
+                                            //   to_location:
+                                            //     item?.course?.location?.name,
+                                            //   to_location_id:
+                                            //     item?.course?.location?.id,
+                                            //   to_pack_vigencia:vigencia,
                                                 
-                                              // to_pack_vigencia:item?.sessionType.totalSessions===8 ? "45":"30",
-                                              to_mapurl: location?.urlMap || "",
-                                              to_mapimage:
-                                                location?.imageMap || "",
-                                              to_location_address:
-                                                location?.address || "",
-                                              to_location_temperature:
-                                                `entre ${location?.minimumTemperature} C a ${location?.maximumTemperature} C` ||
-                                                "",
-                                              to_recomendation:
-                                                location?.directions || "",
-                                            });
+                                            //   // to_pack_vigencia:item?.sessionType.totalSessions===8 ? "45":"30",
+                                            //   to_mapurl: location?.urlMap || "",
+                                            //   to_mapimage:
+                                            //     location?.imageMap || "",
+                                            //   to_location_address:
+                                            //     location?.address || "",
+                                            //   to_location_temperature:
+                                            //     `entre ${location?.minimumTemperature} C a ${location?.maximumTemperature} C` ||
+                                            //     "",
+                                            //   to_recomendation:
+                                            //     location?.directions || "",
+                                            // });
                                           }}
                                         >
                                           <Lucide

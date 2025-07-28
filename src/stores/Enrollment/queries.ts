@@ -126,6 +126,7 @@ export const listEnrollments = /* GraphQL */ `
         name
         lastName
         birthdate
+        emailPhone
         contactPhone
         relationships{
           items{
