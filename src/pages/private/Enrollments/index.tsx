@@ -54,6 +54,13 @@ const typeOfRelationship: any = {
   ["Primo/a"]: "",
 };
 
+const validityOfThePlan: any = {
+  "1": 1,
+  "4": 30,
+  "12": 100,
+  "24": 200
+}
+
 function sortByEndDate(array: any[] | undefined | null): any[] {
   
   if(array?.length ===1) return array
@@ -138,6 +145,22 @@ function Content(props: any) {
     to_session_6:"",
     to_session_7:"",
     to_session_8:"",
+    to_session_9:"",
+    to_session_10:"",
+    to_session_11:"",
+    to_session_12:"",
+    to_session_13:"",
+    to_session_14:"",
+    to_session_15:"",
+    to_session_16:"",
+    to_session_17:"",
+    to_session_18:"",
+    to_session_19:"",
+    to_session_20:"",
+    to_session_21:"",
+    to_session_22:"",
+    to_session_23:"",
+    to_session_24:"",
     to_location:"",
     to_location_id:"",
     to_pack_vigencia:"",
@@ -524,6 +547,7 @@ function Content(props: any) {
                       <Menu.Item 
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
+                          const vigencia=`${validityOfThePlan[item?.sessionType.totalSessions]} días`
                           const location = findLocationById(locations, item?.course?.location?.id);
                           setDataEMail({
                             reply_to:"hola@miniswimmer.cl",
@@ -538,12 +562,29 @@ function Content(props: any) {
                             to_session_3:item?.sessionDetails?.items[2]?.date && formatDate(item?.sessionDetails?.items[2].date),
                             to_session_4:item?.sessionDetails?.items[3]?.date && formatDate(item?.sessionDetails?.items[3].date),
                             to_session_5:item?.sessionDetails?.items[4]?.date && formatDate(item?.sessionDetails?.items[4].date),
-                            to_session_6:item?.sessionDetails?.items[5]?.date && formatDate(item?.sessionDetails?.items[6].date),
-                            to_session_7:item?.sessionDetails?.items[7]?.date && formatDate(item?.sessionDetails?.items[7].date),
-                            to_session_8:item?.sessionDetails?.items[8]?.date && formatDate(item?.sessionDetails?.items[8].date),
+                            to_session_6:item?.sessionDetails?.items[5]?.date && formatDate(item?.sessionDetails?.items[5].date),
+                            to_session_7:item?.sessionDetails?.items[6]?.date && formatDate(item?.sessionDetails?.items[6].date),
+                            to_session_8:item?.sessionDetails?.items[7]?.date && formatDate(item?.sessionDetails?.items[7].date),
+                            to_session_9:item?.sessionDetails?.items[8]?.date && formatDate(item?.sessionDetails?.items[8].date),
+                            to_session_10:item?.sessionDetails?.items[9]?.date && formatDate(item?.sessionDetails?.items[9].date),
+                            to_session_11:item?.sessionDetails?.items[10]?.date && formatDate(item?.sessionDetails?.items[10].date),
+                            to_session_12:item?.sessionDetails?.items[11]?.date && formatDate(item?.sessionDetails?.items[11].date),
+                            to_session_13:item?.sessionDetails?.items[12]?.date && formatDate(item?.sessionDetails?.items[12].date),
+                            to_session_14:item?.sessionDetails?.items[13]?.date && formatDate(item?.sessionDetails?.items[13].date),
+                            to_session_15:item?.sessionDetails?.items[14]?.date && formatDate(item?.sessionDetails?.items[14].date),
+                            to_session_16:item?.sessionDetails?.items[15]?.date && formatDate(item?.sessionDetails?.items[15].date),
+                            to_session_17:item?.sessionDetails?.items[16]?.date && formatDate(item?.sessionDetails?.items[16].date),
+                            to_session_18:item?.sessionDetails?.items[17]?.date && formatDate(item?.sessionDetails?.items[17].date),
+                            to_session_19:item?.sessionDetails?.items[18]?.date && formatDate(item?.sessionDetails?.items[18].date),
+                            to_session_20:item?.sessionDetails?.items[19]?.date && formatDate(item?.sessionDetails?.items[19].date),
+                            to_session_21:item?.sessionDetails?.items[20]?.date && formatDate(item?.sessionDetails?.items[20].date),
+                            to_session_22:item?.sessionDetails?.items[21]?.date && formatDate(item?.sessionDetails?.items[21].date),
+                            to_session_23:item?.sessionDetails?.items[22]?.date && formatDate(item?.sessionDetails?.items[22].date),
+                            to_session_24:item?.sessionDetails?.items[23]?.date && formatDate(item?.sessionDetails?.items[23].date),
                             to_location:item?.course?.location?.name,
                             to_location_id:item?.course?.location?.id,
-                            to_pack_vigencia:item?.sessionType.totalSessions===8 ? "45":"30",
+                            /* CALCULAR VIGENCIA **/
+                            to_pack_vigencia:vigencia,
                             to_mapurl:location?.urlMap || "",
                             to_mapimage:location?.imageMap || "",
                             to_location_address:location?.address || "",
@@ -561,7 +602,7 @@ function Content(props: any) {
                       <Menu.Item 
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
-                          // setStudentListId(item?.student?.id)
+                          const vigencia=`${validityOfThePlan[item?.sessionType.totalSessions]} días`
                           const location = findLocationById(locations, item?.course?.location?.id);
                           setDataEMail({
                             reply_to:"hola@miniswimmer.cl",
@@ -576,18 +617,60 @@ function Content(props: any) {
                             to_session_3:item?.sessionDetails?.items[2]?.date && formatDate(item?.sessionDetails?.items[2].date),
                             to_session_4:item?.sessionDetails?.items[3]?.date && formatDate(item?.sessionDetails?.items[3].date),
                             to_session_5:item?.sessionDetails?.items[4]?.date && formatDate(item?.sessionDetails?.items[4].date),
-                            to_session_6:item?.sessionDetails?.items[5]?.date && formatDate(item?.sessionDetails?.items[6].date),
-                            to_session_7:item?.sessionDetails?.items[7]?.date && formatDate(item?.sessionDetails?.items[7].date),
-                            to_session_8:item?.sessionDetails?.items[8]?.date && formatDate(item?.sessionDetails?.items[8].date),
+                            to_session_6:item?.sessionDetails?.items[5]?.date && formatDate(item?.sessionDetails?.items[5].date),
+                            to_session_7:item?.sessionDetails?.items[6]?.date && formatDate(item?.sessionDetails?.items[6].date),
+                            to_session_8:item?.sessionDetails?.items[7]?.date && formatDate(item?.sessionDetails?.items[7].date),
+                            to_session_9:item?.sessionDetails?.items[8]?.date && formatDate(item?.sessionDetails?.items[8].date),
+                            to_session_10:item?.sessionDetails?.items[9]?.date && formatDate(item?.sessionDetails?.items[9].date),
+                            to_session_11:item?.sessionDetails?.items[10]?.date && formatDate(item?.sessionDetails?.items[10].date),
+                            to_session_12:item?.sessionDetails?.items[11]?.date && formatDate(item?.sessionDetails?.items[11].date),
+                            to_session_13:item?.sessionDetails?.items[12]?.date && formatDate(item?.sessionDetails?.items[12].date),
+                            to_session_14:item?.sessionDetails?.items[13]?.date && formatDate(item?.sessionDetails?.items[13].date),
+                            to_session_15:item?.sessionDetails?.items[14]?.date && formatDate(item?.sessionDetails?.items[14].date),
+                            to_session_16:item?.sessionDetails?.items[15]?.date && formatDate(item?.sessionDetails?.items[15].date),
+                            to_session_17:item?.sessionDetails?.items[16]?.date && formatDate(item?.sessionDetails?.items[16].date),
+                            to_session_18:item?.sessionDetails?.items[17]?.date && formatDate(item?.sessionDetails?.items[17].date),
+                            to_session_19:item?.sessionDetails?.items[18]?.date && formatDate(item?.sessionDetails?.items[18].date),
+                            to_session_20:item?.sessionDetails?.items[19]?.date && formatDate(item?.sessionDetails?.items[19].date),
+                            to_session_21:item?.sessionDetails?.items[20]?.date && formatDate(item?.sessionDetails?.items[20].date),
+                            to_session_22:item?.sessionDetails?.items[21]?.date && formatDate(item?.sessionDetails?.items[21].date),
+                            to_session_23:item?.sessionDetails?.items[22]?.date && formatDate(item?.sessionDetails?.items[22].date),
+                            to_session_24:item?.sessionDetails?.items[23]?.date && formatDate(item?.sessionDetails?.items[23].date),
                             to_location:item?.course?.location?.name,
                             to_location_id:item?.course?.location?.id,
-                            to_pack_vigencia:item?.sessionType.totalSessions===8 ? "45":"30",
+                            /* CALCULAR VIGENCIA **/
+                            to_pack_vigencia:vigencia,
                             to_mapurl:location?.urlMap || "",
                             to_mapimage:location?.imageMap || "",
                             to_location_address:location?.address || "",
                             to_location_temperature:`entre ${location?.minimumTemperature} C a ${location?.maximumTemperature} C` || "",
                             to_recomendation:location?.directions || "",
                           })
+                          // setDataEMail({
+                          //   reply_to:"hola@miniswimmer.cl",
+                          //   enrollmentId:item?.id,
+                          //   to_student_id:item?.student?.id,
+                          //   to_client_email:item?.student?.emailPhone,
+                          //   to_student_name:`${item?.student?.name} ${item?.student?.lastName}`,
+                          //   to_course_name:item?.course?.title,
+                          //   to_schedule:`${item?.scheduleName} hrs`,
+                          //   to_session_1:item?.sessionDetails?.items[0]?.date && formatDate(item?.sessionDetails?.items[0].date),
+                          //   to_session_2:item?.sessionDetails?.items[1]?.date && formatDate(item?.sessionDetails?.items[1].date),
+                          //   to_session_3:item?.sessionDetails?.items[2]?.date && formatDate(item?.sessionDetails?.items[2].date),
+                          //   to_session_4:item?.sessionDetails?.items[3]?.date && formatDate(item?.sessionDetails?.items[3].date),
+                          //   to_session_5:item?.sessionDetails?.items[4]?.date && formatDate(item?.sessionDetails?.items[4].date),
+                          //   to_session_6:item?.sessionDetails?.items[5]?.date && formatDate(item?.sessionDetails?.items[6].date),
+                          //   to_session_7:item?.sessionDetails?.items[7]?.date && formatDate(item?.sessionDetails?.items[7].date),
+                          //   to_session_8:item?.sessionDetails?.items[8]?.date && formatDate(item?.sessionDetails?.items[8].date),
+                          //   to_location:item?.course?.location?.name,
+                          //   to_location_id:item?.course?.location?.id,
+                          //   to_pack_vigencia:item?.sessionType.totalSessions===8 ? "45":"30",
+                          //   to_mapurl:location?.urlMap || "",
+                          //   to_mapimage:location?.imageMap || "",
+                          //   to_location_address:location?.address || "",
+                          //   to_location_temperature:`entre ${location?.minimumTemperature} C a ${location?.maximumTemperature} C` || "",
+                          //   to_recomendation:location?.directions || "",
+                          // })
                           setSwitcherSlideHistorial(true);
                         }}>
                           <Lucide

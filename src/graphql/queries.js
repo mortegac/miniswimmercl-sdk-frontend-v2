@@ -618,6 +618,10 @@ export const getEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       isActive
       createdAt
       updatedAt
@@ -705,6 +709,10 @@ export const getStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       userId
       user {
         id
@@ -783,9 +791,39 @@ export const getStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
+      studentEvaluationId
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjectiveId
+      evaluationObjective {
+        id
+        texto
+        isMandatory
+        isActive
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
       createdAt
       updatedAt
-      studentStudentEvaluationsDetailsId
+      evaluationObjetivesStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -809,9 +847,11 @@ export const listStudentEvaluationsDetails = /* GraphQL */ `
         id
         text
         wasAchieved
+        studentEvaluationId
+        evaluationObjectiveId
         createdAt
         updatedAt
-        studentStudentEvaluationsDetailsId
+        evaluationObjetivesStudentEvaluationsDetailsId
         __typename
       }
       nextToken
@@ -1737,10 +1777,6 @@ export const getStudent = /* GraphQL */ `
         __typename
       }
       studentEvaluations {
-        nextToken
-        __typename
-      }
-      studentEvaluationsDetails {
         nextToken
         __typename
       }

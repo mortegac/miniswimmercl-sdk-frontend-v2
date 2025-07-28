@@ -31,7 +31,7 @@ type EvaluationObjetives @model {
   texto: String
   isMandatory: Boolean @default(value: "false")
   evaluationLevel: EvaluationLevel @belongsTo
-  # studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
   isActive: Boolean @default(value: "true")
 }
 
@@ -57,11 +57,11 @@ type StudentEvaluations @model {
   
   student: Student @belongsTo(fields: ["studentId"])
   evaluationLevel: EvaluationLevel @belongsTo(fields: ["evaluationLevelId"])
-  # studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany(fields: ["id"])
   
   userId: ID!  # Clave foránea para Users/ Profesores
   user: Users @belongsTo(fields: ["userId"]) 
-  # user: Users @belongsTo(fields: ["userId"])
+  # user: Users @belongsTo
   # student: Student @belongsTo
   # user: Users @belongsTo
   # evaluationLevel: EvaluationLevel @belongsTo
@@ -72,7 +72,8 @@ type StudentEvaluationsDetail @model {
   id: ID! @primaryKey
   text: String
   wasAchieved: Boolean
-  # student: Student @belongsTo
-  # studentEvaluation: StudentEvaluations @belongsTo
-  # evaluationObjective: EvaluationObjetives @belongsTo
+  studentEvaluationId: ID!
+  studentEvaluation: StudentEvaluations @belongsTo(fields: ["studentEvaluationId"])
+  evaluationObjectiveId: ID!
+  evaluationObjective: EvaluationObjetives @belongsTo(fields: ["evaluationObjectiveId"])
 }

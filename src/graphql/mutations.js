@@ -1202,6 +1202,10 @@ export const createEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       isActive
       createdAt
       updatedAt
@@ -1231,6 +1235,10 @@ export const updateEvaluationObjetives = /* GraphQL */ `
         updatedAt
         __typename
       }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       isActive
       createdAt
       updatedAt
@@ -1258,6 +1266,10 @@ export const deleteEvaluationObjetives = /* GraphQL */ `
         order
         createdAt
         updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
         __typename
       }
       isActive
@@ -1318,6 +1330,10 @@ export const createStudentEvaluations = /* GraphQL */ `
         order
         createdAt
         updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
         __typename
       }
       userId
@@ -1406,6 +1422,10 @@ export const updateStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       userId
       user {
         id
@@ -1492,6 +1512,10 @@ export const deleteStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       userId
       user {
         id
@@ -1535,9 +1559,39 @@ export const createStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
+      studentEvaluationId
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjectiveId
+      evaluationObjective {
+        id
+        texto
+        isMandatory
+        isActive
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
       createdAt
       updatedAt
-      studentStudentEvaluationsDetailsId
+      evaluationObjetivesStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -1551,9 +1605,39 @@ export const updateStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
+      studentEvaluationId
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjectiveId
+      evaluationObjective {
+        id
+        texto
+        isMandatory
+        isActive
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
       createdAt
       updatedAt
-      studentStudentEvaluationsDetailsId
+      evaluationObjetivesStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -1567,9 +1651,39 @@ export const deleteStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
+      studentEvaluationId
+      studentEvaluation {
+        id
+        date
+        previousLevel
+        sessionsCarriedOut
+        age
+        wasApproved
+        observations
+        studentId
+        evaluationLevelId
+        userId
+        createdAt
+        updatedAt
+        evaluationLevelStudentEvaluationsId
+        studentStudentEvaluationsId
+        usersStudentEvaluationsId
+        __typename
+      }
+      evaluationObjectiveId
+      evaluationObjective {
+        id
+        texto
+        isMandatory
+        isActive
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
       createdAt
       updatedAt
-      studentStudentEvaluationsDetailsId
+      evaluationObjetivesStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -3207,10 +3321,6 @@ export const createStudent = /* GraphQL */ `
         nextToken
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       studentSessionDetailId
@@ -3292,10 +3402,6 @@ export const updateStudent = /* GraphQL */ `
         nextToken
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       studentSessionDetailId
@@ -3374,10 +3480,6 @@ export const deleteStudent = /* GraphQL */ `
         __typename
       }
       studentEvaluations {
-        nextToken
-        __typename
-      }
-      studentEvaluationsDetails {
         nextToken
         __typename
       }

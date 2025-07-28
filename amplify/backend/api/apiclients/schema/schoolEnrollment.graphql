@@ -37,7 +37,7 @@ type Student @model {
   supportTickets: [SupportTicket] @hasMany # Relación con SupportTicket
 
   studentEvaluations: [StudentEvaluations] @hasMany # Evaluaciones del estudiante
-  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany # Detalle de las Evaluaciones del estudiante
+  # studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany # Detalle de las Evaluaciones del estudiante
 }
 
 
