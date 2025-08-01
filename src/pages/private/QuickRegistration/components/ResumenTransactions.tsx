@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import clsx from "clsx";
 import _ from "lodash";
 import LoadingIcon from "@/components/Base/LoadingIcon";
+import { Link } from "react-router-dom";
 
 
 import Lucide from "@/components/Base/Lucide";
@@ -136,8 +137,32 @@ export function ResumenTransactions(props:any) {
                     <Button variant="soft-secondary" className="mr-2 mb-2"><span className="text-[.9rem] mr-2">$ 16.800</span><span className="text-[.7rem]">Pack 8 Sesiones</span></Button>
                     <Button variant="soft-secondary" className="mr-2 mb-2"><span className="text-[.9rem] mr-2">$ 20.000</span><span className="text-[.7rem]">Pack 8 Sesiones Premium</span></Button>
                   </div> */}
+                  {/* <pre>{JSON.stringify(item?.id, null, 2 )}</pre> */}
                   
-                  
+                  <Link
+              to="/shopping-cart"
+              state={{ shoppingCartId: item?.id }}
+              // onClick={()=>simulateEscKey()}
+              className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
+            >
+            
+            <div className="flex flex-col">
+              <div className="flex items-center justify-start border border-primary px-4 py-3 focus:z-2 w-full rounded-full mt-6 bg-primary/15">
+                <div className="flex items-center justify-center w-6 h-6 overflow-hidden border rounded-md zoom-in border-theme-1/10 box bg-theme-1/10">
+                <Lucide
+                  icon="DollarSign"
+                  className="w-3.5 h-3.5 stroke-[1.3] text-theme-1"
+                />
+                </div>
+                {/* <div className="font-medium truncate"> */}
+                  <p className="font-medium text-lg truncate ml-3">Ir al carro</p>
+               
+              </div>
+              
+            
+              
+            </div>
+            </Link>
                   
                 
                   
@@ -145,6 +170,9 @@ export function ResumenTransactions(props:any) {
               </div>     
               </>
           })}
+          
+          
+          
           
         </div>
       }

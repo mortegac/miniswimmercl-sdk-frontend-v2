@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import _ from "lodash";
 import * as jose from "jose";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
@@ -428,8 +429,25 @@ function Jwt(props: any) {
 function Content(props: any) {
   const [cartId, setCartId] = useState({id:"", cartStatus:"", clientName:"", phoneNumber:"", clientId:""});
   const [switcherSlideover, setSwitcherSlideover] = useState(false);
-  const { shoppingCarts } = props;
+  const { shoppingCarts, haveTOpen } = props;
 
+  // useEffect para abrir el slideover cuando haveTOpen es true
+  useEffect(() => {
+    if (haveTOpen === true) {
+      setSwitcherSlideover(true);
+      
+      setCartId({
+        id:shoppingCarts[0]?.id,
+        cartStatus:shoppingCarts[0]?.status,
+        clientName:shoppingCarts[0]?.user?.name,
+        phoneNumber:shoppingCarts[0]?.user?.contactPhone,
+        clientId:shoppingCarts[0]?.user?.id,
+      });
+      
+    }
+  }, [haveTOpen]);
+  
+  
   return (
     <>
       <Slideover
@@ -475,7 +493,7 @@ function Content(props: any) {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
-      
+      {/* <pre>{JSON.stringify(shoppingCarts, null, 2)}</pre> */}
       <div className="overflow-auto xl:overflow-visible">
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
@@ -612,8 +630,13 @@ function Content(props: any) {
 }
 
 function Main() {
+  const { search, state } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  
+  const [haveTOpen, setHaveTOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusShoppingCart, setStatusShoppingCart] = useState("PENDING")
+  const [filteredShoppingCart, setFilteredShoppingCart] = useState<any>(null)
   // const [JWT, setJWT] = useState("");
   const { shoppingCarts, status } = useAppSelector(selectShoppingCarts);
   // const {locations} = useAppSelector(selectLocation);
@@ -630,15 +653,66 @@ function Main() {
     (async () => await dispatch(getShoppingCart({status:"PENDING"})))();
   }, []);
 
+  
+  useEffect(() => {
+    const loadStudentData = async () => {
+      if (state?.shoppingCartId) {
+        // Filtrar shoppingCarts por el ID específico
+        const filteredCart = shoppingCarts?.find((cart: any) => cart.id === state.shoppingCartId);
+        if (filteredCart) {
+          setFilteredShoppingCart(filteredCart);
+          setHaveTOpen(true);
+        } else {
+          setFilteredShoppingCart(null);
+        }
+      } else {
+        setFilteredShoppingCart(null);
+      }
+    };
+    
+    loadStudentData();
+  }, [state?.shoppingCartId, shoppingCarts, dispatch]);
+  
+  
   return (
     <>
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
-          <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
+                      <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
 
             <div className="flex justify-between w-full flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
-              <h2 className="text-base font-medium group-[.mode--light]:text-white">Carros de compra clientes</h2>
+              {/* <h2 className="text-base font-medium group-[.mode--light]:text-white">
+                {filteredShoppingCart ? `Carro de compra específico (ID: ${state?.shoppingCartId})` : "Carros de compra clientes"}
+              </h2> */}
               <div className="">
+                {filteredShoppingCart && (
+                   <Button
+                   rounded
+                   variant="primary"
+                   className={`px-8 py-3 border border-slate-200 mr-3 ${statusShoppingCart==="PENDING" && " bg-white text-primary"}`}
+                   onClick={() => {
+                        setFilteredShoppingCart(null);
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                      }}
+                 >
+                  <Lucide icon="X" className="w-4 h-4 mr-1" />
+                   <span className="text-border-slate-200 font-dm-sans">Limpiar filtro</span>
+                 </Button>
+                 
+                  // <Button
+                  //   variant="secondary"
+                  //   size="sm"
+                  //   className="mb-2"
+                  //   onClick={() => {
+                  //     setFilteredShoppingCart(null);
+                  //     // Limpiar el state de la URL si es necesario
+                  //     window.history.replaceState({}, document.title, window.location.pathname);
+                  //   }}
+                  // >
+                  //   <Lucide icon="X" className="w-4 h-4 mr-1" />
+                  //   Limpiar filtro
+                  // </Button>
+                )}
                 <Button
                   rounded
                   variant="primary"
@@ -705,69 +779,6 @@ function Main() {
           </div>
     
          
-        {/* <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 sm:ml-auto">
-          <Popover className="inline-block">
-            {({ close }) => (
-              <>
-                <Popover.Button
-                  as={Button}
-                  variant="outline-secondary"
-                  className="w-full sm:w-auto"
-                >
-                  <Lucide
-                    icon="ArrowDownWideNarrow"
-                    className="stroke-[1.3] w-4 h-4 mr-2"
-                  />
-                  Filtros
-                  
-                </Popover.Button>
-                <Popover.Panel placement="bottom-end">
-                  <div className="p-2">
-                    <div>
-                      <div className="text-left text-slate-500">
-                        Sede
-                      </div>
-                      <FormSelect className="flex-1 mt-2">
-                      </FormSelect>
-                    </div>
-                  
-                    <div>
-                      <div className="text-left text-slate-500 mt-4">
-                        Fecha
-                      </div>
-                      <FormSelect className="flex-1 mt-2">
-                      </FormSelect>
-                    </div>
-                    <div>
-                      <div className="text-left text-slate-500 mt-4">
-                        Estado
-                      </div>
-                      <FormSelect id="status" >
-                          <option key={"CREATE"} value={"CREATE"}>CREATE</option>
-                          <option key={"AUTHORIZED"} value={"AUTHORIZED"}>AUTHORIZED</option>
-                          <option key={"INITIALIZED"} value={"INITIALIZED"}>INITIALIZED</option>
-                      </FormSelect>
-                    </div>
-                    <div className="flex items-center mt-4">
-                      <Button
-                        variant="secondary"
-                        onClick={() => {
-                          close();
-                        }}
-                        className="w-32 ml-auto"
-                      >
-                        Close
-                      </Button>
-                      <Button variant="primary" className="w-32 ml-2">
-                        Apply
-                      </Button>
-                    </div>
-                  </div>
-                </Popover.Panel>
-              </>
-            )}
-          </Popover>
-        </div> */}
       </div>
       
 
@@ -783,7 +794,7 @@ function Main() {
                 </div>
               )}
 
-              {status === "idle" && <Content shoppingCarts={shoppingCarts} />}
+              {status === "idle" && <Content haveTOpen={haveTOpen} shoppingCarts={filteredShoppingCart ? [filteredShoppingCart] : shoppingCarts} />}
 
               <div className="flex flex-col-reverse flex-wrap items-center p-5 flex-reverse gap-y-2 sm:flex-row"></div>
             </div>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Table from "@/components/Base/Table";
 import LoadingIcon from "@/components/Base/LoadingIcon";
@@ -110,6 +110,7 @@ export function CartDetail(props: any) {
     const {cartId} = props;
     const {status,  shoppingCartDetails} = useAppSelector(selectShoppingCartDetails);
     const dispatch = useAppDispatch();
+    const [discountAmount, setDiscountAmount] = useState('');
 
     const total =
     Array.isArray(shoppingCartDetails) &&
@@ -210,7 +211,8 @@ export function CartDetail(props: any) {
                       amount:-1 * Number(Math.round(Number(total) * 0.10)), 
                       detail:"Descuento",  
                       shoppingCartId:cartId 
-                    })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.10)))}</span><span className="text-[.7rem]">Descuento 10%</span>
+                    })}  variant="soft-secondary" 
+                    className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.10)))}</span><span className="text-[.7rem]">Descuento 10%</span>
                 </Button>
             <Button 
               onClick={()=>
@@ -247,6 +249,58 @@ export function CartDetail(props: any) {
                   shoppingCartId:cartId 
                 })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ 20.000</span><span className="text-[.7rem]">Descuento Pack 8 Sesiones</span>
             </Button>
+          </div>
+        </div>
+        <div className=" -mx-4 flex flex-col">
+          <p className="text-[.7rem]">Ingrese el monto del descuento</p>
+        
+          <div className="flex flex-row flex-wrap mt-1">
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="Ingrese monto de descuento"
+              className="border border-slate-300 rounded px-3 py-2 mr-2 mb-2 w-48 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              value={discountAmount}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Solo permitir números y punto decimal
+                if (/^\d*\.?\d*$/.test(value) || value === '') {
+                  setDiscountAmount(value);
+                }
+              }}
+              onKeyPress={(e) => {
+                // Solo permitir números, punto decimal y teclas de control
+                if (!/[\d.]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
+                  e.preventDefault();
+                }
+              }}
+            />
+            <Button 
+              id="discountNumber"
+              onClick={() => {
+                const amount = Number(discountAmount);
+                if (amount > 0) {
+                  generateDisscount({ 
+                    type: "DISCOUNT", 
+                    amount: -1 * amount, 
+                    detail: "Descuento",  
+                    shoppingCartId: cartId 
+                  });
+                  setDiscountAmount(''); // Limpiar input después de aplicar
+                } else {
+                  alert('El monto de descuento debe ser mayor a 0');
+                }
+              }}
+              variant="soft-secondary" 
+              className="mr-2 mb-2 flex flex-col justify-start items-start"
+            >
+              <span className="text-[.9rem] mr-2 text-green-600">
+                $ {discountAmount ? formatCurrency(Number(discountAmount)) : '0'}
+              </span>
+              <span className="text-[.7rem]">Aplicar Descuento</span>
+            </Button>
+            
           </div>
         </div>
         <div className=" -mx-4 mt-6 pt-4  border-t-dashed border-t-4 flex flex-col">
