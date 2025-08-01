@@ -90,14 +90,14 @@ function Main() {
               >
                 <span className="text-border-slate-200">Lo Barnechea</span>
               </Button>
-              <Button
+              {/* <Button
                 rounded
                 variant="primary"
                 className="px-8 py-3 border border-slate-200"
                 onClick={()=>dispatch(getCourses({isActive:true, locationId:"MI-CLUB-PREMIUM"}))}
               >
                 <span className="text-border-slate-200">Mi Club </span>
-              </Button>
+              </Button> */}
               <Button
                 rounded
                 variant="primary"
@@ -105,6 +105,14 @@ function Main() {
                 onClick={()=>dispatch(getCourses({isActive:true, locationId:"VITACURA-PISCINA-MUNICIPAL"}))}
               >
                 <span className="text-border-slate-200">Vitacura </span>
+              </Button>
+              <Button
+                rounded
+                variant="primary"
+                className="px-8 py-3 border border-slate-200"
+                onClick={()=>dispatch(getCourses({isActive:true, locationId:"NUNOA-CLUB-SUIZO"}))}
+              >
+                <span className="text-border-slate-200">Ñuñoa</span>
               </Button>
               {/* <Button
                 rounded

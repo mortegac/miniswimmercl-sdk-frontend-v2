@@ -434,7 +434,7 @@ const Card: React.FC<Props> = (props:any) => {
                     <Description courses={courses}/>
                   </Tab.Panel>
                   <Tab.Panel>
-                    { status === "loading" && <div><LoadingIcon
+                    { status === "loading" && <div className="w-full  h-20"><LoadingIcon
                     color="#AE5EAB"
                     icon="oval"
                     className="w-10 h-10 mt-10"
