@@ -282,7 +282,7 @@ export const FormStep02 = ({ onChangeSetStore, setStudentSlide }: any) => {
                       autoApply: true,
                       showWeekNumbers: false,
                       dropdowns: {
-                        minYear: 1960,
+                        minYear: 1930,
                         maxYear: null,
                         months: true,
                         years: true,
