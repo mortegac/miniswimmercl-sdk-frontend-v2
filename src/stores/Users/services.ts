@@ -328,6 +328,7 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
               });
            
           }else{
+            console.log("--nextStep-", nextStep)
             switch (nextStep.signInStep) {
               case 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED':
                 console.log('Se requiere cambio de contraseña');
@@ -337,9 +338,9 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
                 const newPassword = '87654321'; // Idealmente, esto vendría de un input del usuario
                 // const newPassword = 'lvdp1980'; // Idealmente, esto vendría de un input del usuario
                 // const newPassword = 'Andre.,1800'; // Idealmente, esto vendría de un input del usuario
-                // const { isSignedIn: isSignedInAfterConfirm } = await confirmSignIn({ challengeResponse: newPassword });
+                const { isSignedIn: isSignedInAfterConfirm } = await confirmSignIn({ challengeResponse: newPassword });
                 
-                // if (isSignedInAfterConfirm) { console.log("--Cambio confirmado ---: ", isSignedInAfterConfirm) }
+                if (isSignedInAfterConfirm) { console.log("--Cambio confirmado ---: ", isSignedInAfterConfirm) }
                 
                 break;
               case 'RESET_PASSWORD':

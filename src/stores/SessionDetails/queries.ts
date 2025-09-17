@@ -2,6 +2,76 @@
 /********************************************************
 *                    QUERIES
 ********************************************************/
+export const sessionDetailsByLocationIdAndDate = /* GraphQL */ `
+  query SessionDetailsByLocationIdAndDate(
+    $locationId: String!
+    $date: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionDetailsByLocationIdAndDate(
+      locationId: $locationId
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        createdAt
+        updatedAt
+        enrollmentSessionDetailsId
+        sessionDetailStudentId
+        locationId
+        locationIdUsed
+        courseId
+        scheduleId
+        modifiedBy
+        modifiedByDate
+        course {
+          id
+          title
+          description
+        }
+        schedule {
+          id
+          day
+          startHour
+          endHour
+        }
+        student {
+          id
+          name
+          lastName
+          birthdate
+          gender
+          enrollments {
+            items {
+              id
+              wasPaid
+            }
+          }
+        }
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+
 
 export const listSessionDetails = /* GraphQL */ `
   query ListSessionDetails(

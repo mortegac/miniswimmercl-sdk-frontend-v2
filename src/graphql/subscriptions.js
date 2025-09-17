@@ -1760,6 +1760,7 @@ export const onCreateMetadata = /* GraphQL */ `
         id
         label
         value
+        country
         idParent
         createdAt
         updatedAt
@@ -1783,6 +1784,7 @@ export const onUpdateMetadata = /* GraphQL */ `
         id
         label
         value
+        country
         idParent
         createdAt
         updatedAt
@@ -1806,6 +1808,7 @@ export const onDeleteMetadata = /* GraphQL */ `
         id
         label
         value
+        country
         idParent
         createdAt
         updatedAt
@@ -1834,6 +1837,7 @@ export const onCreateParameters = /* GraphQL */ `
       }
       label
       value
+      country
       idParent
       metadata {
         nextToken
@@ -1861,6 +1865,7 @@ export const onUpdateParameters = /* GraphQL */ `
       }
       label
       value
+      country
       idParent
       metadata {
         nextToken
@@ -1888,6 +1893,7 @@ export const onDeleteParameters = /* GraphQL */ `
       }
       label
       value
+      country
       idParent
       metadata {
         nextToken
@@ -3118,6 +3124,7 @@ export const onCreateStudent = /* GraphQL */ `
       sessionDetail {
         id
         date
+        locationId
         day
         month
         year
@@ -3126,7 +3133,6 @@ export const onCreateStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        locationId
         locationIdUsed
         modifiedBy
         modifiedByDate
@@ -3196,6 +3202,7 @@ export const onUpdateStudent = /* GraphQL */ `
       sessionDetail {
         id
         date
+        locationId
         day
         month
         year
@@ -3204,7 +3211,6 @@ export const onUpdateStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        locationId
         locationIdUsed
         modifiedBy
         modifiedByDate
@@ -3274,6 +3280,7 @@ export const onDeleteStudent = /* GraphQL */ `
       sessionDetail {
         id
         date
+        locationId
         day
         month
         year
@@ -3282,7 +3289,6 @@ export const onDeleteStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        locationId
         locationIdUsed
         modifiedBy
         modifiedByDate
@@ -3716,6 +3722,7 @@ export const onCreateSessionDetail = /* GraphQL */ `
     onCreateSessionDetail(filter: $filter) {
       id
       date
+      locationId
       day
       month
       year
@@ -3724,7 +3731,6 @@ export const onCreateSessionDetail = /* GraphQL */ `
       status
       proratedValue
       wasEmailSent
-      locationId
       locationIdUsed
       modifiedBy
       modifiedByDate
@@ -3825,6 +3831,7 @@ export const onUpdateSessionDetail = /* GraphQL */ `
     onUpdateSessionDetail(filter: $filter) {
       id
       date
+      locationId
       day
       month
       year
@@ -3833,7 +3840,6 @@ export const onUpdateSessionDetail = /* GraphQL */ `
       status
       proratedValue
       wasEmailSent
-      locationId
       locationIdUsed
       modifiedBy
       modifiedByDate
@@ -3934,6 +3940,7 @@ export const onDeleteSessionDetail = /* GraphQL */ `
     onDeleteSessionDetail(filter: $filter) {
       id
       date
+      locationId
       day
       month
       year
@@ -3942,7 +3949,6 @@ export const onDeleteSessionDetail = /* GraphQL */ `
       status
       proratedValue
       wasEmailSent
-      locationId
       locationIdUsed
       modifiedBy
       modifiedByDate
@@ -5389,6 +5395,10 @@ export const onCreateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      workdayReports {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -5474,6 +5484,10 @@ export const onUpdateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      workdayReports {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -5556,6 +5570,10 @@ export const onDeleteUsers = /* GraphQL */ `
         __typename
       }
       studentEvaluations {
+        nextToken
+        __typename
+      }
+      workdayReports {
         nextToken
         __typename
       }
@@ -5754,6 +5772,159 @@ export const onDeleteRelationship = /* GraphQL */ `
       updatedAt
       studentRelationshipsId
       usersRelationshipsId
+      __typename
+    }
+  }
+`;
+export const onCreateWorkdayReports = /* GraphQL */ `
+  subscription OnCreateWorkdayReports(
+    $filter: ModelSubscriptionWorkdayReportsFilterInput
+  ) {
+    onCreateWorkdayReports(filter: $filter) {
+      workdayId
+      date
+      day
+      month
+      year
+      startTime
+      endTime
+      startingTemperature
+      endingTemperature
+      notes
+      status
+      totalHoursWorked
+      totalSales
+      totalIssues
+      customersSatisfaction
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersWorkdayReportsId
+      __typename
+    }
+  }
+`;
+export const onUpdateWorkdayReports = /* GraphQL */ `
+  subscription OnUpdateWorkdayReports(
+    $filter: ModelSubscriptionWorkdayReportsFilterInput
+  ) {
+    onUpdateWorkdayReports(filter: $filter) {
+      workdayId
+      date
+      day
+      month
+      year
+      startTime
+      endTime
+      startingTemperature
+      endingTemperature
+      notes
+      status
+      totalHoursWorked
+      totalSales
+      totalIssues
+      customersSatisfaction
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersWorkdayReportsId
+      __typename
+    }
+  }
+`;
+export const onDeleteWorkdayReports = /* GraphQL */ `
+  subscription OnDeleteWorkdayReports(
+    $filter: ModelSubscriptionWorkdayReportsFilterInput
+  ) {
+    onDeleteWorkdayReports(filter: $filter) {
+      workdayId
+      date
+      day
+      month
+      year
+      startTime
+      endTime
+      startingTemperature
+      endingTemperature
+      notes
+      status
+      totalHoursWorked
+      totalSales
+      totalIssues
+      customersSatisfaction
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersWorkdayReportsId
       __typename
     }
   }

@@ -982,6 +982,7 @@ export const getMetadata = /* GraphQL */ `
         id
         label
         value
+        country
         idParent
         createdAt
         updatedAt
@@ -1029,6 +1030,7 @@ export const getParameters = /* GraphQL */ `
       }
       label
       value
+      country
       idParent
       metadata {
         nextToken
@@ -1060,6 +1062,7 @@ export const listParameters = /* GraphQL */ `
         id
         label
         value
+        country
         idParent
         createdAt
         updatedAt
@@ -1746,6 +1749,7 @@ export const getStudent = /* GraphQL */ `
       sessionDetail {
         id
         date
+        locationId
         day
         month
         year
@@ -1754,7 +1758,6 @@ export const getStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        locationId
         locationIdUsed
         modifiedBy
         modifiedByDate
@@ -2011,6 +2014,7 @@ export const getSessionDetail = /* GraphQL */ `
     getSessionDetail(id: $id, date: $date) {
       id
       date
+      locationId
       day
       month
       year
@@ -2019,7 +2023,6 @@ export const getSessionDetail = /* GraphQL */ `
       status
       proratedValue
       wasEmailSent
-      locationId
       locationIdUsed
       modifiedBy
       modifiedByDate
@@ -2133,6 +2136,7 @@ export const listSessionDetails = /* GraphQL */ `
       items {
         id
         date
+        locationId
         day
         month
         year
@@ -2141,7 +2145,6 @@ export const listSessionDetails = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        locationId
         locationIdUsed
         modifiedBy
         modifiedByDate
@@ -2913,6 +2916,10 @@ export const getUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      workdayReports {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -3048,6 +3055,96 @@ export const listRelationships = /* GraphQL */ `
         updatedAt
         studentRelationshipsId
         usersRelationshipsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getWorkdayReports = /* GraphQL */ `
+  query GetWorkdayReports($workdayId: ID!) {
+    getWorkdayReports(workdayId: $workdayId) {
+      workdayId
+      date
+      day
+      month
+      year
+      startTime
+      endTime
+      startingTemperature
+      endingTemperature
+      notes
+      status
+      totalHoursWorked
+      totalSales
+      totalIssues
+      customersSatisfaction
+      user {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
+      createdAt
+      updatedAt
+      usersWorkdayReportsId
+      __typename
+    }
+  }
+`;
+export const listWorkdayReports = /* GraphQL */ `
+  query ListWorkdayReports(
+    $workdayId: ID
+    $filter: ModelWorkdayReportsFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listWorkdayReports(
+      workdayId: $workdayId
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        workdayId
+        date
+        day
+        month
+        year
+        startTime
+        endTime
+        startingTemperature
+        endingTemperature
+        notes
+        status
+        totalHoursWorked
+        totalSales
+        totalIssues
+        customersSatisfaction
+        createdAt
+        updatedAt
+        usersWorkdayReportsId
         __typename
       }
       nextToken
@@ -3413,6 +3510,39 @@ export const emailSendsByStudentId = /* GraphQL */ `
     }
   }
 `;
+export const parametersByCountryAndLabel = /* GraphQL */ `
+  query ParametersByCountryAndLabel(
+    $country: String!
+    $label: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelParametersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    parametersByCountryAndLabel(
+      country: $country
+      label: $label
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        label
+        value
+        country
+        idParent
+        createdAt
+        updatedAt
+        parametersEncTypeOfParameterId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const locationsByCountry = /* GraphQL */ `
   query LocationsByCountry(
     $country: String!
@@ -3495,6 +3625,100 @@ export const studentsByCountry = /* GraphQL */ `
     }
   }
 `;
+export const sessionDetailsByDateAndId = /* GraphQL */ `
+  query SessionDetailsByDateAndId(
+    $date: AWSDateTime!
+    $id: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionDetailsByDateAndId(
+      date: $date
+      id: $id
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        locationId
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        locationIdUsed
+        modifiedBy
+        modifiedByDate
+        sessionDetailStudentId
+        courseId
+        scheduleId
+        createdAt
+        updatedAt
+        privateEnrollmentSessionDetailsId
+        enrollmentSessionDetailsId
+        usersCoachedSessionsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const sessionDetailsByLocationIdAndDate = /* GraphQL */ `
+  query SessionDetailsByLocationIdAndDate(
+    $locationId: String!
+    $date: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelSessionDetailFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sessionDetailsByLocationIdAndDate(
+      locationId: $locationId
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        locationId
+        day
+        month
+        year
+        sessionNumber
+        totalSessions
+        status
+        proratedValue
+        wasEmailSent
+        locationIdUsed
+        modifiedBy
+        modifiedByDate
+        sessionDetailStudentId
+        courseId
+        scheduleId
+        createdAt
+        updatedAt
+        privateEnrollmentSessionDetailsId
+        enrollmentSessionDetailsId
+        usersCoachedSessionsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
   query SessionDetailsBySessionDetailStudentId(
     $sessionDetailStudentId: ID!
@@ -3513,6 +3737,7 @@ export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
       items {
         id
         date
+        locationId
         day
         month
         year
@@ -3521,7 +3746,6 @@ export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        locationId
         locationIdUsed
         modifiedBy
         modifiedByDate
@@ -3702,6 +3926,49 @@ export const usersByCountry = /* GraphQL */ `
         createdAt
         updatedAt
         usersRolesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const workdayReportsByDateAndWorkdayId = /* GraphQL */ `
+  query WorkdayReportsByDateAndWorkdayId(
+    $date: AWSDateTime!
+    $workdayId: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelWorkdayReportsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    workdayReportsByDateAndWorkdayId(
+      date: $date
+      workdayId: $workdayId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        workdayId
+        date
+        day
+        month
+        year
+        startTime
+        endTime
+        startingTemperature
+        endingTemperature
+        notes
+        status
+        totalHoursWorked
+        totalSales
+        totalIssues
+        customersSatisfaction
+        createdAt
+        updatedAt
+        usersWorkdayReportsId
         __typename
       }
       nextToken

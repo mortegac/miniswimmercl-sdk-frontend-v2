@@ -3,7 +3,7 @@ import { generateClient } from 'aws-amplify/api';
 
 import { getAWSDateStgoChile } from "@/utils/helper";
 import { FilterOptions, InputOptions } from './types';
-import { listSessionDetails, sessionDetailsBySessionDetailStudentId } from './queries';
+import { listSessionDetails, sessionDetailsBySessionDetailStudentId, sessionDetailsByLocationIdAndDate } from './queries';
 import { updateSessionDetail, createSessionDetail, deleteSessionDetail } from './mutation';
 const client = generateClient();
 
@@ -284,6 +284,40 @@ export const fetchSessionsByStudent = async (objFilter: FilterOptions): Promise<
       }
     );
   }
+  });
+};
+export const fetchSessionsByLocationAndDate = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      
+     const getData:any = await client.graphql({
+        query: sessionDetailsByLocationIdAndDate,
+        variables: { 
+          locationId: objFilter?.locationId || "HIDROKIN-VINA-DEL-MAR",
+          date: { between: [
+            `${objFilter?.sessionDate}T00:00:00.000Z`, 
+            `${objFilter?.sessionDate}T23:59:59.999Z`
+          ] },
+          sortDirection: "ASC",
+          filter:{
+            or: [
+                {status: { eq: "ACTIVE" }},
+                {status: { eq: "RECOVERED" }}            
+                ]
+          }
+        },
+      });
+
+       console.log(">>> getData.data  >>>", getData.data )
+    const data:any = getData.data;
+    resolve({ ...data.sessionDetailsByLocationIdAndDate } as any); // CORRECCIÓN AQUÍ
+        
+    } catch (err) {
+      console.log(">> err >>", err)
+      reject({
+        errorMessage:JSON.stringify(err)
+      });
+    }
   });
 };
 

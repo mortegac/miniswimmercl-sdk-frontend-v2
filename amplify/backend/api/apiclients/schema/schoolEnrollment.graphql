@@ -98,34 +98,34 @@ enum SessionStatus {
 }
 
 type SessionDetail @model {
-   id: ID! @primaryKey(sortKeyFields: ["date"])  # Esto hace que date sea Sort Key de la tabla principal
-  # id: ID! @primaryKey(sortKeyFields: ["courseId", "date"])
-
-  date: AWSDateTime!
-
+  id: ID! @primaryKey(sortKeyFields: ["date"])
+  date: AWSDateTime! @index(name: "byDate", sortKeyFields: ["id"])
+  
+  # NUEVO ÍNDICE para consultas por ubicación y fecha
+  locationId: String! @default(value: "") @index(name: "byLocationAndDate", sortKeyFields: ["date"])
+  
   day: String! @default(value: "")
   month: String!
   year: String
-  sessionNumber: Int      # Sesion numero
-  totalSessions: Int      # Total de sesiones del pack
+  sessionNumber: Int
+  totalSessions: Int
   status: SessionStatus!
-  proratedValue: Float @default(value: "0")  #Valor de la sesion prorraterado por lo que pago
+  proratedValue: Float @default(value: "0")
   wasEmailSent: Boolean @default(value: "false")
-  # locationId: String! @index @default(value: "") # Id de la sede en la que compro la session
-  locationId: String! @default(value: "") # Id de la sede en la que compro la session
-  locationIdUsed: String! @default(value: "")  # Id de la sede en la que USO la session
-  modifiedBy: String @default(value: "")  # USUARIO QUE REAGENDO
-  modifiedByDate: AWSDateTime  # USUARIO QUE REAGENDO FECHA 
-  #Relation
+  locationIdUsed: String! @default(value: "")
+  modifiedBy: String @default(value: "")
+  modifiedByDate: AWSDateTime
+  
+  # Relations
   student: Student! @belongsTo
-  sessionDetailStudentId: ID! @index(name: "bySessionDetailStudent") # Índice usando el nombre que genera Amplify
-
+  sessionDetailStudentId: ID! @index(name: "bySessionDetailStudent")
+  
   # Optional relations
   courseId: ID @default(value: "SIN-CURSO")
-  scheduleId: ID  @default(value: "SIN-SCHEDULE")
+  scheduleId: ID @default(value: "SIN-SCHEDULE")
   course: Course @belongsTo(fields: ["courseId"])
   schedule: Schedule @belongsTo(fields: ["scheduleId"])
-  coach: Users @belongsTo # Coach asignado a la sesión (opcional)
+  coach: Users @belongsTo
 }
 
 # SIN-CURSO

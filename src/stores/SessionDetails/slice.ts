@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, fetchDataCourseQuote, updateData, updateSession, fetchSessionsByStudent} from "./services"
+import {fetchData, fetchDataCourseQuote, updateData, updateSession, fetchSessionsByStudent, fetchSessionsByLocationAndDate} from "./services"
 import {SessionDetail, emptySessionDetail, FilterOptions, InputOptions} from "./types"
 
 
@@ -49,6 +49,20 @@ export const getSessionByStudent= createAsyncThunk(
   async (objFilter: FilterOptions) => {
     try {
       const response:any = await fetchSessionsByStudent({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH SessionDetails", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+export const getSessionByLocationAndDate= createAsyncThunk(
+  "sessionDetails/listByfetchSessionsByLocationAndDate",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchSessionsByLocationAndDate({ ...objFilter });
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH SessionDetails", error)
@@ -164,6 +178,22 @@ export const sessionDetailslice = createSlice({
         state.sessionDetails = objPayload.items || [];
         // state.resume = counts || {};
       })
+      
+      // getSessionByLocationAndDate
+      .addCase(getSessionByLocationAndDate.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getSessionByLocationAndDate.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getSessionByLocationAndDate.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        state.sessionDetails = objPayload.items || [];
+      })
+      
       
       // GET getSessionQuote COURSES
       .addCase(getSessionQuote.rejected, (state, action) => {

@@ -13,7 +13,7 @@ import Button from "@/components/Base/Button";
 import Litepicker from "@/components/Base/Litepicker";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { getSessionDetails, selectSessionDetails, setSessionDetails } from "@/stores/SessionDetails/slice";
+import { getSessionDetails, selectSessionDetails, setSessionDetails, getSessionByLocationAndDate } from "@/stores/SessionDetails/slice";
 import { InputOptions } from "@/stores/SessionDetails/types";
 import {FormInput, FormSelect } from "@/components/Base/Form";
 import { setBreadcrumb } from '@/stores/breadcrumb';
@@ -22,27 +22,6 @@ import { getLocationsOnly, selectLocation } from '../../../stores/Locations/slic
 import {typeOfGender} from "@/pages/private/Students/components/Card";
 import StudentList from "./studentList";
 
-// function transformDate(dateString:string) {
-//   try {
-//     const parsedDate = parse(dateString, 'd MMM, yyyy', new Date());
-//     return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    
-//   } catch (error) {
-//     return new Date(dateString)
-//   }
-// }
-
-// function formatDateToISO(date:Date) {
-//   const year = date.getUTCFullYear();
-//   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-//   const day = String(date.getUTCDate()).padStart(2, '0');
-//   const hours = String(date.getUTCHours()).padStart(2, '0');
-//   const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-//   const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-//   const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0');
-
-//   return `${year}-${month}-${day}T00:00:00.000Z`;
-// }
 function formatDateToISOShort(date:Date) {
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -108,7 +87,9 @@ function Resume(props:any) {
           >
               <div className="p-5 box min-h-24 max-h-6 bg-slate-700">
                 <p className="truncate  text-lg text-white">
-                      <b className="text-4xl mr-2">{Number(total) - Number(data?.USED)}</b>{" "} Faltantes
+                      <b className="text-4xl mr-2">
+  {(Number(total) || 0) - (Number(data?.USED) || 0)}
+</b>{" "} Faltantes
                       </p>
               </div>
           </div>
@@ -121,18 +102,6 @@ function Resume(props:any) {
 
 function Main() {
   let currentScheduleId:string | null = null;
-  // const [switcherSlideSessions, setSwitcherSlideSessions] = useState(false);
-  // const [switcherSlideStudent, setSwitcherSlideStudent] = useState(false);
-   
-  // const nowDate:Date = new Date();
-  // const nowDate22 = FormatDate({
-  //   date: nowDate.toISOString(),
-  //   options: { month: "short", day: "numeric", year: "numeric"},
-  // });
-  
-  // const utcDate = new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000));
-  // const utcDateString = utcDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-  // console.log('Fecha en UTC:', utcDate.toISOString());
   const selectedDate = new Date();
   const day2 = String(selectedDate.getDate()).padStart(2, '0');
   const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
@@ -149,20 +118,11 @@ function Main() {
   const [atendanceId, setAtendanceId] = useState("");
   const [locationIdSelected, setLocationIdSelected] = useState("");
 
-  // const [dataStudent, setDataStudent] = useState({
-  //   id:"",
-  //   name:"",
-  //   lastName:"",
-  //   gender:"",
-  //   birthdate:"",
-  // });
   const [searchTerm, setSearchTerm] = useState('');
   const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
   const {locationsList } = useAppSelector(selectLocation);
-  const dispatch = useAppDispatch();
-  // dispatch(setBreadcrumb({first:"Asistencia", firstURL:"attendance"}));
-  
+  const dispatch = useAppDispatch();  
   
   const sortStudents = (a: any, b: any) => {
     // const aSessionsCount = a.enrollments.items.reduce((acc: any, enrollment: any) => acc + enrollment.sessionDetails.items.length, 0);
@@ -219,10 +179,14 @@ function Main() {
     });
     
 
-    await dispatch(getSessionDetails({
-      sessionDate: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`), 
+    await dispatch(getSessionByLocationAndDate({
+      sessionDate: String(`${fullYear}-${month}-${day2}`), 
       locationId: date?.locationId
     }))
+    // await dispatch(getSessionDetails({
+    //   sessionDate: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`), 
+    //   locationId: date?.locationId
+    // }))
   }
   
   interface Params {
@@ -238,6 +202,9 @@ function Main() {
   async function updateSession(params:InputOptions){
     setAtendanceId(params.sessionId || "")
     
+    // 2025-09-25T00:00:00.000Z
+    const dateFormated: string = String(date?.dateUtc).replace("T00:00:00.000Z", "");
+    
     await Promise.all([
       await dispatch(setSessionDetails({ 
         sessionId: params.sessionId, 
@@ -245,8 +212,8 @@ function Main() {
         locationIdUsed:date?.locationId,
         date:params?.date
       })),
-      await dispatch(getSessionDetails({
-        sessionDate: String(date?.dateUtc), 
+      await dispatch(getSessionByLocationAndDate({
+        sessionDate: dateFormated, 
         locationId: date?.locationId
       })),
       setAtendanceId("")
@@ -255,8 +222,10 @@ function Main() {
   }
   
   useEffect(() => { 
-    (async () =>  await dispatch(getSessionDetails({
-      sessionDate: String(date?.dateUtc), 
+    const dateFormated: string = String(date?.dateUtc).replace("T00:00:00.000Z", "");
+    
+    (async () =>  await dispatch(getSessionByLocationAndDate({
+      sessionDate: String(dateFormated), 
       locationId: date?.locationId
     }))
   )()
