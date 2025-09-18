@@ -192,6 +192,15 @@ export const sessionDetailslice = createSlice({
         const objPayload: any = action.payload;
         state.status = "idle";
         state.sessionDetails = objPayload.items || [];
+         const counts = objPayload?.items.reduce((acc:any, item:any) => {
+          acc[item.status] = (acc[item.status] || 0) + 1;
+          return acc;
+        }, {
+          USED: 0,
+          RECOVERED: 0,
+          ACTIVE: 0
+        });
+        state.resume = counts || {};
       })
       
       

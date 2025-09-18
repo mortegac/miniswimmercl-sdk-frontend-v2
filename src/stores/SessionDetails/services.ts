@@ -181,6 +181,11 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
     
     // console.log(">>> objFilter  >>>", objFilter )
     
+    // ACTIVE
+    // USED
+    // RECOVERED
+    // DELETED
+    
     if(objFilter?.status === "ACTIVE"){
       getData = await client.graphql({
         query: listSessionDetails,
@@ -192,6 +197,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
             ...filterLocation,
             or: [
                     {status: { eq: "ACTIVE" }},
+                    {status: { eq: "USED" }},
                     {status: { eq: "RECOVERED" }}            
                 ]
           
@@ -302,6 +308,7 @@ export const fetchSessionsByLocationAndDate = async (objFilter: FilterOptions): 
           filter:{
             or: [
                 {status: { eq: "ACTIVE" }},
+                {status: { eq: "USED" }},
                 {status: { eq: "RECOVERED" }}            
                 ]
           }

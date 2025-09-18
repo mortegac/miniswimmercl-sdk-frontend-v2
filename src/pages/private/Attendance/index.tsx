@@ -50,49 +50,33 @@ function Resume(props:any) {
   return(
     <>
     {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      <div className="col-span-12 sm:col-span-4 xl:col-span-3 intro-y ">
-          <div
-            className={clsx([
-              "relative zoom-in",
-              "before:content-[''] before:w-[90%] ",
-            ])}
-          >
-              <div className="p-5 box min-h-24 max-h-6 bg-green-200">
-                <p className="truncate  text-lg text-slate-700">
-                      <b className="text-4xl mr-2">{total}</b>{" "} Total de Alumnos
-                      </p>
-              </div>
+      <div id="boxResume" className="flex flex-col">
+        <div className="flex flex-row justify-between items-center gap-2">
+          <div id="boxStudents" className="p-2 box min-h-24 max-h-6 bg-green-200 flex flex-col justify-center items-center min-w-24   w-full sm:w-1/3 ">
+            <p className="truncate  text-lg text-slate-700">
+              <b className="text-4xl mr-2">{total}</b>{" "}
+            </p>
+            <p className="truncate  text-sm text-slate-700">Alumnos</p>
           </div>
-      </div>
-      <div className="col-span-12 sm:col-span-4 xl:col-span-3 intro-y mb-4">
-          <div
-            className={clsx([
-              "relative zoom-in",
-              "before:content-[''] before:w-[90%] ",
-            ])}
-          >
-              <div className="p-5 box min-h-24 max-h-6 ">
-                <p className="truncate  text-lg text-primary">
-                      <b className="text-4xl mr-2">{data?.USED}</b>{" "} Asistentes
-                      </p>
-              </div>
+          
+          <div id="boxAttennd" className="p-2 box min-h-24 max-h-6 bg-white flex flex-col justify-center items-center min-w-24   w-full sm:w-1/3 ">
+            <p className="truncate  text-lg text-primary">
+            <b className="text-4xl mr-2">{data?.USED || 0}</b>
+            </p>
+            <p className="truncate  text-sm text-slate-700">Asistentes</p>
           </div>
-      </div>
-      <div className="col-span-12 sm:col-span-4 xl:col-span-3 intro-y mb-4">
-          <div
-            className={clsx([
-              "relative zoom-in",
-              "before:content-[''] before:w-[90%] ",
-            ])}
-          >
-              <div className="p-5 box min-h-24 max-h-6 bg-slate-700">
-                <p className="truncate  text-lg text-white">
-                      <b className="text-4xl mr-2">
-  {(Number(total) || 0) - (Number(data?.USED) || 0)}
-</b>{" "} Faltantes
-                      </p>
-              </div>
+          
+          <div id="boxLess" className="p-2 box min-h-24 max-h-6 bg-slate-700 flex flex-col justify-center items-center min-w-24   w-full sm:w-1/3 ">
+            <p className="truncate  text-lg text-white">
+            <b className="text-4xl mr-2">
+  {(Number(total) || 0) - (Number(data?.USED) || 0)}</b>
+            </p>
+            <p className="truncate  text-sm text-white">Faltantes</p>
           </div>
+          
+        </div>
+      
+      
       </div>
     
     </>
@@ -280,366 +264,366 @@ function Main() {
       </>
     }
     {date?.locationId!=="" && 
-      <div className="grid grid-cols-12">
-        <div className="col-span-12">          
-          <div className="flex flex-col justify-between md:items-center md:flex-row">
-            <div className=" text-base font-medium group-[.mode--light]:text-white">
-              Listado de asistencia: <b className="text-lg">{date?.dateShow}</b> 
-            </div>
-          </div>
-          
-          <div className="flex flex-row justify-between items-center w-full mt-4">
-            <div className="flex flex-row justify-start items-center w-full ">
-              <div className="mr-2 w-96">
-                  <div className="relative">
-                      <Lucide
-                        icon="Search"
-                        className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                      />
-                      <FormInput
-                          formInputSize="lg"
-                          placeholder="Buscar alumnos..."
-                          aria-label="name" 
-                          aria-describedby="input-group-name"
-                          type="text"
-                          tabIndex={1} 
-                          // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
-                          className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
-                          name="guardianEmail"
-                          value={searchTerm}
-                          onChange={handleSearchChange}
-                        />
-                  </div>
-              </div>
-              <div className="w-96">
-                <ListParams
-                  key={"LIST_LOCATIONS"}
-                  list={locationsList}
-                  text={""}
-                  value={date?.locationId || ""}
-                  isLoading={false}
-                  fn={(e)=>setDate({...date, locationId:e.target.value})}
-                  handleCreate={(e)=>console.log(e.target.value)}
-                  name={"location"}
-                />
-              </div>
-              <div className=" w-16">
-                <div className="relative">
-                  <Lucide
-                    icon="Calendar"
-                    className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
-                  />
-                  
-                <Litepicker value={date?.dateChile} 
-                  onChange={(e)=> {
-                    updateDate(e.target.value);    
-                    }}
-                    options={{
-                      autoApply: true,
-                      singleMode: true, // Cambia a false si necesitas selección de rango
-                      showWeekNumbers: true,
-                      // format: 'DD-MM-YYYY',
-                      // format: 'YYYY-MM-DD',
-                      
-                      dropdowns: {
-                        minYear: 2024,
-                        maxYear: null,
-                        months: true,
-                        years: false,
-                      },
-                    }}
-                    className="pl-12 rounded-lg text-xl"
-                />
-                      
-                      
-                      
-                </div>
-              </div>
-              
-            </div>
-          </div>
-          <div className="grid grid-cols-12 gap-6 mt-5">
-            { resume && <Resume data={resume} total={sessionDetails?.length}/>}
-            
-          </div>
-          
-          <div className="mt-2 overflow-auto lg:overflow-visible">
- 
-          {/* { status === "loading" &&   <div className="flex justify-center items-center w-full h-10"><LoadingIcon
-                    color="white"
-                    icon="oval"
-                    className="w-10 h-10 mt-10"
-                  /></div>} */}
-          {/* { status === "idle" && */}
-           {
-              Array.isArray(sessionDetails) &&
-              (sessionDetails.length === 0 ? (
-                <div className="flex justify-center items-center">
-                  <span className="text-lg text-slate-400">😴</span>{" "}
-                  <span className="text-lg">Sin sesiones encontradas</span>
-                </div>
-              ) : (
-                <Table className="border-spacing-y-[10px] border-separate">
-              <Table.Tbody>
-                
-                { Array.isArray(filteredStudents) &&
-        [...filteredStudents]
-          .sort((a:any, b:any) => {
-            
-            // const nameComparison = a.student?.name.localeCompare(b.student?.name);
-            // if (nameComparison === 0) { // Si los nombres son iguales, ordenamos por apellido
-            //   return a.student?.lastName.localeCompare(b.student?.lastName);
-            // }
-             // Handle "SIN-SCHEDULE" case
-            if (a.scheduleId === "SIN-SCHEDULE" && b.scheduleId !== "SIN-SCHEDULE") return 1;
-            if (a.scheduleId !== "SIN-SCHEDULE" && b.scheduleId === "SIN-SCHEDULE") return -1;
-
-            // return nameComparison;
-            if (a.status === "USED" && b.status !== "USED") return 1;
-            if (a.status !== "USED" && b.status === "USED") return -1;
-            
-           // Then compare start hour
-            // const startHourA = a.schedule?.startHour || '';
-            // const startHourB = b.schedule?.startHour || '';
-            // const startHourComparison = startHourA.localeCompare(startHourB);
-            // if (startHourComparison !== 0) return startHourComparison;
-              // Convert start hours to Date objects for comparison
-            const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
-            const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
-            const timeComparison = timeA.getTime() - timeB.getTime();
-            if (timeComparison !== 0) return timeComparison;
-            
-            // Then compare scheduleId
-            const scheduleIdComparison = a.scheduleId.localeCompare(b.scheduleId);
-            if (scheduleIdComparison !== 0) return scheduleIdComparison;
-            
-
-            
-              // If status is the same, compare courseId
-              // const courseIdComparison = a.courseId.localeCompare(b.courseId);
-              // if (courseIdComparison !== 0) return courseIdComparison;
-              
-              
-            // Si tienen el mismo status, ordenamos por nombre
-            // const nameComparison = a.student?.name.localeCompare(b.student?.name);
-            
-            // // Si los nombres son iguales, ordenamos por apellido
-            // if (nameComparison === 0) {
-            //   return a.student?.lastName.localeCompare(b.student?.lastName);
-            // }
-            
-            // return nameComparison;
-            
-            
-            // Finally, compare student name
-            return a.student?.name.localeCompare(b.student?.name);
-              
-          })
-          .map((item: any, i: number) => {
-            const showLocationId = item.scheduleId !== currentScheduleId;
-            if (showLocationId) {
-              currentScheduleId = item.scheduleId;
-            }
-            const filteredArray = item?.student?.enrollments?.items?.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId);
-
-                    return(  
-                      <Fragment key={`${i}-SCHEDULES`}>
-                        {/* <pre>{JSON.stringify(filteredStudents, null, 2 )}</pre> */}
-                      { showLocationId &&
-                        item?.courseId !== "SIN-CURSO" &&
-                        <div className="flex flex-col mt-10">
-                           <h2 className="text-xl font-medium leading-none text-slate-600 uppercase">
-                           {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
-                           </h2>
-                           <p className="px-3 my-2 text-left bg-slate-100 mt-1 rounded-full text-xs font-thin py-1 uppercase" >{item?.course?.description}</p>
-                        </div>
-                      }
-                      { showLocationId &&
-                        item?.courseId === "SIN-CURSO" &&
-                        <div className="w-full mt-12">
-                           <h2 className="w-96 mt-3 text-xl font-medium leading-none text-slate-600 my-2 uppercase">
-                           Sesión sin horarios asignado
-                           </h2>
-                           {/* <span className=" bg-slate-100 p-1 mt-1 rounded-full text-xs font-thin" >{item?.courseId}</span> */}
-                        </div>
-                      }
-                            
-                    <Table.Tr key={item.id} 
-                    className={`box
-                      ${!filteredArray[0]?.wasPaid &&  "bg-red-300/50"}
-                      ${atendanceId === item?.id && "bg-yellow-100"}
-                      ${atendanceId !== item?.id && item?.status === "USED" && "bg-green-100"}
-                      `}>                 
-                      
-                      
-                      <Table.Td className={`w-16`}>
-                        <div className="flex items-center">
-                          {/* <Button className="border-none" > */}
-                          <Link
-                              to="/admin-student"
-                              state={{ id: item?.student?.id }}
-                              // onClick={()=>simulateEscKey()}
-                              className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
-                            >
-                            <IcoGender gender={item?.student?.gender || ""}/>
-                            </Link>
-                          <div className="ml-2">
-                            <p className="font-medium  text-xl">
-                              {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
-                            </p>
-                            <div className="mt-1 text-xs text-slate-500 ">
-                              <CalculateAge birthdate={String(item?.student?.birthdate)} />
-                            </div>
-                          </div>
-                        </div>
-                      </Table.Td>
-                      <Table.Td className={``}>
-                        <div className="text-lg flex justify-center items-center flex-col">
-                        {!filteredArray[0]?.wasPaid && <span className="text-sm uppercase text-red-500 bg-red-50 py-2 px-2 rounded-full">
-                          Pendiente de Pago</span>}
-                        <p className="text-sm mt-2">
-                          {item?.status === "RECOVERED" && "SESION RECUPERADA"}
-                          {item?.status === "ACTIVE" && "VIGENTE"}
-                          {item?.status === "USED" && "UTILIZADA"}
-                          {item?.status === "DELETED" && "ELIMINADA"}
-                        </p>
-                          
-                          
-                          <p className="text-xs font-thin" >{ formatDateToISOShort(new Date(item?.date))}</p>
-                          { item?.locationId && item?.locationId !=="" && <>
-                          
-                          {/* <span className=" bg-slate-100 p-1 mt-1 rounded-full text-xs font-thin" >{item?.courseId}-{item?.scheduleId}</span> */}
-                        </>
-                      }
-                        </div>
-                        {/* <small>{item?.status}</small> */}
-                        
-                      </Table.Td>
-                      
-                      {/* <Table.Td className={`w-16`}>
-                       
-                            <pre>
-                              {item?.enrollmentSessionDetailsId}
-                              {JSON.stringify(filteredArray[0].wasPaid, null, 2 )}
-                            </pre>
-                       
-                      </Table.Td> */}
-                      
-                      <Table.Td className={``}>
-                      {item.status==="ACTIVE" &&
-                      <div className="">
-                        <Button variant="soft-primary" rounded 
-                        className="px-4 py-3" 
-                        onClick={() => updateSession({
-                          sessionId: item.id,
-                          status: "USED",
-                          date: item?.date,
-                          locationIdUsed:date?.locationId,
-                        })}
-                        >MARCAR PRESENTE</Button>
-                      </div>
-                     }
-                    {item.status==="RECOVERED" &&
-                    <div className="flex flex-col justify-start items-start ">
-                    <div className="w-[100%] mb-2">
-                      <ListParams
-                      key={item.id}
-                        list={locationsList}
-                        text={""}
-                        value={locationIdSelected || ""}
-                        isLoading={false}
-                        
-                        fn={(e)=>setLocationIdSelected(e.target.value)}
-                        handleCreate={(e)=>console.log(e.target.value)}
-                        name={"location"}
-                      />                          
-                    </div>
-                    <Button variant="soft-danger" rounded 
-                    className="w-[85%] px-4 py-3" 
-                    onClick={() => updateSession({
-                      sessionId: item.id,
-                      status: "USED",
-                      locationIdUsed:locationIdSelected,
-                    })}
-                    >MARCAR PRESENTE</Button>
-                  </div>
-                    }
-                    {item?.locationIdUsed && item?.status === "USED" && <>
-                            <div className="mb-1 text-xs text-slate-500 ">
-                            Utilizada en:
-                            </div>  
-                            <p className="text-xs font-thin" >{item?.locationIdUsed}</p>
-                          </>
-                    }
-                      </Table.Td>
-                    
-                      {/* <Table.Td className={`relative py-4 ${item?.status === "USED" ? "bg-green-100": "bg-white"}`}>
-                  <div className="flex items-center justify-center ">
-                    <Menu className="h-5 ">
-                      <Menu.Button className="w-5 h-5 text-slate-500">
-                        <Lucide
-                          icon="MoreVertical"
-                        />
-                      </Menu.Button>
-                      <Menu.Items className="w-52">
-                        <Menu.Item 
-                          onClick={(event: React.MouseEvent) => {
-                            event.preventDefault();
-                             setDataStudent({
-                              id: item?.student?.id,
-                              name:item?.student?.name,
-                              lastName:item?.student?.lastName,
-                              gender:item?.student?.gender,
-                              birthdate:item?.student?.birthdate,
-                            })
-                            setSwitcherSlideSessions(true);
-                          }}>
-                            <Lucide
-                              icon="Grid2x2"
-                              className="w-4 h-4 mr-2"
-                            />{" "}
-                            Ver Sesiones
-                          </Menu.Item>
-                        <Menu.Item 
-                          onClick={(event: React.MouseEvent) => {
-                            event.preventDefault();
-                            setDataStudent({
-                              id: item?.student?.id,
-                              name:item?.student?.name,
-                              lastName:item?.student?.lastName,
-                              gender:item?.student?.gender,
-                              birthdate:item?.student?.birthdate,
-                            })
-                            setSwitcherSlideSessions(true);
-                          }}>
-                            <Lucide
-                              icon="User"
-                              className="w-4 h-4 mr-2"
-                            />{" "}
-                            Datos Alumno
-                          </Menu.Item>
-                      </Menu.Items>
-                    </Menu> 
-                  </div>
-                </Table.Td>*/}
-                    </Table.Tr>
-                    </Fragment>
-                    
-              )})}
-              </Table.Tbody>
-            </Table>
-              ))
-    
-          }
-        
-            
-          </div>
-        
-        </div>
-        
-          
-        {/* </div> */}
+      <>
+      <div className=" text-base font-medium group-[.mode--light]:text-white mb-4 uppercase">
+        Listado de asistencia: <b className="text-lg hidden md:contents ">{date?.dateShow}</b> 
       </div>
+       <div id="boxResume" className="flex flex-col justify-start md:flex-row flex-start gap-2">
+        <div className="flex flex-col  justify-start items-center ">
+          <Lucide
+            icon="Search"
+            className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
+          />
+          <FormInput
+              formInputSize="lg"
+              placeholder="Buscar alumnos..."
+              aria-label="name" 
+              aria-describedby="input-group-name"
+              type="text"
+              tabIndex={1} 
+              // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
+              className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
+              name="guardianEmail"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+        </div>
+        <div className="flex flex-col justify-start items-start w-full">
+          <ListParams
+            key={"LIST_LOCATIONS"}
+            list={locationsList}
+            text={""}
+            value={date?.locationId || ""}
+            isLoading={false}
+            fn={(e)=>setDate({...date, locationId:e.target.value})}
+            handleCreate={(e)=>console.log(e.target.value)}
+            name={"location"}
+          />
+        </div>
+        <div className="flex flex-row justify-start items-center flex-start">
+          <div className=" w-16">
+            <div className="relative">
+              <Lucide
+                icon="Calendar"
+                className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
+              />
+              
+              <Litepicker value={date?.dateChile} 
+                onChange={(e)=> {
+                  updateDate(e.target.value);    
+                  }}
+                  options={{
+                    autoApply: true,
+                    singleMode: true, // Cambia a false si necesitas selección de rango
+                    showWeekNumbers: true,
+                    // format: 'DD-MM-YYYY',
+                    // format: 'YYYY-MM-DD',
+                    
+                    dropdowns: {
+                      minYear: 2024,
+                      maxYear: null,
+                      months: true,
+                      years: false,
+                    },
+                  }}
+                  className="pl-12 rounded-lg text-xl"
+              />
+            </div>
+          </div>
+          <b className="text-lg text-white ml-4 block md:hidden">{date?.dateShow}</b> 
+          
+        </div>
+      </div>
+        
+        <div className="grid grid-cols-12">
+          <div className="col-span-12">          
+            {/* <div className="flex flex-col justify-between md:items-center md:flex-row">
+              <div className=" text-base font-medium group-[.mode--light]:text-white">
+                Listado de asistencia: <b className="text-lg">{date?.dateShow}</b> 
+              </div>
+            </div> */}
+            
+            {/* <div className="flex flex-row justify-between items-center w-full mt-4">
+              <div className="flex flex-row justify-start items-center w-full ">
+                <div className="mr-2 w-96">
+                    <div className="relative">
+                        <Lucide
+                          icon="Search"
+                          className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
+                        />
+                        <FormInput
+                            formInputSize="lg"
+                            placeholder="Buscar alumnos..."
+                            aria-label="name" 
+                            aria-describedby="input-group-name"
+                            type="text"
+                            tabIndex={1} 
+                            // className="bg-white/[0.12] text-white w-[350px] flex items-center py-2 px-3.5 border-transparent  cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100 focus:z-10"
+                            className="pl-9 w-full rounded-[0.5rem] transition-colors duration-300 hover:duration-100 focus:z-10"
+                            name="guardianEmail"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                          />
+                    </div>
+                </div>
+                <div className="w-96">
+                  <ListParams
+                    key={"LIST_LOCATIONS"}
+                    list={locationsList}
+                    text={""}
+                    value={date?.locationId || ""}
+                    isLoading={false}
+                    fn={(e)=>setDate({...date, locationId:e.target.value})}
+                    handleCreate={(e)=>console.log(e.target.value)}
+                    name={"location"}
+                  />
+                </div>
+                <div className=" w-16">
+                  <div className="relative">
+                    <Lucide
+                      icon="Calendar"
+                      className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
+                    />
+                    
+                  <Litepicker value={date?.dateChile} 
+                    onChange={(e)=> {
+                      updateDate(e.target.value);    
+                      }}
+                      options={{
+                        autoApply: true,
+                        singleMode: true, // Cambia a false si necesitas selección de rango
+                        showWeekNumbers: true,
+                        // format: 'DD-MM-YYYY',
+                        // format: 'YYYY-MM-DD',
+                        
+                        dropdowns: {
+                          minYear: 2024,
+                          maxYear: null,
+                          months: true,
+                          years: false,
+                        },
+                      }}
+                      className="pl-12 rounded-lg text-xl"
+                  />
+                        
+                        
+                        
+                  </div>
+                </div>
+                
+              </div>
+            </div> */}
+            <div className="grid grid-cols-12 gap-6 mt-5">
+              { resume && <Resume data={resume} total={sessionDetails?.length}/>}
+              
+            </div>
+            
+            <div className="mt-2 overflow-auto lg:overflow-visible">
+            {
+                Array.isArray(sessionDetails) &&
+                (sessionDetails.length === 0 ? (
+                  <div className="flex justify-center items-center">
+                    <span className="text-lg text-slate-400">😴</span>{" "}
+                    <span className="text-lg">Sin sesiones encontradas</span>
+                  </div>
+                ) : (
+                  <Table id="boxAttend" className="border-spacing-y-[10px] border-separate w-auto">
+                <Table.Tbody>
+                  
+                  { Array.isArray(filteredStudents) &&
+          [...filteredStudents]
+            .sort((a:any, b:any) => {
+              if (a.scheduleId === "SIN-SCHEDULE" && b.scheduleId !== "SIN-SCHEDULE") return 1;
+              if (a.scheduleId !== "SIN-SCHEDULE" && b.scheduleId === "SIN-SCHEDULE") return -1;
+
+              if (a.status === "USED" && b.status !== "USED") return 1;
+              if (a.status !== "USED" && b.status === "USED") return -1;
+              
+                // Convert start hours to Date objects for comparison
+              const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
+              const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
+              const timeComparison = timeA.getTime() - timeB.getTime();
+              if (timeComparison !== 0) return timeComparison;
+              
+              // Then compare scheduleId
+              const scheduleIdComparison = a.scheduleId.localeCompare(b.scheduleId);
+              if (scheduleIdComparison !== 0) return scheduleIdComparison;
+              
+              return a.student?.name.localeCompare(b.student?.name);  
+            })
+            .map((item: any, i: number) => {
+              const showLocationId = item.scheduleId !== currentScheduleId;
+              if (showLocationId) {
+                currentScheduleId = item.scheduleId;
+              }
+              const filteredArray = item?.student?.enrollments?.items?.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId);
+
+                      return(  
+                        <Fragment key={`${i}-SCHEDULES`}>
+                          {/* <pre>{JSON.stringify(filteredStudents, null, 2 )}</pre> */}
+                        { showLocationId &&
+                          item?.courseId !== "SIN-CURSO" &&
+                          <div className="flex flex-col mt-10 w-full min-w-[200px] ">
+                            <h2 className="text-xl font-medium leading-none text-slate-600 uppercase">
+                            {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
+                            </h2>
+                            <p className="px-3 my-2 text-left bg-slate-100 mt-1 rounded-full text-xs font-thin py-1 uppercase" >{item?.course?.description}</p>
+                          </div>
+                        }
+                        { showLocationId &&
+                          item?.courseId === "SIN-CURSO" &&
+                          <div className="w-full mt-12">
+                            <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 my-2 uppercase">
+                            Sesión sin horarios asignado
+                            </h2>
+                            {/* <span className=" bg-slate-100 p-1 mt-1 rounded-full text-xs font-thin" >{item?.courseId}</span> */}
+                          </div>
+                        }
+                              
+                      <Table.Tr key={item.id} 
+                      className={`box
+                        ${!filteredArray[0]?.wasPaid &&  "bg-red-300/50"}
+                        ${atendanceId === item?.id && "bg-yellow-100"}
+                        ${atendanceId !== item?.id && item?.status === "USED" && "bg-green-100"}
+                        `}>                 
+                        
+                        
+                        <Table.Td className={`w-16`}>
+                          <div className="flex items-center">
+                            {/* <Button className="border-none" > */}
+                            <Link
+                                to="/admin-student"
+                                state={{ id: item?.student?.id }}
+                                // onClick={()=>simulateEscKey()}
+                                className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y hidden md:block"
+                              >
+                              <IcoGender gender={item?.student?.gender || ""}/>
+                              </Link>
+                              <Link
+                                to="/admin-student"
+                                state={{ id: item?.student?.id }}
+                                // onClick={()=>simulateEscKey()}
+                                className="col-span-12 sm:col-span-6 xl:col-span-4 "
+                              >
+                            <div className="ml-2">
+                              <p id="studentName" className="font-medium text-sm md:text-xl">
+                                {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
+                              </p>
+                              <div className="mt-1 text-xs text-slate-500 ">
+                                <CalculateAge birthdate={String(item?.student?.birthdate)} />
+                              </div>
+                            </div>
+                            </Link>
+                          </div>
+                        </Table.Td>
+                        <Table.Td className={` hidden md:block`}>
+                          <div className="text-lg flex justify-center items-center flex-col">
+                          {item?.totalSessions ===1 && <span className="bg-green-200 py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>}
+                          {!filteredArray[0]?.wasPaid && <span className="text-sm uppercase text-red-500 bg-red-50 py-2 px-2 rounded-full">
+                            Pendiente de Pago</span>}
+                          <p className="text-sm mt-2">
+                            {item?.status === "RECOVERED" && "SESION RECUPERADA"}
+                            {item?.status === "ACTIVE" && "VIGENTE"}
+                            {item?.status === "USED" && "UTILIZADA"}
+                            {item?.status === "DELETED" && "ELIMINADA"}
+                          </p>
+                            
+                            
+                            <p className="text-xs font-thin  hidden md:block" >{ formatDateToISOShort(new Date(item?.date))}</p>
+                            { item?.locationId && item?.locationId !=="" && <>
+                          </>
+                        }
+                          </div>                          
+                        </Table.Td>
+                        
+                     
+                        
+                        <Table.Td className={``}>
+                        <div className="text-lg flex justify-center items-center flex-col">
+                          {item?.totalSessions ===1 && <span className="bg-green-200 py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>}
+                          {!filteredArray[0]?.wasPaid && <span className="text-sm uppercase text-red-500 bg-red-50 py-2 px-2 rounded-full">
+                            Pendiente de Pago</span>}
+                          <p className="text-sm mt-2">
+                            {item?.status === "RECOVERED" && "SESION RECUPERADA"}
+                            {item?.status === "ACTIVE" && "VIGENTE"}
+                            {item?.status === "USED" && "UTILIZADA"}
+                            {item?.status === "DELETED" && "ELIMINADA"}
+                          </p>
+                            
+                            
+                            <p className="text-xs font-thin  hidden md:block" >{ formatDateToISOShort(new Date(item?.date))}</p>
+                            { item?.locationId && item?.locationId !=="" && <>
+                          </>
+                        }
+                          </div> 
+                          
+                        {item.status==="ACTIVE" &&
+                        <div className="">
+                          <Button variant="soft-primary" rounded 
+                          className="px-4 py-3" 
+                          onClick={() => updateSession({
+                            sessionId: item.id,
+                            status: "USED",
+                            date: item?.date,
+                            locationIdUsed:date?.locationId,
+                          })}
+                          >MARCAR PRESENTE</Button>
+                        </div>
+                      }
+                      {item.status==="RECOVERED" &&
+                      <div className="flex flex-col justify-start items-start ">
+                      <div className="w-[100%] mb-2">
+                        <ListParams
+                        key={item.id}
+                          list={locationsList}
+                          text={""}
+                          value={locationIdSelected || ""}
+                          isLoading={false}
+                          
+                          fn={(e)=>setLocationIdSelected(e.target.value)}
+                          handleCreate={(e)=>console.log(e.target.value)}
+                          name={"location"}
+                        />                          
+                      </div>
+                      <Button variant="soft-danger" rounded 
+                      className="w-[85%] px-4 py-3" 
+                      onClick={() => updateSession({
+                        sessionId: item.id,
+                        status: "USED",
+                        locationIdUsed:locationIdSelected,
+                      })}
+                      >MARCAR PRESENTE</Button>
+                    </div>
+                      }
+                      {item?.locationIdUsed && item?.status === "USED" && <>
+                              <div className="mb-1 text-xs text-slate-500 ">
+                              Utilizada en:
+                              </div>  
+                              <p className="text-xs font-thin" >{item?.locationIdUsed}</p>
+                            </>
+                      }
+                        </Table.Td>
+                      
+                  
+                      </Table.Tr>
+                      </Fragment>
+                      
+                )})}
+                </Table.Tbody>
+              </Table>
+                ))
+      
+            }
+          
+              
+            </div>
+          
+          </div>
+          
+            
+          {/* </div> */}
+        </div>
+      </>
     }
     </>
   );
