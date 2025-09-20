@@ -347,7 +347,44 @@ function Main() {
             
             <div className="mt-2 overflow-auto lg:overflow-visible">
             
-          
+            <div id="newCard" className="flex flex-col box  bg-slate-100 w-full max-w-[580px]">
+              <div className="absolute top-0 right-0 w-36  bg-primary border-primary bg-opacity-20 border-opacity-5 text-primary rounded-r-lg h-full flex items-center justify-center">
+                  {/* <p className="text-center">MARCAR PRESENTE</p> */}
+                  <Button  
+                          className="px-4 py-3 w-36 h-full" 
+                          // onClick={() => updateSession({
+                          //   sessionId: item.id,
+                          //   status: "USED",
+                          //   date: item?.date,
+                          //   locationIdUsed:date?.locationId,
+                          // })}
+                          >MARCAR PRESENTE
+                      </Button>
+              </div>
+            
+              {/* <div className=""> */}
+              {/* </div> */}
+                <p className="px-4 py-2 font-medium text-sm md:text-xl">Jose Emilio Escobar Ormazabal</p>
+            
+            <div id="newCard" className="flex flex-row relative">
+            
+              <div className="flex flex-col justify-center items-start  w-[20%] px-4">
+              <IcoGender gender={"MALE"}/>
+                <p className="text-center w-full">[edad]</p>
+              </div>
+              <div className="flex  w-[25%]">
+                <p>uno</p>
+              </div>
+              <div className="flex  w-[25%]">
+                <p>uno</p>
+              </div>
+              
+              
+            </div>
+              
+              
+                
+            </div>
              
               
               
@@ -360,7 +397,8 @@ function Main() {
                     <span className="text-lg">Sin sesiones encontradas</span>
                   </div>
                 ) : (
-               <>
+                  <Table id="boxAttend" className="border-separate w-auto border-spacing-y-[10px] border-none ">
+                <Table.Tbody>
                   
                   { Array.isArray(filteredStudents) &&
           [...filteredStudents]
@@ -391,116 +429,36 @@ function Main() {
               const filteredArray = item?.student?.enrollments?.items?.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId);
 
                       return(  
-                        <div key={`${i}-SCHEDULES`} className={`${item?.status === "USED" && "bg-slate-200 px-4 py-4  mt-24"} max-w-[580px]`}>
+                        <Fragment key={`${i}-SCHEDULES`}>
+                          {/* <pre>{JSON.stringify(filteredStudents, null, 2 )}</pre> */}
                         { showLocationId &&
                           item?.courseId !== "SIN-CURSO" &&
-                          <>
-                            {item?.status === "USED" && <h3 className="text-3xl font-thin leading-none">Sesiones Utilizadas</h3>}
-                            <div className={`flex flex-row justify-between items-center px-6 py-2 mb-2 mt-10 w-full min-w-[200px] 
-                              ${item?.status !== "USED" && "bg-slate-700 text-white"}
-                            rounded-full`}>
-                              <h2 className="text-xl font-medium leading-none uppercase">
-                              {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
-                              </h2>
-                              <p className="text-xl font-medium leading-none uppercase" >{item?.course?.description}</p>
-                            </div>
-                          </>
+                          <div className="flex flex-col mt-10 w-full min-w-[200px] ">
+                            <h2 className="text-xl font-medium leading-none text-slate-600 uppercase">
+                            {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
+                            </h2>
+                            <p className="px-3 my-2 text-left bg-slate-100 mt-1 rounded-full text-xs font-thin py-1 uppercase" >{item?.course?.description}</p>
+                          </div>
                         }
                         { showLocationId &&
                           item?.courseId === "SIN-CURSO" &&
-                          <div className="w-full mt-12 max-w-[580px]">
+                          <div className="w-full mt-12">
                             <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 my-2 uppercase">
                             Sesión sin horarios asignado
                             </h2>
                           </div>
                         }
-                      
-                        <div id="newCard" className={`${!filteredArray[0]?.wasPaid && "bg-red-300" } ${item?.totalSessions ===1 && "bg-green-200"} 
-                        flex flex-col box  w-full max-w-[580px] mb-4 relative min-h-[220px]`}>
-                        {!filteredArray[0]?.wasPaid && 
-                          <span className="absolute bottom-0 left-0 w-full z-20 py-2 px-2 text-sm  text-center text-white bg-red-500 rounded-b-xl">PENDIENTE DE PAGO</span>                       
+                        <div className="relative w-full h-8  flex justify-start items-center b-0 -mb-5 z-20">  
+                        {item?.totalSessions === 1 && <span className="bottom-0 right-0  py-1 px-2 text-sm mb-2 bg-green-200 rounded-full">Clase de prueba</span>                       
                         }
-                          <div id="btnAttendance" className="absolute top-0 right-0 w-24 md:w-36 bg-primary border-primary bg-opacity-20 border-opacity-5 text-primary rounded-r-lg h-full flex items-center justify-center z-10">
-                            <Button  
-                                    className="px-4 py-3 w-full h-full bg-primary/70 text-slate-700" 
-                                    
-                                    onClick={() => updateSession({
-                                      sessionId: item.id,
-                                      status: "USED",
-                                      date: item?.date,
-                                      locationIdUsed:date?.locationId,
-                                    })}
-                                    >MARCAR PRESENTE
-                            </Button>
-                        </div>
-            
-             
-                        <p id="name" className="px-4 py-5 font-medium text-lg truncate md:text-xl pr-24 md:pr-36"> {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
-                          <span className="block text-left w-full"><CalculateAge birthdate={String(item?.student?.birthdate)} /></span>                          
-                        </p>
-                        
-                        <div className={`flex flex-row pr-24 md:pr-36 px-4 ${!filteredArray[0]?.wasPaid && "bg-red-300" }`}>
-                        
-                          <div id="A" className="flex flex-col justify-start items-start sm:w-[120px] ">
-                          <Link
-                            to="/admin-student"
-                            state={{ id: item?.student?.id }}
-                            
-                          >
-                            <div className="hidden md:block">
-                              <IcoGender gender={item?.student?.gender || ""}/>
-                            </div>
-                            
-                            {/* <p className="text-left mb-2 w-full"><CalculateAge birthdate={String(item?.student?.birthdate)} /></p> */}
-                            
-                            <div className="text-lg  justify-start items-start flex-col  flex md:hidden">
-                            {item?.totalSessions ===1 && 
-                              <span className="bg-green-600 text-white py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>}
-                          
-                              <p className="bg-slate-300 text-slate-600 py-1 px-2 rounded-full text-sm mb-2">
-                                {item?.status === "RECOVERED" && "SESION RECUPERADA"}
-                                {item?.status === "ACTIVE" && "SESION VIGENTE"}
-                                {item?.status === "USED" && "SESION UTILIZADA"}
-                                {item?.status === "DELETED" && "ELIMINADA"}
-                              </p>
-                                
-                                
-                                <p className="text-xs font-thin  hidden md:block" >{ formatDateToISOShort(new Date(item?.date))}</p>
-                                { item?.locationId && item?.locationId !=="" && <>
-                              </>
-                            }
-                              </div>  
-                          </Link>
-                          </div>
-                          
-                          <div id="B" className=" pl-4 sm:pl-0  w-[50%] hidden md:flex">
-                            <div className="text-lg flex justify-start items-start flex-col">
-                            {item?.totalSessions ===1 && 
-                              <span className="bg-green-600 text-white py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>}
-                          
-                              <p className=" bg-slate-300 text-slate-600 py-1 px-2 rounded-full text-sm mb-2">
-                                {item?.status === "RECOVERED" && "SESION RECUPERADA"}
-                                {item?.status === "ACTIVE" && "SESION VIGENTE"}
-                                {item?.status === "USED" && "SESION UTILIZADA"}
-                                {item?.status === "DELETED" && "ELIMINADA"}
-                              </p>
-                                
-                                
-                                <p className="text-xs font-thin  hidden md:block" >{ formatDateToISOShort(new Date(item?.date))}</p>
-                                { item?.locationId && item?.locationId !=="" && <>
-                              </>
-                            }
-                              </div>  
-                          </div>
-                          
-                          
+                        {!filteredArray[0]?.wasPaid && 
+                          <span className="top-0  py-1 px-2 text-sm mb-2 bg-green-200 rounded-full">PENDIENTE DE PAGO</span>                       
+                        }
                         </div>
                         
-                      </div>
-            
                         {/* <div className="relative w-full h-8 flex justify-start items-center b-0 -mb-5 z-20">  
                         </div> */}
-                      {/* <Table.Tr key={item.id} 
+                      <Table.Tr key={item.id} 
                       className={`box
                         
                         ${!filteredArray[0]?.wasPaid &&  "bg-red-300/50"}
@@ -511,9 +469,11 @@ function Main() {
                         
                         <Table.Td className={`w-16`}>
                           <div className="flex items-center">
+                            {/* <Button className="border-none" > */}
                             <Link
                                 to="/admin-student"
                                 state={{ id: item?.student?.id }}
+                                // onClick={()=>simulateEscKey()}
                                 className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y hidden md:block"
                               >
                               <IcoGender gender={item?.student?.gender || ""}/>
@@ -521,6 +481,7 @@ function Main() {
                               <Link
                                 to="/admin-student"
                                 state={{ id: item?.student?.id }}
+                                // onClick={()=>simulateEscKey()}
                                 className="col-span-12 sm:col-span-6 xl:col-span-4 "
                               >
                             <div className="ml-2">
@@ -536,6 +497,11 @@ function Main() {
                         </Table.Td>
                         <Table.Td className={` hidden md:block `}>
                           <div className="text-lg flex justify-center items-center flex-col relative">
+                          {/* {item?.totalSessions ===1 && 
+                          <span className="bg-green-200 py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>} */}
+                          
+                          {/* {!filteredArray[0]?.wasPaid && <span className="hidden md:block text-sm uppercase text-red-500 bg-red-50 py-2 px-2 rounded-full">
+                            Pendiente de Pago</span>} */}
                           <p className="text-sm mt-2  pt-10">
                             {item?.status === "RECOVERED" && "SESION RECUPERADA"}
                             {item?.status === "ACTIVE" && "VIGENTE"}
@@ -555,7 +521,7 @@ function Main() {
                         
                         <Table.Td className={``}>
                         <div className="md:hidden text-lg flex justify-center items-center flex-col relative">
-                          
+                          {/* {item?.totalSessions ===1 && <span className="bg-green-200 py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>} */}
                           {!filteredArray[0]?.wasPaid && <p className=" -mt-3 w-full absolute top-0 bg-red-500">Pendiente de Pago</p>
                             }
                           
@@ -625,14 +591,19 @@ function Main() {
                       
                   
                   
-                      </Table.Tr> */}
-                       
+                      </Table.Tr>
+                        {/* <Table.Tr  className="">
+                          <Table.Td id="status"  className={`w-full ${item?.totalSessions ===1 && "bg-green-200"} mb-5 block`}>
+                          {item?.totalSessions ===1 && 
+                            <span className=" py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>
+                          }
+                          </Table.Td>
+                        </Table.Tr> */}
                         
-                        </div>
+                      </Fragment>
                 )})}
-                </>
-              //   </Table.Tbody>
-              // </Table>
+                </Table.Tbody>
+              </Table>
                 ))
       
             }
