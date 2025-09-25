@@ -391,13 +391,14 @@ function Main() {
               const filteredArray = item?.student?.enrollments?.items?.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId);
 
                       return(  
-                        <div key={`${i}-SCHEDULES`} className={`${item?.status === "USED" && "bg-slate-200 px-4 py-4  mt-24"} max-w-[580px]`}>
+                        <div key={`${i}-SCHEDULES`} className={`${item?.status === "USED" && "bg-slate-300/20 px-4 py-4  mt-24"} max-w-[580px]`}>
                         { showLocationId &&
                           item?.courseId !== "SIN-CURSO" &&
                           <>
                             {item?.status === "USED" && <h3 className="text-3xl font-thin leading-none">Sesiones Utilizadas</h3>}
                             <div className={`flex flex-row justify-between items-center px-6 py-2 mb-2 mt-10 w-full min-w-[200px] 
                               ${item?.status !== "USED" && "bg-slate-700 text-white"}
+                             
                             rounded-full`}>
                               <h2 className="text-xl font-medium leading-none uppercase">
                               {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
@@ -415,14 +416,19 @@ function Main() {
                           </div>
                         }
                       
-                        <div id="newCard" className={`${!filteredArray[0]?.wasPaid && "bg-red-300" } ${item?.totalSessions ===1 && "bg-green-200"} 
+                        <div id="newCard" className={`
+                        ${!filteredArray[0]?.wasPaid && "bg-red-300" } 
+                        ${item?.totalSessions ===1 && "bg-green-200"}
+                         ${item?.status === "USED" && "bg-slate-300"}
+                         
                         flex flex-col box  w-full max-w-[580px] mb-4 relative min-h-[220px]`}>
                         {!filteredArray[0]?.wasPaid && 
                           <span className="absolute bottom-0 left-0 w-full z-20 py-2 px-2 text-sm  text-center text-white bg-red-500 rounded-b-xl">PENDIENTE DE PAGO</span>                       
                         }
                           <div id="btnAttendance" className="absolute top-0 right-0 w-24 md:w-36 bg-primary border-primary bg-opacity-20 border-opacity-5 text-primary rounded-r-lg h-full flex items-center justify-center z-10">
+                            
                             <Button  
-                                    className="px-4 py-3 w-full h-full bg-primary/70 text-slate-700" 
+                                    className={`px-4 py-3 w-full h-full bg-primary/70 ${item?.status === "USED" && "bg-slate-300"} text-slate-700`} 
                                     
                                     onClick={() => updateSession({
                                       sessionId: item.id,
@@ -430,7 +436,8 @@ function Main() {
                                       date: item?.date,
                                       locationIdUsed:date?.locationId,
                                     })}
-                                    >MARCAR PRESENTE
+                                    disabled={item?.status === "USED"}
+                                    >{item?.status !== "USED" && "MARCAR PRESENTE"}
                             </Button>
                         </div>
             
