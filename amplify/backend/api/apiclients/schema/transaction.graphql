@@ -46,6 +46,62 @@ type PaymentTransactions @model @auth(rules: [{ allow: public }]) {
 
 
 
+
+# CONTABILIDAD
+
+type Transactions @model @auth(rules: [{ allow: public }]) {
+  transactionsID: ID! @index(name: "searchByProfitCenter", sortKeyFields: ["profitCenterID", "categoryID", "categoryType", "month", "year"])
+  categoryID: String @default(value: " ")   # ID de la categoría
+  categoryType: CategoryType                # gasto o ingreso
+  amount: Float                             # valor de la transaccion
+  description: String @default(value: " ") 
+  date: String @default(value: " ") 
+  month: String @default(value: " ")
+  year: String @default(value: " ")
+  
+  profitCenterID: ID!
+  
+  # Relations
+  profitCenter: ProfitCenter @belongsTo(fields: ["profitCenterID"])
+}
+
+
+enum CategoryType {
+  GASTO
+  INGRESO
+}
+
+# Centro de beneficios
+type ProfitCenter @model @auth(rules: [{ allow: public }]) {
+  profitCenterID: ID! @index(name: "searchByCode", sortKeyFields: ["code"])
+  name: String @default(value: " ")
+  code: String @default(value: " ")
+  description: String @default(value: " ")
+  managerID: String @default(value: " ")
+  parentProfitCenterID: String @default(value: " ")
+  isActive: Boolean @default(value: "true")
+  
+  # Relations
+  transactions: [Transactions] @hasMany(indexName: "searchByProfitCenter", fields: ["profitCenterID"])
+  managers: [Managers] @hasMany(fields: ["profitCenterID"])
+}
+
+# Gerentes de sedes
+type Managers @model @auth(rules: [{ allow: public }]) {
+  managerID: ID! @index(name: "searchByCode", sortKeyFields: ["email"])
+  firstName: String @default(value: " ")
+  lastName: String @default(value: " ")
+  email: String @default(value: " ")
+  isActive: Boolean @default(value: "true")
+  profitCenterID: ID!
+  
+  # Relations
+  profitCenter: ProfitCenter @belongsTo(fields: ["profitCenterID"])
+}
+
+
+
+
 # # Query para obtener productos bajo stock crítico
 # query GetCriticalStock {
 #   listProducts(filter: {

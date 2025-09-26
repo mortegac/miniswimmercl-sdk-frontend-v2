@@ -5317,6 +5317,276 @@ export const onDeletePaymentTransactions = /* GraphQL */ `
     }
   }
 `;
+export const onCreateTransactions = /* GraphQL */ `
+  subscription OnCreateTransactions(
+    $filter: ModelSubscriptionTransactionsFilterInput
+  ) {
+    onCreateTransactions(filter: $filter) {
+      transactionsID
+      categoryID
+      categoryType
+      amount
+      description
+      date
+      month
+      year
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTransactions = /* GraphQL */ `
+  subscription OnUpdateTransactions(
+    $filter: ModelSubscriptionTransactionsFilterInput
+  ) {
+    onUpdateTransactions(filter: $filter) {
+      transactionsID
+      categoryID
+      categoryType
+      amount
+      description
+      date
+      month
+      year
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTransactions = /* GraphQL */ `
+  subscription OnDeleteTransactions(
+    $filter: ModelSubscriptionTransactionsFilterInput
+  ) {
+    onDeleteTransactions(filter: $filter) {
+      transactionsID
+      categoryID
+      categoryType
+      amount
+      description
+      date
+      month
+      year
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateProfitCenter = /* GraphQL */ `
+  subscription OnCreateProfitCenter(
+    $filter: ModelSubscriptionProfitCenterFilterInput
+  ) {
+    onCreateProfitCenter(filter: $filter) {
+      profitCenterID
+      name
+      code
+      description
+      managerID
+      parentProfitCenterID
+      isActive
+      transactions {
+        nextToken
+        __typename
+      }
+      managers {
+        nextToken
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateProfitCenter = /* GraphQL */ `
+  subscription OnUpdateProfitCenter(
+    $filter: ModelSubscriptionProfitCenterFilterInput
+  ) {
+    onUpdateProfitCenter(filter: $filter) {
+      profitCenterID
+      name
+      code
+      description
+      managerID
+      parentProfitCenterID
+      isActive
+      transactions {
+        nextToken
+        __typename
+      }
+      managers {
+        nextToken
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteProfitCenter = /* GraphQL */ `
+  subscription OnDeleteProfitCenter(
+    $filter: ModelSubscriptionProfitCenterFilterInput
+  ) {
+    onDeleteProfitCenter(filter: $filter) {
+      profitCenterID
+      name
+      code
+      description
+      managerID
+      parentProfitCenterID
+      isActive
+      transactions {
+        nextToken
+        __typename
+      }
+      managers {
+        nextToken
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateManagers = /* GraphQL */ `
+  subscription OnCreateManagers($filter: ModelSubscriptionManagersFilterInput) {
+    onCreateManagers(filter: $filter) {
+      managerID
+      firstName
+      lastName
+      email
+      isActive
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateManagers = /* GraphQL */ `
+  subscription OnUpdateManagers($filter: ModelSubscriptionManagersFilterInput) {
+    onUpdateManagers(filter: $filter) {
+      managerID
+      firstName
+      lastName
+      email
+      isActive
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteManagers = /* GraphQL */ `
+  subscription OnDeleteManagers($filter: ModelSubscriptionManagersFilterInput) {
+    onDeleteManagers(filter: $filter) {
+      managerID
+      firstName
+      lastName
+      email
+      isActive
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateUsers = /* GraphQL */ `
   subscription OnCreateUsers($filter: ModelSubscriptionUsersFilterInput) {
     onCreateUsers(filter: $filter) {

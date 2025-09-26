@@ -5537,6 +5537,291 @@ export const deletePaymentTransactions = /* GraphQL */ `
     }
   }
 `;
+export const createTransactions = /* GraphQL */ `
+  mutation CreateTransactions(
+    $input: CreateTransactionsInput!
+    $condition: ModelTransactionsConditionInput
+  ) {
+    createTransactions(input: $input, condition: $condition) {
+      transactionsID
+      categoryID
+      categoryType
+      amount
+      description
+      date
+      month
+      year
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTransactions = /* GraphQL */ `
+  mutation UpdateTransactions(
+    $input: UpdateTransactionsInput!
+    $condition: ModelTransactionsConditionInput
+  ) {
+    updateTransactions(input: $input, condition: $condition) {
+      transactionsID
+      categoryID
+      categoryType
+      amount
+      description
+      date
+      month
+      year
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteTransactions = /* GraphQL */ `
+  mutation DeleteTransactions(
+    $input: DeleteTransactionsInput!
+    $condition: ModelTransactionsConditionInput
+  ) {
+    deleteTransactions(input: $input, condition: $condition) {
+      transactionsID
+      categoryID
+      categoryType
+      amount
+      description
+      date
+      month
+      year
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createProfitCenter = /* GraphQL */ `
+  mutation CreateProfitCenter(
+    $input: CreateProfitCenterInput!
+    $condition: ModelProfitCenterConditionInput
+  ) {
+    createProfitCenter(input: $input, condition: $condition) {
+      profitCenterID
+      name
+      code
+      description
+      managerID
+      parentProfitCenterID
+      isActive
+      transactions {
+        nextToken
+        __typename
+      }
+      managers {
+        nextToken
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateProfitCenter = /* GraphQL */ `
+  mutation UpdateProfitCenter(
+    $input: UpdateProfitCenterInput!
+    $condition: ModelProfitCenterConditionInput
+  ) {
+    updateProfitCenter(input: $input, condition: $condition) {
+      profitCenterID
+      name
+      code
+      description
+      managerID
+      parentProfitCenterID
+      isActive
+      transactions {
+        nextToken
+        __typename
+      }
+      managers {
+        nextToken
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteProfitCenter = /* GraphQL */ `
+  mutation DeleteProfitCenter(
+    $input: DeleteProfitCenterInput!
+    $condition: ModelProfitCenterConditionInput
+  ) {
+    deleteProfitCenter(input: $input, condition: $condition) {
+      profitCenterID
+      name
+      code
+      description
+      managerID
+      parentProfitCenterID
+      isActive
+      transactions {
+        nextToken
+        __typename
+      }
+      managers {
+        nextToken
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createManagers = /* GraphQL */ `
+  mutation CreateManagers(
+    $input: CreateManagersInput!
+    $condition: ModelManagersConditionInput
+  ) {
+    createManagers(input: $input, condition: $condition) {
+      managerID
+      firstName
+      lastName
+      email
+      isActive
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateManagers = /* GraphQL */ `
+  mutation UpdateManagers(
+    $input: UpdateManagersInput!
+    $condition: ModelManagersConditionInput
+  ) {
+    updateManagers(input: $input, condition: $condition) {
+      managerID
+      firstName
+      lastName
+      email
+      isActive
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteManagers = /* GraphQL */ `
+  mutation DeleteManagers(
+    $input: DeleteManagersInput!
+    $condition: ModelManagersConditionInput
+  ) {
+    deleteManagers(input: $input, condition: $condition) {
+      managerID
+      firstName
+      lastName
+      email
+      isActive
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createUsers = /* GraphQL */ `
   mutation CreateUsers(
     $input: CreateUsersInput!

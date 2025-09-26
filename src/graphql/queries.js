@@ -2838,6 +2838,168 @@ export const listPaymentTransactions = /* GraphQL */ `
     }
   }
 `;
+export const getTransactions = /* GraphQL */ `
+  query GetTransactions($id: ID!) {
+    getTransactions(id: $id) {
+      transactionsID
+      categoryID
+      categoryType
+      amount
+      description
+      date
+      month
+      year
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listTransactions = /* GraphQL */ `
+  query ListTransactions(
+    $filter: ModelTransactionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTransactions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        transactionsID
+        categoryID
+        categoryType
+        amount
+        description
+        date
+        month
+        year
+        profitCenterID
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getProfitCenter = /* GraphQL */ `
+  query GetProfitCenter($id: ID!) {
+    getProfitCenter(id: $id) {
+      profitCenterID
+      name
+      code
+      description
+      managerID
+      parentProfitCenterID
+      isActive
+      transactions {
+        nextToken
+        __typename
+      }
+      managers {
+        nextToken
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listProfitCenters = /* GraphQL */ `
+  query ListProfitCenters(
+    $filter: ModelProfitCenterFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProfitCenters(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getManagers = /* GraphQL */ `
+  query GetManagers($id: ID!) {
+    getManagers(id: $id) {
+      managerID
+      firstName
+      lastName
+      email
+      isActive
+      profitCenterID
+      profitCenter {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listManagers = /* GraphQL */ `
+  query ListManagers(
+    $filter: ModelManagersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listManagers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        managerID
+        firstName
+        lastName
+        email
+        isActive
+        profitCenterID
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getUsers = /* GraphQL */ `
   query GetUsers($id: ID!) {
     getUsers(id: $id) {
@@ -3882,6 +4044,112 @@ export const paymentTransactionsByIdAndDayAndMonthAndYearAndHour = /* GraphQL */
         updatedAt
         shoppingCartPaymentTransactionsId
         usersPaymentTransactionsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const transactionsByTransactionsIDAndProfitCenterIDAndCategoryIDAndCategoryTypeAndMonthAndYear = /* GraphQL */ `
+  query TransactionsByTransactionsIDAndProfitCenterIDAndCategoryIDAndCategoryTypeAndMonthAndYear(
+    $transactionsID: ID!
+    $profitCenterIDCategoryIDCategoryTypeMonthYear: ModelTransactionsSearchByProfitCenterCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTransactionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    transactionsByTransactionsIDAndProfitCenterIDAndCategoryIDAndCategoryTypeAndMonthAndYear(
+      transactionsID: $transactionsID
+      profitCenterIDCategoryIDCategoryTypeMonthYear: $profitCenterIDCategoryIDCategoryTypeMonthYear
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        transactionsID
+        categoryID
+        categoryType
+        amount
+        description
+        date
+        month
+        year
+        profitCenterID
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const profitCentersByProfitCenterIDAndCode = /* GraphQL */ `
+  query ProfitCentersByProfitCenterIDAndCode(
+    $profitCenterID: ID!
+    $code: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelProfitCenterFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    profitCentersByProfitCenterIDAndCode(
+      profitCenterID: $profitCenterID
+      code: $code
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        profitCenterID
+        name
+        code
+        description
+        managerID
+        parentProfitCenterID
+        isActive
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const managersByManagerIDAndEmail = /* GraphQL */ `
+  query ManagersByManagerIDAndEmail(
+    $managerID: ID!
+    $email: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelManagersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    managersByManagerIDAndEmail(
+      managerID: $managerID
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        managerID
+        firstName
+        lastName
+        email
+        isActive
+        profitCenterID
+        id
+        createdAt
+        updatedAt
         __typename
       }
       nextToken
