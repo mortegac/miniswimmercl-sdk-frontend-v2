@@ -52,9 +52,12 @@ export const listLocations = /* GraphQL */ `
         id
         name
         city
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
+        isVisible
         phone
         imageMap
         urlMap
@@ -102,6 +105,9 @@ export const listLocationsOnly = /* GraphQL */ `
         id
         name
         city
+        region
+        group
+        isVisible
         minimumTemperature
         maximumTemperature
         address

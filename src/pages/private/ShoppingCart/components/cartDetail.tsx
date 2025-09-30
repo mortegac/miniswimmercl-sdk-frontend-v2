@@ -209,7 +209,7 @@ export function CartDetail(props: any) {
                     generateDisscount({ 
                       type:"DISCOUNT", 
                       amount:-1 * Number(Math.round(Number(total) * 0.10)), 
-                      detail:"Descuento",  
+                      detail:"Descuento 10%",  
                       shoppingCartId:cartId 
                     })}  variant="soft-secondary" 
                     className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.10)))}</span><span className="text-[.7rem]">Descuento 10%</span>
@@ -219,7 +219,7 @@ export function CartDetail(props: any) {
                 generateDisscount({ 
                   type:"DISCOUNT", 
                   amount:-1 * Number(Math.round(Number(total) * 0.20)), 
-                  detail:"Descuento",  
+                  detail:"Descuento 20%",  
                   shoppingCartId:cartId 
                 })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.20)))}</span><span className="text-[.7rem]">Descuento 20%</span>
             </Button>
@@ -228,7 +228,7 @@ export function CartDetail(props: any) {
                 generateDisscount({ 
                   type:"DISCOUNT", 
                   amount:-1 * Number(Math.round(Number(total) * 0.30)), 
-                  detail:"Descuento",  
+                  detail:"Descuento 30%",  
                   shoppingCartId:cartId 
                 })}  variant="soft-secondary" className="mr-2 mb-2 flex flex-col justify-start items-start"><span className="text-[.9rem] mr-2 text-green-600">$ {formatCurrency(Number(Math.round(Number(total) * 0.30)))}</span><span className="text-[.7rem]">Descuento 30%</span>
             </Button>
@@ -284,7 +284,7 @@ export function CartDetail(props: any) {
                   generateDisscount({ 
                     type: "DISCOUNT", 
                     amount: -1 * amount, 
-                    detail: "Descuento",  
+                    detail: `Descuento $ ${discountAmount}`,  
                     shoppingCartId: cartId 
                   });
                   setDiscountAmount(''); // Limpiar input después de aplicar

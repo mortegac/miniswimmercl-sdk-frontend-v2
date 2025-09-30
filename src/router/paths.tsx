@@ -34,8 +34,8 @@ export const COURSES_QUOTAS= "/courses-quotas";
 export const SHOPPING_CART = "/shopping-cart";
 export const TRANSACTIONS = "/transactions";
 export const NEW_EXPENSE = "/new-expense";
-export const EXPENSES = "/expenses";
-export const INCOME = "/income";
+export const EXPENSES = "/expenses";    // GASTOS
+export const INCOME = "/income";        // INGRESOS
 export const ACADEMYSTUDENTS = "/academy-students";
 
 

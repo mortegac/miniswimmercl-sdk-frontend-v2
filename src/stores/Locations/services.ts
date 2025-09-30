@@ -39,6 +39,8 @@ export const fetchData = async (): Promise<any> => {
     }
   });
 };
+
+
 export const fetchDataOnly = async (country?: string): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -53,6 +55,7 @@ export const fetchDataOnly = async (country?: string): Promise<any> => {
         variables: { 
           filter: { 
             isActive: { eq: true }, 
+            isVisible: { eq: true }, 
             // country: { eq: country } 
             ...filterCountry
           } },

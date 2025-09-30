@@ -52,11 +52,11 @@ const initialState: SideMenuState = {
       pathname: PRIVATE,
       title: "Inicio",
     },
-    {
-      icon: "Trello",
-      pathname: HOME,
-      title: "Dashboard",
-    },
+    // {
+    //   icon: "Trello",
+    //   pathname: HOME,
+    //   title: "Dashboard",
+    // },
     // {
     //   icon: "User",
     //   pathname: LEADS,
@@ -68,23 +68,28 @@ const initialState: SideMenuState = {
       pathname: STUDENTS_DATA,
       title: "Administrador Alumno",
     },
+    {
+      icon: "Send",
+      pathname: ENROLLMENTS,
+      title: "Envío de email",
+    },
     // {
     //   icon: "UserCheck",
     //   pathname: ADMIN_STUDENT,
     //   title: "Perfil Estudiante",
     // },
-    {
-      icon: "Users",
-      pathname: STUDENTS,
-      title: "Alumnnos",
-    },
+    // {
+    //   icon: "Users",
+    //   pathname: STUDENTS,
+    //   title: "Alumnnos",
+    // },
 
-    "US",
-    {
-      icon: "PlusSquare",
-      pathname: QUICK_REGISTRATION_US,
-      title: "Enrollment",
-    },
+    // "US",
+    // {
+    //   icon: "PlusSquare",
+    //   pathname: QUICK_REGISTRATION_US,
+    //   title: "Enrollment",
+    // },
     "Cursos",
     {
       icon: "CheckSquare",
@@ -101,17 +106,13 @@ const initialState: SideMenuState = {
     //   pathname: QUICK_REGISTRATION2,
     //   title: "Inscripción OLD",
     // },
-    {
-      icon: "Send",
-      pathname: ENROLLMENTS,
-      title: "Envío de email",
-    },
+
+    "Administración",
     {
       icon: "HardDrive",
       pathname: COURSES,
       title: "Cursos",
     },
-    "Administración",
     {
       icon: "MapPin",
       pathname: LOCATIONS,
@@ -143,22 +144,27 @@ const initialState: SideMenuState = {
             pathname: SHOPPING_CART,
             title: "Carros de compra",
           },
+        {
+            icon: "Delete",
+            pathname: EXPENSES,
+            title: "Gastos",
+          },
         "Informes",
         {
           icon: "CheckSquare",
           pathname: REPORT_COURSES,
           title: "Incritos por curso",
         },
-        {
-          icon: "UserPlus",
-          pathname: REPORT_OF_REGISTERED,
-          title: "Cupos por curso",
-        },
-        {
-          icon: "Calendar",
-          pathname: COURSES_QUOTAS,
-          title: "Cupos calendario",
-        },
+        // {
+        //   icon: "UserPlus",
+        //   pathname: REPORT_OF_REGISTERED,
+        //   title: "Cupos por curso",
+        // },
+        // {
+        //   icon: "Calendar",
+        //   pathname: COURSES_QUOTAS,
+        //   title: "Cupos calendario",
+        // },
 
         // {
           //   icon: "PlusCircle",
@@ -181,11 +187,11 @@ const initialState: SideMenuState = {
             pathname: ACADEMYSTUDENTS,
             title: "Certificaciones",
           },
-          {
-            icon: "Users",
-            pathname: ACADEMYSTUDENTS,
-            title: "Horas Profesores",
-          },
+          // {
+          //   icon: "Users",
+          //   pathname: ACADEMYSTUDENTS,
+          //   title: "Horas Profesores",
+          // },
               
             ],
           };

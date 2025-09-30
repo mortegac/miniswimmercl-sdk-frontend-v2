@@ -11,6 +11,8 @@ type Location @model {
   name: String @default(value: "")
   city: String @default(value: "")
   country: String @default(value: "CHILE") @index(name: "byCountry")  # Country
+  region: String @default(value: "SANTIAGO")
+  group: String @default(value: "NONE")  #Agrupacion de las ubicaciones
   minimumTemperature:  Int @default(value: "28")
   maximumTemperature:  Int @default(value: "30")
   address: String @default(value: "")
@@ -19,6 +21,7 @@ type Location @model {
   urlMap: String @default(value: "")  #URL de google maps de la direccion
   directions: String @default(value: "")  #Indicaciones para la llegada
   isActive: Boolean @default(value: "true")
+  isVisible: Boolean @default(value: "true")
   #Relations
   courses: [Course] @hasMany                  # relación una location tiene muchos cursos
   schedules: [Schedule] @hasMany

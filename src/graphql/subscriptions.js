@@ -1015,6 +1015,105 @@ export const onDeleteSentEmail = /* GraphQL */ `
     }
   }
 `;
+export const onCreateEvaluationObjetives = /* GraphQL */ `
+  subscription OnCreateEvaluationObjetives(
+    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
+  ) {
+    onCreateEvaluationObjetives(filter: $filter) {
+      id
+      texto
+      isMandatory
+      isActive
+      evaluationLevelId
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const onUpdateEvaluationObjetives = /* GraphQL */ `
+  subscription OnUpdateEvaluationObjetives(
+    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
+  ) {
+    onUpdateEvaluationObjetives(filter: $filter) {
+      id
+      texto
+      isMandatory
+      isActive
+      evaluationLevelId
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const onDeleteEvaluationObjetives = /* GraphQL */ `
+  subscription OnDeleteEvaluationObjetives(
+    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
+  ) {
+    onDeleteEvaluationObjetives(filter: $filter) {
+      id
+      texto
+      isMandatory
+      isActive
+      evaluationLevelId
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
 export const onCreateEvaluationLevel = /* GraphQL */ `
   subscription OnCreateEvaluationLevel(
     $filter: ModelSubscriptionEvaluationLevelFilterInput
@@ -1093,102 +1192,6 @@ export const onDeleteEvaluationLevel = /* GraphQL */ `
     }
   }
 `;
-export const onCreateEvaluationObjetives = /* GraphQL */ `
-  subscription OnCreateEvaluationObjetives(
-    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
-  ) {
-    onCreateEvaluationObjetives(filter: $filter) {
-      id
-      texto
-      isMandatory
-      evaluationLevel {
-        id
-        ico
-        name
-        description
-        startingAge
-        endingAge
-        order
-        createdAt
-        updatedAt
-        __typename
-      }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
-      isActive
-      createdAt
-      updatedAt
-      evaluationLevelEvaluationObjectivesId
-      __typename
-    }
-  }
-`;
-export const onUpdateEvaluationObjetives = /* GraphQL */ `
-  subscription OnUpdateEvaluationObjetives(
-    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
-  ) {
-    onUpdateEvaluationObjetives(filter: $filter) {
-      id
-      texto
-      isMandatory
-      evaluationLevel {
-        id
-        ico
-        name
-        description
-        startingAge
-        endingAge
-        order
-        createdAt
-        updatedAt
-        __typename
-      }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
-      isActive
-      createdAt
-      updatedAt
-      evaluationLevelEvaluationObjectivesId
-      __typename
-    }
-  }
-`;
-export const onDeleteEvaluationObjetives = /* GraphQL */ `
-  subscription OnDeleteEvaluationObjetives(
-    $filter: ModelSubscriptionEvaluationObjetivesFilterInput
-  ) {
-    onDeleteEvaluationObjetives(filter: $filter) {
-      id
-      texto
-      isMandatory
-      evaluationLevel {
-        id
-        ico
-        name
-        description
-        startingAge
-        endingAge
-        order
-        createdAt
-        updatedAt
-        __typename
-      }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
-      isActive
-      createdAt
-      updatedAt
-      evaluationLevelEvaluationObjectivesId
-      __typename
-    }
-  }
-`;
 export const onCreateStudentEvaluations = /* GraphQL */ `
   subscription OnCreateStudentEvaluations(
     $filter: ModelSubscriptionStudentEvaluationsFilterInput
@@ -1203,6 +1206,7 @@ export const onCreateStudentEvaluations = /* GraphQL */ `
       observations
       studentId
       evaluationLevelId
+      userId
       student {
         id
         name
@@ -1240,11 +1244,6 @@ export const onCreateStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
-      userId
       user {
         id
         name
@@ -1267,6 +1266,10 @@ export const onCreateStudentEvaluations = /* GraphQL */ `
         createdAt
         updatedAt
         usersRolesId
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
         __typename
       }
       createdAt
@@ -1292,6 +1295,7 @@ export const onUpdateStudentEvaluations = /* GraphQL */ `
       observations
       studentId
       evaluationLevelId
+      userId
       student {
         id
         name
@@ -1329,11 +1333,6 @@ export const onUpdateStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
-      userId
       user {
         id
         name
@@ -1356,6 +1355,10 @@ export const onUpdateStudentEvaluations = /* GraphQL */ `
         createdAt
         updatedAt
         usersRolesId
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
         __typename
       }
       createdAt
@@ -1381,6 +1384,7 @@ export const onDeleteStudentEvaluations = /* GraphQL */ `
       observations
       studentId
       evaluationLevelId
+      userId
       student {
         id
         name
@@ -1418,11 +1422,6 @@ export const onDeleteStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
-      userId
       user {
         id
         name
@@ -1447,6 +1446,10 @@ export const onDeleteStudentEvaluations = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       evaluationLevelStudentEvaluationsId
@@ -1464,7 +1467,8 @@ export const onCreateStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      studentEvaluationId
+      studentEvaluationsId
+      evaluationObjectiveId
       studentEvaluation {
         id
         date
@@ -1483,12 +1487,12 @@ export const onCreateStudentEvaluationsDetail = /* GraphQL */ `
         usersStudentEvaluationsId
         __typename
       }
-      evaluationObjectiveId
       evaluationObjective {
         id
         texto
         isMandatory
         isActive
+        evaluationLevelId
         createdAt
         updatedAt
         evaluationLevelEvaluationObjectivesId
@@ -1497,6 +1501,7 @@ export const onCreateStudentEvaluationsDetail = /* GraphQL */ `
       createdAt
       updatedAt
       evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -1509,7 +1514,8 @@ export const onUpdateStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      studentEvaluationId
+      studentEvaluationsId
+      evaluationObjectiveId
       studentEvaluation {
         id
         date
@@ -1528,12 +1534,12 @@ export const onUpdateStudentEvaluationsDetail = /* GraphQL */ `
         usersStudentEvaluationsId
         __typename
       }
-      evaluationObjectiveId
       evaluationObjective {
         id
         texto
         isMandatory
         isActive
+        evaluationLevelId
         createdAt
         updatedAt
         evaluationLevelEvaluationObjectivesId
@@ -1542,6 +1548,7 @@ export const onUpdateStudentEvaluationsDetail = /* GraphQL */ `
       createdAt
       updatedAt
       evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -1554,7 +1561,8 @@ export const onDeleteStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      studentEvaluationId
+      studentEvaluationsId
+      evaluationObjectiveId
       studentEvaluation {
         id
         date
@@ -1573,12 +1581,12 @@ export const onDeleteStudentEvaluationsDetail = /* GraphQL */ `
         usersStudentEvaluationsId
         __typename
       }
-      evaluationObjectiveId
       evaluationObjective {
         id
         texto
         isMandatory
         isActive
+        evaluationLevelId
         createdAt
         updatedAt
         evaluationLevelEvaluationObjectivesId
@@ -1587,6 +1595,7 @@ export const onDeleteStudentEvaluationsDetail = /* GraphQL */ `
       createdAt
       updatedAt
       evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -1608,6 +1617,8 @@ export const onCreateExpense = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -1616,6 +1627,7 @@ export const onCreateExpense = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -1644,6 +1656,8 @@ export const onUpdateExpense = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -1652,6 +1666,7 @@ export const onUpdateExpense = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -1680,6 +1695,8 @@ export const onDeleteExpense = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -1688,6 +1705,7 @@ export const onDeleteExpense = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -2567,6 +2585,8 @@ export const onCreateLocation = /* GraphQL */ `
       name
       city
       country
+      region
+      group
       minimumTemperature
       maximumTemperature
       address
@@ -2575,6 +2595,7 @@ export const onCreateLocation = /* GraphQL */ `
       urlMap
       directions
       isActive
+      isVisible
       courses {
         nextToken
         __typename
@@ -2600,6 +2621,8 @@ export const onUpdateLocation = /* GraphQL */ `
       name
       city
       country
+      region
+      group
       minimumTemperature
       maximumTemperature
       address
@@ -2608,6 +2631,7 @@ export const onUpdateLocation = /* GraphQL */ `
       urlMap
       directions
       isActive
+      isVisible
       courses {
         nextToken
         __typename
@@ -2633,6 +2657,8 @@ export const onDeleteLocation = /* GraphQL */ `
       name
       city
       country
+      region
+      group
       minimumTemperature
       maximumTemperature
       address
@@ -2641,6 +2667,7 @@ export const onDeleteLocation = /* GraphQL */ `
       urlMap
       directions
       isActive
+      isVisible
       courses {
         nextToken
         __typename
@@ -2676,6 +2703,8 @@ export const onCreateCourse = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -2684,6 +2713,7 @@ export const onCreateCourse = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -2732,6 +2762,8 @@ export const onUpdateCourse = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -2740,6 +2772,7 @@ export const onUpdateCourse = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -2788,6 +2821,8 @@ export const onDeleteCourse = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -2796,6 +2831,7 @@ export const onDeleteCourse = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -2857,6 +2893,8 @@ export const onCreateSchedule = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -2865,6 +2903,7 @@ export const onCreateSchedule = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -2911,6 +2950,8 @@ export const onUpdateSchedule = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -2919,6 +2960,7 @@ export const onUpdateSchedule = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -2965,6 +3007,8 @@ export const onDeleteSchedule = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -2973,6 +3017,7 @@ export const onDeleteSchedule = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename

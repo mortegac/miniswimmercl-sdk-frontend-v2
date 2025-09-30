@@ -544,6 +544,68 @@ export const listSentEmails = /* GraphQL */ `
     }
   }
 `;
+export const getEvaluationObjetives = /* GraphQL */ `
+  query GetEvaluationObjetives($id: ID!) {
+    getEvaluationObjetives(id: $id) {
+      id
+      texto
+      isMandatory
+      isActive
+      evaluationLevelId
+      evaluationLevel {
+        id
+        ico
+        name
+        description
+        startingAge
+        endingAge
+        order
+        createdAt
+        updatedAt
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      evaluationLevelEvaluationObjectivesId
+      __typename
+    }
+  }
+`;
+export const listEvaluationObjetives = /* GraphQL */ `
+  query ListEvaluationObjetives(
+    $id: ID
+    $filter: ModelEvaluationObjetivesFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listEvaluationObjetives(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        texto
+        isMandatory
+        isActive
+        evaluationLevelId
+        createdAt
+        updatedAt
+        evaluationLevelEvaluationObjectivesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getEvaluationLevel = /* GraphQL */ `
   query GetEvaluationLevel($id: ID!) {
     getEvaluationLevel(id: $id) {
@@ -600,66 +662,6 @@ export const listEvaluationLevels = /* GraphQL */ `
     }
   }
 `;
-export const getEvaluationObjetives = /* GraphQL */ `
-  query GetEvaluationObjetives($id: ID!) {
-    getEvaluationObjetives(id: $id) {
-      id
-      texto
-      isMandatory
-      evaluationLevel {
-        id
-        ico
-        name
-        description
-        startingAge
-        endingAge
-        order
-        createdAt
-        updatedAt
-        __typename
-      }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
-      isActive
-      createdAt
-      updatedAt
-      evaluationLevelEvaluationObjectivesId
-      __typename
-    }
-  }
-`;
-export const listEvaluationObjetives = /* GraphQL */ `
-  query ListEvaluationObjetives(
-    $id: ID
-    $filter: ModelEvaluationObjetivesFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listEvaluationObjetives(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        texto
-        isMandatory
-        isActive
-        createdAt
-        updatedAt
-        evaluationLevelEvaluationObjectivesId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getStudentEvaluations = /* GraphQL */ `
   query GetStudentEvaluations($id: ID!) {
     getStudentEvaluations(id: $id) {
@@ -672,6 +674,7 @@ export const getStudentEvaluations = /* GraphQL */ `
       observations
       studentId
       evaluationLevelId
+      userId
       student {
         id
         name
@@ -709,11 +712,6 @@ export const getStudentEvaluations = /* GraphQL */ `
         updatedAt
         __typename
       }
-      studentEvaluationsDetails {
-        nextToken
-        __typename
-      }
-      userId
       user {
         id
         name
@@ -736,6 +734,10 @@ export const getStudentEvaluations = /* GraphQL */ `
         createdAt
         updatedAt
         usersRolesId
+        __typename
+      }
+      studentEvaluationsDetails {
+        nextToken
         __typename
       }
       createdAt
@@ -791,7 +793,8 @@ export const getStudentEvaluationsDetail = /* GraphQL */ `
       id
       text
       wasAchieved
-      studentEvaluationId
+      studentEvaluationsId
+      evaluationObjectiveId
       studentEvaluation {
         id
         date
@@ -810,12 +813,12 @@ export const getStudentEvaluationsDetail = /* GraphQL */ `
         usersStudentEvaluationsId
         __typename
       }
-      evaluationObjectiveId
       evaluationObjective {
         id
         texto
         isMandatory
         isActive
+        evaluationLevelId
         createdAt
         updatedAt
         evaluationLevelEvaluationObjectivesId
@@ -824,6 +827,7 @@ export const getStudentEvaluationsDetail = /* GraphQL */ `
       createdAt
       updatedAt
       evaluationObjetivesStudentEvaluationsDetailsId
+      studentEvaluationsStudentEvaluationsDetailsId
       __typename
     }
   }
@@ -847,11 +851,12 @@ export const listStudentEvaluationsDetails = /* GraphQL */ `
         id
         text
         wasAchieved
-        studentEvaluationId
+        studentEvaluationsId
         evaluationObjectiveId
         createdAt
         updatedAt
         evaluationObjetivesStudentEvaluationsDetailsId
+        studentEvaluationsStudentEvaluationsDetailsId
         __typename
       }
       nextToken
@@ -876,6 +881,8 @@ export const getExpense = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -884,6 +891,7 @@ export const getExpense = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -1405,6 +1413,8 @@ export const getLocation = /* GraphQL */ `
       name
       city
       country
+      region
+      group
       minimumTemperature
       maximumTemperature
       address
@@ -1413,6 +1423,7 @@ export const getLocation = /* GraphQL */ `
       urlMap
       directions
       isActive
+      isVisible
       courses {
         nextToken
         __typename
@@ -1451,6 +1462,8 @@ export const listLocations = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -1459,6 +1472,7 @@ export const listLocations = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -1485,6 +1499,8 @@ export const getCourse = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -1493,6 +1509,7 @@ export const getCourse = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -1589,6 +1606,8 @@ export const getSchedule = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -1597,6 +1616,7 @@ export const getSchedule = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
@@ -3725,6 +3745,8 @@ export const locationsByCountry = /* GraphQL */ `
         name
         city
         country
+        region
+        group
         minimumTemperature
         maximumTemperature
         address
@@ -3733,6 +3755,7 @@ export const locationsByCountry = /* GraphQL */ `
         urlMap
         directions
         isActive
+        isVisible
         createdAt
         updatedAt
         __typename
