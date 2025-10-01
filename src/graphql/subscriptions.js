@@ -206,6 +206,7 @@ export const onCreateAcademyEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -277,6 +278,7 @@ export const onUpdateAcademyEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -348,6 +350,7 @@ export const onDeleteAcademyEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -2023,6 +2026,7 @@ export const onCreatePrivateEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -2184,6 +2188,7 @@ export const onUpdatePrivateEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -2345,6 +2350,7 @@ export const onDeletePrivateEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -3460,6 +3466,7 @@ export const onCreateEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -3591,6 +3598,7 @@ export const onUpdateEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -3722,6 +3730,7 @@ export const onDeleteEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -4573,9 +4582,34 @@ export const onCreateShoppingCartDetail = /* GraphQL */ `
         shoppingCartSellersCommissionId
         __typename
       }
+      createdBy {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
       shoppingCartCartDetailsId
+      usersShoppingCartDetailsId
       shoppingCartDetailEnrollmentId
       shoppingCartDetailAcademyEnrollmentId
       __typename
@@ -4642,9 +4676,34 @@ export const onUpdateShoppingCartDetail = /* GraphQL */ `
         shoppingCartSellersCommissionId
         __typename
       }
+      createdBy {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
       shoppingCartCartDetailsId
+      usersShoppingCartDetailsId
       shoppingCartDetailEnrollmentId
       shoppingCartDetailAcademyEnrollmentId
       __typename
@@ -4711,9 +4770,34 @@ export const onDeleteShoppingCartDetail = /* GraphQL */ `
         shoppingCartSellersCommissionId
         __typename
       }
+      createdBy {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
       shoppingCartCartDetailsId
+      usersShoppingCartDetailsId
       shoppingCartDetailEnrollmentId
       shoppingCartDetailAcademyEnrollmentId
       __typename
@@ -5714,6 +5798,10 @@ export const onCreateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      shoppingCartDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -5803,6 +5891,10 @@ export const onUpdateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
+      shoppingCartDetails {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       usersRolesId
@@ -5889,6 +5981,10 @@ export const onDeleteUsers = /* GraphQL */ `
         __typename
       }
       workdayReports {
+        nextToken
+        __typename
+      }
+      shoppingCartDetails {
         nextToken
         __typename
       }

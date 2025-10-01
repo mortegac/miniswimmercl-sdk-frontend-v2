@@ -9,6 +9,7 @@ import {Course, emptyCourse, FilterOptions} from "./types"
 
 export interface CourseState {
   status: "idle" | "loading" | "failed";
+  courseidSelected: string;
   course: Course;
  courses: Course[];
  errorMessage:string;
@@ -18,6 +19,7 @@ export interface CourseState {
 
 export const initialState: CourseState = {
   status: "idle",
+  courseidSelected: "",
   course: emptyCourse,
   courses: [emptyCourse],
   errorMessage:"",
@@ -60,7 +62,12 @@ export const getCourseStudent = createAsyncThunk(
 export const CourseSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setCourseidSelected: (state, action) => {
+      state.courseidSelected = action.payload;
+    },
+    
+  },
   extraReducers: (builder) => {
     builder
       // GET CourseS
@@ -185,5 +192,9 @@ export const CourseSlice = createSlice({
 });
 
 export const selectCourse = (state: RootState) => state.course;
+
+export const {
+ setCourseidSelected
+} = CourseSlice.actions;
 
 export default CourseSlice.reducer;

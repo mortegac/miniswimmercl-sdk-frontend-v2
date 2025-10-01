@@ -426,7 +426,7 @@ function Jwt(props: any) {
     </div>
   );
 }
-function Content(props: any) {
+function  Content(props: any) {
   const [cartId, setCartId] = useState({id:"", cartStatus:"", clientName:"", phoneNumber:"", clientId:""});
   const [switcherSlideover, setSwitcherSlideover] = useState(false);
   const { shoppingCarts, haveTOpen } = props;

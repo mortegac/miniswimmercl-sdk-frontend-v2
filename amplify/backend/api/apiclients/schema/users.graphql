@@ -41,6 +41,7 @@ type Users @model {
   
   studentEvaluations: [StudentEvaluations] @hasMany
   workdayReports: [WorkdayReports] @hasMany  # Reportes de jornada laboral del usuario
+  shoppingCartDetails: [ShoppingCartDetail] @hasMany  # Detalles de carrito creados por este usuario
 }
 
 

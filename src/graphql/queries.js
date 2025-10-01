@@ -141,6 +141,7 @@ export const getAcademyEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -1179,6 +1180,7 @@ export const getPrivateEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -1947,6 +1949,7 @@ export const getEnrollment = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -2436,9 +2439,34 @@ export const getShoppingCartDetail = /* GraphQL */ `
         shoppingCartSellersCommissionId
         __typename
       }
+      createdBy {
+        id
+        name
+        email
+        validated
+        isEmployed
+        isAcademyStudent
+        salesCommission
+        contactPhone
+        ig
+        firstContact
+        streetAddress
+        city
+        state
+        zipCode
+        country
+        latitude
+        longitude
+        zoomLevel
+        createdAt
+        updatedAt
+        usersRolesId
+        __typename
+      }
       createdAt
       updatedAt
       shoppingCartCartDetailsId
+      usersShoppingCartDetailsId
       shoppingCartDetailEnrollmentId
       shoppingCartDetailAcademyEnrollmentId
       __typename
@@ -2466,6 +2494,7 @@ export const listShoppingCartDetails = /* GraphQL */ `
         createdAt
         updatedAt
         shoppingCartCartDetailsId
+        usersShoppingCartDetailsId
         shoppingCartDetailEnrollmentId
         shoppingCartDetailAcademyEnrollmentId
         __typename
@@ -3099,6 +3128,10 @@ export const getUsers = /* GraphQL */ `
         __typename
       }
       workdayReports {
+        nextToken
+        __typename
+      }
+      shoppingCartDetails {
         nextToken
         __typename
       }

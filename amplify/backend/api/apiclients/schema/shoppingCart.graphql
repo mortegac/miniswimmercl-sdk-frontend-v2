@@ -60,6 +60,7 @@ type ShoppingCartDetail @model @auth(rules: [{ allow: public }]) {
   enrollment: Enrollment @belongsTo                   # Alumnos Escuela
   academyEnrollment: AcademyEnrollment @belongsTo     # Alumnos Academia
   cart: ShoppingCart! @belongsTo
+  createdBy: Users @belongsTo                        # Usuario que creó/realizó este detalle (opcional)
   
 }
 

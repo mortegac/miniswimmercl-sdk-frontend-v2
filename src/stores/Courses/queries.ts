@@ -99,6 +99,7 @@ export const listCourses = /* GraphQL */ `
       #   )
         {
         items{
+          id
           sessionType{
             id
             isActive
