@@ -246,6 +246,7 @@ function List(props: any) {
                         </>
                       </Table.Td>
                       <Table.Td className="w-20 border-dashed">
+                        <div className="w-56">
                           <div className="text-xs text-slate-500 flex flex-col min-w-56">
                            {Array.isArray(item?.schedules?.items) && 
                            [...item?.schedules?.items].sort((a, b) => {
@@ -257,7 +258,7 @@ function List(props: any) {
                               <Button
                                 key={`${i}-CARD-Schedules`}
                                 variant="outline-secondary"
-                                className={`min-w-32 bg-slate-50 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm hover:bg-slate-50 transition-colors mb-4`}
+                                className={`min-w-64  bg-slate-50 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm hover:bg-slate-50 transition-colors mb-4`}
                                 // onClick={() => handleLocationClick(item?.id)}
                               >
                                 <div className="">
@@ -273,6 +274,15 @@ function List(props: any) {
                             </>)
                            })}
                           </div>
+                          <Button
+                            // key={`${x}-CARD-sessionType`}
+                            // variant="outline-secondary"
+                            className={`bg-slate-200 min-w-64 p-3 mb-2 border rounded-[0.6rem]  shadow-sm hover:bg-primary hover:text-white  transition-colors uppercase`}
+                            // onClick={() => handleLocationClick(item?.id)}
+                          >
+                            Nuevo Horario
+                          </Button>
+                        </div>
                       </Table.Td>
                       <Table.Td className="w-20 py-4 border-dashed">
                         <div className="w-56">
@@ -286,8 +296,8 @@ function List(props: any) {
                           .map((sessionType:any, x:number)=>{
                             return ( 
                             <>
-                            <p className="text-slate-300">{sessionType?.sessionType?.id}</p>
-                            <p className="text-slate-300">{sessionType?.id}</p>
+                              <p className="text-slate-300">{sessionType?.sessionType?.id}</p>
+                              <p className="text-slate-300">{sessionType?.id}</p>
                               <Button
                                 key={`${x}-CARD-sessionType`}
                                 variant="outline-secondary"
@@ -309,7 +319,14 @@ function List(props: any) {
                             </>)
                            })}
                           </div>
-                         
+                          <Button
+                            // key={`${x}-CARD-sessionType`}
+                            // variant="outline-secondary"
+                            className={`bg-slate-200 min-w-64 p-3 mb-2 border rounded-[0.6rem]  shadow-sm hover:bg-primary hover:text-white  transition-colors uppercase`}
+                            // onClick={() => handleLocationClick(item?.id)}
+                          >
+                            Nuevo Pack de sesiones
+                          </Button>
                         </div>
                       </Table.Td>
                     
