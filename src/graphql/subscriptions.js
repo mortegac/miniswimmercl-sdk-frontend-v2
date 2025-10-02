@@ -679,6 +679,282 @@ export const onDeleteCertificates = /* GraphQL */ `
     }
   }
 `;
+export const onCreateCoach = /* GraphQL */ `
+  subscription OnCreateCoach($filter: ModelSubscriptionCoachFilterInput) {
+    onCreateCoach(filter: $filter) {
+      id
+      name
+      lastName
+      isCertificated
+      isActive
+      email
+      phone
+      whatsapp
+      coachSchedules {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateCoach = /* GraphQL */ `
+  subscription OnUpdateCoach($filter: ModelSubscriptionCoachFilterInput) {
+    onUpdateCoach(filter: $filter) {
+      id
+      name
+      lastName
+      isCertificated
+      isActive
+      email
+      phone
+      whatsapp
+      coachSchedules {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteCoach = /* GraphQL */ `
+  subscription OnDeleteCoach($filter: ModelSubscriptionCoachFilterInput) {
+    onDeleteCoach(filter: $filter) {
+      id
+      name
+      lastName
+      isCertificated
+      isActive
+      email
+      phone
+      whatsapp
+      coachSchedules {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateCoachSchedule = /* GraphQL */ `
+  subscription OnCreateCoachSchedule(
+    $filter: ModelSubscriptionCoachScheduleFilterInput
+  ) {
+    onCreateCoachSchedule(filter: $filter) {
+      id
+      date
+      startTime
+      endTime
+      isAvailable
+      isBooked
+      notes
+      createdAt
+      updatedAt
+      coach {
+        id
+        name
+        lastName
+        isCertificated
+        isActive
+        email
+        phone
+        whatsapp
+        createdAt
+        updatedAt
+        __typename
+      }
+      coachId
+      location {
+        id
+        name
+        city
+        country
+        region
+        group
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
+        isActive
+        isVisible
+        createdAt
+        updatedAt
+        __typename
+      }
+      locationId
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
+      scheduleId
+      coachCoachSchedulesId
+      locationCoachSchedulesId
+      scheduleCoachSchedulesId
+      __typename
+    }
+  }
+`;
+export const onUpdateCoachSchedule = /* GraphQL */ `
+  subscription OnUpdateCoachSchedule(
+    $filter: ModelSubscriptionCoachScheduleFilterInput
+  ) {
+    onUpdateCoachSchedule(filter: $filter) {
+      id
+      date
+      startTime
+      endTime
+      isAvailable
+      isBooked
+      notes
+      createdAt
+      updatedAt
+      coach {
+        id
+        name
+        lastName
+        isCertificated
+        isActive
+        email
+        phone
+        whatsapp
+        createdAt
+        updatedAt
+        __typename
+      }
+      coachId
+      location {
+        id
+        name
+        city
+        country
+        region
+        group
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
+        isActive
+        isVisible
+        createdAt
+        updatedAt
+        __typename
+      }
+      locationId
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
+      scheduleId
+      coachCoachSchedulesId
+      locationCoachSchedulesId
+      scheduleCoachSchedulesId
+      __typename
+    }
+  }
+`;
+export const onDeleteCoachSchedule = /* GraphQL */ `
+  subscription OnDeleteCoachSchedule(
+    $filter: ModelSubscriptionCoachScheduleFilterInput
+  ) {
+    onDeleteCoachSchedule(filter: $filter) {
+      id
+      date
+      startTime
+      endTime
+      isAvailable
+      isBooked
+      notes
+      createdAt
+      updatedAt
+      coach {
+        id
+        name
+        lastName
+        isCertificated
+        isActive
+        email
+        phone
+        whatsapp
+        createdAt
+        updatedAt
+        __typename
+      }
+      coachId
+      location {
+        id
+        name
+        city
+        country
+        region
+        group
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
+        isActive
+        isVisible
+        createdAt
+        updatedAt
+        __typename
+      }
+      locationId
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
+      scheduleId
+      coachCoachSchedulesId
+      locationCoachSchedulesId
+      scheduleCoachSchedulesId
+      __typename
+    }
+  }
+`;
 export const onCreateEmailSend = /* GraphQL */ `
   subscription OnCreateEmailSend(
     $filter: ModelSubscriptionEmailSendFilterInput
@@ -2614,6 +2890,10 @@ export const onCreateLocation = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -2650,6 +2930,10 @@ export const onUpdateLocation = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -2683,6 +2967,10 @@ export const onDeleteLocation = /* GraphQL */ `
         __typename
       }
       expenses {
+        nextToken
+        __typename
+      }
+      coachSchedules {
         nextToken
         __typename
       }
@@ -2918,6 +3206,10 @@ export const onCreateSchedule = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationSchedulesId
@@ -2975,6 +3267,10 @@ export const onUpdateSchedule = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationSchedulesId
@@ -3029,6 +3325,10 @@ export const onDeleteSchedule = /* GraphQL */ `
         __typename
       }
       sessionDetails {
+        nextToken
+        __typename
+      }
+      coachSchedules {
         nextToken
         __typename
       }

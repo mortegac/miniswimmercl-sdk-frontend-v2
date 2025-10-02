@@ -56,6 +56,10 @@ type Users @model {
 # }
 
 
+
+
+
+
 ################################
 # RELACIONES USUARIOS-STUDENTS
 ################################

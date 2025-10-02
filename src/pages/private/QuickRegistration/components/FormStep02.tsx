@@ -24,6 +24,7 @@ import {
   getParameters,
 } from "@/stores/Parameters/slice";
 // import { setSessionDetails } from "@/stores/SessionDetails/slice";
+import { format } from '@formkit/tempo';
 
 
 function convertirFecha(fechaString: string): Date {
@@ -35,6 +36,7 @@ function convertirFecha(fechaString: string): Date {
   // Creamos una nueva fecha en formato "yyyy-mm-dd"
   return new Date(`${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`);
 }
+
 function calcularEdad(fechaNacimientoString: string): { años: number; meses: number } {
   const fechaNacimiento = convertirFecha(fechaNacimientoString);
   
@@ -114,26 +116,55 @@ export const FormStep02 = ({ onChangeSetStore, setStudentSlide }: any) => {
     return `${day}/${month}/${year}`;
   }
   
-  async function setDateBirthday(e:any){
-    // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z") 
-
-    // console.log("e>>> ", e)
+  function convertirYValidarAISO(fechaString:string) {
+    // 1. Validar el formato DD/MM/YYYY con una expresión regular.
+    const formatoValido = /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/.test(fechaString);
+    if (!formatoValido) {
+      console.error("Error: El formato debe ser DD/MM/YYYY.");
+      return null;
+    }
+  
+    // 2. Descomponer la fecha en día, mes y año.
+    const partes = fechaString.split('/');
+    const dia = parseInt(partes[0], 10);
+    const mes = parseInt(partes[1], 10); // El mes se obtiene como 1-12
+    const anio = parseInt(partes[2], 10);
+  
+    // 3. Crear el objeto Date. IMPORTANTE: el mes en el constructor es 0-indexed (0=Enero, 11=Diciembre).
+    const fecha = new Date(Date.UTC(anio, mes - 1, dia));
+  
+    // 4. Validar que la fecha es real (ej. no es 31/02/2023).
+    // Si JavaScript ajustó la fecha (ej. 31/02 se convirtió en 03/03), los valores no coincidirán.
+    if (fecha.getUTCFullYear() !== anio || fecha.getUTCMonth() !== mes - 1 || fecha.getUTCDate() !== dia) {
+      console.error("Error: La fecha es inválida (ej. 31 de febrero).");
+      return null;
+    }
+  
+    // 5. Devolver la fecha en formato ISOString.
+    return fecha.toISOString();
+  }
+  
+  async function setDateBirthday(e: any) {
+    const isoString: string | null = convertirYValidarAISO(e.target.value);
     
-    const date:string= new Date(e.target.value).toISOString()
-    const getBirthday:any = tiempoTranscurrido(e.target.value)
-    setBirthday({month:getBirthday.meses , years:getBirthday.años});
+    if (!isoString) {
+      console.error("Fecha inválida");
+      return;
+    }
+    
+    const getBirthday: any = tiempoTranscurrido(isoString);
+    setBirthday({ month: getBirthday.meses, years: getBirthday.años });
     
     const event = {
-      target:{
-        name:"studentBithday",
-        value:transformDate(date),
+      target: {
+        name: "studentBithday",
+        value: transformDate(isoString),
         type: "text",
       },
-      preventDefault:()=>null,
-    }
-    onChangeSetStore({...e, ...event})
-    // console.log("e>>> ", event)
-    
+      preventDefault: () => null,
+    };
+    onChangeSetStore({ ...e, ...event });
+    console.log("e>>> ", event);
   }
   
   const validatePhoneNumber = (value:any) => {
@@ -173,6 +204,15 @@ export const FormStep02 = ({ onChangeSetStore, setStudentSlide }: any) => {
   
   
    async function saveData(){
+    
+    console.log(`
+      VALIDACIONES:
+      studentName = ${studentName !== "" && "Falta el nombre"}
+      studentBithday = ${studentBithday !== "" && "Falta Fecha de nacimiento"}
+      studentResidence = ${studentResidence !== "" && "Falta la residencia"}
+      studentGender = ${studentGender !== "" && "Falta el genero"}
+      guardianRelation = ${guardianRelation !== "" && "Falta el Residencia del apoderado"}
+      `)
     
     studentName !== "" && studentBithday !== "" && studentResidence !== "" && studentEmail !== "" && studentGender !== "" && guardianRelation &&
         await Promise.all([
@@ -279,6 +319,7 @@ export const FormStep02 = ({ onChangeSetStore, setStudentSlide }: any) => {
                     name="studentBithday" 
                     onChange={(e)=>setDateBirthday(e)}
                     options={{
+                      format: 'DD/MM/YYYY', 
                       autoApply: true,
                       showWeekNumbers: false,
                       dropdowns: {

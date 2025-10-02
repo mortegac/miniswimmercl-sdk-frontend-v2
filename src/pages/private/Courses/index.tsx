@@ -3,20 +3,23 @@ import _ from "lodash";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import Table from "@/components/Base/Table";
+import { Tab } from "@/components/Base/Headless";
+
 import {
   formatCurrency,
 } from "@/utils/helper";
+import { Slideover } from "@/components/Base/Headless";
 import LoadingIcon from "@/components/Base/LoadingIcon";
-import { FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
-import { Menu, Popover } from "@/components/Base/Headless";
-import users from "@/fakers/users";
-
+import { FormLabel, FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
+import {FormAdminSchedule} from "./components/FormAdminSchedule";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
 import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
-import { getCourses, setCourseidSelected, selectCourse } from "@/stores/Courses/slice";
+import { getCourses, setLocationIdSelected, selectCourse } from "@/stores/Courses/slice";
 import { getSessionDetails, selectSessionDetails, setSessionDetails, getSessionByLocationAndDate } from "@/stores/SessionDetails/slice";
+import duration from 'dayjs/plugin/duration';
+
 
 
 const typeOfCourse: any = {
@@ -38,140 +41,395 @@ function changeName(name:string){
   return typeOfCourse[String(name)] || typeOfCourse[""];
 }
 const dayOrder: { [key: string]: number } = {
-  'LUNES': 1,
-  'MARTES': 2,
-  'MIERCOLES': 3,
-  'JUEVES': 4,
-  'VIERNES': 5,
-  'SABADO': 6,
-  'DOMINGO': 7
+  'lunes': 1,
+  'martes': 2,
+  'miercoles': 3,
+  'jueves': 4,
+  'viernes': 5,
+  'sabado': 6,
+  'domingo': 7
 };
 
-import Card from "./components/Card";
+
 let currentGroupById:string | null = null;
-// function Content(props: any) {
-//   const { data, status } = props;
+let currentLocationId:string | null = null;
 
-//   // Asumimos que data ya está ordenado por locationCoursesId
-//   let currentLocationId:string | null = null;
-
-//   return (
-//     <>
-//     <div key="COURSES-LIST" className="flex justify-start flex-row flex-wrap">
-// {Array.isArray(data) &&
-//         [...data]
-//           .sort((a, b) => {
-//             const nameCompare = a.locationCoursesId.localeCompare(b.locationCoursesId);
-//             // Si los nombres son iguales, ordenar por apellido
-//             if (nameCompare === 0) {
-//               return a.id.localeCompare(b.id);
-//             }
-//             return nameCompare;
-            
-            
-//             // return a.locationCoursesId.localeCompare(b.locationCoursesId);
-//             // return a.AgeGroupType.localeCompare(b.AgeGroupType);
-//           })
-//           .map((item: any, i: number) => {
-//           const showLocationId = item.locationCoursesId !== currentLocationId;
-//           if (showLocationId) {
-//             currentLocationId = item.locationCoursesId;
-//           }
-
-//           return (
-//             <Fragment key={`${i}-COURSES`}>
-//               {showLocationId && (
-//                 <div className="flex-1">
-//                    <h2 className="mt-3 text-xl font-medium leading-none text-slate-600 dark:text-slate-500">
-//                    {item.locationCoursesId}</h2>
-//                 </div>
-//               )}
-//                 <Card courses={item} locationId={item.locationCoursesId} status={status}/>
-//             </Fragment>
-//           );
-//         })}
-//         </div>
-//     </>
-//   );
-// }
 
 function Locations(props: any) {
   const { data } = props;
-  const {courses, status, courseidSelected } = useAppSelector(selectCourse);
+  const {locationIdSelected } = useAppSelector(selectCourse);
+  
   
   const dispatch = useAppDispatch();
   
   const handleLocationClick = (locationId: string) => {
-    dispatch(setCourseidSelected(locationId));
+    dispatch(setLocationIdSelected(locationId));
     dispatch(getCourses({isActive:true, locationId:locationId}));
     console.log('Location selected:', locationId);
   };
   
+  // Agrupar locations por región
+  const groupedLocations = Array.isArray(data) ? data.reduce((acc: any, item: any) => {
+    const group = item?.group || 'sin-grupo';
+    if (!acc[group]) {
+      acc[group] = {
+        region: item?.region,
+        locations: []
+      };
+    }
+    acc[group].locations.push(item);
+    return acc;
+  }, {}) : {};
+  
   return(
     <>
-    
-    {/* <div className="flex flew-row flex-wrap">
-      {Array.isArray(data) &&
-        data.map((item: any, i: number) => <LocationsCard key={`${i}-CARD-LOCATIONS`} location={item} />)}
-    </div> */}
+ 
      <div className="flex flex-col p-5 box">
-        <div className="grid grid-cols-4 gap-5">     
-            
-            {/* {Array.isArray(data) && data.map((item: any, i: number) =>  */}
-            {Array.isArray(data) && [...data].sort((a, b) => {
-                const groupA = a?.group || '';
-                const groupB = b?.group || '';
-                return groupA.localeCompare(groupB);
-              })
-              .map((item: any, i: number) => {
-                const showGroupById = item.group !== currentGroupById;
-                if (showGroupById) {
-                  currentGroupById = item.group;
-                }
+        <div className="flex flex-col gap-4">
+          {Object.keys(groupedLocations).map((groupKey, groupIndex) => {
+            const group = groupedLocations[groupKey];
+            const showGroupById = group.region !== group;
+          if (showGroupById) {
+            currentLocationId = group.region;
+          }
+          
             return (
-              <>
-               { showGroupById &&
-                          <div className="w-full bg-slate-100 flex items-center justify-center">
-                            {/* <p className="text-sm font-medium leading-none text-slate-600 uppercase"> */}
-                            <b className="font-thin">{item?.region}</b>
-                            {/* </p> */}
-                          </div>
-                }
-                <Button
-                  key={`${i}-CARD-LOCATIONS`}
-                  variant="outline-secondary"
-                  className={` ${courseidSelected === item?.id && "bg-green-200"} col-span-4 md:col-span-2 xl:col-span-1 p-5 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors`}
-                  onClick={() => handleLocationClick(item?.id)}
-                >
-                  <div className="text-base text-slate-500 uppercase text-left">
-                    <h3>{item?.name}</h3>
-                    <p className="text-[.6rem]"> <span className=" font-thin">{item?.city}</span></p>
+              <div key={`group-${groupIndex}`} className="flex flex-col">
+                {/* <div className="w-full bg-slate-100 flex items-center px-4 py-2 rounded-md">
+                  <b className="font-thin text-slate-700">{group.region}</b>
+                </div> */}
+                <div className="grid grid-cols-5 gap-5">
+                { showGroupById &&
+                  <div className="w-56 px-4 bg-slate-100 flex items-center justify-center">
+                    <b className="font-thin">{group.region}</b>
                   </div>
-                </Button>
-              </>
-          )}
-          )
-        }
-            
-          </div>
+                }
+                  {group.locations.map((item: any, i: number) => (
+                    <Button
+                      key={`${i}-CARD-LOCATIONS`}
+                      variant="outline-secondary"
+                      className={`${locationIdSelected === item?.id && "bg-green-200"} p-3 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors`}
+                      onClick={() => handleLocationClick(item?.id)}
+                    >
+                      <div className="text-base text-slate-500 uppercase text-left">
+                        <h3>{item?.name}</h3>
+                        <p className="text-[.6rem]"> <span className="font-thin">{item?.city}</span></p>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
+      </div>
         
         {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
     </>
   )
 }
 
-function List(props: any) {
-  const { data, locationId } = props;
+
+
+function FormAdminCourse(props: any) {
   
-  const {courses, status, courseidSelected } = useAppSelector(selectCourse);
-  const dispatch = useAppDispatch();
-    
-  // useEffect(() => { (async () => await dispatch(getCourses({isActive:true, locationId:locationId})))(); }, []);
+  const {data, locations} = props;
+  
+  return(
+    <form className="box p-4  mt-8 flex flex-col">
+      <div className="">
+        <FormLabel htmlFor="vertical-form-1">Nombre del Curso</FormLabel>
+        <FormInput id="vertical-form-1" 
+          value={data?.title}
+          type="text" placeholder="" />
+      </div>
+      <div className="mt-4">
+          <FormLabel htmlFor="vertical-form-2">Descripcion</FormLabel>
+          <FormInput id="vertical-form-2" 
+            value={data?.description}
+            type="text" placeholder="" />
+      </div>
+      
+      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+      
+      <div className="mt-4 flex flex-row justify-start">
+        <div className="mt-4 mr-5 w-32">
+            <FormLabel htmlFor="vertical-form-2">Edad minima</FormLabel>
+            <FormInput id="vertical-form-2" 
+              value={data?.startingAge}
+              type="text" placeholder="0" />
+        </div>
+        <div className="mt-4 mr-5 w-32">
+            <FormLabel htmlFor="vertical-form-2">Edad máxima</FormLabel>
+            <FormInput id="vertical-form-2" 
+              value={data?.endingAge}
+              type="text" placeholder="0" />
+        </div>  
+        <div className="mt-4 mr-5 w-32">
+          <FormLabel htmlFor="vertical-form-2">Tipo de edad</FormLabel>
+          <div className="flex flex-row">
+              <Button variant="outline-secondary" className={`mr-4 ${data?.ageType === "YEARS" && "bg-green-200"}`}>Años</Button>
+              <Button variant="outline-secondary" className={`mr-4 ${data?.ageType === "MONTHS" && "bg-green-200"}`}>Meses</Button>    
+          </div>
+        </div>        
+      </div>
+      
+      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+      
+      <div className="mt-6 ">
+          <FormLabel htmlFor="vertical-form-2" className="mr-4 w-44">Grupo etareo</FormLabel>
+          <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "BABIES" && "bg-green-200"}`}>Bebés</Button>
+          <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "CHILDREN" && "bg-green-200"}`}>Niños</Button>
+          <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "ADULTS" && "bg-green-200"}`}>Adultos</Button>
+      </div>
+      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+      <div className="mt-6">
+        <div className="mt-4 mr-5">
+          <FormLabel  className="mr-4 w-44" htmlFor="vertical-form-2">Duración de la clase</FormLabel>
+          
+          <FormInput className="mr-2  w-36" id="vertical-form-2" 
+            value={data?.duration}
+            type="text" placeholder="0" /> minutos
+        </div>
+          
+      </div>
+      
+      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+      <div className="mt-4 flex flex-row justify-start">
+            
+        <div className="mt-4 w-56">
+            <FormLabel htmlFor="vertical-form-2" className="mr-4">Activo</FormLabel>
+            <Button variant="outline-secondary" className={`m-4 ${data?.isActive === true && "bg-green-200"}`}>SI</Button>
+            <Button variant="outline-secondary" className={`m-4 ${data?.isActive === false && "bg-green-200"}`}>NO</Button>
+        </div>          
+      </div>
+      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+      
+      <div className="mt-6 ">
+          <FormLabel htmlFor="vertical-form-2" className="mr-4 w-full">Sede</FormLabel>
+          {/* {Array.isArray(locations) && locations.map((location:any, index:number)=> */}
+          {Array.isArray(locations) && 
+                        [...locations].sort((a:any, b:any) => a.region.localeCompare(b.region))
+                        .map((location:any, i:number)=>
+                          <Button key={`BUTTON-LOCATION-${i}`} variant="outline-secondary" 
+                            className={`m-2 ${data?.locationCoursesId === location?.id && "bg-green-200"}`}>
+                            <div>
+                              <p>{location?.name}</p>
+                              <p className="text-sm font-thin">{location?.region}</p>
+                            </div>
+                          </Button>
+                        )}
+      </div>
+      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+      <Button variant="primary" className="py-3 px-4 mt-4">
+          Grabar información del curso
+      </Button>
+    </form>
+  )
+}
+
+function FormCourse(props: any) {
+  const {selectedIndex, setSelectedIndex, fnUpdateState } = props;
+  const [dataSchedule, setDataSchedule] = useState({
+    day: "",
+    startHour: "",
+    endHour: "",
+    minimumQuotas: "",
+    maximumQuotas: "",
+  })
+  const {data} = props;
+  // const {courses } = useAppSelector(selectCourse);
+  const {locations, status } = useAppSelector(selectLocation);
+  const {locationIdSelected } = useAppSelector(selectCourse);
+  
+  const handleDataSChedule = (data:any) => {
+    alert("grabar course")
+    setDataSchedule({...data})
+  }
   
   return(
     <>
-    <div className="overflow-auto xl:overflow-visible">
+      <div className="px-5 py-8">
+        {/* <p className="text-slate-300">id = {data?.id}</p> */}
+        <div className="flex justify-between">
+          <h2 className="text-xl font-medium">{data?.title}</h2>
+          <p className="text-slate-500 bg-slate-200 rounded-full px-4 py-2 ">{locationIdSelected}</p>
+        </div>
+        <span className="text-slate-500 bg-slate-100 rounded-full px-4 py-2 ">Duración: {data?.duration} minutos</span>
+        
+        <Tab.Group
+        className="mt-10"
+        selectedIndex={selectedIndex}
+        onChange={setSelectedIndex}
+      >
+        <div className="flex flex-col 2xl:items-center 2xl:flex-row gap-y-3">
+          <Tab.List
+            variant="boxed-tabs"
+            className="flex-col sm:flex-row w-full mr-auto bg-white box rounded-[0.6rem] border-slate-200"
+          >
+            <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+              <Tab.Button
+                className="w-full xl:w-40 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
+                as="button"
+              >
+                Horarios y sessiones
+              </Tab.Button>
+            </Tab>
+            <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+              <Tab.Button
+                className="w-full xl:w-52 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
+                as="button"
+              >
+                Detalle curso
+              </Tab.Button>
+            </Tab>
+            <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+              <Tab.Button
+                className="w-full xl:w-52 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
+                as="button"
+              >
+                Planificación Coaches
+              </Tab.Button>
+            </Tab>
+            
+          </Tab.List>
+        
+        </div>
+        <Tab.Panels>
+          {/* Sesiones y pack */}
+          <Tab.Panel>           
+           
+              
+              <FormAdminSchedule
+                data={dataSchedule}
+                // setData={setDataSchedule}
+                setData={handleDataSChedule}
+                locationIdSelected ={locationIdSelected}
+                duration={data?.duration}
+                couseId={data?.id}
+                />
+              
+           
+        
+            <h3 className="text-xl my-4">Horarios creados</h3>
+            <div className="relative overflow-auto w-full h-32">
+              <div className="overflow-y-auto flex p-2">
+                <div className="overflow-x-auto">
+                  <Table className="w-full">
+                    <Table.Tbody>        
+                    {Array.isArray(data?.schedules?.items) &&
+                    data?.schedules?.items.map((item: any, i: number) => 
+                          <Table.Tr>
+                            <Table.Td>  <b className=" uppercase">{item?.day}</b> {item?.startHour}</Table.Td>
+                            <Table.Td>{item?.minimumQuotas} máximo</Table.Td>
+                            <Table.Td>{item?.maximumQuotas} mínimo</Table.Td>
+                            <Table.Td>
+                              <Button 
+                              onClick={()=>setDataSchedule({...item})}
+                              variant="soft-success" className=" mr-4">Editar</Button>    
+                            </Table.Td>
+                          </Table.Tr>
+                      )
+                    }
+                    </Table.Tbody>
+                  </Table>
+                </div>
+              </div>
+            </div>
+          
+            <div className="box h-20 mt-4 p-4">
+              <h3 className="text-lg">Pack de Sesiones</h3>
+            </div>
+        
+        
+        
+        
+        
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+        
+          </Tab.Panel>
+          
+          {/* Detalle curso */}
+          <Tab.Panel>
+           <FormAdminCourse
+            data={data} 
+            locations={locations}
+            />
+          </Tab.Panel>
+          
+          <Tab.Panel>
+            <div className="box p-4  mt-8 flex flex-col">
+              <h3 className="text-xl my-4">Planificación de coaches</h3>
+            </div>
+          </Tab.Panel>
+          
+        </Tab.Panels>
+      </Tab.Group>
+      
+      
+       
+        
+        
+      </div>
+    </>
+  )
+}
+function List(props: any) {
+  const [newSlideover, setNewSlideover] = useState(false);
+  const [dataCourse, setDataCourse] = useState({});
+  const {courses, status } = useAppSelector(selectCourse);
+  
+function setDataSlider(data:any){
+  setNewSlideover(!newSlideover)
+  setDataCourse({...data})
+}
+  
+  return(
+    <>
+      <Slideover
+        size="xl"
+        key="Slide-sessions444"
+        open={newSlideover}
+        onClose={() => {
+          setNewSlideover(false);
+        }}
+      >
+        <Slideover.Panel className="w-96 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+          <a
+            href=""
+            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
+            onClick={(e) => {
+              e.preventDefault();
+              setNewSlideover(false);
+            }}
+          >
+            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
+          </a>
+          <Slideover.Description className="p-0">
+           
+           
+           <FormCourse 
+            data={dataCourse}
+           />
+            {/* <LevelsList
+              data={evaluationLevels}
+              activeAssessments={activeAssessments}
+            /> */}
+           
+          </Slideover.Description>
+        </Slideover.Panel>
+      </Slideover>
+      <div className="overflow-auto xl:overflow-visible">
+          { status === "loading" &&   
+            <div className="flex justify-center min-w-full">
+                <LoadingIcon
+                  color="#AE5EAB"
+                  icon="three-dots"
+                  className="w-10 h-10"
+                />
+            </div>
+          }
+          { status === "idle" && 
             <Table className="border-b border-slate-200/60">
               <Table.Thead>
                 <Table.Tr>
@@ -184,10 +442,6 @@ function List(props: any) {
                   <Table.Td className="w-20 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                     Pack Sesiones
                   </Table.Td>
-                 
-                  {/* <Table.Td className="w-20 py-4 font-medium text-center border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                    Action
-                  </Table.Td> */}
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
@@ -245,12 +499,24 @@ function List(props: any) {
                           </div>
                         </>
                       </Table.Td>
-                      <Table.Td className="w-20 border-dashed">
-                        <div className="w-56">
-                          <div className="text-xs text-slate-500 flex flex-col min-w-56">
+                      <Table.Td className="w-40 border-dashed">
+                        <div className="w-56 ">
+                          <div id="orderListDay" className="text-xs text-slate-500 flex flex-col  min-w-56">
                            {Array.isArray(item?.schedules?.items) && 
                            [...item?.schedules?.items].sort((a, b) => {
-                            return (dayOrder[a.day] || 0) - (dayOrder[b.day] || 0)
+                            // Primero ordenar por día
+                            const dayComparison = (dayOrder[a.day] || 0) - (dayOrder[b.day] || 0);
+                            
+                            // console.log("-comparative--", a.day)
+                            // console.log("-comparative--", dayOrder[a.day], "" ,dayOrder[b.day])
+                            // Si los días son iguales, ordenar por hora
+                            if (dayComparison === 0) {
+                              const timeA = a.startHour || '';
+                              const timeB = b.startHour || '';
+                              return timeA.localeCompare(timeB);
+                            }
+                            
+                            return dayComparison;
                           })
                           .map((schedule:any, i:number)=>{
                             return ( 
@@ -259,7 +525,7 @@ function List(props: any) {
                                 key={`${i}-CARD-Schedules`}
                                 variant="outline-secondary"
                                 className={`min-w-64  bg-slate-50 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm hover:bg-slate-50 transition-colors mb-4`}
-                                // onClick={() => handleLocationClick(item?.id)}
+                                onClick={() => setDataSlider(item)}
                               >
                                 <div className="">
                                   <p className="text-left text-lg mb-4">
@@ -278,14 +544,14 @@ function List(props: any) {
                             // key={`${x}-CARD-sessionType`}
                             // variant="outline-secondary"
                             className={`bg-slate-200 min-w-64 p-3 mb-2 border rounded-[0.6rem]  shadow-sm hover:bg-primary hover:text-white  transition-colors uppercase`}
-                            // onClick={() => handleLocationClick(item?.id)}
+                            onClick={() => setDataSlider(item)}
                           >
                             Nuevo Horario
                           </Button>
                         </div>
                       </Table.Td>
                       <Table.Td className="w-20 py-4 border-dashed">
-                        <div className="w-56">
+                        <div className="w-56 flex  items-start justify-center flex-wrap">
                           <div className="text-xs text-slate-500">
                            {Array.isArray(item?.sessionTypes?.items) && 
                            [...item?.sessionTypes?.items].sort((a:any, b:any) => {
@@ -323,55 +589,28 @@ function List(props: any) {
                             // key={`${x}-CARD-sessionType`}
                             // variant="outline-secondary"
                             className={`bg-slate-200 min-w-64 p-3 mb-2 border rounded-[0.6rem]  shadow-sm hover:bg-primary hover:text-white  transition-colors uppercase`}
-                            // onClick={() => handleLocationClick(item?.id)}
+                            onClick={() => setDataSlider(item)}
                           >
                             Nuevo Pack de sesiones
                           </Button>
                         </div>
                       </Table.Td>
-                    
-                      {/* <Table.Td className="relative py-4 border-dashed">
-                        <div className="flex items-center justify-center">
-                          <Menu className="h-5">
-                            <Menu.Button className="w-5 h-5 text-slate-500">
-                              <Lucide
-                                icon="MoreVertical"
-                                className="w-5 h-5 stroke-slate-400/70 fill-slate-400/70"
-                              />
-                            </Menu.Button>
-                            <Menu.Items className="w-40">
-                              <Menu.Item>
-                                <Lucide
-                                  icon="CheckSquare"
-                                  className="w-4 h-4 mr-2"
-                                />{" "}
-                                Edit
-                              </Menu.Item>
-                              <Menu.Item className="text-danger">
-                                <Lucide
-                                  icon="Trash2"
-                                  className="w-4 h-4 mr-2"
-                                />
-                                Delete
-                              </Menu.Item>
-                            </Menu.Items>
-                          </Menu>
-                        </div>
-                      </Table.Td> */}
                     </Table.Tr>
                     {/* <pre>{JSON.stringify(item, null, 2 )}</pre> */}
                   </>
                 ))}
               </Table.Tbody>
             </Table>
-          </div>
+          }
+          
+      </div>
     </>
   )
 }
 
 function Content(props: any) {
   const { data } = props;
-  const {courseidSelected, status } = useAppSelector(selectCourse);
+  const {locationIdSelected, status } = useAppSelector(selectCourse);
   return (
   <>
     
@@ -380,12 +619,12 @@ function Content(props: any) {
       <div className="flex flex-col gap-8 mt-3.5">
         <Locations data={data}/>
         <div className="flex flex-col box">
-           { status === "loading" &&   <LoadingIcon
+         { status === "loading" &&   <LoadingIcon
           color="white"
           icon="oval"
           className="w-10 h-10 mt-10"
         />}
-        { status === "idle" && courseidSelected && <List locationId={courseidSelected}/>}
+        { locationIdSelected && <List locationId={locationIdSelected}/>}
         
         </div>
       </div>

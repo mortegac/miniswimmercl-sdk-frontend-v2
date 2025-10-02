@@ -758,6 +758,294 @@ export const deleteCertificates = /* GraphQL */ `
     }
   }
 `;
+export const createCoach = /* GraphQL */ `
+  mutation CreateCoach(
+    $input: CreateCoachInput!
+    $condition: ModelCoachConditionInput
+  ) {
+    createCoach(input: $input, condition: $condition) {
+      id
+      name
+      lastName
+      isCertificated
+      isActive
+      email
+      phone
+      whatsapp
+      coachSchedules {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateCoach = /* GraphQL */ `
+  mutation UpdateCoach(
+    $input: UpdateCoachInput!
+    $condition: ModelCoachConditionInput
+  ) {
+    updateCoach(input: $input, condition: $condition) {
+      id
+      name
+      lastName
+      isCertificated
+      isActive
+      email
+      phone
+      whatsapp
+      coachSchedules {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteCoach = /* GraphQL */ `
+  mutation DeleteCoach(
+    $input: DeleteCoachInput!
+    $condition: ModelCoachConditionInput
+  ) {
+    deleteCoach(input: $input, condition: $condition) {
+      id
+      name
+      lastName
+      isCertificated
+      isActive
+      email
+      phone
+      whatsapp
+      coachSchedules {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createCoachSchedule = /* GraphQL */ `
+  mutation CreateCoachSchedule(
+    $input: CreateCoachScheduleInput!
+    $condition: ModelCoachScheduleConditionInput
+  ) {
+    createCoachSchedule(input: $input, condition: $condition) {
+      id
+      date
+      startTime
+      endTime
+      isAvailable
+      isBooked
+      notes
+      createdAt
+      updatedAt
+      coach {
+        id
+        name
+        lastName
+        isCertificated
+        isActive
+        email
+        phone
+        whatsapp
+        createdAt
+        updatedAt
+        __typename
+      }
+      coachId
+      location {
+        id
+        name
+        city
+        country
+        region
+        group
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
+        isActive
+        isVisible
+        createdAt
+        updatedAt
+        __typename
+      }
+      locationId
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
+      scheduleId
+      coachCoachSchedulesId
+      locationCoachSchedulesId
+      scheduleCoachSchedulesId
+      __typename
+    }
+  }
+`;
+export const updateCoachSchedule = /* GraphQL */ `
+  mutation UpdateCoachSchedule(
+    $input: UpdateCoachScheduleInput!
+    $condition: ModelCoachScheduleConditionInput
+  ) {
+    updateCoachSchedule(input: $input, condition: $condition) {
+      id
+      date
+      startTime
+      endTime
+      isAvailable
+      isBooked
+      notes
+      createdAt
+      updatedAt
+      coach {
+        id
+        name
+        lastName
+        isCertificated
+        isActive
+        email
+        phone
+        whatsapp
+        createdAt
+        updatedAt
+        __typename
+      }
+      coachId
+      location {
+        id
+        name
+        city
+        country
+        region
+        group
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
+        isActive
+        isVisible
+        createdAt
+        updatedAt
+        __typename
+      }
+      locationId
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
+      scheduleId
+      coachCoachSchedulesId
+      locationCoachSchedulesId
+      scheduleCoachSchedulesId
+      __typename
+    }
+  }
+`;
+export const deleteCoachSchedule = /* GraphQL */ `
+  mutation DeleteCoachSchedule(
+    $input: DeleteCoachScheduleInput!
+    $condition: ModelCoachScheduleConditionInput
+  ) {
+    deleteCoachSchedule(input: $input, condition: $condition) {
+      id
+      date
+      startTime
+      endTime
+      isAvailable
+      isBooked
+      notes
+      createdAt
+      updatedAt
+      coach {
+        id
+        name
+        lastName
+        isCertificated
+        isActive
+        email
+        phone
+        whatsapp
+        createdAt
+        updatedAt
+        __typename
+      }
+      coachId
+      location {
+        id
+        name
+        city
+        country
+        region
+        group
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
+        isActive
+        isVisible
+        createdAt
+        updatedAt
+        __typename
+      }
+      locationId
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
+      scheduleId
+      coachCoachSchedulesId
+      locationCoachSchedulesId
+      scheduleCoachSchedulesId
+      __typename
+    }
+  }
+`;
 export const createEmailSend = /* GraphQL */ `
   mutation CreateEmailSend(
     $input: CreateEmailSendInput!
@@ -2753,6 +3041,10 @@ export const createLocation = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -2792,6 +3084,10 @@ export const updateLocation = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -2828,6 +3124,10 @@ export const deleteLocation = /* GraphQL */ `
         __typename
       }
       expenses {
+        nextToken
+        __typename
+      }
+      coachSchedules {
         nextToken
         __typename
       }
@@ -3075,6 +3375,10 @@ export const createSchedule = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationSchedulesId
@@ -3135,6 +3439,10 @@ export const updateSchedule = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       locationSchedulesId
@@ -3192,6 +3500,10 @@ export const deleteSchedule = /* GraphQL */ `
         __typename
       }
       sessionDetails {
+        nextToken
+        __typename
+      }
+      coachSchedules {
         nextToken
         __typename
       }

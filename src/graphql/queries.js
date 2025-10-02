@@ -368,6 +368,167 @@ export const listCertificates = /* GraphQL */ `
     }
   }
 `;
+export const getCoach = /* GraphQL */ `
+  query GetCoach($id: ID!) {
+    getCoach(id: $id) {
+      id
+      name
+      lastName
+      isCertificated
+      isActive
+      email
+      phone
+      whatsapp
+      coachSchedules {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listCoaches = /* GraphQL */ `
+  query ListCoaches(
+    $id: ID
+    $filter: ModelCoachFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCoaches(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        lastName
+        isCertificated
+        isActive
+        email
+        phone
+        whatsapp
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getCoachSchedule = /* GraphQL */ `
+  query GetCoachSchedule($id: ID!) {
+    getCoachSchedule(id: $id) {
+      id
+      date
+      startTime
+      endTime
+      isAvailable
+      isBooked
+      notes
+      createdAt
+      updatedAt
+      coach {
+        id
+        name
+        lastName
+        isCertificated
+        isActive
+        email
+        phone
+        whatsapp
+        createdAt
+        updatedAt
+        __typename
+      }
+      coachId
+      location {
+        id
+        name
+        city
+        country
+        region
+        group
+        minimumTemperature
+        maximumTemperature
+        address
+        phone
+        imageMap
+        urlMap
+        directions
+        isActive
+        isVisible
+        createdAt
+        updatedAt
+        __typename
+      }
+      locationId
+      schedule {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        createdAt
+        updatedAt
+        locationSchedulesId
+        courseSchedulesId
+        __typename
+      }
+      scheduleId
+      coachCoachSchedulesId
+      locationCoachSchedulesId
+      scheduleCoachSchedulesId
+      __typename
+    }
+  }
+`;
+export const listCoachSchedules = /* GraphQL */ `
+  query ListCoachSchedules(
+    $id: ID
+    $filter: ModelCoachScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCoachSchedules(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        date
+        startTime
+        endTime
+        isAvailable
+        isBooked
+        notes
+        createdAt
+        updatedAt
+        coachId
+        locationId
+        scheduleId
+        coachCoachSchedulesId
+        locationCoachSchedulesId
+        scheduleCoachSchedulesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getEmailSend = /* GraphQL */ `
   query GetEmailSend($id: ID!) {
     getEmailSend(id: $id) {
@@ -1438,6 +1599,10 @@ export const getLocation = /* GraphQL */ `
         nextToken
         __typename
       }
+      coachSchedules {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -1624,6 +1789,10 @@ export const getSchedule = /* GraphQL */ `
         __typename
       }
       sessionDetails {
+        nextToken
+        __typename
+      }
+      coachSchedules {
         nextToken
         __typename
       }
@@ -3678,6 +3847,166 @@ export const listComments = /* GraphQL */ `
         commentTicketsId
         createdAt
         updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const coachSchedulesByDateAndCoachId = /* GraphQL */ `
+  query CoachSchedulesByDateAndCoachId(
+    $date: AWSDate!
+    $coachId: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCoachScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    coachSchedulesByDateAndCoachId(
+      date: $date
+      coachId: $coachId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        startTime
+        endTime
+        isAvailable
+        isBooked
+        notes
+        createdAt
+        updatedAt
+        coachId
+        locationId
+        scheduleId
+        coachCoachSchedulesId
+        locationCoachSchedulesId
+        scheduleCoachSchedulesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const coachSchedulesByCoachIdAndDate = /* GraphQL */ `
+  query CoachSchedulesByCoachIdAndDate(
+    $coachId: ID!
+    $date: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCoachScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    coachSchedulesByCoachIdAndDate(
+      coachId: $coachId
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        startTime
+        endTime
+        isAvailable
+        isBooked
+        notes
+        createdAt
+        updatedAt
+        coachId
+        locationId
+        scheduleId
+        coachCoachSchedulesId
+        locationCoachSchedulesId
+        scheduleCoachSchedulesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const coachSchedulesByLocationIdAndDate = /* GraphQL */ `
+  query CoachSchedulesByLocationIdAndDate(
+    $locationId: ID!
+    $date: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCoachScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    coachSchedulesByLocationIdAndDate(
+      locationId: $locationId
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        startTime
+        endTime
+        isAvailable
+        isBooked
+        notes
+        createdAt
+        updatedAt
+        coachId
+        locationId
+        scheduleId
+        coachCoachSchedulesId
+        locationCoachSchedulesId
+        scheduleCoachSchedulesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const coachSchedulesByScheduleIdAndDate = /* GraphQL */ `
+  query CoachSchedulesByScheduleIdAndDate(
+    $scheduleId: ID!
+    $date: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCoachScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    coachSchedulesByScheduleIdAndDate(
+      scheduleId: $scheduleId
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        startTime
+        endTime
+        isAvailable
+        isBooked
+        notes
+        createdAt
+        updatedAt
+        coachId
+        locationId
+        scheduleId
+        coachCoachSchedulesId
+        locationCoachSchedulesId
+        scheduleCoachSchedulesId
         __typename
       }
       nextToken

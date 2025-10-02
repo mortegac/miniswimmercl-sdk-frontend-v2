@@ -10,6 +10,7 @@ import {Course, emptyCourse, FilterOptions} from "./types"
 export interface CourseState {
   status: "idle" | "loading" | "failed";
   courseidSelected: string;
+  locationIdSelected: string;
   course: Course;
  courses: Course[];
  errorMessage:string;
@@ -20,6 +21,7 @@ export interface CourseState {
 export const initialState: CourseState = {
   status: "idle",
   courseidSelected: "",
+  locationIdSelected: "",
   course: emptyCourse,
   courses: [emptyCourse],
   errorMessage:"",
@@ -66,6 +68,9 @@ export const CourseSlice = createSlice({
     setCourseidSelected: (state, action) => {
       state.courseidSelected = action.payload;
     },
+    setLocationIdSelected: (state, action) => {
+      state.locationIdSelected = action.payload;
+    },
     
   },
   extraReducers: (builder) => {
@@ -82,9 +87,7 @@ export const CourseSlice = createSlice({
       .addCase(getCourses.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "idle";
-        
-        // console.log("---getCourses --action---", objPayload)
-         
+      
         const sortedArray = objPayload?.items.sort((a:any, b:any) => {
           // Primero, comparamos por locationCoursesId
           if (a.locationCoursesId < b.locationCoursesId) return -1;
@@ -194,7 +197,8 @@ export const CourseSlice = createSlice({
 export const selectCourse = (state: RootState) => state.course;
 
 export const {
- setCourseidSelected
+ setCourseidSelected,
+ setLocationIdSelected
 } = CourseSlice.actions;
 
 export default CourseSlice.reducer;

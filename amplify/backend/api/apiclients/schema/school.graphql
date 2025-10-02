@@ -26,6 +26,7 @@ type Location @model {
   courses: [Course] @hasMany                  # relación una location tiene muchos cursos
   schedules: [Schedule] @hasMany
   expenses: [Expense] @hasMany
+  coachSchedules: [CoachSchedule] @hasMany    # relación con horarios de coaches
 }
 
 
@@ -90,6 +91,7 @@ type Schedule @model {
   location: Location @belongsTo
   
   sessionDetails: [SessionDetail] @hasMany(fields: ["id"])
+  coachSchedules: [CoachSchedule] @hasMany    # relación con slots de coaches en este horario
   # enrollment: Enrollment @belongsTo # 1 a 1 
   # enrollments: [Enrollment] @hasMany
 }
@@ -121,8 +123,3 @@ type SessionType @model {
   enrollments: [Enrollment] @hasMany
   privateEnrollments: [PrivateEnrollment] @hasMany  # Relación con inscripciones privadas
 }
-
-
-
-
-
