@@ -43,20 +43,23 @@ import {
   
   // const AdminStudents = lazy(() => import("../pages/private/StudentProfile"));
   import AdminStudents from "../pages/private/StudentProfile";
-  const Dashboard = lazy(() => import("../pages/private/Dashboard"));
+  // const Dashboard = lazy(() => import("../pages/private/Dashboard"));
   const Leads = lazy(() => import("../pages/private/Leads"));
   // const Students = lazy(() => import("../pages/private/Students"));
-  import Students from "../pages/private/Students";
-  import StudentData from "../pages/private/StudentData";
+  // import Students from "../pages/private/Students";
+  // import StudentData from "../pages/private/StudentData";
+  const StudentData = lazy(() => import("../pages/private/StudentData"));
   const Locations = lazy(() => import("../pages/private/Locations"));
   const Evaluations = lazy(() => import("../pages/private/AdminEvaluations"));
-  // const Courses = lazy(() => import("../pages/private/Courses"));
-  import Courses from "../pages/private/Courses";
-  import ReportOfRegistered from "../pages/private/ReportOfRegistered";
-  import CoursesQuotas from "../pages/private/CoursesQuotas";
-  import QuickRegistration2 from "../pages/private/QuickRegistration2";
+  const Courses = lazy(() => import("../pages/private/Courses"));
+  // import Courses from "../pages/private/Courses";
+  const ReportOfRegistered = lazy(() => import("../pages/private/ReportOfRegistered"));
+  // import ReportOfRegistered from "../pages/private/ReportOfRegistered";
+  const CoursesQuotas = lazy(() => import("../pages/private/CoursesQuotas"));
+  // import CoursesQuotas from "../pages/private/CoursesQuotas";
+  // import QuickRegistration2 from "../pages/private/QuickRegistration2";
   import QuickRegistration from "../pages/private/QuickRegistration";
-  import QuickRegistrationUs from "../pages/private/QuickRegistrationUs";
+  // import QuickRegistrationUs from "../pages/private/QuickRegistrationUs";
  
   const Enrollments = lazy(() => import("../pages/private/Enrollments"));
   const Transactions = lazy(() => import("../pages/private/Transactions"));
@@ -64,7 +67,8 @@ import {
   
   // const Attendance = lazy(() => import("../pages/private/Attendance"));
   
-  import StartAdmin from "../pages/private/StartAmin";
+  const StartAdmin = lazy(() => import("../pages/private/StartAmin"));
+  // import StartAdmin from "../pages/private/StartAmin";
   // import EnrollmentsRead from "../pages/private/EnrollmentsRead";
   // import EnrollmentsCreate from "../pages/private/EnrollmentsCreate";
   
@@ -128,10 +132,10 @@ export const privateRoutes = {
           path: LEADS,
           element: <Leads />,
         },
-        {
-          path: STUDENTS,
-          element: <Students />,
-        },
+        // {
+        //   path: STUDENTS,
+        //   element: <Students />,
+        // },
         {
           path: STUDENTS_DATA,
           element: <StudentData />,
@@ -148,14 +152,14 @@ export const privateRoutes = {
           path: QUICK_REGISTRATION,
           element: <QuickRegistration />,
         },
-        {
-          path: QUICK_REGISTRATION2,
-          element: <QuickRegistration2 />,
-        },
-        {
-          path: QUICK_REGISTRATION_US,
-          element: <QuickRegistrationUs />,
-        },
+        // {
+        //   path: QUICK_REGISTRATION2,
+        //   element: <QuickRegistration2 />,
+        // },
+        // {
+        //   path: QUICK_REGISTRATION_US,
+        //   element: <QuickRegistrationUs />,
+        // },
         {
           path: ENROLLMENTS,
           element: <Enrollments />,
