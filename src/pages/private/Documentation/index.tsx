@@ -73,7 +73,7 @@ function Card(props:any) {
       key={"DOCUMENTATION"}
       className="col-span-12 sm:col-span-6 xl:col-span-4 border-dashed border-slate-300/80 [&:nth-child(4n)]:border-r-0 px-5 py-5 [&:nth-last-child(-n+4)]:border-b-0 border-r border-b flex flex-col"
     >
-    <a onClick={(e) => {
+    <a onClick={(e:any) => {
         e.preventDefault();
         setHtml({status:true, html:doc?.html})
       }}
@@ -232,7 +232,7 @@ function Main() {
         <a
           href=""
           className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
-          onClick={(e) => {
+          onClick={(e:any) => {
             e.preventDefault();
             setHtmlSlideover(false);
           }}

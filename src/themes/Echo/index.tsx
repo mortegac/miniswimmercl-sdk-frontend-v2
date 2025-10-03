@@ -403,7 +403,7 @@ function Main() {
                 <a
                   href=""
                   className="p-2 text-white rounded-full hover:bg-white/5"
-                  onClick={(e) => {
+                  onClick={(e:any) => {
                     e.preventDefault();
                     setQuickSearch(true);
                   }}
@@ -445,7 +445,7 @@ function Main() {
                   {/* <a
                     href=""
                     className="p-2 text-white rounded-full hover:bg-white/5"
-                    onClick={(e) => {
+                    onClick={(e:any) => {
                       e.preventDefault();
                       setActivitiesPanel(true);
                     }}
@@ -467,7 +467,7 @@ function Main() {
                   <a
                     href=""
                     className="p-2 text-white rounded-full hover:bg-white/5"
-                    onClick={(e) => {
+                    onClick={(e:any) => {
                       e.preventDefault();
                       requestFullscreen();
                     }}
@@ -478,7 +478,7 @@ function Main() {
                   {/* <a
                     href=""
                     className="p-2 text-white rounded-full hover:bg-white/5"
-                    onClick={(e) => {
+                    onClick={(e:any) => {
                       e.preventDefault();
                       setNotificationsPanel(true);
                     }}

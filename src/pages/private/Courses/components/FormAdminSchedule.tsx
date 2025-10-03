@@ -74,7 +74,7 @@ const scheduleValidationSchema = yup.object({
   }
   
   export function FormAdminSchedule(props: any) {
-    const { data, setData, duration, couseId, locationIdSelected } = props;
+    const { data, setData, setCleanData, duration, couseId, locationIdSelected } = props;
     
     // Configuración de React Hook Form con Yup
     const {
@@ -196,7 +196,7 @@ const scheduleValidationSchema = yup.object({
     // Función para manejar la eliminación
     const handleClean = () => {
         // Limpiar el estado local
-        setData({
+        setCleanData({
           day: "",
           startHour: "",
           endHour: "",

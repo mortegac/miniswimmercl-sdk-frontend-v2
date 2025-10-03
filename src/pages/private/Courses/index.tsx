@@ -12,14 +12,14 @@ import { Slideover } from "@/components/Base/Headless";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import { FormLabel, FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
 import {FormAdminSchedule} from "./components/FormAdminSchedule";
+import {FormAdminSessionType} from "./components/FormAdminSessionType";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
 import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
 import { getCourses, setLocationIdSelected, selectCourse } from "@/stores/Courses/slice";
-import { getSessionDetails, selectSessionDetails, setSessionDetails, getSessionByLocationAndDate } from "@/stores/SessionDetails/slice";
-import duration from 'dayjs/plugin/duration';
 
+import { setSchedules } from '@/stores/Schedule/slice';
 
 
 const typeOfCourse: any = {
@@ -237,14 +237,51 @@ function FormCourse(props: any) {
     minimumQuotas: "",
     maximumQuotas: "",
   })
+  const [dataSessions, setDataSessions] = useState({
+    isActive: "",
+    name: "",
+    totalSessions: "",
+    amount: "",
+  })
   const {data} = props;
   // const {courses } = useAppSelector(selectCourse);
   const {locations, status } = useAppSelector(selectLocation);
   const {locationIdSelected } = useAppSelector(selectCourse);
   
-  const handleDataSChedule = (data:any) => {
-    alert("grabar course")
-    setDataSchedule({...data})
+  const dispatch = useAppDispatch();
+  
+  
+  const  handleDataSChedule = async (schedule:any) => {
+    
+    setDataSchedule({...schedule})
+    
+    !data?.id && alert("NO EXISTE course")
+    
+    data?.id && await Promise.all([
+      await dispatch(
+        setSchedules(
+          {
+            courseId: data?.id,
+            locationId: locationIdSelected,
+            day: schedule?.day,
+            startHour: schedule?.startHour,
+            endHour: schedule?.endHour,
+            minimumQuotas: schedule?.minimumQuotas,
+            maximumQuotas: schedule?.maximumQuotas,
+          }
+          
+        )
+      ),
+      await dispatch(getCourses({isActive:true, locationId:locationIdSelected}))
+    ])
+    
+  }
+  
+  
+  
+  const handleDataSession = (data:any) => {
+    alert("grabar PAck de sesiones")
+    setDataSessions({...data})
   }
   
   return(
@@ -272,7 +309,15 @@ function FormCourse(props: any) {
                 className="w-full xl:w-40 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
                 as="button"
               >
-                Horarios y sessiones
+                Horarios
+              </Tab.Button>
+            </Tab>
+            <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+              <Tab.Button
+                className="w-full xl:w-40 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
+                as="button"
+              >
+                Sessiones
               </Tab.Button>
             </Tab>
             <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
@@ -296,7 +341,7 @@ function FormCourse(props: any) {
         
         </div>
         <Tab.Panels>
-          {/* Sesiones y pack */}
+          {/* Horarios */}
           <Tab.Panel>           
            
               
@@ -304,21 +349,34 @@ function FormCourse(props: any) {
                 data={dataSchedule}
                 // setData={setDataSchedule}
                 setData={handleDataSChedule}
+                setCleanData={setDataSchedule}
                 locationIdSelected ={locationIdSelected}
-                duration={data?.duration}
                 couseId={data?.id}
+                duration={data?.duration}
                 />
               
            
         
             <h3 className="text-xl my-4">Horarios creados</h3>
-            <div className="relative overflow-auto w-full h-32">
+            <div className="relative overflow-auto w-full h-96">
               <div className="overflow-y-auto flex p-2">
                 <div className="overflow-x-auto">
                   <Table className="w-full">
                     <Table.Tbody>        
-                    {Array.isArray(data?.schedules?.items) &&
-                    data?.schedules?.items.map((item: any, i: number) => 
+                    {/* {Array.isArray(data?.schedules?.items) &&
+                    data?.schedules?.items.map((item: any, i: number) =>  */}
+                    {Array.isArray(data?.schedules?.items) && 
+                           [...data?.schedules?.items].sort((a, b) => {
+                            const dayComparison = (dayOrder[a.day] || 0) - (dayOrder[b.day] || 0);
+                            if (dayComparison === 0) {
+                              const timeA = a.startHour || '';
+                              const timeB = b.startHour || '';
+                              return timeA.localeCompare(timeB);
+                            }
+                            
+                            return dayComparison;
+                          })
+                          .map((item:any, i:number)=>
                           <Table.Tr>
                             <Table.Td>  <b className=" uppercase">{item?.day}</b> {item?.startHour}</Table.Td>
                             <Table.Td>{item?.minimumQuotas} máximo</Table.Td>
@@ -331,21 +389,83 @@ function FormCourse(props: any) {
                           </Table.Tr>
                       )
                     }
+                    
                     </Table.Tbody>
                   </Table>
                 </div>
               </div>
             </div>
           
-            <div className="box h-20 mt-4 p-4">
-              <h3 className="text-lg">Pack de Sesiones</h3>
+                   
+        
+        
+        
+        
+        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+        
+          </Tab.Panel>
+          
+          {/* Sesiones */}
+          <Tab.Panel>           
+           
+              
+              <FormAdminSessionType
+                data={dataSessions}
+                // setData={setDataSchedule}
+                setData={handleDataSession}
+                setCleanData={setDataSessions}
+                locationIdSelected ={locationIdSelected}
+                // duration={data?.duration}
+                couseId={data?.id}
+                />
+              
+           
+        
+              <h3 className="text-xl my-4">Pack de sesiones creadas</h3>
+              <div className="relative overflow-auto w-full h-96">
+                  {/* <pre>{JSON.stringify(data?.sessionTypes?.items, null, 2)}</pre> */}
+                <div className="overflow-y-auto flex p-2">
+                <div className="overflow-x-auto">
+                  <Table className="w-full">
+                    <Table.Tbody>        
+                    {/* {Array.isArray(data?.sessionTypes?.items) &&
+                    data?.sessionTypes?.items.map((sessions: any, i: number) =>  */}
+                    {
+                    Array.isArray(data?.sessionTypes?.items) && 
+                           [...data?.sessionTypes?.items].sort((a, b) => {
+                            return a?.sessionType?.totalSessions - b?.sessionType?.totalSessions;
+                          })
+                          .map((sessions:any, i:number)=>{
+                            return(
+                          <Table.Tr className={`${sessions?.isActive && sessions?.isActive !== undefined && "bg-slate-300"}`}>
+                            <Table.Td>
+                              {/* {String(sessions?.isActive)} */}
+                              <b className=" uppercase">{sessions?.sessionType?.totalSessions}</b> sesiones
+                              </Table.Td>
+                            <Table.Td>{sessions?.sessionType?.name} </Table.Td>
+                            <Table.Td>$ {formatCurrency(sessions?.sessionType?.amount)} </Table.Td>
+                            <Table.Td>
+                              <Button 
+                              onClick={()=>setDataSessions({...sessions})}
+                              variant="soft-success" className=" mr-4">Editar</Button>    
+                            </Table.Td>
+                          </Table.Tr>
+                      )
+                    })
+                    }
+                    </Table.Tbody>
+                  </Table>
+                </div>
+              </div>
             </div>
+          
+                   
         
         
         
         
         
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         
           </Tab.Panel>
           
@@ -398,7 +518,7 @@ function setDataSlider(data:any){
           <a
             href=""
             className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
-            onClick={(e) => {
+            onClick={(e:any) => {
               e.preventDefault();
               setNewSlideover(false);
             }}
@@ -504,12 +624,7 @@ function setDataSlider(data:any){
                           <div id="orderListDay" className="text-xs text-slate-500 flex flex-col  min-w-56">
                            {Array.isArray(item?.schedules?.items) && 
                            [...item?.schedules?.items].sort((a, b) => {
-                            // Primero ordenar por día
                             const dayComparison = (dayOrder[a.day] || 0) - (dayOrder[b.day] || 0);
-                            
-                            // console.log("-comparative--", a.day)
-                            // console.log("-comparative--", dayOrder[a.day], "" ,dayOrder[b.day])
-                            // Si los días son iguales, ordenar por hora
                             if (dayComparison === 0) {
                               const timeA = a.startHour || '';
                               const timeB = b.startHour || '';
