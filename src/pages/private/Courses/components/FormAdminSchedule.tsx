@@ -185,6 +185,7 @@ const scheduleValidationSchema = yup.object({
             ...formData
           })
         
+          
         // Resetear el formulario
         reset();
         
@@ -194,7 +195,8 @@ const scheduleValidationSchema = yup.object({
     };
 
     // Función para manejar la eliminación
-    const handleClean = () => {
+    const handleClean = (e: React.MouseEvent<HTMLButtonElement>): void => {
+      e.preventDefault();
         // Limpiar el estado local
         setCleanData({
           day: "",
@@ -210,7 +212,8 @@ const scheduleValidationSchema = yup.object({
         // Opcional: disparar validación para limpiar errores
         trigger();
       };
-    const handleDelete = () => {
+    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>): void => {
+      e.preventDefault();
       if (data?.id) {
         console.log('Eliminar horario:', data.id);
       }
@@ -396,7 +399,10 @@ const scheduleValidationSchema = yup.object({
                         type="button"
                         variant="soft-danger" 
                         className="mr-2"
-                        onClick={handleDelete}
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
+                          e.preventDefault();
+                          handleDelete(e)
+                      }}
                         disabled={!data?.id}
                     >
                         Eliminar
@@ -411,9 +417,9 @@ const scheduleValidationSchema = yup.object({
                     type="button"
                     variant="soft-dark" 
                     className="mr-2"
-                    onClick={(e)=>{
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
                         e.preventDefault();
-                        handleClean()
+                        handleClean(e)
                     }}
                   >
                     Limpiar

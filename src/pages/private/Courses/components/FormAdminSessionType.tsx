@@ -82,7 +82,8 @@ export function FormAdminSessionType(props: any) {
   };
 
   // Función para manejar la limpieza
-  const handleClean = () => {
+  const handleClean = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
     // Limpiar el estado local
     setCleanData({
       name: "",
@@ -97,7 +98,8 @@ export function FormAdminSessionType(props: any) {
     trigger();
   };
 
-  const handleDelete = () => {
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
     if (data?.id) {
       console.log('Eliminar pack de sesiones:', data.id);
     }
@@ -203,7 +205,13 @@ export function FormAdminSessionType(props: any) {
               type="button"
               variant="soft-danger" 
               className="mr-2"
-              onClick={handleDelete}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                // e.preventDefault();
+                handleDelete(e);
+              }}
+              
+            
+              
               disabled={!data?.id}
             >
               Eliminar
@@ -218,9 +226,9 @@ export function FormAdminSessionType(props: any) {
             type="button"
             variant="soft-dark" 
             className="mr-2"
-            onClick={(e:any) => {
-              e.preventDefault();
-              handleClean();
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              // e.preventDefault();
+              handleClean(e);
             }}
           >
             Limpiar
