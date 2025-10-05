@@ -2,8 +2,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, fetchDataStudent} from "./services"
-import {Course, emptyCourse, FilterOptions} from "./types"
+import {fetchData, fetchDataStudent, createCourses} from "./services"
+import {Course, emptyCourse, FilterOptions, InputCourse} from "./types"
 
 
 
@@ -60,6 +60,18 @@ export const getCourseStudent = createAsyncThunk(
   }
 );
 
+export const setCourse = createAsyncThunk(
+  "course/create",
+  async (objFilter: InputCourse, { dispatch }) => {
+    try {
+      const response:any = await createCourses({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH setEnrollment", error)
+      return Promise.reject(error);
+    }
+  }
+);
 
 export const CourseSlice = createSlice({
   name: "auth",
@@ -186,6 +198,26 @@ export const CourseSlice = createSlice({
         state.resumeByLocation=getEnrollmentSummary(sortedArray);
         console.log("--totalCounts 22-", totalCounts)
         state.resumeByLocationTotal=Number(totalCounts);
+        
+      })
+      
+      
+       // SET Course
+       .addCase(setCourse.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(setCourse.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(setCourse.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        console.log("--  setCourse ---", objPayload)
+        // state.courses = objPayload?.items || [];
+        // state.courses = sortedArray || [];
         
       })
       

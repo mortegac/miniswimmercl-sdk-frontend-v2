@@ -1,8 +1,7 @@
-// import L from 'leaflet';
+import React from 'react'; // Importar React para useEffect
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import React from 'react'; // Importar React para useEffect
 
 import { FormLabel, FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
 import Button from "@/components/Base/Button";

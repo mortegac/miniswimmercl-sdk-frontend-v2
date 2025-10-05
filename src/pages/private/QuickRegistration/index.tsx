@@ -491,7 +491,15 @@ function Main() {
                                                         "bg-slate-300 "
                                                       }`}
                                                     >
-                                                      <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
+                                                       <div className="text-base text-slate-500 uppercase text-left">
+                                                        <h3 className={`text-center text-slate-400  ${
+                                                              item?.id ===
+                                                                dataNew?.locationId &&
+                                                              "text-slate-500"
+                                                            }`}>{item?.name}</h3>
+                                                        <p className="text-[.6rem]"> <span className="font-thin">{item?.city}</span></p>
+                                                      </div>
+                                                      {/* <span className="group flex justify-center items-center text-xs rounded-md uppercase ">
                                                         <span className="-mt-px text-center">
                                                           <p
                                                             className={`text-center  text-xs text-slate-400  ${
@@ -503,7 +511,7 @@ function Main() {
                                                             {item?.name}
                                                           </p>
                                                         </span>
-                                                      </span>
+                                                      </span> */}
                                                     </Button>
                                                   </>
                                                 ))}

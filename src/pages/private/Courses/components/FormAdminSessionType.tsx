@@ -1,11 +1,19 @@
 // import L from 'leaflet';
+import React, {useEffect, useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import React from 'react';
+import {
+  formatCurrency,
+} from "@/utils/helper";
 
 import { FormLabel, FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
 import Button from "@/components/Base/Button";
+
+
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { getSessionTypes, selectSessionType } from "@/stores/SessionType/slice";
+
 
 // Schema de validación con Yup - NUEVO
 const sessionTypeValidationSchema = yup.object({
@@ -38,6 +46,24 @@ interface SessionTypeFormData {
 
 export function FormAdminSessionType(props: any) {
   const { data, setData, setCleanData, couseId, locationIdSelected } = props;
+  const {sessionTypes, status } = useAppSelector(selectSessionType);
+  const dispatch = useAppDispatch();
+  
+  // Estado para el SessionType seleccionado
+  const [selectedSessionTypeId, setSelectedSessionTypeId] = useState<string>("");
+  
+  const [dataSessionType, setDataSessionType] = useState({
+    id: "",
+    name: "",
+    description: "",
+    durationSession: 0,
+    timeAWeek: 0,
+    totalSessions: 0,
+    amount: 0,
+    isActive: true,
+    isTestClass: false,
+    // packValidity: null,
+  })
   
   // Configuración de React Hook Form con Yup
   const {
@@ -59,9 +85,9 @@ export function FormAdminSessionType(props: any) {
   });
 
   // Observar valores para sincronización
-  const watchedName = watch('name');
-  const watchedTotalSessions = watch('totalSessions');
-  const watchedAmount = watch('amount');
+  // const watchedName = watch('name');
+  // const watchedTotalSessions = watch('totalSessions');
+  // const watchedAmount = watch('amount');
 
   // Función para manejar el envío del formulario
   const onSubmit = async (formData: SessionTypeFormData) => {
@@ -104,7 +130,47 @@ export function FormAdminSessionType(props: any) {
       console.log('Eliminar pack de sesiones:', data.id);
     }
   };
+ 
+  const setIdDataSessionType = (idSessionType: string): void => {
+    if (idSessionType && Array.isArray(sessionTypes)) {
+      // Filtrar el SessionType que coincide con el ID
+      const selectedSessionType = sessionTypes.find((sessionType: any) => 
+        sessionType.id === idSessionType
+      );
+      
+      if (selectedSessionType) {
+        // Actualizar el estado con los datos del SessionType seleccionado
+        setDataSessionType({
+          id: selectedSessionType.id || "",
+          name: selectedSessionType.name || "",
+          description: selectedSessionType.description || "",
+          durationSession: selectedSessionType.durationSession || 0,
+          timeAWeek: selectedSessionType.timeAWeek || 0,
+          totalSessions: selectedSessionType.totalSessions || 0,
+          amount: selectedSessionType.amount || 0,
+          isActive: selectedSessionType.isActive || false,
+          isTestClass: selectedSessionType.isTestClass || false,
+          // packValidity: selectedSessionType.packValidity || 0,
+        });
+        
+        // También actualizar el formulario con los valores
+        setValue('name', selectedSessionType.name);
+        setValue('totalSessions', selectedSessionType.totalSessions);
+        setValue('amount', selectedSessionType.amount);
+        
+        // Disparar validación
+        trigger();
+        
+        console.log('SessionType seleccionado:', selectedSessionType);
+      } else {
+        console.log('No se encontró SessionType con ID:', idSessionType);
+      }
+    }
+  };
 
+  // Observar el valor actual del día
+  const watchedName = watch('name');
+  
   // ✅ Efecto para sincronizar data con el formulario
   React.useEffect(() => {
     if (data) {
@@ -119,6 +185,31 @@ export function FormAdminSessionType(props: any) {
     }
   }, [data, reset]);
 
+  // ✅ Efecto corregido para cargar SessionTypes
+  useEffect(() => {
+    const loadSessionTypes = async () => {
+      try {
+        await dispatch(getSessionTypes({
+          isActive: true
+        }));
+      } catch (error) {
+        console.error('Error al cargar tipos de sesión:', error);
+      }
+    };
+
+    loadSessionTypes();
+  }, [dispatch]);
+
+    // ✅ Efecto específico para el FormSelect
+    React.useEffect(() => {
+      if (data?.day && watchedName !== data.day) {
+        console.log('🔄 Actualizando FormSelect:', data.day);
+        setValue('name', data.day);
+        trigger('name');
+      }
+    }, [data?.day, watchedName, setValue, trigger]);
+
+    
   return (
     <>
       <div className={`box p-4 mt-8 flex flex-col ${data?.id && "bg-yellow-50"}`}>
@@ -132,14 +223,22 @@ export function FormAdminSessionType(props: any) {
             {/* Campo Nombre */}
             <div className="mt-4 mr-5 w-64">
               <FormLabel htmlFor="name">Nombre del pack *</FormLabel>
-              <FormInput 
-                id="name"
-                type="text"
-                {...register('name')}
+              <FormSelect 
+                value={selectedSessionTypeId} // ✅ Usar el estado del ID seleccionado
                 className={`mr-2 ${errors.name ? 'border-red-500' : ''}`}
-                placeholder="Ej: Pack Básico"
-                aria-label="Nombre del pack de sesiones"
-              />
+                onChange={(e) => {
+                  const selectedId = e.target.value;
+                  setSelectedSessionTypeId(selectedId); // ✅ Actualizar el estado del ID
+                  setIdDataSessionType(selectedId);
+                }}
+              >
+                <option value="">Seleccionar pack de sesiones</option>
+                {Array.isArray(sessionTypes) && sessionTypes.map((sessionType: any, index: number) => (
+                  <option key={sessionType?.id || index} value={sessionType?.id}>
+                    {sessionType?.name}
+                  </option>
+                ))}
+              </FormSelect>
               {errors.name && (
                 <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
               )}
@@ -148,7 +247,8 @@ export function FormAdminSessionType(props: any) {
             {/* Campo Total de Sesiones */}
             <div className="mt-4 mr-5 w-32">
               <FormLabel htmlFor="totalSessions">Total sesiones *</FormLabel>
-              <FormInput 
+              <h3 className='text-xl p-2 text-left w-24'>{dataSessionType?.totalSessions}</h3>
+              {/* <FormInput 
                 type="number"
                 {...register('totalSessions', { valueAsNumber: true })}
                 className={`mr-2 ${errors.totalSessions ? 'border-red-500' : ''}`}
@@ -158,13 +258,15 @@ export function FormAdminSessionType(props: any) {
               />
               {errors.totalSessions && (
                 <p className="text-red-500 text-xs mt-1">{errors.totalSessions.message}</p>
-              )}
+              )} */}
             </div>
 
             {/* Campo Monto */}
             <div className="mt-4 w-32">
               <FormLabel htmlFor="amount">Monto *</FormLabel>
-              <FormInput 
+              <h3 className='text-xl p-2 text-left w-48'>$ {formatCurrency(dataSessionType?.amount)}</h3>
+
+              {/* <FormInput 
                 type="number"
                 {...register('amount', { valueAsNumber: true })}
                 className={`mr-2 ${errors.amount ? 'border-red-500' : ''}`}
@@ -174,7 +276,7 @@ export function FormAdminSessionType(props: any) {
               />
               {errors.amount && (
                 <p className="text-red-500 text-xs mt-1">{errors.amount.message}</p>
-              )}
+              )} */}
             </div>
           </div>
           
@@ -198,7 +300,7 @@ export function FormAdminSessionType(props: any) {
               className="w-40 mr-4"
               disabled={isSubmitting || !isValid}
             >
-              {isSubmitting ? 'Creando...' : 'Crear Pack'}
+              {isSubmitting ? 'Creando...' : 'Asignar Pack'}
             </Button>
             
             <Button 
@@ -206,12 +308,8 @@ export function FormAdminSessionType(props: any) {
               variant="soft-danger" 
               className="mr-2"
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                // e.preventDefault();
                 handleDelete(e);
               }}
-              
-            
-              
               disabled={!data?.id}
             >
               Eliminar
@@ -227,7 +325,6 @@ export function FormAdminSessionType(props: any) {
             variant="soft-dark" 
             className="mr-2"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-              // e.preventDefault();
               handleClean(e);
             }}
           >
@@ -235,16 +332,17 @@ export function FormAdminSessionType(props: any) {
           </Button>
         </div>
         
-        {/* Debug info */}
+        {/* <pre>SessionTypes = {JSON.stringify(sessionTypes, null, 2)}</pre> */}
+        <pre>DataSessionType seleccionado = {JSON.stringify(dataSessionType, null, 2)}</pre>
+        {/* Debug info mejorado */}
         {/* <div className="mt-4 p-2 bg-gray-100 rounded text-xs">
-          <p><strong>Nombre:</strong> {watchedName}</p>
-          <p><strong>Total sesiones:</strong> {watchedTotalSessions}</p>
-          <p><strong>Monto:</strong> ${watchedAmount}</p>
+          <p><strong>Status:</strong> {status}</p>
+          <p><strong>SessionTypes cargados:</strong> {sessionTypes?.length || 0}</p>
           <p><strong>Formulario válido:</strong> {isValid ? 'Sí' : 'No'}</p>
-        </div> */}
+        </div>
         
         <pre>locationIdSelected = {JSON.stringify(locationIdSelected, null, 2)}</pre>
-        <pre>Data = {JSON.stringify(data, null, 2)}</pre>
+        <pre>Data = {JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </>
   );

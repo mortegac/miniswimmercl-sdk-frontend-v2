@@ -10,14 +10,15 @@ import {
 } from "@/utils/helper";
 import { Slideover } from "@/components/Base/Headless";
 import LoadingIcon from "@/components/Base/LoadingIcon";
-import { FormLabel, FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
+// import { FormLabel, FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
 import {FormAdminSchedule} from "./components/FormAdminSchedule";
 import {FormAdminSessionType} from "./components/FormAdminSessionType";
+import {FormAdminCourse, DEFAULT_COURSE_FORM_DATA} from "./components/FormAdminCourse";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
 import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
-import { getCourses, setLocationIdSelected, selectCourse } from "@/stores/Courses/slice";
+import { setCourse, getCourses, setLocationIdSelected, selectCourse } from "@/stores/Courses/slice";
 
 import { setSchedules } from '@/stores/Schedule/slice';
 
@@ -131,102 +132,102 @@ function Locations(props: any) {
 
 
 
-function FormAdminCourse(props: any) {
+// function FormAdminCourse(props: any) {
   
-  const {data, locations} = props;
+//   const {data, locations} = props;
   
-  return(
-    <form className="box p-4  mt-8 flex flex-col">
-      <div className="">
-        <FormLabel htmlFor="vertical-form-1">Nombre del Curso</FormLabel>
-        <FormInput id="vertical-form-1" 
-          value={data?.title}
-          type="text" placeholder="" />
-      </div>
-      <div className="mt-4">
-          <FormLabel htmlFor="vertical-form-2">Descripcion</FormLabel>
-          <FormInput id="vertical-form-2" 
-            value={data?.description}
-            type="text" placeholder="" />
-      </div>
+//   return(
+//     <form className="box p-4  mt-8 flex flex-col">
+//       <div className="">
+//         <FormLabel htmlFor="vertical-form-1">Nombre del Curso</FormLabel>
+//         <FormInput id="vertical-form-1" 
+//           value={data?.title}
+//           type="text" placeholder="" />
+//       </div>
+//       <div className="mt-4">
+//           <FormLabel htmlFor="vertical-form-2">Descripcion</FormLabel>
+//           <FormInput id="vertical-form-2" 
+//             value={data?.description}
+//             type="text" placeholder="" />
+//       </div>
       
-      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+//       <div className="w-full mt-5 border-t border-slate-200/60 "></div>
       
-      <div className="mt-4 flex flex-row justify-start">
-        <div className="mt-4 mr-5 w-32">
-            <FormLabel htmlFor="vertical-form-2">Edad minima</FormLabel>
-            <FormInput id="vertical-form-2" 
-              value={data?.startingAge}
-              type="text" placeholder="0" />
-        </div>
-        <div className="mt-4 mr-5 w-32">
-            <FormLabel htmlFor="vertical-form-2">Edad máxima</FormLabel>
-            <FormInput id="vertical-form-2" 
-              value={data?.endingAge}
-              type="text" placeholder="0" />
-        </div>  
-        <div className="mt-4 mr-5 w-32">
-          <FormLabel htmlFor="vertical-form-2">Tipo de edad</FormLabel>
-          <div className="flex flex-row">
-              <Button variant="outline-secondary" className={`mr-4 ${data?.ageType === "YEARS" && "bg-green-200"}`}>Años</Button>
-              <Button variant="outline-secondary" className={`mr-4 ${data?.ageType === "MONTHS" && "bg-green-200"}`}>Meses</Button>    
-          </div>
-        </div>        
-      </div>
+//       <div className="mt-4 flex flex-row justify-start">
+//         <div className="mt-4 mr-5 w-32">
+//             <FormLabel htmlFor="vertical-form-2">Edad minima</FormLabel>
+//             <FormInput id="vertical-form-2" 
+//               value={data?.startingAge}
+//               type="text" placeholder="0" />
+//         </div>
+//         <div className="mt-4 mr-5 w-32">
+//             <FormLabel htmlFor="vertical-form-2">Edad máxima</FormLabel>
+//             <FormInput id="vertical-form-2" 
+//               value={data?.endingAge}
+//               type="text" placeholder="0" />
+//         </div>  
+//         <div className="mt-4 mr-5 w-32">
+//           <FormLabel htmlFor="vertical-form-2">Tipo de edad</FormLabel>
+//           <div className="flex flex-row">
+//               <Button variant="outline-secondary" className={`mr-4 ${data?.ageType === "YEARS" && "bg-green-200"}`}>Años</Button>
+//               <Button variant="outline-secondary" className={`mr-4 ${data?.ageType === "MONTHS" && "bg-green-200"}`}>Meses</Button>    
+//           </div>
+//         </div>        
+//       </div>
       
-      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+//       <div className="w-full mt-5 border-t border-slate-200/60 "></div>
       
-      <div className="mt-6 ">
-          <FormLabel htmlFor="vertical-form-2" className="mr-4 w-44">Grupo etareo</FormLabel>
-          <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "BABIES" && "bg-green-200"}`}>Bebés</Button>
-          <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "CHILDREN" && "bg-green-200"}`}>Niños</Button>
-          <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "ADULTS" && "bg-green-200"}`}>Adultos</Button>
-      </div>
-      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
-      <div className="mt-6">
-        <div className="mt-4 mr-5">
-          <FormLabel  className="mr-4 w-44" htmlFor="vertical-form-2">Duración de la clase</FormLabel>
+//       <div className="mt-6 ">
+//           <FormLabel htmlFor="vertical-form-2" className="mr-4 w-44">Grupo etareo</FormLabel>
+//           <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "BABIES" && "bg-green-200"}`}>Bebés</Button>
+//           <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "CHILDREN" && "bg-green-200"}`}>Niños</Button>
+//           <Button variant="outline-secondary" className={`m-4 ${data?.AgeGroupType === "ADULTS" && "bg-green-200"}`}>Adultos</Button>
+//       </div>
+//       <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+//       <div className="mt-6">
+//         <div className="mt-4 mr-5">
+//           <FormLabel  className="mr-4 w-44" htmlFor="vertical-form-2">Duración de la clase</FormLabel>
           
-          <FormInput className="mr-2  w-36" id="vertical-form-2" 
-            value={data?.duration}
-            type="text" placeholder="0" /> minutos
-        </div>
+//           <FormInput className="mr-2  w-36" id="vertical-form-2" 
+//             value={data?.duration}
+//             type="text" placeholder="0" /> minutos
+//         </div>
           
-      </div>
+//       </div>
       
-      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
-      <div className="mt-4 flex flex-row justify-start">
+//       <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+//       <div className="mt-4 flex flex-row justify-start">
             
-        <div className="mt-4 w-56">
-            <FormLabel htmlFor="vertical-form-2" className="mr-4">Activo</FormLabel>
-            <Button variant="outline-secondary" className={`m-4 ${data?.isActive === true && "bg-green-200"}`}>SI</Button>
-            <Button variant="outline-secondary" className={`m-4 ${data?.isActive === false && "bg-green-200"}`}>NO</Button>
-        </div>          
-      </div>
-      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+//         <div className="mt-4 w-56">
+//             <FormLabel htmlFor="vertical-form-2" className="mr-4">Activo</FormLabel>
+//             <Button variant="outline-secondary" className={`m-4 ${data?.isActive === true && "bg-green-200"}`}>SI</Button>
+//             <Button variant="outline-secondary" className={`m-4 ${data?.isActive === false && "bg-green-200"}`}>NO</Button>
+//         </div>          
+//       </div>
+//       <div className="w-full mt-5 border-t border-slate-200/60 "></div>
       
-      <div className="mt-6 ">
-          <FormLabel htmlFor="vertical-form-2" className="mr-4 w-full">Sede</FormLabel>
-          {/* {Array.isArray(locations) && locations.map((location:any, index:number)=> */}
-          {Array.isArray(locations) && 
-                        [...locations].sort((a:any, b:any) => a.region.localeCompare(b.region))
-                        .map((location:any, i:number)=>
-                          <Button key={`BUTTON-LOCATION-${i}`} variant="outline-secondary" 
-                            className={`m-2 ${data?.locationCoursesId === location?.id && "bg-green-200"}`}>
-                            <div>
-                              <p>{location?.name}</p>
-                              <p className="text-sm font-thin">{location?.region}</p>
-                            </div>
-                          </Button>
-                        )}
-      </div>
-      <div className="w-full mt-5 border-t border-slate-200/60 "></div>
-      <Button variant="primary" className="py-3 px-4 mt-4">
-          Grabar información del curso
-      </Button>
-    </form>
-  )
-}
+//       <div className="mt-6 ">
+//           <FormLabel htmlFor="vertical-form-2" className="mr-4 w-full">Sede</FormLabel>
+//           {/* {Array.isArray(locations) && locations.map((location:any, index:number)=> */}
+//           {Array.isArray(locations) && 
+//                         [...locations].sort((a:any, b:any) => a.region.localeCompare(b.region))
+//                         .map((location:any, i:number)=>
+//                           <Button key={`BUTTON-LOCATION-${i}`} variant="outline-secondary" 
+//                             className={`m-2 ${data?.locationCoursesId === location?.id && "bg-green-200"}`}>
+//                             <div>
+//                               <p>{location?.name}</p>
+//                               <p className="text-sm font-thin">{location?.region}</p>
+//                             </div>
+//                           </Button>
+//                         )}
+//       </div>
+//       <div className="w-full mt-5 border-t border-slate-200/60 "></div>
+//       <Button variant="primary" className="py-3 px-4 mt-4">
+//           Grabar información del curso
+//       </Button>
+//     </form>
+//   )
+// }
 
 function FormCourse(props: any) {
   const {selectedIndex, setSelectedIndex, fnUpdateState } = props;
@@ -474,6 +475,7 @@ function FormCourse(props: any) {
            <FormAdminCourse
             data={data} 
             locations={locations}
+            type="EDIT"
             />
           </Tab.Panel>
           
@@ -498,6 +500,7 @@ function List(props: any) {
   const [newSlideover, setNewSlideover] = useState(false);
   const [dataCourse, setDataCourse] = useState({});
   const {courses, status } = useAppSelector(selectCourse);
+  const {locations } = useAppSelector(selectLocation);
   
 function setDataSlider(data:any){
   setNewSlideover(!newSlideover)
@@ -539,6 +542,7 @@ function setDataSlider(data:any){
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
+
       <div className="overflow-auto xl:overflow-visible">
           { status === "loading" &&   
             <div className="flex justify-center min-w-full">
@@ -751,35 +755,105 @@ function Content(props: any) {
 
 
 function Main() {
+  const [newCourseSlideover, setNewCourseSlideover] = useState(false);
+  const [dataCourse, setDataCourse] = useState({});
+  
+  
   const {locations, status } = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
+
+  
+  const  handleCreateCourse = async (course: any) => {
+    
+    // setDataSchedule({...schedule})
+    
+    
+    
+    course && await Promise.all([
+      await dispatch(
+        setCourse({
+          id: course?.id,
+          title: course?.title,
+          description: course?.description,
+          startingAge: course?.startingAge,
+          endingAge: course?.endingAge,
+          ageType: course?.ageType,
+          AgeGroupType: course?.AgeGroupType,
+          duration: course?.duration,
+          locationCoursesId: course?.locationCoursesId,
+          isActive: true // ✅ Set default value to true for new courses
+        })
+      ),
+      await dispatch(setLocationIdSelected(course?.locationCoursesId)),
+      await dispatch(getCourses({isActive:true, locationId:course?.locationCoursesId})),
+      setNewCourseSlideover(false)
+    ])
+    
+  }
   
   useEffect(() => { (async () => await dispatch(getLocationsOnly("CHILE")))(); }, []);
 
   return (
     <>
-    <div className="grid grid-cols-12 gap-y-10 gap-x-6">
-      <div className="col-span-12">
-        <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
-          <div className="text-base font-medium group-[.mode--light]:text-white">
-            Listado de Cursos
-          </div>
-          <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-            <Button
-              variant="primary"
-              className="group-[.mode--light]:!bg-white/[0.12] group-[.mode--light]:!text-slate-200 group-[.mode--light]:!border-transparent"
-            >
-              <Lucide icon="PenLine" className="stroke-[1.3] w-4 h-4 mr-2" />{" "}
-              Crear nuevo curso
-            </Button>
-          </div>
-        </div>
-    
-        <Content data={locations}/>
+      <Slideover
+        size="xl"
+        key="Slide-NewCourse"
+        open={newCourseSlideover}
+        onClose={() => {
+          setNewCourseSlideover(false);
+        }}
+      >
+        <Slideover.Panel className="w-96 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+          <a
+            href=""
+            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
+            onClick={(e:any) => {
+              e.preventDefault();
+              setNewCourseSlideover(false);
+            }}
+          >
+            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
+          </a>
+          <Slideover.Description className="p-0">
+            <>
+              <p className="bg-slate-200 text-slate-500 px-4 py-6">CREACION DE UN NUEVO CURSO</p>
+              <div className="p-4">
+                <FormAdminCourse
+                  data={DEFAULT_COURSE_FORM_DATA} 
+                  locations={locations}
+                  type={"NEW"}
+                  setDataCourse={handleCreateCourse}
+                />                      
+              </div>
+            </>
+           
+          </Slideover.Description>
+        </Slideover.Panel>
+      </Slideover>
       
+      <div className="grid grid-cols-12 gap-y-10 gap-x-6">
+        <div className="col-span-12">
+          <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
+            <div className="text-base font-medium group-[.mode--light]:text-white">
+              Listado de Cursos
+            </div>
+            <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
+              <Button
+                variant="primary"
+                className="group-[.mode--light]:!bg-white/[0.12] group-[.mode--light]:!text-slate-200 group-[.mode--light]:!border-transparent"
+                onClick={()=>setNewCourseSlideover(true)}
+              >
+                <Lucide icon="PenLine" className="stroke-[1.3] w-4 h-4 mr-2" />{" "}
+                Crear nuevo curso
+              </Button>
+            </div>
+          </div>
+      
+          <Content data={locations}/>
+        
+        </div>
       </div>
-    </div>
-  </>
+    </>
   );
 }
 

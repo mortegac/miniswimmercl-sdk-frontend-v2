@@ -73,3 +73,15 @@ export type FilterOptions  = {
   month?: string;
   year?: string;
 }
+export type InputCourse  = {
+  id?: string;
+  title?: string;
+  description?: string;
+  startingAge: number
+  endingAge:number
+  ageType?: string;
+  AgeGroupType?: string;
+  duration?: string;
+  isActive: boolean
+  locationCoursesId?: string;
+}

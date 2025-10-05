@@ -12,6 +12,7 @@ import locationReducer from "./Locations/slice";
 import studentReducer from "./Students/slice";
 import courseReducer from "./Courses/slice";
 import sessionDetailReducer from "./SessionDetails/slice";
+import sessionTypeReducer from "./SessionType/slice";
 import enrollmentReducer from "./Enrollment/slice";
 import parametersReducer from "./Parameters/slice";
 import relationshipsReducer from "./Relationships/slice";
@@ -41,6 +42,7 @@ export const store = configureStore({
     student: studentReducer,
     course: courseReducer,
     sessionDetail: sessionDetailReducer,
+    sessionType: sessionTypeReducer,
     enrollment: enrollmentReducer,
     parameters: parametersReducer,
     relationships: relationshipsReducer,

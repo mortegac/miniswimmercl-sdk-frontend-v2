@@ -1,12 +1,53 @@
 import { generateClient } from 'aws-amplify/api';
 
-
+import { createCourse } from './mutation';
 import { listCourses } from './queries';
-import { FilterOptions } from './types';
+import { FilterOptions, InputCourse } from './types';
 const client = generateClient();
 
 
-
+export const createCourses = async (objFilter: InputCourse): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const setData:any = await client.graphql({
+        query: createCourse,
+        variables: {
+          input: {     
+            // courseSchedulesId: objFilter.courseId,
+            id: objFilter.id,
+            title: objFilter.title,
+            description: objFilter.description,
+            startingAge: objFilter.startingAge,
+            endingAge: objFilter.endingAge,
+            ageType: objFilter.ageType,
+            AgeGroupType: objFilter.AgeGroupType,
+            duration: objFilter.duration,
+            locationCoursesId: objFilter.locationCoursesId,
+            isActive: true,
+          }
+        }
+      });
+      
+      console.log("<<< HORARIO CREADO <<<<< ", setData)
+      const data = setData?.data?.createSchedule || {};
+      resolve({ data } as any);
+        
+      // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
 
 export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
