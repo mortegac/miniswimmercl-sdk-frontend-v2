@@ -105,8 +105,7 @@ export const FilterBar: React.FC<FilterProps> = ({
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:flex lg:items-center lg:gap-4">
         {/* Residence List */}
         {/* <pre>onlyDate={JSON.stringify(locations)}</pre> */}
-        {(typeof onlyDate !== "undefined" || onlyDate === false) && (
-          // <></>
+        {/* {(typeof onlyDate !== "undefined" || onlyDate === false) && (
           <div className={`w-full ${hasDate && "lg:w-1/2"}`}>
             <List
               selected={filter.locationId}
@@ -118,7 +117,7 @@ export const FilterBar: React.FC<FilterProps> = ({
               // className="w-full"
             />
           </div>
-        )}
+        )} */}
           <div className="w-full lg:w-1/2 min-w-36">
               <List
                 selected={filter.wasPaid}

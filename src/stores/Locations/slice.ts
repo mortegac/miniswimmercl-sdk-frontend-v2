@@ -12,6 +12,7 @@ export interface UserState {
  location: Location;
  locations: Location[];
  errorMessage:string;
+ locationIdSelected:string;
  locationsList: string[];
 }
 
@@ -20,6 +21,7 @@ export const initialState: UserState = {
   location: emptyLocation,
   locations: [emptyLocation],
   errorMessage:"",
+  locationIdSelected:"",
   locationsList: [],
 };
 
@@ -57,7 +59,11 @@ export const getLocationsOnly = createAsyncThunk(
 export const locationSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setLocationIdSelected: (state, action) => {
+      state.locationIdSelected = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // GET LOCATIONS
@@ -132,4 +138,8 @@ export const locationSlice = createSlice({
 
 export const selectLocation = (state: RootState) => state.location;
 
+export const {
+  setLocationIdSelected
+ } = locationSlice.actions;
+ 
 export default locationSlice.reducer;

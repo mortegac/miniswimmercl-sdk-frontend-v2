@@ -91,11 +91,11 @@ function Content(props: any) {
   
   const sortedEnrollments = useMemo(() => {
     return [...enrollments].sort((a, b) => {
-      // return (dayOrder[a.day] || 0) - (dayOrder[b.day] || 0);
-        const idA = a.student?.relationships?.items[0]?.usersRelationshipsId || '';
-        const idB = b.student?.relationships?.items[0]?.usersRelationshipsId || '';
-    
-    return idA.localeCompare(idB);
+      const sessionsA = a?.numberOfSessions || 0;
+      const sessionsB = b?.numberOfSessions || 0;
+      
+      // Ordenar de mayor a menor (descendente)
+      return sessionsB - sessionsA;
     });
   }, [enrollments]);
   
@@ -212,6 +212,38 @@ function Content(props: any) {
   useEffect(() => {
     (async () => await dispatch(getLocations()))();
   }, []);
+
+  // Función para generar estadísticas de numberOfSessions
+  const generateSessionStatistics = useMemo(() => {
+    const stats = enrollments.reduce((acc: any, item: any) => {
+      const sessions = item?.numberOfSessions || 0;
+      
+      if (!acc[sessions]) {
+        acc[sessions] = {
+          count: 0,
+          enrollments: []
+        };
+      }
+      
+      acc[sessions].count++;
+      acc[sessions].enrollments.push({
+        studentName: `${item?.student?.name} ${item?.student?.lastName}`,
+        enrollmentId: item?.id,
+        wasPaid: item?.wasPaid
+      });
+      
+      return acc;
+    }, {});
+    
+    // Convertir a array y ordenar por número de sesiones
+    return Object.keys(stats)
+      .map(key => ({
+        numberOfSessions: parseInt(key),
+        count: stats[key].count,
+        enrollments: stats[key].enrollments
+      }))
+      .sort((a, b) => a.numberOfSessions - b.numberOfSessions);
+  }, [enrollments]);
 
   return (
     <>
@@ -424,6 +456,27 @@ function Content(props: any) {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
+      {/* ESTADÍSTICAS */}
+      <div className="mb-6 p-4 bg-slate-50 rounded-lg">
+        <h3 className="text-lg font-medium mb-4">Estadísticas de Sesiones</h3>
+        <div id="listEnrollment" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {generateSessionStatistics.map((stat: any, index: number) => (
+            <div key={index} className="bg-white p-3 rounded-md border">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary">
+                  {stat.numberOfSessions}
+                </div>
+                <div className="text-sm text-slate-500">
+                  {stat.numberOfSessions === 1 ? 'sesión' : 'sesiones'}
+                </div>
+                <div className="text-lg font-semibold mt-1">
+                  {stat.count} {stat.count === 1 ? 'inscripción' : 'inscripciones'}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
       {/* <pre>{JSON.stringify(sortedEnrollments, null, 2 )}</pre> */}
       <div className="overflow-auto xl:overflow-visible text-base">
         <Table className="border-b border-slate-200/60">
@@ -432,15 +485,15 @@ function Content(props: any) {
               <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Fecha
               </Table.Td>
-              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              {/* <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
               Email enviado
-              </Table.Td>
+              </Table.Td> */}
               <Table.Td className=" py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-left">
                 Estado
               </Table.Td>
-              <Table.Td className="text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+              {/* <Table.Td className="text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Valor
-              </Table.Td>
+              </Table.Td> */}
               <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-left">
                 Estudiante
               </Table.Td>
@@ -493,19 +546,17 @@ function Content(props: any) {
                     }  ${item?.wasPaid && "bg-white"}`}
                   > 
                     <Table.Td className=" py-4 border-dashed">
-                      <div className="flex items-center">
-                        <div className="w-14 text-sm">
+                      <div className="flex items-center flex-col">
+                        <p className="w-14 text-sm">
                           {formatDate(item?.startDate)}
-                        </div>
+                        </p>
+                        <p className={`flex justify-center items-center text-xs border rounded-xl px-2 py-2 
+                          bg-slate-200  text-slate-500 text-center
+                          `}>{item?.numberOfSessions} <br/>clases</p>
+                        
                       </div>
                     </Table.Td>
-                    <Table.Td className="w-12 py-4 border-dashed">
-                <p className="my-2 border-slate-300 border rounded-full text-center p-2">
-                  {emailWelcomeCount === 0 && <Lucide icon="XCircle" className="text-red-600" />}
-                  {emailWelcomeCount >= 1 && <div className="flex"><Lucide icon="CheckCircle" className="text-green-600 mr-2" />{emailWelcomeCount}</div>}
-                  {/* {emailWelcomeCount >= 1 && emailWelcomeCount} */}
-                  </p>
-                </Table.Td>
+                    
                     <Table.Td className=" py-4 border-dashed">
                       
                     {!item?.wasDeleted &&
@@ -535,13 +586,23 @@ function Content(props: any) {
                           </div>
                         </div>
                       }
+                       <div className="w-20 font-thin text-sm text-left mt-4">{`$ ${formatCurrency(
+                        item?.amountPaid
+                      )}`}</div>
+                      
+                      <p className="my-2 border-slate-300 border rounded-full text-center p-2">
+                      {emailWelcomeCount === 0 && <Lucide icon="XCircle" className="text-red-600" />}
+                      {emailWelcomeCount >= 1 && <div className="flex"><Lucide icon="CheckCircle" className="text-green-600 mr-2" />{emailWelcomeCount}</div>}
+                      {/* {emailWelcomeCount >= 1 && emailWelcomeCount} */}
+                      </p>
+                  
                     </Table.Td>
 
-                    <Table.Td className=" py-4 border-dashed">
+                    {/* <Table.Td className=" py-4 border-dashed">
                       <div className="w-20 font-thin text-sm text-left">{`$ ${formatCurrency(
                         item?.amountPaid
                       )}`}</div>
-                    </Table.Td>
+                    </Table.Td> */}
 
                     <Table.Td className=" py-4 border-dashed">
                       <div className="w-52 flex items-start justify-start flex-col">
@@ -593,48 +654,63 @@ function Content(props: any) {
                         </p>
                       </div>
                     </Table.Td>
-                    <Table.Td className=" min-h-20  py-4 border-0  flex items-center justify-center flex-row flex-wrap">
+                    <Table.Td id="list-sessions" className="min-h-20 py-4 border-0 flex items-start justify-start flex-row flex-wrap gap-2 max-w-[300px]">
+                    {/* <pre>{JSON.stringify(item?.numberOfSessions, null, 2)}</pre>  */}
                       {Array.isArray(item?.sessionDetails?.items) &&
-                        item?.sessionDetails?.items.map(
-                          (session: any, i: any) => (
-                            <>
-                            {/* <pre>{JSON.stringify(item?.student?.id, null, 2)}</pre>
-                            <pre>{JSON.stringify(item?.id, null, 2)}</pre> */}
-                              <Button
-                                onClick={() => handleSession({
-                                  studentId: item?.student?.id,
-                                  enrollmentId: item?.id,                                  
-                                  sessionId: session?.id
-                                })}
-                                className={` mx-1 my-1 rounded-full p-0 w-28 h-12
-                                  ${session?.status === "ACTIVE" && " bg-green-50"}
-                                  ${session?.status === "USED" && " bg-red-50 border-red-200"}
-                                  ${session?.status === "RECOVERED" && " bg-blue-50 border-blue-200"}
-                                  ${session?.status === "DELETED" && " bg-slate-500 border-slate-200 text-slate-100"}
-                                `}
-                              >
-                                <div className={`text-center px-2`}>
-                                  {session?.status === "ACTIVE" && (
-                                    <>
-                                      <small className="">
-                                        {formatDate(session?.date)}
-                                        
-                                      </small>
-                                    </>
-                                  )}
-                                  {session?.status != "ACTIVE" && (
-                                    <>
-                                      <small className="line-through">
-                                        {formatDate(session?.date)}
-                                      </small>
-                                        <p className="text-sm">{session?.status}</p>
-                                    </>
-                                  )}
-                                </div>
-                              </Button>
-                            </>
-                          )
-                        )}
+                        [...item?.sessionDetails?.items]
+                          .sort((a: any, b: any) => {
+                            // Manejo más robusto de fechas
+                            const dateA = new Date(a?.date || '1900-01-01');
+                            const dateB = new Date(b?.date || '1900-01-01');
+                            
+                            // Verificar que las fechas sean válidas
+                            if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+                              return 0; // Si alguna fecha no es válida, mantener el orden original
+                            }
+                            
+                            return dateA.getTime() - dateB.getTime();
+                          })
+                          .map(
+                            (session: any, i: any) => (
+                              <>
+                              {/* <pre>{JSON.stringify(item?.student?.id, null, 2)}</pre>
+                              */}
+                              
+                                <Button
+                                  onClick={() => handleSession({
+                                    studentId: item?.student?.id,
+                                    enrollmentId: item?.id,                                  
+                                    sessionId: session?.id
+                                  })}
+                                  className={`my-1 rounded-full p-0 
+                                    ${session?.status === "ACTIVE" && " bg-green-50"}
+                                    ${session?.status === "USED" && " bg-red-50 border-red-200"}
+                                    ${session?.status === "RECOVERED" && " bg-blue-50 border-blue-200"}
+                                    ${session?.status === "DELETED" && " bg-slate-500 border-slate-200 text-slate-100"}
+                                  `}
+                                >
+                                  <div className={`text-center px-2`}>
+                                    {session?.status === "ACTIVE" && (
+                                      <>
+                                        <small className="">
+                                          {formatDate(session?.date)}
+                                          
+                                        </small>
+                                      </>
+                                    )}
+                                    {session?.status != "ACTIVE" && (
+                                      <>
+                                        <small className="line-through">
+                                          {formatDate(session?.date)}
+                                        </small>
+                                          {/* <p className="text-sm">{session?.status}</p> */}
+                                      </>
+                                    )}
+                                  </div>
+                                </Button>
+                              </>
+                            )
+                          )}
                     </Table.Td>
                     <Table.Td className=" m-0">
                       <div className="flex flex-row">
@@ -677,7 +753,7 @@ function Content(props: any) {
                             </Button>
                            </>
                         }
-                        <Button
+                        {/* <Button
                           rounded
                           className="px-2 py-2 border border-slate-400 hover:bg-slate-300"
                           onClick={(event: React.MouseEvent) => {
@@ -688,7 +764,7 @@ function Content(props: any) {
                           <Tippy  content="Información del Alumno">
                             <Lucide icon="User" className="text-slate-400" />{" "}
                           </Tippy>
-                        </Button>
+                        </Button> */}
                       </div>
                     </Table.Td>
                   </Table.Tr>

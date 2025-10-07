@@ -15,9 +15,10 @@ import { FilterBar } from "@/components/FilterBar";
 import IconStatus from "@/components/IconStatus";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { getLocations, selectLocation } from "@/stores/Locations/slice";
+import { getLocations, getLocationsOnly, selectLocation, setLocationIdSelected  } from "@/stores/Locations/slice";
 import { getStudents, selectEnrollment } from "@/stores/Enrollment/slice";
 import { getStudentsSearchName,  selectStudent } from "@/stores/Students/slice";
+import { setCourse, getCourses, selectCourse } from "@/stores/Courses/slice";
 
 import EnrollmentsList from "./EnrollmentsList";
 import EnrollmentsListGroupBy from "./EnrollmentsListGroupBy";
@@ -152,12 +153,12 @@ function StudentSearchList(props:any) {
                     </Table.Td>
                     
                     <Table.Td className=" m-0  w-60">
-                      <div className="flex flex-row">
+                      <div id="listSessions" className="flex flex-wrap gap-2 max-w-[200px] bg-pink-200">
                       
                             <>
                             <Button
                               rounded
-                              className=" px-4 mr-2 py-2 border border-primary hover:bg-purple-500 flex flex-col"
+                              className="px-4 py-2 border border-primary hover:bg-purple-500 flex flex-col"
                               onClick={(event: React.MouseEvent) => {
                                 event.preventDefault();
                                 dispatch(
@@ -208,10 +209,87 @@ const useDebounce = (value:string, delay:number) => {
 };
 
 
+let currentLocationId:string | null = null;
+
+function Locations(props: any) {
+  const { data } = props;
+  const {locationIdSelected } = useAppSelector(selectLocation);
+  
+  
+  const dispatch = useAppDispatch();
+  
+  const handleLocationClick = (locationId: string) => {
+    dispatch(setLocationIdSelected(locationId));
+    dispatch(getCourses({isActive:true, locationId:locationId}));
+    console.log('Location selected:', locationId);
+  };
+  
+  // Agrupar locations por región
+  const groupedLocations = Array.isArray(data) ? data.reduce((acc: any, item: any) => {
+    const group = item?.group || 'sin-grupo';
+    if (!acc[group]) {
+      acc[group] = {
+        region: item?.region,
+        locations: []
+      };
+    }
+    acc[group].locations.push(item);
+    return acc;
+  }, {}) : {};
+  
+  return(
+    <>
+ 
+     <div className="flex flex-col p-5 box">
+        <div className="flex flex-col gap-4">
+          {Object.keys(groupedLocations).map((groupKey, groupIndex) => {
+            const group = groupedLocations[groupKey];
+            const showGroupById = group.region !== group;
+          if (showGroupById) {
+            currentLocationId = group.region;
+          }
+          
+            return (
+              <div key={`group-${groupIndex}`} className="flex flex-col">
+                {/* <div className="w-full bg-slate-100 flex items-center px-4 py-2 rounded-md">
+                  <b className="font-thin text-slate-700">{group.region}</b>
+                </div> */}
+                <div className="grid grid-cols-5 gap-5">
+                { showGroupById &&
+                  <div className="w-56 px-4 bg-slate-100 flex items-center justify-center">
+                    <b className="font-thin">{group.region}</b>
+                  </div>
+                }
+                  {group.locations.map((item: any, i: number) => (
+                    <Button
+                      key={`${i}-CARD-LOCATIONS`}
+                      variant="outline-secondary"
+                      className={`${locationIdSelected === item?.id && "bg-green-200"} p-3 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors`}
+                      onClick={() => handleLocationClick(item?.id)}
+                    >
+                      <div className="text-base text-slate-500 uppercase text-left">
+                        <h3>{item?.name}</h3>
+                        <p className="text-[.6rem]"> <span className="font-thin">{item?.city}</span></p>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+        
+        {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
+    </>
+  )
+}
+
+
 function StudentData() {
   const dispatch = useAppDispatch();
   const id = useId();
-  const { locations } = useAppSelector(selectLocation);
+  const { locations, locationIdSelected } = useAppSelector(selectLocation);
   const { students } = useAppSelector(selectStudent);
   const { enrollments, status } = useAppSelector(selectEnrollment);
   // const { resume } = useAppSelector(selectEnrollment);
@@ -235,15 +313,17 @@ function StudentData() {
   const [searchTermStudent, setSearchTermStudent] = useState('');
   const debouncedSearchTerm = useDebounce(searchTermStudent, 500); // 500ms de delay
 
+  // Estado base de estudiantes (sin filtros aplicados)
+  const [baseStudents, setBaseStudents] = useState(enrollments);
+  // Estado filtrado (aplicando todos los filtros)
   const [filteredStudents, setFilteredStudents] = useState(enrollments);
 
   const sortStudents = (a: any, b: any) => {
-    // const aSessionsCount = a.enrollments.items.reduce((acc: any, enrollment: any) => acc + enrollment.sessionDetails.items.length, 0);
-    // const bSessionsCount = b.enrollments.items.reduce((acc: any, enrollment: any) => acc + enrollment.sessionDetails.items.length, 0);
+    const aSessionsCount = a?.sessionType?.totalSessions || 0;
+    const bSessionsCount = b?.sessionType?.totalSessions || 0;
     
-    // if (aSessionsCount > 0 && bSessionsCount === 0) return -1;
-    // if (aSessionsCount === 0 && bSessionsCount > 0) return 1;
-    return 1;
+    // Ordenar de mayor a menor (descendente)
+    return bSessionsCount - aSessionsCount;
   };
   
     // Función para filtrar estudiantes
@@ -272,15 +352,15 @@ function StudentData() {
     debouncedFilter(term);
   };
   
-  const handleSearchChangeStudents = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value;
-    setSearchTermStudent(term);
+  // const handleSearchChangeStudents = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const term = event.target.value;
+  //   setSearchTermStudent(term);
     
-    // dispatch(getStudentsSearchName({ 
-    //   name: term,
-    // }))
-    // debouncedFilter(term);
-  };
+  //   // dispatch(getStudentsSearchName({ 
+  //   //   name: term,
+  //   // }))
+  //   // debouncedFilter(term);
+  // };
   
   function transformResidenceData(
     locations: any
@@ -301,15 +381,76 @@ function StudentData() {
     }
   }, [debouncedSearchTerm]);
   
+  // useEffect(() => {
+  //   (async () => await dispatch(getLocations()))();
+  // }, []);
+  
+  useEffect(() => { 
+    setBaseStudents([...enrollments]); 
+  }, [enrollments]);
+
+  // Función para aplicar todos los filtros
+  const applyAllFilters = useCallback(() => {
+    let filtered = [...baseStudents];
+    
+    // Filtro por nombre
+    if (searchTerm) {
+      filtered = filtered.filter((item: any) => 
+        item?.student?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.student?.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    // Filtro por ubicación
+    if (locationIdSelected) {
+      filtered = filtered.filter((item: any) => 
+        item?.course?.location?.id === locationIdSelected
+      );
+    }
+    
+    setFilteredStudents([...filtered].sort(sortStudents));
+  }, [baseStudents, searchTerm, locationIdSelected]);
+
+  // Aplicar filtros cuando cambien las dependencias
   useEffect(() => {
-    (async () => await dispatch(getLocations()))();
-  }, []);
-  
-  useEffect(() => { setFilteredStudents( [...enrollments]); }, [enrollments]);
+    applyAllFilters();
+  }, [applyAllFilters]);
+
+  useEffect(() => { 
+    if (locationIdSelected) {
+      const filteredByLocation = enrollments.filter((student: any) => 
+        student?.course?.location?.id === locationIdSelected
+      );
+      
+      // Aplicar también el filtro de búsqueda si existe
+      let finalFiltered = filteredByLocation;
+      if (searchTerm) {
+        finalFiltered = filteredByLocation.filter((item: any) => 
+          item?.student?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item?.student?.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+      
+      // Ordenar por totalSessions
+      setFilteredStudents([...finalFiltered].sort(sortStudents));
+    } else {
+      // Si no hay locationIdSelected, mostrar todos los estudiantes
+      let finalFiltered = enrollments;
+      if (searchTerm) {
+        finalFiltered = enrollments.filter((item: any) => 
+          item?.student?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item?.student?.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+      // Ordenar por totalSessions
+      setFilteredStudents([...finalFiltered].sort(sortStudents));
+    }
+  }, [locationIdSelected, enrollments, searchTerm]);
   
   
   
   useEffect(() => {
+
     dispatch(
       getStudents({
         day: filter.day,
@@ -332,6 +473,9 @@ function StudentData() {
     setResidenceList(data);
   }, [location]);
 
+  
+  useEffect(() => { (async () => await dispatch(getLocationsOnly("CHILE")))(); }, []);
+  
   return (
     <>
         {/* SEARCH STUDENTS */}
@@ -395,7 +539,8 @@ function StudentData() {
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
-      {/* <pre>{JSON.stringify(enrollments[3], null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(filter, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(filteredStudents[0].sessionType?.totalSessions, null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 2xl:col-span-12">
           <div className="col-span-12 mt-8">
@@ -423,10 +568,15 @@ function StudentData() {
                     className=""
                   /></div>: <><Lucide icon="RefreshCcw" className="w-4 h-4 mr-3" />ACTUALIZAR</>}
                   
-                  </Button>
+              </Button>
+            </div>
+            <div className="mt-4">
+                <Locations data={locations}/>
             </div>
             <div className="grid grid-cols-12 gap-6 mt-5">
               <div className="flex flex-wrap justify-between items-center col-span-12 mt-2 intro-y xl:flex-nowrap">
+                
+                
                 <FilterBar
                   filter={filter}
                   setFilter={setFilter}
