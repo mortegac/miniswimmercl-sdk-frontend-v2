@@ -64,85 +64,8 @@ function Main() {
         <div className="col-span-12 sm:col-span-10 sm:col-start-2">
           
         {/* WIZARD */}
-        { currentStep !== 4 && 
-          // <div className="flex flex-col lg:items-center lg:flex-row gap-y-2">
-          //   <div
-          //     className={clsx([
-          //       "flex items-center lg:justify-center flex-1 lg:first:justify-start lg:last:justify-end group active",
-          //       "after:hidden before:hidden after:lg:block before:lg:block",
-          //       "first:after:content-[''] first:after:w-full first:after:bg-slate-300/60 first:after:h-[2px] first:after:ml-5 group-[.mode--light]:first:after:bg-slate-300/20",
-          //       "last:before:content-[''] last:before:w-full last:before:bg-slate-300/60 last:before:h-[2px] last:before:mr-5 group-[.mode--light]:last:before:bg-slate-300/20",
-          //       "last:after:hidden after:content-[''] after:w-full after:bg-slate-300/60 after:h-[2px] after:ml-5 group-[.mode--light]:after:bg-slate-300/20",
-          //       "first:before:hidden before:content-[''] before:w-full before:bg-slate-300/60 before:h-[2px] before:mr-5 group-[.mode--light]:before:bg-slate-300/20",
-          //     ])}
-          //   >
-          //     <div className="flex items-center">
-          //       <div className={`${currentStep === 1 ? "bg-white" : "bg-transparent text-white"} border rounded-full`}>
-          //         <div className="flex items-center justify-center w-10 h-10">
-          //         <Button
-          //           onClick={() => dispatch(setStep(4))}
-          //           className={`${
-          //            "bg-slate-200 border-slate-200 text-slate-500"
-          //           } w-10 h-10 rounded-full`}
-          //         >
-                    
-          //         </Button>
-          //         </div>
-          //       </div>
-          //       <div className="ml-3.5 group-[.mode--light]:!text-slate-300 font-medium whitespace-nowrap text-slate-500 group-[.active]:text-current [.group.mode--light_.group.active_&]:!text-slate-100">
-          //         Información del apoderado
-          //       </div>
-          //     </div>
-          //   </div>
-          //   <div
-          //     className={clsx([
-          //       "flex items-center lg:justify-center flex-1 lg:first:justify-start lg:last:justify-end group",
-          //       "after:hidden before:hidden after:lg:block before:lg:block",
-          //       "first:after:content-[''] first:after:w-full first:after:bg-slate-300/60 first:after:h-[2px] first:after:ml-5 group-[.mode--light]:first:after:bg-slate-300/20",
-          //       "last:before:content-[''] last:before:w-full last:before:bg-slate-300/60 last:before:h-[2px] last:before:mr-5 group-[.mode--light]:last:before:bg-slate-300/20",
-          //       "last:after:hidden after:content-[''] after:w-full after:bg-slate-300/60 after:h-[2px] after:ml-5 group-[.mode--light]:after:bg-slate-300/20",
-          //       "first:before:hidden before:content-[''] before:w-full before:bg-slate-300/60 before:h-[2px] before:mr-5 group-[.mode--light]:before:bg-slate-300/20",
-          //     ])}
-          //   >
-          //     <div className="flex items-center">
-          //       {/* <div className="bg-white border rounded-full "> */}
-          //       <div className={`${currentStep === 2 ? "bg-white" : "bg-transparent text-white"} border rounded-full`}>
-          //         <div className="flex items-center justify-center w-10 h-10">
-          //           2
-          //         </div>
-          //       </div>
-          //       <div className="ml-3.5 group-[.mode--light]:!text-slate-300 font-medium whitespace-nowrap text-slate-500 group-[.active]:text-current [.group.mode--light_.group.active_&]:!text-slate-100">
-          //       Información del Alumno
-          //       </div>
-          //     </div>
-          //   </div>
-          //   <div
-          //     className={clsx([
-          //       "flex items-center lg:justify-center flex-1 lg:first:justify-start lg:last:justify-end group",
-          //       "after:hidden before:hidden after:lg:block before:lg:block",
-          //       "first:after:content-[''] first:after:w-full first:after:bg-slate-300/60 first:after:h-[2px] first:after:ml-5 group-[.mode--light]:first:after:bg-slate-300/20",
-          //       "last:before:content-[''] last:before:w-full last:before:bg-slate-300/60 last:before:h-[2px] last:before:mr-5 group-[.mode--light]:last:before:bg-slate-300/20",
-          //       "last:after:hidden after:content-[''] after:w-full after:bg-slate-300/60 after:h-[2px] after:ml-5 group-[.mode--light]:after:bg-slate-300/20",
-          //       "first:before:hidden before:content-[''] before:w-full before:bg-slate-300/60 before:h-[2px] before:mr-5 group-[.mode--light]:before:bg-slate-300/20",
-          //     ])}
-          //   >
-          //     <div className="flex items-center">
-          //       {/* <div className="bg-white border rounded-full group-[.mode--light]:!bg-transparent group-[.active]:bg-primary group-[.active]:text-white group-[.mode--light]:!text-slate-200 group-[.mode--light]:!border-white/[0.25] [.group.mode--light_.group.active_&]:!bg-white/[0.12] [.group.mode--light_.group.active_&]:!border-white/[0.15]"> */}
-          //       <div className={`${currentStep === 3 ? "bg-white" : "bg-transparent text-white"} border rounded-full`}>
-          //         <div className="flex items-center justify-center w-10 h-10">
-          //           3
-          //         </div>
-          //       </div>
-          //       <div className="ml-3.5 group-[.mode--light]:!text-slate-300 font-medium whitespace-nowrap text-slate-500 group-[.active]:text-current [.group.mode--light_.group.active_&]:!text-slate-100">
-          //         Incripción en el curso
-          //       </div>
-          //     </div>
-          //   </div>
-          // </div>
-       
-        
-      
-                <div className="flex flex-col lg:items-center lg:flex-row gap-y-2 ">
+        { currentStep !== 4 &&       
+            <div className="flex flex-col lg:items-center lg:flex-row gap-y-2 ">
             <div
               className={clsx([
                 "flex items-center lg:justify-center flex-1 lg:first:justify-start lg:last:justify-end group",
@@ -239,7 +162,7 @@ function Main() {
               </div>
             </div>
            
-          </div>
+            </div>
          }
           {/* FORM */}
             <div className="flex flex-col justify-between box min-h-[800px] p-10 space-y-4 mt-8 ">

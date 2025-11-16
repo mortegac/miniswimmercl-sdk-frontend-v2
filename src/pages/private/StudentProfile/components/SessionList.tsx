@@ -661,7 +661,8 @@ export function SessionList(props: any) {
                               key={`${i}-STATUS`}
                               onClick={(event: React.MouseEvent) => {
                               event.preventDefault();
-                              setDataNew({ ...dataNew, status: item?.id })
+                              setDataNew({ ...dataNew, status: item?.id });
+                              updateSession()
                               //  setDataSession({ ...session });
                               //  setSessionSlideover(true);
                             }}                              
@@ -679,16 +680,18 @@ export function SessionList(props: any) {
                           ))}
                     </div>
                   </div>
-                  <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                   
-                    <div className="flex-1 w-full mt-3 xl:mt-0">
-                    <Button
-                            key={`${"UPDATE_SESSION"}-span-buttons`} 
-                            rounded
-                            variant="primary"
-                            className={`w-full px-2 py-2  mx-2 font-light uppercase `}
-                            onClick={()=>updateSession()}
-                          >Actualizar Sesión</Button>
+                  <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0 pb-24 xl:pb-0">
+                    <div className="w-screen mt-3 xl:mt-0 fixed bottom-0 left-0 right-0 z-30 px-4 pb-4 bg-slate-900/80 xl:w-full xl:static xl:px-0 xl:pb-0">
+                      <Button
+                        id="updtaSession"
+                        key={`${"UPDATE_SESSION"}-span-buttons`} 
+                        rounded
+                        variant="primary"
+                        className="w-full h-14 rounded-none px-4 py-4 font-light uppercase shadow-lg xl:h-auto xl:rounded xl:px-2 xl:py-2 xl:mx-2"
+                        onClick={() => updateSession()}
+                      >
+                        Actualizar Sesión
+                      </Button>
                     </div>
                   </div>
                   
