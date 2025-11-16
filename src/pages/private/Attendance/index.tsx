@@ -423,14 +423,14 @@ function Main() {
                           item?.courseId !== "SIN-CURSO" &&
                           <>
                             {item?.status === "USED" && <h3 className="text-3xl font-thin leading-none">Sesiones Utilizadas</h3>}
-                            <div className={`flex flex-row justify-between items-center px-6 py-2 mb-2 mt-10 w-full min-w-[200px] 
+                            <div className={`flex flex-row justify-between items-center px-4 py-2 mb-2 mt-10 w-full min-w-[200px] overflow-x-auto md:overflow-visible 
                               ${item?.status !== "USED" && "bg-slate-700 text-white"}
                              
                             rounded-full`}>
-                              <h2 className="text-xl font-medium leading-none uppercase">
+                              <p className="text-sm md:text-xl font-medium leading-none uppercase whitespace-nowrap">
                               {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
-                              </h2>
-                              <p className="text-xl font-medium leading-none uppercase" >{item?.course?.description}</p>
+                              </p>
+                              <p className="text-sm md:text-lg font-semibold leading-none uppercase whitespace-nowrap" >{item?.course?.description}</p>
                             </div>
                           </>
                         }
@@ -537,6 +537,7 @@ function Main() {
           
           {/* Asistencia Registrada */}
           <Tab.Panel>
+            <p className="pt-6 pb-2 text-xl text-slate-900">Alumnos con asistencia registrada</p>
           { Array.isArray(filteredStudents) &&
           [...filteredStudents]
             .filter((item: any) => item?.status === "USED")
@@ -548,14 +549,14 @@ function Main() {
               if (a.status !== "USED" && b.status === "USED") return -1;
               
                 // Convert start hours to Date objects for comparison
-              const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
-              const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
-              const timeComparison = timeA.getTime() - timeB.getTime();
-              if (timeComparison !== 0) return timeComparison;
+              // const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
+              // const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
+              // const timeComparison = timeA.getTime() - timeB.getTime();
+              // if (timeComparison !== 0) return timeComparison;
               
               // Then compare scheduleId
-              const scheduleIdComparison = a.scheduleId.localeCompare(b.scheduleId);
-              if (scheduleIdComparison !== 0) return scheduleIdComparison;
+              // const scheduleIdComparison = a.scheduleId.localeCompare(b.scheduleId);
+              // if (scheduleIdComparison !== 0) return scheduleIdComparison;
               
               return a.student?.name.localeCompare(b.student?.name);  
             })
@@ -575,11 +576,11 @@ function Main() {
                           className={`
                           ${!filteredArray[0]?.wasPaid && "bg-red-300"} 
                           ${item?.totalSessions === 1 && "bg-green-200"}
-                          ${item?.status === "USED" && "bg-slate-100"}
+                          ${item?.status === "USED" && "bg-slate-200"}
                           flex flex-row box w-full max-w-[580px] min-h-[130px] relative pl-10 pr-2`}
                         >
                           {/* Número correlativo absoluto a la izquierda */}
-                          <div className="absolute left-0 top-0 bottom-0 flex items-center justify-center w-9 bg-[#ae5eab]/90 text-white text-sm font-semibold rounded-l-xl">
+                          <div className="absolute left-0 top-0 bottom-0 flex items-center justify-center w-9 bg-slate-500 text-white text-sm font-semibold rounded-l-xl">
                             {i + 1}
                           </div>
 
