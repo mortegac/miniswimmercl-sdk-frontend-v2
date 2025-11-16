@@ -97,11 +97,13 @@ Slideover.Panel = ({
         <HeadlessDialog.Panel
           as={as}
           className={twMerge([
-            "w-[90%] ml-auto h-screen flex flex-col bg-white relative shadow-md transition-transform dark:bg-darkmode-600",
-            slideover.size == "md" && "sm:w-[460px]",
-            slideover.size == "sm" && "sm:w-[300px]",
-            slideover.size == "lg" && "sm:w-[600px]",
-            slideover.size == "xl" && "sm:w-[600px] lg:w-[900px]",
+            // En mobile: ancho completo de pantalla
+            "w-screen ml-auto h-screen flex flex-col bg-white relative shadow-md transition-transform dark:bg-darkmode-600",
+            // En pantallas mayores: limitar ancho según tamaño configurado
+            slideover.size == "md" && "sm:max-w-[460px]",
+            slideover.size == "sm" && "sm:max-w-[300px]",
+            slideover.size == "lg" && "sm:max-w-[600px]",
+            slideover.size == "xl" && "sm:max-w-[600px] lg:max-w-[900px]",
             slideover.zoom && "scale-105",
             className,
           ])}

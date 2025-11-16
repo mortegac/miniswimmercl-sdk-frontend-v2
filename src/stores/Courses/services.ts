@@ -1,6 +1,6 @@
 import { generateClient } from 'aws-amplify/api';
 
-import { createCourse } from './mutation';
+import { createCourse, updateCourse } from './mutation';
 import { listCourses } from './queries';
 import { FilterOptions, InputCourse } from './types';
 const client = generateClient();
@@ -39,6 +39,71 @@ export const createCourses = async (objFilter: InputCourse): Promise<any> => {
       //     errorMessage: errorMsg,
       //   });
       // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
+
+// export const updateCourses = async (objFilter: InputCourse): Promise<any> => {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+     
+//       const setData:any = await client.graphql({
+//         query: updateCourse,
+//         variables: {
+//           input: {
+//             id: objFilter.id,
+//             title: objFilter.title,
+//             description: objFilter.description,
+//             startingAge: objFilter.startingAge,
+//             endingAge: objFilter.endingAge,
+//             ageType: objFilter.ageType,
+//             AgeGroupType: objFilter.AgeGroupType,
+//             duration: objFilter.duration,
+//             locationCoursesId: objFilter.locationCoursesId,
+//             isActive: objFilter.isActive,
+//           }
+//         }
+//       });
+      
+//       console.log("<<< CURSO ACTUALIZADO <<<<< ", setData)
+//       const data = setData?.data?.updateCourse || {};
+//       resolve({ data } as any);
+        
+//     } catch (err) {
+//       reject(
+//         JSON.stringify({
+//           errorMessage: err,
+//         })
+//       );
+//     }
+//   });
+// };
+
+export const deleteCourse = async (courseId:string): Promise<any> => {
+
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const deleteData:any = await client.graphql({
+        query: updateCourse,
+        variables: {
+          input: { 
+            id: courseId,
+            isActive: false          
+          }
+        }
+      });
+
+      console.log("<<< CURSO ELIMINADO <<<<< ", deleteData)
+      const data = deleteData?.data?.updateCourse || {};
+      resolve({ data } as any);
+        
     } catch (err) {
       reject(
         JSON.stringify({

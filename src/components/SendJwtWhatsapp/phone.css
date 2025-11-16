@@ -1,0 +1,17 @@
+
+.PhoneInputInput{
+    border-color: white;
+    max-width: 300px;
+}
+.PhoneInputCountry input{
+    border-color:white !important;
+    border:0;
+}
+input select:focus{
+    border:0;
+    border-color:white  !important;
+}
+select:focus{
+    border:0;
+    border-color:white !important;
+}

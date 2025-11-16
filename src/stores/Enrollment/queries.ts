@@ -163,8 +163,8 @@ export const listEnrollments = /* GraphQL */ `
         items{
           type
           date
-          enrollmentEmailSendsId
-          usersEmailSendId
+          # enrollmentEmailSendsId
+          # usersEmailSendId
           userSend{name}
         }
       }

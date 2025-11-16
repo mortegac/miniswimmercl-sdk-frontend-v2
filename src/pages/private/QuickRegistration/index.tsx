@@ -239,15 +239,77 @@ function Main() {
 
   async function setDate(e: any) {
     // fecha en formato ISO 8601 ("2016-07-15T04:00:00.000Z")
+    try {
+      
+      console.log("e>>> ", e)
+      const dateValue = e.target.value;
+      let safeDateValue = dateValue
+      .replace("ene", "Jan")  // Enero
+      .replace("feb", "Feb")  // Febrero
+      .replace("mar", "Mar")  // Marzo
+      .replace("abr", "Apr")  // Abril
+      .replace("may", "May")  // Mayo
+      .replace("jun", "Jun")  // Junio
+      .replace("jul", "Jul")  // Julio
+      .replace("ago", "Aug")  // Agosto
+      .replace("sep", "Sep")  // Septiembre
+      .replace("oct", "Oct")  // Octubre
+      .replace("nov", "Nov")  // Noviembre
+      .replace("dic", "Dec")  // Diciembre
+      
+    const newDate = new Date(safeDateValue); // Usar la cadena 'segura'
+    
+      // const newDate = new Date(dateValue);
+  
+      if (isNaN(newDate.getTime())) {
+        console.error("Invalid date value provided:", dateValue);
+        return;
+      }
+      
+      const date = newDate.toISOString();
+      setValueEnrrollment({
+        key: "enrollmentStartDate",
+        value: transformDate(date)
+      });
+      
+    } catch (error) {
+      console.log("--setDate--", error)
+    }
+    
+    
+    
+    // const date: string = new Date(e.target.value).toISOString();
+    // setValueEnrrollment({
+    //   key: "enrollmentStartDate",
+    //   value: transformDate(date),
+    // });
+  }
 
-    // console.log("e>>> ", e)
-
-    const date: string = new Date(e.target.value).toISOString();
+  // Define la función para manejar la fecha de forma segura
+function handleDateSelection(date1: Date, date2: Date | undefined): void {
+  // date1 es el objeto Date de la fecha seleccionada
+  console.log("date1>>> ", date1)
+  try {
+    // 1. Verifica que sea un objeto Date válido
+  if (date1 && !isNaN(date1.getTime())) {
+    // 2. Convierte directamente a ISO String
+    const date = date1.toISOString();
+    
+    // 3. Establece el valor
     setValueEnrrollment({
       key: "enrollmentStartDate",
-      value: transformDate(date),
+      // Asumo que tu transformDate ya maneja la cadena ISO correctamente
+      value: transformDate(date) 
     });
+  } else {
+    console.error("Fecha seleccionada no válida.");
   }
+  } catch (error) {
+    console.log("--handleDateSelection--", error)
+  }
+  
+  
+}
 
   async function setEnrollmentCourse() {
     setIsSaved({ state: true });
@@ -278,16 +340,20 @@ function Main() {
         // dispatch(setStep(4))
       ]));
 
+    
     !enrollment?.guardianId &&
       !enrollment?.studentId &&
       !enrollment?.enrollmentStartDate &&
       !enrollment?.enrollmentSessionTypeId &&
       !enrollment?.enrollmentScheduleId &&
-      !enrollment?.enrollmentCourseId &&
-      alert("Debe seleccionar todos los datos para continuar");
-
-    setIsSaved({ state: false });
-    dispatch(setStep(5));
+      !enrollment?.enrollmentCourseId && alert("Debe seleccionar todos los datos para continuar");
+      
+      
+      setIsSaved({ state: false });
+      
+      console.log("--enrollment--", );
+      
+      dispatch(setStep(5));enrollment
     // setSelectedModal(false);
   }
 
@@ -315,6 +381,14 @@ function Main() {
 
   return (
     <>
+    
+    
+    {/* <pre>{JSON.stringify(enrollment?.studentId, null, 2 )}</pre>
+    <pre>{JSON.stringify(enrollment?.enrollmentStartDate, null, 2 )}</pre>
+    <pre>{JSON.stringify(enrollment?.enrollmentSessionTypeId, null, 2 )}</pre>
+    <pre>{JSON.stringify(enrollment?.enrollmentScheduleId, null, 2 )}</pre>
+    <pre>{JSON.stringify(enrollment?.enrollmentCourseId, null, 2 )}</pre> */}
+      
       {/* STUDENTS */}
       <Slideover
         size="xl"
@@ -355,13 +429,13 @@ function Main() {
       {/* INSCRIPCION */}
       <Slideover
         size="xl"
-        key="Slide-sessions333"
+        key="Slide-sessions333444444"
         open={sessionSlideover}
         onClose={() => {
           setSessionSlideover(false);
         }}
       >
-        <Slideover.Panel className="w-80 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+        <Slideover.Panel className="w-full rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
           <a
             href=""
             className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
@@ -373,7 +447,7 @@ function Main() {
             <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
           </a>
           <Slideover.Description className="p-0 px-6">
-            {/* <pre>{JSON.stringify(dataNew, null, 2)}</pre> */}
+          {/* <pre>enrollmentStartDate = {JSON.stringify(enrollment?.enrollmentStartDate, null, 2 )}</pre> */}
             <div className="grid grid-cols-12 gap-y-10 gap-x-6">
               <div className="col-span-12">
                 <div className="p-1.5 box flex flex-col ">
@@ -890,7 +964,7 @@ enrollmentCourseId?: string */}
                                         <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                                           <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
                                             <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
-                                              Fecha de Inicio
+                                              Fecha de Inicio curso
                                             </h3>
                                             {/* <pre>{JSON.stringify(packFilter, null, 2 )}</pre> */}
                                             <div className="relative">
@@ -902,17 +976,18 @@ enrollmentCourseId?: string */}
                                                 value={enrollmentStartDate}
                                                 type="text"
                                                 name="enrollmentStartDate"
+                                                // onChange={() => {}}
                                                 onChange={(e) => setDate(e)}
                                                 options={{
                                                   autoApply: true,
                                                   showWeekNumbers: false,
+                                                  // Agregamos el evento onSelect de Litepicker
+                                                  // setup: (picker) => {
+                                                  //   picker.on('selected', handleDateSelection);
+                                                  // },
                                                   dropdowns: {
-                                                    minYear:
-                                                      new Date().getFullYear() -
-                                                      2,
-                                                    maxYear:
-                                                      new Date().getFullYear() +
-                                                      1,
+                                                    minYear:new Date().getFullYear() - 2,
+                                                    maxYear: new Date().getFullYear() + 1,
                                                     months: true,
                                                     years: true,
                                                   },
@@ -1010,13 +1085,14 @@ enrollmentCourseId?: string */}
                                     </div>
 
                                     {currentStep === 4 && (
-                                      <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                        <div className="flex-1 w-full mt-3 xl:mt-0">
+                                      <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0 pb-24 xl:pb-0">
+                                        <div className="w-screen mt-3 xl:mt-0 fixed bottom-0 left-0 right-0 z-30 px-0 pb-4 bg-slate-900/80 xl:w-full xl:static xl:px-0 xl:pb-0">
                                           <Button
+                                          id="enrollmentStudent"
                                             key={`${"UPDATE_SESSION"}-span-buttons`}
                                             rounded
                                             variant="primary"
-                                            className={`w-full px-2 py-2  mx-2 font-light uppercase `}
+                                            className={`w-full h-20 rounded-none px-4 py-4 font-light uppercase shadow-lg xl:h-auto xl:rounded xl:px-2 xl:py-2 xl:mx-2`}
                                             onClick={() =>
                                               setEnrollmentCourse()
                                             }
@@ -1029,7 +1105,8 @@ enrollmentCourseId?: string */}
                                                 className="mr-2 w-8 h-8"
                                               />
                                             )}
-                                            Inscribir Curso
+                                            <span className="text-xl">Inscribir Curso</span>
+                                            
                                           </Button>
                                         </div>
                                       </div>

@@ -3,10 +3,11 @@
     REGION
 Amplify Params - DO NOT EDIT */
 const util = require("util");
-
-
 const { responses, api, transbank } = require('/opt/nodejs/index');
 const ENVIROMENT = process.env.ENV;
+
+
+const { getPaymentTransactionsByToken } = require("./api/getTransactions.js")
 
 let initialInput = {
     id: "",
@@ -43,6 +44,9 @@ let initialInput = {
 exports.handler = async (event) => {
 
     const param = event.arguments;
+    // const param = {
+        // token:"11316e4fe8e4b9b9bee73ad45bad9fc30303e0d7faada83f63acc1721462b657"
+    // };
     console.log(`1.---------- param ----------
     ${JSON.stringify(param)}`);
 
@@ -61,21 +65,30 @@ exports.handler = async (event) => {
 
         // GET API TRANSACTION DATA
         console.log(`02__api.getPaymentTransaction____________________________________________________________`);
-        const getAPIData = await api.getPaymentTransaction({
-            env: ENVIROMENT,
-            variables: {
-                token: { eq: param.token }
-            }
-        });
-        console.log(`02--getAPIData --${JSON.stringify(getAPIData)}`);
+        // const getAPIData = await api.getPaymentTransaction({
+        //     env: ENVIROMENT,
+        //     variables: {
+        //         token: { eq: param.token }
+        //     }
+        // });
+        // console.log(`02--getAPIData --${JSON.stringify(getAPIData)}`);
 
+        
+
+        console.log(`02--param.token --${JSON.stringify(param.token)}`);
+        const getTransactionRequest = await getPaymentTransactionsByToken({
+            token: param.token
+           })
+           console.log(`02--getTransactionRequest --${JSON.stringify(await getTransactionRequest)}`);
     
 
+
+
          // UPDATE TRANSACTION INTO API
-         const getTransaction = {...getAPIData.data.listPaymentTransactions.items[0]}
-         delete getTransaction.__typename
-            delete getTransaction.createdAt
-            delete getTransaction.updatedAt
+         const getTransaction = {...getTransactionRequest[0]}
+        //  delete getTransaction.__typename
+        //     delete getTransaction.createdAt
+        //     delete getTransaction.updatedAt
          console.log(`03___newInitialInput_______________________________________________getTransaction____________`, getTransaction);
          let newInitialInput = { 
             ...initialInput, 
@@ -101,9 +114,9 @@ exports.handler = async (event) => {
 
            
         };
-        delete newInitialInput.__typename
-        delete newInitialInput.createdAt
-        delete newInitialInput.updatedAt
+        // delete newInitialInput.__typename
+        // delete newInitialInput.createdAt
+        // delete newInitialInput.updatedAt
          console.log(`03--newInitialInput --${JSON.stringify(newInitialInput)}`);
  
 
@@ -113,7 +126,7 @@ exports.handler = async (event) => {
        ------------------------------------------------------------------*/
        if (statusWebpayTransaction?.status === "AUTHORIZED") {
 
-        //  console.log(`------------------------------------------01--WEBPAY-STATUS -- AUTHORIZED------------------------------------------`);
+         console.log(`------------------------------------------01--WEBPAY-STATUS -- AUTHORIZED------------------------------------------`);
 
         // A - UPDATE API TRANSACTION
         newInitialInput = { ...newInitialInput };
@@ -177,7 +190,7 @@ exports.handler = async (event) => {
                 }
               };
               
-              // Llamar a la función
+              
               await updateEnrollments();
 
 
@@ -185,13 +198,6 @@ exports.handler = async (event) => {
             
         }
         console.log(`06--getAPIEnrollment --${JSON.stringify(getAPIEnrollment)}`);
-
-    
-
-         // 
-
-         //  updateEnrollments
-         // TODO: Recorrer el carro deatelle y actualziar los enrollment que existan 
 
 
     } else {

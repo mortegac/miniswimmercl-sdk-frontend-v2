@@ -568,6 +568,7 @@ export const getEmailSend = /* GraphQL */ `
         studentSessionDetailDate
         __typename
       }
+      userSendId
       userSend {
         id
         name
@@ -592,6 +593,7 @@ export const getEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      enrollmentId
       enrollment {
         id
         amountPaid
@@ -619,9 +621,6 @@ export const getEmailSend = /* GraphQL */ `
       createdAt
       updatedAt
       privateEnrollmentEmailSendsId
-      studentEmailSendId
-      enrollmentEmailSendsId
-      usersEmailSendId
       __typename
     }
   }
@@ -653,12 +652,11 @@ export const listEmailSends = /* GraphQL */ `
         email
         emailState
         studentId
+        userSendId
+        enrollmentId
         createdAt
         updatedAt
         privateEnrollmentEmailSendsId
-        studentEmailSendId
-        enrollmentEmailSendsId
-        usersEmailSendId
         __typename
       }
       nextToken
@@ -4041,12 +4039,89 @@ export const emailSendsByStudentId = /* GraphQL */ `
         email
         emailState
         studentId
+        userSendId
+        enrollmentId
         createdAt
         updatedAt
         privateEnrollmentEmailSendsId
-        studentEmailSendId
-        enrollmentEmailSendsId
-        usersEmailSendId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const emailSendsByUserSendId = /* GraphQL */ `
+  query EmailSendsByUserSendId(
+    $userSendId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelEmailSendFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    emailSendsByUserSendId(
+      userSendId: $userSendId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        typeSend
+        type
+        contentEmail
+        contentMessage
+        phone
+        phoneState
+        email
+        emailState
+        studentId
+        userSendId
+        enrollmentId
+        createdAt
+        updatedAt
+        privateEnrollmentEmailSendsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const emailSendsByEnrollmentId = /* GraphQL */ `
+  query EmailSendsByEnrollmentId(
+    $enrollmentId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelEmailSendFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    emailSendsByEnrollmentId(
+      enrollmentId: $enrollmentId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        typeSend
+        type
+        contentEmail
+        contentMessage
+        phone
+        phoneState
+        email
+        emailState
+        studentId
+        userSendId
+        enrollmentId
+        createdAt
+        updatedAt
+        privateEnrollmentEmailSendsId
         __typename
       }
       nextToken
@@ -4396,6 +4471,56 @@ export const paymentTransactionsByIdAndDayAndMonthAndYearAndHour = /* GraphQL */
     paymentTransactionsByIdAndDayAndMonthAndYearAndHour(
       id: $id
       dayMonthYearHour: $dayMonthYearHour
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        token
+        urlWebpay
+        amount
+        buy_order
+        card_number
+        transaction_date
+        accounting_date
+        installments_number
+        payment_type_code
+        session_id
+        card_detail
+        installments_amount
+        authorization_code
+        response_code
+        vci
+        day
+        month
+        year
+        hour
+        glosa
+        hasRefund
+        createdAt
+        updatedAt
+        shoppingCartPaymentTransactionsId
+        usersPaymentTransactionsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const paymentTransactionsByToken = /* GraphQL */ `
+  query PaymentTransactionsByToken(
+    $token: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPaymentTransactionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    paymentTransactionsByToken(
+      token: $token
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit

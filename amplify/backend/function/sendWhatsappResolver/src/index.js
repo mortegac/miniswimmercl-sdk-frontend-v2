@@ -4,6 +4,10 @@
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
+const CONECTION_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJjcmVhdGU6bWVzc2FnZXMiLCJyZWFkOndoYXRzYXBwcyJdLCJjb21wYW55SWQiOiJlMjk3OTNhZS1mYjNiLTQyNDEtYWY4NC03Zjg0ZmNlYjk0OGUiLCJpYXQiOjE3NjAxMDIyOTZ9.YlG3bq8XlEpFoZtTVGBLU0X9asPe70uK2VDXtc2duOU"
+const CONECTION_API_ID = "9f494072-7e32-4476-9f91-da46f05375b0"
+let response, responseData ={};
+
 function cleanPhoneNumber(phone) {
     // Eliminar el signo más
     let cleanPhone = phone.replace(/^\+/, '');
@@ -28,25 +32,31 @@ function cleanPhoneNumber(phone) {
   
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
+    const {
+      message,
+      phoneNumber,
+      name 
+    } = event?.arguments;
+    
     try {
         
-        const JWT = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4MTFjNWExMS02ZGU0LTQyNzYtOTk1My0xZWRiODgxMjNjNDgiLCJpYXQiOjE3MzQ3MTgyMDQsImV4cCI6MTczNDcyNTQwNH0.m_rmTson0fuGWFe-wUZBpuxWEGKaokrcobRR09Gp2Gc"
-        const clientPhoneNumber = "+56999398171"
-        const clientName = "Manu"
-        const validPhone = cleanPhoneNumber(clientPhoneNumber);
+        
+        // const clientPhoneNumber = "+56999398171"
+        // const clientName = "Manu"
+        const validPhone = cleanPhoneNumber(phoneNumber);
         const payload = {
-        whatsappId: "3f327a33-4b6c-47c0-b7bd-7649674907cd",
+        whatsappId: `${CONECTION_API_ID}`,
         messages: [
           {
             number: validPhone?.cleanPhone,
-            name: clientName,
-            body: `${clientName}, Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}   El link de pago tiene una vigencia de 48 horas.`
+            name: name,
+            body: `${message}`
           }
         ]
       };
       
           if(validPhone.status){
-          const response = await fetch(
+          response = await fetch(
             'https://api.whaticket.com/api/v1/messages', 
             // '/api/api/v1/messages', 
             {
@@ -54,7 +64,7 @@ exports.handler = async (event) => {
               credentials: 'include',
               referrerPolicy: 'no-referrer',
               headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${CONECTION_JWT}`,
                 // 'Accept': '*/*',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -67,10 +77,10 @@ exports.handler = async (event) => {
           );
     
           if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response?.status}`);
           }
     
-          const responseData = await response.json();
+          responseData = await response.json();
           /** TODO:  Almacenar envio del whatsapp */
           console.log('Message sent successfully:', responseData);
         }
@@ -105,3 +115,4 @@ exports.handler = async (event) => {
       
 
 };
+

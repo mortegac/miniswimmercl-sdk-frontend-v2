@@ -996,6 +996,7 @@ export const onCreateEmailSend = /* GraphQL */ `
         studentSessionDetailDate
         __typename
       }
+      userSendId
       userSend {
         id
         name
@@ -1020,6 +1021,7 @@ export const onCreateEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      enrollmentId
       enrollment {
         id
         amountPaid
@@ -1047,9 +1049,6 @@ export const onCreateEmailSend = /* GraphQL */ `
       createdAt
       updatedAt
       privateEnrollmentEmailSendsId
-      studentEmailSendId
-      enrollmentEmailSendsId
-      usersEmailSendId
       __typename
     }
   }
@@ -1095,6 +1094,7 @@ export const onUpdateEmailSend = /* GraphQL */ `
         studentSessionDetailDate
         __typename
       }
+      userSendId
       userSend {
         id
         name
@@ -1119,6 +1119,7 @@ export const onUpdateEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      enrollmentId
       enrollment {
         id
         amountPaid
@@ -1146,9 +1147,6 @@ export const onUpdateEmailSend = /* GraphQL */ `
       createdAt
       updatedAt
       privateEnrollmentEmailSendsId
-      studentEmailSendId
-      enrollmentEmailSendsId
-      usersEmailSendId
       __typename
     }
   }
@@ -1194,6 +1192,7 @@ export const onDeleteEmailSend = /* GraphQL */ `
         studentSessionDetailDate
         __typename
       }
+      userSendId
       userSend {
         id
         name
@@ -1218,6 +1217,7 @@ export const onDeleteEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      enrollmentId
       enrollment {
         id
         amountPaid
@@ -1245,9 +1245,6 @@ export const onDeleteEmailSend = /* GraphQL */ `
       createdAt
       updatedAt
       privateEnrollmentEmailSendsId
-      studentEmailSendId
-      enrollmentEmailSendsId
-      usersEmailSendId
       __typename
     }
   }

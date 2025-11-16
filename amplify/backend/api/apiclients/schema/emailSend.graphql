@@ -17,11 +17,12 @@ type EmailSend @model {
   #Relations 
   studentId: ID! @index(name: "byStudentEmailSendId") @default(value: "SIN-ESTUDIANTE")  # Made non-null
   student: Student! @belongsTo(fields: ["studentId"])
-  # studentEmailSendId: ID! @index(name: "byStudentEmailSendId") # Índice usando el nombre que genera Amplify
-
-
-  userSend: Users! @belongsTo  #User que envio el email
-  enrollment: Enrollment @belongsTo   # Nueva relación opcional con Enrollment
+  
+  userSendId: ID! @index(name: "byUserSend") @default(value: "SIN-USUARIO")  # User que envio el email
+  userSend: Users! @belongsTo(fields: ["userSendId"])
+  
+  enrollmentId: ID @index(name: "byEnrollment")  # Nueva relación opcional con Enrollment
+  enrollment: Enrollment @belongsTo(fields: ["enrollmentId"])
 
 }
 enum TypeOfEmail {

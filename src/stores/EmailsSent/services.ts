@@ -9,12 +9,52 @@ import {getAWSDateStgoChile} from "@/utils/helper";
 import { InputOptions, FilterOptions } from "./types";
 
 import { listEmailSends } from './queries';
-import { createEmailSend } from './mutation';
+import { createEmailSend, sendWhatsapp } from './mutation';
 
 const client = generateClient();
 
+// sendWhatsapp{
+//   message:"",
+//   phoneNumber:"",
+//   name:"",
+// }
 
 
+export const whatsappSent = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+     
+      const setData:any = await client.graphql({
+        query: sendWhatsapp,
+        variables: {
+          message:objFilter.message,
+          phoneNumber:objFilter.phoneNumber,
+          name:objFilter.name,        
+        }
+      });
+      
+      // console.log("<<< ENROLLMENT CREADO <<<<< ", setData)
+      // const data = setData.data;
+      // resolve({ ...data.generateEnrollment } as any);
+      
+      const data = setData?.data?.sendWhatsapp || {};
+      resolve({ data } as any);
+        
+      // ...userData.data.getUsers
+      // } else {
+      //   reject({
+      //     errorMessage: errorMsg,
+      //   });
+      // }
+    } catch (err) {
+      reject(
+        JSON.stringify({
+          errorMessage: err,
+        })
+      );
+    }
+  });
+};
 export const createEmailSent = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -37,8 +77,8 @@ export const createEmailSent = async (objFilter: FilterOptions): Promise<any> =>
             phoneState: objFilter?.phoneState,
             
             studentEmailSendId: objFilter?.studentEmailSendId,
-            usersEmailSendId: objFilter?.usersEmailSendId,
-            enrollmentEmailSendsId :objFilter?.enrollmentEmailSendsId,    
+            // usersEmailSendId: objFilter?.usersEmailSendId,
+            // enrollmentEmailSendsId :objFilter?.enrollmentEmailSendsId,    
           }
         }
       });

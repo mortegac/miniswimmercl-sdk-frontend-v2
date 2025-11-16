@@ -11,6 +11,15 @@ interface EmailParams {
   subject: String!
 }
 
+# input EvaluationDetailInput {
+#   wasAchieved: Boolean!
+#   text: accessibility!
+#   evaluationObjectiveId: String!
+#   evaluationObjetivesStudentEvaluationsDetailsId: String!
+#   studentEvaluationsId: String
+#   studentEvaluationsStudentEvaluationsDetailsId: String
+# } 
+
 type Mutation {
   generateEnrollment(
     userId: String!, 
@@ -39,9 +48,9 @@ type Mutation {
  
 #  ENVIO WHATSAPP 
   sendWhatsapp(
-    JWT: String!,
-    clientPhoneNumber: String!,
-    clientName: String!,
+    message: String!,
+    phoneNumber: String!,
+    name: String!,
   ): String
   @function(name: "sendWhatsappResolver-${env}")
   
@@ -68,6 +77,19 @@ type Mutation {
     
   setStatus( token: String!): String
     @function(name: "webpayStatus-${env}")
+
+  setCreateEvaluation( 
+    sessionsCarriedOut: String!
+    age: String!
+    wasApproved:Boolean
+    observations: String!
+    studentId: String!
+    evaluationLevelId: String!
+    userId:String!
+    evaluationDetails: [AWSJSON!]
+    ): String
+    @function(name: "fnCreateEvaluation-${env}")
+    
     
     
   #getEconomicParams(t: String!): String

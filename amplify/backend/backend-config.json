@@ -123,6 +123,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "fnCreateEvaluation": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "fnRemoveEnrollment": {
       "build": true,
       "dependsOn": [
@@ -344,6 +358,22 @@
         {
           "category": "function",
           "resourceName": "fnCalculateSessionsEnrollment"
+        }
+      ]
+    },
+    "AMPLIFY_function_fnCreateEvaluation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnCreateEvaluation"
+        }
+      ]
+    },
+    "AMPLIFY_function_fnCreateEvaluation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fnCreateEvaluation"
         }
       ]
     },

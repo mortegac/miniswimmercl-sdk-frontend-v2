@@ -26,6 +26,7 @@ import WPReducer from "./WP/slice";
 import supportTicketsReducer from "./SupportTicket/slice";
 import evaluationsReducer from './Evaluations/slice';
 import studentEvaluationsReducer from './StudentEvaluations/slice';
+import productReducer from './Products/slice';
 
 export const store = configureStore({
   reducer: {
@@ -56,6 +57,7 @@ export const store = configureStore({
     supportTickets: supportTicketsReducer,
     evaluations: evaluationsReducer,
     studentEvaluations: studentEvaluationsReducer,
+    product: productReducer,
   },
 });
 

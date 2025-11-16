@@ -44,8 +44,8 @@ export const listEmailSends = /* GraphQL */ `
       createdAt
       # updatedAt
       studentEmailSendId
-      enrollmentEmailSendsId
-      usersEmailSendId
+      # enrollmentEmailSendsId
+      # usersEmailSendId
     }
       nextToken
       __typename

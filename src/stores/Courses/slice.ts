@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, fetchDataStudent, createCourses} from "./services"
+import {fetchData, fetchDataStudent, createCourses, deleteCourse} from "./services"
 import {Course, emptyCourse, FilterOptions, InputCourse} from "./types"
 
 
@@ -68,6 +68,19 @@ export const setCourse = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH setEnrollment", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const removeCourse = createAsyncThunk(
+  "course/delete",
+  async (courseId: string) => {
+    try {
+      const response:any = await deleteCourse(courseId);
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR DELETE Course", error)
       return Promise.reject(error);
     }
   }
@@ -221,7 +234,27 @@ export const CourseSlice = createSlice({
         
       })
       
-      
+      // DELETE Course
+      .addCase(removeCourse.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(removeCourse.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeCourse.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        
+        console.log("--  removeCourse ---", objPayload)
+        
+        // Filtrar el curso eliminado del estado local
+        const courseIdDeleted = objPayload?.data?.id;
+        if (courseIdDeleted) {
+          state.courses = state.courses.filter((course: Course) => course.id !== courseIdDeleted);
+        }
+      })
     
   },
 });

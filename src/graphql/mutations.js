@@ -32,15 +32,11 @@ export const renovationEnrollment = /* GraphQL */ `
 `;
 export const sendWhatsapp = /* GraphQL */ `
   mutation SendWhatsapp(
-    $JWT: String!
-    $clientPhoneNumber: String!
-    $clientName: String!
+    $message: String!
+    $phoneNumber: String!
+    $name: String!
   ) {
-    sendWhatsapp(
-      JWT: $JWT
-      clientPhoneNumber: $clientPhoneNumber
-      clientName: $clientName
-    )
+    sendWhatsapp(message: $message, phoneNumber: $phoneNumber, name: $name)
   }
 `;
 export const sendEmail = /* GraphQL */ `
@@ -66,6 +62,29 @@ export const setCommit = /* GraphQL */ `
 export const setStatus = /* GraphQL */ `
   mutation SetStatus($token: String!) {
     setStatus(token: $token)
+  }
+`;
+export const setCreateEvaluation = /* GraphQL */ `
+  mutation SetCreateEvaluation(
+    $sessionsCarriedOut: String!
+    $age: String!
+    $wasApproved: Boolean
+    $observations: String!
+    $studentId: String!
+    $evaluationLevelId: String!
+    $userId: String!
+    $evaluationDetails: [AWSJSON!]
+  ) {
+    setCreateEvaluation(
+      sessionsCarriedOut: $sessionsCarriedOut
+      age: $age
+      wasApproved: $wasApproved
+      observations: $observations
+      studentId: $studentId
+      evaluationLevelId: $evaluationLevelId
+      userId: $userId
+      evaluationDetails: $evaluationDetails
+    )
   }
 `;
 export const createAcademyStudents = /* GraphQL */ `
@@ -1088,6 +1107,7 @@ export const createEmailSend = /* GraphQL */ `
         studentSessionDetailDate
         __typename
       }
+      userSendId
       userSend {
         id
         name
@@ -1112,6 +1132,7 @@ export const createEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      enrollmentId
       enrollment {
         id
         amountPaid
@@ -1139,9 +1160,6 @@ export const createEmailSend = /* GraphQL */ `
       createdAt
       updatedAt
       privateEnrollmentEmailSendsId
-      studentEmailSendId
-      enrollmentEmailSendsId
-      usersEmailSendId
       __typename
     }
   }
@@ -1188,6 +1206,7 @@ export const updateEmailSend = /* GraphQL */ `
         studentSessionDetailDate
         __typename
       }
+      userSendId
       userSend {
         id
         name
@@ -1212,6 +1231,7 @@ export const updateEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      enrollmentId
       enrollment {
         id
         amountPaid
@@ -1239,9 +1259,6 @@ export const updateEmailSend = /* GraphQL */ `
       createdAt
       updatedAt
       privateEnrollmentEmailSendsId
-      studentEmailSendId
-      enrollmentEmailSendsId
-      usersEmailSendId
       __typename
     }
   }
@@ -1288,6 +1305,7 @@ export const deleteEmailSend = /* GraphQL */ `
         studentSessionDetailDate
         __typename
       }
+      userSendId
       userSend {
         id
         name
@@ -1312,6 +1330,7 @@ export const deleteEmailSend = /* GraphQL */ `
         usersRolesId
         __typename
       }
+      enrollmentId
       enrollment {
         id
         amountPaid
@@ -1339,9 +1358,6 @@ export const deleteEmailSend = /* GraphQL */ `
       createdAt
       updatedAt
       privateEnrollmentEmailSendsId
-      studentEmailSendId
-      enrollmentEmailSendsId
-      usersEmailSendId
       __typename
     }
   }

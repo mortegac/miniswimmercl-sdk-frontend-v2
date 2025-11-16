@@ -106,8 +106,11 @@ export function ResumenTransactions(props:any) {
                     <div className="flex flex-col gap-y-7">
                       <div className="flex flex-col p-5 box ">
                         <div className="pb-5 mb-5 font-medium  text-[0.94rem]">
-                          Historial de Carros de compras 
+                          Historial de Carros de compras  
+                          {email !== "hi@manuelo.dev" &&  <span className="p-2 bg-slate-600 text-white rounded-full text-sm">USUARIO REGULAR</span>}
+                          {email === "hi@manuelo.dev" &&  <span className="p-2 bg-red-400 text-white rounded-full text-sm">ADMIN</span>}
                         </div>
+                        
                         <div className="-my-3">
                           <div className="relative overflow-hidden before:content-[''] before:absolute before:w-px before:bg-slate-200/60 before:left-0 before:inset-y-0 before:dark:bg-darkmode-400 before:ml-[14px]">
                             { Array.isArray(shoppingCarts) && 
