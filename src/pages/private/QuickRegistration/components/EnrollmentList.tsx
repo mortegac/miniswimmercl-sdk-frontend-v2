@@ -39,18 +39,18 @@ export const EnrollmentList: React.FC<any> = ({studentId, setDataStudent, studen
          return <>
          { item?.wasPaid &&
           <div
-          className="border-b border-dashed border-slate-300 py-4"
-            key={index}
+          className=""
+            key={`lastEnroll${index}-${item?.id}`}
           >
               <div className="flex flex-row justify-between items-center w-full">
-                  <div className=" px-2 w-56">
-                    <p className=" text-left min-w-24 text-[0.8rem] uppercase">{item?.scheduleName}</p>
-                    <p className=" text-left min-w-24 text-[0.6rem] ">{item?.course?.title}</p>
+                  <div className=" px-2">
+                    <p className=" text-left min-w-24 text-[0.8rem] uppercase">{item?.scheduleName} | <span>{item?.course?.title}</span></p>
+                    {/* <p className=" text-left min-w-24 text-[0.6rem] ">{item?.course?.title}</p> */}
                     <p className=" text-left min-w-24 text-[0.6rem]">{item?.course?.location?.name}</p>
                     <p className=" text-center rounded-xl px-2 w-20 text-[0.6rem] bg-slate-200">{`${day} ${typeOfMonth[month]} ${year} `}</p>
                     
                   </div>
-                  <Button
+                  {/* <Button
                     variant="soft-primary"
                     className="mr-2"
                     onClick={()=>setDataStudent({
@@ -75,7 +75,7 @@ export const EnrollmentList: React.FC<any> = ({studentId, setDataStudent, studen
                       // })
                       // setSessionSlideover(true)
                     // }}
-                  >Renovar</Button>
+                  >Renovar</Button> */}
                 
               </div>
             

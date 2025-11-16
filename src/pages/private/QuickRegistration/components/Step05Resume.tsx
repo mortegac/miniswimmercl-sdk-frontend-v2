@@ -407,7 +407,7 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
   return (
     <>
     {/* <pre>{JSON.stringify(enrollment, null, 2 )}</pre> */}
-       <div className="text-left px-4 ">
+       <div className="text-left w-screen -mx-4 px-4 sm:w-full sm:mx-0 sm:px-4">
         <div className="intro-y flex flex-col justify-center border-b ">
           <span className="text-3xl font-semibold  text-slate-700">
             Resumen

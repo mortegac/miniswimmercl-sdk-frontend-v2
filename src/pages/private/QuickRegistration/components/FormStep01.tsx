@@ -317,13 +317,17 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
         </div>
       </div>
       
-      <div className="flex flex-row justify-between  pt-2 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-        <Button onClick={async ()=>await Promise.all([
+      <div className="flex flex-col sm:flex-row gap-3 pt-4 mt-6 xl:items-center first:mt-0 first:pt-0">
+        <Button
+          onClick={async ()=>await Promise.all([
             dispatch(cleanData()),
             dispatch(cleanDataUser())               
             ])
           } 
-          rounded variant="soft-primary" className="border border-primary px-4 py-3 focus:z-2">
+          rounded
+          variant="soft-primary"
+          className="w-full sm:w-auto border border-primary px-4 py-3 focus:z-2"
+        >
           <Lucide icon="Delete" className="w-5 h-5 text-primary" />
           
           <span className="ml-2">Limpiar</span>
@@ -332,7 +336,7 @@ export const FormStep01 = ({ onChangeSetStore, onSetNewStudent }: any) => {
           <Button
                 rounded
                 variant="primary"
-                className="border border-slate-200 px-4 py-3"
+                className="w-full sm:w-auto border border-slate-200 px-4 py-3"
                 onClick={()=>dataValidate()}
                 disabled={guardianId !== ""}
               >

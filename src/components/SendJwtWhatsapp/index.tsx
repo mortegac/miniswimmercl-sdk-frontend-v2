@@ -201,7 +201,7 @@ export function SendJwtWhatsapp(props: any) {
     return (
       <>
         {/* { cartStatus !== "AUTHORIZED" &&  */}
-          <div className="px-8 pt-6 pb-8 mt-3.5 bg-purple-100">
+          <div className="px-2 py-2 bg-purple-100">
             <div className="text-base font-medium">Envio mensaje informativo</div>
             <div className="text-slate-500 mt-0.5 mb-2">
               Con esta funcionalidad puedes enviar directo al whatsapp la información de la inscripción
@@ -215,6 +215,7 @@ export function SendJwtWhatsapp(props: any) {
                     </span>{" "}
                     <span className="ml-4 text-lg">{clientName}</span>
                   </h2>
+                  
                   
                   <div className="text-sm mb-2 flex flex-row items-center justify-start">
                     <span className="text-lg w-20 text-left  inline-block">
@@ -250,8 +251,10 @@ export function SendJwtWhatsapp(props: any) {
                         {error && <p className="text-red-500 mt-2">{error}</p>}
                       </div>
                     }
-                    { clientPhoneNumber !=="" && <div className="w-full flex justify-between items-center">
-                      <span className="ml-4 text-lg">{clientPhoneNumber}</span>
+                    
+                    
+                    <span className="ml-4 text-lg">{clientPhoneNumber}</span>
+                    {/* { clientPhoneNumber !== "" && <div className="w-full flex justify-between items-center">
                       <Button
                       variant="primary"
                       disabled={loading}
@@ -264,7 +267,7 @@ export function SendJwtWhatsapp(props: any) {
                       />
                       Editar teléfono
                     </Button>
-                    </div>}
+                    </div>} */}
                     
                   </div>
                    {isValid && clientPhoneNumber ==="" &&(
@@ -333,8 +336,11 @@ export function SendJwtWhatsapp(props: any) {
                     {error && <p className="text-red-500 mt-2">{error}</p>}
                   </div> 
                   </div>
-                  <div className="relative mt-3">
-                  <div className="flex justify-start items-center mb-2">
+                  
+                  
+                  
+                  {/* <div className="relative mt-3">
+                    <div className="flex justify-start items-center mb-2">
                       <CopyButton 
                       text={messageText() || ""} 
                       buttonText="" 
@@ -361,12 +367,6 @@ export function SendJwtWhatsapp(props: any) {
                       onClick={()=>sendWhatsAppMessage({
                         name:clientName, 
                         msg:messageText()
-                        // `${clientName}, hemos realizado su inscripción en el *curso ${courseName} en la sede ${locationName}* 🎉, \ncon las siguientes fechas agendadas:
-                        // ${props?.sessions?.map((item:any, i:number) => {
-                        //   const [day, month] = item?.date.replace(/\s/g, '').split('-');
-                        //   return `\n- ${String(props?.courseDay).toUpperCase() || ''} ${day}-${typeOfMonth[month]}`;
-                        // }).join('\n')}
-                        // `
                       }
                       )}
                     >
@@ -378,7 +378,7 @@ export function SendJwtWhatsapp(props: any) {
                     </Button>
                     
                     {error && <p className="text-red-500 mt-2">{error}</p>}
-                  </div> 
+                  </div>  */}
                 </>              
                 }
                 

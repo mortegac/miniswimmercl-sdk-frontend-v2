@@ -144,19 +144,23 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
            ).map(([status, count]) => ({ status, count }));
           
         return (
-          <>
-          {/* <pre>{JSON.stringify(sessionStatusCount, null, 2 )}</pre> */}
-              <div className="m-0 px-10 border-none">
-                <div className="box" key={`${student?.student?.id}-${student?.student?.id}`}>
-              <div className="flex flex-col items-center px-5 pt-5 pb-7 min-w-80">
-                <div>
+        <>
+                <div 
+                id="studentCard"
+                className="box mr-4 sm:mr-0 mt-10" 
+                key={`STUDENTS-${student?.student?.id}-${student?.student?.id}`}>
+              <div
+                id="containner"
+                className="flex flex-col items-center w-full max-w-full overflow-hidden px-2 sm:px-4 pt-5 pb-7"
+              >
+                <div id="ico" className="hidden sm:block">
                   <div className="w-28 h-28 flex justify-center items-center overflow-hidden rounded-full image-fit border-[3px] border-slate-200/70">
                     <IcoSvg className="" color="#C6C6C6" gender={student?.student?.gender}/>
                   </div>
                 </div>
                 <div className="mt-3 text-base font-medium">
-                <p className="m-0 p-0 uppercase text-center text-2xl">{student?.student?.name}{" "}</p>
-                <p className="m-0 p-0 uppercase text-lg text-slate-400">{student?.student?.lastName}{" "}</p>
+                <p className="m-0 p-0 uppercase text-center text-2xl">{student?.student?.name}{" "}{student?.student?.lastName}</p>
+                {/* <p className="m-0 p-0 uppercase text-lg text-slate-400">{student?.student?.lastName}{" "}</p> */}
                 </div>
                 <div className="flex justify-center items-center mt-2">
                     <Alert className="flex items-center justify-center rounded-full my-2 w-full bg-slate-300/60">
@@ -165,7 +169,7 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
                       </div>
                     </Alert>
                 </div>
-                <div className="flex items-center px-2 mt-6">
+                {/* <div className="flex items-center px-2 mt-6">
                   {Array.isArray(sessionStatusCount)&& sessionStatusCount.map((item:any, index:number)=>
                     <>
                     {item?.status !== "DELETED" &&
@@ -180,16 +184,16 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
                     </>
 
                   )}
-                </div>
-                <div className="flex flex-row">
+                </div> */}
+                <div className="flex flex-col  gap-3 mt-4 w-full">
                   <Link
                     to="/admin-student"
                     state={{ id: student?.student?.id }}
                     // onClick={()=>simulateEscKey()}
-                    className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
+                    className="intro-y"
                   >
                   <div
-                      className="w-24 mr-2 text-primary border px-2 py-3 text-center border-primary rounded-full"
+                      className="w-full  px-2 py-3 text-primary border text-center border-primary rounded-full"
                     >Ver Perfil
                   </div>
                   </Link>
@@ -197,7 +201,7 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
                       rounded
                       type="button"
                       variant="primary"
-                      className="w-56 px-2 py-3 "
+                      className="w-full px-2 py-3 "
                       onClick={()=>{
                         setDataStudent({
                           studentId: student?.student?.id,
@@ -214,11 +218,11 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
                   
                 </div>
               </div>
-              <div className="flex flex-col items-center p-5 border-t rounded-b-lg border-slate-200/80 bg-slate-50">
-                <div className="leading-relaxed text-center mx-14">
+              <div className="flex flex-col items-center border-t  bg-slate-50">
+                <div className="leading-relaxed text-center ">
                   Ultimas Inscripciones pagadas
                 </div>
-                <div className=" relative overflow-auto h-64 ">
+                <div className=" relative overflow-auto  ">
                 <div className="overflow-x-auto flex p-2">
                   <EnrollmentList 
                     studentId={student?.student?.id}
@@ -238,8 +242,6 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
                
               </div>
                 </div>
-              </div>
-          {/* </Button> */}
           </>
         )
          }         

@@ -530,7 +530,7 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
                                       {currentStep === 1 && (
                                         // <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                                         <div className="flex-row pt-0 mt-2 flex-wrap">
-                                          <div className=" -mb-30 -ml-8 -mr-8 relative">
+                                          <div className="relative">
                                             <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
                                               Seleccione la sede
                                             </h3>
@@ -596,7 +596,7 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
 
                                       {currentStep === 2 && (
                                         <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                          <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                          <div className="relative overflow-auto">
                                             <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
                                               Seleccione el Curso
                                             </h3>
@@ -755,7 +755,7 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
                                             </div>
                                           </div>
                                           <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                            <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                            <div className="relative overflow-auto">
                                               <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
                                                 Seleccione el Pack
                                               </h3>
@@ -962,11 +962,11 @@ enrollmentCourseId?: string */}
 
                                       {currentStep === 4 && (
                                         <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                                          <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
+                                          <div className="  relative overflow-auto">
                                             <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
                                               Fecha de Inicio curso
                                             </h3>
-                                            {/* <pre>{JSON.stringify(packFilter, null, 2 )}</pre> */}
+                                          
                                             <div className="relative">
                                               <Lucide
                                                 icon="Calendar"
@@ -976,15 +976,10 @@ enrollmentCourseId?: string */}
                                                 value={enrollmentStartDate}
                                                 type="text"
                                                 name="enrollmentStartDate"
-                                                // onChange={() => {}}
                                                 onChange={(e) => setDate(e)}
                                                 options={{
                                                   autoApply: true,
                                                   showWeekNumbers: false,
-                                                  // Agregamos el evento onSelect de Litepicker
-                                                  // setup: (picker) => {
-                                                  //   picker.on('selected', handleDateSelection);
-                                                  // },
                                                   dropdowns: {
                                                     minYear:new Date().getFullYear() - 2,
                                                     maxYear: new Date().getFullYear() + 1,
@@ -1135,13 +1130,16 @@ enrollmentCourseId?: string */}
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>
-      <div className="grid grid-cols-12 gap-y-10 gap-x-6">
-        <div className="col-span-12 sm:col-span-10 sm:col-start-2">
-          <div className="grid grid-cols-12 gap-y-7 gap-x-6 mt-3.5">
-            <div className="col-span-12 xl:col-span-8 box">
+      <div className="grid grid-cols-12 gap-y-10 gap-x-6 ">
+        <div className="col-span-12 sm:col-span-10 sm:col-start-2 ">
+          <div className="grid grid-cols-12 gap-y-7 gap-x-6 mt-3.5 ">
+            <div className="col-span-12 xl:col-span-8">
               {/* FORM */}
-              <div className="flex flex-col justify-between box  p-10 space-y-4 ">
-                <div className="flex flex-col justify-start ">
+              <div
+                id="formGuardian"
+                className="flex flex-col justify-between box w-screen -mx-4 px-4 py-6 space-y-4 sm:w-full sm:mx-0 sm:p-10"
+              >
+                <div className="flex flex-col justify-start px-2">
                   <FormStep01
                     onChangeSetStore={onChangeSetStore}
                     onSetNewStudent={onSetNewStudent}
@@ -1192,13 +1190,17 @@ enrollmentCourseId?: string */}
               </div>
             )}
           </div>
-          <div className="flex flex-col box  p-10  mt-4">
-            <div className="flex flex-row justify-between">
+          <div id="students" 
+          className="flex flex-col justify-between box w-screen -mx-4 px-4 py-6 space-y-4 sm:w-full sm:mx-0 sm:p-10 mt-6"
+          // className="flex flex-col box  p-10  mt-4"
+          >
+            <div className="flex flex-row justify-between ">
               {!guardianId && (
                 <h2 className="font-thin text-xl">🥹 Sin Estudiantes</h2>
               )}
               {guardianId && (
                 <>
+                <div className="flex flex-col sm:flex-row gap-3 pt-4 mt-6 xl:items-center first:mt-0 first:pt-0">
                   <h2 className="font-thin text-xl">Estudiantes asociados</h2>
                   <Button
                     rounded
@@ -1224,6 +1226,7 @@ enrollmentCourseId?: string */}
                     <Lucide icon="Plus" className="w-8 h-9 ml-2 mr-2" />
                     <span className="text-sm">Nuevo Alumno</span>
                   </Button>
+                </div>
                 </>
               )}
             </div>
@@ -1240,8 +1243,12 @@ enrollmentCourseId?: string */}
               )}
 
               {/* <pre>enrollment = {JSON.stringify(enrollment?.relationships?.items[0].student?.enrollments?.items, null, 2 )}</pre> */}
-              <div className="mt-4 py-10 -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                <div className="overflow-x-auto flex">
+              {/* <div className="mt-4 py-10 -mb-30 -ml-8 -mr-8 relative overflow-auto"> */}
+              <div className="flex flex-col flex-wrap sm:flex-row gap-3 pt-4 mt-6 xl:items-center first:mt-0 first:pt-0">
+                <div
+                  id="desktioView"
+                  className="md:flex md:overflow-x-auto"
+                >
                   {status === "idle" && enrollment?.relationships && (
                     <RelationList
                       students={enrollment?.relationships}
