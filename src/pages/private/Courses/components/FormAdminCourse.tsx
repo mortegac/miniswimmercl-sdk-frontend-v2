@@ -7,6 +7,11 @@ import * as yup from 'yup';
 import { FormLabel, FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
 import Button from "@/components/Base/Button";
 
+
+import { useAppDispatch } from "@/stores/hooks";
+import { removeCourse, getCourses } from "@/stores/Courses/slice";
+
+
 // Schema de validación con Yup - CORREGIDO
 const courseValidationSchema = yup.object({
   title: yup
@@ -86,6 +91,7 @@ interface FormAdminCourseProps {
   }>;
   onSubmit?: (data: CourseFormData) => void;
   setDataCourse?: (data: CourseFormData) => void;
+  setNewSlideover?: (value:boolean) => void;
 }
 
 // Constantes por defecto para las interfaces
@@ -125,8 +131,9 @@ const VALIDATION_LIMITS = {
 } as const;
 
 export function FormAdminCourse(props: FormAdminCourseProps) {
-  const { data, locations, onSubmit, setDataCourse, type } = props;
+  const { data, locations, onSubmit, setDataCourse, type, setNewSlideover } = props;
   
+  const dispatch = useAppDispatch();
   // Configuración de React Hook Form con Yup
   const {
     register,
@@ -163,6 +170,21 @@ export function FormAdminCourse(props: FormAdminCourseProps) {
   const watchedLocationId = watch('locationCoursesId');
   
   
+  const deleteCourse = async (courseId:string) => {
+    try {
+      console.log('courseId:', courseId);
+      
+      if (courseId) {
+        await dispatch(removeCourse(courseId)).unwrap();
+        await dispatch(getCourses({ isActive: true, locationId:data?.locationCoursesId })); // Recargar lista
+        console.log("Curso eliminado");
+        setNewSlideover?.(false);
+      }
+      
+    } catch (error) {
+      console.error('Error al eliminar el curso:', error);
+    }
+  };
   
   // Función para manejar el envío del formulario
   const handleFormSubmit = async (formData: CourseFormData): Promise<void> => {
@@ -258,7 +280,7 @@ export function FormAdminCourse(props: FormAdminCourseProps) {
 
   return (
     <>
-        <pre>{JSON.stringify(data, null, 2 )}</pre>
+        {/* <pre>{JSON.stringify(data?.locationCoursesId, null, 2 )}</pre> */}
         <form onSubmit={handleSubmit(handleFormSubmit)} className="box p-4 mt-8 flex flex-col">
         {/* Nombre del Curso */}
         <div className="">
@@ -477,18 +499,29 @@ export function FormAdminCourse(props: FormAdminCourseProps) {
           )}
         </div>
         
-        <div className="w-full mt-5 border-t border-slate-200/60"></div>
+        <div className="w-full mt-5 border-t border-slate-200/60 flex flex-row flex-wrap">
         
-        {/* Botón de envío */}
-        <Button 
-          type="submit"
-          variant="primary" 
-          className="py-3 px-4 mt-4"
-          disabled={isSubmitting || !isValid}
-        >
-          {isSubmitting ? 'Guardando...' : 'Grabar información del curso'}
-        </Button>
-        </form>
+          {/* Botón de envío */}
+          <Button 
+            type="submit"
+            variant="primary" 
+            className="py-3 px-4 mt-4 mr-4"
+            disabled={isSubmitting || !isValid}
+          >
+            {isSubmitting ? 'Guardando...' : 'Grabar información del curso'}
+          </Button>
+         { data?.id && <Button
+            // key={`${i}-CARD-Schedules`}
+            variant="danger"
+            className="py-3 px-4 mt-4"
+            onClick={() => data?.id && deleteCourse(data?.id)}
+          >
+            DESHABILITAR
+          </Button>}
+        </div>
+        
+      </form>
+        {/* <pre>data = {JSON.stringify(data, null, 2 )}</pre> */}
     </>
   );
 }

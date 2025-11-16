@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import clsx from "clsx";
 import _, { now } from "lodash";
 
+import { Tab } from "@/components/Base/Headless";
 import Table from "@/components/Base/Table";
 import { Slideover } from "@/components/Base/Headless";
 import ListParams from "@/components/ListParams";
@@ -47,10 +48,7 @@ const IcoGender: React.FC<Props> = ({gender}) => {
 function Resume(props:any) {
   const {data, total} = props;
   
-  return(
-    <>
-    {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      <div id="boxResume" className="flex flex-col">
+  return <div id="boxResume" className="flex flex-col">
         <div className="flex flex-row justify-between items-center gap-2">
           <div id="boxStudents" className="p-2 box min-h-24 max-h-6 bg-green-200 flex flex-col justify-center items-center min-w-24   w-full sm:w-1/3 ">
             <p className="truncate  text-lg text-slate-700">
@@ -69,19 +67,13 @@ function Resume(props:any) {
           <div id="boxLess" className="p-2 box min-h-24 max-h-6 bg-slate-700 flex flex-col justify-center items-center min-w-24   w-full sm:w-1/3 ">
             <p className="truncate  text-lg text-white">
             <b className="text-4xl mr-2">
-  {(Number(total) || 0) - (Number(data?.USED) || 0)}</b>
+            {(Number(total) || 0) - (Number(data?.USED) || 0)}</b>
             </p>
             <p className="truncate  text-sm text-white">Faltantes</p>
           </div>
           
-        </div>
-      
-      
+        </div>    
       </div>
-    
-    </>
-  )
-  
 }
 
 function Main() {
@@ -362,8 +354,43 @@ function Main() {
                 ) : (
                <>
                   
-                  { Array.isArray(filteredStudents) &&
+                  <Tab.Group
+        className="mt-10"
+        // selectedIndex={selectedIndex}
+        // onChange={setSelectedIndex}
+      >
+        <div className="flex flex-col 2xl:items-center 2xl:flex-row gap-y-3">
+          <Tab.List
+            variant="boxed-tabs"
+            className="flex-col sm:flex-row w-full xl:w-[580px] mr-auto bg-white box rounded-[0.6rem] border-slate-200"
+          >
+            <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+              <Tab.Button
+                className="w-full xl:w-40 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
+                as="button"
+              >
+                Listado Alumnos
+              </Tab.Button>
+            </Tab>
+            <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+              <Tab.Button
+                className="w-full xl:w-52 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
+                as="button"
+              >
+                Asistencia Registrada
+              </Tab.Button>
+            </Tab>
+            
+          </Tab.List>
+        
+        </div>
+        <Tab.Panels>
+          {/* LISTADO DE ALUMNOS */}
+          <Tab.Panel>
+            
+          { Array.isArray(filteredStudents) &&
           [...filteredStudents]
+            .filter((item: any) => item?.status !== "USED")
             .sort((a:any, b:any) => {
               if (a.scheduleId === "SIN-SCHEDULE" && b.scheduleId !== "SIN-SCHEDULE") return 1;
               if (a.scheduleId !== "SIN-SCHEDULE" && b.scheduleId === "SIN-SCHEDULE") return -1;
@@ -504,142 +531,93 @@ function Main() {
                         </div>
                         
                       </div>
-            
-                        {/* <div className="relative w-full h-8 flex justify-start items-center b-0 -mb-5 z-20">  
-                        </div> */}
-                      {/* <Table.Tr key={item.id} 
-                      className={`box
-                        
-                        ${!filteredArray[0]?.wasPaid &&  "bg-red-300/50"}
-                        ${atendanceId === item?.id && "bg-yellow-100"}
-                        ${atendanceId !== item?.id && item?.status === "USED" && "bg-green-100"}
-                        `}>                 
-                        
-                        
-                        <Table.Td className={`w-16`}>
-                          <div className="flex items-center">
-                            <Link
-                                to="/admin-student"
-                                state={{ id: item?.student?.id }}
-                                className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y hidden md:block"
-                              >
-                              <IcoGender gender={item?.student?.gender || ""}/>
-                              </Link>
-                              <Link
-                                to="/admin-student"
-                                state={{ id: item?.student?.id }}
-                                className="col-span-12 sm:col-span-6 xl:col-span-4 "
-                              >
-                            <div className="ml-2">
-                              <p id="studentName" className="font-medium text-sm md:text-xl">
-                                {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
-                              </p>
-                              <div className="mt-1 text-xs text-slate-500 ">
-                                <CalculateAge birthdate={String(item?.student?.birthdate)} />
-                              </div>
-                            </div>
-                            </Link>
-                          </div>
-                        </Table.Td>
-                        <Table.Td className={` hidden md:block `}>
-                          <div className="text-lg flex justify-center items-center flex-col relative">
-                          <p className="text-sm mt-2  pt-10">
-                            {item?.status === "RECOVERED" && "SESION RECUPERADA"}
-                            {item?.status === "ACTIVE" && "VIGENTE"}
-                            {item?.status === "USED" && "UTILIZADA"}
-                            {item?.status === "DELETED" && "ELIMINADA"}
-                          </p>
-                            
-                            
-                            <p className="text-xs font-thin  hidden md:block" >{ formatDateToISOShort(new Date(item?.date))}</p>
-                            { item?.locationId && item?.locationId !=="" && <>
-                          </>
-                        }
-                          </div>                          
-                        </Table.Td>
-                        
-                     
-                        
-                        <Table.Td className={``}>
-                        <div className="md:hidden text-lg flex justify-center items-center flex-col relative">
-                          
-                          {!filteredArray[0]?.wasPaid && <p className=" -mt-3 w-full absolute top-0 bg-red-500">Pendiente de Pago</p>
-                            }
-                          
-                          <span className="text-sm uppercase text-red-500 bg-red-50 py-2 px-2 rounded-full">
-                            Pendiente de Pago</span>
-                            
-                          <p className="text-sm mt-2">
-                            {item?.status === "RECOVERED" && "SESION RECUPERADA"}
-                            {item?.status === "ACTIVE" && "VIGENTE"}
-                            {item?.status === "USED" && "UTILIZADA"}
-                            {item?.status === "DELETED" && "ELIMINADA"}
-                          </p>
-                            
-                            
-                            <p className="text-xs font-thin  hidden md:block" >{ formatDateToISOShort(new Date(item?.date))}</p>
-                            { item?.locationId && item?.locationId !=="" && <>
-                          </>
-                        }
-                          </div> 
-                          
-                        {item.status==="ACTIVE" &&
-                        <div className="">
-                          <Button variant="soft-primary" rounded 
-                          className="px-4 py-3" 
-                          onClick={() => updateSession({
-                            sessionId: item.id,
-                            status: "USED",
-                            date: item?.date,
-                            locationIdUsed:date?.locationId,
-                          })}
-                          >MARCAR PRESENTE</Button>
-                        </div>
-                      }
-                      {item.status==="RECOVERED" &&
-                      <div className="flex flex-col justify-start items-start ">
-                      <div className="w-[100%] mb-2">
-                        <ListParams
-                        key={item.id}
-                          list={locationsList}
-                          text={""}
-                          value={locationIdSelected || ""}
-                          isLoading={false}
-                          
-                          fn={(e)=>setLocationIdSelected(e.target.value)}
-                          handleCreate={(e)=>console.log(e.target.value)}
-                          name={"location"}
-                        />                          
-                      </div>
-                      <Button variant="soft-danger" rounded 
-                      className="w-[85%] px-4 py-3" 
-                      onClick={() => updateSession({
-                        sessionId: item.id,
-                        status: "USED",
-                        locationIdUsed:locationIdSelected,
-                      })}
-                      >MARCAR PRESENTE</Button>
-                    </div>
-                      }
-                      {item?.locationIdUsed && item?.status === "USED" && <>
-                              <div className="mb-1 text-xs text-slate-500 ">
-                              Utilizada en:
-                              </div>  
-                              <p className="text-xs font-thin" >{item?.locationIdUsed}</p>
-                            </>
-                      }
-                        </Table.Td>
-                      
-                  
-                  
-                      </Table.Tr> */}
-                       
-                        
                         </div>
                 )})}
+          </Tab.Panel>
+          
+          {/* Asistencia Registrada */}
+          <Tab.Panel>
+          { Array.isArray(filteredStudents) &&
+          [...filteredStudents]
+            .filter((item: any) => item?.status === "USED")
+            .sort((a:any, b:any) => {
+              if (a.scheduleId === "SIN-SCHEDULE" && b.scheduleId !== "SIN-SCHEDULE") return 1;
+              if (a.scheduleId !== "SIN-SCHEDULE" && b.scheduleId === "SIN-SCHEDULE") return -1;
+
+              if (a.status === "USED" && b.status !== "USED") return 1;
+              if (a.status !== "USED" && b.status === "USED") return -1;
+              
+                // Convert start hours to Date objects for comparison
+              const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
+              const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
+              const timeComparison = timeA.getTime() - timeB.getTime();
+              if (timeComparison !== 0) return timeComparison;
+              
+              // Then compare scheduleId
+              const scheduleIdComparison = a.scheduleId.localeCompare(b.scheduleId);
+              if (scheduleIdComparison !== 0) return scheduleIdComparison;
+              
+              return a.student?.name.localeCompare(b.student?.name);  
+            })
+            .map((item: any, i: number) => {
+              const showLocationId = item.scheduleId !== currentScheduleId;
+              if (showLocationId) {
+                currentScheduleId = item.scheduleId;
+              }
+              const filteredArray = item?.student?.enrollments?.items?.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId);
+
+                      return(  
+                        <div key={`${i}-SCHEDULES`} className={`${item?.status === "USED" && "bg-slate-300/20 px-0 py-2"} max-w-[580px]`}>
+                      
+                      
+                        <div
+                          id="newCardAttendece"
+                          className={`
+                          ${!filteredArray[0]?.wasPaid && "bg-red-300"} 
+                          ${item?.totalSessions === 1 && "bg-green-200"}
+                          ${item?.status === "USED" && "bg-slate-100"}
+                          flex flex-row box w-full max-w-[580px] min-h-[130px] relative pl-10 pr-2`}
+                        >
+                          {/* Número correlativo absoluto a la izquierda */}
+                          <div className="absolute left-0 top-0 bottom-0 flex items-center justify-center w-9 bg-[#ae5eab]/90 text-white text-sm font-semibold rounded-l-xl">
+                            {i + 1}
+                          </div>
+
+                          {!filteredArray[0]?.wasPaid && 
+                            <span className="absolute bottom-0 left-0 w-full z-20 py-2 px-2 text-sm  text-center text-white bg-red-500 rounded-b-xl">PENDIENTE DE PAGO</span>                       
+                          }
+            
+             
+                          <p id="name" className="px-4 py-5 font-medium text-lg w-[60%] "> {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
+                            <span className="block text-left "><CalculateAge birthdate={String(item?.student?.birthdate)} /></span>    
+                            {item?.totalSessions ===1 && 
+                              <span className="bg-green-600 text-white py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>}                      
+                          </p>
+                          
+                          <div id="name" className="px-2 py-2 font-medium text-sm  border-l-2 w-[35%] ">
+                            <span className="block  w-full uppercase  text-right py-4">
+                                {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
+                            </span>                          
+                            <span className="block  text-right w-full uppercase font-thin">
+                            {item?.course?.description} 
+                                </span>     
+                          </div>
+                      
+                        
+                        </div>
+                        </div>
+                )})}
+          </Tab.Panel>
+          
+          
+        </Tab.Panels>
+      </Tab.Group>
+                  
+                  
+                
+                
+                
                 </>
-              //   </Table.Tbody>
-              // </Table>
                 ))
       
             }

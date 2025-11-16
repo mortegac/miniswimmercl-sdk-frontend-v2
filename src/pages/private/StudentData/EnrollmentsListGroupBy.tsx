@@ -44,6 +44,13 @@ const typeOfRelationship: any = {
   ["Primo/a"]: "",
 };
 
+const planNames: { [key: number]: string } = {
+  1: "Clase de prueba",
+  4: "Plan Mensual",
+  12: "Plan Trimestral",
+  24: "Plan Semestral",
+};
+
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
 
@@ -463,11 +470,11 @@ function Content(props: any) {
           {generateSessionStatistics.map((stat: any, index: number) => (
             <div key={index} className="bg-white p-3 rounded-md border">
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary">
-                  {stat.numberOfSessions}
+                <div id="namePack" className="text-xl uppercase font-bold text-primary">
+                  {planNames[stat.numberOfSessions] || `${stat.numberOfSessions} sesiones`}
                 </div>
                 <div className="text-sm text-slate-500">
-                  {stat.numberOfSessions === 1 ? 'sesión' : 'sesiones'}
+                  {stat.numberOfSessions} {stat.numberOfSessions === 1 ? 'sesión' : 'sesiones'}
                 </div>
                 <div className="text-lg font-semibold mt-1">
                   {stat.count} {stat.count === 1 ? 'inscripción' : 'inscripciones'}

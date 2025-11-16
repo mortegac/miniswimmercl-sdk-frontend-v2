@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, createEmailSent} from "./services"
+import {fetchData, createEmailSent, whatsappSent} from "./services"
 import {EmailSend, emptyEmailSend, FilterOptions} from "./types"
 
 
@@ -54,6 +54,21 @@ export const setEmailSend = createAsyncThunk(
   }
 );
 
+export const setWhatsapp = createAsyncThunk(
+  "whatsappSend/sent",
+  async (objFilter: FilterOptions, { dispatch }) => {
+    try {
+      console.error(">>>>setEnrollment-objFilter", objFilter)
+      const response:any = await whatsappSent({ ...objFilter });
+      console.error(">>>>setEnrollment-response", response)
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH setEnrollment", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
 
 export const EmailSendSlice = createSlice({
   name: "emailSend",
@@ -65,7 +80,26 @@ export const EmailSendSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-       // SET ENROLLMENT
+       // SET Whatsapp
+      .addCase(setWhatsapp.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload?.errorMessage && objPayload.errorMessage;
+        state.wasSent = false;
+      })
+      .addCase(setWhatsapp.pending, (state) => {
+        // state.status = "loading";
+      })
+      .addCase(setWhatsapp.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.wasSent = true;
+        state.emailSends = objPayload;
+        // console.log("---setEnrollment --action---", objPayload)
+        
+      })
+     
+     
+      // SET EMAIL
       .addCase(setEmailSend.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";

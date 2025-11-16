@@ -47,6 +47,10 @@ export type InputOptions  = {
 
 
 export type FilterOptions  = { 
+  message?: string;
+  phoneNumber?: string;
+  name?: string;
+  
   type?: string;
   contentEmail?: string;
   contentMessage?: string;

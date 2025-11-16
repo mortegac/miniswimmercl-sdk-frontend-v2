@@ -33,7 +33,7 @@ type Student @model {
   privateEnrollments: [PrivateEnrollment] @hasMany  # Relación opcional con inscripciones privadas
   relationships: [Relationship] @hasMany
   sessionDetail: SessionDetail @hasOne
-  emailSend: [EmailSend] @hasMany  # Email enviados al student
+  emailSend: [EmailSend] @hasMany(indexName: "byStudentEmailSendId", fields: ["id"])  # Email enviados al student
   supportTickets: [SupportTicket] @hasMany # Relación con SupportTicket
 
   studentEvaluations: [StudentEvaluations] @hasMany # Evaluaciones del estudiante
@@ -80,7 +80,7 @@ type Enrollment @model {
   course: Course! @belongsTo
   # transaction: Transaction @hasOne   # Relacion ono to one con la transaccion del pago
   sessionDetails: [SessionDetail] @hasMany
-  emailSends: [EmailSend] @hasMany    # Nueva relación con EmailSend
+  emailSends: [EmailSend] @hasMany(indexName: "byEnrollment", fields: ["id"])    # Nueva relación con EmailSend
   
 }
 

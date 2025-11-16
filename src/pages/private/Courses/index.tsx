@@ -244,7 +244,7 @@ function FormCourse(props: any) {
     totalSessions: "",
     amount: "",
   })
-  const {data} = props;
+  const {data, setNewSlideover} = props;
   // const {courses } = useAppSelector(selectCourse);
   const {locations, status } = useAppSelector(selectLocation);
   const {locationIdSelected } = useAppSelector(selectCourse);
@@ -476,6 +476,7 @@ function FormCourse(props: any) {
             data={data} 
             locations={locations}
             type="EDIT"
+            setNewSlideover={setNewSlideover}
             />
           </Tab.Panel>
           
@@ -533,6 +534,7 @@ function setDataSlider(data:any){
            
            <FormCourse 
             data={dataCourse}
+            setNewSlideover={setNewSlideover}
            />
             {/* <LevelsList
               data={evaluationLevels}
@@ -621,6 +623,7 @@ function setDataSlider(data:any){
                             {item?.locationCoursesId} 
                             </p>                           
                           </div>
+                         
                         </>
                       </Table.Td>
                       <Table.Td className="w-40 border-dashed">

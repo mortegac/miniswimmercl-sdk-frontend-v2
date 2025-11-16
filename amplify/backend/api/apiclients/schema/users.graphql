@@ -24,7 +24,7 @@ type Users @model {
   zoomLevel: Int @default(value: "15")  # Map zoom level
   
   #Relations
-  emailSend: [EmailSend] @hasMany  # Email enviados al user
+  emailSend: [EmailSend] @hasMany(indexName: "byUserSend", fields: ["id"])  # Email enviados al user
   relationships: [Relationship] @hasMany
   
   tickets: [SupportTicket] @manyToMany(relationName: "TicketUser")

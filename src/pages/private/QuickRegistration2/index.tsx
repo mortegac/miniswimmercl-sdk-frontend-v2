@@ -188,7 +188,7 @@ function Main() {
                   </div>
                 </div>
                 <span className="ml-3.5 text-white font-medium whitespace-nowrap group-[.active]:text-current ">
-                Alumno
+                Alumno 2
                 </span>
               </div>
             </div>

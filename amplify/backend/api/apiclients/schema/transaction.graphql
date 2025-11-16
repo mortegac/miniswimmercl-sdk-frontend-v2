@@ -17,7 +17,7 @@ enum ParametersType {
 type PaymentTransactions @model @auth(rules: [{ allow: public }]) {
   id: ID! @index(name: "searchByDiaMesAnoHour", sortKeyFields: ["day", "month", "year", "hour"])
   status: String @default(value: " ")
-  token: String @default(value: " ")
+  token: String @default(value: " ") @index(name: "byToken")
   urlWebpay: String @default(value: " ")
   amount: Float                                         # Valor en CLP de 1 KWh
   buy_order: String @default(value: " ")
