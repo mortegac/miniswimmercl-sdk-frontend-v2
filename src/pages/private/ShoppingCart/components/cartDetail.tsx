@@ -44,12 +44,14 @@ function Content(props: any) {
          
          :
          <Table.Tr key={""} className="[&_td]:last:border-b-0 w-full">
-                    <Table.Td className="w-8 py-4 border-dashed">
+                    
+                    <Table.Td className="hidden md:table-cell py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                    
                     <span className="flex items-center justify-center">
                         {detail?.quantity}
                     </span>
                     </Table.Td>
-                    <Table.Td className="w-80 py-4 border-dashed">
+                    <Table.Td className="min-w-[300px] py-4 border-dashed">
                     <div className="flex items-start justify-start text-slate-400">
                     {typeOfDetail[detail?.type]}
                     </div>
@@ -57,12 +59,12 @@ function Content(props: any) {
                     {detail?.detail}
                     </div>
                     </Table.Td>
-                    <Table.Td className="w-36 py-4 text-center border-dashed">
+                    <Table.Td className="min-w-[160px] py-4 text-center border-dashed">
                     <span className="text-center w-full block">
                     {`$ ${formatCurrency(detail?.amount)}`}
                     </span>
                     </Table.Td>
-                    <Table.Td className="w-52 py-4 border-dashed">
+                    <Table.Td className="min-w-[160px]  py-4 border-dashed">
                     <span className="flex items-start justify-start">
                     {`${detail?.enrollment?.student?.name || ""} ${detail?.enrollment?.student?.lastName || ""}`}
                     </span>
@@ -145,8 +147,8 @@ export function CartDetail(props: any) {
         <Table className="border-b border-slate-200/60">
           <Table.Thead>
             <Table.Tr>
-            <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
-                Cantidad
+            <Table.Td className="hidden md:table-cell py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+            Cantidad
               </Table.Td>
               <Table.Td className=" text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Detalle

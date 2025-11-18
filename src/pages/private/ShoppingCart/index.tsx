@@ -453,6 +453,7 @@ function  Content(props: any) {
   return (
     <>
       <Slideover
+         staticBackdrop
         size="xl"
         key="Slide-Historial"
         open={switcherSlideover}
@@ -460,7 +461,7 @@ function  Content(props: any) {
           setSwitcherSlideover(false);
         }}
       >
-        <Slideover.Panel className="w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+        <Slideover.Panel className=" rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
           <a
             href=""
             className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
@@ -492,6 +493,21 @@ function  Content(props: any) {
               clientName={cartId.clientName}
             />
             
+            <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0 pb-24 xl:pb-0">
+                                        <div className="w-screen mt-3 xl:mt-0 fixed bottom-0 left-0 right-0 z-30 px-0 pb-4 bg-slate-900/80 xl:w-full xl:static xl:px-0 xl:pb-0">
+                                          <Button
+                                          id="enrollmentStudent"
+                                            key={`${"UPDATE_SESSION"}-span-buttons`}
+                                            rounded
+                                            variant="primary"
+                                            className={`w-full h-20 rounded-none px-4 py-4 font-light uppercase shadow-lg xl:h-auto xl:rounded xl:px-2 xl:py-2 xl:mx-2`}
+                                            onClick={()=> setSwitcherSlideover(false)}
+                                          >
+                                            <span className="text-xl">Cerrar</span>
+                                            
+                                          </Button>
+                                        </div>
+                                      </div>
           </Slideover.Description>
         </Slideover.Panel>
       </Slideover>

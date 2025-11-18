@@ -391,6 +391,7 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
       
       {/* STUDENTS */}
       <Slideover
+      staticBackdrop
         size="xl"
         key="Slide-studnets22"
         open={studentSlide}
@@ -398,7 +399,7 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
           setStudentSlide(false);
         }}
       >
-        <Slideover.Panel className="rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+        <Slideover.Panel className="w-full  rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
           <a
             href=""
             className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
@@ -428,6 +429,7 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
       </Slideover>
       {/* INSCRIPCION */}
       <Slideover
+        staticBackdrop
         size="xl"
         key="Slide-sessions333444444"
         open={sessionSlideover}

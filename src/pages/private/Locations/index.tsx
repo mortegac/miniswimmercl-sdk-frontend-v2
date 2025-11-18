@@ -8,7 +8,7 @@ import LocationsCard from "./components/LocationsCard";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
-import { getLocations, selectLocation } from "@/stores/Locations/slice";
+import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
 
 import LoadingIcon from "@/components/Base/LoadingIcon";
 
@@ -35,7 +35,7 @@ function Main() {
   
   dispatch(setBreadcrumb({first:"Listado de sedes", firstURL:"locations"}));
   
-  useEffect(() => { (async () => await dispatch(getLocations()))(); }, []);
+  useEffect(() => { (async () => await dispatch(getLocationsOnly("CHILE")))(); }, []);
 
   
 
