@@ -302,7 +302,21 @@ export const enrollmentSlice = createSlice({
       .addCase(getGuardian.fulfilled, (state, action) => {
         state.status = "idle";
         const objPayload: any = action.payload;
-        console.log("---objPayload---", objPayload)
+        console.log("-getGuardian--objPayload---", objPayload)
+        
+        // Filtrar relaciones donde student?.isActive !== false
+        const filteredRelationships = objPayload?.relationships?.items?.filter(
+          (item: any) => item?.student?.isActive !== false
+        ) || [];
+        
+        // Crear nuevo objeto con relaciones filtradas
+        const filteredPayload = {
+          ...objPayload,
+          relationships: {
+            ...objPayload?.relationships,
+            items: filteredRelationships
+          }
+        };
         
         // if(objPayload?.id !== ""){
         const data:{} = objPayload?.id && {
@@ -321,7 +335,7 @@ export const enrollmentSlice = createSlice({
         }
           state.enrollment = {
             ...state.enrollment,
-            ...action.payload,
+            ...filteredPayload,
             ...data
             // guardianId:objPayload?.id,
             // guardianEmail: objPayload?.email,

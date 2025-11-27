@@ -18,6 +18,8 @@ type Student @model {
   gender: String!
   country: String @default(value: "CHILE") @index(name: "byCountry")  # Country
   
+  isActive: Boolean @default(value: "true")
+  
   firstSwimmingClass: Boolean @default(value: "false")                   #| El alumno, ¿ Es primera vez que toma clases de natación ?
   attendedDaycare: Boolean @default(value: "false")                       #| ¿ Asiste o asistió a sala cuna o jardín ?
   immersesWithoutSwallowingWater: Boolean @default(value: "false")        #|  ¿ Se sumerge sin tragar agua ?
@@ -33,7 +35,7 @@ type Student @model {
   privateEnrollments: [PrivateEnrollment] @hasMany  # Relación opcional con inscripciones privadas
   relationships: [Relationship] @hasMany
   sessionDetail: SessionDetail @hasOne
-  emailSend: [EmailSend] @hasMany(indexName: "byStudentEmailSendId", fields: ["id"])  # Email enviados al student
+  emailSend: [EmailSend] @hasMany  # Email enviados al student
   supportTickets: [SupportTicket] @hasMany # Relación con SupportTicket
 
   studentEvaluations: [StudentEvaluations] @hasMany # Evaluaciones del estudiante
@@ -80,7 +82,7 @@ type Enrollment @model {
   course: Course! @belongsTo
   # transaction: Transaction @hasOne   # Relacion ono to one con la transaccion del pago
   sessionDetails: [SessionDetail] @hasMany
-  emailSends: [EmailSend] @hasMany(indexName: "byEnrollment", fields: ["id"])    # Nueva relación con EmailSend
+  emailSends: [EmailSend] @hasMany    # Nueva relación con EmailSend
   
 }
 

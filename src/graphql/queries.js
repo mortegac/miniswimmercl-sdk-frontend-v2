@@ -555,6 +555,7 @@ export const getEmailSend = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -621,6 +622,9 @@ export const getEmailSend = /* GraphQL */ `
       createdAt
       updatedAt
       privateEnrollmentEmailSendsId
+      studentEmailSendId
+      enrollmentEmailSendsId
+      usersEmailSendId
       __typename
     }
   }
@@ -657,6 +661,9 @@ export const listEmailSends = /* GraphQL */ `
         createdAt
         updatedAt
         privateEnrollmentEmailSendsId
+        studentEmailSendId
+        enrollmentEmailSendsId
+        usersEmailSendId
         __typename
       }
       nextToken
@@ -847,6 +854,7 @@ export const getStudentEvaluations = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -1277,6 +1285,7 @@ export const getPrivateEnrollment = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -1916,6 +1925,7 @@ export const getStudent = /* GraphQL */ `
       emailPhone
       gender
       country
+      isActive
       firstSwimmingClass
       attendedDaycare
       immersesWithoutSwallowingWater
@@ -2007,6 +2017,7 @@ export const listStudents = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -2054,6 +2065,7 @@ export const getEnrollment = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -2228,6 +2240,7 @@ export const getSessionDetail = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -2811,6 +2824,7 @@ export const getSupportTicket = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -3393,6 +3407,7 @@ export const getRelationship = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater
@@ -4044,6 +4059,9 @@ export const emailSendsByStudentId = /* GraphQL */ `
         createdAt
         updatedAt
         privateEnrollmentEmailSendsId
+        studentEmailSendId
+        enrollmentEmailSendsId
+        usersEmailSendId
         __typename
       }
       nextToken
@@ -4083,6 +4101,9 @@ export const emailSendsByUserSendId = /* GraphQL */ `
         createdAt
         updatedAt
         privateEnrollmentEmailSendsId
+        studentEmailSendId
+        enrollmentEmailSendsId
+        usersEmailSendId
         __typename
       }
       nextToken
@@ -4122,6 +4143,9 @@ export const emailSendsByEnrollmentId = /* GraphQL */ `
         createdAt
         updatedAt
         privateEnrollmentEmailSendsId
+        studentEmailSendId
+        enrollmentEmailSendsId
+        usersEmailSendId
         __typename
       }
       nextToken
@@ -4229,6 +4253,7 @@ export const studentsByCountry = /* GraphQL */ `
         emailPhone
         gender
         country
+        isActive
         firstSwimmingClass
         attendedDaycare
         immersesWithoutSwallowingWater

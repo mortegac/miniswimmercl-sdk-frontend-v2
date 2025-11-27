@@ -18,11 +18,12 @@ export const fetchDataSearchName = async (objFilter: FilterOptions): Promise<any
         query: listStudents,
         variables: { 
           filter: {
+            isActive: {ne: false},
             or: [
               { name: { contains: objFilter?.name } },
               { lastName: { contains: objFilter?.name } },
               // { middleName: { contains: objFilter?.name } }
-            ]
+            ] 
           },
           limit: 100000000
         },
@@ -55,22 +56,18 @@ export const fetchData = async (): Promise<any> => {
       const getData:any = await client.graphql({
         query: listStudents,
         variables: { 
+          filter: {
+            isActive: {ne: false},
+          },
           limit: 100000000
         },
-        // variables: { id: userId },
       });
       
       console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
         resolve({ ...data.listStudents } as any);
-        
-        // ...userData.data.getUsers
-      // } else {
-      //   reject({
-      //     errorMessage: errorMsg,
-      //   });
-      // }
+
     } catch (err) {
       reject(
         JSON.stringify({
@@ -134,7 +131,8 @@ export const createStudentquick = async (objFilter: FilterOptions): Promise<any>
             whoIsTheContact: "",
             emailPhone: objFilter.emailPhone,
             gender: objFilter.gender,
-            anyIllnessInjuryMedicalCondition: "No ninguna"
+            anyIllnessInjuryMedicalCondition: "No ninguna",
+            isActive: true,
           }
         }
       });

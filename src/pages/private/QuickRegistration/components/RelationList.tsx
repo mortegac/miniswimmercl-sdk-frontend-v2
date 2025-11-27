@@ -147,7 +147,7 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
         <>
                 <div 
                 id="studentCard"
-                className="box mr-4 sm:mr-0 mt-10" 
+                className="box mr-6 px-4  mt-10" 
                 key={`STUDENTS-${student?.student?.id}-${student?.student?.id}`}>
               <div
                 id="containner"

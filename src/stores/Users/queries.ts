@@ -36,6 +36,7 @@ export const getUsers = /* GraphQL */ `
             gender
             birthdate
             placeOfResidence
+            isActive
             enrollments{
               items{
                 id
@@ -132,6 +133,7 @@ export const listUsers = /* GraphQL */ `
             gender
             birthdate
             placeOfResidence
+            isActive
             enrollments{
               items{
                 id
