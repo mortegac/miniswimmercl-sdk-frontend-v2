@@ -98,7 +98,69 @@ function Main() {
   const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
   const {locationsList } = useAppSelector(selectLocation);
-  const dispatch = useAppDispatch();  
+  const dispatch = useAppDispatch();
+  
+  // Función para filtrar, ordenar y generar objetos únicos
+  const getUniqueScheduleStrings = () => {
+    if (!Array.isArray(sessionDetails)) return [];
+    
+    // Ordenar primero por schedule.day y luego por schedule.startHour
+    const sorted = [...sessionDetails].sort((a: any, b: any) => {
+      // Comparar por día
+      const dayA = a?.schedule?.day || '';
+      const dayB = b?.schedule?.day || '';
+      const dayComparison = dayA.localeCompare(dayB);
+      if (dayComparison !== 0) return dayComparison;
+      
+      // Si los días son iguales, comparar por hora
+      const hourA = a?.schedule?.startHour || '';
+      const hourB = b?.schedule?.startHour || '';
+      return hourA.localeCompare(hourB);
+    });
+    
+    // Crear un Map para agrupar por combinación única y contar estados
+    const uniqueMap = new Map<string, { 
+      dayClass: string; 
+      descriptionClass: string;
+      activeAndRecovered: number;
+      used: number;
+    }>();
+    
+    sorted.forEach((item: any) => {
+      const day = item?.schedule?.day || '';
+      const startHour = item?.schedule?.startHour || '';
+      const description = item?.course?.description || '';
+      const status = item?.status || '';
+      
+      // Crear clave única
+      const uniqueKey = `${day}-${startHour}-${description}`;
+      
+      // Si no existe, crear el objeto inicial
+      if (!uniqueMap.has(uniqueKey)) {
+        uniqueMap.set(uniqueKey, {
+          dayClass: `${day} ${startHour}`,
+          descriptionClass: description,
+          activeAndRecovered: 0,
+          used: 0
+        });
+      }
+      
+      // Obtener el objeto y actualizar contadores
+      const scheduleObject = uniqueMap.get(uniqueKey)!;
+      
+      // Contar según el status
+      if (status === "ACTIVE" || status === "RECOVERED") {
+        scheduleObject.activeAndRecovered += 1;
+      } else if (status === "USED") {
+        scheduleObject.used += 1;
+      }
+    });
+    
+    // Retornar array de objetos únicos con conteos
+    return Array.from(uniqueMap.values());
+  };
+  
+  const uniqueScheduleStrings = getUniqueScheduleStrings();  
   
   const sortStudents = (a: any, b: any) => {
     // const aSessionsCount = a.enrollments.items.reduce((acc: any, enrollment: any) => acc + enrollment.sessionDetails.items.length, 0);
@@ -364,6 +426,7 @@ function Main() {
             variant="boxed-tabs"
             className="flex-col sm:flex-row w-full xl:w-[580px] mr-auto bg-white box rounded-[0.6rem] border-slate-200"
           >
+       {/* Asistencia  */}
             <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
               <Tab.Button
                 className="w-full xl:w-40 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
@@ -372,6 +435,18 @@ function Main() {
                 Listado Alumnos
               </Tab.Button>
             </Tab>
+            
+        {/* Orden de Clases      */}
+            <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+              <Tab.Button
+                className="w-full xl:w-40 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
+                as="button"
+              >
+                Orden de Clases
+              </Tab.Button>
+            </Tab>
+            
+        {/* Asistencia registrada */}
             <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
               <Tab.Button
                 className="w-full xl:w-52 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
@@ -424,13 +499,34 @@ function Main() {
                           <>
                             {item?.status === "USED" && <h3 className="text-3xl font-thin leading-none">Sesiones Utilizadas</h3>}
                             <div className={`flex flex-row justify-between items-center px-4 py-2 mb-2 mt-10 w-full min-w-[200px] overflow-x-auto md:overflow-visible 
-                              ${item?.status !== "USED" && "bg-slate-700 text-white"}
-                             
-                            rounded-full`}>
+                             bg-slate-700 text-white
+                             ${item?.course?.description === "PERSONALIZADO" && "bg-purple-600/30 text-slate-700"}
+                             rounded-full`}>
+                              
+                              {/* ${item?.status !== "USED" && "bg-slate-700 text-white"} */}
+                              {/* bg-slate-700 text-white  */}
+                              
+                              { item?.course?.description !== "PERSONALIZADO" && <>
                               <p className="text-sm md:text-xl font-medium leading-none uppercase whitespace-nowrap">
-                              {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
+                                  {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
                               </p>
                               <p className="text-sm md:text-lg font-semibold leading-none uppercase whitespace-nowrap" >{item?.course?.description}</p>
+                              
+                              </>  
+                                        }
+                                        
+                                         { item?.course?.description === "PERSONALIZADO" && <p
+                                            className={""}
+                                              >
+                                              <span className="px-6 py-2 uppercase text-lg w-full  text-slate-700">
+                                              {item?.course?.description}
+                                              </span>
+                                          </p>
+                                        }
+                                        
+                              
+                            
+                              
                             </div>
                           </>
                         }
@@ -534,6 +630,118 @@ function Main() {
                         </div>
                 )})}
           </Tab.Panel>
+          
+          
+          {/* Asistencia Registrada */}
+          <Tab.Panel>
+            {/* <pre>{JSON.stringify(uniqueScheduleStrings, null, 2 )}</pre> */}
+            
+          <div className="col-span-12 xl:col-span-6">
+                    <div className="flex flex-col gap-y-7">
+                      <div className="flex flex-col p-5  ">
+                        <div className="pb-5 mb-5 font-medium border-b  border-slate-300/70 text-[0.94rem]">
+                          Clases de hoy
+                        </div>
+                        <div className="-my-3">
+                          <div className="relative overflow-hidden before:content-[''] before:absolute before:w-px before:bg-slate-500/30 before:left-0 before:inset-y-0 before:dark:bg-darkmode-400 before:ml-[18px]">
+                            { Array.isArray(uniqueScheduleStrings) && 
+                            [...uniqueScheduleStrings]
+                            .map((item:any, index:number)=>{
+                                
+                                return <>
+                                {/* <pre>{JSON.stringify(item, null, 2 )}</pre> */}
+                                <div
+                                  className={clsx([
+                                    "mb-8 last:mb-0 relative",
+                                  ])}
+                                  key={index}
+                                >
+                                    <div className="flex flex-col justify-start items-start">
+                                        <div className="flex flex-row justify-start items-center w-full  ">
+                                          <div className="h-5 w-5 bg-slate-700 ml-2 rounded-full"></div>
+                                          
+                                          { item?.descriptionClass !== "PERSONALIZADO" && <p
+                                            className={clsx([
+                                                  "bg-pink-200 min-w-96 group flex items-center text-xs font-medium rounded-md sm:ml-2 border px-0.5 py-1 mr-auto sm:mr-0",
+                                                  "bg-slate-400/30 text-slate-700 ",
+                                                  "w-48",
+                                              ])}
+                                              >
+                                              <span className="px-6 py-2 uppercase text-lg w-full">
+                                              {item?.dayClass}
+                                              </span>
+                                          </p>
+                                        }
+                                        
+                                         { item?.descriptionClass === "PERSONALIZADO" && <p
+                                            className={clsx([
+                                                  "min-w-96 group flex items-center text-xs font-medium rounded-md sm:ml-2 border px-0.5 py-1 mr-auto sm:mr-0",
+                                                  "bg-purple-600/30 text-slate-700 ",
+                                                  "w-48",
+                                              ])}
+                                              >
+                                              <span className="px-6 py-2 uppercase text-lg w-full">
+                                              {item?.descriptionClass}
+                                              </span>
+                                          </p>
+                                        }
+                                          
+                                        </div>
+                                        { item?.descriptionClass !== "PERSONALIZADO" && <div className="px-4 py-2 ml-8 ">
+                                          <p className="text-sm font-medium text-slate-600 uppercase ">
+                                            {item?.descriptionClass}
+                                          </p>
+                                        </div>
+                                        }
+                                        
+                                        <div className="px-4 py-2 ml-8 flex flex-row justify-center items-center ">
+                                          <span className="text-sm font-medium text-slate-800 uppercase py-2 px-4 bg-red-300/35 mr-4 rounded-full">
+                                            <i className=" font-thin">Faltantes:</i> <b className="text-lg ml-4">{item?.activeAndRecovered}</b>
+                                          </span>
+                                          <span className="text-sm font-medium text-slate-800  uppercase py-2 px-4 bg-slate-300  rounded-full">
+                                            <i className=" font-thin">Asistentes:</i> <b className="text-lg ml-4">{item?.used}</b>
+                                          </span>
+                                        </div>
+                                    </div>
+                                    
+{/*                                     
+                                    <div
+                                    className={clsx([
+                                      "px-4 py-3 ml-8",
+                                    ])}
+                                  >
+                                    <a
+                                      href=""
+                                      className="font-medium text-slate-500"
+                                    >
+                                     
+                                     asas
+                                    </a>
+                                    
+                                    <div className="mt-1.5 text-xs text-slate-500">
+                                      <p>
+                                        
+                                        <span className="mr-4">{item?.glosa}</span>
+                                        <span className="mr-4">{item?.card_number && "xxxxxx-"} {item?.card_number}</span>
+                                        <span className="mr-4 font-thin"> {item?.usersPaymentTransactionsId}</span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                   */}
+                                  
+                                  
+                                  
+                                </div>     
+                                </>
+                            })}
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          </Tab.Panel>
+
           
           {/* Asistencia Registrada */}
           <Tab.Panel>
