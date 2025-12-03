@@ -200,25 +200,96 @@ function Main() {
     
   async function updateDate(dateStr:any){
     
-    const selectedDate = new Date(dateStr);
+    // Validar que dateStr no sea null, undefined o vacío
+    if (!dateStr) {
+      console.error("---dateStr es inválido---", dateStr);
+      return;
+    }
     
-    console.log("---dateStr---", dateStr)
+    // Mapeo de meses en español (abreviados y completos)
+    const mesesEspanol: { [key: string]: number } = {
+      'ene': 1, 'enero': 1,
+      'feb': 2, 'febrero': 2,
+      'mar': 3, 'marzo': 3,
+      'abr': 4, 'abril': 4,
+      'may': 5, 'mayo': 5,
+      'jun': 6, 'junio': 6,
+      'jul': 7, 'julio': 7,
+      'ago': 8, 'agosto': 8,
+      'sep': 9, 'septiembre': 9,
+      'oct': 10, 'octubre': 10,
+      'nov': 11, 'noviembre': 11,
+      'dic': 12, 'diciembre': 12
+    };
     
-    const day2 = String(selectedDate.getDate()).padStart(2, '0');
-    // const day = String(selectedDate.getDay() + 1).padStart(2, '0');
-    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
-    const fullYear = String(selectedDate.getFullYear());
+    // Intentar parsear la fecha de diferentes formas
+    let selectedDate: Date;
+    
+    // Si dateStr ya es un objeto Date
+    if (dateStr instanceof Date) {
+      selectedDate = dateStr;
+    } 
+    // Si es un string, intentar parsearlo
+    else if (typeof dateStr === 'string') {
+      // Si viene en formato "1 dic, 2025" o similar (español)
+      const formatoEspanol = /^(\d{1,2})\s+([a-záéíóúñ]+),?\s+(\d{4})$/i.exec(dateStr.trim());
+      if (formatoEspanol) {
+        const [, day, monthName, year] = formatoEspanol;
+        const monthNum = mesesEspanol[monthName.toLowerCase()];
+        if (monthNum) {
+          selectedDate = new Date(Date.UTC(parseInt(year), monthNum - 1, parseInt(day), 0, 0, 0, 0));
+        } else {
+          selectedDate = new Date(dateStr);
+        }
+      }
+      // Si viene en formato YYYY-MM-DD, parsearlo directamente
+      else if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+        selectedDate = new Date(dateStr + 'T00:00:00.000Z');
+      }
+      // Si viene en formato DD-MM-YYYY, convertirlo
+      else if (/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
+        const [day, month, year] = dateStr.split('-');
+        selectedDate = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
+      }
+      // Intentar parseo estándar
+      else {
+        selectedDate = new Date(dateStr);
+      }
+    }
+    // Si es un número (timestamp)
+    else if (typeof dateStr === 'number') {
+      selectedDate = new Date(dateStr);
+    }
+    // Fallback
+    else {
+      selectedDate = new Date(dateStr);
+    }
+    
+    // Validar que la fecha sea válida
+    if (isNaN(selectedDate.getTime())) {
+      console.error("---Fecha inválida---", dateStr, selectedDate);
+      return;
+    }
+    
+    console.log("---dateStr---", dateStr, "---selectedDate---", selectedDate);
+    
+    const day2 = String(selectedDate.getUTCDate()).padStart(2, '0');
+    const month = String(selectedDate.getUTCMonth() + 1).padStart(2, '0');
+    const fullYear = String(selectedDate.getUTCFullYear());
+    
+    // Formatear fecha en formato requerido: YYYY-MM-DD
+    const dateFormated = `${fullYear}-${month}-${day2}`;
 
     setDate({
       ...date,
-      dateChile: String(selectedDate), //newDateChile
-      dateUtc: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`),
+      dateChile: selectedDate.toISOString(), //newDateChile
+      dateUtc: String(`${dateFormated}T00:00:00.000Z`),
       dateShow: String(`${day2}-${month}-${fullYear}`),
     });
     
 
     await dispatch(getSessionByLocationAndDate({
-      sessionDate: String(`${fullYear}-${month}-${day2}`), 
+      sessionDate: dateFormated, 
       locationId: date?.locationId
     }))
     // await dispatch(getSessionDetails({
@@ -363,25 +434,28 @@ function Main() {
                   className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3]"
                 />
                 
-                <Litepicker value={date?.dateChile} 
-                  onChange={(e)=> {
-                    updateDate(e.target.value);    
-                    }}
-                    options={{
-                      autoApply: true,
-                      singleMode: true, // Cambia a false si necesitas selección de rango
-                      showWeekNumbers: true,
-                      // format: 'DD-MM-YYYY',
-                      // format: 'YYYY-MM-DD',
-                      
-                      dropdowns: {
-                        minYear: 2024,
-                        maxYear: null,
-                        months: true,
-                        years: false,
-                      },
-                    }}
-                    className="pl-12 rounded-lg text-xl"
+                <Litepicker 
+                  value={date?.dateChile} 
+                  onChange={(e: any) => {
+                    // Litepicker puede devolver el valor directamente o como objeto
+                    const dateValue = e?.target?.value || e?.value || e;
+                    if (dateValue) {
+                      updateDate(dateValue);
+                    }
+                  }}
+                  options={{
+                    autoApply: true,
+                    singleMode: true,
+                    showWeekNumbers: true,
+                    format: 'YYYY-MM-DD',
+                    dropdowns: {
+                      minYear: 2024,
+                      maxYear: null,
+                      months: true,
+                      years: false,
+                    },
+                  }}
+                  className="pl-12 rounded-lg text-xl"
                 />
               </div>
             </div>
