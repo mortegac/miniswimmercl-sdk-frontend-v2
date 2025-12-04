@@ -564,6 +564,44 @@ function Main() {
     // }))
   }
   
+  // Función para navegar al mes anterior
+  const navigateToPreviousMonth = async () => {
+    if (!date?.firstDayOfMonthUtc) return;
+    
+    const currentDate = new Date(date.firstDayOfMonthUtc);
+    const previousMonth = new Date(Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth() - 1,
+      1,
+      0, 0, 0, 0
+    ));
+    
+    const year = previousMonth.getUTCFullYear();
+    const month = String(previousMonth.getUTCMonth() + 1).padStart(2, '0');
+    const dateMonthStr = `${year}-${month}`;
+    
+    await updateDate(dateMonthStr);
+  };
+  
+  // Función para navegar al mes siguiente
+  const navigateToNextMonth = async () => {
+    if (!date?.firstDayOfMonthUtc) return;
+    
+    const currentDate = new Date(date.firstDayOfMonthUtc);
+    const nextMonth = new Date(Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth() + 1,
+      1,
+      0, 0, 0, 0
+    ));
+    
+    const year = nextMonth.getUTCFullYear();
+    const month = String(nextMonth.getUTCMonth() + 1).padStart(2, '0');
+    const dateMonthStr = `${year}-${month}`;
+    
+    await updateDate(dateMonthStr);
+  };
+  
   interface Params {
     dateSTR?:string;  
     idLocation?:string;  
@@ -644,6 +682,9 @@ function Main() {
         <div className=" text-base font-medium group-[.mode--light]:text-white mb-4 uppercase">
           Listado de cupos: <b className="text-lg hidden md:contents ">{formatMonthYear(date?.firstDayOfMonthUtc || '')}</b> 
         </div>
+        
+       
+        
         <div id="boxResume" className="flex flex-col justify-start md:flex-row flex-start gap-2">
           <div className="flex flex-col justify-start items-start">
             <ListParams
@@ -711,6 +752,26 @@ function Main() {
                   </div>
                 ) : (
                <>
+                {/* Barra de navegación de meses */}
+        <div className="flex items-center justify-center gap-4 mb-4 bg-white py-4">
+          <Button
+            onClick={navigateToPreviousMonth}
+            className="px-4 py-2 bg-slate-200 border border-slate-300 text-slate-700 hover:bg-slate-300"
+          >
+            <Lucide icon="ChevronLeft" className="w-5 h-5" />
+          </Button>
+          
+          <div className="text-lg font-semibold text-slate-700 min-w-[200px] text-center">
+            {formatMonthYear(date?.firstDayOfMonthUtc || '')}
+          </div>
+          
+          <Button
+            onClick={navigateToNextMonth}
+            className="px-4 py-2 bg-slate-200 border border-slate-300 text-slate-700 hover:bg-slate-300"
+          >
+            <Lucide icon="ChevronRight" className="w-5 h-5" />
+          </Button>
+        </div>
                 {/* Calendario mensual: agrupado por fecha */}
                 {Array.isArray(groupedSessions) && groupedSessions.map((dateGroup, dateIndex) => (
                   <div key={`${dateGroup.date}-${dateIndex}`} className="mb-8 p-4 box">
