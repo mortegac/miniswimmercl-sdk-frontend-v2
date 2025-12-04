@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, fetchDataCourseQuote, updateData, updateSession, fetchSessionsByStudent, fetchSessionsByLocationAndDate} from "./services"
+import {fetchData, fetchDataCourseQuote, fetchSessionsByLocationAndDatev2, updateData, updateSession, fetchSessionsByStudent, fetchSessionsByLocationAndDate} from "./services"
 import {SessionDetail, emptySessionDetail, FilterOptions, InputOptions} from "./types"
 
 
@@ -80,6 +80,20 @@ export const getSessionQuote = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH getSessionQuote", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+
+export const getSessionQuotev2 = createAsyncThunk(
+  "sessionDetails/quotev2",
+  async (objFilter: FilterOptions) => {
+    try {
+      const response:any = await fetchSessionsByLocationAndDatev2({ ...objFilter });
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH fetchSessionsByLocationAndDatev2", error)
       return Promise.reject(error);
     }
   }
@@ -249,6 +263,33 @@ export const sessionDetailslice = createSlice({
         state.sessionDetailsQuote = newArray || [];
         
       })
+      
+      
+      // GET getSessionQuote COURSES
+      .addCase(getSessionQuotev2.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getSessionQuotev2.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getSessionQuotev2.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        state.sessionDetails = objPayload.items || [];
+         const counts = objPayload?.items.reduce((acc:any, item:any) => {
+          acc[item.status] = (acc[item.status] || 0) + 1;
+          return acc;
+        }, {
+          USED: 0,
+          RECOVERED: 0,
+          ACTIVE: 0
+        });
+        state.resume = counts || {};
+      })
+      
+    
       
       // UPDATE SessionDetails
       .addCase(setSessionDetails.rejected, (state, action) => {

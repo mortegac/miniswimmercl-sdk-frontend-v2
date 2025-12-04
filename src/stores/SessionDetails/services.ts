@@ -329,6 +329,45 @@ export const fetchSessionsByLocationAndDate = async (objFilter: FilterOptions): 
 };
 
 
+
+export const fetchSessionsByLocationAndDatev2 = async (objFilter: FilterOptions): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      
+     const getData:any = await client.graphql({
+        query: sessionDetailsByLocationIdAndDate,
+        variables: { 
+          locationId: objFilter?.locationId || "",
+          date: { between: [
+            `${objFilter?.sessionDate}`, 
+            `${objFilter?.sessionDateEnd}`
+          ] },
+          sortDirection: "ASC",
+          limit: 1000000000,
+          // filter:{
+          //   or: [
+          //       {status: { eq: "ACTIVE" }},
+          //       {status: { eq: "USED" }},
+          //       {status: { eq: "RECOVERED" }}            
+          //       ]
+          // }
+        },
+      });
+
+       console.log(">>> fetchSessionsByLocationAndDatev2.data  >>>", getData.data )
+    const data:any = getData.data;
+    resolve({ ...data.sessionDetailsByLocationIdAndDate } as any); // CORRECCIÓN AQUÍ
+        
+    } catch (err) {
+      console.log(">> err >>", err)
+      reject({
+        errorMessage:JSON.stringify(err)
+      });
+    }
+  });
+};
+
+
 // COURSES QUOTE 
 export const fetchDataCourseQuote = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {

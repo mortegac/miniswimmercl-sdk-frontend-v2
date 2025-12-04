@@ -39,6 +39,7 @@ export type FilterOptions  = {
   enrollmentId?: string;
   status?: string;
   sessionDate?: string;
+  sessionDateEnd?: string;
   locationId?: string;
   
 };

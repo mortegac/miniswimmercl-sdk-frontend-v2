@@ -29,6 +29,7 @@ import {
   REPORT_COURSES,
   ADMIN_STUDENT,
   
+  
 } from "@/router/paths";
 
 export interface Menu {
@@ -160,11 +161,11 @@ const initialState: SideMenuState = {
         //   pathname: REPORT_OF_REGISTERED,
         //   title: "Cupos por curso",
         // },
-        // {
-        //   icon: "Calendar",
-        //   pathname: COURSES_QUOTAS,
-        //   title: "Cupos calendario",
-        // },
+        {
+          icon: "Calendar",
+          pathname: COURSES_QUOTAS,
+          title: "Cupos mes",
+        },
 
         // {
           //   icon: "PlusCircle",
