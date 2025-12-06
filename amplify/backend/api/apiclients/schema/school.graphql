@@ -86,9 +86,17 @@ type Schedule @model {
   minimumQuotas: Int @default(value: "0")   # Cupos Minimo del horario
   maximumQuotas: Int @default(value: "0")   # Cupos Maximo del horario
   
+  # Campos de relación para índices
+  # Índice compuesto para consultas por location y course simultáneamente
+  # (usa locationSchedulesId como partition key y courseSchedulesId como sort key)
+  # Este índice también permite buscar solo por location (usando solo el partition key)
+  locationSchedulesId: ID @index(name: "byLocationAndCourse", sortKeyFields: ["courseSchedulesId"], queryField: "schedulesByLocationAndCourse")
+  # Índice simple por course
+  courseSchedulesId: ID @index(name: "byCourse", queryField: "schedulesByCourse")
+  
   #Relations
-  course: Course @belongsTo
-  location: Location @belongsTo
+  course: Course @belongsTo(fields: ["courseSchedulesId"])
+  location: Location @belongsTo(fields: ["locationSchedulesId"])
   
   sessionDetails: [SessionDetail] @hasMany(fields: ["id"])
   coachSchedules: [CoachSchedule] @hasMany    # relación con slots de coaches en este horario

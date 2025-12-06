@@ -907,10 +907,10 @@ export const createCoachSchedule = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       scheduleId
@@ -979,10 +979,10 @@ export const updateCoachSchedule = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       scheduleId
@@ -1051,10 +1051,10 @@ export const deleteCoachSchedule = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       scheduleId
@@ -3370,6 +3370,8 @@ export const createSchedule = /* GraphQL */ `
       isActive
       minimumQuotas
       maximumQuotas
+      locationSchedulesId
+      courseSchedulesId
       course {
         id
         title
@@ -3415,8 +3417,6 @@ export const createSchedule = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      locationSchedulesId
-      courseSchedulesId
       __typename
     }
   }
@@ -3434,6 +3434,8 @@ export const updateSchedule = /* GraphQL */ `
       isActive
       minimumQuotas
       maximumQuotas
+      locationSchedulesId
+      courseSchedulesId
       course {
         id
         title
@@ -3479,8 +3481,6 @@ export const updateSchedule = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      locationSchedulesId
-      courseSchedulesId
       __typename
     }
   }
@@ -3498,6 +3498,8 @@ export const deleteSchedule = /* GraphQL */ `
       isActive
       minimumQuotas
       maximumQuotas
+      locationSchedulesId
+      courseSchedulesId
       course {
         id
         title
@@ -3543,8 +3545,6 @@ export const deleteSchedule = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      locationSchedulesId
-      courseSchedulesId
       __typename
     }
   }
@@ -4371,10 +4371,10 @@ export const createSessionDetail = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       coach {
@@ -4482,10 +4482,10 @@ export const updateSessionDetail = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       coach {
@@ -4593,10 +4593,10 @@ export const deleteSessionDetail = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       coach {

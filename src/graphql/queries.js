@@ -477,10 +477,10 @@ export const getCoachSchedule = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       scheduleId
@@ -1760,6 +1760,8 @@ export const getSchedule = /* GraphQL */ `
       isActive
       minimumQuotas
       maximumQuotas
+      locationSchedulesId
+      courseSchedulesId
       course {
         id
         title
@@ -1805,8 +1807,6 @@ export const getSchedule = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      locationSchedulesId
-      courseSchedulesId
       __typename
     }
   }
@@ -1834,10 +1834,10 @@ export const listSchedules = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       nextToken
@@ -2280,10 +2280,10 @@ export const getSessionDetail = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       coach {
@@ -4217,6 +4217,76 @@ export const locationsByCountry = /* GraphQL */ `
         directions
         isActive
         isVisible
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const schedulesByLocationAndCourse = /* GraphQL */ `
+  query SchedulesByLocationAndCourse(
+    $locationSchedulesId: ID!
+    $courseSchedulesId: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    schedulesByLocationAndCourse(
+      locationSchedulesId: $locationSchedulesId
+      courseSchedulesId: $courseSchedulesId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        locationSchedulesId
+        courseSchedulesId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const schedulesByCourse = /* GraphQL */ `
+  query SchedulesByCourse(
+    $courseSchedulesId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    schedulesByCourse(
+      courseSchedulesId: $courseSchedulesId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        locationSchedulesId
+        courseSchedulesId
         createdAt
         updatedAt
         __typename

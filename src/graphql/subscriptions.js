@@ -799,10 +799,10 @@ export const onCreateCoachSchedule = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       scheduleId
@@ -870,10 +870,10 @@ export const onUpdateCoachSchedule = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       scheduleId
@@ -941,10 +941,10 @@ export const onDeleteCoachSchedule = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       scheduleId
@@ -3182,6 +3182,8 @@ export const onCreateSchedule = /* GraphQL */ `
       isActive
       minimumQuotas
       maximumQuotas
+      locationSchedulesId
+      courseSchedulesId
       course {
         id
         title
@@ -3227,8 +3229,6 @@ export const onCreateSchedule = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      locationSchedulesId
-      courseSchedulesId
       __typename
     }
   }
@@ -3243,6 +3243,8 @@ export const onUpdateSchedule = /* GraphQL */ `
       isActive
       minimumQuotas
       maximumQuotas
+      locationSchedulesId
+      courseSchedulesId
       course {
         id
         title
@@ -3288,8 +3290,6 @@ export const onUpdateSchedule = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      locationSchedulesId
-      courseSchedulesId
       __typename
     }
   }
@@ -3304,6 +3304,8 @@ export const onDeleteSchedule = /* GraphQL */ `
       isActive
       minimumQuotas
       maximumQuotas
+      locationSchedulesId
+      courseSchedulesId
       course {
         id
         title
@@ -3349,8 +3351,6 @@ export const onDeleteSchedule = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      locationSchedulesId
-      courseSchedulesId
       __typename
     }
   }
@@ -4161,10 +4161,10 @@ export const onCreateSessionDetail = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       coach {
@@ -4271,10 +4271,10 @@ export const onUpdateSessionDetail = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       coach {
@@ -4381,10 +4381,10 @@ export const onDeleteSessionDetail = /* GraphQL */ `
         isActive
         minimumQuotas
         maximumQuotas
-        createdAt
-        updatedAt
         locationSchedulesId
         courseSchedulesId
+        createdAt
+        updatedAt
         __typename
       }
       coach {
