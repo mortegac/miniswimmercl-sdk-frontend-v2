@@ -5,6 +5,7 @@ import _, { iteratee } from "lodash";
 
 import { FormSelect } from "@/components/Base/Form";
 
+import { Menu } from "@/components/Base/Headless";
 import Table from "@/components/Base/Table";
 import Lucide from "@/components/Base/Lucide";
 import { Slideover } from "@/components/Base/Headless";
@@ -84,7 +85,7 @@ export function Content(props:any) {
           setSessionSlideover(false);
         }}
       >
-        <Slideover.Panel className="w-screen sm:w-72 rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+        <Slideover.Panel className="w-screen sm:w-full rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
           <a
             href=""
             className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
@@ -198,7 +199,7 @@ export function Content(props:any) {
                               onClick={() => {
                                   updateSession({
                                     sessionId: item?.id, 
-                                    status: item?.status,
+                                    status: "USED",
                                     locationId:item?.locationId,
                                     locationIdUsed:item?.locationId,
                                     date:item?.date
@@ -232,6 +233,60 @@ export function Content(props:any) {
                              })
                            }}
                         ><span className="text-sm uppercase">Editar</span></Button>
+                         <div className="flex items-center justify-center">
+                        <Menu className="h-5">
+                          <Menu.Button className="w-5 h-5 text-slate-500"
+                          >
+                            <Lucide
+                              icon="MoreVertical"
+                              className="w-15 h-15 stroke-slate-400/70 fill-slate-400/70"
+                            />
+                          </Menu.Button>
+                         <Menu.Items className="w-40">
+                            {/* <Menu.Item 
+                             onClick={() => {
+                              setSessionSlideover(true);
+                              setDataSession({
+                                ...item, 
+                                studentId:studentId, 
+                                enrollmentId: item?.enrollmentSessionDetailsId, 
+                                startDate:item?.date,
+                                totalSessions:item?.totalSessions,
+                               
+                                courseId: item?.courseId || "",
+                                courseName: item?.course?.title || "",
+                                scheduleId: item?.scheduleId || "",
+                                scheduleName: `${item?.schedule?.day} ${item?.schedule?.startHour}` || "",
+                                locationIdUsed: item?.locationIdUsed==="" && item?.locationId
+                               
+                              })
+                            }}
+                            >
+                              <Lucide
+                                icon="WalletCards"
+                                className="w-4 h-4 mr-2"
+                              />{" "}
+                              Editar
+                            </Menu.Item> */}
+
+
+                            <Menu.Item
+                            onClick={() => {
+                              updateSession({
+                                sessionId: item?.id, 
+                                status: "DELETED",
+                                locationId:item?.locationId,
+                                locationIdUsed:item?.locationId,
+                                date:item?.date
+                              })
+                            }}
+                            >
+                              <Lucide icon="X" className="w-4 h-4 mr-2" />
+                              Eliminar
+                            </Menu.Item>
+                          </Menu.Items> 
+                        </Menu>
+                      </div>
                       </div>
                     </Table.Td>
                   </Table.Tr>                                            
@@ -253,25 +308,7 @@ export function SessionsPage(props:any) {
   const {data, studentId } = props;
   
   const { status, sessionDetails } = useAppSelector(selectSessionDetails);
-  // function flattenAndSortSessionItems(data: any[]): any[] {
-  //   // 1. Unir todos los arrays 'items' en uno solo
-  //   const allItems = data.reduce((acc, curr) => {
-  //     if (curr.sessionDetails && curr.sessionDetails.items) {
-  //       acc.push(...curr.sessionDetails.items);
-  //     }
-  //     return acc;
-  //   }, [] as any[]);
-  
-  //   // 2. Filtrar los items donde el status no sea "USED"
-  //   const filteredItems = allItems.filter((item:any) => item.status !== "USED");
-  
-  //   // 3. Ordenar el array resultante por la propiedad 'date' de la más nueva a la más antigua
-  //   filteredItems.sort((a:any, b:any) => {
-  //     return new Date(b.date).getTime() - new Date(a.date).getTime();
-  //   });
-  
-  //   return filteredItems;
-  // }
+
   async function changeStatus(state:string){
     
     const newState = statusFilter.status === true ? "DELETED" : "ACTIVE"

@@ -14,6 +14,7 @@ export interface UserState {
   id: string;
   name: string;
   email: string;
+  emailAuth: string;
   phone: string;
   firstLogin: boolean;
   status: "idle" | "loading" | "failed";
@@ -31,6 +32,7 @@ export const initialState: UserState = {
   name: "",
   phone: "",
   email: "",
+  emailAuth: "",
   firstLogin: true,
   status: "idle",
   apoderados: [emptyUser],
@@ -151,7 +153,7 @@ export const authSlice = createSlice({
         action.payload
         state.isAuthenticated = action?.payload?.id ? true:false;
         state.name = action?.payload?.name || "";
-        state.email = action?.payload?.email || "";
+        state.emailAuth = action?.payload?.email || "";
         state.phone = action?.payload?.contactPhone || "";
       })
       
@@ -252,7 +254,7 @@ export const authSlice = createSlice({
         
         state.isAuthenticated = objPayload?.userId ? true:false;
         state.name = action?.payload?.name || "";
-        state.email = action?.payload?.email || "";
+        state.emailAuth = action?.payload?.email || "";
       })
       
       // GET LOGIN USER

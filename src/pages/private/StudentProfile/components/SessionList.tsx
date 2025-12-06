@@ -41,7 +41,7 @@ export function SessionList(props: any) {
     });
     
     console.log("----data---", data)
-    
+    const [statusNew, setStatusNew] = useState("")
     const [dataNew, setDataNew] = useState({
       // studentId, enrollmentId, startDate, courseId, courseName, scheduleId, scheduleName,
       
@@ -73,7 +73,7 @@ export function SessionList(props: any) {
       
       const { courses, status: courseStatus} = useAppSelector(selectCourse);
       const dispatch = useAppDispatch();
-      const {email}= useAppSelector(selectAuth);
+      const {emailAuth}= useAppSelector(selectAuth);
       const { locations, status } = useAppSelector(selectLocation);
       
   
@@ -84,20 +84,20 @@ export function SessionList(props: any) {
         "24": 200
       }
       
-      async function updateSession(){
+      async function updateSession(newStatus:string){
     
         const validation: boolean = dataNew?.id && dataNew?.status && dataNew?.locationId && dataNew?.locationIdUsed && dataNew?.date
-        
+        // alert(`dataNew?.status = ${newStatus}`)
         validation && await Promise.all([
           await dispatch(
             setOneSessionDetail({
               sessionId:dataNew?.id,
-              status:dataNew?.status,
+              status:newStatus,
               locationId:dataNew?.locationId,
               locationIdUsed:dataNew?.locationIdUsed,
               sessionDate:dataNew?.date,
               currentSession:dataNew?.currentSession,
-              userModifyId:email,
+              userModifyId:emailAuth,
               studentId:dataNew?.studentId,
               enrollmentId:dataNew?.enrollmentId,
               
@@ -209,33 +209,6 @@ export function SessionList(props: any) {
           return groups;
         }, {});
       }
-      
-    // useEffect(() => {
-      
-    //   (async () => 
-    //     Promise.all([
-    //       await dispatch(getLocationsOnly()),
-    //       getCoursesByLocation(data?.locationId )
-          
-    //     ])
-    //   )()
-    // }, [data?.locationId]);
-    
-  
-    
-    // useEffect(() => {
-    //   const resultadoFind = data?.courseEnrollmentsId && courses.find(curso => curso.id === data?.courseEnrollmentsId);
-      
-    //   resultadoFind && setCoursesFilter({
-    //     ...coursesFilter,
-    //     scheduleFilter:
-    //       [
-    //         ...resultadoFind
-    //           ?.schedules
-    //           ?.items,
-    //       ],
-    //   });
-    // }, [courses]);
     
     return(
         <>
@@ -662,11 +635,13 @@ export function SessionList(props: any) {
                               onClick={(event: React.MouseEvent) => {
                               event.preventDefault();
                               setDataNew({ ...dataNew, status: item?.id });
-                              updateSession()
+                              updateSession(item?.id)
+                              setStatusNew(item?.id)
                               //  setDataSession({ ...session });
                               //  setSessionSlideover(true);
                             }}                              
                             className={`shadow-none border m-0 p-0 mr-2 mb-1 w-40 h-12  ${item?.id === dataNew?.status && "bg-green-300"}`}>
+                              {/* <p>{item?.id}</p> */}
                               <span
                                   className="group flex justify-center items-center text-xs rounded-md uppercase ">
                                   <span className="-mt-px text-center">
@@ -688,7 +663,7 @@ export function SessionList(props: any) {
                         rounded
                         variant="primary"
                         className="w-full h-14 rounded-none px-4 py-4 font-light uppercase shadow-lg xl:h-auto xl:rounded xl:px-2 xl:py-2 xl:mx-2"
-                        onClick={() => updateSession()}
+                        onClick={() => updateSession(statusNew)}
                       >
                         Actualizar Sesión
                       </Button>

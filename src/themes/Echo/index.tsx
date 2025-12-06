@@ -19,6 +19,9 @@ import {
 } from "@/stores/compactMenuSlice";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./side-menu";
+import { selectAuth} from "@/stores/Users/slice";
+
+
 import Lucide from "@/components/Base/Lucide";
 import clsx from "clsx";
 import SimpleBar from "simplebar";
@@ -31,6 +34,8 @@ import {BreadcrumbApp} from "@/components/Breadcrumb";
 
 function Main() {
   const dispatch = useAppDispatch();
+  
+  const {emailAuth} = useAppSelector(selectAuth);
   const compactMenu = useAppSelector(selectCompactMenu);
   const setCompactMenu = (val: boolean) => {
     localStorage.setItem("compactMenu", val.toString());
@@ -154,14 +159,6 @@ function Main() {
               href=""
               className="flex items-center transition-[margin] duration-300 group-[.side-menu--collapsed] group-[.side-menu--collapsed.side-menu--on-hover]"
             >
-              {/* <div className="flex items-center justify-center w-[34px] rounded-lg h-[34px] bg-gradient-to-b from-theme-1 to-theme-2/80 transition-transform ease-in-out group-[.side-menu--collapsed.side-menu--on-hover]:xl:-rotate-180">
-                <div className="w-[16px] h-[16px] relative -rotate-45 [&_div]:bg-white">
-                  <div className="absolute w-[21%] left-0 inset-y-0 my-auto rounded-full opacity-50 h-[75%]"></div>
-                  <div className="absolute w-[21%] inset-0 m-auto h-[120%] rounded-full"></div>
-                  <div className="absolute w-[21%] right-0 inset-y-0 my-auto rounded-full opacity-50 h-[75%]"></div>
-                </div>
-              </div>
-              */}
               <div className="flex items-center justify-center w-[48px] rounded-lg  transition-transform ease-in-out group-[.side-menu--collapsed.side-menu--on-hover]:xl:-rotate-180">
                 <svg width="767" height="512" viewBox="0 0 767 512" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M444.482 512C421.6 512 402.984 493.384 402.984 470.502V338.746C402.984 332.671 407.909 327.746 413.984 327.746C420.059 327.746 424.984 332.671 424.984 338.746V470.502C424.984 481.253 433.731 490 444.482 490C455.233 490 463.98 481.253 463.98 470.502V460.336C463.98 454.261 468.905 449.336 474.98 449.336C481.055 449.336 485.98 454.261 485.98 460.336V470.502C485.98 493.384 467.364 512 444.482 512Z" fill="#AE5EAB"/>
@@ -427,7 +424,7 @@ function Main() {
                 onClick={() => setQuickSearch(true)}
               >
                 <div className="bg-white/[0.12] border-transparent border w-[350px] flex items-center py-2 px-3.5 rounded-[0.5rem] text-white/60 cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100">
-                  <Lucide icon="Search" className="w-[18px] h-[18px]" />
+                  <Lucide icon="Search" className="w-[22px] h-[22px]" />
                   <div className="ml-2.5 mr-auto">Búsqueda rápida...</div>
                   <div>⌘K</div>
                 </div>
@@ -488,17 +485,17 @@ function Main() {
                 </div>
                 <Menu className="ml-5">
                   <Menu.Button className="overflow-hidden rounded-full w-[36px] h-[36px] border-[3px] border-white/[0.15] image-fit">
-                    <img
-                      alt="Photo"
-                      src={`https://ui-avatars.com/api/?background=F3D55B&color=AE5EAB&name=Ms`}
-                    />
                     {/* <img
                       alt="Photo"
-                      src={`https://ui-avatars.com/api/?background=07bc0c&color=fff&name=${email.slice(
+                      src={`https://ui-avatars.com/api/?background=F3D55B&color=AE5EAB&name=Ms`}
+                    /> */}
+                    <img
+                      alt="Photo"
+                      src={`https://ui-avatars.com/api/?background=F3D55B&color=AE5EAB&name=${emailAuth.slice(
                         0,
                         2
                       )}`}
-                    /> */}
+                    />
                   </Menu.Button>
                   <Menu.Items className="w-56 mt-1">
                     {/*  <Menu.Item
@@ -530,11 +527,19 @@ function Main() {
                       onClick={() => {
                         navigate("settings?page=security");
                       }}
+                      className="text-primary text-center"
+                    >
+                     {emailAuth}
+                    </Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item
+                      onClick={() => {
+                        navigate("settings?page=security");
+                      }}
                     >
                       <Lucide icon="Lock" className="w-4 h-4 mr-2" />
                       Cambiar Clave
                     </Menu.Item>
-                    <Menu.Divider />
                     <Menu.Item
                       onClick={() => {
                         navigate("settings");
@@ -543,6 +548,7 @@ function Main() {
                       <Lucide icon="Users" className="w-4 h-4 mr-2" />
                       Mi Perfil
                     </Menu.Item>
+                    <Menu.Divider />
                     <Menu.Item
                       onClick={async() => {
                         await signOut()

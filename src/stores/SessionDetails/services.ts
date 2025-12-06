@@ -84,7 +84,10 @@ console.log("--newDate--", newDate)
       locationIdUsed: String(objFilter?.locationIdUsed),
       locationId: String(objFilter?.locationId),
       date:String(`${objFilter?.sessionDate}T00:00:00.000Z`),
+    
       modifiedByDate: getAWSDateStgoChile(),
+      modifiedBy: String(objFilter?.userModifyId || ""),
+      
       sessionDetailStudentId: objFilter?.studentId || null,
       enrollmentSessionDetailsId: objFilter?.enrollmentId || null,
       day: day,
@@ -94,7 +97,6 @@ console.log("--newDate--", newDate)
       scheduleId: objFilter?.scheduleId || null,
       
       
-      modifiedBy: String(objFilter?.userModifyId || ""),
       sessionNumber : objFilter?.sessionNumber || null,
       totalSessions: objFilter?.totalSessions || null,
       proratedValue: objFilter?.proratedValue || null,
@@ -102,44 +104,102 @@ console.log("--newDate--", newDate)
     
     };
 
-    const removeData:any = await client.graphql({
-      query: deleteSessionDetail,
-      variables: {
-        input: { 
-          id: String(objFilter?.sessionId),
-          date: String(objFilter?.currentSession),
-         }
+    console.log("updateSession--inputData--", inputData)
+    // Paso 1: Eliminar la sesión existente
+    let removeData: any;
+    try {
+      removeData = await client.graphql({
+        query: deleteSessionDetail,
+        variables: {
+          input: { 
+            id: String(objFilter?.sessionId),
+            date: String(objFilter?.currentSession),
+          }
+        }
+      });
+      
+      console.log(">> removeData >>", removeData);
+      
+      // Validar que la respuesta de eliminación sea correcta
+      if (!removeData?.data?.deleteSessionDetail?.id) {
+        const errorMsg = "Error al eliminar la sesión: respuesta inválida del servidor";
+        console.error(errorMsg, removeData);
+        reject({
+          errorMessage: errorMsg,
+          details: removeData
+        });
+        return;
       }
-    });
-    
-    console.log(">> removeData >>", removeData)
-    
-    const setData:any = await client.graphql({
-      query: createSessionDetail,
-      variables: {
-        input: { ...inputData }
-      }
-    });
-    
-    console.log(">> createSessionDetail >>", setData?.data?.createSessionDetail?.id)
-    // setData?.data?.createSessionDetail?.id
-        resolve(setData?.data?.createSessionDetail?.id && true as any);
-        
-        // ...userData.data.getUsers
-      // } else {
-      //   reject({
-      //     errorMessage: errorMsg,
-      //   });
-      // }
-    } catch (err) {
-      reject(
-        JSON.stringify({
-          errorMessage: err,
-        })
-      );
+      
+      console.log(">> Sesión eliminada correctamente con ID:", removeData.data.deleteSessionDetail.id);
+      
+    } catch (deleteError: any) {
+      const errorMsg = "Error al eliminar la sesión";
+      console.error(errorMsg, deleteError);
+      reject({
+        errorMessage: errorMsg,
+        details: deleteError?.message || deleteError,
+        originalError: deleteError
+      });
+      return;
     }
+    
+    // Paso 2: Crear la nueva sesión (solo si la eliminación fue exitosa)
+    let setData: any;
+    try {
+      setData = await client.graphql({
+        query: createSessionDetail,
+        variables: {
+          input: { ...inputData }
+        }
+      });
+      
+      console.log(">> createSessionDetail >>", setData?.data?.createSessionDetail?.id);
+      
+      // Validar que la creación fue exitosa
+      if (!setData?.data?.createSessionDetail?.id) {
+        const errorMsg = "Error al crear la sesión: respuesta inválida del servidor";
+        console.error(errorMsg, setData);
+        reject({
+          errorMessage: errorMsg,
+          details: setData,
+          note: "La sesión anterior fue eliminada pero no se pudo crear la nueva"
+        });
+        return;
+      }
+      
+      // Éxito: ambas operaciones fueron exitosas
+      resolve({
+        success: true,
+        deletedId: removeData.data.deleteSessionDetail.id,
+        createdId: setData.data.createSessionDetail.id
+      });
+      
+    } catch (createError: any) {
+      const errorMsg = "Error al crear la sesión después de eliminar la anterior";
+      console.error(errorMsg, createError);
+      reject({
+        errorMessage: errorMsg,
+        details: createError?.message || createError,
+        originalError: createError,
+        note: "La sesión anterior fue eliminada pero no se pudo crear la nueva. Puede requerir intervención manual."
+      });
+      return;
+    }
+        
+  } catch (err: any) {
+    const errorMsg = "Error inesperado en updateSession";
+    console.error(errorMsg, err);
+    reject({
+      errorMessage: errorMsg,
+      details: err?.message || err,
+      originalError: err
+    });
+  }
   });
 };
+
+
 export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
