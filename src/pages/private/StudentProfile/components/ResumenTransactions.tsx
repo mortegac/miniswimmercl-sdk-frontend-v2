@@ -38,7 +38,7 @@ export function ResumenTransactions(props:any) {
     
     const {data, studentId, fnUpdateState } = props;
     
-    const { email } = useAppSelector(selectAuth);
+    const { emailAuth } = useAppSelector(selectAuth);
     const { shoppingCarts} = useAppSelector(selectShoppingCarts);  
     const {paymentTransactions} = useAppSelector(selectPaymentTransactions);
     
@@ -107,8 +107,8 @@ export function ResumenTransactions(props:any) {
                       <div className="flex flex-col p-5 box ">
                         <div className="pb-5 mb-5 font-medium  text-[0.94rem]">
                           Historial de Carros de compras  
-                          {email !== "hi@manuelo.dev" &&  <span className="p-2 bg-slate-600 text-white rounded-full text-sm">USUARIO REGULAR</span>}
-                          {email === "hi@manuelo.dev" &&  <span className="p-2 bg-red-400 text-white rounded-full text-sm">ADMIN</span>}
+                          {emailAuth !== "hi@manuelo.dev" &&  <span className="p-2 bg-slate-600 text-white rounded-full text-sm">USUARIO REGULAR</span>}
+                          {emailAuth === "hi@manuelo.dev" &&  <span className="p-2 bg-red-400 text-white rounded-full text-sm">ADMIN</span>}
                         </div>
                         
                         <div className="-my-3">
@@ -233,7 +233,7 @@ export function ResumenTransactions(props:any) {
                                               <div className="flex flex-end -mr-6">
                                           
                                           
-                                          {email === "hi@manuelo.dev" && 
+                                          {emailAuth === "hi@manuelo.dev" && 
                                           <Button
                                             variant="soft-primary"
                                             // className=""
