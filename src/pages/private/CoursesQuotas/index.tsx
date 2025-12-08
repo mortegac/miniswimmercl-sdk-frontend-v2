@@ -70,6 +70,7 @@ function Main() {
   const [locationIdSelected, setLocationIdSelected] = useState("");
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [showAllDates, setShowAllDates] = useState(false); // Estado para controlar si se muestran todos los registros
   const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
   const {locationsList } = useAppSelector(selectLocation);
@@ -118,6 +119,23 @@ function Main() {
       dateObj.setUTCHours(0, 0, 0, 0);
       
       return dateObj.getTime() <= today.getTime();
+    } catch (e) {
+      return false;
+    }
+  };
+  
+  // Función helper para comparar si una fecha es mayor o igual a hoy
+  const isDateGreaterOrEqualToday = (dateString: string): boolean => {
+    if (!dateString) return false;
+    try {
+      const dateObj = new Date(dateString + 'T00:00:00.000Z');
+      if (isNaN(dateObj.getTime())) return false;
+      
+      const today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
+      dateObj.setUTCHours(0, 0, 0, 0);
+      
+      return dateObj.getTime() >= today.getTime();
     } catch (e) {
       return false;
     }
@@ -449,6 +467,11 @@ function Main() {
   
   const groupedSessions = getGroupedSessions();
   
+  // Filtrar groupedSessions según showAllDates
+  const filteredGroupedSessions = showAllDates 
+    ? groupedSessions 
+    : groupedSessions.filter((dateGroup) => isDateGreaterOrEqualToday(dateGroup.date));
+  
  
     
   async function updateDate(dateStr:any){
@@ -771,9 +794,29 @@ function Main() {
           >
             <Lucide icon="ChevronRight" className="w-5 h-5" />
           </Button>
+          
+          <Button
+            onClick={() => setShowAllDates(!showAllDates)}
+            className={`px-4 py-2 border ${
+              showAllDates 
+                ? 'bg-primary text-white border-primary hover:bg-primary/90' 
+                : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
+            }`}
+          >
+            <Lucide 
+              icon={showAllDates ? "EyeOff" : "Eye"} 
+              className="w-4 h-4 mr-2" 
+            />
+            {showAllDates ? 'Ocultar Pasados' : 'Mostrar Todos'}
+          </Button>
         </div>
                 {/* Calendario mensual: agrupado por fecha */}
-                {Array.isArray(groupedSessions) && groupedSessions.map((dateGroup, dateIndex) => (
+                {Array.isArray(filteredGroupedSessions) && filteredGroupedSessions.length === 0 ? (
+                  <div className="flex justify-center items-center py-8">
+                    <span className="text-lg text-slate-400">No hay sesiones para mostrar</span>
+                  </div>
+                ) : (
+                  filteredGroupedSessions.map((dateGroup, dateIndex) => (
                   <div key={`${dateGroup.date}-${dateIndex}`} className="mb-8 p-4 box">
                     {/* Encabezado del día */}
                     <div className="mb-4 border-b-2 border-primary pb-3">
@@ -985,7 +1028,8 @@ function Main() {
                       ))}
                     </div>
                   </div>
-                ))}
+                  ))
+                )}
                 </>
                 ))
       
