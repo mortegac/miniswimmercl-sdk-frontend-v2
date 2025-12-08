@@ -79,48 +79,54 @@ function ApoderadosSearchList(props:any) {
           //     onClick={()=>simulateEscKey()}
           //     className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
           //   >
-            
-            <div className="flex flex-col">
-              <div className="flex items-center justify-start">
-                <div className="flex items-center justify-center w-6 h-6 overflow-hidden border rounded-md zoom-in border-green-400 box bg-green-700/10">
-                <Lucide
-                  icon="User"
-                  className="w-3.5 h-3.5 stroke-[1.3] text-green-500"
-                />
+            <>
+             
+              <div className="flex flex-col">
+                <div className="flex items-center justify-start">
+                  <div className="flex items-center justify-center w-6 h-6 overflow-hidden border rounded-md zoom-in border-green-400 box bg-green-700/10">
+                  <Lucide
+                    icon="User"
+                    className="w-3.5 h-3.5 stroke-[1.3] text-green-500"
+                  />
+                  </div>
+                  {/* <div className="font-medium truncate"> */}
+                    <p className=" font-thin  text-base truncate ml-3">{highlightText(fullName, searchText)}</p>
+                  {/* </div> */}
+                  <span className="hidden text-slate-500 sm:block  ml-3">
+                  {item?.email}
+                  </span>
                 </div>
-                {/* <div className="font-medium truncate"> */}
-                  <p className=" font-thin  text-base truncate ml-3">{highlightText(fullName, searchText)}</p>
-                {/* </div> */}
-                <span className="hidden text-slate-500 sm:block  ml-3">
-                {item?.email}
-                </span>
+                
+                <div className="flex items-center flex-row justify-start">
+                  {Array.isArray(item?.relationships?.items) &&
+                    item?.relationships?.items
+                      .filter((relation: any) => relation?.student?.isActive !== false)
+                      .map(
+                        (relation: any, i: any) => (
+                          <>
+                            <Link
+                            key={`STUDENT-${i}`}
+                              to="/admin-student"
+                              state={{ id: relation?.student?.id }}
+                              onClick={()=>simulateEscKey()}
+                              className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
+                            >
+                            <p className="font-medium text-base text-left text-slate-10 border m-2 px-6 py-3 rounded-full bg-primary/15">
+                            
+                              {`${relation?.student?.name} ${relation?.student?.lastName}`}{" "}
+                              <span className="mt-1  text-left ">
+                              {relation?.student?.birthdate}{" "}
+                              </span>
+                            </p>
+                            </Link>
+                          </>
+                        )
+                      )}
+                </div>
+                
+                
               </div>
-              
-              <div className="flex items-center flex-row justify-start">
-                {Array.isArray(item?.relationships?.items) &&
-                  item?.relationships?.items.map(
-                    (relation: any, i: any) => (
-                      <Link
-                      key={`STUDENT-${i}`}
-                        to="/admin-student"
-                        state={{ id: relation?.student?.id }}
-                        onClick={()=>simulateEscKey()}
-                        className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
-                      >
-                      <p className="font-medium text-base text-left text-slate-10 border m-2 px-6 py-3 rounded-full bg-primary/15">
-                      
-                        {`${relation?.student?.name} ${relation?.student?.lastName}`}{" "}
-                        <span className="mt-1  text-left ">
-                        {relation?.student?.birthdate}{" "}
-                        </span>
-                      </p>
-                      </Link>
-                    )
-                  )}
-              </div>
-              
-              
-            </div>
+            </>
           );
         })}
         {/* </a> */}
@@ -177,54 +183,51 @@ function StudentSearchList(props:any) {
             const edad = item?.birthdate && calcularEdad(String(item?.birthdate === "" ? "1800/01/01":item?.birthdate));
   
           return (
-          //   <a
-          //   href=""
-          //   key={index}
-          //   className="mb-4 flex items-center justify-between gap-2.5 hover:bg-slate-50/80 border border-transparent hover:border-slate-100 p-1 rounded-md"
-          // >
-          <Link
-              to="/admin-student"
-              state={{ id: item?.id }}
-              onClick={()=>simulateEscKey()}
-              className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
-            >
-            
-            <div className="flex flex-col">
-              <div className="flex items-center justify-start">
-                <div className="flex items-center justify-center w-6 h-6 overflow-hidden border rounded-md zoom-in border-theme-1/10 box bg-theme-1/10">
-                <Lucide
-                  icon="User"
-                  className="w-3.5 h-3.5 stroke-[1.3] text-theme-1"
-                />
+          <>
+            <Link
+                to="/admin-student"
+                state={{ id: item?.id }}
+                onClick={()=>simulateEscKey()}
+                className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
+              >
+              
+              <div className="flex flex-col">
+                <div className="flex items-center justify-start">
+                  <div className="flex items-center justify-center w-6 h-6 overflow-hidden border rounded-md zoom-in border-theme-1/10 box bg-theme-1/10">
+                  <Lucide
+                    icon="User"
+                    className="w-3.5 h-3.5 stroke-[1.3] text-theme-1"
+                  />
+                  </div>
+                  {/* <div className="font-medium truncate"> */}
+                    <p className="font-medium text-lg truncate ml-3">{highlightText(fullName, searchText)}</p>
+                  {/* </div> */}
+                  <span className="hidden text-slate-500 sm:block  ml-3">
+                  { item?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad?.años || ""} años, ${edad?.meses || ""} meses`}
+                  </span>
                 </div>
-                {/* <div className="font-medium truncate"> */}
-                  <p className="font-medium text-lg truncate ml-3">{highlightText(fullName, searchText)}</p>
-                {/* </div> */}
-                <span className="hidden text-slate-500 sm:block  ml-3">
-                { item?.birthdate && edad.años > 100 ? "SIN EDAD":`${edad?.años || ""} años, ${edad?.meses || ""} meses`}
-                </span>
+                
+                <div className="flex items-center flex-row justify-start">
+                  {Array.isArray(item?.relationships?.items) &&
+                    item?.relationships?.items.map(
+                      (relation: any, i: any) => (
+                        <p className=" font-thin text-sm text-left text-slate-10 border rounded-xl m-2 px-4">
+                          <span className=" text-left  font-mono">
+                            {typeOfRelationship[relation?.relationType]}
+                          </span>{" "}
+                          {relation?.user?.name}{" "}
+                          <span className="mt-1  text-left ">
+                            {relation?.user?.id}{" "}
+                          </span>
+                        </p>
+                      )
+                    )}
+                </div>
+                
+                
               </div>
-              
-              <div className="flex items-center flex-row justify-start">
-                {Array.isArray(item?.relationships?.items) &&
-                  item?.relationships?.items.map(
-                    (relation: any, i: any) => (
-                      <p className=" font-thin text-sm text-left text-slate-10 border rounded-xl m-2 px-4">
-                        <span className=" text-left  font-mono">
-                          {typeOfRelationship[relation?.relationType]}
-                        </span>{" "}
-                        {relation?.user?.name}{" "}
-                        <span className="mt-1  text-left ">
-                          {relation?.user?.id}{" "}
-                        </span>
-                      </p>
-                    )
-                  )}
-              </div>
-              
-              
-            </div>
             </Link>
+          </>
           );
         })}
         {/* </a> */}

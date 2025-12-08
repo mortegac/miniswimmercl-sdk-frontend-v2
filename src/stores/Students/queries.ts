@@ -164,6 +164,7 @@ export const listStudents = /* GraphQL */ `
         waterOnHisFaceBothersHim
         putYourFaceInTheWater
         anyIllnessInjuryMedicalCondition
+        isActive
         createdAt
         updatedAt
         studentSessionDetailId
