@@ -105,6 +105,43 @@ export const listCourses = /* GraphQL */ `
 `;
 
 
+export const schedulesByLocationAndCourse = /* GraphQL */ `
+  query SchedulesByLocationAndCourse(
+    $locationSchedulesId: ID!
+    $courseSchedulesId: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    schedulesByLocationAndCourse(
+      locationSchedulesId: $locationSchedulesId
+      courseSchedulesId: $courseSchedulesId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        day
+        startHour
+        endHour
+        isActive
+        minimumQuotas
+        maximumQuotas
+        locationSchedulesId
+        courseSchedulesId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
 /********************************************************
 *                    MUTATIONS
 ********************************************************/

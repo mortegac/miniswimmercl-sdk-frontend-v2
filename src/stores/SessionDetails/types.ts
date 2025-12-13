@@ -44,9 +44,12 @@ export type FilterOptions  = {
   
 };
 export type InputOptions  = {
-  userModifyId?: string;
-  sessionNumber?: string;
   sessionId?: string;
+  id?: string;
+  
+  userModifyId?: string;
+  modifiedBy?: string;
+  sessionNumber?: string;
   sessionDate?: string;
   currentSession?: string;
   totalSessions?: string;
@@ -55,11 +58,21 @@ export type InputOptions  = {
   locationId?: string;
   locationIdUsed?: string;
   studentId?: string;
+  sessionDetailStudentId?: string;
+  
   enrollmentId?: string;
+  enrollmentSessionDetailsId?: string;
+  
   date?: string;
   month?: string;
   year?: string;
   courseId?: string;
   scheduleId?: string;
   wasEmailSent?: string;
+  
+    
+  sessions?: any[]; // Modificacion masiva de sesiones por horario
+  newCourseId?: string;
+  newScheduleId?: string;
+  newLocationId?: string;
 };

@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, fetchDataCourseQuote, fetchSessionsByLocationAndDatev2, updateData, updateSession, fetchSessionsByStudent, fetchSessionsByLocationAndDate} from "./services"
+import {fetchData, fetchDataCourseQuote, fetchSessionsByLocationAndDatev2, updateSessionsBySchedulesProcess, updateSession, fetchSessionsByStudent, fetchSessionsByLocationAndDate} from "./services"
 import {SessionDetail, emptySessionDetail, FilterOptions, InputOptions} from "./types"
 
 
@@ -113,11 +113,19 @@ export const setOneSessionDetail = createAsyncThunk(
     }
   }
 );
+
+
+        
 export const setSessionDetails = createAsyncThunk(
   "sessionDetails/update",
   async (objInput: InputOptions) => {
     try {
-      const response:any = await updateData({ ...objInput });
+      const response:any = await updateSessionsBySchedulesProcess(
+        objInput?.sessions || [],
+        objInput?.newCourseId || "",
+        objInput?.newScheduleId || "",
+        objInput?.newLocationId || "",
+      );
       return response;
     } catch (error) {
       console.error(">>>>ERROR UPDATE SessionDetails", error)
@@ -304,6 +312,7 @@ export const sessionDetailslice = createSlice({
         // const objPayload: any = action.payload;
         state.status = "idle";
         
+        console.log("---objPayload SET SESSION DETAILS----", action.payload)
         // const newArray = objPayload.items.sort((a:any, b:any) => {
         //   return new Date(a.date).getTime() - new Date(b.date).getTime();
         // });

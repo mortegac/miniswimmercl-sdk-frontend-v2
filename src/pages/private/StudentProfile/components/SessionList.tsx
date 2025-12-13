@@ -32,7 +32,7 @@ interface CourseFilter {
 export function SessionList(props: any) {
     
     
-    const {studentId, data, setSessionSlideover } = props;
+    const {studentId, data, setSessionSlideover, schedules } = props;
     const [modifyCourse, setModifyCourse] = useState(false);
     const [coursesFilter, setCoursesFilter] = useState<CourseFilter>({
       // courses: [],
@@ -40,7 +40,24 @@ export function SessionList(props: any) {
       // packFilter: [],
     });
     
-    console.log("----data---", data)
+    // console.log("----data---", data)
+    // console.log("----data?.scheduleId---", data?.scheduleId, typeof data?.scheduleId)
+    // console.log("----schedules---", schedules)
+    // console.log("----schedules IDs---", Array.isArray(schedules) ? schedules.map((s: any) => s?.id) : "No es array")
+    // console.log("----Match check---", Array.isArray(schedules) ? schedules.some((s: any) => String(s?.id) === String(data?.scheduleId)) : "No es array")
+    
+    // Estado local para el scheduleId seleccionado
+    const [selectedScheduleId, setSelectedScheduleId] = useState<string>(String(data?.scheduleId || ""));
+    
+    // Sincronizar el estado local cuando cambia data?.scheduleId
+    useEffect(() => {
+      const newScheduleId = String(data?.scheduleId || "");
+      if (newScheduleId !== selectedScheduleId) {
+        setSelectedScheduleId(newScheduleId);
+        // console.log("----Sincronizando scheduleId---", newScheduleId);
+      }
+    }, [data?.scheduleId]);
+    
     const [statusNew, setStatusNew] = useState("")
     const [dataNew, setDataNew] = useState({
       // studentId, enrollmentId, startDate, courseId, courseName, scheduleId, scheduleName,
@@ -86,30 +103,40 @@ export function SessionList(props: any) {
       
       async function updateSession(newStatus:string){
     
+        console.log("-updateSession-dataNew--", dataNew)
+        
         const validation: boolean = dataNew?.id && dataNew?.status && dataNew?.locationId && dataNew?.locationIdUsed && dataNew?.date
         // alert(`dataNew?.status = ${newStatus}`)
         validation && await Promise.all([
           await dispatch(
             setOneSessionDetail({
-              sessionId:dataNew?.id,
-              status:newStatus,
+              ...dataNew,
               locationId:dataNew?.locationId,
               locationIdUsed:dataNew?.locationIdUsed,
-              sessionDate:dataNew?.date,
-              currentSession:dataNew?.currentSession,
-              userModifyId:emailAuth,
-              studentId:dataNew?.studentId,
-              enrollmentId:dataNew?.enrollmentId,
+              date:`${dataNew?.date}T00:00:00.000Z`,
+              // currentSession:dataNew?.currentSession,
+              modifiedBy:emailAuth,
+              sessionDetailStudentId: data?.sessionDetailStudentId,
+              enrollmentSessionDetailsId: data?.enrollmentSessionDetailsId,
+              wasEmailSent: data?.wasEmailSent,
+              currentSession: data?.date,
+              // sessionId:dataNew?.id,
+              // status:newStatus,
+              // locationId:dataNew?.locationId,
+              // locationIdUsed:dataNew?.locationIdUsed,
+              // sessionDate:dataNew?.date,
+              // studentId:dataNew?.studentId,
+              // enrollmentId:dataNew?.enrollmentId,
               
-              sessionNumber: dataNew?.sessionNumber,
-              // month: dataNew?.month,
-              // year: dataNew?.year,
-              courseId: dataNew?.courseId,
-              scheduleId: dataNew?.scheduleId,
+              // sessionNumber: dataNew?.sessionNumber,
+              // // month: dataNew?.month,
+              // // year: dataNew?.year,
+              // courseId: dataNew?.courseId,
+              // scheduleId: dataNew?.scheduleId,
               
-              totalSessions: dataNew?.totalSessions,
-              proratedValue: dataNew?.proratedValue,
-              wasEmailSent:dataNew?.wasEmailSent,
+              // totalSessions: dataNew?.totalSessions,
+              // proratedValue: dataNew?.proratedValue,
+              // wasEmailSent:dataNew?.wasEmailSent,
 
 
             })),
@@ -142,16 +169,6 @@ export function SessionList(props: any) {
         }
       }
      
-      // function handleSession(session: any) {
-      //   // setSession({ ...session });
-      //   setDataNew({
-      //     ...dataNew,
-      //     date: String(session.date).replace("T00:00:00.000Z", ''),
-      //     locationId: session.locationId,
-      //     status: session.status,
-      //     id: session?.id
-      //   });
-      // }
       const dayOrder = new Map<string, number>([
         ['lunes', 1],
         ['martes', 2],
@@ -174,19 +191,6 @@ export function SessionList(props: any) {
         });
       };
       
-      // const filterCourse = async () => {
-      //   const resultadoFind = data?.courseEnrollmentsId && courses.find(curso => curso.id === data?.courseEnrollmentsId);
-      
-      //   resultadoFind && setCoursesFilter({
-      //     ...coursesFilter,
-      //     scheduleFilter:
-      //       [
-      //         ...resultadoFind
-      //           ?.schedules
-      //           ?.items,
-      //       ],
-      //   });
-      // };
       
       function sortSchedulesByDayAndTime(schedules: any[]): any[] {
         return [...schedules].sort((a, b) => {
@@ -225,7 +229,7 @@ export function SessionList(props: any) {
             </div>
           </Notification>
           <div className="flex flex-col">
-            {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
+            <pre>{JSON.stringify(data, null, 2 )}</pre>
               
               {/* <pre>{JSON.stringify(courses, null, 2 )}</pre> */}
               {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
@@ -249,7 +253,7 @@ export function SessionList(props: any) {
                       <p className="text-[.8rem] mb-3">Término: <span className="text-[1rem] rounded-lg text-white bg-primary p-2">{addDaysToDate(data?.date, validityOfThePlan[data?.totalSessions])}</span>  </p> */}
                       
                     </div>
-                  </div>
+                </div>
                 
                   <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                     <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
@@ -314,7 +318,7 @@ export function SessionList(props: any) {
                   
                   
                   
-                  <div className="p-4 rounded-xl flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                  {/* <div className="p-4 rounded-xl flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                    
                     <div className="flex-1 w-full ">
                       <Button
@@ -333,14 +337,14 @@ export function SessionList(props: any) {
                                           
                     </div>
                   </div>
+                   */}
                   
-                  
-                  { modifyCourse &&
+                  {/* { modifyCourse &&
                     
-                    // {courseStatus === "idle" && 
+             
                     <div className="bg-yellow-50 p-4 flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                     <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                      {/* <pre>modifyCourse= {JSON.stringify(modifyCourse)} {typeof modifyCourse}</pre> */}
+                      
                       
                       <h3 className="text-left ml-4 mb-0 font-semibold text-lg">
                         Seleccione la sede
@@ -429,9 +433,7 @@ export function SessionList(props: any) {
                                               "text-slate-600"
                                             }`}
                                           >
-                                            {/* {
-                                              schedule?.id
-                                            } -  */}
+                                            
                                             {
                                               schedule?.title
                                             }
@@ -488,7 +490,7 @@ export function SessionList(props: any) {
                                         </span>
                                       </span>
                                         <p>                                                              
-                                            {/* <span className="text-[0.6rem]">{schedule?.id}</span> */}
+                                            
                                             <span className="text-[0.6rem]">{schedule?.day}</span>
                                         </p>
                                     </Button>
@@ -499,10 +501,9 @@ export function SessionList(props: any) {
                           </div>                              
                     </div>
                     </div>                    
-                  }
+                  } */}
                   
-                  {
-                  !modifyCourse &&
+                  {/* {!modifyCourse && */}
                   <div className=" border border-slate-100 rounded-md pt-4">
                     <div className="p-4 rounded-xl flex-col block pt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                       <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
@@ -555,15 +556,75 @@ export function SessionList(props: any) {
                           </div>
                         </div>
                       </label>
+                      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
                       <div className="flex-1 w-full mt-3 xl:mt-0">
                         <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                           <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                              <p className="">{data?.courseName}</p>                                      
+                              {/* <p className="">{data?.courseName}</p>                                       */}
+                          
+                              {/* <div className="flex-col block pt-2 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+              <div className="flex-1 w-full mt-3 xl:mt-0 "> */}
+                <FormSelect
+                 key={`SELECT-SCHEDULES-${data?.id || data?.scheduleId || 'empty'}`}
+                 className="!box uppercase mr-3"
+                 value={selectedScheduleId}
+                 onChange={(e) =>{
+                    const newSelectedScheduleId = e.target.value;
+                    setSelectedScheduleId(newSelectedScheduleId);
+                    // Buscar el schedule seleccionado en el array para obtener el courseSchedulesId
+                    const selectedSchedule = schedules?.find((item: any) => item?.id === newSelectedScheduleId);
+                    
+                    // setNewSchedules({
+                    //   ...newSchedules,
+                    //   scheduleId: newSelectedScheduleId,
+                    //   courseId: selectedSchedule?.courseSchedulesId || "",
+                    // });
+                   }
+                 }
+               >
+                <option value="">Seleccionar horario</option>
+                  {Array.isArray(schedules) && schedules.length > 0 ? (
+                    schedules
+                      .filter((item: any) => item?.isActive !== false)
+                      .sort((a: any, b: any) => {
+                        // Ordenar por day
+                        const dayCompare = (a?.day || "").localeCompare(b?.day || "");
+                        if (dayCompare !== 0) return dayCompare;
+                        
+                        // Si los días son iguales, ordenar por startHour
+                        const hourCompare = (a?.startHour || "").localeCompare(b?.startHour || "");
+                        if (hourCompare !== 0) return hourCompare;
+                        
+                        // Si las horas son iguales, ordenar por courseSchedulesId
+                        return (a?.courseSchedulesId || "").localeCompare(b?.courseSchedulesId || "");
+                      })
+                      .map((item: any, i: number) => {
+                        const itemId = String(item?.id || "");
+                        const scheduleId = String(data?.scheduleId || "");
+                        const isSelected = itemId === scheduleId;
+                        if (i < 5) { // Solo loguear los primeros 5 para no saturar la consola
+                          console.log(`Option ${i}: itemId="${itemId}", scheduleId="${scheduleId}", isSelected=${isSelected}`);
+                        }
+                        return (
+                          <option
+                            key={`${item?.id || i}-SCHEDULES`}
+                            value={itemId}
+                          >
+                            {`${item?.day} - ${item?.startHour} - ${item?.courseSchedulesId}`}
+                          </option>
+                        );
+                      })
+                  ) : (
+                    <option value="" disabled>No hay horarios disponibles</option>
+                  )}
+                    </FormSelect>
+              {/* </div>
+            </div> */}
                           </div>
                         </div>                      
                       </div>
                     </div>
-                    <div className="p-4 rounded-xl flex-col block pt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                    {/* <div className="p-4 rounded-xl flex-col block pt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                       <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
                         <div className="text-left">
                           <div className="flex items-center">
@@ -578,9 +639,9 @@ export function SessionList(props: any) {
                           </div>
                         </div>                      
                       </div>
-                    </div>
+                    </div> */}
                   </div>
-                   }  
+                   {/* }   */}
                   
                   <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                     <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
@@ -635,6 +696,7 @@ export function SessionList(props: any) {
                               onClick={(event: React.MouseEvent) => {
                               event.preventDefault();
                               setDataNew({ ...dataNew, status: item?.id });
+                              setStatusNew(item?.id);
                               updateSession(item?.id)
                               setStatusNew(item?.id)
                               //  setDataSession({ ...session });

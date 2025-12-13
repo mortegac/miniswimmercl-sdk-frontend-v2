@@ -3,6 +3,13 @@ export type Schedule = {
   day: string;
   startHour: string;
   endHour: string;
+  isActive?: boolean;
+  minimumQuotas?: number;
+  maximumQuotas?: number;
+  locationSchedulesId?: string;
+  courseSchedulesId?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 export const emptySchedules: Schedule = {
     id: "",

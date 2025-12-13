@@ -19,77 +19,208 @@ interface Input {
   [key: string]:  string | number | boolean | null;
 }
 
-export const updateData = async (objFilter: InputOptions): Promise<any> => {
-  return new Promise(async (resolve, reject) => {
-    try {
+// export const updateData = async (objFilter: InputOptions): Promise<any> => {
+//   return new Promise(async (resolve, reject) => {
+//     try {
   
     
     
-    const inputData: Input = {
-      id: String(objFilter?.sessionId),
-      status: String(objFilter?.status),
-      locationIdUsed: String(objFilter?.locationIdUsed),
-      locationId: String(objFilter?.locationIdUsed),
-      date: String(objFilter?.date),
+//     const inputData: Input = {
+//       id: String(objFilter?.sessionId),
+//       status: String(objFilter?.status),
+//       locationIdUsed: String(objFilter?.locationIdUsed),
+//       locationId: String(objFilter?.locationIdUsed),
+//       date: String(objFilter?.date),
       
-    };
-    // console.log(">> inputData >>", inputData)
+//     };
+//     // console.log(">> inputData >>", inputData)
     
    
-    const setData:any = await client.graphql({
-      query: updateSessionDetail,
-      variables: {
-        input: { ...inputData }
-      }
-    });
+//     const setData:any = await client.graphql({
+//       query: updateSessionDetail,
+//       variables: {
+//         input: { ...inputData }
+//       }
+//     });
     
-    // console.log(">> setData >>", setData)
+//     // console.log(">> setData >>", setData)
     
-        resolve({ status: "ok"} as any);
+//         resolve({ status: "ok"} as any);
         
-        // ...userData.data.getUsers
-      // } else {
-      //   reject({
-      //     errorMessage: errorMsg,
-      //   });
-      // }
-    } catch (err) {
-      reject(
-        JSON.stringify({
-          errorMessage: err,
-        })
-      );
-    }
-  });
-};
+//         // ...userData.data.getUsers
+//       // } else {
+//       //   reject({
+//       //     errorMessage: errorMsg,
+//       //   });
+//       // }
+//     } catch (err) {
+//       reject(
+//         JSON.stringify({
+//           errorMessage: err,
+//         })
+//       );
+//     }
+//   });
+// };
 
+
+
+// MODIFICACION MASIVA DEL CURSO POR HORARIO
+// export const setModifiedSessionsBySchedules = async (objFilter: InputOptions): Promise<any> => {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+      
+//       const modifiedByDate= getAWSDateStgoChile();
+//       const modifiedBy: String = objFilter?.userModifyId || "";
+      
+//       // sessions?: any[];
+//       // scheduleId?: string;
+      
+//       // const inputData: Input = {
+//       //   // id: String(objFilter?.sessionId),
+//       //   courseId: objFilter?.courseId || null,
+//       //   scheduleId: objFilter?.scheduleId || null,
+        
+//       // };
+      
+      
+      
+      
+//     } catch (err) {
+//       reject(
+//         JSON.stringify({
+//           errorMessage: err,
+//         })
+//       );
+//     }
+//   });
+// };
+
+
+// [
+//   {
+//     "sessionId": "774f9947-e03e-4c9b-b22e-b5c52eb1f096",
+//     "status": "RECOVERED",
+//     "courseId": "BEBES-19-MESES-A-3-AÑOS-PENALOLEN-COMUNIDAD-ECOLOGICA",
+//     "scheduleId": "eda53f80-9b80-41aa-94a7-31ef147ac6c5",
+//     "locationId": "PENALOLEN-COMUNIDAD-ECOLOGICA",
+//     "courseTitle": "TODDLER-19-MESES-A-3-AÑOS",
+//     "scheduleTitle": "lunes-11:40",
+//     "date": "19-NOV-2024"
+//   },
+//   {
+//     "sessionId": "33428016-017b-4e2c-82d2-8fdf55fc4a3e",
+//     "status": "RECOVERED",
+//     "courseId": "19-MESES-A-3-AñOS-CHILLAN-PISCINA-AQUA-MARI",
+//     "scheduleId": "1a26c910-8651-4517-848e-8012d79e1fd7",
+//     "locationId": "NUNOA-CLUB-SUIZO",
+//     "courseTitle": "19-MESES-A-3-AñOS",
+//     "scheduleTitle": "domingo-12:50",
+//     "date": "23-NOV-2024"
+//   }
+// ]
+
+
+export const updateSessionsBySchedulesProcess = async (
+  calendarsArray: any[], 
+  newCourseId: string, 
+  newScheduleId: string,
+  newLocationId: string,
+) => {
+  try {
+    const results = await Promise.allSettled(
+      calendarsArray.map((item, index) =>
+        client.graphql({
+          query: `
+            mutation MODIFICAR_SESIONES_POR_HORARIO($input: UpdateSessionDetailInput!) {
+              updateSessionDetail(input: $input) {
+               id
+              }
+            }
+          `,
+          variables: {
+            input: {
+              id: item?.id,
+              status: item?.status,
+              date: item?.date,
+              courseId: newCourseId === "" ? item?.courseId : newCourseId,
+              scheduleId: newScheduleId,
+              locationId: newLocationId,
+            }
+          }
+        })
+      )
+    );
+    // console.log("results", results);
+    return results;
+  } catch (error) {
+    console.log("Error anulando reservas:", error);
+    throw error;
+  }
+};
 
 
 export const updateSession = async (objFilter: InputOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
   
-      const date = new Date(`${objFilter?.sessionDate}T00:00:00.000Z`);
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const year = date.getFullYear();
+      // Usar métodos UTC para evitar problemas de zona horaria
+      // Parsear la fecha directamente desde el string para obtener día, mes y año correctos
+      const dateString = String(objFilter?.date || "");
+      let day: string, month: string, year: number;
       
-    // const newDate:string = objFilter?.sessionDate.replace("T00:00:00.000Z", '')
-    const newDate: string = (objFilter.sessionDate as string).replace("T00:00:00.000Z", '');
-console.log("--newDate--", newDate)
+      // Si la fecha viene en formato ISO (YYYY-MM-DDTHH:mm:ss.SSSZ)
+      if (dateString.includes('T')) {
+        const date = new Date(dateString);
+        // Usar métodos UTC para obtener los valores correctos independientemente de la zona horaria
+        day = date.getUTCDate().toString().padStart(2, '0');
+        month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+        year = date.getUTCFullYear();
+      } else {
+        // Si viene en formato YYYY-MM-DD, parsear directamente
+        const dateParts = dateString.split('-');
+        if (dateParts.length === 3) {
+          year = parseInt(dateParts[0], 10);
+          month = dateParts[1];
+          day = dateParts[2];
+        } else {
+          // Fallback: usar new Date() normal
+          const date = new Date(dateString);
+          day = date.getUTCDate().toString().padStart(2, '0');
+          month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+          year = date.getUTCFullYear();
+        }
+      }
+      
+    const newDate: string = (objFilter.date as string);
+console.log("-updateSession-newDate--", newDate)
+console.log("-updateSession-objFilter--", objFilter)
+console.log("-updateSession-date-parts--", { day, month, year, dateString })
+
+    // sessionDetailStudentId es requerido (ID!) según el schema, no puede ser null
+    const sessionDetailStudentId = objFilter?.sessionDetailStudentId || objFilter?.studentId;
+    if (!sessionDetailStudentId) {
+      const errorMsg = "sessionDetailStudentId es requerido y no puede ser null";
+      console.error(errorMsg, objFilter);
+      reject({
+        errorMessage: errorMsg,
+        details: "El campo sessionDetailStudentId (o studentId) es obligatorio para crear una sesión"
+      });
+      return;
+    }
 
     const inputData: Input = {
       // id: String(objFilter?.sessionId),
       status: String(objFilter?.status),
       locationIdUsed: String(objFilter?.locationIdUsed),
       locationId: String(objFilter?.locationId),
-      date:String(`${objFilter?.sessionDate}T00:00:00.000Z`),
+      date:String(`${objFilter?.date}`),
     
       modifiedByDate: getAWSDateStgoChile(),
-      modifiedBy: String(objFilter?.userModifyId || ""),
+      modifiedBy: String(objFilter?.modifiedBy || ""),
       
-      sessionDetailStudentId: objFilter?.studentId || null,
-      enrollmentSessionDetailsId: objFilter?.enrollmentId || null,
+      sessionDetailStudentId: String(sessionDetailStudentId), // Requerido, no puede ser null
+      enrollmentSessionDetailsId: objFilter?.enrollmentSessionDetailsId || objFilter?.enrollmentId || null,
       day: day,
       month: month,
       year: year,
@@ -151,12 +282,16 @@ console.log("--newDate--", newDate)
     let removeData: any = null;
     let deleteError: any = null;
     try {
+      
+      console.log("-deleteSessionDetail-objFilter--", objFilter?.id, " - ", objFilter?.date)
+      
       removeData = await client.graphql({
         query: deleteSessionDetail,
         variables: {
           input: { 
-            id: String(objFilter?.sessionId),
-            date: String(objFilter?.currentSession),
+            id: objFilter?.id,
+            date:String(`${objFilter?.currentSession}`),
+            // date:String(`${objFilter?.date}`),
           }
         }
       });
@@ -325,36 +460,47 @@ export const fetchSessionsByStudent = async (objFilter: FilterOptions): Promise<
     try {
          
     let getData:any;
+    let filterConfig: any;
     
+    // Configurar el filtro según el status
     if(objFilter?.status === "ACTIVE"){
-      getData = await client.graphql({
-        query: sessionDetailsBySessionDetailStudentId,
-        variables: { 
-          sessionDetailStudentId: String(objFilter?.studentId),
-          filter:{
-            or: [
-                    {status: { eq: "ACTIVE" }},
-                    {status: { eq: "RECOVERED" }}            
-                ]
-          
-          }, limit:1000000000
-        },
-      });
-    }else{
-      getData = await client.graphql({
-        query: sessionDetailsBySessionDetailStudentId,
-        variables: { 
-          sessionDetailStudentId: String(objFilter?.studentId),
-          filter: {
-            or: [
-              {status: { eq: "USED" }},
-              {status: { eq: "DELETED" }},
-          ]
-          },
-          limit: 1000000000
-        },
-      });
+      // ACTIVE incluye también RECOVERED
+      filterConfig = {
+        or: [
+          {status: { eq: "ACTIVE" }},
+          {status: { eq: "RECOVERED" }}            
+        ]
+      };
+    } else if(objFilter?.status === "USED"){
+      // USED solo incluye USED
+      filterConfig = {
+        status: { eq: "USED" }
+      };
+    } else if(objFilter?.status === "DELETED"){
+      // DELETED solo incluye DELETED
+      filterConfig = {
+        status: { eq: "DELETED" }
+      };
+    } else {
+      // Por defecto, si no se especifica status, no filtrar por status
+      filterConfig = undefined;
     }
+    
+    // Construir las variables de la query
+    const queryVariables: any = {
+      sessionDetailStudentId: String(objFilter?.studentId),
+      limit: 1000000000
+    };
+    
+    // Agregar el filtro solo si está definido
+    if(filterConfig){
+      queryVariables.filter = filterConfig;
+    }
+    
+    getData = await client.graphql({
+      query: sessionDetailsBySessionDetailStudentId,
+      variables: queryVariables,
+    });
 
   
        console.log(">>> getData.data  >>>", getData.data )
