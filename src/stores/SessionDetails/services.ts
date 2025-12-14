@@ -122,12 +122,78 @@ interface Input {
 
 
 export const updateSessionsBySchedulesProcess = async (
+  // calendarsArray: any[], 
+  // newCourseId: string, 
+  // newScheduleId: string,
+  // newLocationId: string,
+  id: string,
+  date: string,
+  status: string,
+) => {
+  try {
+    
+    console.log("-updateSessionsBySchedulesProcess-id--", id)
+    console.log("-updateSessionsBySchedulesProcess-date--", date)
+    console.log("-updateSessionsBySchedulesProcess-status--", status)
+    
+    const results = await client.graphql({
+      query: `
+        mutation ACTUALIZAR_SESSION_STATUS($input: UpdateSessionDetailInput!) {
+          updateSessionDetail(input: $input) {
+           id
+          }
+        }
+      `,
+      variables: {
+        input: {
+          id: id,
+          status: status,
+          date: date,
+        }
+      }
+    })
+    // const results = await Promise.allSettled(
+    //   calendarsArray.map((item, index) =>
+    //     client.graphql({
+    //       query: `
+    //         mutation MODIFICAR_SESIONES_POR_HORARIO($input: UpdateSessionDetailInput!) {
+    //           updateSessionDetail(input: $input) {
+    //            id
+    //           }
+    //         }
+    //       `,
+    //       variables: {
+    //         input: {
+    //           id: item?.id,
+    //           status: item?.status,
+    //           date: item?.date,
+    //           courseId: newCourseId === "" ? item?.courseId : newCourseId,
+    //           scheduleId: newScheduleId,
+    //           locationId: newLocationId,
+    //         }
+    //       }
+    //     })
+    //   )
+    // );
+    // console.log("results", results);
+    return results;
+  } catch (error) {
+    console.log("Error anulando reservas:", error);
+    throw error;
+  }
+};
+export const updateSessionsMasive = async (
   calendarsArray: any[], 
   newCourseId: string, 
   newScheduleId: string,
   newLocationId: string,
 ) => {
   try {
+    
+    console.log("-updateSessionsBySchedulesProcess-calendarsArray--", calendarsArray)
+    console.log("-updateSessionsBySchedulesProcess-newCourseId--", newCourseId)
+    console.log("-updateSessionsBySchedulesProcess-newScheduleId--", newScheduleId)
+    console.log("-updateSessionsBySchedulesProcess-newLocationId--", newLocationId)
     const results = await Promise.allSettled(
       calendarsArray.map((item, index) =>
         client.graphql({

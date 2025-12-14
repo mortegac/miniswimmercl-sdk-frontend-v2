@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, fetchDataCourseQuote, fetchSessionsByLocationAndDatev2, updateSessionsBySchedulesProcess, updateSession, fetchSessionsByStudent, fetchSessionsByLocationAndDate} from "./services"
+import {fetchData, fetchDataCourseQuote, fetchSessionsByLocationAndDatev2, updateSessionsBySchedulesProcess, updateSessionsMasive, updateSession, fetchSessionsByStudent, fetchSessionsByLocationAndDate} from "./services"
 import {SessionDetail, emptySessionDetail, FilterOptions, InputOptions} from "./types"
 
 
@@ -115,12 +115,39 @@ export const setOneSessionDetail = createAsyncThunk(
 );
 
 
+// mutation ACTUALIZAR_SESSION{
+//   updateSessionDetail(input: {
+//    id: "ac2dc7b0-2dbd-4cf6-a065-3d8e4c01158d",
+//    date: "2025-12-14T00:00:00.000Z", 
+//   status:ACTIVE
+//   }) 
+// {id}
+// }
+
         
 export const setSessionDetails = createAsyncThunk(
   "sessionDetails/update",
   async (objInput: InputOptions) => {
     try {
       const response:any = await updateSessionsBySchedulesProcess(
+        // objInput?.sessions || [],
+        objInput?.id || "",
+        objInput?.date || "",
+        objInput?.status || "",
+      );
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR UPDATE SessionDetails", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const setSessionMasive = createAsyncThunk(
+  "sessionDetails/updateMasive",
+  async (objInput: InputOptions) => {
+    try {
+      const response:any = await updateSessionsMasive(
         objInput?.sessions || [],
         objInput?.newCourseId || "",
         objInput?.newScheduleId || "",
@@ -309,14 +336,21 @@ export const sessionDetailslice = createSlice({
         state.status = "loading";
       })
       .addCase(setSessionDetails.fulfilled, (state, action) => {
-        // const objPayload: any = action.payload;
         state.status = "idle";
-        
         console.log("---objPayload SET SESSION DETAILS----", action.payload)
-        // const newArray = objPayload.items.sort((a:any, b:any) => {
-        //   return new Date(a.date).getTime() - new Date(b.date).getTime();
-        // });
-        // state.sessionDetails = newArray || [];
+      })
+      
+      .addCase(setSessionMasive.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(setSessionMasive.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(setSessionMasive.fulfilled, (state, action) => {
+        state.status = "idle";
+        console.log("---objPayload SET SESSION DETAILS----", action.payload)
       })
       
       // UPDATE SessionDetails

@@ -313,13 +313,14 @@ function Main() {
     
     // 2025-09-25T00:00:00.000Z
     const dateFormated: string = String(date?.dateUtc).replace("T00:00:00.000Z", "");
-    
+    console.log("--updateSession--", params)
     await Promise.all([
       await dispatch(setSessionDetails({ 
-        sessionId: params.sessionId, 
-        status: params.status,
-        locationIdUsed:date?.locationId,
-        date:params?.date
+        ...params,
+        // sessionId: params.sessionId, 
+        // status: params.status,
+        // locationIdUsed:date?.locationId,
+        // date:params?.date
       })),
       await dispatch(getSessionByLocationAndDate({
         sessionDate: dateFormated, 
@@ -628,10 +629,11 @@ function Main() {
                                     className={`px-4 py-3 w-full h-full bg-primary/70 ${item?.status === "USED" && "bg-slate-300"} text-slate-700`} 
                                     
                                     onClick={() => updateSession({
-                                      sessionId: item.id,
+                                      // sessionId: item.id,
+                                      ...item,
                                       status: "USED",
-                                      date: item?.date,
-                                      locationIdUsed:date?.locationId,
+                                      // date: item?.date,
+                                      // locationIdUsed:date?.locationId,
                                     })}
                                     disabled={item?.status === "USED"}
                                     >{item?.status !== "USED" && "MARCAR PRESENTE"}

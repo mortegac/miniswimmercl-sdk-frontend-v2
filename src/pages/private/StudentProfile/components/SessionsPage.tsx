@@ -21,7 +21,7 @@ import { InputOptions } from "@/stores/SessionDetails/types";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
-import { getSessionDetails, selectSessionDetails, setSessionDetails, setOneSessionDetail, getSessionByStudent } from "@/stores/SessionDetails/slice";
+import { getSessionDetails, selectSessionDetails, setSessionDetails, setOneSessionDetail, setSessionMasive, getSessionByStudent } from "@/stores/SessionDetails/slice";
 import { getSchedulesByLocationAndCourse, selectSchedules } from "@/stores/Schedule/slice";
 import { selectAuth } from "@/stores/Users/slice";
 
@@ -90,7 +90,8 @@ export function Content(props:any) {
     setAtendanceId(params.sessionId || "")
     console.log("updateSession(params): ", params)
     await Promise.all([
-      await dispatch(setOneSessionDetail({ 
+      // await dispatch(setSessionDetails({ 
+      await dispatch(setSessionDetails({ 
         ...params,
         modifiedBy: emailAuth,
         
@@ -183,7 +184,7 @@ export function Content(props:any) {
   const handleModifiedSchedule = async () => {
     
     
-    await dispatch(setSessionDetails({
+    await dispatch(setSessionMasive({
       sessions: [...selectedSlots],
       newCourseId: newSchedules?.courseId,
       newScheduleId: newSchedules?.scheduleId,
@@ -677,10 +678,6 @@ useEffect(() => {
                                     ...item,
                                     status: "USED",
                                   })
-                                  // sessionId: item?.id, 
-                                  // locationId:item?.locationId,
-                                  // locationIdUsed:item?.locationId,
-                                  // date:item?.date
                                 }}
                             ><Lucide className="w-10 h-10 sm:w-8 sm:h-8 stroke-[1] text-primary" icon="Check" /><p className="text-[.7rem]  uppercase text-primary/80">
                               Marcar Presente</p>
@@ -754,6 +751,7 @@ useEffect(() => {
                                 ...item, 
                                 status: "DELETED",
                               })
+                              
                               // updateSession({
                               //   sessionId: item?.id, 
                               //   status: "DELETED",

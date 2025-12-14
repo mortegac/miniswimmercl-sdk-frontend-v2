@@ -229,7 +229,7 @@ export function SessionList(props: any) {
             </div>
           </Notification>
           <div className="flex flex-col">
-            <pre>{JSON.stringify(data, null, 2 )}</pre>
+            {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
               
               {/* <pre>{JSON.stringify(courses, null, 2 )}</pre> */}
               {/* <pre>{JSON.stringify(data, null, 2 )}</pre> */}
