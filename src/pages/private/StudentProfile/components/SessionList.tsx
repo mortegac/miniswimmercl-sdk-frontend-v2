@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment, useMemo } from "react";
 import _ from "lodash";
 import Toastify from "toastify-js";
-
+import LoadingIcon from "@/components/Base/LoadingIcon";
 
 import {formatDateUTC, formatCurrency} from "@/utils/helper";
 import {formatDateUTCShort} from "@/utils/helper";
@@ -28,6 +28,55 @@ interface CourseFilter {
   // packFilter: any[];
 }
 
+interface StatusButtonProps {
+  item: any;
+  i: number;
+  dataNew: any;
+  setDataNew: (data: any) => void;
+  setStatusNew: (status: string) => void;
+  updateSession: (statusId: string) => void;
+}
+
+const StatusButton: React.FC<StatusButtonProps> = ({ item, i, dataNew, setDataNew, setStatusNew, updateSession }) => {
+  const [isUpdatingSession, setIsUpdatingSession] = useState(false);
+
+  const handleClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setIsUpdatingSession(true);
+    setDataNew({ ...dataNew, status: item?.id });
+    setStatusNew(item?.id);
+    updateSession(item?.id);
+    
+    setTimeout(() => {
+      setIsUpdatingSession(false);
+    }, 5000);
+  };
+
+  return (
+    <Button
+      key={`${i}-STATUS`}
+      disabled={isUpdatingSession}
+      onClick={handleClick}
+      className={`shadow-none border m-0 p-0 mr-2 mb-1 w-40 h-12  ${item?.id === dataNew?.status && "bg-green-300"}`}>
+      {!isUpdatingSession && (
+        <span
+          className="group flex justify-center items-center text-xs rounded-md uppercase ">
+          <span className="-mt-px text-center">
+            <p className={`text-center line-clamp-4 text-base text-slate-400  ${item?.id === dataNew?.status && "text-slate-500"}`}>{item?.name}</p>
+          </span>
+        </span>
+      )}
+      
+      {isUpdatingSession && (
+        <LoadingIcon
+          icon="puff"
+          color="#ffffff"
+          className="w-9 h-9"
+        />
+      )}
+    </Button>
+  );
+};
 
 export function SessionList(props: any) {
     
@@ -59,6 +108,7 @@ export function SessionList(props: any) {
     }, [data?.scheduleId]);
     
     const [statusNew, setStatusNew] = useState("")
+    const [isUpdatingSession, setIsUpdatingSession] = useState(false)
     const [dataNew, setDataNew] = useState({
       // studentId, enrollmentId, startDate, courseId, courseName, scheduleId, scheduleName,
       
@@ -112,6 +162,7 @@ export function SessionList(props: any) {
             setOneSessionDetail({
               ...dataNew,
               locationId:dataNew?.locationId,
+              status:newStatus,
               locationIdUsed:dataNew?.locationIdUsed,
               date:`${dataNew?.date}T00:00:00.000Z`,
               // currentSession:dataNew?.currentSession,
@@ -548,7 +599,7 @@ export function SessionList(props: any) {
                         </div>                      
                       </div>
                     </div>
-                    <div className="p-4 rounded-xl flex-col block pt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+                    {/* <div className="p-4 rounded-xl flex-col block pt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                       <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
                         <div className="text-left">
                           <div className="flex items-center">
@@ -556,14 +607,9 @@ export function SessionList(props: any) {
                           </div>
                         </div>
                       </label>
-                      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
                       <div className="flex-1 w-full mt-3 xl:mt-0">
                         <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                           <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                              {/* <p className="">{data?.courseName}</p>                                       */}
-                          
-                              {/* <div className="flex-col block pt-2 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-              <div className="flex-1 w-full mt-3 xl:mt-0 "> */}
                 <FormSelect
                  key={`SELECT-SCHEDULES-${data?.id || data?.scheduleId || 'empty'}`}
                  className="!box uppercase mr-3"
@@ -573,12 +619,6 @@ export function SessionList(props: any) {
                     setSelectedScheduleId(newSelectedScheduleId);
                     // Buscar el schedule seleccionado en el array para obtener el courseSchedulesId
                     const selectedSchedule = schedules?.find((item: any) => item?.id === newSelectedScheduleId);
-                    
-                    // setNewSchedules({
-                    //   ...newSchedules,
-                    //   scheduleId: newSelectedScheduleId,
-                    //   courseId: selectedSchedule?.courseSchedulesId || "",
-                    // });
                    }
                  }
                >
@@ -618,30 +658,13 @@ export function SessionList(props: any) {
                     <option value="" disabled>No hay horarios disponibles</option>
                   )}
                     </FormSelect>
-              {/* </div>
-            </div> */}
-                          </div>
-                        </div>                      
-                      </div>
-                    </div>
-                    {/* <div className="p-4 rounded-xl flex-col block pt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                      <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
-                        <div className="text-left">
-                          <div className="flex items-center">
-                            <div className="font-medium">Horario</div>
-                          </div>
-                        </div>
-                      </label>
-                      <div className="flex-1 w-full mt-3 xl:mt-0">
-                        <div className="flex-col block pt-0 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
-                          <div className=" -mb-30 -ml-8 -mr-8 relative overflow-auto">
-                              <p className="uppercase">{data?.scheduleName}</p>                                        
+           
                           </div>
                         </div>                      
                       </div>
                     </div> */}
+                   
                   </div>
-                   {/* }   */}
                   
                   <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
                     <label className="inline-block mb-2 sm:mb-0 sm:mr-5 sm:text-right xl:w-60 xl:mr-14">
@@ -689,31 +712,15 @@ export function SessionList(props: any) {
                     <div className="flex-1 w-full mt-3 xl:mt-0">
                         {Array.isArray(statusSession) &&
                           statusSession?.map((item, i) => (
-                            <>
-                            {/* <p className="text-center line-clamp-1 text-xs">{item?.id} | {dataNew?.locationId}</p> */}
-                              <Button
+                            <StatusButton
                               key={`${i}-STATUS`}
-                              onClick={(event: React.MouseEvent) => {
-                              event.preventDefault();
-                              setDataNew({ ...dataNew, status: item?.id });
-                              setStatusNew(item?.id);
-                              updateSession(item?.id)
-                              setStatusNew(item?.id)
-                              //  setDataSession({ ...session });
-                              //  setSessionSlideover(true);
-                            }}                              
-                            className={`shadow-none border m-0 p-0 mr-2 mb-1 w-40 h-12  ${item?.id === dataNew?.status && "bg-green-300"}`}>
-                              {/* <p>{item?.id}</p> */}
-                              <span
-                                  className="group flex justify-center items-center text-xs rounded-md uppercase ">
-                                  <span className="-mt-px text-center">
-                                  
-                                  <p className={`text-center line-clamp-4 text-base text-slate-400  ${item?.id === dataNew?.status && "text-slate-500"}`}>{item?.name}</p>
-                                  </span>
-                              </span>
-                              
-                            </Button>
-                            </>
+                              item={item}
+                              i={i}
+                              dataNew={dataNew}
+                              setDataNew={setDataNew}
+                              setStatusNew={setStatusNew}
+                              updateSession={updateSession}
+                            />
                           ))}
                     </div>
                   </div>
@@ -725,9 +732,25 @@ export function SessionList(props: any) {
                         rounded
                         variant="primary"
                         className="w-full h-14 rounded-none px-4 py-4 font-light uppercase shadow-lg xl:h-auto xl:rounded xl:px-2 xl:py-2 xl:mx-2"
-                        onClick={() => updateSession(statusNew)}
+                        // disabled={isUpdatingSession}
+                        disabled={isUpdatingSession}
+                        onClick={() => {
+                          setIsUpdatingSession(true);
+                          updateSession(statusNew);
+                          setTimeout(() => {
+                            setIsUpdatingSession(false);
+                          }, 5000);
+                        }}
                       >
-                        Actualizar Sesión
+                          {!isUpdatingSession && "Actualizar Sesión"}
+                          
+                        {isUpdatingSession && (
+                          <LoadingIcon
+                            icon="puff"
+                            color="#ffffff"
+                            className="w-9 h-9"
+                          />
+                        )}
                       </Button>
                     </div>
                   </div>
