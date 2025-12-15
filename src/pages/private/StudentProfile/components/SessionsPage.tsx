@@ -618,7 +618,7 @@ useEffect(() => {
                       <span className="min-w-3 min-h-2  max-w-3 max-h-2 px-2 py-1 rounded-full text-white bg-slate-400 text-[0.74rem]">{item?.sessionNumber}</span>
                     </Table.Td> */}
                     <Table.Td className="w-24 py-4 border-dashed">
-                    <p className="font-semibold mr-2">{getDayOfWeekShort(item?.date)}</p>
+                    <p className="font-thin mr-2">{getDayOfWeekShort(item?.date)}</p>
                       <b className=" text-sm">
                         {formatDateUTC(item?.date)}
                       </b>
@@ -631,7 +631,7 @@ useEffect(() => {
                               item?.status === "USED" &&  "bg-red-50 border-red-200",
                               item?.status === "RECOVERED" &&  "bg-blue-50 border-blue-200",
                               item?.status === "DELETED" &&  "bg-slate-200 border-slate-200 text-slate-500",
-                              "w-28 h-10",
+                              "w-36 h-10",
                           ])}
                           >
                           <span className="text-center">  
