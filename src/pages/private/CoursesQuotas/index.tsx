@@ -3,6 +3,9 @@ import debounce from 'lodash/debounce';
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import _, { now } from "lodash";
+import {typeOfSession} from "@/utils/dictionary";
+import LoadingIcon from "@/components/Base/LoadingIcon";
+import { calcularEdad } from "@/utils/dateHandler";
 
 import { Tab } from "@/components/Base/Headless";
 import Table from "@/components/Base/Table";
@@ -14,12 +17,12 @@ import Button from "@/components/Base/Button";
 import Litepicker from "@/components/Base/Litepicker";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { getSessionQuotev2, selectSessionDetails, setSessionDetails, getSessionByLocationAndDate } from "@/stores/SessionDetails/slice";
+import { getSessionQuotev2, selectSessionDetails, setSessionDetails, setSessionMasive, getSessionByLocationAndDate } from "@/stores/SessionDetails/slice";
 import { InputOptions } from "@/stores/SessionDetails/types";
-import {FormInput, FormSelect } from "@/components/Base/Form";
+import {FormInput, FormSelect, FormCheck } from "@/components/Base/Form";
 
 import { getLocationsOnly, selectLocation } from '../../../stores/Locations/slice';
-
+import { getSchedulesByLocationAndCourse, selectSchedules } from "@/stores/Schedule/slice";
 const MAX_QUOTE = 7;
 
 function formatDateToISOShort(date:Date) {
@@ -55,6 +58,7 @@ function Main() {
   const firstDayUtc = firstDayOfMonth.toISOString();
   const lastDayUtc = lastDayOfMonth.toISOString();
           
+  const [selectedSlots, setSelectedSlots] = useState<any[]>([]);
   
   const [date, setDate] = useState({
     dateChile: String(selectedDate),
@@ -68,12 +72,22 @@ function Main() {
 
   const [atendanceId, setAtendanceId] = useState("");
   const [locationIdSelected, setLocationIdSelected] = useState("");
-
+  const [slideAdmin, setSlideAdmin] = useState(false);
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [showAllDates, setShowAllDates] = useState(false); // Estado para controlar si se muestran todos los registros
+  const [selectedScheduleDay, setSelectedScheduleDay] = useState<string>("");
   const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
   const {locationsList } = useAppSelector(selectLocation);
+  const { schedules } = useAppSelector(selectSchedules);
+  const [newSchedules, setNewSchedules] = useState({
+    scheduleId: "",
+    courseId: "",
+    locationId: "",
+  });
+  
+  
   const dispatch = useAppDispatch();
   
   // Diccionario para traducir estados al español
@@ -139,6 +153,36 @@ function Main() {
     } catch (e) {
       return false;
     }
+  };
+
+  // Función helper para normalizar días de la semana y compararlos
+  const normalizeDayName = (dayName: string): string => {
+    if (!dayName) return '';
+    // Convertir a minúsculas y remover acentos para comparación
+    return dayName.toLowerCase()
+      .replace('á', 'a')
+      .replace('é', 'e')
+      .replace('í', 'i')
+      .replace('ó', 'o')
+      .replace('ú', 'u')
+      .trim();
+  };
+
+  // Función helper para extraer el día de la semana de dateFormatted
+  const extractDayFromFormattedDate = (dateFormatted: string): string => {
+    if (!dateFormatted) return '';
+    // dateFormatted tiene formato: "Lunes 15, Enero, 2025"
+    // Extraer la primera palabra (el día de la semana)
+    const firstWord = dateFormatted.split(' ')[0];
+    return normalizeDayName(firstWord);
+  };
+
+  // Función helper para verificar si el día del schedule es diferente al día de la fecha
+  const isScheduleDayDifferent = (scheduleDay: string, dateFormatted: string): boolean => {
+    const normalizedScheduleDay = normalizeDayName(scheduleDay);
+    const normalizedDateDay = extractDayFromFormattedDate(dateFormatted);
+    
+    return normalizedScheduleDay !== normalizedDateDay && normalizedScheduleDay !== '' && normalizedDateDay !== '';
   };
   
   // Función para filtrar, ordenar y generar objetos únicos
@@ -211,19 +255,28 @@ function Main() {
     const dateMap = new Map<string, Map<string, {
       courseId: string;
       courseTitle: string;
+      courseDescription: string;
       scheduleId: string;
       scheduleDay: string;
       scheduleStartHour: string;
       statusCount: { [key: string]: number };
       total: number;
       students: Array<{
+        id: string;
         name: string;
         lastName: string;
         status: string;
+        date: string;
+        locationId: string;
+        sessionNumber: number;
+        totalSessions: number;
+        birthdate: string;
+        edad: { años: number; meses: number } | null;
       }>;
     }>>();
     
     sessionDetails.forEach((item: any) => {
+      // console.log("--sessionDetails--", item)
       // Extraer la fecha del item (formato esperado: YYYY-MM-DD o similar)
       const itemDate = item?.date || '';
       let dateKey = '';
@@ -265,6 +318,7 @@ function Main() {
         scheduleMap.set(uniqueKey, {
           courseId: courseId,
           courseTitle: item?.course?.title || '',
+          courseDescription: item?.course?.description || '',
           scheduleId: scheduleId,
           scheduleDay: item?.schedule?.day || '',
           scheduleStartHour: item?.schedule?.startHour || '',
@@ -286,6 +340,36 @@ function Main() {
       // Agregar información del estudiante
       const studentName = item?.student?.name || '';
       const studentLastName = item?.student?.lastName || '';
+      const sessionDetailId = item?.id || '';
+      const sessionDetailDate = item?.date || '';
+      const sessionDetailLocationId = item?.locationId || '';
+      const sessionNumber = item?.sessionNumber || 0;
+      const totalSessions = item?.totalSessions || 0;
+      const studentBirthdate = item?.student?.birthdate || '';
+      
+      // Calcular la edad - convertir formato si es necesario
+      let edad: { años: number; meses: number } | null = null;
+      if (studentBirthdate) {
+        try {
+          // Si viene en formato ISO (YYYY-MM-DD), convertir a DD/MM/YYYY
+          let fechaFormateada = studentBirthdate;
+          if (/^\d{4}-\d{2}-\d{2}/.test(studentBirthdate)) {
+            // Formato ISO: YYYY-MM-DD -> DD/MM/YYYY
+            const [year, month, day] = studentBirthdate.split('T')[0].split('-');
+            fechaFormateada = `${day}/${month}/${year}`;
+          } else if (studentBirthdate === "") {
+            fechaFormateada = "01/01/1800";
+          }
+          edad = calcularEdad(fechaFormateada);
+          // Validar que la edad no sea mayor a 100 años (probablemente fecha inválida)
+          if (edad.años > 100) {
+            edad = null;
+          }
+        } catch (e) {
+          edad = null;
+        }
+      }
+      
       if (studentName || studentLastName) {
         // Verificar si el estudiante ya existe para evitar duplicados
         const studentExists = group.students.some(
@@ -293,9 +377,16 @@ function Main() {
         );
         if (!studentExists) {
           group.students.push({
+            id: sessionDetailId,
             name: studentName,
             lastName: studentLastName,
-            status: status || ''
+            status: status || '',
+            date: sessionDetailDate,
+            locationId: sessionDetailLocationId,
+            sessionNumber: sessionNumber,
+            totalSessions: totalSessions,
+            birthdate: studentBirthdate,
+            edad: edad
           });
         }
       }
@@ -308,6 +399,7 @@ function Main() {
       courses: Array<{
         courseId: string;
         courseTitle: string;
+        courseDescription: string;
         days: Array<{
           scheduleDay: string;
           schedules: Array<{
@@ -316,9 +408,16 @@ function Main() {
             statusCount: { [key: string]: number };
             total: number;
             students: Array<{
+              id: string;
               name: string;
               lastName: string;
               status: string;
+              date: string;
+              locationId: string;
+              sessionNumber: number;
+              totalSessions: number;
+              birthdate: string;
+              edad: { años: number; meses: number } | null;
             }>;
           }>;
           dayStatusCount: { [key: string]: number };
@@ -336,6 +435,7 @@ function Main() {
       const courseMap = new Map<string, {
         courseId: string;
         courseTitle: string;
+        courseDescription: string;
         days: Map<string, {
           scheduleDay: string;
           schedules: Array<{
@@ -344,9 +444,16 @@ function Main() {
             statusCount: { [key: string]: number };
             total: number;
             students: Array<{
+              id: string;
               name: string;
               lastName: string;
               status: string;
+              date: string;
+              locationId: string;
+              sessionNumber: number;
+              totalSessions: number;
+              birthdate: string;
+              edad: { años: number; meses: number } | null;
             }>;
           }>;
           dayStatusCount: { [key: string]: number };
@@ -365,6 +472,7 @@ function Main() {
           courseMap.set(courseTitle, {
             courseId: schedule.courseId,
             courseTitle: courseTitle,
+            courseDescription: schedule.courseDescription,
             days: new Map(),
             totalStatusCount: {},
             grandTotal: 0
@@ -630,9 +738,242 @@ function Main() {
     idLocation?:string;  
   }
   
+  // Función helper para normalizar fechas y compararlas
+  const normalizeDate = (dateString: string): string => {
+    if (!dateString) return '';
+    try {
+      // Si viene en formato ISO con tiempo, extraer solo la fecha
+      const datePart = dateString.split('T')[0];
+      // Si ya está en formato YYYY-MM-DD, retornarlo
+      if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+        return datePart;
+      }
+      // Intentar parsear y formatear
+      const dateObj = new Date(dateString);
+      if (!isNaN(dateObj.getTime())) {
+        const year = dateObj.getUTCFullYear();
+        const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(dateObj.getUTCDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+      return datePart || dateString;
+    } catch (e) {
+      return dateString.split('T')[0] || dateString;
+    }
+  };
 
+  // Función helper para verificar si una fecha coincide con las fechas de los slots seleccionados
+  const isDateAllowed = (studentDate: string): boolean => {
+    if (selectedSlots.length === 0) {
+      // Si no hay slots seleccionados, permitir cualquier fecha
+      return true;
+    }
+    
+    // Normalizar la fecha del estudiante
+    const normalizedStudentDate = normalizeDate(studentDate);
+    
+    // Verificar si todas las fechas de los slots seleccionados coinciden con la fecha del estudiante
+    return selectedSlots.every((slot) => {
+      const slotDate = normalizeDate(slot.date || slot.dateString || '');
+      return slotDate === normalizedStudentDate;
+    });
+  };
+
+  // Función para manejar la selección de un estudiante individual
+  const handleStudentClick = async (
+    student: {
+      id: string;
+      name: string;
+      lastName: string;
+      status: string;
+      date: string;
+      locationId: string;
+      sessionNumber: number;
+      totalSessions: number;
+      birthdate: string;
+      edad: { años: number; meses: number } | null;
+    },
+    schedule: {
+      scheduleId: string;
+      scheduleStartHour: string;
+    },
+    dateGroupDate: string,
+    courseGroup: {
+      courseId: string;
+      courseTitle: string;
+    },
+    dayGroup: {
+      scheduleDay: string;
+    },
+    isChecked: boolean
+  ) => {
+    if (isChecked) {
+      // Validar que la fecha del estudiante coincida con las fechas ya seleccionadas
+      if (!isDateAllowed(student.date)) {
+        // Si la fecha no coincide, no permitir la selección
+        return;
+      }
+
+      // Si se marca el checkbox, agregar la sesión de este estudiante
+      const isAlreadySelected = selectedSlots.some(
+        (slot) => slot.sessionId === student.id
+      );
+
+      if (!isAlreadySelected) {
+        const newSession = {
+          id: student.id,
+          // id: schedule.scheduleId,
+          sessionId: student.id, // ID de la sesión (sessionDetails.id)
+          scheduleId: schedule.scheduleId,
+          scheduleStartHour: schedule.scheduleStartHour,
+          date: student.date,
+          status: student.status,
+          locationId: student.locationId,
+          studentName: student.name,
+          studentLastName: student.lastName,
+          studentBirthdate: student.birthdate,
+          sessionNumber: student.sessionNumber,
+          totalSessions: student.totalSessions,
+          dateString: dateGroupDate,
+          // Agregar datos adicionales para el Slideover
+          schedule: {
+            day: dayGroup.scheduleDay,
+            startHour: schedule.scheduleStartHour
+          },
+          course: {
+            id: courseGroup.courseId,
+            title: courseGroup.courseTitle
+          }
+        };
+
+        setSelectedSlots((prev) => [...prev, newSession]);
+      }
+    } else {
+      // Si se desmarca el checkbox, eliminar la sesión de este estudiante
+      setSelectedSlots((prev) => prev.filter(
+        (slot) => slot.sessionId !== student.id
+      ));
+    }
+  };
+
+  // const handleTimeSlotClick = async (
+  //   schedule: {
+  //     scheduleId: string;
+  //     scheduleStartHour: string;
+  //     students: Array<{
+  //       id: string;
+  //       name: string;
+  //       lastName: string;
+  //       status: string;
+  //       date: string;
+  //       locationId: string;
+  //     }>;
+  //   },
+  //   dateGroupDate: string,
+  //   courseGroup: {
+  //     courseId: string;
+  //     courseTitle: string;
+  //   },
+  //   dayGroup: {
+  //     scheduleDay: string;
+  //   },
+  //   isChecked: boolean
+  // ) => {
+  //   if (isChecked) {
+  //     // Si se marca el checkbox, agregar todas las sesiones de los estudiantes de este schedule
+  //     if (schedule.students && schedule.students.length > 0) {
+  //       const newSessions = schedule.students.map((student) => ({
+  //         id: schedule.scheduleId,
+  //         sessionId: student.id, // ID de la sesión (sessionDetails.id)
+  //         scheduleId: schedule.scheduleId,
+  //         scheduleStartHour: schedule.scheduleStartHour,
+  //         date: student.date,
+  //         status: student.status,
+  //         locationId: student.locationId,
+  //         studentName: student.name,
+  //         studentLastName: student.lastName,
+  //         dateString: dateGroupDate,
+  //         // Agregar datos adicionales para el Slideover
+  //         schedule: {
+  //           day: dayGroup.scheduleDay,
+  //           startHour: schedule.scheduleStartHour
+  //         },
+  //         course: {
+  //           id: courseGroup.courseId,
+  //           title: courseGroup.courseTitle
+  //         }
+  //       }));
+
+  //       // Filtrar las sesiones que ya están seleccionadas
+  //       const sessionsToAdd = newSessions.filter(
+  //         (newSession) => !selectedSlots.some(
+  //           (slot) => slot.sessionId === newSession.sessionId
+  //         )
+  //       );
+
+  //       if (sessionsToAdd.length > 0) {
+  //         setSelectedSlots((prev) => [...prev, ...sessionsToAdd]);
+  //       }
+  //     }
+  //   } else {
+  //     // Si se desmarca el checkbox, eliminar todas las sesiones de este schedule
+  //     if (schedule.students && schedule.students.length > 0) {
+  //       const sessionIdsToRemove = schedule.students.map((student) => student.id);
+  //       setSelectedSlots((prev) => prev.filter(
+  //         (slot) => !sessionIdsToRemove.includes(slot.sessionId || '')
+  //       ));
+  //     }
+  //   }
+  // };
+  
+  const handleModifiedSchedule = async () => {
+    
+    
+    await dispatch(setSessionMasive({
+      sessions: [...selectedSlots],
+      newCourseId: newSchedules?.courseId,
+      newScheduleId: newSchedules?.scheduleId,
+      newLocationId: date?.locationId,
+    }))
+    
+    // Recargar las sesiones después de la modificación
+    await dispatch(getSessionQuotev2({
+      sessionDate: String(date?.firstDayOfMonthUtc), 
+      sessionDateEnd: String(date?.lastDayOfMonthUtc), 
+      locationId: date?.locationId
+    }))
+    
+    // Limpiar selectedSlots después de procesar
+    setSelectedSlots([]);
+    
+    handleClose() 
+    
+    // if (studentId) {
+    //   await dispatch(getSessionByStudent({studentId:studentId, status:"ACTIVE"}))
+    // }
+  };
+  
+  const handleClose = () => {
+    setSlideAdmin(false);
+  };
+  
+  // Función para remover un slot del array
+  const handleRemoveSlot = (id: string) => {
+      setSelectedSlots((prev) => {
+        const filtered = prev.filter((slot) => slot.sessionId !== id);
+        // Si el array queda vacío, cerrar el slideover
+        if (filtered.length === 0) {
+          handleClose();
+        }
+        return filtered;
+      });
+    };
   
   useEffect(() => { 
+    // Validar que existe locationId antes de ejecutar
+    if (!date?.locationId) {
+      return;
+    }
     
     console.log("----date?.dateUtc---", date)
     const dateFormated: string = String(date?.firstDayOfMonthUtc).replace("T00:00:00.000Z", "");
@@ -659,8 +1000,167 @@ function Main() {
   
   return (
     <>
-     
-    {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre> */}
+               {/* MODIFICACION MASIVA SESIONES */}
+      <Slideover staticBackdrop open={slideAdmin} onClose={handleClose}>
+        <Slideover.Panel>
+          <a
+            onClick={(event: React.MouseEvent) => {
+              event.preventDefault();
+              handleClose();
+            }}
+            className="absolute top-0 left-0 right-auto mt-4 -ml-12"
+            href="#"
+          >
+            <Lucide icon="X" className="w-8 h-8 text-slate-400" />
+          </a>
+          <Slideover.Title className={``}>
+            <h2 className="mr-auto text-base font-medium">Detalles del Slot</h2>
+          </Slideover.Title>
+          <Slideover.Description>
+            {/* <pre>{JSON.stringify(selectedSlots, null, 2)}</pre> */}
+            <div className="mb-4 flex flex-row flex-wrap gap-6 justify-between">
+              {Array.isArray(selectedSlots) &&
+                selectedSlots.map((schedule: any, index) => (
+                  <>
+                    <div
+                    key={schedule.sessionId}
+                    className="relative min-w-[46%] flex flex-col items-start justify-between"
+                    >
+                    <button 
+                      className="absolute w-8 h-8 px-1 py-1 top-3 right-3 z-10 rounded-full bg-red-400 hover:bg-black text-white"
+                      onClick={() => handleRemoveSlot(schedule.sessionId)}
+                    >
+                        <Lucide
+                          icon="X"
+                          className="w-6 h-6 my-auto  stroke-[1.3]"
+                        />
+                    </button>
+                      <div
+                        id="scheduleButton"
+                        className={` flex flex-col justify-start items-start w-full px-4 py-4 rounded-lg shadow-lg  text-slate-700  border-black bg-slate-200/80`}
+                      >
+
+                        <div className="flex flex-row justify-start items-start">
+                          <span className="mr-6">Fecha:</span>
+                          <span className="relative w-40 font-semibold">
+                          {String(schedule?.dateString || schedule?.date || '').replace("T00:00:00.000Z", '')}
+                          </span>
+                        </div>
+                        <div className="flex flex-row justify-start items-start px-4 py-4">
+                          <span className="uppercase bg-slate-300 text-slate-700 rounded-full px-3 py-2 mr-2">
+                            {schedule?.schedule.day} {schedule?.schedule.startHour}
+                          </span>
+                          <span className="uppercase bg-slate-300 text-slate-700 rounded-full px-3 py-2 ">
+                          {schedule?.course?.title} 
+                          </span>
+                        </div>
+                        
+                        <div className="flex flex-row justify-start items-start ">
+                          <span className="uppercase border-2 border-slate-300 text-slate-700 rounded-full px-3 py-2 mr-2">
+                          {schedule?.locationId}
+                          </span>
+                          <span className="uppercase bg-green-500/45 text-slate-700 rounded-full px-3 py-2 ">
+                          {typeOfSession[schedule?.status || ""]}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ))}
+            </div>
+            {status === "loading" && (
+              <div className="w-full flex justify-center items-center h-[350px]">
+                <LoadingIcon
+                  icon="puff"
+                  color="rgb(86, 193, 0)"
+                  className="m-8 h-20"
+                />
+              </div>
+            )}
+            
+            <div className="flex-col block pt-2 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
+              <div className="flex-1 w-full mt-3 xl:mt-0 ">
+                <FormSelect
+                 key="SELECT-SCHEDULES"
+                 className="!box uppercase mr-3"
+                 onChange={(e) =>{
+                    const selectedScheduleId = e.target.value;
+                    // Buscar el schedule seleccionado en el array para obtener el courseSchedulesId
+                    const selectedSchedule = schedules?.find((item: any) => item?.id === selectedScheduleId);
+                    
+                    setNewSchedules({
+                      ...newSchedules,
+                      scheduleId: selectedScheduleId,
+                      courseId: selectedSchedule?.courseSchedulesId || "",
+                    });
+                   }
+                 }
+               >
+                
+                  {Array.isArray(schedules) &&
+                    schedules
+                      .filter((item: any) => item?.isActive !== false)
+                      .filter((item: any) => {
+                        // Si selectedScheduleDay está vacío, mostrar todos los schedules
+                        if (!selectedScheduleDay) return true;
+                        // Filtrar por el día seleccionado (normalizar ambos para comparar)
+                        const normalizedItemDay = normalizeDayName(item?.day || '');
+                        const normalizedSelectedDay = normalizeDayName(selectedScheduleDay);
+                        return normalizedItemDay === normalizedSelectedDay;
+                      })
+                      .sort((a: any, b: any) => {
+                        // Ordenar por day
+                        const dayCompare = (a?.day || "").localeCompare(b?.day || "");
+                        if (dayCompare !== 0) return dayCompare;
+                        
+                        // Si los días son iguales, ordenar por startHour
+                        const hourCompare = (a?.startHour || "").localeCompare(b?.startHour || "");
+                        if (hourCompare !== 0) return hourCompare;
+                        
+                        // Si las horas son iguales, ordenar por courseSchedulesId
+                        return (a?.courseSchedulesId || "").localeCompare(b?.courseSchedulesId || "");
+                      })
+                      .map((item: any, i: number) => (
+                        <option
+                          key={`${i}-SCHEDULES`}
+                          value={item?.id}
+                        >
+                          {`${item?.day} - ${item?.startHour} - ${item?.courseSchedulesId}`}
+                        </option>
+                      ))}
+                    </FormSelect>
+              </div>
+            </div>
+                    
+          </Slideover.Description>
+          <Slideover.Footer>
+            {/* Botón sticky al final de la pantalla */}
+            <div className=" w-full bg-white border-t border-gray-200 p-4 flex justify-center">
+              <button
+                className="w-full bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-[#d0155a] transition-colors duration-200"
+                onClick={() => handleModifiedSchedule()}
+              >
+                MODIFICAR SESIONES SELECCIONADAS
+              </button>
+            </div>
+          </Slideover.Footer>
+        </Slideover.Panel>
+      </Slideover>
+     {selectedSlots.length > 0 && (
+        <button
+          id="selected"
+          onClick={() => setSlideAdmin(true)}
+          className="fixed top-1/2 -right-20 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-primary text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-200 font-medium "
+        >
+          <p className="px-4 py-2 font-normal flex flex-col justify-between">
+            {" "}
+            SESIONES SELECCIONADOS{" "}
+            <b className="text-2xl mt-2">{selectedSlots.length}</b>
+          </p>
+          {/* <pre>{JSON.stringify(selectedSlots , null, 2)}</pre> */}
+        </button>
+      )}
+      
     {date?.locationId==="" && 
       <>
         <div className="p-1.5 box flex flex-col ">
@@ -679,10 +1179,11 @@ function Main() {
               { location?.value !== "" && 
                   <Button
                   key={`BUTTON-LOCATION${index}`}
-                        onClick={() => 
+                        onClick={() => {
                           setDate({...date, locationId:location?.value})
-                        }
-                        
+                          setNewSchedules({...newSchedules, locationId:location?.value})
+                          dispatch(getSchedulesByLocationAndCourse({ locationId: location?.value }))
+                        }}                        
                         className={` mx-1 my-1 rounded-full p-0 w-80 h-16 mr-6 mb-6
                           bg-slate-200 border-slate-300 text-slate-700
                         `}
@@ -766,6 +1267,7 @@ function Main() {
             <div className="mt-2 overflow-auto lg:overflow-visible">
               {/* <pre>{JSON.stringify(sessionDetails, null, 2 )}</pre> */}
 
+
             {
                 Array.isArray(sessionDetails) &&
                 (sessionDetails.length === 0 ? (
@@ -848,7 +1350,7 @@ function Main() {
                         </div>
                       </div>
                     </div>
-                    
+                    {/* <pre>{JSON.stringify(filteredGroupedSessions, null, 2 )}</pre> */}
                     {/* Lista de cursos para este día */}
                     <div className="space-y-6">
                       {Array.isArray(dateGroup.courses) && dateGroup.courses.map((courseGroup, courseIndex) => (
@@ -858,22 +1360,30 @@ function Main() {
                         >
                           <div className="mb-3 border-b border-slate-300 pb-2">
                             <h3 className="text-xl font-semibold text-slate-700">
-                              {courseGroup.courseTitle}
+                              {courseGroup.courseTitle} 
                               <span className="ml-2 text-sm font-normal text-slate-500">
                                 ({courseGroup.courseId})
                               </span>
                             </h3>
                           </div>
                           
+                          
                           {/* Lista de días de la semana agrupados para este curso */}
                           <div className="space-y-4">
                             {Array.isArray(courseGroup.days) && courseGroup.days.map((dayGroup, dayIndex) => (
                               <div 
                                 key={`${dayGroup.scheduleDay}-${dayIndex}`}
-                                className="p-3 bg-white rounded-lg border border-slate-300"
+                                className={`${
+                                  courseGroup.courseTitle === "PERSONALIZADO"
+                                    ? 'bg-white'
+                                    : isScheduleDayDifferent(dayGroup.scheduleDay, dateGroup.dateFormatted)
+                                    ? 'bg-red-600/30'
+                                    : 'bg-white'
+                                } p-3 rounded-lg border border-slate-300`}
                               >
-                                <h4 className="text-base font-semibold text-slate-600 mb-2 uppercase">
-                                  {dayGroup.scheduleDay}
+                                
+                                <h4 className={``}>
+                                  <span className={`text-base font-semibold mb-2 uppercase ${isScheduleDayDifferent(dayGroup.scheduleDay, dateGroup.dateFormatted) && " text-blue-600 line-through"}`}>{dayGroup.scheduleDay}</span> <span className={`text-red-800 `}>{isScheduleDayDifferent(dayGroup.scheduleDay, dateGroup.dateFormatted) && "* ERROR EN LA INSCRIPCION" }</span>
                                 </h4>
                                 
                                 {/* Lista de horarios para este día - Tabla */}
@@ -881,16 +1391,10 @@ function Main() {
                                   <Table>
                                     <Table.Thead>
                                       <Table.Tr>
+                                        <Table.Th className="text-xs"></Table.Th>
                                         <Table.Th className="text-xs font-semibold text-slate-700 uppercase">
                                           Horario
                                         </Table.Th>
-                                        {/* {Array.from(new Set(
-                                          dayGroup.schedules.flatMap(s => Object.keys(s.statusCount))
-                                        )).sort().map((status) => (
-                                          <Table.Th key={status} className="text-xs font-semibold text-slate-700 uppercase">
-                                            {translateStatus(status)}
-                                          </Table.Th>
-                                        ))} */}
                                         <Table.Th className="text-xs font-semibold text-slate-700 uppercase">
                                           Alumnos
                                         </Table.Th>
@@ -913,24 +1417,58 @@ function Main() {
                                             key={`${schedule.scheduleId}-${scheduleIndex}`}
                                             className={isLowTotal ? 'bg-red-50' : ''}
                                           >
-                                            <Table.Td className={`text-sm font-medium ${isLowTotal ? 'text-red-700' : 'text-slate-600'}`}>
+                                            <Table.Td  className="w-0">
+                                            <div className="flex items-center justify-center w-0">
+                                             
+                                          </div>
+                                            </Table.Td>
+                                            <Table.Td className={`w-0 text-sm font-medium ${isLowTotal ? 'text-red-700' : 'text-slate-600'}`}>
                                               {schedule.scheduleStartHour}
                                             </Table.Td>
-                                           
-                                            {/* {Array.from(new Set(
-                                              dayGroup.schedules.flatMap(s => Object.keys(s.statusCount))
-                                            )).sort().map((status) => (
-                                              <Table.Td key={status} className="text-sm text-center font-semibold text-slate-800">
-                                                {schedule.statusCount[status] || 0}
-                                              </Table.Td>
-                                            ))} */}
+
                                             <Table.Td className={`text-sm text-left ${isLowTotal ? 'text-red-700' : ''}`}>
                                               <div className="space-y-1">
                                                 {schedule.students && schedule.students.length > 0 ? (
                                                   schedule.students.map((student, studentIndex) => (
-                                                    <div key={studentIndex} className={`flex justify-between items-center ${isLowTotal ? 'text-red-700' : 'text-slate-800'}`}>
-                                                      <span>
-                                                      
+                                                    <div key={studentIndex} className="flex items-center gap-2 py-1">
+                                                    {isScheduleDayDifferent(dayGroup.scheduleDay, dateGroup.dateFormatted) && (
+                                                      <FormCheck.Input
+                                                        type="checkbox"
+                                                        checked={selectedSlots.some((slot) => slot.sessionId === student.id)}
+                                                        disabled={!isDateAllowed(student.date)}
+                                                        onChange={(e) => {
+                                                          e.stopPropagation(); // Evitar que se ejecute el onClick del Table.Tr
+                                                          const isChecked = e.target.checked;
+                                                          // Actualizar el estado con el día extraído de dateGroup.dateFormatted (siempre sobrescribir)
+                                                          const extractedDay = extractDayFromFormattedDate(dateGroup.dateFormatted);
+                                                          setSelectedScheduleDay(extractedDay);
+                                                          handleStudentClick(
+                                                            {
+                                                              id: student.id,
+                                                              name: student.name,
+                                                              lastName: student.lastName,
+                                                              status: student.status,
+                                                              date: student.date,
+                                                              locationId: student.locationId,
+                                                              sessionNumber: student.sessionNumber,
+                                                              totalSessions: student.totalSessions,
+                                                              birthdate: student.birthdate || '',
+                                                              edad: student.edad
+                                                            },
+                                                            {
+                                                              scheduleId: schedule.scheduleId,
+                                                              scheduleStartHour: schedule.scheduleStartHour
+                                                            },
+                                                            dateGroup.date,
+                                                            courseGroup,
+                                                            dayGroup,
+                                                            isChecked
+                                                          );
+                                                        }}
+                                                      />
+                                                    )}
+                                                    <div className={`flex justify-between items-center flex-1 ${isLowTotal ? 'text-red-700' : 'text-slate-800'}`}>
+                                                      <span>                                                      
                                                         {studentIndex + 1}. {student.status && (() => {
                                                           const translatedStatus = translateStatus(student.status);
                                                           const isActivaOrRecuperada = translatedStatus === 'ACTIVA' || translatedStatus === 'RECUPERADA';
@@ -955,8 +1493,11 @@ function Main() {
                                                               {translatedStatus}
                                                             </b>
                                                           );
-                                                        })()} {student.name} {student.lastName}
+                                                        })()} 
+                                                        <span>{student.name} {student.lastName} ({student?.edad && student.edad.años > 100 ? "SIN EDAD" : `${student?.edad?.años || ""} años, ${student?.edad?.meses || ""} meses`}) <span className="text-slate-500">{ `${student?.sessionNumber} de ${student?.totalSessions} sesiones`}</span></span>
+                                                        
                                                       </span>
+                                                    </div>
                                                     </div>
                                                   ))
                                                 ) : (

@@ -631,7 +631,7 @@ useEffect(() => {
                               item?.status === "USED" &&  "bg-red-50 border-red-200",
                               item?.status === "RECOVERED" &&  "bg-blue-50 border-blue-200",
                               item?.status === "DELETED" &&  "bg-slate-200 border-slate-200 text-slate-500",
-                              "w-36 h-10",
+                              "w- h-10",
                           ])}
                           >
                           <span className="text-center">  

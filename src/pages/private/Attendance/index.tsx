@@ -17,9 +17,9 @@ import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { getSessionDetails, selectSessionDetails, setSessionDetails, getSessionByLocationAndDate } from "@/stores/SessionDetails/slice";
 import { InputOptions } from "@/stores/SessionDetails/types";
 import {FormInput, FormSelect } from "@/components/Base/Form";
-import { setBreadcrumb } from '@/stores/breadcrumb';
+// import { setBreadcrumb } from '@/stores/breadcrumb';
 import { getLocationsOnly, selectLocation } from '../../../stores/Locations/slice';
-
+import { selectAuth } from "@/stores/Users/slice";
 import {typeOfGender} from "@/pages/private/Students/components/Card";
 import StudentList from "./studentList";
 
@@ -99,6 +99,8 @@ function Main() {
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
   const {locationsList } = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
+  
+  const { emailAuth } = useAppSelector(selectAuth);
   
   // Función para filtrar, ordenar y generar objetos únicos
   const getUniqueScheduleStrings = () => {
@@ -317,6 +319,7 @@ function Main() {
     await Promise.all([
       await dispatch(setSessionDetails({ 
         ...params,
+        modifiedBy: emailAuth,
         // sessionId: params.sessionId, 
         // status: params.status,
         // locationIdUsed:date?.locationId,
