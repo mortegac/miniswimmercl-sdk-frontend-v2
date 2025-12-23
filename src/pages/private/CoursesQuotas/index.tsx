@@ -251,6 +251,20 @@ function Main() {
   const getGroupedSessions = () => {
     if (!Array.isArray(sessionDetails)) return [];
     
+    // Primero, contar las sesiones activas por estudiante en todos los sessionDetails
+    const activeSessionsCountMap = new Map<string, number>();
+    sessionDetails.forEach((item: any) => {
+      const studentName = item?.student?.name || '';
+      const studentLastName = item?.student?.lastName || '';
+      if (studentName && studentLastName && (item?.status === "ACTIVE" || item?.status === "RECOVERED")) {
+        const studentKey = `${studentName}-${studentLastName}`;
+        activeSessionsCountMap.set(
+          studentKey,
+          (activeSessionsCountMap.get(studentKey) || 0) + 1
+        );
+      }
+    });
+    
     // Primero agrupar por fecha, luego por course.id y schedule.id
     const dateMap = new Map<string, Map<string, {
       courseId: string;
@@ -272,6 +286,7 @@ function Main() {
         totalSessions: number;
         birthdate: string;
         edad: { años: number; meses: number } | null;
+        totalActiveSessions: number;
       }>;
     }>>();
     
@@ -376,6 +391,10 @@ function Main() {
           s => s.name === studentName && s.lastName === studentLastName
         );
         if (!studentExists) {
+          // Obtener el conteo de sesiones activas para este estudiante
+          const studentKey = `${studentName}-${studentLastName}`;
+          const totalActiveSessions = activeSessionsCountMap.get(studentKey) || 0;
+          
           group.students.push({
             id: sessionDetailId,
             name: studentName,
@@ -386,7 +405,8 @@ function Main() {
             sessionNumber: sessionNumber,
             totalSessions: totalSessions,
             birthdate: studentBirthdate,
-            edad: edad
+            edad: edad,
+            totalActiveSessions: totalActiveSessions
           });
         }
       }
@@ -418,6 +438,7 @@ function Main() {
               totalSessions: number;
               birthdate: string;
               edad: { años: number; meses: number } | null;
+              totalActiveSessions: number;
             }>;
           }>;
           dayStatusCount: { [key: string]: number };
@@ -454,6 +475,7 @@ function Main() {
               totalSessions: number;
               birthdate: string;
               edad: { años: number; meses: number } | null;
+              totalActiveSessions: number;
             }>;
           }>;
           dayStatusCount: { [key: string]: number };
@@ -792,6 +814,7 @@ function Main() {
       totalSessions: number;
       birthdate: string;
       edad: { años: number; meses: number } | null;
+      totalActiveSessions: number;
     },
     schedule: {
       scheduleId: string;
@@ -1453,7 +1476,8 @@ function Main() {
                                                               sessionNumber: student.sessionNumber,
                                                               totalSessions: student.totalSessions,
                                                               birthdate: student.birthdate || '',
-                                                              edad: student.edad
+                                                              edad: student.edad,
+                                                              totalActiveSessions: student.totalActiveSessions
                                                             },
                                                             {
                                                               scheduleId: schedule.scheduleId,
@@ -1494,7 +1518,9 @@ function Main() {
                                                             </b>
                                                           );
                                                         })()} 
-                                                        <span>{student.name} {student.lastName} ({student?.edad && student.edad.años > 100 ? "SIN EDAD" : `${student?.edad?.años || ""} años, ${student?.edad?.meses || ""} meses`}) <span className="text-slate-500">{ `${student?.sessionNumber} de ${student?.totalSessions} sesiones`}</span></span>
+                                                        <span>{student.name} {student.lastName} ({student?.edad && student.edad.años > 100 ? "SIN EDAD" : `${student?.edad?.años || ""} años, ${student?.edad?.meses || ""} meses`}) 
+                                                          <span className="text-slate-500">{ `${student?.totalActiveSessions} de ${student?.totalSessions} sesiones`}</span>
+                                                          </span>
                                                         
                                                       </span>
                                                     </div>
