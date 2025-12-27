@@ -115,7 +115,24 @@ export const listLocationsOnly = /* GraphQL */ `
         imageMap
         urlMap
         directions
-        __typename
+        
+      courses{
+        items{
+          id
+          title
+          isActive          
+        }
+      }
+      schedules{
+        items{
+          id
+          day
+          startHour
+          endHour
+        }
+      }
+
+
       }
       nextToken
       __typename

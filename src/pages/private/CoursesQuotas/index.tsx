@@ -79,13 +79,15 @@ function Main() {
   const [selectedScheduleDay, setSelectedScheduleDay] = useState<string>("");
   const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
-  const {locationsList } = useAppSelector(selectLocation);
+  const {locationsList, locations } = useAppSelector(selectLocation);
   const { schedules } = useAppSelector(selectSchedules);
   const [newSchedules, setNewSchedules] = useState({
     scheduleId: "",
     courseId: "",
     locationId: "",
   });
+  const [coursesList, setCoursesList] = useState<Array<{ label: string; value: string }>>([]);
+  const [selectedCourseId, setSelectedCourseId] = useState<string>("");
   
   
   const dispatch = useAppDispatch();
@@ -598,9 +600,29 @@ function Main() {
   const groupedSessions = getGroupedSessions();
   
   // Filtrar groupedSessions según showAllDates
-  const filteredGroupedSessions = showAllDates 
+  const filteredGroupedSessionsByDate = showAllDates 
     ? groupedSessions 
     : groupedSessions.filter((dateGroup) => isDateGreaterOrEqualToday(dateGroup.date));
+  
+  // Filtrar por curso seleccionado
+  const filteredGroupedSessions = selectedCourseId 
+    ? filteredGroupedSessionsByDate.map((dateGroup) => ({
+        ...dateGroup,
+        courses: dateGroup.courses.filter((course) => course.courseId === selectedCourseId),
+        // Recalcular totales de la fecha después de filtrar cursos
+        dateStatusCount: dateGroup.courses
+          .filter((course) => course.courseId === selectedCourseId)
+          .reduce((acc, course) => {
+            Object.entries(course.totalStatusCount).forEach(([status, count]) => {
+              acc[status] = (acc[status] || 0) + count;
+            });
+            return acc;
+          }, {} as { [key: string]: number }),
+        dateTotal: dateGroup.courses
+          .filter((course) => course.courseId === selectedCourseId)
+          .reduce((total, course) => total + course.grandTotal, 0)
+      })).filter((dateGroup) => dateGroup.courses.length > 0) // Eliminar fechas sin cursos
+    : filteredGroupedSessionsByDate;
   
  
     
@@ -1021,6 +1043,56 @@ function Main() {
   
   useEffect(() => { setFilteredStudents( [...sessionDetails]); }, [sessionDetails]);
   
+  // Función para filtrar cursos por locationId e isActive
+  const filterCoursesByLocation = useCallback(() => {
+    if (!date?.locationId || !Array.isArray(locations)) {
+      setCoursesList([]);
+      return;
+    }
+    
+    // Buscar la ubicación seleccionada
+    const selectedLocation = locations.find((location: any) => location?.id === date.locationId) as any;
+    
+    if (!selectedLocation || !selectedLocation.courses) {
+      setCoursesList([]);
+      return;
+    }
+    
+    // Obtener los cursos de la ubicación
+    // Puede venir como array directo o como objeto con { items: [] }
+    let courses: any[] = [];
+    const coursesData = selectedLocation.courses as any;
+    
+    if (Array.isArray(coursesData)) {
+      courses = coursesData;
+    } else if (coursesData?.items && Array.isArray(coursesData.items)) {
+      courses = coursesData.items;
+    }
+    
+    // Filtrar por isActive === true y transformar al formato requerido
+    const filteredCourses = courses
+      .filter((course: any) => course?.isActive === true)
+      .map((course: any) => ({
+        label: course?.title || "",
+        value: course?.id || ""
+      }));
+    
+    // Agregar "---TODOS---" al inicio de la lista
+    const coursesWithAll = [
+      { label: "---TODOS---", value: "" },
+      ...filteredCourses
+    ];
+    
+    setCoursesList(coursesWithAll);
+  }, [date?.locationId, locations]);
+  
+  // Ejecutar el filtrado cuando cambien locationId o locations
+  useEffect(() => {
+    filterCoursesByLocation();
+    // Resetear el curso seleccionado cuando cambie la ubicación
+    setSelectedCourseId("");
+  }, [filterCoursesByLocation]);
+  
   return (
     <>
                {/* MODIFICACION MASIVA SESIONES */}
@@ -1169,6 +1241,10 @@ function Main() {
           </Slideover.Footer>
         </Slideover.Panel>
       </Slideover>
+      {/* <pre>{JSON.stringify(date?.locationId, null, 2)}</pre>
+      <pre>{JSON.stringify(locationsList, null, 2)}</pre>
+      <pre>{JSON.stringify(locations, null, 2)}</pre> */}
+      
      {selectedSlots.length > 0 && (
         <button
           id="selected"
@@ -1233,7 +1309,7 @@ function Main() {
        
         
         <div id="boxResume" className="flex flex-col justify-start md:flex-row flex-start gap-2">
-          <div className="flex flex-col justify-start items-start">
+          <div className="flex flex-row justify-start items-start">
             <ListParams
               key={"LIST_LOCATIONS"}
               list={locationsList}
@@ -1243,6 +1319,19 @@ function Main() {
               fn={(e)=>setDate({...date, locationId:e.target.value})}
               handleCreate={(e)=>console.log(e.target.value)}
               name={"location"}
+            />
+              <ListParams
+              key={"LIST_COURSES"}
+              list={coursesList as any}
+              text={""}
+              value={selectedCourseId}
+              isLoading={false}
+              fn={(e)=>{
+                const courseId = e.target.value || "";
+                setSelectedCourseId(courseId);
+              }}
+              handleCreate={(e)=>console.log(e.target.value)}
+              name={"coursesList"}
             />
           </div>
           <div className="flex flex-row justify-start items-center flex-start ">

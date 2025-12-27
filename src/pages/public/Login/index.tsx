@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -18,6 +18,7 @@ import { selectAuth, getAuthUser, getLoginUser} from "@/stores/Users/slice";
 import Splash from "@/components/Splash";
 import Button from "@/components/Base/Button";
 import { FormInput, FormLabel } from "@/components/Base/Form";
+import Lucide from "@/components/Base/Lucide";
 
 const AddUserSchema = yup.object().shape({
   email: yup.string().required("debes colocar tu email."),
@@ -32,6 +33,7 @@ interface LoginFormInputs {
 function Main() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectAuth);
+  const [showPassword, setShowPassword] = useState(false);
   
   const {
     register,
@@ -46,6 +48,10 @@ function Main() {
     const { email, password } = data;
     // console.log(errors);
     const request = await dispatch(getLoginUser({ email, password }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
   
   if (user.isAuthenticated || user.status === "loading") {
@@ -99,19 +105,32 @@ function Main() {
                     >
                       Password
                     </FormLabel>
-                    <FormInput
-                      {...register("password")}
-                      id="passwordLabel"
-                      type="password"
-                      name="password"
-                      className={clsx(
-                        {
-                          "border-danger": errors.password,
-                        },
-                        "p-4 "
-                      )}
-                      placeholder="* * * * * * *"
-                    />
+                    <div className="relative">
+                      <FormInput
+                        {...register("password")}
+                        id="passwordLabel"
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        className={clsx(
+                          {
+                            "border-danger": errors.password,
+                          },
+                          "p-4 pr-12"
+                        )}
+                        placeholder="* * * * * * *"
+                      />
+                      <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 focus:outline-none"
+                        aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                      >
+                        <Lucide 
+                          icon={showPassword ? "EyeOff" : "Eye"} 
+                          className="w-5 h-5" 
+                        />
+                      </button>
+                    </div>
                     {errors.password && (
                       <div className="mt-2 text-danger">
                         {typeof errors.password.message === "string" &&

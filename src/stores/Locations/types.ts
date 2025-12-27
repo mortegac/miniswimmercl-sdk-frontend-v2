@@ -2,10 +2,12 @@
 export type Course = {
   id: string;
   title: string;
+  isActive: boolean;
 }
 export const emptyCourse: Course = {
   id: "",
   title: "",
+  isActive: false,
 }
 
 export type Schedules = {
@@ -25,6 +27,7 @@ export const emptySchedules: Schedules = {
   course: { 
     id: "",
     title: "",
+    isActive: false,
   },
 }
 
