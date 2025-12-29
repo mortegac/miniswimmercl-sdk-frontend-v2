@@ -16,6 +16,7 @@ export interface UserState {
   email: string;
   emailAuth: string;
   phone: string;
+  usersRolesId: string;
   firstLogin: boolean;
   status: "idle" | "loading" | "failed";
   step: "initial" | "login" | "autenticated";
@@ -29,6 +30,7 @@ export interface UserState {
 export const initialState: UserState = {
   isAuthenticated: false,
   id: "",
+  usersRolesId: "",
   name: "",
   phone: "",
   email: "",
@@ -153,6 +155,7 @@ export const authSlice = createSlice({
         action.payload
         state.isAuthenticated = action?.payload?.id ? true:false;
         state.name = action?.payload?.name || "";
+        state.usersRolesId = action?.payload?.usersRolesId || "";
         state.emailAuth = action?.payload?.email || "";
         state.phone = action?.payload?.contactPhone || "";
       })
@@ -253,8 +256,9 @@ export const authSlice = createSlice({
         // console.log("---getUser --isAuthenticated---", objPayload?.userId ? true:false)
         
         state.isAuthenticated = objPayload?.userId ? true:false;
-        state.name = action?.payload?.name || "";
-        state.emailAuth = action?.payload?.email || "";
+        state.name = objPayload?.name || "";
+        state.emailAuth = objPayload?.email || "";
+        state.usersRolesId = objPayload?.usersRolesId || "";
       })
       
       // GET LOGIN USER

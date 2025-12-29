@@ -115,7 +115,6 @@ export const locationSlice = createSlice({
               "imageMap": "-",
               "urlMap": "",
               "directions": "-",
-              "__typename": "Location"
             },
             ...orderArray
           ];

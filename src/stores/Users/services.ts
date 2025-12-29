@@ -505,7 +505,12 @@ export interface AuthResponse {
   firstLogin: boolean;
   errorMessage?: string;
   Roles?: Roles;
-  userPermissions?: UserPermissions[];  
+  userPermissions?: UserPermissions[];
+  usersRolesId?: string;
+  userId?: string;
+  username?: string;
+  id?: string;
+  contactPhone?: string;
 }
 
 

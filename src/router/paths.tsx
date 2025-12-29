@@ -21,6 +21,11 @@ export const TICKETS = "/tickets";
 export const DOCUMENTATION = "/documentation";
 
 
+
+export const ADMIN_DASHBOARD = "/dashboard";
+export const ANFITRION_DASHBOARD = "/anfitrion";
+export const NONE_DASHBOARD = "/start";
+
 // ADMINISTRATOR
 export const ADMIN_STUDENT = "/admin-student";
 

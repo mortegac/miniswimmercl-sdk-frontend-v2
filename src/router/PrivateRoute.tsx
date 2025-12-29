@@ -8,6 +8,9 @@ import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { selectAuth, getAuthUser} from "@/stores/Users/slice";
 
 import {
+    ADMIN_DASHBOARD,
+    ANFITRION_DASHBOARD,
+    NONE_DASHBOARD,
     PUBLIC,
     PRIVATE,
     HOME,
@@ -36,7 +39,7 @@ import {
     SHOPPING_CART,
     REPORT_COURSES,
     ADMIN_STUDENT,
-    DOCUMENTATION
+    DOCUMENTATION,
   } from "./paths";
 
   import Layout from "../themes";
@@ -83,15 +86,127 @@ import {
   const AcademyStudents = lazy(() => import("../pages/private/AcademyStudents"));
   const ReportCourseStudent = lazy(() => import("../pages/private/ReportCourseStudent"));
   const Documentation = lazy(() => import("../pages/private/Documentation"));
+  const AdminDashboard = lazy(() => import("../pages/private/DashboardAdmin"));
+  const AnfitrionDashboard = lazy(() => import("../pages/private/DashboardAnfitrion"));
+  const NoneDashboard = lazy(() => import("../pages/private/DashboardNone"));
   
-  
+  // Definición de permisos por rol
+  const adminRolePermissions: string[] = [
+    QUICK_REGISTRATION,
+    ADMIN_DASHBOARD,
+    PRIVATE,
+    HOME,
+    LEADS,
+    STUDENTS,
+    STUDENTS_DATA,
+    LOCATIONS,
+    EVALUATIONS_ADMIN,
+    COURSES,
+    COURSES_QUOTAS,
+    REPORT_OF_REGISTERED,
+    QUICK_REGISTRATION2,
+    QUICK_REGISTRATION_US,
+    ENROLLMENTS,
+    ENROLLMENTS_READ,
+    ENROLLMENTS_CREATE,
+    ATTENDANCE,
+    PAYMENTS,
+    TICKETS,
+    NEW_EXPENSE,
+    EXPENSES,
+    INCOME,
+    ACADEMYSTUDENTS,
+    TRANSACTIONS,
+    SHOPPING_CART,
+    REPORT_COURSES,
+    ADMIN_STUDENT,
+    DOCUMENTATION
+  ];
+
+  const AnfitrionesPermissions: string[] = [
+    ATTENDANCE,
+    ANFITRION_DASHBOARD,
+    DOCUMENTATION,
+    ADMIN_STUDENT
+  ];
+
+  const NonePermissions: string[] = [
+    NONE_DASHBOARD,
+  ];
+
+  // Función para obtener permisos según el rol
+  const getPermissionsByRole = (roleId: string): string[] => {
+    switch (roleId) {
+      case "adminRole":
+        return adminRolePermissions;
+      case "anfitrion":
+        return AnfitrionesPermissions;
+      case "coach":
+      case "parents":
+      case "academyRole":
+        return NonePermissions;
+      default:
+        return NonePermissions;
+    }
+  };
+
+  // Función para obtener el dashboard según el rol
+  const getDashboardByRole = (roleId: string): string => {
+    switch (roleId) {
+      case "adminRole":
+        return ADMIN_DASHBOARD;
+      case "anfitrion":
+        return ANFITRION_DASHBOARD;
+      case "coach":
+      case "parents":
+      case "academyRole":
+        return NONE_DASHBOARD;
+      default:
+        return NONE_DASHBOARD;
+    }
+  };
+
+  // Componente para proteger rutas basado en permisos
+  interface ProtectedRouteProps {
+    children: React.ReactElement;
+    requiredPath: string;
+  }
+
+  const ProtectedRoute = ({ children, requiredPath }: ProtectedRouteProps) => {
+    const { usersRolesId } = useAppSelector(selectAuth);
+    const location = useLocation();
+    
+    const userPermissions = getPermissionsByRole(usersRolesId);
+    
+    // adminRole tiene acceso a todo
+    if (usersRolesId === "adminRole") {
+      return children;
+    }
+    
+    // Verificar si el usuario tiene permiso para esta ruta
+    const hasPermission = userPermissions.includes(requiredPath);
+    
+    if (!hasPermission) {
+      // Redirigir al dashboard correspondiente según el rol
+      const dashboardPath = getDashboardByRole(usersRolesId);
+      return <Navigate to={dashboardPath} state={{ from: location }} replace />;
+    }
+    
+    return children;
+  };
   
   export function PrivateValidation() {
-    const { isAuthenticated, ...auth } = useAppSelector(selectAuth);
+    const { isAuthenticated, usersRolesId } = useAppSelector(selectAuth);
     const location = useLocation();
     
     
-    // console.log("PrivateValidation>>> isAuthenticated", isAuthenticated)
+    console.log("PrivateValidation>>>", usersRolesId)
+      // adminRole
+      // admin
+      // anfitrion
+      // coach
+      // parents
+      // academyRole
     
     const prevUrl = location.state?.from ?? PUBLIC;
   
@@ -99,9 +214,12 @@ import {
       return <Navigate to={prevUrl} state={{ from: location }} />;
     }
     
-    // if (location.pathname == "/") {
-    //   return <Navigate to={"/auth"} state={{ from: location }} />;
-    // }
+    // Redirigir al dashboard correspondiente si accede a la ruta raíz
+    if (location.pathname === PRIVATE) {
+      const dashboardPath = getDashboardByRole(usersRolesId);
+      return <Navigate to={dashboardPath} replace />;
+    }
+    
       return (
         <>
            {/* <FullscreenComponent> */}
@@ -116,130 +234,216 @@ export const privateRoutes = {
     path: PRIVATE,
     element: <PrivateValidation />,
     children: [
-        // {
-        //   path: PRIVATE,
-        //   element: <Dashboard />,
-        // },
+        {
+          path: ADMIN_DASHBOARD,
+          element: (
+            <ProtectedRoute requiredPath={ADMIN_DASHBOARD}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: ANFITRION_DASHBOARD,
+          element: (
+            // <ProtectedRoute requiredPath={ANFITRION_DASHBOARD}>
+            //   <AnfitrionDashboard />
+            // </ProtectedRoute>
+            <ProtectedRoute requiredPath={ATTENDANCE}>
+              <Attendance />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: NONE_DASHBOARD,
+          element: (
+            <ProtectedRoute requiredPath={NONE_DASHBOARD}>
+              <NoneDashboard />
+            </ProtectedRoute>
+          ),
+        },
         {
           path: PRIVATE,
-          element: <QuickRegistration />,
+          element: (
+            <ProtectedRoute requiredPath={PRIVATE}>
+              <QuickRegistration />
+            </ProtectedRoute>
+          ),
         },
         {
           path: HOME,
-          element: <StartAdmin />,
+          element: (
+            <ProtectedRoute requiredPath={HOME}>
+              <StartAdmin />
+            </ProtectedRoute>
+          ),
         },
         {
           path: LEADS,
-          element: <Leads />,
+          element: (
+            <ProtectedRoute requiredPath={LEADS}>
+              <Leads />
+            </ProtectedRoute>
+          ),
         },
-        // {
-        //   path: STUDENTS,
-        //   element: <Students />,
-        // },
         {
           path: STUDENTS_DATA,
-          element: <StudentData />,
+          element: (
+            <ProtectedRoute requiredPath={STUDENTS_DATA}>
+              <StudentData />
+            </ProtectedRoute>
+          ),
         },
         {
           path: ATTENDANCE,
-          element: <Attendance />,
+          element: (
+            <ProtectedRoute requiredPath={ATTENDANCE}>
+              <Attendance />
+            </ProtectedRoute>
+          ),
         },
         {
           path: ADMIN_STUDENT,
-          element: <AdminStudents />,
+          element: (
+            <ProtectedRoute requiredPath={ADMIN_STUDENT}>
+              <AdminStudents />
+            </ProtectedRoute>
+          ),
         },
         {
           path: QUICK_REGISTRATION,
-          element: <QuickRegistration />,
+          element: (
+            <ProtectedRoute requiredPath={QUICK_REGISTRATION}>
+              <QuickRegistration />
+            </ProtectedRoute>
+          ),
         },
-        // {
-        //   path: QUICK_REGISTRATION2,
-        //   element: <QuickRegistration2 />,
-        // },
-        // {
-        //   path: QUICK_REGISTRATION_US,
-        //   element: <QuickRegistrationUs />,
-        // },
         {
           path: ENROLLMENTS,
-          element: <Enrollments />,
+          element: (
+            <ProtectedRoute requiredPath={ENROLLMENTS}>
+              <Enrollments />
+            </ProtectedRoute>
+          ),
         },
-        // {
-        //   path: ENROLLMENTS_READ,
-        //   element: <EnrollmentsRead />,
-        // },
-        // {
-        //   path: ENROLLMENTS_CREATE,
-        //   element: <EnrollmentsCreate />,
-        // },
         {
           path: COURSES,
-          element: <Courses />,
+          element: (
+            <ProtectedRoute requiredPath={COURSES}>
+              <Courses />
+            </ProtectedRoute>
+          ),
         },
         {
           path: REPORT_OF_REGISTERED,
-          element: <ReportOfRegistered />,
+          element: (
+            <ProtectedRoute requiredPath={REPORT_OF_REGISTERED}>
+              <ReportOfRegistered />
+            </ProtectedRoute>
+          ),
         },
         {
           path: REPORT_COURSES,
-          element: <ReportCourseStudent />,         
-          
+          element: (
+            <ProtectedRoute requiredPath={REPORT_COURSES}>
+              <ReportCourseStudent />
+            </ProtectedRoute>
+        ),
         },
         {
           path: COURSES_QUOTAS,
-          element: <CoursesQuotas />,
+          element: (
+            <ProtectedRoute requiredPath={COURSES_QUOTAS}>
+              <CoursesQuotas />
+            </ProtectedRoute>
+          ),
         },
-        
         {
           path: LOCATIONS,
-          element: <Locations />,
+          element: (
+            <ProtectedRoute requiredPath={LOCATIONS}>
+              <Locations />
+            </ProtectedRoute>
+          ),
         },
         {
           path: EVALUATIONS_ADMIN,
-          element: <Evaluations />,
+          element: (
+            <ProtectedRoute requiredPath={EVALUATIONS_ADMIN}>
+              <Evaluations />
+            </ProtectedRoute>
+          ),
         },
         {
           path: PAYMENTS,
-          element: <Payments />,
+          element: (
+            <ProtectedRoute requiredPath={PAYMENTS}>
+              <Payments />
+            </ProtectedRoute>
+          ),
         },
         {
           path: SHOPPING_CART,
-          element: <ShoppingCart />,
+          element: (
+            <ProtectedRoute requiredPath={SHOPPING_CART}>
+              <ShoppingCart />
+            </ProtectedRoute>
+          ),
         },
         {
           path: TRANSACTIONS,
-          element: <Transactions />,
+          element: (
+            <ProtectedRoute requiredPath={TRANSACTIONS}>
+              <Transactions />
+            </ProtectedRoute>
+          ),
         },
         {
           path: TICKETS,
-          element: <Tickets />,
+          element: (
+            <ProtectedRoute requiredPath={TICKETS}>
+              <Tickets />
+            </ProtectedRoute>
+          ),
         },
         {
           path: NEW_EXPENSE,
-          element: <NewExpenses />,
+          element: (
+            <ProtectedRoute requiredPath={NEW_EXPENSE}>
+              <NewExpenses />
+            </ProtectedRoute>
+          ),
         },
         {
           path: EXPENSES,
-          element: <Expenses />,
+          element: (
+            <ProtectedRoute requiredPath={EXPENSES}>
+              <Expenses />
+            </ProtectedRoute>
+          ),
         },
         {
           path: INCOME,
-          element: <Income />,
+          element: (
+            <ProtectedRoute requiredPath={INCOME}>
+              <Income />
+            </ProtectedRoute>
+          ),
         },
-        
-      
-        
-  
         {
           path: ACADEMYSTUDENTS,
-          element: <AcademyStudents />,         
-          
+          element: (
+            <ProtectedRoute requiredPath={ACADEMYSTUDENTS}>
+              <AcademyStudents />
+            </ProtectedRoute>
+        ),
         },
         {
           path: DOCUMENTATION,
-          element: <Documentation />,         
-          
+          element: (
+            <ProtectedRoute requiredPath={DOCUMENTATION}>
+              <Documentation />
+            </ProtectedRoute>
+        ),
         },
-        
-      ],
+    ],
   };

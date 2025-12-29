@@ -293,6 +293,12 @@ function Main() {
     }>>();
     
     sessionDetails.forEach((item: any) => {
+      // Filtrar solo sesiones con status ACTIVE o RECOVERED
+      const status = item?.status || '';
+      if (status !== "ACTIVE" && status !== "RECOVERED") {
+        return;
+      }
+      
       // console.log("--sessionDetails--", item)
       // Extraer la fecha del item (formato esperado: YYYY-MM-DD o similar)
       const itemDate = item?.date || '';
@@ -318,7 +324,6 @@ function Main() {
       
       const courseId = item?.course?.id || '';
       const scheduleId = item?.schedule?.id || '';
-      const status = item?.status || '';
       
       // Crear clave única combinando course.id y schedule.id para esta fecha
       const uniqueKey = `${courseId}-${scheduleId}`;

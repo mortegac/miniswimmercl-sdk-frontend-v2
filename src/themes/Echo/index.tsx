@@ -12,7 +12,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { DOCUMENTATION } from "../../router/paths";
 
-import { selectSideMenu } from "@/stores/sideMenuSlice";
+import { selectFilteredSideMenu } from "@/stores/sideMenuSlice";
 import {
   selectCompactMenu,
   setCompactMenu as setCompactMenuStore,
@@ -52,7 +52,7 @@ function Main() {
   const [formattedMenu, setFormattedMenu] = useState<
     Array<FormattedMenu | string>
   >([]);
-  const sideMenuStore = useAppSelector(selectSideMenu);
+  const sideMenuStore = useAppSelector(selectFilteredSideMenu);
   const sideMenu = () => nestedMenu(sideMenuStore, location);
   const scrollableRef = createRef<HTMLDivElement>();
 

@@ -569,9 +569,6 @@ useEffect(() => {
                 return dateA - dateB; // Orden descendente (más reciente primero)
               
               })
-              //   const ad = new Date(a.startDate);
-              //   const bd = new Date(b.startDate);
-              //   return ad > bd ? -1 : ad < bd ? 1 : 0;
             .map((item:any, index:number)=>
               <>
                   {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
