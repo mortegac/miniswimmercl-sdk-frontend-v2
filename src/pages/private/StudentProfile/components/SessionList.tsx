@@ -709,7 +709,7 @@ export function SessionList(props: any) {
                       </div>
                     </label>
                     {/* <pre>{JSON.stringify(statusSession, null, 2)}</pre> */}
-                    {/* <div className="flex-1 w-full mt-3 xl:mt-0">
+                    <div className="flex-1 w-full mt-3 xl:mt-0">
                         {Array.isArray(statusSession) &&
                           statusSession?.map((item, i) => (
                             <StatusButton
@@ -722,7 +722,7 @@ export function SessionList(props: any) {
                               updateSession={updateSession}
                             />
                           ))}
-                    </div> */}
+                    </div>
                   </div>
                   <div className="flex-col block pt-5 mt-5 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0 pb-24 xl:pb-0">
                     <div className="w-screen mt-3 xl:mt-0 fixed bottom-0 left-0 right-0 z-30 px-4 pb-4 bg-slate-900/80 xl:w-full xl:static xl:px-0 xl:pb-0">

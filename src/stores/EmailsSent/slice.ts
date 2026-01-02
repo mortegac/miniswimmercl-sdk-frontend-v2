@@ -58,12 +58,12 @@ export const setWhatsapp = createAsyncThunk(
   "whatsappSend/sent",
   async (objFilter: FilterOptions, { dispatch }) => {
     try {
-      console.error(">>>>setEnrollment-objFilter", objFilter)
+      console.error(">>>>setWhatsapp-objFilter", objFilter)
       const response:any = await whatsappSent({ ...objFilter });
-      console.error(">>>>setEnrollment-response", response)
+      console.error(">>>>setWhatsapp-response", response)
       return response;
     } catch (error) {
-      console.error(">>>>ERROR FETCH setEnrollment", error)
+      console.error(">>>>ERROR FETCH setWhatsapp", error)
       return Promise.reject(error);
     }
   }

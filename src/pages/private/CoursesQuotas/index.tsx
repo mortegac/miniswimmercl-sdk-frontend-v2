@@ -6,6 +6,8 @@ import _, { now } from "lodash";
 import {typeOfSession} from "@/utils/dictionary";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import { calcularEdad } from "@/utils/dateHandler";
+import { cleanPhoneNumber } from "@/utils/phoneHandler";
+import { formatDateUTC } from "@/utils/helper";
 
 import { Tab } from "@/components/Base/Headless";
 import Table from "@/components/Base/Table";
@@ -17,6 +19,7 @@ import Button from "@/components/Base/Button";
 import Litepicker from "@/components/Base/Litepicker";
 
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { setWhatsapp } from "@/stores/EmailsSent/slice";
 import { getSessionQuotev2, selectSessionDetails, setSessionDetails, setSessionMasive, getSessionByLocationAndDate } from "@/stores/SessionDetails/slice";
 import { InputOptions } from "@/stores/SessionDetails/types";
 import {FormInput, FormSelect, FormCheck } from "@/components/Base/Form";
@@ -72,6 +75,11 @@ function Main() {
 
   const [atendanceId, setAtendanceId] = useState("");
   const [locationIdSelected, setLocationIdSelected] = useState("");
+  
+  
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
   const [slideAdmin, setSlideAdmin] = useState(false);
   
   const [searchTerm, setSearchTerm] = useState('');
@@ -85,6 +93,7 @@ function Main() {
     scheduleId: "",
     courseId: "",
     locationId: "",
+    newCourseText: "",
   });
   const [coursesList, setCoursesList] = useState<Array<{ label: string; value: string }>>([]);
   const [selectedCourseId, setSelectedCourseId] = useState<string>("");
@@ -289,6 +298,8 @@ function Main() {
         birthdate: string;
         edad: { años: number; meses: number } | null;
         totalActiveSessions: number;
+        emailPhone: string;
+        contactPhone: string;
       }>;
     }>>();
     
@@ -368,6 +379,8 @@ function Main() {
       const sessionNumber = item?.sessionNumber || 0;
       const totalSessions = item?.totalSessions || 0;
       const studentBirthdate = item?.student?.birthdate || '';
+      const studentEmailPhone = item?.student?.emailPhone || '';
+      const studentContactPhone = item?.student?.contactPhone || '';
       
       // Calcular la edad - convertir formato si es necesario
       let edad: { años: number; meses: number } | null = null;
@@ -413,7 +426,9 @@ function Main() {
             totalSessions: totalSessions,
             birthdate: studentBirthdate,
             edad: edad,
-            totalActiveSessions: totalActiveSessions
+            totalActiveSessions: totalActiveSessions,
+            emailPhone: studentEmailPhone,
+            contactPhone: studentContactPhone
           });
         }
       }
@@ -446,6 +461,8 @@ function Main() {
               birthdate: string;
               edad: { años: number; meses: number } | null;
               totalActiveSessions: number;
+              emailPhone: string;
+              contactPhone: string;
             }>;
           }>;
           dayStatusCount: { [key: string]: number };
@@ -483,6 +500,8 @@ function Main() {
               birthdate: string;
               edad: { años: number; meses: number } | null;
               totalActiveSessions: number;
+              emailPhone: string;
+              contactPhone: string;
             }>;
           }>;
           dayStatusCount: { [key: string]: number };
@@ -528,7 +547,21 @@ function Main() {
           scheduleStartHour: schedule.scheduleStartHour,
           statusCount: schedule.statusCount,
           total: schedule.total,
-          students: schedule.students
+          students: schedule.students as Array<{
+            id: string;
+            name: string;
+            lastName: string;
+            status: string;
+            date: string;
+            locationId: string;
+            sessionNumber: number;
+            totalSessions: number;
+            birthdate: string;
+            edad: { años: number; meses: number } | null;
+            totalActiveSessions: number;
+            emailPhone: string;
+            contactPhone: string;
+          }>
         });
         
         // Sumar los status counts al total del día
@@ -738,10 +771,6 @@ function Main() {
       sessionDate: dateFormated, 
       locationId: date?.locationId
     }))
-    // await dispatch(getSessionDetails({
-    //   sessionDate: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`), 
-    //   locationId: date?.locationId
-    // }))
   }
   
   // Función para navegar al mes anterior
@@ -842,6 +871,8 @@ function Main() {
       birthdate: string;
       edad: { años: number; meses: number } | null;
       totalActiveSessions: number;
+      emailPhone: string;
+      contactPhone: string;
     },
     schedule: {
       scheduleId: string;
@@ -882,6 +913,8 @@ function Main() {
           studentName: student.name,
           studentLastName: student.lastName,
           studentBirthdate: student.birthdate,
+          emailPhone: student.emailPhone,
+          contactPhone: student.contactPhone,
           sessionNumber: student.sessionNumber,
           totalSessions: student.totalSessions,
           dateString: dateGroupDate,
@@ -906,75 +939,6 @@ function Main() {
     }
   };
 
-  // const handleTimeSlotClick = async (
-  //   schedule: {
-  //     scheduleId: string;
-  //     scheduleStartHour: string;
-  //     students: Array<{
-  //       id: string;
-  //       name: string;
-  //       lastName: string;
-  //       status: string;
-  //       date: string;
-  //       locationId: string;
-  //     }>;
-  //   },
-  //   dateGroupDate: string,
-  //   courseGroup: {
-  //     courseId: string;
-  //     courseTitle: string;
-  //   },
-  //   dayGroup: {
-  //     scheduleDay: string;
-  //   },
-  //   isChecked: boolean
-  // ) => {
-  //   if (isChecked) {
-  //     // Si se marca el checkbox, agregar todas las sesiones de los estudiantes de este schedule
-  //     if (schedule.students && schedule.students.length > 0) {
-  //       const newSessions = schedule.students.map((student) => ({
-  //         id: schedule.scheduleId,
-  //         sessionId: student.id, // ID de la sesión (sessionDetails.id)
-  //         scheduleId: schedule.scheduleId,
-  //         scheduleStartHour: schedule.scheduleStartHour,
-  //         date: student.date,
-  //         status: student.status,
-  //         locationId: student.locationId,
-  //         studentName: student.name,
-  //         studentLastName: student.lastName,
-  //         dateString: dateGroupDate,
-  //         // Agregar datos adicionales para el Slideover
-  //         schedule: {
-  //           day: dayGroup.scheduleDay,
-  //           startHour: schedule.scheduleStartHour
-  //         },
-  //         course: {
-  //           id: courseGroup.courseId,
-  //           title: courseGroup.courseTitle
-  //         }
-  //       }));
-
-  //       // Filtrar las sesiones que ya están seleccionadas
-  //       const sessionsToAdd = newSessions.filter(
-  //         (newSession) => !selectedSlots.some(
-  //           (slot) => slot.sessionId === newSession.sessionId
-  //         )
-  //       );
-
-  //       if (sessionsToAdd.length > 0) {
-  //         setSelectedSlots((prev) => [...prev, ...sessionsToAdd]);
-  //       }
-  //     }
-  //   } else {
-  //     // Si se desmarca el checkbox, eliminar todas las sesiones de este schedule
-  //     if (schedule.students && schedule.students.length > 0) {
-  //       const sessionIdsToRemove = schedule.students.map((student) => student.id);
-  //       setSelectedSlots((prev) => prev.filter(
-  //         (slot) => !sessionIdsToRemove.includes(slot.sessionId || '')
-  //       ));
-  //     }
-  //   }
-  // };
   
   const handleModifiedSchedule = async () => {
     
@@ -1019,6 +983,62 @@ function Main() {
       });
     };
   
+    
+    function generateMessage(props: any){      
+      const message:string = `🐠 Recuerde que tiene agendada una sesión para: 
+      \n - 📅  ${formatDateUTC(props?.dateSession)} a las ${props?.hourSession} hrs 
+      \n - 🏣 ${props?.location}.
+      \n - 👉 Si necesita reagendar por favor enviar un email a hola@miniswimmer.cl `;
+      
+      return message
+  }
+  
+    const sendWhatsAppMessage = async (payload: any) => {
+      const { 
+        name, 
+        phoneNumber,
+        hourSession,
+        dateSession,
+        location,
+       } = payload;
+      
+       
+       console.log("---payload-- ", payload)
+      // const location:string= "PEñALOLEN";
+      // const dateSession:string= "2 FEBRERO";
+      // const hourSession:string= "16:00";
+      
+      
+      !phoneNumber && setError("Debe ingresar el teléfono del cliente para continuar")
+      
+      if(phoneNumber){
+        
+        const validPhone = cleanPhoneNumber(phoneNumber);  
+        try {
+          setLoading(true);
+          setError(null);
+    
+          if(validPhone.status){
+            dispatch(setWhatsapp({
+              name: name, 
+              phoneNumber: validPhone?.cleanPhone,
+              message: generateMessage({
+                location,
+                dateSession,
+                hourSession
+              }),
+            }))
+          }
+          
+        } catch (err:any) {
+          setError(err.message);
+          console.error('Error sending message:', err);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    
   useEffect(() => { 
     // Validar que existe locationId antes de ejecutar
     if (!date?.locationId) {
@@ -1188,10 +1208,18 @@ function Main() {
                     // Buscar el schedule seleccionado en el array para obtener el courseSchedulesId
                     const selectedSchedule = schedules?.find((item: any) => item?.id === selectedScheduleId);
                     
+                    console.log("---selectedSchedule---", selectedSchedule?.startHour)
+                    // Construir el texto formateado: día - hora
+                    const newCourseText = selectedSchedule 
+                      ? `${selectedSchedule?.startHour || ""}`
+                      : "";
+                    
+                      
                     setNewSchedules({
                       ...newSchedules,
                       scheduleId: selectedScheduleId,
                       courseId: selectedSchedule?.courseSchedulesId || "",
+                      newCourseText: newCourseText,
                     });
                    }
                  }
@@ -1230,7 +1258,35 @@ function Main() {
                       ))}
                     </FormSelect>
               </div>
+              
+                  
             </div>
+              {
+              newSchedules?.courseId !== "" && selectedSlots.length === 1 &&
+                <div className="mt-4 flex-1">
+                    <Button
+                      variant="primary"
+                      disabled={loading}
+                      className="px-3 py-2 w-full sm:w-auto bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                      onClick={()=>sendWhatsAppMessage({
+                        name:"Estimado(a) apoderado:",                        
+                        phoneNumber:selectedSlots[0]?.contactPhone,
+                        location : date?.locationId,
+                        dateSession:String(selectedSlots[0]?.dateString || selectedSlots[0]?.date || '').replace("T00:00:00.000Z", ''),
+                        hourSession: newSchedules?.newCourseText,
+                      }
+                      )}
+                    >
+                      <Lucide
+                        icon="Send"
+                        className="w-3.5 h-3.5 mr-1.5 stroke-[1.3]"
+                      />
+                      {loading ? 'Enviando...' : 'Enviar Whatsapp Inscripción'}
+                    </Button>
+                    
+                    {error && <p className="text-red-500 mt-2">{error}</p>}
+                </div> 
+              }
                     
           </Slideover.Description>
           <Slideover.Footer>
@@ -1546,7 +1602,7 @@ function Main() {
                                             <Table.Td className={`text-sm text-left ${isLowTotal ? 'text-red-700' : ''}`}>
                                               <div className="space-y-1">
                                                 {schedule.students && schedule.students.length > 0 ? (
-                                                  schedule.students.map((student, studentIndex) => (
+                                                  schedule.students.map((student: any, studentIndex) => (
                                                     <div key={studentIndex} className="flex items-center gap-2 py-1">
                                                     {isScheduleDayDifferent(dayGroup.scheduleDay, dateGroup.dateFormatted) && (
                                                       <FormCheck.Input
@@ -1571,7 +1627,9 @@ function Main() {
                                                               totalSessions: student.totalSessions,
                                                               birthdate: student.birthdate || '',
                                                               edad: student.edad,
-                                                              totalActiveSessions: student.totalActiveSessions
+                                                              totalActiveSessions: student.totalActiveSessions,
+                                                              emailPhone: student.emailPhone || '',
+                                                              contactPhone: student.contactPhone || ''
                                                             },
                                                             {
                                                               scheduleId: schedule.scheduleId,
@@ -1615,6 +1673,16 @@ function Main() {
                                                         <span>{student.name} {student.lastName} ({student?.edad && student.edad.años > 100 ? "SIN EDAD" : `${student?.edad?.años || ""} años, ${student?.edad?.meses || ""} meses`}) 
                                                           <span className="text-slate-500">{ `${student?.totalActiveSessions} de ${student?.totalSessions} sesiones`}</span>
                                                           </span>
+                                                          {student.emailPhone && (
+                                                            <div className="text-xs text-slate-500 mt-1">
+                                                              📧 {student.emailPhone}
+                                                            </div>
+                                                          )}
+                                                          {student.contactPhone && (
+                                                            <div className="text-xs text-slate-500 mt-1">
+                                                              📱 {student.contactPhone}
+                                                            </div>
+                                                          )}
                                                         
                                                       </span>
                                                     </div>
