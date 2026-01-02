@@ -25,6 +25,7 @@ import {
     QUICK_REGISTRATION,
     QUICK_REGISTRATION2,
     QUICK_REGISTRATION_US,
+    ENROLLMENTS_EXPIRING,
     ENROLLMENTS,
     ENROLLMENTS_READ,
     ENROLLMENTS_CREATE,
@@ -63,7 +64,8 @@ import {
   // import QuickRegistration2 from "../pages/private/QuickRegistration2";
   import QuickRegistration from "../pages/private/QuickRegistration";
   // import QuickRegistrationUs from "../pages/private/QuickRegistrationUs";
- 
+  
+  const EnrollmentsExpiring = lazy(() => import("../pages/private/EnrollmentsExpiringv2"));
   const Enrollments = lazy(() => import("../pages/private/Enrollments"));
   const Transactions = lazy(() => import("../pages/private/Transactions"));
   const ShoppingCart = lazy(() => import("../pages/private/ShoppingCart"));
@@ -107,6 +109,7 @@ import {
     QUICK_REGISTRATION2,
     QUICK_REGISTRATION_US,
     ENROLLMENTS,
+    ENROLLMENTS_EXPIRING,
     ENROLLMENTS_READ,
     ENROLLMENTS_CREATE,
     ATTENDANCE,
@@ -322,6 +325,14 @@ export const privateRoutes = {
           element: (
             <ProtectedRoute requiredPath={ENROLLMENTS}>
               <Enrollments />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: ENROLLMENTS_EXPIRING,
+          element: (
+            <ProtectedRoute requiredPath={ENROLLMENTS_EXPIRING}>
+              <EnrollmentsExpiring />
             </ProtectedRoute>
           ),
         },

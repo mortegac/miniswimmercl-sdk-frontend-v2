@@ -9,6 +9,8 @@ const TEMPLATE = "template_5kxuc3t"; // Welcome_v2
 init("Csc41asZklkk5HTWk");
 import Notification from "@/components/Base/Notification";
 
+import {typeOfSession} from "@/utils/dictionary";
+
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import { typeOfRelationship } from "@/utils/dictionary";
@@ -337,10 +339,10 @@ export function ResumenPage(props: any) {
                                 vigencia = "45 días";
                                 break;
                               case 12:
-                                vigencia = "90 días";
+                                vigencia = "100 días";
                                 break;
                               case 24:
-                                vigencia = "180 días";
+                                vigencia = "200 días";
                                 break;
                             }
                             
@@ -532,8 +534,18 @@ export function ResumenPage(props: any) {
                                                         <p className="text-sm"></p>
                                                       </>
                                                     )}
-                                                    {session?.status !=
-                                                      "ACTIVE" && (
+                                                    {session?.status ===
+                                                      "RECOVERED" && (
+                                                      <>
+                                                        <small className=" text-xs font-semibold">
+                                                          {formatDateUTC(
+                                                            session?.date
+                                                          )}
+                                                        </small>
+                                                        <p className="text-sm"></p>
+                                                      </>
+                                                    )}
+                                                    {session?.status !="ACTIVE" && session?.status !="RECOVERED" && (
                                                       <>
                                                         <small className="line-through text-xs">
                                                           {formatDateUTC(
@@ -541,7 +553,7 @@ export function ResumenPage(props: any) {
                                                           )}
                                                         </small>
                                                         <p className=" text-[0.74rem]">
-                                                          {session?.status}
+                                                          {typeOfSession[session?.status || ""]}
                                                         </p>
                                                       </>
                                                     )}

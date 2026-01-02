@@ -228,4 +228,7 @@ export type FilterOptions  = {
   month?: string;
   year?: string;
   
+  sessionDate?: string;
+  sessionDateEnd?: string;
+  
 }

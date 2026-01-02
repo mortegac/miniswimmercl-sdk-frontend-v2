@@ -157,6 +157,8 @@ export const listEnrollments = /* GraphQL */ `
           status
           locationId
           locationIdUsed
+          totalSessions
+          sessionNumber
         }
       }
       emailSends{
@@ -169,6 +171,72 @@ export const listEnrollments = /* GraphQL */ `
         }
       }
     }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+export const listEnrollmentsExpiring = /* GraphQL */ `
+  query ListEnrollmentsExpiring(
+    $filter: ModelEnrollmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEnrollments(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        amountPaid
+        startDate
+        endDate
+        wasPaid
+        wasDeleted
+        numberOfSessions
+        sessionsLeft
+        sessionsUsed
+        scheduleId
+        scheduleName
+        studentEnrollmentsId
+        sessionType {
+          durationSession
+          name
+          timeAWeek
+          totalSessions
+        }
+        student {
+          id
+          name
+          lastName
+          birthdate
+          emailPhone
+          contactPhone
+        }
+        course {
+          id
+          title
+          location {
+            id
+            name
+          }
+        }
+        sessionDetails {
+          items {
+            id
+            date
+            month
+            year
+            status
+            locationId
+            locationIdUsed
+            totalSessions
+            sessionNumber
+          }
+        }
+      }
       nextToken
       __typename
     }

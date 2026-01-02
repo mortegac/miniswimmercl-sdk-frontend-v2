@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 // import {transformResponse} from "../../utils/parser";
-import {fetchGuardian, fetchData, createEnrollment, deleteEnrollment, updatePayEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03} from "./services"
+import {fetchGuardian, fetchData, createEnrollment, deleteEnrollment, updatePayEnrollment, createUpdateStep01, createUpdateStep02, createUpdateStep03, fetchEnrollmentsExpiring} from "./services"
 import {Enrollment, emptyEnrollment, EnrollmentExtra, emptyEnrollmentExtra, FilterOptions, FilterUser} from "./types"
 
 export interface EnrollmentState {
@@ -13,6 +13,7 @@ export interface EnrollmentState {
   cartId:string;
   enrollment: EnrollmentExtra;
   enrollments: Enrollment[];
+  enrollmentsExpiring: Enrollment[];
   errorMessage:string;
   resume:any;
 }
@@ -24,6 +25,7 @@ export const initialState: EnrollmentState = {
   cartId: "",
   enrollment: emptyEnrollmentExtra,
   enrollments: [emptyEnrollment],
+  enrollmentsExpiring: [emptyEnrollment],
   errorMessage:"",
   resume:{
     wasPaidCount: 0,
@@ -131,6 +133,19 @@ export const getStudents = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH Enrollment/list", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const getEnrollmentsExpiring = createAsyncThunk(
+  "Enrollment/listExpiring",
+  async (objFilter?: FilterOptions) => {
+    try {
+      const response:any = await fetchEnrollmentsExpiring(objFilter);
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR FETCH Enrollment/listExpiring", error)
       return Promise.reject(error);
     }
   }
@@ -430,6 +445,21 @@ export const enrollmentSlice = createSlice({
         console.log("---updateEnrollmentPay --action---", objPayload)
       })
       
+      // GET ENROLLMENTS EXPIRING
+      .addCase(getEnrollmentsExpiring.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload.errorMessage;
+      })
+      .addCase(getEnrollmentsExpiring.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getEnrollmentsExpiring.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        console.log("---getEnrollmentsExpiring --action---", objPayload)
+        state.status = "idle";
+        state.enrollmentsExpiring = objPayload || [];
+      })
       
     
   },

@@ -57,6 +57,8 @@ export const sessionDetailsByLocationIdAndDate = /* GraphQL */ `
           lastName
           birthdate
           gender
+          emailPhone
+          contactPhone
           enrollments {
             items {
               id

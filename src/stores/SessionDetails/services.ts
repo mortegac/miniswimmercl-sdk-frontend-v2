@@ -589,7 +589,7 @@ export const fetchSessionsByLocationAndDate = async (objFilter: FilterOptions): 
      const getData:any = await client.graphql({
         query: sessionDetailsByLocationIdAndDate,
         variables: { 
-          locationId: objFilter?.locationId || "HIDROKIN-VINA-DEL-MAR",
+          locationId: objFilter?.locationId || "PENALOLEN-COMUNIDAD-ECOLOGICA",
           date: { between: [
             `${objFilter?.sessionDate}T00:00:00.000Z`, 
             `${objFilter?.sessionDate}T23:59:59.999Z`
