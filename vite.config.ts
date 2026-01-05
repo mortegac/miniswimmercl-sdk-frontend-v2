@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
-
+import { version } from './package.json';
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from 'vite-plugin-pwa'
@@ -57,6 +57,9 @@ export default defineConfig({
     svgrOptions: { exportType: "default", ref: true, svgo: false, titleProp: true },
      include: "**/*.svg",
     }),],
+    define: {
+      __APP_VERSION__: JSON.stringify(version),
+    },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

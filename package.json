@@ -1,12 +1,13 @@
 {
   "name": "miniswimmer",
-  "version": "0.0.1",
+  "version": "1.0.2",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "set \"NODE_ENV=development\" && vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prebuild": "npm version patch --no-git-tag-version"
   },
   "dependencies": {
     "@formkit/tempo": "^0.1.2",
