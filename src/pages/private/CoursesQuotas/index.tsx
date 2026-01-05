@@ -784,7 +784,7 @@ function Main() {
 
     await dispatch(getSessionByLocationAndDate({
       sessionDate: dateFormated, 
-      locationId: date?.locationId
+      locationId: selectLocationId?.locationId || ""
     }))
   }
   
@@ -962,14 +962,14 @@ function Main() {
       sessions: [...selectedSlots],
       newCourseId: newSchedules?.courseId,
       newScheduleId: newSchedules?.scheduleId,
-      newLocationId: date?.locationId,
+      newLocationId: selectLocationId?.locationId || "",
     }))
     
     // Recargar las sesiones después de la modificación
     await dispatch(getSessionQuotev2({
       sessionDate: String(date?.firstDayOfMonthUtc), 
       sessionDateEnd: String(date?.lastDayOfMonthUtc), 
-      locationId: date?.locationId
+      locationId: selectLocationId?.locationId || ""
     }))
     
     // Limpiar selectedSlots después de procesar
@@ -1083,9 +1083,17 @@ function Main() {
   
   useEffect(() => { setFilteredStudents( [...sessionDetails]); }, [sessionDetails]);
   
+  // Sincronizar date.locationId con selectLocationId?.locationId
+  useEffect(() => {
+    if (selectLocationId?.locationId && date.locationId !== selectLocationId.locationId) {
+      setDate(prev => ({ ...prev, locationId: selectLocationId.locationId }));
+      setNewSchedules(prev => ({ ...prev, locationId: selectLocationId.locationId }));
+    }
+  }, [selectLocationId?.locationId]);
+  
   // Función para filtrar cursos por locationId e isActive
   const filterCoursesByLocation = useCallback(() => {
-    if (!date?.locationId || !Array.isArray(locations)) {
+    if (!selectLocationId?.locationId || !Array.isArray(locations)) {
       setCoursesList([]);
       return;
     }
@@ -1115,7 +1123,8 @@ function Main() {
       .map((course: any) => ({
         label: course?.title || "",
         value: course?.id || ""
-      }));
+      }))
+      // .sort((a, b) => a.label.localeCompare(b.label));
     
     // Agregar "---TODOS---" al inicio de la lista
     const coursesWithAll = [
@@ -1124,7 +1133,7 @@ function Main() {
     ];
     
     setCoursesList(coursesWithAll);
-  }, [date?.locationId, locations]);
+  }, [selectLocationId?.locationId, locations]);
   
   // Ejecutar el filtrado cuando cambien locationId o locations
   useEffect(() => {
@@ -1132,6 +1141,13 @@ function Main() {
     // Resetear el curso seleccionado cuando cambie la ubicación
     setSelectedCourseId("");
   }, [filterCoursesByLocation]);
+  
+  // Cargar schedules cuando cambie la ubicación seleccionada
+  useEffect(() => {
+    if (selectLocationId?.locationId) {
+      dispatch(getSchedulesByLocationAndCourse({ locationId: selectLocationId.locationId }));
+    }
+  }, [selectLocationId?.locationId, dispatch]);
   
   return (
     <>
@@ -1212,6 +1228,14 @@ function Main() {
                 />
               </div>
             )}
+            {/* Debug: Ver schedules */}
+            {process.env.NODE_ENV === 'development' && (
+              <div className="mb-4 p-2 bg-slate-100 rounded text-xs">
+                <strong>Schedules count:</strong> {Array.isArray(schedules) ? schedules.length : 'No es array'}<br/>
+                <strong>Filtered count:</strong> {Array.isArray(schedules) ? schedules.filter((item: any) => item?.isActive !== false).length : 0}<br/>
+                <strong>selectedScheduleDay:</strong> {selectedScheduleDay || '(vacío)'}
+              </div>
+            )}
             
             <div className="flex-col block pt-2 mt-2 xl:items-center sm:flex xl:flex-row first:mt-0 first:pt-0">
               <div className="flex-1 w-full mt-3 xl:mt-0 ">
@@ -1239,13 +1263,17 @@ function Main() {
                    }
                  }
                >
-                
-                  {Array.isArray(schedules) &&
-                    schedules
-                      .filter((item: any) => item?.isActive !== false)
+                  <option value="">Seleccione un horario</option>
+                  {Array.isArray(schedules) && schedules.length > 0 ? (() => {
+                    const filteredSchedules = schedules
+                      .filter((item: any) => {
+                        // Filtrar por isActive: incluir si es true o undefined/null (asumir activo)
+                        if (item?.isActive === false) return false;
+                        return true;
+                      })
                       .filter((item: any) => {
                         // Si selectedScheduleDay está vacío, mostrar todos los schedules
-                        if (!selectedScheduleDay) return true;
+                        if (!selectedScheduleDay || selectedScheduleDay === "") return true;
                         // Filtrar por el día seleccionado (normalizar ambos para comparar)
                         const normalizedItemDay = normalizeDayName(item?.day || '');
                         const normalizedSelectedDay = normalizeDayName(selectedScheduleDay);
@@ -1262,15 +1290,25 @@ function Main() {
                         
                         // Si las horas son iguales, ordenar por courseSchedulesId
                         return (a?.courseSchedulesId || "").localeCompare(b?.courseSchedulesId || "");
-                      })
-                      .map((item: any, i: number) => (
+                      });
+                    
+                    return filteredSchedules.length > 0 ? (
+                      filteredSchedules.map((item: any, i: number) => (
                         <option
-                          key={`${i}-SCHEDULES`}
+                          key={`${i}-SCHEDULES-${item?.id}`}
                           value={item?.id}
                         >
-                          {`${item?.day} - ${item?.startHour} - ${item?.courseSchedulesId}`}
+                          {`${item?.day || 'Sin día'} - ${item?.startHour || 'Sin hora'} - ${item?.courseSchedulesId || 'Sin curso'}`}
                         </option>
-                      ))}
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        {selectedScheduleDay ? `No hay horarios para ${selectedScheduleDay}` : 'No hay horarios disponibles'}
+                      </option>
+                    );
+                  })() : (
+                    <option value="" disabled>No hay horarios disponibles. Seleccione una ubicación primero.</option>
+                  )}
                     </FormSelect>
               </div>
               
@@ -1286,7 +1324,7 @@ function Main() {
                       onClick={()=>sendWhatsAppMessage({
                         name:"Estimado(a) apoderado:",                        
                         phoneNumber:selectedSlots[0]?.contactPhone,
-                        location : date?.locationId,
+                        location : selectLocationId?.locationId || "",
                         dateSession:String(selectedSlots[0]?.dateString || selectedSlots[0]?.date || '').replace("T00:00:00.000Z", ''),
                         hourSession: newSchedules?.newCourseText,
                       }
@@ -1357,9 +1395,25 @@ function Main() {
                   <Button
                   key={`BUTTON-LOCATION${index}`}
                         onClick={() => {
-                          setDate({...date, locationId:location?.value})
-                          setNewSchedules({...newSchedules, locationId:location?.value})
-                          dispatch(getSchedulesByLocationAndCourse({ locationId: location?.value }))
+                          const locationId = location?.value || "";
+                          // Buscar el location completo para obtener el name
+                          const locationObj = locations.find((loc: any) => loc.id === locationId);
+                          const locationName = locationObj?.name || "";
+                          
+                          // Actualizar Redux
+                          if (locationId) {
+                            const locationData = {
+                              locationId,
+                              name: locationName,
+                            };
+                            localStorage.setItem("selectedLocation", JSON.stringify(locationData));
+                            dispatch(setSelectLocationId({ locationId, name: locationName }));
+                          }
+                          
+                          // Actualizar estados locales
+                          setDate({...date, locationId})
+                          setNewSchedules({...newSchedules, locationId})
+                          dispatch(getSchedulesByLocationAndCourse({ locationId }))
                         }}                        
                         className={` mx-1 my-1 rounded-full p-0 w-80 h-16 mr-6 mb-6
                           bg-slate-200 border-slate-300 text-slate-700
