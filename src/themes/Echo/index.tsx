@@ -250,6 +250,7 @@ function Main() {
               
 
             </a>
+           
             <a
               href=""
               onClick={toggleCompactMenu}
@@ -258,6 +259,11 @@ function Main() {
               <Lucide icon="ArrowLeft" className="w-3.5 h-3.5 stroke-[1.3]" />
             </a>
           </div>
+          
+          <p className="text-[.7rem]  text-slate-700 text-center">
+              v{__APP_VERSION__}
+            </p>
+          
           <div
             ref={scrollableRef}
             className={clsx([
@@ -265,6 +271,7 @@ function Main() {
               "[&_.simplebar-content]:p-0 [&_.simplebar-track.simplebar-vertical]:w-[10px] [&_.simplebar-track.simplebar-vertical]:mr-0.5 [&_.simplebar-track.simplebar-vertical_.simplebar-scrollbar]:before:bg-slate-400/30",
             ])}
           >
+            
             <ul className="scrollable">
               {/* BEGIN: First Child */}
               {formattedMenu.map((menu, menuKey) =>
