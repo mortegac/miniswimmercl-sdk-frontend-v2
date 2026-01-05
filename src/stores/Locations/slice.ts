@@ -4,6 +4,7 @@ import { RootState } from "../store";
 
 import {fetchData, fetchDataOnly} from "./services"
 import {Location, emptyLocation} from "./types"
+import { selectAcademyStudents } from '../AcademyStudents/slice';
 
 
 
@@ -13,6 +14,10 @@ export interface UserState {
  locations: Location[];
  errorMessage:string;
  locationIdSelected:string;
+ selectLocationId:{
+  locationId: "",
+  name: "",
+ }
  locationsList: string[];
 }
 
@@ -22,6 +27,10 @@ export const initialState: UserState = {
   locations: [emptyLocation],
   errorMessage:"",
   locationIdSelected:"",
+  selectLocationId:{
+    locationId: "",
+    name: "",
+   },
   locationsList: [],
 };
 
@@ -62,6 +71,12 @@ export const locationSlice = createSlice({
   reducers: {
     setLocationIdSelected: (state, action) => {
       state.locationIdSelected = action.payload;
+    },
+    setSelectLocationId: (state, action) => {
+      state.selectLocationId = {
+        locationId: action.payload.locationId,
+        name: action.payload.name,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -138,7 +153,8 @@ export const locationSlice = createSlice({
 export const selectLocation = (state: RootState) => state.location;
 
 export const {
-  setLocationIdSelected
+  setLocationIdSelected,
+  setSelectLocationId
  } = locationSlice.actions;
  
 export default locationSlice.reducer;

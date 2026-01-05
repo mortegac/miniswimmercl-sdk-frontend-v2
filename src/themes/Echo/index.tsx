@@ -1,14 +1,16 @@
 
 
+import { useState, useEffect, createRef, useMemo } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { signOut } from "aws-amplify/auth";
 import { Link } from "react-router-dom";
+import { Transition } from "react-transition-group";
+
 import "@/assets/css/vendors/simplebar.css";
 import "@/assets/css/themes/echo.css";
-import { Transition } from "react-transition-group";
-// import Breadcrumb from "@/components/Base/Breadcrumb";
-import { useState, useEffect, createRef } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
+// import Breadcrumb from "@/components/Base/Breadcrumb";
+import ListParams from "@/components/ListParams";
 
 import { DOCUMENTATION } from "../../router/paths";
 
@@ -18,6 +20,7 @@ import {
   setCompactMenu as setCompactMenuStore,
 } from "@/stores/compactMenuSlice";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
+import { getLocationsOnly, selectLocation, setSelectLocationId } from '@/stores/Locations/slice';
 import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./side-menu";
 import { selectAuth} from "@/stores/Users/slice";
 
@@ -47,11 +50,32 @@ function Main() {
   const [activitiesPanel, setActivitiesPanel] = useState(false);
   const [compactMenuOnHover, setCompactMenuOnHover] = useState(false);
   const [activeMobileMenu, setActiveMobileMenu] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(() => {
+    // Recuperar desde localStorage al inicializar
+    const savedLocation = localStorage.getItem("selectedLocation");
+    if (savedLocation) {
+      try {
+        const parsed = JSON.parse(savedLocation);
+        return {
+          locationId: parsed.locationId || "",
+          name: parsed.name || "",
+        };
+      } catch (e) {
+        return { locationId: "", name: "" };
+      }
+    }
+    return {
+      locationId: "",
+      name: "",
+    };
+  });
   const location = useLocation();
   const navigate = useNavigate();
   const [formattedMenu, setFormattedMenu] = useState<
     Array<FormattedMenu | string>
   >([]);
+  
+  const {locationsList, locations } = useAppSelector(selectLocation);
   const sideMenuStore = useAppSelector(selectFilteredSideMenu);
   const sideMenu = () => nestedMenu(sideMenuStore, location);
   const scrollableRef = createRef<HTMLDivElement>();
@@ -77,6 +101,46 @@ function Main() {
   };
 
 
+  // Memorizar la condición para evitar ejecuciones innecesarias
+  const shouldLoadLocations = useMemo(() => {
+    return locationsList.length === 0;
+  }, [locationsList.length]);
+
+  useEffect(() => { 
+    if (shouldLoadLocations) {
+      dispatch(getLocationsOnly());
+    }
+  }, [shouldLoadLocations, dispatch])
+
+  // Sincronizar el estado de Redux al cargar desde localStorage
+  useEffect(() => {
+    if (selectedLocation.locationId) {
+      dispatch(setSelectLocationId({ 
+        locationId: selectedLocation.locationId, 
+        name: selectedLocation.name 
+      }));
+    }
+  }, [selectedLocation.locationId, selectedLocation.name, dispatch])
+
+  // Sincronizar el nombre cuando se cargan las locations y hay un locationId guardado
+  useEffect(() => {
+    if (selectedLocation.locationId && !selectedLocation.name && locations.length > 0) {
+      const location = locations.find((loc: any) => loc.id === selectedLocation.locationId);
+      if (location) {
+        const updatedLocation = {
+          locationId: selectedLocation.locationId,
+          name: location.name,
+        };
+        localStorage.setItem("selectedLocation", JSON.stringify(updatedLocation));
+        setSelectedLocation(updatedLocation);
+        // Actualizar el estado en Redux
+        dispatch(setSelectLocationId({ 
+          locationId: updatedLocation.locationId, 
+          name: updatedLocation.name 
+        }));
+      }
+    }
+  }, [locations, selectedLocation.locationId, selectedLocation.name, dispatch])
   
   useEffect(() => {
     if (scrollableRef.current) {
@@ -419,6 +483,7 @@ function Main() {
               </Breadcrumb> */}
               {/* END: Breadcrumb */}
               {/* BEGIN: Search */}
+              
               <div
                 className="relative justify-center flex-1 hidden xl:flex"
                 onClick={() => setQuickSearch(true)}
@@ -436,19 +501,75 @@ function Main() {
                 />
               }
               {/* END: Search */}
+              
+              <div
+                className="relative justify-center flex-1 hidden xl:flex"
+              >
+                <div className="flex items-center py-2 px-3.5" 
+                // className="bg-white/[0.12] border-transparent border w-[350px] flex items-center py-2 px-3.5 rounded-[0.5rem] text-white/60 cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100"
+                >
+                  {/* <Lucide icon="Search" className="w-[22px] h-[22px]" /> */}
+                  <div className="m-2.5 text-white">Sede</div>
+                  
+                  <div className="w-96">
+                    {!selectedLocation?.locationId ? (
+                      <ListParams
+                        key={"LIST_LOCATIONS"}
+                        list={locationsList}
+                        text={""}
+                        value={selectedLocation?.locationId || ""}
+                        isLoading={false}
+                        fn={(e) => {
+                          const locationId = e.target.value || "";
+                          // Buscar el location completo para obtener el name
+                          const location = locations.find((loc: any) => loc.id === locationId);
+                          const locationName = location?.name || "";
+                          
+                          // Guardar en localStorage tanto id como name
+                          if (locationId) {
+                            const locationData = {
+                              locationId,
+                              name: locationName,
+                            };
+                            localStorage.setItem("selectedLocation", JSON.stringify(locationData));
+                            setSelectedLocation({ name: locationName, locationId });
+                            // Invocar dispatch para actualizar el estado en Redux
+                            dispatch(setSelectLocationId({ locationId, name: locationName }));
+                          } else {
+                            localStorage.removeItem("selectedLocation");
+                            setSelectedLocation({ name: "", locationId: "" });
+                            // Limpiar el estado en Redux
+                            dispatch(setSelectLocationId({ locationId: "", name: "" }));
+                          }
+                        }}
+                        handleCreate={(e)=>console.log(e.target.value)}
+                        name={"location"}
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
+                        <span className="text-white flex-1">{selectedLocation.name}</span>
+                        <button
+                          onClick={() => {
+                            localStorage.removeItem("selectedLocation");
+                            setSelectedLocation({ name: "", locationId: "" });
+                            // Limpiar el estado en Redux
+                            dispatch(setSelectLocationId({ locationId: "", name: "" }));
+                          }}
+                          className="p-1 text-white hover:bg-white/10 rounded-full transition-colors"
+                          aria-label="Eliminar sede seleccionada"
+                        >
+                          <Lucide icon="X" className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+          
+                </div>
+              </div>
+              
               {/* BEGIN: Notification & User Menu */}
               <div className="flex items-center flex-1">
                 <div className="flex items-center gap-1 ml-auto">
-                  {/* <a
-                    href=""
-                    className="p-2 text-white rounded-full hover:bg-white/5"
-                    onClick={(e:any) => {
-                      e.preventDefault();
-                      setActivitiesPanel(true);
-                    }}
-                  >
-                    <Lucide icon="LayoutGrid" className="w-[18px] h-[18px]" />
-                  </a> */}
                   <Link
                     to={ DOCUMENTATION }
                     // onClick={()=>simulateEscKey()}
@@ -471,24 +592,10 @@ function Main() {
                   >
                     <Lucide icon="Expand" className="w-[18px] h-[18px]" />
                   </a>
-                  {/* NOTIFICATIONS */}
-                  {/* <a
-                    href=""
-                    className="p-2 text-white rounded-full hover:bg-white/5"
-                    onClick={(e:any) => {
-                      e.preventDefault();
-                      setNotificationsPanel(true);
-                    }}
-                  >
-                    <Lucide icon="Bell" className="w-[18px] h-[18px]" />
-                  </a> */}
                 </div>
                 <Menu className="ml-5">
                   <Menu.Button className="overflow-hidden rounded-full w-[36px] h-[36px] border-[3px] border-white/[0.15] image-fit">
-                    {/* <img
-                      alt="Photo"
-                      src={`https://ui-avatars.com/api/?background=F3D55B&color=AE5EAB&name=Ms`}
-                    /> */}
+
                     <img
                       alt="Photo"
                       src={`https://ui-avatars.com/api/?background=F3D55B&color=AE5EAB&name=${emailAuth.slice(

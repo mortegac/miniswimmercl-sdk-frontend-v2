@@ -24,7 +24,7 @@ import { getSessionQuotev2, selectSessionDetails, setSessionDetails, setSessionM
 import { InputOptions } from "@/stores/SessionDetails/types";
 import {FormInput, FormSelect, FormCheck } from "@/components/Base/Form";
 
-import { getLocationsOnly, selectLocation } from '../../../stores/Locations/slice';
+import { getLocationsOnly, selectLocation, setSelectLocationId } from '@/stores/Locations/slice';
 import { getSchedulesByLocationAndCourse, selectSchedules } from "@/stores/Schedule/slice";
 const MAX_QUOTE = 7;
 
@@ -63,6 +63,7 @@ function Main() {
           
   const [selectedSlots, setSelectedSlots] = useState<any[]>([]);
   
+  const {locationsList, locations, selectLocationId } = useAppSelector(selectLocation);
   const [date, setDate] = useState({
     dateChile: String(selectedDate),
     dateShow: String(`${day2}-${month}-${fullYear}`),
@@ -70,7 +71,7 @@ function Main() {
     dateMonth: String(`${fullYear}-${month}`), // Formato YYYY-MM para el Litepicker
     firstDayOfMonthUtc: firstDayUtc,
     lastDayOfMonthUtc: lastDayUtc,
-    locationId: "",
+    locationId: selectLocationId?.locationId,
   });
 
   const [atendanceId, setAtendanceId] = useState("");
@@ -87,7 +88,6 @@ function Main() {
   const [selectedScheduleDay, setSelectedScheduleDay] = useState<string>("");
   const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
-  const {locationsList, locations } = useAppSelector(selectLocation);
   const { schedules } = useAppSelector(selectSchedules);
   const [newSchedules, setNewSchedules] = useState({
     scheduleId: "",
@@ -300,6 +300,8 @@ function Main() {
         totalActiveSessions: number;
         emailPhone: string;
         contactPhone: string;
+        wasPaid: boolean | null;
+        enrollmentSessionDetailsId: string;
       }>;
     }>>();
     
@@ -415,6 +417,17 @@ function Main() {
           const studentKey = `${studentName}-${studentLastName}`;
           const totalActiveSessions = activeSessionsCountMap.get(studentKey) || 0;
           
+          // Buscar el enrollment correspondiente usando enrollmentSessionDetailsId
+          const enrollmentSessionDetailsId = item?.enrollmentSessionDetailsId || '';
+          let wasPaid: boolean | null = null;
+          
+          if (enrollmentSessionDetailsId && Array.isArray(item?.student?.enrollments?.items)) {
+            const enrollment = item.student.enrollments.items.find(
+              (enrollment: any) => enrollment.id === enrollmentSessionDetailsId
+            );
+            wasPaid = enrollment?.wasPaid ?? null;
+          }
+          
           group.students.push({
             id: sessionDetailId,
             name: studentName,
@@ -428,7 +441,9 @@ function Main() {
             edad: edad,
             totalActiveSessions: totalActiveSessions,
             emailPhone: studentEmailPhone,
-            contactPhone: studentContactPhone
+            contactPhone: studentContactPhone,
+            wasPaid: wasPaid,
+            enrollmentSessionDetailsId: enrollmentSessionDetailsId
           });
         }
       }
@@ -1041,7 +1056,7 @@ function Main() {
     
   useEffect(() => { 
     // Validar que existe locationId antes de ejecutar
-    if (!date?.locationId) {
+    if (!selectLocationId?.locationId) {
       return;
     }
     
@@ -1057,14 +1072,14 @@ function Main() {
     (async () =>  await dispatch(getSessionQuotev2({
       sessionDate: String(date?.firstDayOfMonthUtc), 
       sessionDateEnd: String(date?.lastDayOfMonthUtc), 
-      locationId: date?.locationId
+      locationId: selectLocationId?.locationId
     }))
   )()
-  }, [date]);
+  }, [date, selectLocationId?.locationId]);
   
-  useEffect(() => { 
-    locationsList.length === 0 && dispatch(getLocationsOnly())
-  }, [])
+  // useEffect(() => { 
+  //   locationsList.length === 0 && dispatch(getLocationsOnly())
+  // }, [])
   
   useEffect(() => { setFilteredStudents( [...sessionDetails]); }, [sessionDetails]);
   
@@ -1076,7 +1091,7 @@ function Main() {
     }
     
     // Buscar la ubicación seleccionada
-    const selectedLocation = locations.find((location: any) => location?.id === date.locationId) as any;
+    const selectedLocation = locations.find((location: any) => location?.id === selectLocationId?.locationId) as any;
     
     if (!selectedLocation || !selectedLocation.courses) {
       setCoursesList([]);
@@ -1302,9 +1317,10 @@ function Main() {
           </Slideover.Footer>
         </Slideover.Panel>
       </Slideover>
+      {/* <pre>{JSON.stringify(selectLocationId?.locationId, null, 2)}</pre> */}
       {/* <pre>{JSON.stringify(date?.locationId, null, 2)}</pre>
-      <pre>{JSON.stringify(locationsList, null, 2)}</pre>
-      <pre>{JSON.stringify(locations, null, 2)}</pre> */}
+      */}
+      {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre>  */}
       
      {selectedSlots.length > 0 && (
         <button
@@ -1321,7 +1337,8 @@ function Main() {
         </button>
       )}
       
-    {date?.locationId==="" && 
+    {/* {date?.locationId==="" &&  */}
+    {selectLocationId?.locationId === "" && 
       <>
         <div className="p-1.5 box flex flex-col ">
           <div className="flex flex-col items-center justify-center pt-20 pb-28">
@@ -1361,7 +1378,7 @@ function Main() {
       </div>
       </>
     }
-    {date?.locationId!=="" && 
+    {selectLocationId?.locationId !=="" && 
       <>
         <div className=" text-base font-medium group-[.mode--light]:text-white mb-4 uppercase">
           Listado de cupos: <b className="text-lg hidden md:contents ">{formatMonthYear(date?.firstDayOfMonthUtc || '')}</b> 
@@ -1371,7 +1388,42 @@ function Main() {
         
         <div id="boxResume" className="flex flex-col justify-start md:flex-row flex-start gap-2">
           <div className="flex flex-row justify-start items-start">
-            <ListParams
+          <ListParams
+                        key={"LIST_LOCATIONS"}
+                        list={locationsList}
+                        text={""}
+                        value={selectLocationId?.locationId || ""}
+                        isLoading={false}
+                        fn={(e) => {
+                          const locationId = e.target.value || "";
+                          // Buscar el location completo para obtener el name
+                          const location = locations.find((loc: any) => loc.id === locationId);
+                          const locationName = location?.name || "";
+                          
+                          // Guardar en localStorage tanto id como name
+                          if (locationId) {
+                            const locationData = {
+                              locationId,
+                              name: locationName,
+                            };
+                            localStorage.setItem("selectedLocation", JSON.stringify(locationData));
+                            // setSelectedLocation({ name: locationName, locationId });
+                            setDate({...date, locationId:e.target.value})
+                            // Invocar dispatch para actualizar el estado en Redux
+                            dispatch(setSelectLocationId({ locationId, name: locationName }));
+                          } else {
+                            localStorage.removeItem("selectedLocation");
+                            // setSelectedLocation({ name: "", locationId: "" });
+                            setDate({...date, locationId:""})
+                            // Limpiar el estado en Redux
+                            dispatch(setSelectLocationId({ locationId: "", name: "" }));
+                          }
+                        }}
+                        handleCreate={(e)=>console.log(e.target.value)}
+                        name={"location"}
+                      />
+                      
+            {/* <ListParams
               key={"LIST_LOCATIONS"}
               list={locationsList}
               text={""}
@@ -1380,7 +1432,7 @@ function Main() {
               fn={(e)=>setDate({...date, locationId:e.target.value})}
               handleCreate={(e)=>console.log(e.target.value)}
               name={"location"}
-            />
+            /> */}
               <ListParams
               key={"LIST_COURSES"}
               list={coursesList as any}
@@ -1433,7 +1485,7 @@ function Main() {
             <b className="text-lg text-white ml-4 block md:hidden">{date?.dateShow}</b> 
             
           </div>
-      </div>
+        </div>
        
            
             
@@ -1670,6 +1722,15 @@ function Main() {
                                                             </b>
                                                           );
                                                         })()} 
+                                                        {student.wasPaid !== null && (
+                                                          <span className={`ml-2 text-xs font-semibold px-2 py-0.5 rounded mr-2 ${
+                                                            student.wasPaid 
+                                                              ? 'bg-green-200 text-green-800' 
+                                                              : 'bg-red-400 text-white'
+                                                          }`}>
+                                                            {student.wasPaid ? 'PAGADO' : 'SIN PAGO'}
+                                                          </span>
+                                                        )}
                                                         <span>{student.name} {student.lastName} ({student?.edad && student.edad.años > 100 ? "SIN EDAD" : `${student?.edad?.años || ""} años, ${student?.edad?.meses || ""} meses`}) 
                                                           <span className="text-slate-500">{ `${student?.totalActiveSessions} de ${student?.totalSessions} sesiones`}</span>
                                                           </span>

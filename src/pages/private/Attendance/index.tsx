@@ -18,7 +18,7 @@ import { getSessionDetails, selectSessionDetails, setSessionDetails, getSessionB
 import { InputOptions } from "@/stores/SessionDetails/types";
 import {FormInput, FormSelect } from "@/components/Base/Form";
 // import { setBreadcrumb } from '@/stores/breadcrumb';
-import { getLocationsOnly, selectLocation } from '../../../stores/Locations/slice';
+import { getLocationsOnly, selectLocation, setSelectLocationId } from '../../../stores/Locations/slice';
 import { selectAuth } from "@/stores/Users/slice";
 import {typeOfGender} from "@/pages/private/Students/components/Card";
 import StudentList from "./studentList";
@@ -84,11 +84,13 @@ function Main() {
   const fullYear = String(selectedDate.getFullYear());
           
   
+  const {locationsList, locations,  selectLocationId } = useAppSelector(selectLocation);
+  
   const [date, setDate] = useState({
     dateChile: String(selectedDate),
     dateShow: String(`${day2}-${month}-${fullYear}`),
     dateUtc: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`),
-    locationId: "",
+    locationId: selectLocationId?.locationId,
   });
 
   const [atendanceId, setAtendanceId] = useState("");
@@ -97,7 +99,6 @@ function Main() {
   const [searchTerm, setSearchTerm] = useState('');
   const {sessionDetails, resume, status } = useAppSelector(selectSessionDetails);
   const [filteredStudents, setFilteredStudents] = useState(sessionDetails);
-  const {locationsList } = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
   
   const { emailAuth } = useAppSelector(selectAuth);
@@ -292,11 +293,11 @@ function Main() {
 
     await dispatch(getSessionByLocationAndDate({
       sessionDate: dateFormated, 
-      locationId: date?.locationId
+      locationId: selectLocationId?.locationId
     }))
     // await dispatch(getSessionDetails({
     //   sessionDate: String(`${fullYear}-${month}-${day2}T00:00:00.000Z`), 
-    //   locationId: date?.locationId
+    //   locationId: selectLocationId?.locationId
     // }))
   }
   
@@ -322,12 +323,12 @@ function Main() {
         modifiedBy: emailAuth,
         // sessionId: params.sessionId, 
         // status: params.status,
-        // locationIdUsed:date?.locationId,
+        // locationIdUsed:selectLocationId?.locationId,
         // date:params?.date
       })),
       await dispatch(getSessionByLocationAndDate({
         sessionDate: dateFormated, 
-        locationId: date?.locationId
+        locationId: selectLocationId?.locationId
       })),
       setAtendanceId("")
       
@@ -339,10 +340,10 @@ function Main() {
     
     (async () =>  await dispatch(getSessionByLocationAndDate({
       sessionDate: String(dateFormated), 
-      locationId: date?.locationId
+      locationId: selectLocationId?.locationId
     }))
   )()
-  }, [date]);
+  }, [date, selectLocationId?.locationId]);
   
   useEffect(() => { 
     locationsList.length === 0 && dispatch(getLocationsOnly())
@@ -354,7 +355,7 @@ function Main() {
     <>
      
     {/* <pre>{JSON.stringify(sessionDetails, null, 2)}</pre> */}
-    {date?.locationId==="" && 
+    {selectLocationId?.locationId==="" && 
       <>
         <div className="p-1.5 box flex flex-col ">
           <div className="flex flex-col items-center justify-center pt-20 pb-28">
@@ -372,8 +373,11 @@ function Main() {
               { location?.value !== "" && 
                   <Button
                   key={`BUTTON-LOCATION${index}`}
-                        onClick={() => 
+                        onClick={() => {
                           setDate({...date, locationId:location?.value})
+                          localStorage.setItem("selectedLocation", JSON.stringify({ locationId: location?.value, name: location?.value }));
+                            // Invocar dispatch para actualizar el estado en Redux
+                          dispatch(setSelectLocationId({ locationId: location?.value, name: location?.value }));}
                         }
                         
                         className={` mx-1 my-1 rounded-full p-0 w-80 h-16 mr-6 mb-6
@@ -393,7 +397,7 @@ function Main() {
       </div>
       </>
     }
-    {date?.locationId!=="" && 
+    {selectLocationId?.locationId!=="" && 
       <>
         <div className=" text-base font-medium group-[.mode--light]:text-white mb-4 uppercase">
           Listado de asistencia: <b className="text-lg hidden md:contents ">{date?.dateShow}</b> 
@@ -419,16 +423,50 @@ function Main() {
               />
           </div>
           <div className="flex flex-col justify-start items-start">
-            <ListParams
+            {/* <ListParams
               key={"LIST_LOCATIONS"}
               list={locationsList}
               text={""}
-              value={date?.locationId || ""}
+              value={selectLocationId?.locationId || ""}
               isLoading={false}
               fn={(e)=>setDate({...date, locationId:e.target.value})}
               handleCreate={(e)=>console.log(e.target.value)}
               name={"location"}
-            />
+            /> */}
+             <ListParams
+                        key={"LIST_LOCATIONS"}
+                        list={locationsList}
+                        text={""}
+                        value={selectLocationId?.locationId || ""}
+                        isLoading={false}
+                        fn={(e) => {
+                          const locationId = e.target.value || "";
+                          // Buscar el location completo para obtener el name
+                          const location = locations.find((loc: any) => loc.id === locationId);
+                          const locationName = location?.name || "";
+                          
+                          // Guardar en localStorage tanto id como name
+                          if (locationId) {
+                            const locationData = {
+                              locationId,
+                              name: locationName,
+                            };
+                            localStorage.setItem("selectedLocation", JSON.stringify(locationData));
+                            // setSelectedLocation({ name: locationName, locationId });
+                            setDate({...date, locationId:e.target.value})
+                            // Invocar dispatch para actualizar el estado en Redux
+                            dispatch(setSelectLocationId({ locationId, name: locationName }));
+                          } else {
+                            localStorage.removeItem("selectedLocation");
+                            // setSelectedLocation({ name: "", locationId: "" });
+                            setDate({...date, locationId:""})
+                            // Limpiar el estado en Redux
+                            dispatch(setSelectLocationId({ locationId: "", name: "" }));
+                          }
+                        }}
+                        handleCreate={(e)=>console.log(e.target.value)}
+                        name={"location"}
+                      />
           </div>
           <div className="flex flex-row justify-start items-center flex-start ">
             <div className=" w-16">
@@ -568,7 +606,10 @@ function Main() {
               if (showLocationId) {
                 currentScheduleId = item.scheduleId;
               }
-              const filteredArray = item?.student?.enrollments?.items?.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId);
+              const filteredArray = Array.isArray(item?.student?.enrollments?.items) 
+                ? item.student.enrollments.items.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId)
+                : [];
+              const firstEnrollment = filteredArray && filteredArray.length > 0 ? filteredArray[0] : null;
 
                       return(  
                         <div key={`${i}-SCHEDULES`} className={`${item?.status === "USED" && "bg-slate-300/20 px-4 py-4  mt-24"} max-w-[580px]`}>
@@ -618,12 +659,12 @@ function Main() {
                         }
                       
                         <div id="newCard" className={`
-                        ${!filteredArray[0]?.wasPaid && "bg-red-300" } 
+                        ${!firstEnrollment?.wasPaid && "bg-red-300" } 
                         ${item?.totalSessions ===1 && "bg-green-200"}
                          ${item?.status === "USED" && "bg-slate-300"}
                          
                         flex flex-col box  w-full max-w-[580px] mb-4 relative min-h-[220px]`}>
-                        {!filteredArray[0]?.wasPaid && 
+                        {!firstEnrollment?.wasPaid && 
                           <span className="absolute bottom-0 left-0 w-full z-20 py-2 px-2 text-sm  text-center text-white bg-red-500 rounded-b-xl">PENDIENTE DE PAGO</span>                       
                         }
                           <div id="btnAttendance" className="absolute top-0 right-0 w-24 md:w-36 bg-primary border-primary bg-opacity-20 border-opacity-5 text-primary rounded-r-lg h-full flex items-center justify-center z-10">
@@ -636,7 +677,7 @@ function Main() {
                                       ...item,
                                       status: "USED",
                                       // date: item?.date,
-                                      // locationIdUsed:date?.locationId,
+                                      // locationIdUsed:selectLocationId?.locationId,
                                     })}
                                     disabled={item?.status === "USED"}
                                     >{item?.status !== "USED" && "MARCAR PRESENTE"}
@@ -648,7 +689,7 @@ function Main() {
                           <span className="block text-left w-full"><CalculateAge birthdate={String(item?.student?.birthdate)} /></span>                          
                         </p>
                         
-                        <div className={`flex flex-row pr-24 md:pr-36 px-4 ${!filteredArray[0]?.wasPaid && "bg-red-300" }`}>
+                        <div className={`flex flex-row pr-24 md:pr-36 px-4 ${!firstEnrollment?.wasPaid && "bg-red-300" }`}>
                         
                           <div id="A" className="flex flex-col justify-start items-start sm:w-[120px] ">
                           <Link
@@ -852,7 +893,10 @@ function Main() {
               if (showLocationId) {
                 currentScheduleId = item.scheduleId;
               }
-              const filteredArray = item?.student?.enrollments?.items?.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId);
+              const filteredArray = Array.isArray(item?.student?.enrollments?.items) 
+                ? item.student.enrollments.items.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId)
+                : [];
+              const firstEnrollment = filteredArray && filteredArray.length > 0 ? filteredArray[0] : null;
 
                       return(  
                         <div key={`${i}-SCHEDULES`} className={`${item?.status === "USED" && "bg-slate-300/20 px-0 py-2"} max-w-[580px]`}>
@@ -861,7 +905,7 @@ function Main() {
                         <div
                           id="newCardAttendece"
                           className={`
-                          ${!filteredArray[0]?.wasPaid && "bg-red-300"} 
+                          ${!firstEnrollment?.wasPaid && "bg-red-300"} 
                           ${item?.totalSessions === 1 && "bg-green-200"}
                           ${item?.status === "USED" && "bg-slate-200"}
                           flex flex-row box w-full max-w-[580px] min-h-[130px] relative pl-10 pr-2`}
@@ -871,7 +915,7 @@ function Main() {
                             {i + 1}
                           </div>
 
-                          {!filteredArray[0]?.wasPaid && 
+                          {!firstEnrollment?.wasPaid && 
                             <span className="absolute bottom-0 left-0 w-full z-20 py-2 px-2 text-sm  text-center text-white bg-red-500 rounded-b-xl">PENDIENTE DE PAGO</span>                       
                           }
             
