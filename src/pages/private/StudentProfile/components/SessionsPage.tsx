@@ -319,10 +319,10 @@ useEffect(() => {
                         </div>
                         <div className="flex flex-row justify-start items-start px-4 py-4">
                           <span className="uppercase bg-slate-300 text-slate-700 rounded-full px-3 py-2 mr-2">
-                            {schedule?.schedule.day} {schedule?.schedule.startHour}
+                            {schedule?.schedule?.day || 'N/A'} {schedule?.schedule?.startHour || ''}
                           </span>
                           <span className="uppercase bg-slate-300 text-slate-700 rounded-full px-3 py-2 ">
-                          {schedule?.course?.title} 
+                          {schedule?.course?.title || 'Sin curso'} 
                           </span>
                         </div>
                         
