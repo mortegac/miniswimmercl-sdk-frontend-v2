@@ -328,6 +328,18 @@ export function ResumenPage(props: any) {
                             return ad > bd ? -1 : ad < bd ? 1 : 0;
                           })
                           .map((item: any, index: number) => {
+                            // Verificar si hay sesiones que no sean DELETED
+                            const validSessions = Array.isArray(item?.sessionDetails?.items)
+                              ? [...item?.sessionDetails?.items].filter(
+                                  (session: any) => session?.status !== "DELETED"
+                                )
+                              : [];
+                            
+                            // Si wasPaid es false y no hay sesiones válidas, no mostrar el bloque completo
+                            if (!item?.wasPaid && validSessions.length === 0) {
+                              return null;
+                            }
+
                             const totalSessions = item?.sessionDetails?.items[0]?.totalSessions;
                             let vigencia:string;
                             switch (totalSessions) {
@@ -350,6 +362,7 @@ export function ResumenPage(props: any) {
                             return (
                               <>
                                 <div
+                                id="EnrollemtBlock"
                                   className={clsx([
                                     "mb-3 last:mb-0 relative",
                                     "mb-8",
@@ -407,8 +420,6 @@ export function ResumenPage(props: any) {
                                   <div
                                     className={clsx([
                                       "px-4 py-3 ml-8",
-                                      //   "before:content-[''] before:ml-1 before:absolute before:w-5 before:h-5 before:bg-slate-200 before:rounded-full before:inset-y-0 before:my-auto before:left-0 before:dark:bg-darkmode-300 before:z-10",
-                                      //   "after:content-[''] after:absolute after:w-1.5 after:h-1.5 after:bg-slate-500 after:rounded-full after:inset-y-0 after:my-auto after:left-0 after:ml-[11px] after:dark:bg-darkmode-200 after:z-10",
                                     ])}
                                   >
                                     <div className="flex justify-between">
@@ -498,9 +509,6 @@ export function ResumenPage(props: any) {
                                           })
                                           .map((session: any, i: any) => (
                                             <>
-                                              {/* <pre>{JSON.stringify(session, null, 2)}</pre> */}
-                                              {/* 
-                              <pre>{JSON.stringify(item?.id, null, 2)}</pre> */}
                                               <div className=" relative">
                                                 <span
                                                   className={clsx([
@@ -571,7 +579,6 @@ export function ResumenPage(props: any) {
                                     </div>
                                   </div>
                                 </div>
-                                {/* } */}
                               </>
                             );
                           })}
