@@ -107,8 +107,8 @@ export function ResumenTransactions(props:any) {
                       <div className="flex flex-col p-5 box ">
                         <div className="pb-5 mb-5 font-medium  text-[0.94rem]">
                           Historial de Carros de compras  
-                          {emailAuth !== "hi@manuelo.dev" &&  <span className="p-2 bg-slate-600 text-white rounded-full text-sm">USUARIO REGULAR</span>}
-                          {emailAuth === "hi@manuelo.dev" &&  <span className="p-2 bg-red-400 text-white rounded-full text-sm">ADMIN</span>}
+                          {emailAuth !== "hi@manuelo.dev" && emailAuth !== "loreto.gonzález.or@gmail.com" &&  <span className="p-2 bg-slate-600 text-white rounded-full text-sm">USUARIO REGULAR</span>}
+                          {(emailAuth === "hi@manuelo.dev" || emailAuth === "loreto.gonzález.or@gmail.com") &&  <span className="p-2 bg-red-400 text-white rounded-full text-sm">ADMIN</span>}
                         </div>
                         
                         <div className="-my-3">

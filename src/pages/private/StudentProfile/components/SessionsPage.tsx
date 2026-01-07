@@ -822,9 +822,10 @@ export function SessionsPage(props:any) {
                     {statusFilter.text === "ACTIVE" && "Sesiones Disponibles"}
                     {statusFilter.text === "USED" && "Sesiones Usadas"}
                     {statusFilter.text === "DELETED" && "Sesiones Eliminadas"}
-                    {emailAuth === "hi@manuelo.dev" && (
+                    {/* {emailAuth === "hi@manuelo.dev" && ( */}
+                    {(emailAuth === "hi@manuelo.dev" || emailAuth === "loreto.gonzález.or@gmail.com") &&
                       <span className="ml-4 p-2 bg-red-400 text-white rounded-full text-sm">ADMIN</span>
-                    )}
+                    }
                   </h2>
                 </div>
                 <div className="pb-5 mb-5 font-medium border-b  border-slate-300/70 text-[0.94rem]">
