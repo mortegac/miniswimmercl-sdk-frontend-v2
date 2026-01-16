@@ -6517,6 +6517,51 @@ export const onDeleteRelationship = /* GraphQL */ `
     }
   }
 `;
+export const onCreateQuickResponse = /* GraphQL */ `
+  subscription OnCreateQuickResponse(
+    $filter: ModelSubscriptionQuickResponseFilterInput
+  ) {
+    onCreateQuickResponse(filter: $filter) {
+      id
+      name
+      message
+      isActive
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateQuickResponse = /* GraphQL */ `
+  subscription OnUpdateQuickResponse(
+    $filter: ModelSubscriptionQuickResponseFilterInput
+  ) {
+    onUpdateQuickResponse(filter: $filter) {
+      id
+      name
+      message
+      isActive
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteQuickResponse = /* GraphQL */ `
+  subscription OnDeleteQuickResponse(
+    $filter: ModelSubscriptionQuickResponseFilterInput
+  ) {
+    onDeleteQuickResponse(filter: $filter) {
+      id
+      name
+      message
+      isActive
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateWorkdayReports = /* GraphQL */ `
   subscription OnCreateWorkdayReports(
     $filter: ModelSubscriptionWorkdayReportsFilterInput

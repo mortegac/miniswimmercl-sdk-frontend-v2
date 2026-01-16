@@ -27,6 +27,7 @@ import supportTicketsReducer from "./SupportTicket/slice";
 import evaluationsReducer from './Evaluations/slice';
 import studentEvaluationsReducer from './StudentEvaluations/slice';
 import productReducer from './Products/slice';
+import quickResponseReducer from './QuickResponse/slice';
 
 export const store = configureStore({
   reducer: {
@@ -58,6 +59,7 @@ export const store = configureStore({
     evaluations: evaluationsReducer,
     studentEvaluations: studentEvaluationsReducer,
     product: productReducer,
+    quickResponse: quickResponseReducer,
   },
 });
 

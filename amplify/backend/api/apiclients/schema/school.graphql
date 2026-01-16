@@ -46,8 +46,6 @@ type Course @model {
   duration: String!
   
   isActive: Boolean @default(value: "false")
-  isMultiDay: Boolean @default(value: "false")  # Indica si el curso se imparte en múltiples días
-  multiDaySchedules: [CourseScheduleDay]  # Arreglo que almacena los días e IDs de schedules para cursos multi-día
   
   #Relations
   location: Location @belongsTo               # relación muchos a uno.
@@ -57,6 +55,8 @@ type Course @model {
   privateEnrollments: [PrivateEnrollment] @hasMany  # Relación con inscripciones privadas
   
   sessionDetails: [SessionDetail] @hasMany(fields: ["id"])
+  # CourseStudentsRelation: [CoursesStudentsRelations] @hasMany
+  # coursesLocationRelation: [Locations] @manyToMany(relationName: "CoursesLocations")
 }
 
 enum AgeGroupType {
@@ -73,17 +73,6 @@ enum AgeType {
   ALL
 }
 
-# Tipo personalizado para almacenar días y IDs de schedules en cursos multi-día
-type CourseScheduleDay {
-  day: DayType!
-  scheduleId: ID!
-}
-
-# Input type para mutaciones
-input CourseScheduleDayInput {
-  day: DayType!
-  scheduleId: ID!
-}
 
 ################################
 # CURSOS | CONFIGURACION HORARIOS - SESSIONES

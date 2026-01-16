@@ -20,21 +20,16 @@ type Student @model {
   
   isActive: Boolean @default(value: "true")
   
-  
   firstSwimmingClass: Boolean @default(value: "false")                   #| El alumno, ¿ Es primera vez que toma clases de natación ?
   attendedDaycare: Boolean @default(value: "false")                       #| ¿ Asiste o asistió a sala cuna o jardín ?
   immersesWithoutSwallowingWater: Boolean @default(value: "false")        #|  ¿ Se sumerge sin tragar agua ?
   bornPrematurely: Boolean @default(value: "false")                       #|  ¿ Nació Prematuro ?
   waterOnHisFaceBothersHim: Boolean @default(value: "false")              #|  ¿ Le molesta el agua en la cara ?
   putYourFaceInTheWater: Boolean @default(value: "false")                 #|  ¿ Mete la cara al agua ?
+
   anyIllnessInjuryMedicalCondition: String!      #|  ¿ Tiene alguna enfermedad, lesión o condición médica ?
   
-  
-  
-  # reasonForTakingClasses: String @default(value: "")  # AGREGAR la pregunta cual es la razon para tomar clases de natación ?
-  # whatWouldYouLikeToAchieve: String @default(value: "") # Que te gustaria lograr con las clases de natación ?
-  
-  
+ 
   #Relations
   enrollments: [Enrollment] @hasMany
   privateEnrollments: [PrivateEnrollment] @hasMany  # Relación opcional con inscripciones privadas

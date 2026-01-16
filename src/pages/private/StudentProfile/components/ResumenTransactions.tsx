@@ -233,7 +233,8 @@ export function ResumenTransactions(props:any) {
                                               <div className="flex flex-end -mr-6">
                                           
                                           
-                                          {emailAuth === "hi@manuelo.dev" && 
+                                          {/* // {emailAuth === "hi@manuelo.dev" &&  */}
+                                          {(emailAuth === "hi@manuelo.dev" || emailAuth === "loreto.gonzález.or@gmail.com") &&
                                           <Button
                                             variant="soft-primary"
                                             // className=""

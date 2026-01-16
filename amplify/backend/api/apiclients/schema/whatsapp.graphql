@@ -1,0 +1,13 @@
+
+
+################################
+# RESPUESTAS RAPIDAS
+################################
+type QuickResponse @model {
+  id: ID! @primaryKey(sortKeyFields: ["name"])
+  name: String! @index(name: "byName", queryField: "quickResponsesByName")
+  message: String!
+  isActive: Boolean @default(value: "true")
+}
+
+
