@@ -345,6 +345,38 @@
         }
       ]
     },
+    "AMPLIFY_function_cronUpdateSessions_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronUpdateSessions"
+        }
+      ]
+    },
+    "AMPLIFY_function_cronUpdateSessions_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronUpdateSessions"
+        }
+      ]
+    },
+    "AMPLIFY_function_cronUpdateStatus_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronUpdateStatus"
+        }
+      ]
+    },
+    "AMPLIFY_function_cronUpdateStatus_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronUpdateStatus"
+        }
+      ]
+    },
     "AMPLIFY_function_fnCalculateSessionsEnrollment_deploymentBucketName": {
       "usedBy": [
         {

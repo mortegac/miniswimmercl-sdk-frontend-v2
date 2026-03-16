@@ -3459,50 +3459,6 @@ export const listRelationships = /* GraphQL */ `
     }
   }
 `;
-export const getQuickResponse = /* GraphQL */ `
-  query GetQuickResponse($id: ID!, $name: String!) {
-    getQuickResponse(id: $id, name: $name) {
-      id
-      name
-      message
-      isActive
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listQuickResponses = /* GraphQL */ `
-  query ListQuickResponses(
-    $id: ID
-    $name: ModelStringKeyConditionInput
-    $filter: ModelQuickResponseFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listQuickResponses(
-      id: $id
-      name: $name
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        name
-        message
-        isActive
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getWorkdayReports = /* GraphQL */ `
   query GetWorkdayReports($workdayId: ID!) {
     getWorkdayReports(workdayId: $workdayId) {
@@ -4843,35 +4799,6 @@ export const usersByCountry = /* GraphQL */ `
         createdAt
         updatedAt
         usersRolesId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const quickResponsesByName = /* GraphQL */ `
-  query QuickResponsesByName(
-    $name: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelQuickResponseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    quickResponsesByName(
-      name: $name
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        name
-        message
-        isActive
-        createdAt
-        updatedAt
         __typename
       }
       nextToken

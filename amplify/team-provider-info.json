@@ -56,20 +56,20 @@
         "sendEmailResolver": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/sendEmailResolver-69436b63506437497273-build.zip",
-          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
-          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+          "apiKey": "da2-ccnqqjpecvc33ijvwiphn2gjku",
+          "apiEndpoint": "https://https://m2hmnszh4je2rk3mdemcrudxw4.appsync-api.us-east-2.amazonaws.com/graphql/graphql"
         },
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/fnRemoveEnrollment-41534142447a36417776-build.zip",
-          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
-          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+          "apiKey": "da2-ccnqqjpecvc33ijvwiphn2gjku",
+          "apiEndpoint": "https://https://m2hmnszh4je2rk3mdemcrudxw4.appsync-api.us-east-2.amazonaws.com/graphql/graphql"
         },
         "fnRenovationEnrollment": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
           "s3Key": "amplify-builds/fnRenovationEnrollment-36706d70393148456151-build.zip",
-          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
-          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+          "apiKey": "da2-ccnqqjpecvc33ijvwiphn2gjku",
+          "apiEndpoint": "https://https://m2hmnszh4je2rk3mdemcrudxw4.appsync-api.us-east-2.amazonaws.com/graphql/graphql"
         },
         "sendWhatsappResolver": {
           "deploymentBucketName": "amplify-apiclients-main-b7b58-deployment",
@@ -103,7 +103,8 @@
     },
     "categories": {
       "auth": {
-        "apiclientsbb306568": {}
+        "apiclientsbb306568": {},
+        "userPoolGroups": {}
       },
       "function": {
         "apiclientslayer": {
@@ -133,14 +134,14 @@
         "fnRemoveEnrollment": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
           "s3Key": "amplify-builds/fnRemoveEnrollment-41534142447a36417776-build.zip",
-          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
-          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+          "apiKey": "da2-ccnqqjpecvc33ijvwiphn2gjku",
+          "apiEndpoint": "https://https://m2hmnszh4je2rk3mdemcrudxw4.appsync-api.us-east-2.amazonaws.com/graphql/graphql"
         },
         "fnRenovationEnrollment": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
           "s3Key": "amplify-builds/fnRenovationEnrollment-36706d70393148456151-build.zip",
-          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
-          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+          "apiKey": "da2-ccnqqjpecvc33ijvwiphn2gjku",
+          "apiEndpoint": "https://https://m2hmnszh4je2rk3mdemcrudxw4.appsync-api.us-east-2.amazonaws.com/graphql/graphql"
         },
         "fngGetEconomicParams": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
@@ -149,8 +150,8 @@
         "sendEmailResolver": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
           "s3Key": "amplify-builds/sendEmailResolver-69436b63506437497273-build.zip",
-          "apiKey": "da2-m5bsmkwimrcizbfqykts667yyy",
-          "apiEndpoint": "https://4mtfzd2aubcrhnnaclzkxosnoq.appsync-api.us-east-2.amazonaws.com/graphql"
+          "apiKey": "da2-ccnqqjpecvc33ijvwiphn2gjku",
+          "apiEndpoint": "https://https://m2hmnszh4je2rk3mdemcrudxw4.appsync-api.us-east-2.amazonaws.com/graphql/graphql"
         },
         "sendEmailResolveremailJs": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
@@ -176,6 +177,14 @@
         "fnCreateEvaluation": {
           "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
           "s3Key": "amplify-builds/fnCreateEvaluation-326236744e32335a2f53-build.zip"
+        },
+        "cronUpdateSessions": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/cronUpdateSessions-674d3447597357435478-build.zip"
+        },
+        "cronUpdateStatus": {
+          "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+          "s3Key": "amplify-builds/cronUpdateStatus-665549764b4373746243-build.zip"
         }
       },
       "api": {
