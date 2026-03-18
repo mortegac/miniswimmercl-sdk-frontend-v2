@@ -1,0 +1,86 @@
+################################
+# USUARIOS
+################################
+type Users @model {
+  id: ID! @primaryKey
+  name: String!
+  email: String!
+  validated: Boolean
+  isEmployed: Boolean @default(value: "false")  # Es empleado
+  isAcademyStudent: Boolean @default(value: "false")  # Es Estudiante de la academia 
+  salesCommission: Float @default(value: "0")  # Porcenta de comision por venta
+  contactPhone: String @default(value: "")
+  ig: String @default(value: "")
+  firstContact: Boolean   # Se usa para saber si hayq ue pedirle mas info al user
+  
+  # Location fields
+  streetAddress: String   # Street address
+  city: String           # City
+  state: String          # State
+  zipCode: String        # ZIP code
+  country: String @default(value: "CHILE") @index(name: "byCountry")  # Country
+  latitude: Float        # Latitude for Google Maps/Waze
+  longitude: Float       # Longitude for Google Maps/Waze
+  zoomLevel: Int @default(value: "15")  # Map zoom level
+  
+  #Relations
+  emailSend: [EmailSend] @hasMany  # Email enviados al user
+  relationships: [Relationship] @hasMany
+  
+  tickets: [SupportTicket] @manyToMany(relationName: "TicketUser")
+  
+  roles: Roles @hasOne
+  userPermissions: [Permissions] @manyToMany(relationName: "UserPermissions")
+  shoppingCart: [ShoppingCart] @hasMany  # Carros de compra asociadas 
+  shoppingCartSeller: [ShoppingCart] @hasMany  # Vendedor que vendio el Carros de compra asociadas 
+  paymentTransactions: [PaymentTransactions] @hasMany  # Transacciones webpay asociadas 
+  sellersCommissions: [SellersCommission] @hasMany     # Comisiones por ventas
+  enrollments: [Enrollment] @hasMany
+  privateEnrollments: [PrivateEnrollment] @hasMany  # Relación con inscripciones privadas
+  coachedSessions: [SessionDetail] @hasMany  # Sesiones donde el usuario es coach
+  
+  studentEvaluations: [StudentEvaluations] @hasMany
+  workdayReports: [WorkdayReports] @hasMany  # Reportes de jornada laboral del usuario
+  shoppingCartDetails: [ShoppingCartDetail] @hasMany  # Detalles de carrito creados por este usuario
+}
+
+
+
+
+# enum CountryType {
+#   NONE
+#   USA
+#   CHILE
+#   URUGUAY
+#   PANAMA
+# }
+
+
+
+
+
+
+################################
+# RELACIONES USUARIOS-STUDENTS
+################################
+type Relationship @model {
+  id: ID! @primaryKey
+    
+  #Relations 
+  user: Users! @belongsTo
+  student: Student! @belongsTo
+  relationType: RelationType!
+}
+enum RelationType {
+  NONE
+  OTHER
+  MOTHER
+  FATHER
+  GRANDFATHER
+  GRANDMOTHER
+  UNCLE
+  AUNT
+  FAMILYS_FRIEND
+  COUSIN
+}
+

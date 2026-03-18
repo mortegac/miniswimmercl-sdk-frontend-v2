@@ -1,0 +1,91 @@
+################################
+# EVALUACIONES NINOS (CORREGIDO)
+################################
+
+# He cambiado el nombre de EvaluationObjetives a EvaluationObjective (singular)
+type EvaluationObjetives @model {
+  id: ID! @primaryKey
+  texto: String
+  isMandatory: Boolean @default(value: "false")
+  isActive: Boolean @default(value: "true")
+
+  # Foreign Key para la relación
+  evaluationLevelId: ID!
+  
+  # Relaciones
+  evaluationLevel: EvaluationLevel @belongsTo(fields: ["evaluationLevelId"])
+  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+  
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type EvaluationLevel @model {
+  id: ID! @primaryKey
+  ico: String
+  name: String
+  description: String
+  startingAge: Float
+  endingAge: Float
+  order: Int
+  
+  # Relaciones
+  evaluationObjectives: [EvaluationObjetives] @hasMany
+  studentEvaluations: [StudentEvaluations] @hasMany
+  
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type StudentEvaluations @model {
+  # He estandarizado el nombre del ID
+  id: ID! @primaryKey
+  date: AWSDateTime
+  previousLevel: String
+  sessionsCarriedOut: Int
+  age: Float
+  wasApproved: Boolean
+  observations: String
+  
+  # Foreign Keys
+  studentId: ID!
+  evaluationLevelId: ID!
+  userId: ID!
+  
+  # Relaciones con @belongsTo
+  student: Student @belongsTo(fields: ["studentId"])
+  evaluationLevel: EvaluationLevel @belongsTo(fields: ["evaluationLevelId"])
+  user: Users @belongsTo(fields: ["userId"])
+  
+  # CORRECCIÓN: @hasMany no lleva 'fields'
+  studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany
+  
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type StudentEvaluationsDetail @model {
+  # He estandarizado el nombre del ID
+  id: ID! @primaryKey
+  text: String
+  wasAchieved: Boolean
+  
+  # Foreign Keys
+  studentEvaluationsId: ID! # Nombre estandarizado para coincidir con la convención
+  evaluationObjectiveId: ID!
+  
+  # Relaciones con @belongsTo
+  # Conexión con la evaluación principal
+  studentEvaluation: StudentEvaluations @belongsTo(fields: ["studentEvaluationsId"])
+  
+  # CORRECCIÓN: La relación con el objetivo ahora está activa
+  evaluationObjective: EvaluationObjetives @belongsTo(fields: ["evaluationObjectiveId"])
+  
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+# NOTA: Asegúrate de tener definidos los modelos Student y Users en tu esquema.
+# Ejemplo:
+# type Student @model { ... }
+# type Users @model { ... }

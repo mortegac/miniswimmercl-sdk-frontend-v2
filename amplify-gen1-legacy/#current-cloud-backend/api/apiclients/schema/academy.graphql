@@ -1,0 +1,106 @@
+
+################################
+# ACADEMIA 
+################################
+
+type AcademyStudents @model {
+  id: ID! @primaryKey
+  status: TypeStatus!             # ESTADO DEL ALUMNO, SIRVE PARA CLASIFICAR LOS CURSOS VIGENTES DE LOS QUE FINALAZARON
+  presence: TypeOfPresence! @default(value: "IN_PERSON")       # PRESENCIA REMOTA - PRESENCIAL - MIXTA
+  name: String!
+  urlImage: String!
+  email: String!
+  birthdate: AWSDateTime!
+  years: Int!
+  address: String @default(value: "") 
+  country: String @default(value: "Chile") 
+  phone: String @default(value: "")
+  profession: String @default(value: "")
+  studiesRelated: String @default(value: "")  #Estudios relacionados al área de la formación
+  medicalHistory: String @default(value: "")  #Antecedentes médicos
+  emergencyContact: String @default(value: "")  #Contacto de emergencia
+  isPaid: Boolean   #Campo momentaneao para saber si esta pagado el curso
+  isSponsored: Boolean   #El alumno esta becado
+  hasAgreement: Boolean   #El alumno tiene convenio
+  companyAgreement: String @default(value: "")  #Empresa Convenio
+
+  #Relations
+  certificate: Certificates @hasOne
+  enrollments: [AcademyEnrollment] @hasMany
+}
+enum TypeStatus {
+  CERTIFICATION_COMPLETED
+  CERTIFICATION_IN_PROGRESS
+  WEB_FORM_ENTRY
+  ABANDONED
+}
+enum TypeOfPresence {
+  IN_PERSON
+  VIRTUAL
+  HYBRID
+}
+
+
+type AcademyEnrollment @model {  
+  id: ID! @primaryKey
+  amountPaid: Float!
+  date: String!
+  wasDeleted: Boolean @default(value: "false")
+  wasPaid: Boolean @default(value: "false")
+ 
+  #Relations  
+  students: AcademyStudents! @belongsTo
+  user: String!   # Creado por
+  shoppingCartDetail: ShoppingCartDetail @hasOne  # Unir la inscripcion con el carro
+  course: AcademyCourses! @belongsTo
+  # emailSends: [EmailSend] @hasMany    # Nueva relación con EmailSend
+  
+}
+
+
+
+
+################################
+# CURSOS
+################################
+type AcademyCourses @model {
+  id: ID! @primaryKey
+  name: String!
+  description: String
+  Address: String
+  mapurl: String
+  isActive: Boolean @default(value: "true")
+  
+  #Relations
+  enrollments: [AcademyEnrollment] @hasMany  
+  certificate: Certificates @hasOne
+}
+
+
+
+
+
+enum TypeOfTitle {
+  CERTIFICATE_OF_ATTENDANCE
+  CERTIFICATE_OF_COMPLETION
+}
+
+# CERTICATES
+type Certificates @model {
+  id: ID! @primaryKey
+  title: TypeOfTitle!
+  studentName: String!          # Nombre del alumno
+  instructorName: String!       # Nombre instructor
+  instructorSignature: String!  # Firma del instructor
+  descriptionOne: String!
+  theoreticalHours: Int         # Horas teoricas
+  practicalHours: Int           # Horas practicas
+  date: AWSDateTime             # Fecha en que fue realziado la certificacion
+  isOfficialCertification: Boolean
+  location: String!             # Lugar donde fue ralizado el curso
+  
+  #Relations
+  student: AcademyStudents @belongsTo
+  course: AcademyCourses @belongsTo
+}
+

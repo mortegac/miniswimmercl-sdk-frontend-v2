@@ -1,0 +1,26 @@
+
+##########################################################
+# PARAMETERS
+##########################################################
+type ParametersEnc @model @auth(rules: [{ allow: public }]) {
+  id: ID! @primaryKey
+  typeOfParameter: [Parameters] @hasMany
+  description: String
+}
+
+type Metadata @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  key: String
+  value: String
+  metadata: Parameters @belongsTo
+}
+
+type Parameters @model @auth(rules: [{ allow: public }]) {
+  id: ID! @primaryKey
+  typeOfParameter: ParametersEnc @belongsTo
+  label: String!
+  value: String!
+  country: String! @index(name: "byCountry", sortKeyFields: ["label"])  # Campo país con índice para consultas
+  idParent: String @default(value: "") #Id Parametro Padre, ejemplo de uso regiones con sus comunas
+  metadata: [Metadata] @hasMany
+}

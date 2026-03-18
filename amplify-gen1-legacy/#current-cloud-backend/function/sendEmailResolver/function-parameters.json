@@ -1,0 +1,21 @@
+{
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "apiclientslayer",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true,
+      "env": "prod"
+    }
+  ],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "apiKey",
+      "environmentVariableName": "API_KEY"
+    },
+    {
+      "cloudFormationParameterName": "apiEndpoint",
+      "environmentVariableName": "API_ENDPOINT"
+    }
+  ]
+}

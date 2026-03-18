@@ -1,0 +1,49 @@
+
+################################
+# PROFESORES
+################################
+type Coach @model {
+  id: ID! @primaryKey
+  name: String!
+  lastName: String!
+  isCertificated: Boolean
+  isActive: Boolean @default(value: "true")
+  email: String!
+  phone: String @default(value: "")
+  whatsapp: String @default(value: "")
+   
+  # Relations
+  coachSchedules: [CoachSchedule] @hasMany    # relación con horarios del coach
+}
+
+################################
+# HORARIOS DE COACHES
+################################
+type CoachSchedule @model {
+  id: ID! @primaryKey
+  date: AWSDate! @index(name: "byDate", sortKeyFields: ["coachId"])
+  startTime: String!                    # Hora de inicio (formato HH:MM)
+  endTime: String!                      # Hora de fin (formato HH:MM)
+  isAvailable: Boolean @default(value: "true")  # Si está disponible para clases
+  isBooked: Boolean @default(value: "false")     # Si ya tiene una clase asignada
+  notes: String @default(value: "")             # Notas adicionales
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  
+  # Relations
+  coach: Coach! @belongsTo
+  coachId: ID! @index(name: "byCoach", sortKeyFields: ["date"])
+  location: Location! @belongsTo
+  locationId: ID! @index(name: "byLocation", sortKeyFields: ["date"])
+  schedule: Schedule @belongsTo          # relación con el horario de curso
+  scheduleId: ID @index(name: "bySchedule", sortKeyFields: ["date"])  # ID del horario de curso
+  
+  # Relación opcional con SessionDetail si ya está asignado
+  # sessionDetail: SessionDetail @hasOne
+}
+
+# Índices adicionales para consultas eficientes
+# - byCoach: Para obtener todos los horarios de un coach específico
+# - byLocation: Para obtener todos los horarios en una ubicación específica  
+# - byDate: Para obtener horarios por fecha
+# - bySchedule: Para obtener todos los coaches trabajando en un horario específico

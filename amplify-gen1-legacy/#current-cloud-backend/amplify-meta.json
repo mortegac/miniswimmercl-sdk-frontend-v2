@@ -1,0 +1,639 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-apiclients-prod-c7835-authRole",
+      "UnauthRoleArn": "arn:aws:iam::995007408497:role/amplify-apiclients-prod-c7835-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::995007408497:role/amplify-apiclients-prod-c7835-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+      "UnauthRoleName": "amplify-apiclients-prod-c7835-unauthRole",
+      "StackName": "amplify-apiclients-prod-c7835",
+      "StackId": "arn:aws:cloudformation:us-east-2:995007408497:stack/amplify-apiclients-prod-c7835/1a2d3310-d775-11ef-965f-0a256ce16093",
+      "AmplifyAppId": "d37ftx9odrh330"
+    }
+  },
+  "api": {
+    "apiclients": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDate": "2025-06-22T03:27:24.930Z",
+              "apiKeyExpirationDays": 365,
+              "description": "for clients"
+            },
+            "authenticationType": "API_KEY"
+          }
+        },
+        "GraphQLAPIIdOutput": "t4pplxi6t5danh3iji6dcux5ku",
+        "GraphQLAPIEndpointOutput": "https://m2hmnszh4je2rk3mdemcrudxw4.appsync-api.us-east-2.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-ccnqqjpecvc33ijvwiphn2gjku"
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiapiclients"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.732Z",
+      "lastPushDirHash": "j7J1lhvKOR2be0H4iL9LK5FfZao="
+    }
+  },
+  "auth": {
+    "apiclientsbb306568": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [
+          "GOOGLE"
+        ],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/auth/apiclientsbb306568-cloudformation-template.json",
+        "logicalId": "authapiclientsbb306568"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.734Z",
+      "output": {
+        "UserPoolId": "us-east-2_RnbT7nPr9",
+        "AppClientIDWeb": "3c7425phukqjelo0mt3833h6kj",
+        "AppClientID": "4v0vfgl4t7ug6lc867si9l0ho4",
+        "HostedUIDomain": "apiclientsbb306568-bb306568-prod",
+        "IdentityPoolId": "us-east-2:70055e20-cfe6-4cef-9b1c-4a0649c450d5",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-2:995007408497:userpool/us-east-2_RnbT7nPr9",
+        "IdentityPoolName": "apiclientsbb306568_identitypool_bb306568__prod",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:5173/\"],\"LogoutURLs\":[\"http://localhost:5173/\"]}",
+        "UserPoolName": "apiclientsbb306568_userpool_bb306568"
+      },
+      "lastPushDirHash": "p3FBmzmqrc8BUy/gcSLrXI6sD8s="
+    }
+  },
+  "function": {
+    "apiclientslayer": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "lastBuildTimeStamp": "2026-02-09T14:24:43.285Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2025-01-21T02:33:01.454Z",
+      "distZipFilename": "apiclientslayer-LambdaLayerVersionedc1c33e-build.zip",
+      "latestPushedVersionHash": "15f5647e9caf3e867ccb3128c64fe34b4e60d1998fa21c8e6225cabc39b32df8",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/apiclientslayer-LambdaLayerVersionedc1c33e-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/apiclientslayer-awscloudformation-template.json",
+        "logicalId": "functionapiclientslayer"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.735Z",
+      "output": {
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:layer:apiclientslayer-prod:8"
+      }
+    },
+    "authPostAuthentication": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:24:46.105Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:24:46.230Z",
+      "distZipFilename": "authPostAuthentication-7639546a3270716a2b70-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/authPostAuthentication-7639546a3270716a2b70-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/authPostAuthentication-cloudformation-template.json",
+        "logicalId": "functionauthPostAuthentication"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.736Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole34e39a84-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:authPostAuthentication-prod",
+        "Name": "authPostAuthentication-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole34e39a84-prod"
+      },
+      "lastPushDirHash": "nrJdo9B15+INNBaNz8Bs3Milg6c="
+    },
+    "authPostConfirmation": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:24:47.000Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:24:47.085Z",
+      "distZipFilename": "authPostConfirmation-45505743616d64733768-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/authPostConfirmation-45505743616d64733768-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/authPostConfirmation-cloudformation-template.json",
+        "logicalId": "functionauthPostConfirmation"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.737Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole56418609-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:authPostConfirmation-prod",
+        "Name": "authPostConfirmation-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole56418609-prod"
+      },
+      "lastPushDirHash": "My9XOAb+bBPXrnA7Ydyl/QOqCjc="
+    },
+    "authPreAuthentication": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:24:47.834Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:24:47.911Z",
+      "distZipFilename": "authPreAuthentication-55373035417965354571-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/authPreAuthentication-55373035417965354571-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/authPreAuthentication-cloudformation-template.json",
+        "logicalId": "functionauthPreAuthentication"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.738Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole222bacf2-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:authPreAuthentication-prod",
+        "Name": "authPreAuthentication-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole222bacf2-prod"
+      },
+      "lastPushDirHash": "zJl9rZLlCyYNq0bqywH8f3KHif0="
+    },
+    "authPreSignup": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:24:48.677Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:24:48.752Z",
+      "distZipFilename": "authPreSignup-41742f376f7a764c4436-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/authPreSignup-41742f376f7a764c4436-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/authPreSignup-cloudformation-template.json",
+        "logicalId": "functionauthPreSignup"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.739Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRoleae535aee-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:authPreSignup-prod",
+        "Name": "authPreSignup-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRoleae535aee-prod"
+      },
+      "lastPushDirHash": "h9KC6EbSzFe5reNVfUw1Gq7cWyQ="
+    },
+    "fnCalculateSessionsEnrollment": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:24:49.508Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:24:49.595Z",
+      "distZipFilename": "fnCalculateSessionsEnrollment-6767794e61756d6e3955-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/fnCalculateSessionsEnrollment-6767794e61756d6e3955-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/fnCalculateSessionsEnrollment-cloudformation-template.json",
+        "logicalId": "functionfnCalculateSessionsEnrollment"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.741Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole8450f595-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:fnCalculateSessionsEnrollment-prod",
+        "Name": "fnCalculateSessionsEnrollment-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole8450f595-prod"
+      },
+      "lastPushDirHash": "sDvqkyTDw5eoX5FstSswDpz0yc0="
+    },
+    "fnRemoveEnrollment": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:24:50.367Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:24:50.509Z",
+      "distZipFilename": "fnRemoveEnrollment-41534142447a36417776-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/fnRemoveEnrollment-41534142447a36417776-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/fnRemoveEnrollment-cloudformation-template.json",
+        "logicalId": "functionfnRemoveEnrollment"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.742Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRoled5427443-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:fnRemoveEnrollment-prod",
+        "Name": "fnRemoveEnrollment-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRoled5427443-prod"
+      },
+      "lastPushDirHash": "4+avZpBOpzZvjolL/9TVDGE/7Tk="
+    },
+    "fnRenovationEnrollment": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:24:51.403Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:24:51.869Z",
+      "distZipFilename": "fnRenovationEnrollment-36706d70393148456151-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/fnRenovationEnrollment-36706d70393148456151-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/fnRenovationEnrollment-cloudformation-template.json",
+        "logicalId": "functionfnRenovationEnrollment"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.743Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole9124fa23-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:fnRenovationEnrollment-prod",
+        "Name": "fnRenovationEnrollment-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole9124fa23-prod"
+      },
+      "lastPushDirHash": "FDsJPXckaNY6A8Z16OKBNpXMn1U="
+    },
+    "fngGetEconomicParams": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:25:00.410Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:25:00.781Z",
+      "distZipFilename": "fngGetEconomicParams-41362b4f4a75764f6133-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/fngGetEconomicParams-41362b4f4a75764f6133-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/fngGetEconomicParams-cloudformation-template.json",
+        "logicalId": "functionfngGetEconomicParams"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.744Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole1e2a3e15-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:fngGetEconomicParams-prod",
+        "Name": "fngGetEconomicParams-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole1e2a3e15-prod"
+      },
+      "lastPushDirHash": "+VW4H9JFYYYntuYxF/TalSY4eZo="
+    },
+    "sendEmailResolver": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:25:03.425Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:25:04.085Z",
+      "distZipFilename": "sendEmailResolver-69436b63506437497273-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/sendEmailResolver-69436b63506437497273-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/sendEmailResolver-cloudformation-template.json",
+        "logicalId": "functionsendEmailResolver"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.746Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRoleba067ddb-prod",
+        "Region": "us-east-2",
+        "CloudWatchEventRule": "amplify-apiclients-prod-c7835-funct-CloudWatchEvent-bfVhRADTmFnn",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:sendEmailResolver-prod",
+        "Name": "sendEmailResolver-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRoleba067ddb-prod"
+      },
+      "lastPushDirHash": "zqiMCxBm3VeWAh31vYpZtk4UEsQ="
+    },
+    "sendEmailResolveremailJs": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:25:09.454Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:25:09.740Z",
+      "distZipFilename": "sendEmailResolveremailJs-764454346e5134544a6e-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/sendEmailResolveremailJs-764454346e5134544a6e-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/sendEmailResolveremailJs-cloudformation-template.json",
+        "logicalId": "functionsendEmailResolveremailJs"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.747Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole14bf81fc-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:sendEmailResolveremailJs-prod",
+        "Name": "sendEmailResolveremailJs-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole14bf81fc-prod"
+      },
+      "lastPushDirHash": "B86OurvumOm2x0L8ytp/hD65d5M="
+    },
+    "sendWhatsappResolver": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:25:12.257Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:25:12.350Z",
+      "distZipFilename": "sendWhatsappResolver-4f6a383073654e436c63-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/sendWhatsappResolver-4f6a383073654e436c63-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/sendWhatsappResolver-cloudformation-template.json",
+        "logicalId": "functionsendWhatsappResolver"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.748Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRolea543a439-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:sendWhatsappResolver-prod",
+        "Name": "sendWhatsappResolver-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRolea543a439-prod"
+      },
+      "lastPushDirHash": "0FQonJgDhHK5j2AdYH3yM2itCCk="
+    },
+    "webpayCommit": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:25:13.455Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:25:13.522Z",
+      "distZipFilename": "webpayCommit-317855724c79424f3744-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/webpayCommit-317855724c79424f3744-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/webpayCommit-cloudformation-template.json",
+        "logicalId": "functionwebpayCommit"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.749Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole6c3f16b7-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:webpayCommit-prod",
+        "Name": "webpayCommit-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole6c3f16b7-prod"
+      },
+      "lastPushDirHash": "jFtbX0IPhIM5KwYCKywt0ECYfdg="
+    },
+    "webpayStart": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:25:14.308Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:25:14.427Z",
+      "distZipFilename": "webpayStart-59644e486d3231544f5a-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/webpayStart-59644e486d3231544f5a-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/webpayStart-cloudformation-template.json",
+        "logicalId": "functionwebpayStart"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.750Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole97767a9c-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:webpayStart-prod",
+        "Name": "webpayStart-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole97767a9c-prod"
+      },
+      "lastPushDirHash": "E0FagGMtmS2VpMvFMPhxCLP/37E="
+    },
+    "webpayStatus": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "apiclientslayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-02-09T14:25:16.583Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:25:19.273Z",
+      "distZipFilename": "webpayStatus-4d44656a59774a30452f-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/webpayStatus-4d44656a59774a30452f-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/webpayStatus-cloudformation-template.json",
+        "logicalId": "functionwebpayStatus"
+      },
+      "lastPushTimeStamp": "2026-02-09T14:27:23.751Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRolea247eec1-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:webpayStatus-prod",
+        "Name": "webpayStatus-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRolea247eec1-prod"
+      },
+      "lastPushDirHash": "vaPZOplIAUBRc8BG9ZVrd40+rLU="
+    },
+    "fnCreateEvaluation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "apiclientslayer",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2026-02-09T14:27:23.753Z",
+      "lastBuildTimeStamp": "2026-02-09T14:25:32.478Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-02-09T14:25:34.968Z",
+      "distZipFilename": "fnCreateEvaluation-326236744e32335a2f53-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-apiclients-prod-c7835-deployment",
+        "s3Key": "amplify-builds/fnCreateEvaluation-326236744e32335a2f53-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-apiclients-prod-c7835-deployment/amplify-cfn-templates/function/fnCreateEvaluation-cloudformation-template.json",
+        "logicalId": "functionfnCreateEvaluation"
+      },
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::995007408497:role/apiclientsLambdaRole148dbc61-prod",
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:995007408497:function:fnCreateEvaluation-prod",
+        "Name": "fnCreateEvaluation-prod",
+        "LambdaExecutionRole": "apiclientsLambdaRole148dbc61-prod"
+      },
+      "lastPushDirHash": "NsJG17YdtvOzy5Q5+wXJXpj4DsY="
+    }
+  }
+}

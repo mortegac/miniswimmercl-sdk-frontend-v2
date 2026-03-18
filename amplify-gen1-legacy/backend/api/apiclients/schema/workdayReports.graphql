@@ -1,0 +1,32 @@
+
+type WorkdayReports @model @auth(rules: [{ allow: public }]) {
+  workdayId: ID! @primaryKey
+  date: AWSDateTime! @index(name: "byDate", sortKeyFields: ["workdayId"])
+  day: String!
+  month: String!
+  year: String!
+  startTime: AWSDateTime!           # Hora de inicio de jornada
+  endTime: AWSDateTime             # Hora de fin de jornada (opcional si aún está activa)
+  
+  startingTemperature: Float @default(value: "0")  # starting temperature
+  endingTemperature: Float @default(value: "0")  # ending temperature
+  
+  notes: String @default(value: "") # Notas generales de la jornada
+  status: WorkdayStatus! @default(value: "IN_PROGRESS")
+  
+  # Métricas de la jornada
+  totalHoursWorked: Float @default(value: "0")  # Total de horas trabajadas
+  totalSales: Float @default(value: "0")        # Total de ventas realizadas
+  totalIssues: Int @default(value: "0")         # Total de incidentes registrados
+  customersSatisfaction: Float @default(value: "0") # Puntuación de satisfacción promedio
+  
+  # Relations
+  user: Users! @belongsTo           # Usuario que realizó la jornada (anfitrión)
+}
+
+enum WorkdayStatus {
+  IN_PROGRESS    # Jornada en curso
+  COMPLETED      # Jornada finalizada
+  CANCELLED      # Jornada cancelada
+  PENDING_REVIEW # Pendiente de revisión
+}

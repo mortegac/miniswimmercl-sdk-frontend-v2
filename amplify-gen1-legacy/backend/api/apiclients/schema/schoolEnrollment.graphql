@@ -1,0 +1,135 @@
+# # This "input" configures a global authorization rule to enable public access to
+# # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+################################
+# ESTUDIANTES - SESSIONES INSCRITAS
+################################
+type Student @model {
+  id: ID! @primaryKey
+  name: String!
+  lastName: String!
+  middleName: String!
+  birthdate: String!
+  placeOfResidence: String!
+  contactPhone: String!
+  whoIsTheContact: String!
+  emailPhone: String!
+  gender: String!
+  country: String @default(value: "CHILE") @index(name: "byCountry")  # Country
+  
+  isActive: Boolean @default(value: "true")
+  
+  firstSwimmingClass: Boolean @default(value: "false")                   #| El alumno, ¿ Es primera vez que toma clases de natación ?
+  attendedDaycare: Boolean @default(value: "false")                       #| ¿ Asiste o asistió a sala cuna o jardín ?
+  immersesWithoutSwallowingWater: Boolean @default(value: "false")        #|  ¿ Se sumerge sin tragar agua ?
+  bornPrematurely: Boolean @default(value: "false")                       #|  ¿ Nació Prematuro ?
+  waterOnHisFaceBothersHim: Boolean @default(value: "false")              #|  ¿ Le molesta el agua en la cara ?
+  putYourFaceInTheWater: Boolean @default(value: "false")                 #|  ¿ Mete la cara al agua ?
+
+  anyIllnessInjuryMedicalCondition: String!      #|  ¿ Tiene alguna enfermedad, lesión o condición médica ?
+  
+ 
+  #Relations
+  enrollments: [Enrollment] @hasMany
+  privateEnrollments: [PrivateEnrollment] @hasMany  # Relación opcional con inscripciones privadas
+  relationships: [Relationship] @hasMany
+  sessionDetail: SessionDetail @hasOne
+  emailSend: [EmailSend] @hasMany  # Email enviados al student
+  supportTickets: [SupportTicket] @hasMany # Relación con SupportTicket
+
+  studentEvaluations: [StudentEvaluations] @hasMany # Evaluaciones del estudiante
+  # studentEvaluationsDetails: [StudentEvaluationsDetail] @hasMany # Detalle de las Evaluaciones del estudiante
+}
+
+
+#####################################################
+# SESSIONES DE CURSOS INSCRITAS DEL STUDIANTE
+#####################################################
+enum typeofPlans {
+  MONTHLY_PLAN
+  DAY_PLAN
+  QUARTERLY_PLAN
+  SEMIANNUAL_PLAN
+  INVALID_PLAN
+  PRIVATE_LESSON
+}
+
+type Enrollment @model {  
+  id: ID! @primaryKey
+  amountPaid: Float!
+  startDate: String! 
+  endDate: String!  
+  wasDeleted: Boolean @default(value: "false")
+  wasPaid: Boolean @default(value: "false")
+  timeAWeek: Float          # Cantidad de veces por semana contratadas
+  numberOfSessions: Int!    # Cantidad de sesiones contratadas
+  sessionsLeft: Float       # sesiones restantes
+  sessionsUsed: Float       # sesiones usadas
+  scheduleId: String @default(value: "")        # Id del curso  inscrito
+  scheduleName: String @default(value: "")      # nombre del curso inscrito
+  paymentToken: String @default(value: "")      # Token para la plataforma de pagos
+  typeOfPlan: typeofPlans @default(value: "MONTHLY_PLAN")
+  
+  #Relations  
+  student: Student! @belongsTo
+  user: Users! @belongsTo  # Registro del usuario que realizo la inscripcion
+  sessionType: SessionType! @belongsTo
+  shoppingCartDetail: ShoppingCartDetail @hasOne  # Unir la inscripcion con el carro
+
+  # schedule: Schedule @hasOne  # Horario en que fue inscrito 1 a1 
+  # schedule: Schedule @belongsTo
+  course: Course! @belongsTo
+  # transaction: Transaction @hasOne   # Relacion ono to one con la transaccion del pago
+  sessionDetails: [SessionDetail] @hasMany
+  emailSends: [EmailSend] @hasMany    # Nueva relación con EmailSend
+  
+}
+
+
+
+
+################################
+# DETALLE DE SESIONES CONTRATADAS
+################################
+enum SessionStatus {
+  ACTIVE
+  USED
+  RECOVERED
+  DELETED
+}
+
+type SessionDetail @model {
+  id: ID! @primaryKey(sortKeyFields: ["date"])
+  date: AWSDateTime! @index(name: "byDate", sortKeyFields: ["id"])
+  
+  # NUEVO ÍNDICE para consultas por ubicación y fecha
+  locationId: String! @default(value: "") @index(name: "byLocationAndDate", sortKeyFields: ["date"])
+  
+  day: String! @default(value: "")
+  month: String!
+  year: String
+  sessionNumber: Int
+  totalSessions: Int
+  status: SessionStatus!
+  proratedValue: Float @default(value: "0")
+  wasEmailSent: Boolean @default(value: "false")
+  locationIdUsed: String! @default(value: "")
+  modifiedBy: String @default(value: "")
+  modifiedByDate: AWSDateTime
+  
+  # Relations
+  student: Student! @belongsTo
+  sessionDetailStudentId: ID! @index(name: "bySessionDetailStudent")
+  
+  # Optional relations
+  courseId: ID @default(value: "SIN-CURSO")
+  scheduleId: ID @default(value: "SIN-SCHEDULE")
+  course: Course @belongsTo(fields: ["courseId"])
+  schedule: Schedule @belongsTo(fields: ["scheduleId"])
+  coach: Users @belongsTo
+}
+
+# SIN-CURSO
+# SIN-SEDE
+# SIN-SCHEDULE

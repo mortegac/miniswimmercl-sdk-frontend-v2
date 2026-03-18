@@ -1,0 +1,12 @@
+{
+  "main": {
+    "configLevel": "project",
+    "useProfile": true,
+    "profileName": "miniswimmer-app"
+  },
+  "prod": {
+    "configLevel": "project",
+    "useProfile": true,
+    "profileName": "miniswimmer-app"
+  }
+}

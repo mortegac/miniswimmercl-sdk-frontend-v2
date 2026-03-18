@@ -1,0 +1,100 @@
+
+type SellersCommission @model {
+  id: ID! @primaryKey
+  salesCommission: Float @default(value: "0")  # Porcenta de comision por venta
+  paymentAmount: Float @default(value: "0")    # Total del pago a calcular la comision  
+  amount: Float @default(value: "0")           # Valor a pagar comision
+  type: TypeDetail! # Tipo de producto/servicio
+  description: String @default(value: "")
+  status: StatusCommission! # Estado de la comisión
+  
+  # Relations
+  users: Users @belongsTo
+  shoppingCart: ShoppingCart @hasOne
+  # Other fields related to a sellers commission
+}
+
+# ENUM PARAMETERS
+enum StatusCommission {
+  CREATED # Creada
+  TO_PAY  # Por pagar
+  PAID    # Pagada
+}
+
+
+# Tabla del carrito de compras
+type ShoppingCart @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  totalPrice: Float!
+  status: String @default(value: "PENDING")  # PENDING, COMPLETED, CANCELLED, BANK_TRANSFER
+  createdAt: String!
+  
+  #Relations
+  user: Users! @belongsTo      #Cliente que paga el carro
+  seller: Users! @belongsTo      #Vendedor que gestiona la venta
+  sellersCommission: SellersCommission @belongsTo
+  cartDetails: [ShoppingCartDetail] @hasMany
+  paymentTransactions: [PaymentTransactions] @hasMany
+}
+
+
+
+# ENUM PARAMETERS
+enum TypeDetail {
+  COURSE_REGISTRATION
+  ENROLLMENTS
+  ACADEMY
+  PRODUCTS
+  DISCOUNT
+  SERVICES
+}
+# Tabla de detalles del carrito
+type ShoppingCartDetail @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  type: TypeDetail! # Tipo de producto/servicio
+  quantity: Int!
+  amount: Float!      # Precio unitario
+  detail: String!     # Descripción o detalle adicional
+  wasDeleted: Boolean @default(value: "false")
+  #Relations
+  enrollment: Enrollment @belongsTo                   # Alumnos Escuela
+  academyEnrollment: AcademyEnrollment @belongsTo     # Alumnos Academia
+  cart: ShoppingCart! @belongsTo
+  createdBy: Users @belongsTo                        # Usuario que creó/realizó este detalle (opcional)
+  
+}
+
+
+
+
+# Table for products
+type Product @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  sku: String! @index                # Unique product identifier
+  name: String!                      # Product name
+  currentStock: Int!                 # Current stock available
+  criticalStock: Int!               # Minimum stock level before alert
+  purchasePrice: Float!             # Price we pay to supplier
+  sellingPrice: Float!              # Price we charge to customers
+  profits: Float!                   # Ganancias por productos
+  isActive: Boolean @default(value: "true")
+  
+  # Relations
+  supplier: Supplier! @belongsTo     # Supplier of this product
+  
+}
+
+# Table for suppliers
+type Supplier @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!                     # Supplier's company name
+  contactPerson: String            # Contact person name
+  email: String                    # Contact email
+  phone: String                    # Contact phone
+  address: String                  # Physical address
+  taxId: String                    # Tax ID or business registration number
+  isActive: Boolean @default(value: "true")
+  
+  # Relations
+  products: [Product] @hasMany     # Products provided by this supplier
+}

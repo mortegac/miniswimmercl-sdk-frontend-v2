@@ -1,0 +1,57 @@
+
+
+################################
+# TICKETS - COMENTARIOS
+################################
+type SupportTicket @model @auth(rules: [{ allow: public }]) {
+# type SupportTicket @model 
+#   @auth(rules: [{ allow: public }])
+#   @index(name: "byStudent", fields: ["studentId", "statusTicket"])
+#   @index(name: "byUser", fields: ["userId", "statusTicket"]) {
+  id: ID! @primaryKey
+  date: AWSDateTime! @index
+  # date: String!
+  name: String!
+  email: String!
+  phoneNumber: String!
+  description: String!
+  day: String!
+  month: String!
+  year: String @default(value: " ")
+  lastModificationUser: String @default(value: "sin-usuario")
+  statusTicket: statusTicketType @default(value: "open")
+  reason: reasonType @default(value: "none")
+  
+  #Relations
+  # userTickets: [Users] @manyToMany(relationName: "TicketUser")
+   users: [Users] @manyToMany(relationName: "TicketUser")
+
+  
+  ticketComments: [CommentTickets] @manyToMany(relationName: "Comments")
+  student: Student @belongsTo # Relación con Student
+
+}
+
+enum reasonType {
+  none
+  return_session
+  payment_problem
+  other
+}
+enum statusTicketType {
+  open
+  in_progress
+  resolved
+  does_not_apply
+}
+
+type CommentTickets @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  description: String!
+  statusModificationIdUser: String @default(value: "sin-usuario")
+  statusModificationUser: String @default(value: "sin-usuario")
+  
+  #Relations
+  ticketComments: [SupportTicket] @manyToMany(relationName: "Comments")
+}
+
