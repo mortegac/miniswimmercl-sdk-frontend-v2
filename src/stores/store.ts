@@ -28,6 +28,7 @@ import evaluationsReducer from './Evaluations/slice';
 import studentEvaluationsReducer from './StudentEvaluations/slice';
 import productReducer from './Products/slice';
 import quickResponseReducer from './QuickResponse/slice';
+import rolePermissionsReducer from './RolePermissions/slice';
 
 export const store = configureStore({
   reducer: {
@@ -60,6 +61,7 @@ export const store = configureStore({
     studentEvaluations: studentEvaluationsReducer,
     product: productReducer,
     quickResponse: quickResponseReducer,
+    rolePermissions: rolePermissionsReducer,
   },
 });
 

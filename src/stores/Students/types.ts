@@ -52,8 +52,10 @@ export type Student = {
   
   enrollments: Enrollment[];
   relationships: Relationship[];
-  // sessionDetail: SessionDetail[];
-  
+  evaluationLevelId?: string;
+  evaluationIcon?: string;
+  evaluationDescription?: string;
+  studentEvaluations?: { items: Array<{ id: string; date: string; wasApproved: boolean; evaluationLevelId: string; evaluationLevel?: { id: string; ico?: string; name?: string; description?: string } }> };
 }
 
 export const emptyStudent: Student = {

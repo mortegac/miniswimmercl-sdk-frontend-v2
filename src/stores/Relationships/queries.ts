@@ -1,25 +1,19 @@
 export const listRelationships = /* GraphQL */ `
   query ListRelationships(
-    $id: ID
-    $filter: ModelRelationshipFilterInput
+    $filter: ModelV2RelationshipFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listRelationships(
-      id: $id
+    listV2Relationships(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
         relationType
-        createdAt
-        updatedAt
-        usersRelationshipsId
-        studentRelationshipsId
+        userId
+        studentId
         student{
           name
           lastName
@@ -27,31 +21,30 @@ export const listRelationships = /* GraphQL */ `
           birthdate
           placeOfResidence
           enrollments{
-        items{
-          id
-          amountPaid
-          courseEnrollmentsId
-          # sessionDetails( filter:{ status: {eq: ACTIVE}}){
-          sessionDetails( filter:{ 
-            or: [
-            { status: { eq: ACTIVE } },
-            { status: { eq: RECOVERED } }
-          ]
-          }){
             items{
               id
-              sessionNumber
+              amountPaid
+              courseId
+              sessionDetails( filter:{
+                or: [
+                { status: { eq: ACTIVE } },
+                { status: { eq: RECOVERED } }
+              ]
+              }){
+                items{
+                  id
+                  sessionNumber
+                }
+              }
             }
           }
-          }
         }
+        user{
+          id
+          email
+          name
+          contactPhone
         }
-      user{
-        id
-        email
-        name
-        contactPhone
-      }
         __typename
       }
       nextToken

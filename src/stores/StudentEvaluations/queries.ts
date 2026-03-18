@@ -1,74 +1,29 @@
-export const listEvaluationLevels = /* GraphQL */ `
-  query ListEvaluationLevels {
-    listEvaluationLevels {
+// Fetch all evaluations for a student (Gen 2)
+export const listStudentEvaluationsByStudent = /* GraphQL */ `
+  query ListStudentEvaluationsByStudent(
+    $filter: ModelV2StudentEvaluationsFilterInput
+    $limit: Int
+  ) {
+    listV2StudentEvaluations(
+      filter: $filter
+      limit: $limit
+    ) {
       items {
         id
-        ico
-        name
-        description
-        startingAge
-        endingAge
-        order
-        evaluationObjectives{
-           items{
-             id
-             texto
-             isMandatory
-             isActive
-           }
-         }
-      }
-    }
-  }
-`;
-
-export const getStudentEvaluation = /* GraphQL */ `
-  query GetStudentEvaluation($id: ID!) {
-    getStudentEvaluations(id: $id) {
-      id
-      date
-      previousLevel
-      sessionsCarriedOut
-      age
-      wasApproved
-      observations
-      studentId
-      evaluationLevelId
-      userId
-    }
-  }
-`; 
-
-
-
-export const getStudent = /* GraphQL */ `
-  query GetStudent($id: ID!) {
-    getStudent(id: $id) {
-      id
-      name
-      lastName
-      middleName
-      emailSend {
-        nextToken
-        __typename
-      }
-    name 
-    # Pides la lista de sus evaluaciones
-    studentEvaluations {
-      items {
-        # Datos de la evaluación principal
-        id
         date
-    userId
-        user{
-          name
-        }
-        evaluationLevelId
-        date
+        age
         wasApproved
         observations
-      
-        evaluationLevel{
+        previousLevel
+        sessionsCarriedOut
+        studentId
+        evaluationLevelId
+        userId
+        user {
+          id
+          name
+        }
+        evaluationLevel {
           id
           ico
           name
@@ -76,18 +31,13 @@ export const getStudent = /* GraphQL */ `
           startingAge
           endingAge
           order
-          
         }
-        
-        # Para cada evaluación, pides sus detalles
         studentEvaluationsDetails {
           items {
-            # Datos de cada objetivo evaluado
             id
             wasAchieved
             text
-            
-            # Y aquí pides la información del objetivo original
+            evaluationObjectiveId
             evaluationObjective {
               id
               texto
@@ -96,12 +46,6 @@ export const getStudent = /* GraphQL */ `
           }
         }
       }
-    }
-      createdAt
-      updatedAt
-      studentSessionDetailId
-      studentSessionDetailDate
-      __typename
     }
   }
 `;

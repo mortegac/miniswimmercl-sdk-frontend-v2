@@ -15,10 +15,10 @@ export const fetchOne = async (objFilter: FilterOptions): Promise<any> => {
       
       
       const filterCartId = (typeof objFilter?.cartId === 'undefined') ?
-      {} : { shoppingCartCartDetailsId: { eq: String(objFilter.cartId) } };
-    
+      {} : { cartId: { eq: String(objFilter.cartId) } };
+
       const filterEnrollmentId = (typeof objFilter?.enrollmentId === 'undefined') ?
-      {} : { shoppingCartDetailEnrollmentId: { eq: String(objFilter.enrollmentId) } };
+      {} : { enrollmentId: { eq: String(objFilter.enrollmentId) } };
       
          
       const filter: any = {
@@ -44,7 +44,7 @@ export const fetchOne = async (objFilter: FilterOptions): Promise<any> => {
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listShoppingCartDetails } as any);
+        resolve({ ...data.listV2ShoppingCartDetails } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -77,9 +77,9 @@ export const createShoppinCartDetail = async (objInput: InputOptions): Promise<a
             quantity: 1,
             amount: objInput?.amount, 
             detail: objInput?.detail, 
-            shoppingCartCartDetailsId: objInput?.shoppingCartId, 
-            
-            // shoppingCartDetailEnrollmentId : objInput?.enrollmentId, 
+            cartId: objInput?.shoppingCartId,
+
+            // enrollmentId : objInput?.enrollmentId,
           }
         }
       });

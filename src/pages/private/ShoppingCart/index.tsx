@@ -719,7 +719,7 @@ function Main() {
   const [statusShoppingCart, setStatusShoppingCart] = useState("PENDING")
   const [filteredShoppingCart, setFilteredShoppingCart] = useState<any>(null)
   // const [JWT, setJWT] = useState("");
-  const { shoppingCarts, status } = useAppSelector(selectShoppingCarts);
+  const { shoppingCarts, status, errorMessage } = useAppSelector(selectShoppingCarts);
   // const {locations} = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
   dispatch(
@@ -872,6 +872,23 @@ function Main() {
                       className="w-10 h-10 mt-10"
                     />
                   </div>
+                </div>
+              )}
+
+              {status === "failed" && (
+                <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
+                  <Lucide icon="AlertCircle" className="w-12 h-12 text-red-400" />
+                  <p className="text-lg font-medium text-slate-600">No se pudo cargar los carros de compra</p>
+                  <p className="text-sm text-slate-400">{errorMessage || "Error de autorización. Contacta al administrador."}</p>
+                  <Button
+                    rounded
+                    variant="soft-primary"
+                    className="mt-2 px-6 py-2"
+                    onClick={() => dispatch(getShoppingCart({ status: statusShoppingCart }))}
+                  >
+                    <Lucide icon="RefreshCw" className="w-4 h-4 mr-2" />
+                    Reintentar
+                  </Button>
                 </div>
               )}
 

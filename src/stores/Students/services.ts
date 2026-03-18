@@ -32,7 +32,7 @@ export const fetchDataSearchName = async (objFilter: FilterOptions): Promise<any
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listStudents } as any);
+        resolve({ ...data.listV2Students } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -66,7 +66,7 @@ export const fetchData = async (): Promise<any> => {
       console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listStudents } as any);
+        resolve({ ...data.listV2Students } as any);
 
     } catch (err) {
       reject(
@@ -92,7 +92,7 @@ export const fetchOneData = async (objFilter: FilterOptions): Promise<any> => {
       console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.getStudent } as any);
+        resolve({ ...data.getV2Student } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -141,7 +141,7 @@ export const createStudentquick = async (objFilter: FilterOptions): Promise<any>
       const data = getData.data;
       // console.log("<<< STUDENT ...data.createUsers <<<<< ", data)
       
-        resolve({ ...data.createStudent} as any);
+        resolve({ ...data.createV2Student} as any);
         
         // ...userData.data.getUsers
       // } else {

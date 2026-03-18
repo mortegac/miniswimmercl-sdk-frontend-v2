@@ -1,20 +1,20 @@
 export const createCourse = /* GraphQL */ `
-  mutation CreateCourse(
-    $input: CreateCourseInput!
-    $condition: ModelCourseConditionInput
+  mutation CreateV2Course(
+    $input: CreateV2CourseInput!
+    $condition: ModelV2CourseConditionInput
   ) {
-    createCourse(input: $input, condition: $condition) 
+    createV2Course(input: $input, condition: $condition)
     { id }
   }
 `;
 
 
 export const updateCourse = /* GraphQL */ `
-  mutation UpdateCourse(
-    $input: UpdateCourseInput!
-    $condition: ModelCourseConditionInput
+  mutation UpdateV2Course(
+    $input: UpdateV2CourseInput!
+    $condition: ModelV2CourseConditionInput
   ) {
-    updateCourse(input: $input, condition: $condition) 
+    updateV2Course(input: $input, condition: $condition)
     { id }
   }
 `;

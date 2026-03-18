@@ -4,8 +4,8 @@
 ********************************************************/
 
 export const getLocation = /* GraphQL */ `
-  query GetLocation($id: ID!) {
-    getLocation(id: $id) {
+  query GetV2Location($id: ID!) {
+    getV2Location(id: $id) {
       id
       name
       city
@@ -27,26 +27,20 @@ export const getLocation = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
-      updatedAt
       __typename
     }
   }
 `;
 export const listLocations = /* GraphQL */ `
   query ListLocations(
-    $id: ID
-    $filter: ModelLocationFilterInput
+    $filter: ModelV2LocationFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listLocations(
-      id: $id
+    listV2Locations(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
@@ -70,7 +64,7 @@ export const listLocations = /* GraphQL */ `
         },
         schedules {
           items{
-              id
+            id
             day
             startHour
             course{
@@ -88,18 +82,14 @@ export const listLocations = /* GraphQL */ `
 `;
 export const listLocationsOnly = /* GraphQL */ `
   query ListLocations(
-    $id: ID
-    $filter: ModelLocationFilterInput
+    $filter: ModelV2LocationFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listLocations(
-      id: $id
+    listV2Locations(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
@@ -115,12 +105,12 @@ export const listLocationsOnly = /* GraphQL */ `
         imageMap
         urlMap
         directions
-        
+
       courses{
         items{
           id
           title
-          isActive          
+          isActive
         }
       }
       schedules{
@@ -141,6 +131,41 @@ export const listLocationsOnly = /* GraphQL */ `
 `;
 
 
+
+export const listLocationsAdmin = /* GraphQL */ `
+  query ListV2LocationsAdmin(
+    $filter: ModelV2LocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listV2Locations(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        city
+        region
+        group
+        country
+        address
+        phone
+        minimumTemperature
+        maximumTemperature
+        imageMap
+        urlMap
+        directions
+        isActive
+        isVisible
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 
 
 

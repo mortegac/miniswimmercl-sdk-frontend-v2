@@ -1,42 +1,43 @@
 
 
 
+
 export const createShoppingCartDetail = /* GraphQL */ `
-  mutation CreateShoppingCartDetail(
-    $input: CreateShoppingCartDetailInput!
-    $condition: ModelShoppingCartDetailConditionInput
+  mutation CreateV2ShoppingCartDetail(
+    $input: CreateV2ShoppingCartDetailInput!
+    $condition: ModelV2ShoppingCartDetailConditionInput
   ) {
-    createShoppingCartDetail(input: $input, condition: $condition) {id}
+    createV2ShoppingCartDetail(input: $input, condition: $condition) {id}
   }
 `;
 
 
 export const updateShoppingCart = /* GraphQL */ `
-  mutation UpdateShoppingCart(
-    $input: UpdateShoppingCartInput!
-    $condition: ModelShoppingCartConditionInput
+  mutation UpdateV2ShoppingCart(
+    $input: UpdateV2ShoppingCartInput!
+    $condition: ModelV2ShoppingCartConditionInput
   ) {
-    updateShoppingCart(input: $input, condition: $condition) {id}
+    updateV2ShoppingCart(input: $input, condition: $condition) {id}
   }
 `;
 
 
 
 export const updateShoppingCartDetail = /* GraphQL */ `
-  mutation UpdateShoppingCartDetail(
-    $input: UpdateShoppingCartDetailInput!
-    $condition: ModelShoppingCartDetailConditionInput
+  mutation UpdateV2ShoppingCartDetail(
+    $input: UpdateV2ShoppingCartDetailInput!
+    $condition: ModelV2ShoppingCartDetailConditionInput
   ) {
-    updateShoppingCartDetail(input: $input, condition: $condition) { id }
+    updateV2ShoppingCartDetail(input: $input, condition: $condition) { id }
   }
 `;
 
 
 export const deleteShoppingCartDetail = /* GraphQL */ `
-  mutation DeleteShoppingCartDetail(
-    $input: DeleteShoppingCartDetailInput!
-    $condition: ModelShoppingCartDetailConditionInput
+  mutation DeleteV2ShoppingCartDetail(
+    $input: DeleteV2ShoppingCartDetailInput!
+    $condition: ModelV2ShoppingCartDetailConditionInput
   ) {
-    deleteShoppingCartDetail(input: $input, condition: $condition) {id}
+    deleteV2ShoppingCartDetail(input: $input, condition: $condition) {id}
   }
 `;

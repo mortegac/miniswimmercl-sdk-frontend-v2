@@ -2,7 +2,7 @@ import { generateClient } from 'aws-amplify/api';
 
 
 import { schedulesByLocationAndCourse } from './queries';
-import { createSchedule } from './mutation';
+import { createSchedule, updateScheduleActive } from './mutation';
 import { FilterOptions } from './types';
 import { LIMIT_FILTER } from '../../utils/config';
 const client = generateClient();
@@ -44,6 +44,21 @@ export const createSchedules = async (objFilter: FilterOptions): Promise<any> =>
           errorMessage: err,
         })
       );
+    }
+  });
+};
+
+export const deactivateScheduleService = async (scheduleId: string): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateData: any = await client.graphql({
+        query: updateScheduleActive,
+        variables: { input: { id: scheduleId, isActive: false } },
+      });
+      const data = updateData?.data;
+      resolve({ ...data.updateV2Schedule });
+    } catch (err) {
+      reject(JSON.stringify({ errorMessage: err }));
     }
   });
 };

@@ -47,7 +47,7 @@ export const PaymentTransactionsSlice = createSlice({
       .addCase(getPaymentTransactions.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage || String(action.error?.message || "");
       })
       .addCase(getPaymentTransactions.pending, (state) => {
         state.status = "loading";

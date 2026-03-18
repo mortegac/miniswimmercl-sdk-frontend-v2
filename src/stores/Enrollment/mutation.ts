@@ -1,6 +1,6 @@
 
 export const generateEnrollment = /* GraphQL */ `
-  mutation GenerateEnrollment(
+  mutation V2GenerateEnrollment(
     $userId: String!
     $studentId: String!
     $startDate: String!
@@ -8,7 +8,7 @@ export const generateEnrollment = /* GraphQL */ `
     $scheduleId: String!
     $courseId: String!
   ) {
-    generateEnrollment(
+    v2GenerateEnrollment(
       userId: $userId
       studentId: $studentId
       startDate: $startDate
@@ -21,12 +21,12 @@ export const generateEnrollment = /* GraphQL */ `
 
 
 export const removeEnrollment = /* GraphQL */ `
-  mutation RemoveEnrollment(
-    $enrollId: String!, 
+  mutation V2RemoveEnrollment(
+    $enrollId: String!,
     $employeeId: String!
   ) {
-    removeEnrollment(
-      enrollId: $enrollId, 
+    v2RemoveEnrollment(
+      enrollId: $enrollId,
       employeeId: $employeeId
     )
   }
@@ -35,10 +35,10 @@ export const removeEnrollment = /* GraphQL */ `
 
 
 export const updateEnrollment = /* GraphQL */ `
-  mutation UpdateEnrollment(
-    $input: UpdateEnrollmentInput!
-    $condition: ModelEnrollmentConditionInput
+  mutation UpdateV2Enrollment(
+    $input: UpdateV2EnrollmentInput!
+    $condition: ModelV2EnrollmentConditionInput
   ) {
-    updateEnrollment(input: $input, condition: $condition) {id}
+    updateV2Enrollment(input: $input, condition: $condition) {id}
   }
 `;

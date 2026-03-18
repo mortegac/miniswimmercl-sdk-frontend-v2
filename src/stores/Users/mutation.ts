@@ -5,18 +5,18 @@
 
 
 export const createUsers = /* GraphQL */ `
-  mutation CreateUsers(
-    $input: CreateUsersInput!
-    $condition: ModelUsersConditionInput
+  mutation CreateV2Users(
+    $input: CreateV2UsersInput!
+    $condition: Modelv2UsersConditionInput
   ) {
-    createUsers(input: $input, condition: $condition) { id }
+    createV2Users(input: $input, condition: $condition) { id }
   }
 `;
 export const updateUsers = /* GraphQL */ `
-  mutation UpdateUsers(
-    $input: UpdateUsersInput!
-    $condition: ModelUsersConditionInput
+  mutation UpdateV2Users(
+    $input: UpdateV2UsersInput!
+    $condition: Modelv2UsersConditionInput
   ) {
-    updateUsers(input: $input, condition: $condition) { id }
+    updateV2Users(input: $input, condition: $condition) { id }
   }
 `;

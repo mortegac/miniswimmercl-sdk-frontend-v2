@@ -1,18 +1,19 @@
 
 
+
 export const createStudent = /* GraphQL */ `
-  mutation CreateStudent(
-    $input: CreateStudentInput!
-    $condition: ModelStudentConditionInput
+  mutation CreateV2Student(
+    $input: CreateV2StudentInput!
+    $condition: ModelV2StudentConditionInput
   ) {
-    createStudent(input: $input, condition: $condition) { id }
+    createV2Student(input: $input, condition: $condition) { id }
   }
 `;
 export const updateStudent = /* GraphQL */ `
-  mutation UpdateStudent(
-    $input: UpdateStudentInput!
-    $condition: ModelStudentConditionInput
+  mutation UpdateV2Student(
+    $input: UpdateV2StudentInput!
+    $condition: ModelV2StudentConditionInput
   ) {
-    updateStudent(input: $input, condition: $condition) { id }
+    updateV2Student(input: $input, condition: $condition) { id }
   }
 `;

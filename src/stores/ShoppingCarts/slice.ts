@@ -61,7 +61,7 @@ export const ShoppingCartsSlice = createSlice({
       .addCase(getShoppingCart.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage || String(action.error?.message || "");
       })
       .addCase(getShoppingCart.pending, (state) => {
         state.status = "loading";
@@ -91,7 +91,7 @@ export const ShoppingCartsSlice = createSlice({
        .addCase(updatePayment.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage || String(action.error?.message || "");
       })
       .addCase(updatePayment.pending, (state) => {
         state.status = "loading";

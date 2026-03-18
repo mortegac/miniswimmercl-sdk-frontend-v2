@@ -1,4 +1,3 @@
-
 export type Course = {
   id: string;
   title: string;
@@ -15,63 +14,79 @@ export type Schedules = {
   day: string;
   startHour: string;
   course: Course;
-  // course: {
-  //   id: string;
-  //   title: string;
-  // }
 }
 export const emptySchedules: Schedules = {
   id: "",
   day: "",
   startHour: "",
-  course: { 
-    id: "",
-    title: "",
-    isActive: false,
-  },
+  course: { id: "", title: "", isActive: false },
 }
 
-export type Location = {  
+export type Location = {
   id: string;
   name: string;
   city: string;
+  region: string;
+  group: string;
+  country: string;
   minimumTemperature: number;
   maximumTemperature: number;
   address: string;
   phone: string;
-  
   imageMap: string;
   urlMap: string;
   directions: string;
-  
+  isActive: boolean;
+  isVisible: boolean;
   createdAt: string;
   updatedAt: string;
-
   courses: Course[];
   schedules: Schedules[];
-  
-  // schedules: { items: Schedule[] };
-  // expenses: { items: Expense[] };
 };
 
 export const emptyLocation: Location = {
   id: "",
   name: "",
   city: "",
+  region: "",
+  group: "",
+  country: "CHILE",
   minimumTemperature: 28,
   maximumTemperature: 28,
   address: "",
   phone: "",
-  
   imageMap: "",
   urlMap: "",
   directions: "",
-  
+  isActive: true,
+  isVisible: true,
   createdAt: "",
   updatedAt: "",
   courses: [emptyCourse],
   schedules: [emptySchedules],
 };
 
+export type FilterOptions = {
+  isActive?: boolean;
+  isVisible?: boolean;
+  skipFilter?: boolean;
+  country?: string;
+};
 
-
+export type InputLocation = {
+  id?: string;
+  name: string;
+  city: string;
+  region: string;
+  group: string;
+  country: string;
+  minimumTemperature: number;
+  maximumTemperature: number;
+  address: string;
+  phone: string;
+  imageMap?: string;
+  urlMap?: string;
+  directions?: string;
+  isActive: boolean;
+  isVisible: boolean;
+};

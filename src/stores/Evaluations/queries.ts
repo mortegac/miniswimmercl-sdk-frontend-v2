@@ -1,6 +1,14 @@
 export const listEvaluationLevels = /* GraphQL */ `
-  query ListEvaluationLevels {
-    listEvaluationLevels {
+  query ListV2EvaluationLevels(
+    $filter: ModelV2EvaluationLevelFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listV2EvaluationLevels(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
         ico
@@ -9,15 +17,17 @@ export const listEvaluationLevels = /* GraphQL */ `
         startingAge
         endingAge
         order
-        evaluationObjectives{
-           items{
-             id
-             texto
-             isMandatory
-             isActive
-           }
-         }
+        evaluationObjectives {
+          items {
+            id
+            texto
+            isMandatory
+            isActive
+          }
+        }
       }
+      nextToken
+      __typename
     }
   }
 `;

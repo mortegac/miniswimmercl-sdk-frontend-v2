@@ -1,6 +1,6 @@
 export const getShoppingCart = /* GraphQL */ `
-  query GetShoppingCart($id: ID!) {
-    getShoppingCart(id: $id) {
+  query GetV2ShoppingCart($id: ID!) {
+    getV2ShoppingCart(id: $id) {
       id
       totalPrice
       status
@@ -15,9 +15,7 @@ export const getShoppingCart = /* GraphQL */ `
         contactPhone
         ig
         firstContact
-        createdAt
-        updatedAt
-        usersRolesId
+        roleId
         __typename
       }
       seller {
@@ -30,9 +28,7 @@ export const getShoppingCart = /* GraphQL */ `
         contactPhone
         ig
         firstContact
-        createdAt
-        updatedAt
-        usersRolesId
+        roleId
         __typename
       }
       sellersCommission {
@@ -43,10 +39,7 @@ export const getShoppingCart = /* GraphQL */ `
         type
         description
         status
-        createdAt
-        updatedAt
-        usersSellersCommissionsId
-        sellersCommissionShoppingCartId
+        usersId
         __typename
       }
       cartDetails {
@@ -57,31 +50,28 @@ export const getShoppingCart = /* GraphQL */ `
         nextToken
         __typename
       }
-      updatedAt
-      usersShoppingCartId
-      usersShoppingCartSellerId
-      shoppingCartSellersCommissionId
+      userId
+      sellerId
+      sellersCommissionId
       __typename
     }
   }
 `;
 export const listShoppingCarts = /* GraphQL */ `
   query ListShoppingCarts(
-    $filter: ModelShoppingCartFilterInput
+    $filter: ModelV2ShoppingCartFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listShoppingCarts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listV2ShoppingCarts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         totalPrice
         status
         createdAt
-        updatedAt
-        usersShoppingCartId
-        usersShoppingCartSellerId
-        shoppingCartSellersCommissionId
-        usersShoppingCartId
+        userId
+        sellerId
+        sellersCommissionId
       user{
         id
         name
@@ -93,13 +83,13 @@ export const listShoppingCarts = /* GraphQL */ `
           amount
           detail
           enrollment{
-        id
-        student{
-          id 
-          name
-          lastName
-        }
-      }
+            id
+            student{
+              id
+              name
+              lastName
+            }
+          }
         }
       }
       }

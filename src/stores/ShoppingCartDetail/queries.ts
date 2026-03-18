@@ -1,6 +1,6 @@
 export const getShoppingCartDetail = /* GraphQL */ `
-  query GetShoppingCartDetail($id: ID!) {
-    getShoppingCartDetail(id: $id) {
+  query GetV2ShoppingCartDetail($id: ID!) {
+    getV2ShoppingCartDetail(id: $id) {
       id
       type
       quantity
@@ -19,12 +19,9 @@ export const getShoppingCartDetail = /* GraphQL */ `
         scheduleId
         scheduleName
         paymentToken
-        createdAt
-        updatedAt
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        studentEnrollmentsId
-        enrollmentShoppingCartDetailId
+        courseId
+        sessionTypeId
+        studentId
         __typename
       }
       cart {
@@ -32,25 +29,22 @@ export const getShoppingCartDetail = /* GraphQL */ `
         totalPrice
         status
         createdAt
-        updatedAt
-        usersShoppingCartId
+        userId
         __typename
       }
-      createdAt
-      updatedAt
-      shoppingCartCartDetailsId
-      shoppingCartDetailEnrollmentId
+      cartId
+      enrollmentId
       __typename
     }
   }
 `;
 export const listShoppingCartDetails = /* GraphQL */ `
   query ListShoppingCartDetails(
-    $filter: ModelShoppingCartDetailFilterInput
+    $filter: ModelV2ShoppingCartDetailFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listShoppingCartDetails(
+    listV2ShoppingCartDetails(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -62,18 +56,16 @@ export const listShoppingCartDetails = /* GraphQL */ `
         amount
         detail
         wasDeleted
-        createdAt
-        updatedAt
+        cartId
+        enrollmentId
         enrollment{
-        id
-        student{
-          id 
-          name
-          lastName
+          id
+          student{
+            id
+            name
+            lastName
+          }
         }
-      }
-        shoppingCartCartDetailsId
-        shoppingCartDetailEnrollmentId
         __typename
       }
       nextToken

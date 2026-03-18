@@ -137,9 +137,11 @@ export function CartDetail(props: any) {
     ])
    }
     
-  useEffect(() => { 
-    (async () => await dispatch(getShoppingCartDetail({cartId: cartId})) )(); 
-  }, []);
+  useEffect(() => {
+    if (cartId) {
+      (async () => await dispatch(getShoppingCartDetail({cartId: cartId})) )();
+    }
+  }, [cartId]);
   
     return(
       <>

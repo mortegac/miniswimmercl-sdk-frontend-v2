@@ -2,34 +2,30 @@
 
 
 export const getUsers = /* GraphQL */ `
-  query GetUsers($id: ID!) {
-    getUsers(id: $id) {
+  query GetV2Users($id: ID!) {
+    getV2Users(id: $id) {
       id
-        name
-        email
-        validated
-        contactPhone
-        ig
-        firstContact
-        streetAddress
-        city
-        state
-        zipCode
-        country
-        latitude
-        longitude
-        createdAt
-        updatedAt
-        usersRolesId
-        relationships{
-        items{
+      name
+      email
+      validated
+      contactPhone
+      ig
+      firstContact
+      streetAddress
+      city
+      state
+      zipCode
+      country
+      isEmployed
+      isAcademyStudent
+      roleId
+      relationships {
+        items {
+          id
           relationType
-          usersRelationshipsId
-          user{
-            id
-            name
-          }
-          student{
+          userId
+          studentId
+          student {
             id
             name
             lastName
@@ -37,26 +33,8 @@ export const getUsers = /* GraphQL */ `
             birthdate
             placeOfResidence
             isActive
-            enrollments{
-              items{
-                id
-                amountPaid
-                courseEnrollmentsId
-                sessionTypeEnrollmentsId
-                sessionDetails{
-                  items{
-                    id
-                    sessionNumber
-                    
-                  }
-                }
-              }
-            }
           }
-          relationType
-          usersRelationshipsId
-          studentRelationshipsId
-          user{
+          user {
             id
             email
             name
@@ -64,41 +42,20 @@ export const getUsers = /* GraphQL */ `
           }
         }
       }
-        __typename
-      roles {
-        id
-        name
-        displayName
-        icon
-        createdAt
-        updatedAt
-        __typename
-      }
-      userPermissions {
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      usersRolesId
       __typename
     }
   }
 `;
 export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $id: ID
-    $filter: ModelUsersFilterInput
+  query ListV2Users(
+    $filter: Modelv2UsersFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listUsers(
-      id: $id
+    listV2Users(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
@@ -113,53 +70,8 @@ export const listUsers = /* GraphQL */ `
         state
         zipCode
         country
-        latitude
-        longitude
-        createdAt
-        updatedAt
-        usersRolesId
-        relationships{
-        items{
-          relationType
-          usersRelationshipsId
-          user{
-            id
-            name
-          }
-          student{
-            id
-            name
-            lastName
-            gender
-            birthdate
-            placeOfResidence
-            isActive
-            enrollments{
-              items{
-                id
-                amountPaid
-                courseEnrollmentsId
-                sessionTypeEnrollmentsId
-                sessionDetails{
-                  items{
-                    id
-                    sessionNumber
-                  }
-                }
-              }
-            }
-          }
-          relationType
-          usersRelationshipsId
-          studentRelationshipsId
-          user{
-            id
-            email
-            name
-            contactPhone
-          }
-        }
-      }
+        isEmployed
+        isAcademyStudent
         __typename
       }
       nextToken

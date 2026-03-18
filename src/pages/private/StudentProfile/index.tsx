@@ -104,6 +104,43 @@ function Content(props:any) {
               />
           </div>
           <p className="text-center text-slate-300 text-[0,6rem] pt-2">{student?.id}</p>
+          {(() => {
+            // Prefer direct denormalized fields updated on each new evaluation
+            const icon = student?.evaluationIcon;
+            const description = student?.evaluationDescription;
+            // Fallback: derive from latest studentEvaluation
+            const evals = student?.studentEvaluations?.items;
+            const latest = Array.isArray(evals) && evals.length > 0
+              ? [...evals].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
+              : null;
+            const displayIcon = icon || latest?.evaluationLevel?.ico;
+            const displayDescription = description || latest?.evaluationLevel?.description;
+            const levelName = latest?.evaluationLevel?.name;
+            if (!displayIcon && !displayDescription && !levelName) return null;
+            return (
+              <div className="flex justify-center mt-4 px-6">
+                <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl border-2 border-theme-1/40 bg-theme-1/5 shadow-sm">
+                  {displayIcon && (
+                    <img src={displayIcon} alt={levelName} className="w-10 h-10 object-contain flex-shrink-0" />
+                  )}
+                  <div className="text-left">
+                    {levelName && (
+                      <p className="text-xs font-semibold text-theme-1/60 uppercase tracking-widest mb-0.5">Último nivel evaluado</p>
+                    )}
+                    {levelName && <p className="text-sm font-bold text-slate-700">{levelName}</p>}
+                    {displayDescription && (
+                      <p className="text-xs text-slate-500 mt-0.5">{displayDescription}</p>
+                    )}
+                  </div>
+                  {latest?.wasApproved && (
+                    <span className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-green-100 text-green-700 border border-green-300 ml-2">
+                      <Lucide icon="CheckCircle" className="w-3.5 h-3.5" />Aprobado
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
           <div className="flex items-center justify-center m-4">
               {/* <Button 
                 rounded
@@ -296,10 +333,12 @@ function Content(props:any) {
           {/* Evaluaciones */}
           <Tab.Panel>
           { student && 
-            <EvaluacionesPage 
-              data={student} 
-              studentId={student?.id} 
-              status={status}
+            <EvaluacionesPage
+              studentId={student?.id}
+              studentBirthdate={student?.birthdate}
+              studentName={`${student?.name || ""} ${student?.lastName || ""}`.trim()}
+              studentEmail={student?.emailPhone || ""}
+              onStudentUpdated={() => fnUpdateState(student?.id)}
             />
           }
           </Tab.Panel>

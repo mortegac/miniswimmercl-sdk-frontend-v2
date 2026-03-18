@@ -1,27 +1,27 @@
 export const createRelationship = /* GraphQL */ `
-  mutation CreateRelationship(
-    $input: CreateRelationshipInput!
-    $condition: ModelRelationshipConditionInput
+  mutation CreateV2Relationship(
+    $input: CreateV2RelationshipInput!
+    $condition: ModelV2RelationshipConditionInput
   ) {
-    createRelationship(input: $input, condition: $condition) { id }
+    createV2Relationship(input: $input, condition: $condition) { id }
   }
 `;
 
 export const createStudent = /* GraphQL */ `
-  mutation CreateStudent(
-    $input: CreateStudentInput!
-    $condition: ModelStudentConditionInput
+  mutation CreateV2Student(
+    $input: CreateV2StudentInput!
+    $condition: ModelV2StudentConditionInput
   ) {
-    createStudent(input: $input, condition: $condition) { id }
+    createV2Student(input: $input, condition: $condition) { id }
   }
 `;
 
 
 export const updateRelationship = /* GraphQL */ `
-  mutation UpdateRelationship(
-    $input: UpdateRelationshipInput!
-    $condition: ModelRelationshipConditionInput
+  mutation UpdateV2Relationship(
+    $input: UpdateV2RelationshipInput!
+    $condition: ModelV2RelationshipConditionInput
   ) {
-    updateRelationship(input: $input, condition: $condition) { id }
+    updateV2Relationship(input: $input, condition: $condition) { id }
   }
 `;

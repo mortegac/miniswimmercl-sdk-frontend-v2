@@ -3,15 +3,15 @@
 *                    QUERIES
 ********************************************************/
 export const getCourse = /* GraphQL */ `
-  query GetCourse($id: ID!) {
-    getCourse(id: $id) {
+  query GetV2Course($id: ID!) {
+    getV2Course(id: $id) {
       id
       title
       description
       startingAge
       endingAge
       ageType
-      AgeGroupType
+      ageGroupType
       duration
       isActive
       location {
@@ -22,15 +22,13 @@ export const getCourse = /* GraphQL */ `
         maximumTemperature
         address
         phone
-        createdAt
-        updatedAt
         __typename
       }
       schedules {
         nextToken
         __typename
       }
-      sessionTypes {
+      courseSessionTypes {
         nextToken
         __typename
       }
@@ -38,27 +36,21 @@ export const getCourse = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
-      updatedAt
-      locationCoursesId
+      locationId
       __typename
     }
   }
 `;
 export const listCourses = /* GraphQL */ `
   query ListCourses(
-    $id: ID
-    $filter: ModelCourseFilterInput
+    $filter: ModelV2CourseFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listCourses(
-      id: $id
+    listV2Courses(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
@@ -67,12 +59,10 @@ export const listCourses = /* GraphQL */ `
         startingAge
         endingAge
         ageType
-        AgeGroupType
+        ageGroupType
         duration
         isActive
-        createdAt
-        updatedAt
-        locationCoursesId
+        locationId
         __typename
         schedules(
           filter:{
@@ -90,25 +80,19 @@ export const listCourses = /* GraphQL */ `
             minimumQuotas
             maximumQuotas
           }
-      }
-      sessionTypes
-      # (
-      #     filter:{
-      #       isActive : {eq: true}
-      #     }
-      #   )
-        {
-        items{
-          id
-          sessionType{
+        }
+        courseSessionTypes {
+          items{
             id
-            isActive
-            name
-            totalSessions
-            amount
+            sessionType{
+              id
+              isActive
+              name
+              totalSessions
+              amount
+            }
           }
         }
-      }
       }
       nextToken
       __typename
@@ -124,24 +108,20 @@ export const listCourses = /* GraphQL */ `
 
 export const listCoursesStudent = /* GraphQL */ `
   query ListCourses(
-    $id: ID
-    $filter: ModelCourseFilterInput
+    $filter: ModelV2CourseFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listCourses(
-      id: $id
+    listV2Courses(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
         ageType
         title
-        locationCoursesId
+        locationId
         enrollments(
           filter:{
             startDate: {between: [
@@ -170,7 +150,7 @@ export const listCoursesStudent = /* GraphQL */ `
               }
             }
           }
-      }
+        }
       }
       nextToken
       __typename

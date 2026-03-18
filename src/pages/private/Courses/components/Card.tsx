@@ -142,7 +142,7 @@ function Description(props: any) {
                 <path d="M8.00012 15.172C7.01345 15.172 6.02012 14.7987 5.24678 14.0587C3.28012 12.1654 1.10678 9.14536 1.92678 5.55203C2.66678 2.29203 5.51345 0.832031 8.00012 0.832031C8.00012 0.832031 8.00012 0.832031 8.00678 0.832031C10.4935 0.832031 13.3401 2.29203 14.0801 5.5587C14.8934 9.15203 12.7201 12.1654 10.7534 14.0587C9.98012 14.7987 8.98678 15.172 8.00012 15.172ZM8.00012 1.83203C6.06012 1.83203 3.56678 2.86536 2.90678 5.77203C2.18678 8.91203 4.16012 11.6187 5.94678 13.332C7.10012 14.4454 8.90678 14.4454 10.0601 13.332C11.8401 11.6187 13.8134 8.91203 13.1068 5.77203C12.4401 2.86536 9.94012 1.83203 8.00012 1.83203Z" fill="#AE5EAB"/>
               </svg>  
             </i>
-            {courses.locationCoursesId}
+            {courses.locationId}
           </div> 
         </div>
       </div>
@@ -448,7 +448,7 @@ const Card: React.FC<Props> = (props:any) => {
                   <Tab.Panel>
                   <div className="relative overflow-auto w-full h-40">
                     <div className="overflow-y-auto flex p-2">
-                      <Sessions Sessions={courses.sessionTypes?.items}/>
+                      <Sessions Sessions={courses.courseSessionTypes?.items || []}/>
                     </div>
                   </div>
                   </Tab.Panel>

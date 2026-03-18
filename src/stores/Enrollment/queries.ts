@@ -3,8 +3,8 @@
 *                    QUERIES
 ********************************************************/
 export const getEnrollment = /* GraphQL */ `
-  query GetEnrollment($id: ID!) {
-    getEnrollment(id: $id) {
+  query GetV2Enrollment($id: ID!) {
+    getV2Enrollment(id: $id) {
       id
       amountPaid
       startDate
@@ -32,9 +32,6 @@ export const getEnrollment = /* GraphQL */ `
         waterOnHisFaceBothersHim
         putYourFaceInTheWater
         anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
         __typename
       }
       sessionType {
@@ -45,8 +42,6 @@ export const getEnrollment = /* GraphQL */ `
         timeAWeek
         totalSessions
         amount
-        createdAt
-        updatedAt
         __typename
       }
       course {
@@ -56,53 +51,33 @@ export const getEnrollment = /* GraphQL */ `
         startingAge
         endingAge
         ageType
-        AgeGroupType
+        ageGroupType
         duration
         isActive
-        createdAt
-        updatedAt
-        locationCoursesId
-        __typename
-      }
-      transaction {
-        id
-        amount
-        date
-        paymentMethod
-        status
-        createdAt
-        updatedAt
-        transactionEnrollmentId
+        locationId
         __typename
       }
       sessionDetails {
         nextToken
         __typename
       }
-      createdAt
-      updatedAt
-      studentEnrollmentsId
-      courseEnrollmentsId
-      sessionTypeEnrollmentsId
-      enrollmentTransactionId
+      studentId
+      courseId
+      sessionTypeId
       __typename
     }
   }
 `;
 export const listEnrollments = /* GraphQL */ `
   query ListEnrollments(
-    $id: ID
-    $filter: ModelEnrollmentFilterInput
+    $filter: ModelV2EnrollmentFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listEnrollments(
-      id: $id
+    listV2Enrollments(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items
       {
@@ -130,7 +105,7 @@ export const listEnrollments = /* GraphQL */ `
         contactPhone
         relationships{
           items{
-            usersRelationshipsId
+            userId
             relationType
             user{
               id
@@ -165,8 +140,6 @@ export const listEnrollments = /* GraphQL */ `
         items{
           type
           date
-          # enrollmentEmailSendsId
-          # usersEmailSendId
           userSend{name}
         }
       }
@@ -179,11 +152,11 @@ export const listEnrollments = /* GraphQL */ `
 
 export const listEnrollmentsExpiring = /* GraphQL */ `
   query ListEnrollmentsExpiring(
-    $filter: ModelEnrollmentFilterInput
+    $filter: ModelV2EnrollmentFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listEnrollments(
+    listV2Enrollments(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -200,7 +173,7 @@ export const listEnrollmentsExpiring = /* GraphQL */ `
         sessionsUsed
         scheduleId
         scheduleName
-        studentEnrollmentsId
+        studentId
         sessionType {
           durationSession
           name

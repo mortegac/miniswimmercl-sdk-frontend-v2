@@ -3,8 +3,8 @@
 *                    QUERIES
 ********************************************************/
 export const getPaymentTransactions = /* GraphQL */ `
-  query GetPaymentTransactions($id: ID!) {
-    getPaymentTransactions(id: $id) {
+  query GetV2PaymentTransactions($id: ID!) {
+    getV2PaymentTransactions(id: $id) {
       id
       status
       token
@@ -32,21 +32,19 @@ export const getPaymentTransactions = /* GraphQL */ `
         name
         email
       }
-      createdAt
-      updatedAt
-      shoppingCartPaymentTransactionsId
-      usersPaymentTransactionsId
+      shoppingCartId
+      usersId
       __typename
     }
   }
 `;
 export const listPaymentTransactions = /* GraphQL */ `
   query ListPaymentTransactions(
-    $filter: ModelPaymentTransactionsFilterInput
+    $filter: ModelV2PaymentTransactionsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listPaymentTransactions(
+    listV2PaymentTransactions(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -74,10 +72,8 @@ export const listPaymentTransactions = /* GraphQL */ `
         hour
         glosa
         hasRefund
-        createdAt
-        updatedAt
-        shoppingCartPaymentTransactionsId
-        usersPaymentTransactionsId
+        shoppingCartId
+        usersId
         __typename
       }
       nextToken
@@ -89,5 +85,6 @@ export const listPaymentTransactions = /* GraphQL */ `
 /********************************************************
 *                    MUTATIONS
 ********************************************************/
+
 
 

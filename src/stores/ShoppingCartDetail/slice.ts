@@ -80,7 +80,7 @@ export const ShoppingCartDetailsSlice = createSlice({
       .addCase(getShoppingCartDetail.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage || String(action.error?.message || "");
       })
       .addCase(getShoppingCartDetail.pending, (state) => {
         state.status = "loading";
@@ -96,7 +96,7 @@ export const ShoppingCartDetailsSlice = createSlice({
       .addCase(setShoppingCartDetail.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage || String(action.error?.message || "");
       })
       .addCase(setShoppingCartDetail.pending, (state) => {
         state.status = "loading";
@@ -112,7 +112,7 @@ export const ShoppingCartDetailsSlice = createSlice({
       .addCase(removeShoppingCartDetail.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage || String(action.error?.message || "");
       })
       .addCase(removeShoppingCartDetail.pending, (state) => {
         state.status = "loading";

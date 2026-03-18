@@ -588,26 +588,26 @@ function Main() {
 
               if (a.status === "USED" && b.status !== "USED") return 1;
               if (a.status !== "USED" && b.status === "USED") return -1;
-              
+
                 // Convert start hours to Date objects for comparison
               const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
               const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
               const timeComparison = timeA.getTime() - timeB.getTime();
               if (timeComparison !== 0) return timeComparison;
-              
+
               // Then compare scheduleId
               const scheduleIdComparison = a.scheduleId.localeCompare(b.scheduleId);
               if (scheduleIdComparison !== 0) return scheduleIdComparison;
-              
-              return a.student?.name.localeCompare(b.student?.name);  
+
+              return a.student?.name.localeCompare(b.student?.name);
             })
             .map((item: any, i: number) => {
               const showLocationId = item.scheduleId !== currentScheduleId;
               if (showLocationId) {
                 currentScheduleId = item.scheduleId;
               }
-              const filteredArray = Array.isArray(item?.student?.enrollments?.items) 
-                ? item.student.enrollments.items.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId)
+              const filteredArray = Array.isArray(item?.student?.enrollments?.items)
+                ? item.student.enrollments.items.filter((enrollment:any) => enrollment.id === item?.enrollmentId)
                 : [];
               const firstEnrollment = filteredArray && filteredArray.length > 0 ? filteredArray[0] : null;
 
@@ -870,78 +870,54 @@ function Main() {
           [...filteredStudents]
             .filter((item: any) => item?.status === "USED")
             .sort((a:any, b:any) => {
-              if (a.scheduleId === "SIN-SCHEDULE" && b.scheduleId !== "SIN-SCHEDULE") return 1;
-              if (a.scheduleId !== "SIN-SCHEDULE" && b.scheduleId === "SIN-SCHEDULE") return -1;
-
-              if (a.status === "USED" && b.status !== "USED") return 1;
-              if (a.status !== "USED" && b.status === "USED") return -1;
-              
-                // Convert start hours to Date objects for comparison
-              // const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
-              // const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
-              // const timeComparison = timeA.getTime() - timeB.getTime();
-              // if (timeComparison !== 0) return timeComparison;
-              
-              // Then compare scheduleId
-              // const scheduleIdComparison = a.scheduleId.localeCompare(b.scheduleId);
-              // if (scheduleIdComparison !== 0) return scheduleIdComparison;
-              
-              return a.student?.name.localeCompare(b.student?.name);  
+              const timeA = a.schedule?.startHour ? new Date(`1970/01/01 ${a.schedule.startHour}`) : new Date(0);
+              const timeB = b.schedule?.startHour ? new Date(`1970/01/01 ${b.schedule.startHour}`) : new Date(0);
+              const timeComparison = timeA.getTime() - timeB.getTime();
+              if (timeComparison !== 0) return timeComparison;
+              return a.student?.name.localeCompare(b.student?.name);
             })
             .map((item: any, i: number) => {
-              const showLocationId = item.scheduleId !== currentScheduleId;
-              if (showLocationId) {
-                currentScheduleId = item.scheduleId;
-              }
-              const filteredArray = Array.isArray(item?.student?.enrollments?.items) 
-                ? item.student.enrollments.items.filter((enrollment:any) => enrollment.id === item?.enrollmentSessionDetailsId)
+              const filteredArray = Array.isArray(item?.student?.enrollments?.items)
+                ? item.student.enrollments.items.filter((enrollment:any) => enrollment.id === item?.enrollmentId)
                 : [];
-              const firstEnrollment = filteredArray && filteredArray.length > 0 ? filteredArray[0] : null;
-
-                      return(  
-                        <div key={`${i}-SCHEDULES`} className={`${item?.status === "USED" && "bg-slate-300/20 px-0 py-2"} max-w-[580px]`}>
-                      
-                      
-                        <div
-                          id="newCardAttendece"
-                          className={`
-                          ${!firstEnrollment?.wasPaid && "bg-red-300"} 
-                          ${item?.totalSessions === 1 && "bg-green-200"}
-                          ${item?.status === "USED" && "bg-slate-200"}
-                          flex flex-row box w-full max-w-[580px] min-h-[130px] relative pl-10 pr-2`}
-                        >
-                          {/* Número correlativo absoluto a la izquierda */}
-                          <div className="absolute left-0 top-0 bottom-0 flex items-center justify-center w-9 bg-slate-500 text-white text-sm font-semibold rounded-l-xl">
-                            {i + 1}
-                          </div>
-
-                          {!firstEnrollment?.wasPaid && 
-                            <span className="absolute bottom-0 left-0 w-full z-20 py-2 px-2 text-sm  text-center text-white bg-red-500 rounded-b-xl">PENDIENTE DE PAGO</span>                       
-                          }
-            
-             
-                          <p id="name" className="px-4 py-5 font-medium text-lg w-[60%] "> {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
-                            <span className="block text-left "><CalculateAge birthdate={String(item?.student?.birthdate)} /></span>    
-                            {item?.totalSessions ===1 && 
-                              <span className="bg-green-600 text-white py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>}                      
-                          </p>
-                          
-                          <div id="name" className="px-2 py-2 font-medium text-sm  border-l-2 w-[35%] ">
-                            <span className="block  w-full uppercase  text-right py-4">
-                                {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
-                            </span>                          
-                            <span className="block  text-right w-full uppercase font-thin">
-                            {item?.course?.description} 
-                                </span>     
-                          </div>
-                      
-                        
-                        </div>
-                        </div>
-                )})}
+              const firstEnrollment = filteredArray.length > 0 ? filteredArray[0] : null;
+              return (
+                <div key={`used-${item.id}`} className="max-w-[580px] mb-4">
+                  <div
+                    className={`
+                    ${!firstEnrollment?.wasPaid && "bg-red-300"}
+                    ${item?.totalSessions === 1 && "bg-green-200"}
+                    bg-slate-200
+                    flex flex-row box w-full max-w-[580px] min-h-[130px] relative pl-10 pr-2`}
+                  >
+                    <div className="absolute left-0 top-0 bottom-0 flex items-center justify-center w-9 bg-slate-500 text-white text-sm font-semibold rounded-l-xl">
+                      {i + 1}
+                    </div>
+                    {!firstEnrollment?.wasPaid &&
+                      <span className="absolute bottom-0 left-0 w-full z-20 py-2 px-2 text-sm text-center text-white bg-red-500 rounded-b-xl">PENDIENTE DE PAGO</span>
+                    }
+                    <p className="px-4 py-5 font-medium text-lg w-[60%]">
+                      {item?.student?.name || ""}{" "}{item?.student?.lastName || ""}
+                      <span className="block text-left"><CalculateAge birthdate={String(item?.student?.birthdate)} /></span>
+                      {item?.totalSessions === 1 &&
+                        <span className="bg-green-600 text-white py-1 px-2 rounded-full text-sm mb-2">CLASE DE PRUEBA</span>}
+                    </p>
+                    <div className="px-2 py-2 font-medium text-sm border-l-2 w-[35%]">
+                      <span className="block w-full uppercase text-right py-4">
+                        {`${item?.schedule?.day}-${item?.schedule?.startHour}`}
+                      </span>
+                      <span className="block text-right w-full uppercase font-thin">
+                        {item?.course?.description}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          }
           </Tab.Panel>
-          
-          
+
+
         </Tab.Panels>
       </Tab.Group>
                   

@@ -6,6 +6,7 @@ import { signIn, confirmSignIn, resetPassword, signUp, confirmSignUp, resendSign
 
 import { getUsers, listUsers } from './queries';
 import { createUsers, updateUsers } from './mutation';
+import { fetchPermissionsForRole } from '../RolePermissions/services';
 
 import { FilterOptions } from "./types";
 import { Roles,  } from "../Roles/types";
@@ -48,7 +49,7 @@ export const createApoderado = async (objFilter: FilterOptions): Promise<any> =>
       // console.log("<<< APODERADO CREADO <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.createUsers } as any);
+        resolve({ ...data.createV2Users } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -85,7 +86,7 @@ export const updateApoderado = async (objFilter: FilterOptions): Promise<any> =>
       // console.log("<<< APODERADO CREADO <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.createUsers } as any);
+        resolve({ ...data.createV2Users } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -131,7 +132,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       // console.log("<<< USERS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listUsers.items } as any);
+        resolve({ ...data.listV2Users.items } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -171,7 +172,7 @@ export const fetchDataSearchName = async (objFilter: FilterOptions): Promise<any
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listUsers } as any);
+        resolve({ ...data.listV2Users } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -297,9 +298,11 @@ async function resendConfirmationCode(username: string) {
 export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
   return new Promise(async (resolve, reject) => {
     try {
-        
-      
-      const { isSignedIn, nextStep } = await signIn({ username: params.email, password: params.password });
+      const { isSignedIn, nextStep } = await signIn({
+        username: params.email,
+        password: params.password,
+        options: { authFlowType: 'USER_PASSWORD_AUTH' },
+      });
           
           if (isSignedIn) {
             // console.log('Usuario ha iniciado sesión exitosamente');
@@ -337,7 +340,7 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
                     //   // El usuario necesita cambiar su contraseña
                     // const newPassword = 'lvdp1980'; // Idealmente, esto vendría de un input del usuario
                     // const newPassword = 'Andre.,1800'; // Idealmente, esto vendría de un input del usuario
-                //     const newPassword = '87654321'; // Idealmente, esto vendría de un input del usuario
+                //     const newPassword = 'Lvdp.,1980'; // Idealmente, esto vendría de un input del usuario
                 // const { isSignedIn: isSignedInAfterConfirm } = await confirmSignIn({ challengeResponse: newPassword });
                 
                 // if (isSignedInAfterConfirm) { console.log("--Cambio confirmado ---: ", isSignedInAfterConfirm) }
@@ -373,13 +376,11 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
           //   // Maneja los siguientes pasos si es necesario (como confirmación de código)
           // }
         } catch (err) {
-          // console.log('Error al iniciar sesión: ' + (err instanceof Error ? err.message : String(err)));
           if (err instanceof Error && err.message.includes('Temporary password has expired')) {
-            // console.log('La contraseña temporal ha expirado. Por favor, contacta al administrador para restablecerla.');
-           
-            // Aquí podrías mostrar un mensaje al usuario o redirigirlo a una página de soporte
+            reject({ errorMessage: "Contraseña temporal expirada. Contacte al administrador." });
           } else {
             console.error('Error durante el inicio de sesión:', err);
+            reject({ errorMessage: err instanceof Error ? err.message : "Error al iniciar sesión" });
           }
         }
   });
@@ -589,24 +590,39 @@ export const fetchAuthUser = async () => {
 export const fetchUserData = async (userId: string): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
-     
       const userData:any = await client.graphql({
         query: getUsers,
         variables: { id: userId },
       });
-      
-      // console.log("<<< userData <<<<< ", userData)
-      const data = userData.data;
-      
-        resolve({ ...data.getUsers } as any);
-        
-        // ...userData.data.getUsers
-      // } else {
-      //   reject({
-      //     errorMessage: errorMsg,
-      //   });
-      // }
-    } catch (err) {
+
+      const user = userData?.data?.getV2Users;
+      if (!user) {
+        reject(JSON.stringify({ errorMessage: "Usuario no encontrado" }));
+        return;
+      }
+
+      // Cargar permisos del rol si el usuario tiene uno asignado
+      const roleId = user.roleId ?? null;
+      const permissions = roleId ? await fetchPermissionsForRole(roleId) : [];
+
+      resolve({
+        ...user,
+        usersRolesId: user.roleId ?? "",
+        permissions,
+      } as any);
+    } catch (err: any) {
+      // Amplify Gen 2 puede lanzar error con datos parciales válidos
+      const partialUser = err?.data?.getV2Users ?? err?.errors?.[0]?.data?.getV2Users;
+      if (partialUser) {
+        const roleId = partialUser.roleId ?? null;
+        const permissions = roleId ? await fetchPermissionsForRole(roleId).catch(() => []) : [];
+        resolve({
+          ...partialUser,
+          usersRolesId: partialUser.roleId ?? "",
+          permissions,
+        } as any);
+        return;
+      }
       reject(
         JSON.stringify({
           errorMessage: err,

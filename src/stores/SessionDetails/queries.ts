@@ -3,15 +3,15 @@
 *                    QUERIES
 ********************************************************/
 export const sessionDetailsByLocationIdAndDate = /* GraphQL */ `
-  query SessionDetailsByLocationIdAndDate(
+  query ListV2SessionDetailByLocationIdAndDate(
     $locationId: String!
     $date: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
-    $filter: ModelSessionDetailFilterInput
+    $filter: Modelv2SessionDetailFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    sessionDetailsByLocationIdAndDate(
+    listV2SessionDetailByLocationIdAndDate(
       locationId: $locationId
       date: $date
       sortDirection: $sortDirection
@@ -30,10 +30,8 @@ export const sessionDetailsByLocationIdAndDate = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
+        enrollmentId
+        studentId
         locationId
         locationIdUsed
         courseId
@@ -77,11 +75,11 @@ export const sessionDetailsByLocationIdAndDate = /* GraphQL */ `
 
 export const listSessionDetails = /* GraphQL */ `
   query ListSessionDetails(
-    $filter: ModelSessionDetailFilterInput
+    $filter: Modelv2SessionDetailFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listSessionDetails(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listV2SessionDetails(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         date
@@ -92,10 +90,8 @@ export const listSessionDetails = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
+        enrollmentId
+        studentId
         locationId
         locationIdUsed
         courseId
@@ -110,15 +106,6 @@ export const listSessionDetails = /* GraphQL */ `
           startHour
         }
         __typename
-        # enrollment{
-        #   wasPaid
-        #   id
-        #   startDate
-        #   course{
-        #     id
-        #     title
-        #   }
-        # }
         student{
           id
           name
@@ -126,11 +113,11 @@ export const listSessionDetails = /* GraphQL */ `
           birthdate
           gender
           enrollments{
-          items{
-            id
-            wasPaid
+            items{
+              id
+              wasPaid
+            }
           }
-        }
         }
       }
       nextToken
@@ -140,8 +127,8 @@ export const listSessionDetails = /* GraphQL */ `
 `;
 
 export const getSessionDetail = /* GraphQL */ `
-  query GetSessionDetail($id: ID!) {
-    getSessionDetail(id: $id) {
+  query GetV2SessionDetail($id: ID!) {
+    getV2SessionDetail(id: $id) {
       id
       date
       month
@@ -161,12 +148,9 @@ export const getSessionDetail = /* GraphQL */ `
         numberOfSessions
         sessionsLeft
         sessionsUsed
-        createdAt
-        updatedAt
-        studentEnrollmentsId
-        courseEnrollmentsId
-        sessionTypeEnrollmentsId
-        enrollmentTransactionId
+        studentId
+        courseId
+        sessionTypeId
         __typename
       }
       student {
@@ -187,30 +171,25 @@ export const getSessionDetail = /* GraphQL */ `
         waterOnHisFaceBothersHim
         putYourFaceInTheWater
         anyIllnessInjuryMedicalCondition
-        createdAt
-        updatedAt
-        studentSessionDetailId
         __typename
       }
-      createdAt
-      updatedAt
-      enrollmentSessionDetailsId
-      sessionDetailStudentId
+      enrollmentId
+      studentId
       __typename
     }
   }
 `;
 
 export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
-  query SessionDetailsBySessionDetailStudentId(
-    $sessionDetailStudentId: ID!
+  query ListV2SessionDetailByStudentId(
+    $studentId: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelSessionDetailFilterInput
+    $filter: Modelv2SessionDetailFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    sessionDetailsBySessionDetailStudentId(
-      sessionDetailStudentId: $sessionDetailStudentId
+    listV2SessionDetailByStudentId(
+      studentId: $studentId
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -231,17 +210,15 @@ export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
         locationIdUsed
         modifiedBy
         modifiedByDate
-        sessionDetailStudentId
+        studentId
         courseId
         scheduleId
-        createdAt
-        updatedAt
-        privateEnrollmentSessionDetailsId
-        enrollmentSessionDetailsId
-        usersCoachedSessionsId
+        privateEnrollmentId
+        enrollmentId
+        coachId
         course{
           id
-         title
+          title
           description
         }
         schedule{
@@ -259,5 +236,6 @@ export const sessionDetailsBySessionDetailStudentId = /* GraphQL */ `
 /********************************************************
 *                    MUTATIONS
 ********************************************************/
+
 
 

@@ -1,11 +1,12 @@
 
 
 
+
 export const updateShoppingCart = /* GraphQL */ `
-  mutation UpdateShoppingCart(
-    $input: UpdateShoppingCartInput!
-    $condition: ModelShoppingCartConditionInput
+  mutation UpdateV2ShoppingCart(
+    $input: UpdateV2ShoppingCartInput!
+    $condition: ModelV2ShoppingCartConditionInput
   ) {
-    updateShoppingCart(input: $input, condition: $condition) {id}
+    updateV2ShoppingCart(input: $input, condition: $condition) {id}
   }
 `;

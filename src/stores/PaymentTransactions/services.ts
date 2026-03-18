@@ -39,7 +39,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listPaymentTransactions } as any);
+        resolve({ ...data.listV2PaymentTransactions } as any);
         
         // ...userData.data.getUsers
       // } else {

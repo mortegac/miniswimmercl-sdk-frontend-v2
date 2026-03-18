@@ -4,11 +4,12 @@ import { RootState } from "../store";
 
 import {
   fetchData,
-  fetchDataWithRelations,
   fetchOne,
   createSessionTypeService,
   updateSessionTypeService,
-  deleteSessionTypeService
+  deleteSessionTypeService,
+  createCourseSessionTypeService,
+  deleteCourseSessionTypeService,
 } from "./services";
 import { SessionType, emptySessionType, FilterOptions, InputOptions } from "./types";
 
@@ -43,7 +44,7 @@ export const getSessionTypesWithRelations = createAsyncThunk(
   "SessionType/listWithRelations",
   async (objFilter: FilterOptions) => {
     try {
-      const response: any = await fetchDataWithRelations({ ...objFilter });
+      const response: any = await fetchData({ ...objFilter });
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH SessionTypes with relations", error);
@@ -99,6 +100,32 @@ export const removeSessionType = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR DELETE SessionType", error);
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const setCourseSessionType = createAsyncThunk(
+  "SessionType/createCourseRelation",
+  async ({ courseId, sessionTypeId }: { courseId: string; sessionTypeId: string }) => {
+    try {
+      const response: any = await createCourseSessionTypeService(courseId, sessionTypeId);
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR CREATE CourseSessionType", error);
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const removeCourseSessionType = createAsyncThunk(
+  "SessionType/deleteCourseRelation",
+  async (id: string) => {
+    try {
+      const response: any = await deleteCourseSessionTypeService(id);
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR DELETE CourseSessionType", error);
       return Promise.reject(error);
     }
   }
@@ -209,7 +236,7 @@ export const sessionTypeSlice = createSlice({
       .addCase(removeSessionType.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage || String(action.error?.message || "");
       })
       .addCase(removeSessionType.pending, (state) => {
         state.status = "loading";
@@ -217,23 +244,42 @@ export const sessionTypeSlice = createSlice({
       .addCase(removeSessionType.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "idle";
-        // Remove the session type from the list
         if (objPayload?.id) {
           state.sessionTypes = state.sessionTypes.filter(st => st.id !== objPayload.id);
-          // Clear selected session type if it was deleted
           if (state.sessionType.id === objPayload.id) {
             state.sessionType = emptySessionType;
           }
         }
+      })
+
+      // CREATE CourseSessionType relation
+      .addCase(setCourseSessionType.rejected, (state, action) => {
+        state.status = "failed";
+        state.errorMessage = String(action.error?.message || "Error al asignar pack");
+      })
+      .addCase(setCourseSessionType.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(setCourseSessionType.fulfilled, (state) => {
+        state.status = "idle";
+      })
+
+      // DELETE CourseSessionType relation
+      .addCase(removeCourseSessionType.rejected, (state, action) => {
+        state.status = "failed";
+        state.errorMessage = String(action.error?.message || "Error al eliminar asignación");
+      })
+      .addCase(removeCourseSessionType.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeCourseSessionType.fulfilled, (state) => {
+        state.status = "idle";
       });
   },
 });
 
 export const selectSessionType = (state: RootState) => state.sessionType;
 
-export const {
-  setSessionTypeSelected,
-  clearSessionType,
-} = sessionTypeSlice.actions;
+export const { setSessionTypeSelected, clearSessionType } = sessionTypeSlice.actions;
 
 export default sessionTypeSlice.reducer;

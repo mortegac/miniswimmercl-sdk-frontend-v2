@@ -46,8 +46,7 @@ function Main() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     const { email, password } = data;
-    // console.log(errors);
-    const request = await dispatch(getLoginUser({ email, password }));
+    await dispatch(getLoginUser({ email: email.trim().toLowerCase(), password }));
   };
 
   const togglePasswordVisibility = () => {

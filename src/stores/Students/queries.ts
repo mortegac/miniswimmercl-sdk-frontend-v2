@@ -3,8 +3,8 @@
 *                    QUERIES
 ********************************************************/
 export const getStudent = /* GraphQL */ `
-  query GetStudent($id: ID!) {
-    getStudent(id: $id) {
+  query GetV2Student($id: ID!) {
+    getV2Student(id: $id) {
       id
       name
       lastName
@@ -37,8 +37,6 @@ export const getStudent = /* GraphQL */ `
               country
               latitude
               longitude
-              
-              
             }
           }
       }
@@ -47,30 +45,30 @@ export const getStudent = /* GraphQL */ `
             id
             startDate
             amountPaid
-            courseEnrollmentsId
+            courseId
             scheduleId
-            sessionTypeEnrollmentsId
+            sessionTypeId
             scheduleName
             wasPaid
             student{
-        id
-        name
-        lastName
-        birthdate
-        contactPhone
-        emailPhone
-        relationships{
-          items{
-            usersRelationshipsId
-            relationType
-            user{
               id
               name
+              lastName
+              birthdate
               contactPhone
+              emailPhone
+              relationships{
+                items{
+                  userId
+                  relationType
+                  user{
+                    id
+                    name
+                    contactPhone
+                  }
+                }
+              }
             }
-          }
-        }
-      }
             course{
               id
               title
@@ -84,7 +82,7 @@ export const getStudent = /* GraphQL */ `
               items{
                 id
                 sessionNumber
-                totalSessions             
+                totalSessions
                 date
                 month
                 year
@@ -118,33 +116,43 @@ export const getStudent = /* GraphQL */ `
         status
         proratedValue
         wasEmailSent
-        createdAt
-        updatedAt
-        enrollmentSessionDetailsId
-        sessionDetailStudentId
+        enrollmentId
+        studentId
         __typename
+      }
+      evaluationLevelId
+      evaluationIcon
+      evaluationDescription
+      studentEvaluations {
+        items {
+          id
+          date
+          wasApproved
+          evaluationLevelId
+          evaluationLevel {
+            id
+            ico
+            name
+            description
+          }
+        }
       }
       createdAt
       updatedAt
-      studentSessionDetailId
       __typename
     }
   }
 `;
 export const listStudents = /* GraphQL */ `
   query ListStudents(
-    $id: ID
-    $filter: ModelStudentFilterInput
+    $filter: ModelV2StudentFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listStudents(
-      id: $id
+    listV2Students(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
@@ -167,7 +175,6 @@ export const listStudents = /* GraphQL */ `
         isActive
         createdAt
         updatedAt
-        studentSessionDetailId
         relationships{
           items{
             id
@@ -182,9 +189,8 @@ export const listStudents = /* GraphQL */ `
           items{
             id
             amountPaid
-            courseEnrollmentsId
-            # sessionDetails( filter:{ status: {eq: ACTIVE}}){
-            sessionDetails( filter:{ 
+            courseId
+            sessionDetails( filter:{
               or: [
               { status: { eq: ACTIVE } },
               { status: { eq: RECOVERED } }
@@ -192,15 +198,13 @@ export const listStudents = /* GraphQL */ `
             }){
               items{
                 id
-                sessionNumber              
+                sessionNumber
                 date
                 month
                 year
                 status
                 locationId
                 locationIdUsed
-            
-            
               }
             }
           }
@@ -218,5 +222,17 @@ export const listStudents = /* GraphQL */ `
 /********************************************************
 *                    MUTATIONS
 ********************************************************/
+
+export const updateStudentEvaluationSummary = /* GraphQL */ `
+  mutation UpdateV2Student($input: UpdateV2StudentInput!) {
+    updateV2Student(input: $input) {
+      id
+      evaluationLevelId
+      evaluationIcon
+      evaluationDescription
+    }
+  }
+`;
+
 
 

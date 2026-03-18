@@ -68,7 +68,8 @@ const courseValidationSchema = yup.object({
 
 // Tipo TypeScript para el formulario - CORREGIDO
 interface CourseFormData {
-  id?: string; // ✅ Add optional id property
+  id?: string;
+  locationId?: string;
   title: string;
   description?: string;
   startingAge: number;
@@ -155,7 +156,7 @@ export function FormAdminCourse(props: FormAdminCourseProps) {
       AgeGroupType: data?.AgeGroupType || 'CHILDREN',
       duration: data?.duration || 60,
       isActive: data?.isActive || false, // ✅ Cambiar data.isActive por data?.isActive
-      locationCoursesId: data?.locationCoursesId || ''
+      locationCoursesId: data?.locationId || ''
     }
   });
 
@@ -176,7 +177,7 @@ export function FormAdminCourse(props: FormAdminCourseProps) {
       
       if (courseId) {
         await dispatch(removeCourse(courseId)).unwrap();
-        await dispatch(getCourses({ isActive: true, locationId:data?.locationCoursesId })); // Recargar lista
+        await dispatch(getCourses({ isActive: true, locationId: data?.locationId })); // Recargar lista
         console.log("Curso eliminado");
         setNewSlideover?.(false);
       }
@@ -239,9 +240,9 @@ export function FormAdminCourse(props: FormAdminCourseProps) {
         AgeGroupType: data.AgeGroupType || 'CHILDREN',
         duration: data.duration || 60,
         isActive: data.isActive || false,
-        locationCoursesId: data.locationCoursesId || ''
+        locationCoursesId: data.locationId || ''
       });
-      
+
       // ✅ Forzar actualización de todos los campos después del reset
       setTimeout(() => {
         if (data.title) {
@@ -268,8 +269,8 @@ export function FormAdminCourse(props: FormAdminCourseProps) {
         if (data.isActive !== undefined) {
           setValue('isActive', data.isActive);
         }
-        if (data.locationCoursesId) {
-          setValue('locationCoursesId', data.locationCoursesId);
+        if (data.locationId) {
+          setValue('locationCoursesId', data.locationId);
         }
         
         // Disparar validación completa

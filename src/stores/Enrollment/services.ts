@@ -20,7 +20,7 @@ export const fetchGuardian = async (objFilter: FilterUser): Promise<any> => {
       });
       const data = getData.data;
       
-        resolve({ ...data.getUsers} as any);
+        resolve({ ...data.getV2Users} as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -53,7 +53,7 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
       
           
       const filterStudentId = (typeof filter?.studentId === 'undefined') ?
-      { } : { studentEnrollmentsId : { eq: filter?.studentId } };
+      { } : { studentId : { eq: filter?.studentId } };
       
       // let filterPaid = (typeof filter?.wasPaid === 'undefined' && {}|| filter?.wasPaid === "" || filter?.wasPaid) ?
       // { } : { wasPaid: { eq: filter?.wasPaid } };
@@ -117,7 +117,7 @@ export const fetchData = async (filter: FilterOptions): Promise<any> => {
       
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData?.data;
-      const dataOrder = [...data?.listEnrollments?.items].sort((a, b) => {
+      const dataOrder = [...(data?.listV2Enrollments?.items || [])].sort((a, b) => {
         // Primero ordenar por wasPaid (false primero)
         if (a.wasPaid !== b.wasPaid) {
           return a.wasPaid ? 1 : -1;
@@ -431,9 +431,9 @@ export const fetchEnrollmentsExpiring = async (filter?: FilterOptions): Promise<
               }
             });
             
-            const items = sessionData?.data?.sessionDetailsByLocationIdAndDate?.items || [];
+            const items = sessionData?.data?.listV2SessionDetailByLocationIdAndDate?.items || [];
             allSessions.push(...items);
-            nextToken = sessionData?.data?.sessionDetailsByLocationIdAndDate?.nextToken || null;
+            nextToken = sessionData?.data?.listV2SessionDetailByLocationIdAndDate?.nextToken || null;
      
         } catch (locationSessionError) {
           console.error(`Error obteniendo sesiones :`, locationSessionError);
@@ -446,11 +446,11 @@ export const fetchEnrollmentsExpiring = async (filter?: FilterOptions): Promise<
         console.log("<<< allSessions >>>", allSessions)
       
       
-      // Agrupar sesiones por enrollmentSessionDetailsId
+      // Agrupar sesiones por enrollmentId
       const sessionsByEnrollment: { [key: string]: any[] } = {};
       
       allSessions.forEach((session: any) => {
-        const enrollmentId = session.enrollmentSessionDetailsId;
+        const enrollmentId = session.enrollmentId;
         if (enrollmentId) {
           if (!sessionsByEnrollment[enrollmentId]) {
             sessionsByEnrollment[enrollmentId] = [];
@@ -524,8 +524,8 @@ export const fetchEnrollmentsExpiring = async (filter?: FilterOptions): Promise<
       
       // Filtrar sesiones que pertenecen a los enrollments por vencer
       const filteredSessions = allSessions.filter((session: any) => {
-        return session.enrollmentSessionDetailsId && 
-               expiringEnrollmentIdsSet.has(session.enrollmentSessionDetailsId);
+        return session.enrollmentId && 
+               expiringEnrollmentIdsSet.has(session.enrollmentId);
       });
       
       // Mapear las sesiones a la estructura requerida
@@ -537,7 +537,7 @@ export const fetchEnrollmentsExpiring = async (filter?: FilterOptions): Promise<
           scheduleId: session.scheduleId || null,
           scheduleDay: session.schedule?.day || null,
           scheduleStartHour: session.schedule?.startHour || null,
-          sessionDetailStudentId: session.sessionDetailStudentId || null,
+          studentId: session.studentId || null,
           birthdate: session.student?.birthdate || null,
           lastName: session.student?.lastName || null,
           emailPhone: session.student?.emailPhone || null,
@@ -549,7 +549,7 @@ export const fetchEnrollmentsExpiring = async (filter?: FilterOptions): Promise<
         };
       });
       
-      // Ordenar por fecha y luego por sessionDetailStudentId
+      // Ordenar por fecha y luego por studentId
       const sortedResult = result.sort((a: any, b: any) => {
         // Primero ordenar por fecha (más antiguos primero)
         const dateA = a.date ? new Date(a.date).getTime() : 0;
@@ -559,9 +559,9 @@ export const fetchEnrollmentsExpiring = async (filter?: FilterOptions): Promise<
           return dateA - dateB;
         }
         
-        // Si las fechas son iguales, ordenar por sessionDetailStudentId
-        const studentIdA = a.sessionDetailStudentId || "";
-        const studentIdB = b.sessionDetailStudentId || "";
+        // Si las fechas son iguales, ordenar por studentId
+        const studentIdA = a.studentId || "";
+        const studentIdB = b.studentId || "";
         return studentIdA.localeCompare(studentIdB);
       });
       

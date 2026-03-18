@@ -15,11 +15,11 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
      
       const filterEmail = (typeof objFilter?.userEmail === 'undefined') ?
       {}
-      : { usersRelationshipsId: { eq: String(objFilter.userEmail).toLowerCase() } };
-      
+      : { userId: { eq: String(objFilter.userEmail).toLowerCase() } };
+
       const filterStudent = (typeof objFilter?.studentRelationshipsId === 'undefined') ?
       {}
-      : { studentRelationshipsId: { eq: String(objFilter.studentRelationshipsId) } };
+      : { studentId: { eq: String(objFilter.studentRelationshipsId) } };
       
       const filter: any = {
         ...filterEmail,
@@ -69,8 +69,8 @@ export const createRelation = async (objFilter: FilterOptions): Promise<any> => 
         query: createRelationship,
         variables: {
           input: {
-            usersRelationshipsId: objFilter.userId,
-            studentRelationshipsId: objFilter.studentId,
+            userId: objFilter.userId,
+            studentId: objFilter.studentId,
             relationType: objFilter.relation,
           }
         }
@@ -80,7 +80,7 @@ export const createRelation = async (objFilter: FilterOptions): Promise<any> => 
       const data = setData.data;
       // console.log("<<< RELATIONSHIP ...data.createRelationship <<<<< ", data)
       
-        resolve({ ...data.createRelationship} as any);
+        resolve({ ...data.createV2Relationship} as any);
         
         // ...userData.data.getUsers
       // } else {

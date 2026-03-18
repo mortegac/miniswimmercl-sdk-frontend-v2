@@ -15,7 +15,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       
       
       const filterUser = (typeof objFilter?.userId === 'undefined') ?
-      {} : { usersShoppingCartId: { eq: String(objFilter.userId) } };
+      {} : { userId: { eq: String(objFilter.userId) } };
       
       const filterStatus = (typeof objFilter?.status === 'undefined') ?
       {} : { status: { eq: String(objFilter.status) } };
@@ -37,7 +37,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listShoppingCarts } as any);
+        resolve({ ...data.listV2ShoppingCarts } as any);
         
         // ...userData.data.getUsers
       // } else {

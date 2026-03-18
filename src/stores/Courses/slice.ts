@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData, fetchDataStudent, createCourses, deleteCourse} from "./services"
+import {fetchData, fetchDataStudent, createCourses, deleteCourse, updateCourseActiveService} from "./services"
 import {Course, emptyCourse, FilterOptions, InputCourse} from "./types"
 
 
@@ -68,6 +68,19 @@ export const setCourse = createAsyncThunk(
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH setEnrollment", error)
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const updateCourseActive = createAsyncThunk(
+  "course/updateActive",
+  async ({ courseId, isActive }: { courseId: string; isActive: boolean }) => {
+    try {
+      const response: any = await updateCourseActiveService(courseId, isActive);
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR UPDATE Course isActive", error);
       return Promise.reject(error);
     }
   }
@@ -234,6 +247,22 @@ export const CourseSlice = createSlice({
         
       })
       
+      // UPDATE Course isActive
+      .addCase(updateCourseActive.rejected, (state) => {
+        state.status = "failed";
+      })
+      .addCase(updateCourseActive.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateCourseActive.fulfilled, (state, action) => {
+        const { courseId, isActive } = action.meta.arg;
+        state.status = "idle";
+        const index = state.courses.findIndex((c: Course) => c.id === courseId);
+        if (index !== -1) {
+          state.courses[index] = { ...state.courses[index], isActive };
+        }
+      })
+
       // DELETE Course
       .addCase(removeCourse.rejected, (state, action) => {
         const objPayload: any = action.payload;

@@ -133,9 +133,9 @@ export const RelationList: React.FC<any> = ({students, setDataStudent}) => {
         students.items.map((student: any, i: number) => {
           const edad = student?.student?.birthdate && calcularEdad(String(student?.student?.birthdate === "" ? "1800/01/01":student?.student?.birthdate ));
           
-          const allSessionDetails = student?.student.enrollments.items.flatMap(
-            (enrollment:any) => enrollment.sessionDetails.items
-          );
+          const allSessionDetails = student?.student?.enrollments?.items?.flatMap(
+            (enrollment:any) => enrollment?.sessionDetails?.items || []
+          ) || [];
           const sessionStatusCount = Object.entries(
             allSessionDetails.reduce((acc:any, session:any) => {
               acc[session.status] = (acc[session.status] || 0) + 1;

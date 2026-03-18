@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {createSchedules, getSchedulesByLocationAndCourse as getSchedulesByLocationAndCourseService} from "./services"
+import {createSchedules, deactivateScheduleService, getSchedulesByLocationAndCourse as getSchedulesByLocationAndCourseService} from "./services"
 import {Schedule, emptySchedules, FilterOptions} from "./types"
 
 export interface CourseState {
@@ -32,6 +32,19 @@ export const setSchedules = createAsyncThunk(
   }
 );
 
+
+export const removeSchedule = createAsyncThunk(
+  "schedules/deactivate",
+  async (scheduleId: string) => {
+    try {
+      const response: any = await deactivateScheduleService(scheduleId);
+      return response;
+    } catch (error) {
+      console.error(">>>>ERROR DEACTIVATE Schedule", error);
+      return Promise.reject(error);
+    }
+  }
+);
 
 export const getSchedulesByLocationAndCourse = createAsyncThunk(
   "schedules/getByLocationAndCourse",
@@ -71,6 +84,22 @@ export const SchedulesSlice = createSlice({
         // state.courses = sortedArray || [];
         
       })
+      // DELETE SCHEDULE
+      .addCase(removeSchedule.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeSchedule.fulfilled, (state, action) => {
+        state.status = "idle";
+        const updatedId = action.payload?.id;
+        if (updatedId) {
+          const index = state.schedules.findIndex((s: Schedule) => s.id === updatedId);
+          if (index !== -1) state.schedules[index] = { ...state.schedules[index], isActive: false };
+        }
+      })
+      .addCase(removeSchedule.rejected, (state) => {
+        state.status = "failed";
+      })
+
       // GET SCHEDULES BY LOCATION AND COURSE
       .addCase(getSchedulesByLocationAndCourse.pending, (state) => {
         state.status = "loading";

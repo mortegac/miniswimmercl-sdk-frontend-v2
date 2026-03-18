@@ -11,12 +11,14 @@ import { Users, emptyUser, FilterOptions } from "../Users/types";
 
 export interface UserState {
   isAuthenticated: boolean;
+  authChecked: boolean;
   id: string;
   name: string;
   email: string;
   emailAuth: string;
   phone: string;
   usersRolesId: string;
+  permissions: any[];
   firstLogin: boolean;
   status: "idle" | "loading" | "failed";
   step: "initial" | "login" | "autenticated";
@@ -29,8 +31,10 @@ export interface UserState {
 
 export const initialState: UserState = {
   isAuthenticated: false,
+  authChecked: false,
   id: "",
   usersRolesId: "",
+  permissions: [],
   name: "",
   phone: "",
   email: "",
@@ -108,21 +112,19 @@ export const getLoginUser = createAsyncThunk(
       return await handleLogin(params);
     } catch (error) {
       // return thunkAPI.rejectWithValue(error);
-      return rejectWithValue((error as Error).message);
+      return rejectWithValue(error);
     }
   }
 );
 
 export const getAuthUser = createAsyncThunk(
   "auth/user",
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
-      // // console.log("...tenderRequirement/list...")
-      const response:any = await fetchAuthUser();
+      const response: any = await fetchAuthUser();
       return response;
     } catch (error) {
-      console.error(">>>>ERROR LOADING THE PROCESSES", error)
-      return Promise.reject(error);
+      return rejectWithValue(null);
     }
   }
 );
@@ -140,24 +142,24 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // getAuthUser
-      .addCase(getAuthUser.rejected, (state, action) => {
-        const objPayload: any = action.payload;
-        state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+      .addCase(getAuthUser.rejected, (state) => {
+        state.status = "idle";
+        state.authChecked = true;
+        state.isAuthenticated = false;
       })
       .addCase(getAuthUser.pending, (state) => {
         state.status = "loading";
       })
       .addCase(getAuthUser.fulfilled, (state, action) => {
         state.status = "idle";
-        
-        // console.log("---getUser --action---", action)
-        action.payload
-        state.isAuthenticated = action?.payload?.id ? true:false;
+        state.authChecked = true;
+
+        state.isAuthenticated = action?.payload?.id ? true : false;
         state.name = action?.payload?.name || "";
         state.usersRolesId = action?.payload?.usersRolesId || "";
         state.emailAuth = action?.payload?.email || "";
         state.phone = action?.payload?.contactPhone || "";
+        state.permissions = action?.payload?.permissions || [];
       })
       
       // getUser
@@ -248,17 +250,19 @@ export const authSlice = createSlice({
       })
       .addCase(getLoginUser.pending, (state) => {
         state.status = "loading";
+        state.errorMessage = "";
       })
       .addCase(getLoginUser.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "idle";
-        
-        // console.log("---getUser --isAuthenticated---", objPayload?.userId ? true:false)
-        
+        state.authChecked = true;
+
         state.isAuthenticated = objPayload?.userId ? true:false;
+        state.id = objPayload?.id || objPayload?.email || "";
         state.name = objPayload?.name || "";
         state.emailAuth = objPayload?.email || "";
         state.usersRolesId = objPayload?.usersRolesId || "";
+        state.permissions = objPayload?.permissions || [];
       })
       
       // GET LOGIN USER

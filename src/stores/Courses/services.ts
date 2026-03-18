@@ -23,7 +23,7 @@ export const createCourses = async (objFilter: InputCourse): Promise<any> => {
             ageType: objFilter.ageType,
             AgeGroupType: objFilter.AgeGroupType,
             duration: objFilter.duration,
-            locationCoursesId: objFilter.locationCoursesId,
+            locationId: objFilter.locationCoursesId,
             isActive: true,
           }
         }
@@ -85,6 +85,21 @@ export const createCourses = async (objFilter: InputCourse): Promise<any> => {
 //   });
 // };
 
+export const updateCourseActiveService = async (courseId: string, isActive: boolean): Promise<any> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateData: any = await client.graphql({
+        query: updateCourse,
+        variables: { input: { id: courseId, isActive } },
+      });
+      const data = updateData?.data;
+      resolve({ id: courseId, isActive, ...data?.updateV2Course });
+    } catch (err) {
+      reject(JSON.stringify({ errorMessage: err }));
+    }
+  });
+};
+
 export const deleteCourse = async (courseId:string): Promise<any> => {
 
   return new Promise(async (resolve, reject) => {
@@ -121,10 +136,13 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
 
 
       const filterlocationId = (typeof objFilter?.locationId === 'undefined') ?
-        {} : { locationCoursesId: { eq: String(objFilter.locationId) } };
+        {} : { locationId: { eq: String(objFilter.locationId) } };
 
-      const filterIsActive = (typeof objFilter?.isActive === 'undefined') ?
-        { isActive: { eq: true } } : { isActive: { eq: Boolean(objFilter.isActive) } };
+      const filterIsActive = objFilter?.skipActiveFilter
+        ? {}
+        : (typeof objFilter?.isActive === 'undefined')
+          ? { isActive: { eq: true } }
+          : { isActive: { eq: Boolean(objFilter.isActive) } };
 
       const filter: any = {
         ...filterlocationId,
@@ -142,7 +160,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
 
-      resolve({ ...data.listCourses } as any);
+      resolve({ ...data.listV2Courses } as any);
 
       // ...userData.data.getUsers
       // } else {
@@ -170,7 +188,7 @@ export const fetchDataStudent = async (objFilter: FilterOptions): Promise<any> =
        
           
       let filterLocation = (typeof objFilter?.locationId === 'undefined' && {}|| objFilter?.locationId === "") ?
-      { } : { locationCoursesId: { eq: objFilter?.locationId } };
+      { } : { locationId: { eq: objFilter?.locationId } };
           
       const startDate = `${objFilter?.month}-${filterDay==="" ? "01":filterDay}-${objFilter?.year}`
       const endDate = `${objFilter?.month}-${filterDay==="" ? "31":filterDay}-${objFilter?.year}`
@@ -257,7 +275,7 @@ export const fetchDataStudent = async (objFilter: FilterOptions): Promise<any> =
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
 
-      resolve({ ...data.listCourses } as any);
+      resolve({ ...data.listV2Courses } as any);
 
       // ...userData.data.getUsers
       // } else {

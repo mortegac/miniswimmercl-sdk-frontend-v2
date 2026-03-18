@@ -1,26 +1,26 @@
 
 
 export const createSessionDetail = /* GraphQL */ `
-  mutation CreateSessionDetail(
-    $input: CreateSessionDetailInput!
-    $condition: ModelSessionDetailConditionInput
+  mutation CreateV2SessionDetail(
+    $input: CreateV2SessionDetailInput!
+    $condition: ModelV2SessionDetailConditionInput
   ) {
-    createSessionDetail(input: $input, condition: $condition) {id}
+    createV2SessionDetail(input: $input, condition: $condition) {id}
   }
 `;
 export const updateSessionDetail = /* GraphQL */ `
-  mutation UpdateSessionDetail(
-    $input: UpdateSessionDetailInput!
-    $condition: ModelSessionDetailConditionInput
+  mutation UpdateV2SessionDetail(
+    $input: UpdateV2SessionDetailInput!
+    $condition: ModelV2SessionDetailConditionInput
   ) {
-    updateSessionDetail(input: $input, condition: $condition) { id }
+    updateV2SessionDetail(input: $input, condition: $condition) { id }
   }
 `;
 export const deleteSessionDetail = /* GraphQL */ `
-  mutation DeleteSessionDetail(
-    $input: DeleteSessionDetailInput!
-    $condition: ModelSessionDetailConditionInput
+  mutation DeleteV2SessionDetail(
+    $input: DeleteV2SessionDetailInput!
+    $condition: ModelV2SessionDetailConditionInput
   ) {
-    deleteSessionDetail(input: $input, condition: $condition) { id }
+    deleteV2SessionDetail(input: $input, condition: $condition) { id }
   }
 `;

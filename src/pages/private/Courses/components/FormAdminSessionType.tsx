@@ -1,349 +1,466 @@
-// import L from 'leaflet';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { formatCurrency } from '@/utils/helper';
+import { FormLabel, FormInput, FormSelect, FormCheck } from '@/components/Base/Form';
+import Button from '@/components/Base/Button';
+import Lucide from '@/components/Base/Lucide';
+import { Tab } from '@/components/Base/Headless';
+import { useAppSelector, useAppDispatch } from '@/stores/hooks';
 import {
-  formatCurrency,
-} from "@/utils/helper";
+  getSessionTypes,
+  setSessionType as createSessionTypeThunk,
+  setCourseSessionType,
+  selectSessionType,
+} from '@/stores/SessionType/slice';
+import { getCourses } from '@/stores/Courses/slice';
 
-import { FormLabel, FormCheck, FormInput, FormSelect } from "@/components/Base/Form";
-import Button from "@/components/Base/Button";
-
-
-import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { getSessionTypes, selectSessionType } from "@/stores/SessionType/slice";
-
-
-// Schema de validación con Yup - NUEVO
-const sessionTypeValidationSchema = yup.object({
+// ─── Validation schema for new SessionType ───────────────────────────────────
+const newSessionTypeSchema = yup.object({
   name: yup
     .string()
     .required('El nombre es obligatorio')
-    .min(2, 'El nombre debe tener al menos 2 caracteres')
-    .max(100, 'El nombre no puede exceder 100 caracteres'),
-  
+    .min(2, 'Mínimo 2 caracteres')
+    .max(100, 'Máximo 100 caracteres'),
   totalSessions: yup
     .number()
-    .required('El número total de sesiones es obligatorio')
-    .min(1, 'Debe tener al menos 1 sesión')
-    .max(1000, 'No puede exceder 1000 sesiones')
-    .integer('Debe ser un número entero'),
-  
+    .typeError('Debe ser un número')
+    .required('Obligatorio')
+    .min(1, 'Mínimo 1 sesión')
+    .integer('Debe ser entero'),
   amount: yup
     .number()
-    .required('El monto es obligatorio')
-    .min(0, 'El monto no puede ser negativo')
-    .max(999999, 'El monto no puede exceder $999,999')
+    .typeError('Debe ser un número')
+    .required('Obligatorio')
+    .min(0, 'No puede ser negativo'),
+  durationSession: yup
+    .number()
+    .typeError('Debe ser un número')
+    .required('Obligatorio')
+    .min(1, 'Mínimo 1 minuto'),
+  timeAWeek: yup
+    .number()
+    .typeError('Debe ser un número')
+    .required('Obligatorio')
+    .min(1, 'Mínimo 1 vez por semana'),
+  isTestClass: yup.boolean().default(false),
 });
 
-// Tipo TypeScript para el formulario - NUEVO
-interface SessionTypeFormData {
+interface NewSessionTypeForm {
   name: string;
   totalSessions: number;
   amount: number;
+  durationSession: number;
+  timeAWeek: number;
+  isTestClass: boolean;
 }
 
-export function FormAdminSessionType(props: any) {
-  const { data, setData, setCleanData, couseId, locationIdSelected } = props;
-  const {sessionTypes, status } = useAppSelector(selectSessionType);
+interface Props {
+  courseId: string;
+  locationIdSelected: string;
+  onSuccess: () => void;
+  onClose: () => void;
+}
+
+export function FormAdminSessionType({ courseId, locationIdSelected, onSuccess, onClose }: Props) {
   const dispatch = useAppDispatch();
-  
-  // Estado para el SessionType seleccionado
-  const [selectedSessionTypeId, setSelectedSessionTypeId] = useState<string>("");
-  
-  const [dataSessionType, setDataSessionType] = useState({
-    id: "",
-    name: "",
-    description: "",
-    durationSession: 0,
-    timeAWeek: 0,
-    totalSessions: 0,
-    amount: 0,
-    isActive: true,
-    isTestClass: false,
-    // packValidity: null,
-  })
-  
-  // Configuración de React Hook Form con Yup
+  const { sessionTypes, status } = useAppSelector(selectSessionType);
+
+  const [selectedSessionTypeId, setSelectedSessionTypeId] = useState('');
+  const [selectedSessionType, setSelectedSessionType] = useState<any>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-    setValue,
-    watch,
     reset,
-    trigger
-  } = useForm<SessionTypeFormData>({
-    resolver: yupResolver(sessionTypeValidationSchema),
+  } = useForm<NewSessionTypeForm>({
+    resolver: yupResolver(newSessionTypeSchema),
     mode: 'onChange',
     defaultValues: {
-      name: data?.name || '',
-      totalSessions: data?.totalSessions || 1,
-      amount: data?.amount || 0
-    }
-  });
-
-  // Observar valores para sincronización
-  // const watchedName = watch('name');
-  // const watchedTotalSessions = watch('totalSessions');
-  // const watchedAmount = watch('amount');
-
-  // Función para manejar el envío del formulario
-  const onSubmit = async (formData: SessionTypeFormData) => {
-    try {
-      console.log('Datos del formulario:', formData);
-      
-      setData({
-        ...data,
-        ...formData
-      });
-      
-      // Resetear el formulario
-      reset();
-      
-    } catch (error) {
-      console.error('Error al crear pack de sesiones:', error);
-    }
-  };
-
-  // Función para manejar la limpieza
-  const handleClean = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    e.preventDefault();
-    // Limpiar el estado local
-    setCleanData({
-      name: "",
+      name: '',
       totalSessions: 1,
       amount: 0,
-    });
-    
-    // Limpiar el formulario de React Hook Form
-    reset();
-    
-    // Disparar validación para limpiar errores
-    trigger();
-  };
+      durationSession: 30,
+      timeAWeek: 1,
+      isTestClass: false,
+    },
+  });
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    e.preventDefault();
-    if (data?.id) {
-      console.log('Eliminar pack de sesiones:', data.id);
-    }
-  };
- 
-  const setIdDataSessionType = (idSessionType: string): void => {
-    if (idSessionType && Array.isArray(sessionTypes)) {
-      // Filtrar el SessionType que coincide con el ID
-      const selectedSessionType = sessionTypes.find((sessionType: any) => 
-        sessionType.id === idSessionType
-      );
-      
-      if (selectedSessionType) {
-        // Actualizar el estado con los datos del SessionType seleccionado
-        setDataSessionType({
-          id: selectedSessionType.id || "",
-          name: selectedSessionType.name || "",
-          description: selectedSessionType.description || "",
-          durationSession: selectedSessionType.durationSession || 0,
-          timeAWeek: selectedSessionType.timeAWeek || 0,
-          totalSessions: selectedSessionType.totalSessions || 0,
-          amount: selectedSessionType.amount || 0,
-          isActive: selectedSessionType.isActive || false,
-          isTestClass: selectedSessionType.isTestClass || false,
-          // packValidity: selectedSessionType.packValidity || 0,
-        });
-        
-        // También actualizar el formulario con los valores
-        setValue('name', selectedSessionType.name);
-        setValue('totalSessions', selectedSessionType.totalSessions);
-        setValue('amount', selectedSessionType.amount);
-        
-        // Disparar validación
-        trigger();
-        
-        console.log('SessionType seleccionado:', selectedSessionType);
-      } else {
-        console.log('No se encontró SessionType con ID:', idSessionType);
-      }
-    }
-  };
-
-  // Observar el valor actual del día
-  const watchedName = watch('name');
-  
-  // ✅ Efecto para sincronizar data con el formulario
-  React.useEffect(() => {
-    if (data) {
-      console.log('🔄 Sincronizando data con formulario:', data);
-      
-      // Resetear formulario con los nuevos valores
-      reset({
-        name: data?.sessionType?.name || '',
-        totalSessions: data?.sessionType?.totalSessions || 1,
-        amount: data?.sessionType?.amount || 0
-      });
-    }
-  }, [data, reset]);
-
-  // ✅ Efecto corregido para cargar SessionTypes
   useEffect(() => {
-    const loadSessionTypes = async () => {
-      try {
-        await dispatch(getSessionTypes({
-          isActive: true
-        }));
-      } catch (error) {
-        console.error('Error al cargar tipos de sesión:', error);
-      }
-    };
-
-    loadSessionTypes();
+    dispatch(getSessionTypes({ isActive: true }));
   }, [dispatch]);
 
-    // ✅ Efecto específico para el FormSelect
-    React.useEffect(() => {
-      if (data?.day && watchedName !== data.day) {
-        console.log('🔄 Actualizando FormSelect:', data.day);
-        setValue('name', data.day);
-        trigger('name');
-      }
-    }, [data?.day, watchedName, setValue, trigger]);
+  // ─── Handle select existing ────────────────────────────────────────────────
+  const handleSelectChange = (id: string) => {
+    setSelectedSessionTypeId(id);
+    const found = Array.isArray(sessionTypes)
+      ? sessionTypes.find((st: any) => st.id === id) || null
+      : null;
+    setSelectedSessionType(found);
+    setSuccessMessage('');
+    setErrorMessage('');
+  };
 
-    
+  const handleAssignExisting = async () => {
+    if (!selectedSessionTypeId) return;
+    if (!courseId) {
+      setErrorMessage('No hay curso seleccionado.');
+      return;
+    }
+    setSuccessMessage('');
+    setErrorMessage('');
+    try {
+      await dispatch(setCourseSessionType({ courseId, sessionTypeId: selectedSessionTypeId })).unwrap();
+      await dispatch(getCourses({ isActive: true, locationId: locationIdSelected }));
+      setSuccessMessage(`Pack "${selectedSessionType?.name}" asignado correctamente.`);
+      setSelectedSessionTypeId('');
+      setSelectedSessionType(null);
+    } catch (err: any) {
+      setErrorMessage('Error al asignar el pack. Intente nuevamente.');
+      console.error(err);
+    }
+  };
+
+  // ─── Handle create new + assign ───────────────────────────────────────────
+  const handleCreateAndAssign = async (formData: NewSessionTypeForm) => {
+    if (!courseId) {
+      setErrorMessage('No hay curso seleccionado.');
+      return;
+    }
+    setSuccessMessage('');
+    setErrorMessage('');
+    try {
+      const newSessionType: any = await dispatch(
+        createSessionTypeThunk({
+          name: formData.name,
+          totalSessions: formData.totalSessions,
+          amount: formData.amount,
+          durationSession: formData.durationSession,
+          timeAWeek: formData.timeAWeek,
+          isTestClass: formData.isTestClass,
+          isActive: true,
+        })
+      ).unwrap();
+
+      if (!newSessionType?.id) throw new Error('No se pudo crear el pack');
+
+      await dispatch(setCourseSessionType({ courseId, sessionTypeId: newSessionType.id })).unwrap();
+      await dispatch(getCourses({ isActive: true, locationId: locationIdSelected }));
+      await dispatch(getSessionTypes({ isActive: true }));
+
+      setSuccessMessage(`Pack "${formData.name}" creado y asignado correctamente.`);
+      reset();
+    } catch (err: any) {
+      setErrorMessage('Error al crear o asignar el pack. Intente nuevamente.');
+      console.error(err);
+    }
+  };
+
+  const isLoading = status === 'loading';
+
   return (
-    <>
-      <div className={`box p-4 mt-8 flex flex-col ${data?.id && "bg-yellow-50"}`}>
-        <div className='flex justify-between'>
-          <h3 className="text-lg">Pack de sesiones</h3>
-          {data?.id && <span className="p-2 bg-slate-100">EDICION</span>}
+    <div className="p-4">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <h2 className="text-xl font-semibold">Nuevo Pack de Sesiones</h2>
+          <p className="text-sm text-slate-500 mt-1">
+            Curso: <span className="font-medium text-slate-700">{courseId || '—'}</span>
+          </p>
         </div>
+        <Button variant="outline-secondary" className="px-2 py-1" onClick={onClose}>
+          <Lucide icon="X" className="w-4 h-4" />
+        </Button>
+      </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="pt-0">
-          <div className="mt-4 flex flex-row justify-start">
-            {/* Campo Nombre */}
-            <div className="mt-4 mr-5 w-64">
-              <FormLabel htmlFor="name">Nombre del pack *</FormLabel>
-              <FormSelect 
-                value={selectedSessionTypeId} // ✅ Usar el estado del ID seleccionado
-                className={`mr-2 ${errors.name ? 'border-red-500' : ''}`}
-                onChange={(e) => {
-                  const selectedId = e.target.value;
-                  setSelectedSessionTypeId(selectedId); // ✅ Actualizar el estado del ID
-                  setIdDataSessionType(selectedId);
-                }}
-              >
-                <option value="">Seleccionar pack de sesiones</option>
-                {Array.isArray(sessionTypes) && sessionTypes.map((sessionType: any, index: number) => (
-                  <option key={sessionType?.id || index} value={sessionType?.id}>
-                    {sessionType?.name}
-                  </option>
-                ))}
-              </FormSelect>
-              {errors.name && (
-                <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+      {/* Feedback */}
+      {successMessage && (
+        <div className="flex items-center gap-2 p-3 mb-4 bg-green-100 border border-green-300 rounded-lg text-green-700 text-sm">
+          <Lucide icon="CheckCircle" className="w-4 h-4 shrink-0" />
+          {successMessage}
+        </div>
+      )}
+      {errorMessage && (
+        <div className="flex items-center gap-2 p-3 mb-4 bg-red-100 border border-red-300 rounded-lg text-red-700 text-sm">
+          <Lucide icon="AlertCircle" className="w-4 h-4 shrink-0" />
+          {errorMessage}
+        </div>
+      )}
+
+      <Tab.Group>
+        <Tab.List
+          variant="boxed-tabs"
+          className="w-full bg-white box rounded-[0.6rem] border-slate-200 mb-6"
+        >
+          <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+            <Tab.Button
+              className="w-full py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center gap-2 text-sm"
+              as="button"
+            >
+              <Lucide icon="Search" className="w-4 h-4" />
+              Seleccionar existente
+            </Tab.Button>
+          </Tab>
+          <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+            <Tab.Button
+              className="w-full py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center gap-2 text-sm"
+              as="button"
+            >
+              <Lucide icon="Plus" className="w-4 h-4" />
+              Crear nuevo
+            </Tab.Button>
+          </Tab>
+        </Tab.List>
+
+        <Tab.Panels>
+          {/* ── TAB 1: Select existing ────────────────────────────── */}
+          <Tab.Panel>
+            <div className="space-y-4">
+              {/* Search input */}
+              <div className="relative">
+                <Lucide
+                  icon="Search"
+                  className="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-400"
+                />
+                <FormInput
+                  type="text"
+                  placeholder="Buscar por nombre o N° sesiones..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-9"
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* Filtered list */}
+              {(() => {
+                const term = searchTerm.toLowerCase().trim();
+                const filtered = Array.isArray(sessionTypes)
+                  ? [...sessionTypes]
+                      .filter((st: any) => st.isActive === true)
+                      .filter((st: any) => {
+                        if (!term) return true;
+                        return (
+                          st.name?.toLowerCase().includes(term) ||
+                          String(st.totalSessions).includes(term)
+                        );
+                      })
+                      .sort((a: any, b: any) => a.totalSessions - b.totalSessions)
+                  : [];
+
+                if (filtered.length === 0) {
+                  return (
+                    <p className="text-sm text-slate-400 text-center py-4">
+                      {term ? 'Sin resultados para tu búsqueda.' : 'No hay packs activos disponibles.'}
+                    </p>
+                  );
+                }
+
+                return (
+                  <div className="border border-slate-200 rounded-lg overflow-hidden max-h-64 overflow-y-auto">
+                    {filtered.map((st: any) => (
+                      <button
+                        key={st.id}
+                        type="button"
+                        onClick={() => handleSelectChange(st.id)}
+                        className={`w-full text-left px-4 py-3 border-b border-slate-100 last:border-0 transition-colors
+                          ${selectedSessionTypeId === st.id
+                            ? 'bg-primary/10 border-l-4 border-l-primary'
+                            : 'hover:bg-slate-50'
+                          }`}
+                      >
+                        <div className="flex justify-between items-center gap-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm truncate">{st.name}</p>
+                            <p className="text-xs text-slate-500 mt-0.5">
+                              {st.totalSessions} sesiones · {st.durationSession} min · {st.timeAWeek}x semana
+                            </p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="text-sm font-semibold text-primary">
+                              ${formatCurrency(st.amount)}
+                            </p>
+                            {st.isTestClass && (
+                              <span className="text-xs text-green-600">prueba</span>
+                            )}
+                          </div>
+                          {selectedSessionTypeId === st.id && (
+                            <Lucide icon="CheckCircle" className="w-4 h-4 text-primary shrink-0" />
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                );
+              })()}
+
+              {/* Preview card */}
+              {selectedSessionType && (
+                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-1 text-sm">
+                  <p className="font-semibold text-base">{selectedSessionType.name}</p>
+                  <p className="text-slate-600">
+                    <span className="font-medium">{selectedSessionType.totalSessions}</span> sesiones ·{' '}
+                    <span className="font-medium">{selectedSessionType.durationSession} min</span> ·{' '}
+                    <span className="font-medium">{selectedSessionType.timeAWeek}x semana</span>
+                  </p>
+                  <p className="text-primary text-lg font-semibold">
+                    $ {formatCurrency(selectedSessionType.amount)}
+                  </p>
+                  {selectedSessionType.isTestClass && (
+                    <span className="inline-block px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs">
+                      Clase de prueba
+                    </span>
+                  )}
+                </div>
               )}
-            </div>
 
-            {/* Campo Total de Sesiones */}
-            <div className="mt-4 mr-5 w-32">
-              <FormLabel htmlFor="totalSessions">Total sesiones *</FormLabel>
-              <h3 className='text-xl p-2 text-left w-24'>{dataSessionType?.totalSessions}</h3>
-              {/* <FormInput 
-                type="number"
-                {...register('totalSessions', { valueAsNumber: true })}
-                className={`mr-2 ${errors.totalSessions ? 'border-red-500' : ''}`}
-                placeholder="1"
-                min="1"
-                max="1000"
-              />
-              {errors.totalSessions && (
-                <p className="text-red-500 text-xs mt-1">{errors.totalSessions.message}</p>
-              )} */}
+              <Button
+                variant="primary"
+                className="w-full"
+                onClick={handleAssignExisting}
+                disabled={!selectedSessionTypeId || !courseId || isLoading}
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <Lucide icon="Loader" className="w-4 h-4 animate-spin" /> Asignando...
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    <Lucide icon="Link" className="w-4 h-4" /> Asignar Pack
+                  </span>
+                )}
+              </Button>
             </div>
+          </Tab.Panel>
 
-            {/* Campo Monto */}
-            <div className="mt-4 w-32">
-              <FormLabel htmlFor="amount">Monto *</FormLabel>
-              <h3 className='text-xl p-2 text-left w-48'>$ {formatCurrency(dataSessionType?.amount)}</h3>
+          {/* ── TAB 2: Create new ─────────────────────────────────── */}
+          <Tab.Panel>
+            <form onSubmit={handleSubmit(handleCreateAndAssign)} className="space-y-4">
+              {/* Name */}
+              <div>
+                <FormLabel htmlFor="name">Nombre del pack *</FormLabel>
+                <FormInput
+                  id="name"
+                  type="text"
+                  {...register('name')}
+                  placeholder="Ej: 8 clases grupales"
+                  className={errors.name ? 'border-red-500' : ''}
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+                )}
+              </div>
 
-              {/* <FormInput 
-                type="number"
-                {...register('amount', { valueAsNumber: true })}
-                className={`mr-2 ${errors.amount ? 'border-red-500' : ''}`}
-                placeholder="0"
-                min="0"
-                step="0.01"
-              />
-              {errors.amount && (
-                <p className="text-red-500 text-xs mt-1">{errors.amount.message}</p>
-              )} */}
-            </div>
-          </div>
-          
-          {/* Información del Curso y Sede */}
-          <div className="mt-4 flex flex-row justify-start">
-            <div className="mt-4 mr-5 w-64">
-              <FormLabel htmlFor="course">Curso</FormLabel>
-              <p className="text-slate-300">{couseId || 'N/A'}</p>
-            </div>
-            <div className="mt-4">
-              <FormLabel htmlFor="location">Sede</FormLabel>
-              <p className="text-slate-300">{locationIdSelected || 'N/A'}</p>
-            </div>
-          </div>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Total sessions */}
+                <div>
+                  <FormLabel htmlFor="totalSessions">Total sesiones *</FormLabel>
+                  <FormInput
+                    id="totalSessions"
+                    type="number"
+                    {...register('totalSessions', { valueAsNumber: true })}
+                    min={1}
+                    className={errors.totalSessions ? 'border-red-500' : ''}
+                  />
+                  {errors.totalSessions && (
+                    <p className="text-red-500 text-xs mt-1">{errors.totalSessions.message}</p>
+                  )}
+                </div>
 
-          {/* Botones de Acción */}
-          <div className="flex flex-row justify-start items-center py-2">
-            <Button 
-              type="submit"
-              variant="soft-success" 
-              className="w-40 mr-4"
-              disabled={isSubmitting || !isValid}
-            >
-              {isSubmitting ? 'Creando...' : 'Asignar Pack'}
-            </Button>
-            
-            <Button 
-              type="button"
-              variant="soft-danger" 
-              className="mr-2"
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                handleDelete(e);
-              }}
-              disabled={!data?.id}
-            >
-              Eliminar
-            </Button>
-          </div>
-        </form>
-        
-        {/* Botón de limpiar fuera del formulario */}
-        <div className="flex flex-row justify-start items-center py-2">
-          <Button 
-            id="cleanData"
-            type="button"
-            variant="soft-dark" 
-            className="mr-2"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-              handleClean(e);
-            }}
-          >
-            Limpiar
+                {/* Amount */}
+                <div>
+                  <FormLabel htmlFor="amount">Monto (CLP) *</FormLabel>
+                  <FormInput
+                    id="amount"
+                    type="number"
+                    {...register('amount', { valueAsNumber: true })}
+                    min={0}
+                    placeholder="0"
+                    className={errors.amount ? 'border-red-500' : ''}
+                  />
+                  {errors.amount && (
+                    <p className="text-red-500 text-xs mt-1">{errors.amount.message}</p>
+                  )}
+                </div>
+
+                {/* Duration */}
+                <div>
+                  <FormLabel htmlFor="durationSession">Duración sesión (min) *</FormLabel>
+                  <FormInput
+                    id="durationSession"
+                    type="number"
+                    {...register('durationSession', { valueAsNumber: true })}
+                    min={1}
+                    className={errors.durationSession ? 'border-red-500' : ''}
+                  />
+                  {errors.durationSession && (
+                    <p className="text-red-500 text-xs mt-1">{errors.durationSession.message}</p>
+                  )}
+                </div>
+
+                {/* Times a week */}
+                <div>
+                  <FormLabel htmlFor="timeAWeek">Veces por semana *</FormLabel>
+                  <FormInput
+                    id="timeAWeek"
+                    type="number"
+                    {...register('timeAWeek', { valueAsNumber: true })}
+                    min={1}
+                    max={7}
+                    className={errors.timeAWeek ? 'border-red-500' : ''}
+                  />
+                  {errors.timeAWeek && (
+                    <p className="text-red-500 text-xs mt-1">{errors.timeAWeek.message}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* isTestClass */}
+              <div className="flex items-center gap-3 pt-1">
+                <FormCheck.Input
+                  id="isTestClass"
+                  type="checkbox"
+                  {...register('isTestClass')}
+                />
+                <FormLabel htmlFor="isTestClass" className="mb-0 cursor-pointer">
+                  Es clase de prueba
+                </FormLabel>
+              </div>
+
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-full"
+                disabled={!isValid || isSubmitting || isLoading || !courseId}
+              >
+                {isSubmitting || isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <Lucide icon="Loader" className="w-4 h-4 animate-spin" /> Creando y asignando...
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    <Lucide icon="Plus" className="w-4 h-4" /> Crear y Asignar Pack
+                  </span>
+                )}
+              </Button>
+            </form>
+          </Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
+
+      {/* Footer: button to close after success */}
+      {successMessage && (
+        <div className="mt-6 pt-4 border-t border-slate-200">
+          <Button variant="outline-secondary" className="w-full" onClick={onSuccess}>
+            Cerrar y ver cambios
           </Button>
         </div>
-        
-        {/* <pre>SessionTypes = {JSON.stringify(sessionTypes, null, 2)}</pre> */}
-        <pre>DataSessionType seleccionado = {JSON.stringify(dataSessionType, null, 2)}</pre>
-        {/* Debug info mejorado */}
-        {/* <div className="mt-4 p-2 bg-gray-100 rounded text-xs">
-          <p><strong>Status:</strong> {status}</p>
-          <p><strong>SessionTypes cargados:</strong> {sessionTypes?.length || 0}</p>
-          <p><strong>Formulario válido:</strong> {isValid ? 'Sí' : 'No'}</p>
-        </div>
-        
-        <pre>locationIdSelected = {JSON.stringify(locationIdSelected, null, 2)}</pre>
-        <pre>Data = {JSON.stringify(data, null, 2)}</pre> */}
-      </div>
-    </>
+      )}
+    </div>
   );
 }

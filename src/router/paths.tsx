@@ -44,6 +44,7 @@ export const NEW_EXPENSE = "/new-expense";
 export const EXPENSES = "/expenses";    // GASTOS
 export const INCOME = "/income";        // INGRESOS
 export const ACADEMYSTUDENTS = "/academy-students";
+export const ROLE_PERMISSIONS = "/role-permissions";
 
 
 // PUBLIC

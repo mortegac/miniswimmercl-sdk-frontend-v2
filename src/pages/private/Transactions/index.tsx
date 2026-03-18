@@ -151,7 +151,7 @@ const dispatch = useAppDispatch();
                 </Table.Td>
                 <Table.Td className=" py-4 border-dashed">
                   <div className="flex items-start justify-start flex-col">
-                    <p className="uppercase font-thin text-sm text-left">{item?.usersPaymentTransactionsId}</p>
+                    <p className="uppercase font-thin text-sm text-left">{item?.usersId}</p>
                   </div>                   
                 </Table.Td>
                 <Table.Td className=" py-4 border-dashed">
@@ -167,7 +167,7 @@ const dispatch = useAppDispatch();
                       // onClick={() => setFlag(!flag)}
                       onClick={(event: React.MouseEvent) => {
                         event.preventDefault();
-                        setCartId(item?.shoppingCartPaymentTransactionsId)
+                        setCartId(item?.shoppingCartId)
                         setSwitcherSlideover(true);
                       }}
                     >
@@ -199,7 +199,7 @@ const dispatch = useAppDispatch();
 function Main() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusShoppingCart, setStatusShoppingCart] = useState("PENDING")
-  const {paymentTransactions, status} = useAppSelector(selectPaymentTransactions);
+  const {paymentTransactions, status, errorMessage} = useAppSelector(selectPaymentTransactions);
   const {locations} = useAppSelector(selectLocation);
   const dispatch = useAppDispatch();
   dispatch(setBreadcrumb({first:"Transacciones Webpay", firstURL:"transactions"}));
@@ -385,7 +385,21 @@ function Main() {
                   icon="oval"
                   className="w-10 h-10 mt-10"
                 /></div></div>}
-                
+
+                { status === "failed" && (
+                  <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
+                    <Lucide icon="AlertCircle" className="w-12 h-12 text-red-400" />
+                    <p className="text-lg font-medium text-slate-600">No se pudo cargar las transacciones</p>
+                    <p className="text-sm text-slate-400">{errorMessage || "Error de autorización. Contacta al administrador."}</p>
+                    <Button rounded variant="soft-primary" className="mt-2 px-6 py-2"
+                      onClick={() => dispatch(getPaymentTransactions({}))}
+                    >
+                      <Lucide icon="RefreshCw" className="w-4 h-4 mr-2" />
+                      Reintentar
+                    </Button>
+                  </div>
+                )}
+
                 { status === "idle" && <Content paymentTransactions={paymentTransactions} locations={locations}/>}
                 
             <div className="flex flex-col-reverse flex-wrap items-center p-5 flex-reverse gap-y-2 sm:flex-row"> 

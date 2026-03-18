@@ -18,9 +18,10 @@ import {FormAdminCourse, DEFAULT_COURSE_FORM_DATA} from "./components/FormAdminC
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from '@/stores/breadcrumb';
 import { getLocationsOnly, selectLocation } from "@/stores/Locations/slice";
-import { setCourse, getCourses, setLocationIdSelected, selectCourse } from "@/stores/Courses/slice";
+import { setCourse, getCourses, setLocationIdSelected, selectCourse, updateCourseActive } from "@/stores/Courses/slice";
 
-import { setSchedules } from '@/stores/Schedule/slice';
+import { setSchedules, removeSchedule } from '@/stores/Schedule/slice';
+import { removeCourseSessionType } from '@/stores/SessionType/slice';
 
 
 const typeOfCourse: any = {
@@ -231,20 +232,11 @@ function Locations(props: any) {
 
 function FormCourse(props: any) {
   const {selectedIndex, setSelectedIndex, fnUpdateState } = props;
-  const [dataSchedule, setDataSchedule] = useState({
-    day: "",
-    startHour: "",
-    endHour: "",
-    minimumQuotas: "",
-    maximumQuotas: "",
-  })
-  const [dataSessions, setDataSessions] = useState({
-    isActive: "",
-    name: "",
-    totalSessions: "",
-    amount: "",
-  })
-  const {data, setNewSlideover} = props;
+  const {data, initialSchedule, setNewSlideover} = props;
+  const [dataSchedule, setDataSchedule] = useState(
+    initialSchedule?.id ? initialSchedule : { day: "", startHour: "", endHour: "", minimumQuotas: "", maximumQuotas: "" }
+  );
+  const [dataSessions, setDataSessions] = useState({} as any)
   // const {courses } = useAppSelector(selectCourse);
   const {locations, status } = useAppSelector(selectLocation);
   const {locationIdSelected } = useAppSelector(selectCourse);
@@ -252,6 +244,14 @@ function FormCourse(props: any) {
   const dispatch = useAppDispatch();
   
   
+  const handleRemoveSchedule = async (scheduleId: string) => {
+    if (!window.confirm('¿Eliminar este horario?')) return;
+    const result: any = await dispatch(removeSchedule(scheduleId));
+    if (result?.meta?.requestStatus === 'fulfilled') {
+      await dispatch(getCourses({ isActive: true, locationId: locationIdSelected }));
+    }
+  };
+
   const  handleDataSChedule = async (schedule:any) => {
     
     setDataSchedule({...schedule})
@@ -280,9 +280,8 @@ function FormCourse(props: any) {
   
   
   
-  const handleDataSession = (data:any) => {
-    alert("grabar PAck de sesiones")
-    setDataSessions({...data})
+  const handleDataSession = (data: any) => {
+    setDataSessions({ ...data });
   }
   
   return(
@@ -383,9 +382,16 @@ function FormCourse(props: any) {
                             <Table.Td>{item?.minimumQuotas} máximo</Table.Td>
                             <Table.Td>{item?.maximumQuotas} mínimo</Table.Td>
                             <Table.Td>
-                              <Button 
-                              onClick={()=>setDataSchedule({...item})}
-                              variant="soft-success" className=" mr-4">Editar</Button>    
+                              <div className="flex gap-2">
+                                <Button
+                                  onClick={() => setDataSchedule({...item})}
+                                  variant="soft-success"
+                                >Editar</Button>
+                                <Button
+                                  onClick={() => handleRemoveSchedule(item?.id)}
+                                  variant="soft-danger"
+                                >Eliminar</Button>
+                              </div>
                             </Table.Td>
                           </Table.Tr>
                       )
@@ -411,13 +417,10 @@ function FormCourse(props: any) {
            
               
               <FormAdminSessionType
-                data={dataSessions}
-                // setData={setDataSchedule}
-                setData={handleDataSession}
-                setCleanData={setDataSessions}
-                locationIdSelected ={locationIdSelected}
-                // duration={data?.duration}
-                couseId={data?.id}
+                courseId={data?.id}
+                locationIdSelected={locationIdSelected}
+                onSuccess={() => dispatch(getCourses({ isActive: true, locationId: locationIdSelected }))}
+                onClose={() => setDataSessions({})}
                 />
               
            
@@ -432,7 +435,7 @@ function FormCourse(props: any) {
                     {/* {Array.isArray(data?.sessionTypes?.items) &&
                     data?.sessionTypes?.items.map((sessions: any, i: number) =>  */}
                     {
-                    Array.isArray(data?.sessionTypes?.items) && 
+                    Array.isArray(data?.sessionTypes?.items) &&
                            [...data?.sessionTypes?.items].sort((a, b) => {
                             return a?.sessionType?.totalSessions - b?.sessionType?.totalSessions;
                           })
@@ -499,14 +502,46 @@ function FormCourse(props: any) {
 }
 function List(props: any) {
   const [newSlideover, setNewSlideover] = useState(false);
-  const [dataCourse, setDataCourse] = useState({});
-  const {courses, status } = useAppSelector(selectCourse);
+  const [dataCourse, setDataCourse] = useState({} as any);
+  const [selectedSchedule, setSelectedSchedule] = useState({} as any);
+  const [packSlideover, setPackSlideover] = useState(false);
+  const [packCourse, setPackCourse] = useState({} as any);
+  const [activeFilter, setActiveFilter] = useState<'active' | 'inactive' | 'all'>('active');
+  const dispatch = useAppDispatch();
+  const {courses, status, locationIdSelected } = useAppSelector(selectCourse);
   const {locations } = useAppSelector(selectLocation);
-  
-function setDataSlider(data:any){
-  setNewSlideover(!newSlideover)
-  setDataCourse({...data})
-}
+
+  function setDataSlider(data: any, schedule?: any) {
+    setDataCourse({ ...data });
+    if (schedule) setSelectedSchedule({ ...schedule });
+    setNewSlideover(true);
+  }
+
+  function openPackSlideover(data: any) {
+    setPackCourse({ ...data });
+    setPackSlideover(true);
+  }
+
+  async function handleFilterChange(filter: 'active' | 'inactive' | 'all') {
+    setActiveFilter(filter);
+    const opts: any = { locationId: locationIdSelected };
+    if (filter === 'active') opts.isActive = true;
+    else if (filter === 'inactive') opts.isActive = false;
+    else opts.skipActiveFilter = true;
+    await dispatch(getCourses(opts));
+  }
+
+  async function handleToggleActive(courseId: string, currentIsActive: boolean) {
+    await dispatch(updateCourseActive({ courseId, isActive: !currentIsActive }));
+  }
+
+  async function handleRemoveCourseSessionType(courseSessionTypeId: string) {
+    if (!window.confirm('¿Eliminar este pack del curso?')) return;
+    const result: any = await dispatch(removeCourseSessionType(courseSessionTypeId));
+    if (result?.payload?.id || result?.meta?.requestStatus === 'fulfilled') {
+      await dispatch(getCourses({ isActive: true, locationId: locationIdSelected }));
+    }
+  }
   
   return(
     <>
@@ -532,8 +567,9 @@ function setDataSlider(data:any){
           <Slideover.Description className="p-0">
            
            
-           <FormCourse 
+           <FormCourse
             data={dataCourse}
+            initialSchedule={selectedSchedule}
             setNewSlideover={setNewSlideover}
            />
             {/* <LevelsList
@@ -545,9 +581,54 @@ function setDataSlider(data:any){
         </Slideover.Panel>
       </Slideover>
 
+      {/* ── Pack de Sesiones Slideover ─────────────────────── */}
+      <Slideover
+        size="md"
+        key="Slide-pack-sessions"
+        open={packSlideover}
+        onClose={() => setPackSlideover(false)}
+      >
+        <Slideover.Panel className="rounded-[0.75rem_0_0_0.75rem/1.1rem_0_0_1.1rem]">
+          <a
+            href=""
+            className="focus:outline-none hover:bg-white/10 bg-white/5 transition-all hover:rotate-180 absolute inset-y-0 left-0 right-auto flex items-center justify-center my-auto -ml-[60px] sm:-ml-[105px] border rounded-full text-white/90 w-8 h-8 sm:w-14 sm:h-14 border-white/90 hover:scale-105"
+            onClick={(e: any) => { e.preventDefault(); setPackSlideover(false); }}
+          >
+            <Lucide className="w-3 h-3 sm:w-8 sm:h-8 stroke-[1]" icon="X" />
+          </a>
+          <Slideover.Description className="p-0">
+            <FormAdminSessionType
+              courseId={packCourse?.id || ''}
+              locationIdSelected={locationIdSelected || packCourse?.locationId || ''}
+              onSuccess={() => setPackSlideover(false)}
+              onClose={() => setPackSlideover(false)}
+            />
+          </Slideover.Description>
+        </Slideover.Panel>
+      </Slideover>
+
       <div className="overflow-auto xl:overflow-visible">
-          { status === "loading" &&   
-            <div className="flex justify-center min-w-full">
+          {/* Filtro activo/inactivo */}
+          <div className="flex gap-2 p-3 border-b border-slate-200/60">
+            <Button
+              size="sm"
+              variant={activeFilter === 'active' ? 'primary' : 'outline-secondary'}
+              onClick={() => handleFilterChange('active')}
+            >Activos</Button>
+            <Button
+              size="sm"
+              variant={activeFilter === 'inactive' ? 'primary' : 'outline-secondary'}
+              onClick={() => handleFilterChange('inactive')}
+            >Inactivos</Button>
+            <Button
+              size="sm"
+              variant={activeFilter === 'all' ? 'primary' : 'outline-secondary'}
+              onClick={() => handleFilterChange('all')}
+            >Todos</Button>
+          </div>
+
+          { status === "loading" &&
+            <div className="flex justify-center min-w-full py-6">
                 <LoadingIcon
                   color="#AE5EAB"
                   icon="three-dots"
@@ -555,7 +636,7 @@ function setDataSlider(data:any){
                 />
             </div>
           }
-          { status === "idle" && 
+          { status === "idle" &&
             <Table className="border-b border-slate-200/60">
               <Table.Thead>
                 <Table.Tr>
@@ -568,12 +649,15 @@ function setDataSlider(data:any){
                   <Table.Td className="w-20 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                     Pack Sesiones
                   </Table.Td>
+                  <Table.Td className="w-20 py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
+                    Estado
+                  </Table.Td>
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
                 {Array.isArray(courses) && courses.map((item, index) => (
                   <>
-                    <Table.Tr key={index} className="[&_td]:last:border-b-0">
+                    <Table.Tr key={index} className={`[&_td]:last:border-b-0 ${!item?.isActive ? 'bg-slate-100 opacity-60' : ''}`}>
                       <Table.Td className="w-20 py-4 border-dashed ">
                         <>
                           <p className="uppercase font-medium">{item.title}</p>
@@ -620,7 +704,7 @@ function setDataSlider(data:any){
                             </svg>
                             </i>
                             <p>
-                            {item?.locationCoursesId} 
+                            {item?.locationCoursesId}
                             </p>                           
                           </div>
                          
@@ -647,7 +731,7 @@ function setDataSlider(data:any){
                                 key={`${i}-CARD-Schedules`}
                                 variant="outline-secondary"
                                 className={`min-w-64  bg-slate-50 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm hover:bg-slate-50 transition-colors mb-4`}
-                                onClick={() => setDataSlider(item)}
+                                onClick={() => setDataSlider(item, schedule)}
                               >
                                 <div className="">
                                   <p className="text-left text-lg mb-4">
@@ -675,45 +759,54 @@ function setDataSlider(data:any){
                       <Table.Td className="w-20 py-4 border-dashed">
                         <div className="w-56 flex  items-start justify-center flex-wrap">
                           <div className="text-xs text-slate-500">
-                           {Array.isArray(item?.sessionTypes?.items) && 
+                           {Array.isArray(item?.sessionTypes?.items) &&
                            [...item?.sessionTypes?.items].sort((a:any, b:any) => {
                             const ad = Number(a.sessionType.totalSessions);
                             const bd = Number(b.sessionType.totalSessions);
                             return ad > bd ? -1 : ad < bd ? 1 : 0;
                           })
                           .map((sessionType:any, x:number)=>{
-                            return ( 
-                            <>
-                              <p className="text-slate-300">{sessionType?.sessionType?.id}</p>
-                              <p className="text-slate-300">{sessionType?.id}</p>
-                              <Button
-                                key={`${x}-CARD-sessionType`}
-                                variant="outline-secondary"
-                                className={`min-w-64 col-span-4 md:col-span-2 xl:col-span-1 p-3 mb-2 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm hover:bg-slate-50  transition-colors`}
-                                // onClick={() => handleLocationClick(item?.id)}
+                            return (
+                            <div key={`${x}-CARD-sessionType`} className="relative min-w-64 mb-2">
+                              <div className="p-3 border border-dashed rounded-[0.6rem] border-slate-300/80 shadow-sm bg-white">
+                                <p className="text-left w-full font-medium uppercase text-sm">
+                                  {sessionType?.sessionType?.name}
+                                </p>
+                                <p className="flex justify-between items-center mt-2">
+                                  <span className="w-8 h-8 mr-2 text-xs text-slate-700 rounded-full bg-slate-200 flex items-center justify-center">{sessionType?.sessionType?.totalSessions}</span>
+                                  <span className="px-2 py-1 mr-1 text-lg text-primary">$ {formatCurrency(sessionType?.sessionType?.amount)}</span>
+                                </p>
+                              </div>
+                              <button
+                                type="button"
+                                className="absolute top-1 right-1 w-6 h-6 flex items-center justify-center rounded-full bg-red-100 hover:bg-red-200 text-red-500 transition-colors"
+                                onClick={() => handleRemoveCourseSessionType(sessionType?.id)}
+                                title="Eliminar pack"
                               >
-                                <div className="w-full">
-                                  <p className="text-left w-full">
-                                    <b className=" uppercase">{sessionType?.sessionType?.name}</b>
-                                  </p>
-                                  <p className="flex justify-between items-center mt-2">
-                                    <span className="w-8 h-8 mr-2 text-xs text-slate-700 rounded-full bg-slate-200 px-2 py-2">{sessionType?.sessionType?.totalSessions}</span>
-                                    <span className="px-2 py-1 mr-1 text-lg text-primary">$ {formatCurrency(sessionType?.sessionType?.amount)}</span>
-                                  </p>
-                                  
-                                  
-                                </div>
-                              </Button>
-                            </>)
+                                <Lucide icon="X" className="w-3 h-3" />
+                              </button>
+                            </div>)
                            })}
                           </div>
                           <Button
-                            // key={`${x}-CARD-sessionType`}
-                            // variant="outline-secondary"
-                            className={`bg-slate-200 min-w-64 p-3 mb-2 border rounded-[0.6rem]  shadow-sm hover:bg-primary hover:text-white  transition-colors uppercase`}
-                            onClick={() => setDataSlider(item)}
+                            className={`bg-slate-200 min-w-64 p-3 mb-2 border rounded-[0.6rem] shadow-sm hover:bg-primary hover:text-white transition-colors uppercase`}
+                            onClick={() => openPackSlideover(item)}
                           >
                             Nuevo Pack de sesiones
+                          </Button>
+                        </div>
+                      </Table.Td>
+                      <Table.Td className="py-4 border-dashed align-top">
+                        <div className="flex flex-col items-start gap-2">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${item?.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}`}>
+                            {item?.isActive ? 'Activo' : 'Inactivo'}
+                          </span>
+                          <Button
+                            size="sm"
+                            variant={item?.isActive ? 'soft-danger' : 'soft-success'}
+                            onClick={() => handleToggleActive(item?.id, item?.isActive)}
+                          >
+                            {item?.isActive ? 'Desactivar' : 'Activar'}
                           </Button>
                         </div>
                       </Table.Td>
@@ -783,12 +876,12 @@ function Main() {
           ageType: course?.ageType,
           AgeGroupType: course?.AgeGroupType,
           duration: course?.duration,
-          locationCoursesId: course?.locationCoursesId,
+          locationCoursesId: course?.locationId,
           isActive: true // ✅ Set default value to true for new courses
         })
       ),
-      await dispatch(setLocationIdSelected(course?.locationCoursesId)),
-      await dispatch(getCourses({isActive:true, locationId:course?.locationCoursesId})),
+      await dispatch(setLocationIdSelected(course?.locationId)),
+      await dispatch(getCourses({isActive:true, locationId:course?.locationId})),
       setNewCourseSlideover(false)
     ])
     

@@ -41,6 +41,7 @@ import {
     REPORT_COURSES,
     ADMIN_STUDENT,
     DOCUMENTATION,
+    ROLE_PERMISSIONS,
   } from "./paths";
 
   import Layout from "../themes";
@@ -88,6 +89,7 @@ import {
   const AcademyStudents = lazy(() => import("../pages/private/AcademyStudents"));
   const ReportCourseStudent = lazy(() => import("../pages/private/ReportCourseStudent"));
   const Documentation = lazy(() => import("../pages/private/Documentation"));
+  const RolePermissions = lazy(() => import("../pages/private/RolePermissions"));
   const AdminDashboard = lazy(() => import("../pages/private/DashboardAdmin"));
   const AnfitrionDashboard = lazy(() => import("../pages/private/DashboardAnfitrion"));
   const NoneDashboard = lazy(() => import("../pages/private/DashboardNone"));
@@ -96,6 +98,7 @@ import {
   const adminRolePermissions: string[] = [
     QUICK_REGISTRATION,
     ADMIN_DASHBOARD,
+    ROLE_PERMISSIONS,
     PRIVATE,
     HOME,
     LEADS,
@@ -455,6 +458,14 @@ export const privateRoutes = {
               <Documentation />
             </ProtectedRoute>
         ),
+        },
+        {
+          path: ROLE_PERMISSIONS,
+          element: (
+            <ProtectedRoute requiredPath={ROLE_PERMISSIONS}>
+              <RolePermissions />
+            </ProtectedRoute>
+          ),
         },
     ],
   };

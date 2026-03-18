@@ -57,7 +57,7 @@ function Content(props: any) {
   const sessionsByStudent: { [key: string]: any[] } = {};
   
   sortedSessions.forEach((session: any) => {
-    const studentId = session.sessionDetailStudentId;
+    const studentId = session.studentId;
     if (studentId) {
       if (!sessionsByStudent[studentId]) {
         sessionsByStudent[studentId] = [];
@@ -186,7 +186,7 @@ function Content(props: any) {
                           activeSessions.map((session: any, sessionIndex: number) => {
                             return (
                               <div 
-                                key={`${session.sessionDetailStudentId}-${sessionIndex}`}
+                                key={`${session.studentId}-${sessionIndex}`}
                                 className={clsx([
                                   "relative group flex flex-col justify-center items-center text-xs rounded-md border pt-4 mr-2 mb-1",
                                   session?.status ===
@@ -446,24 +446,24 @@ function Main() {
     }));
   }
   
-  useEffect(() => { 
+  useEffect(() => {
     (async () => {
       const today = new Date();
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, '0');
       const day = String(today.getDate()).padStart(2, '0');
       const dateFormated = `${year}-${month}-${day}`;
-      
-      await dispatch(getEnrollmentsExpiring({
-        sessionDate: dateFormated,
-        locationId: date?.locationId || undefined
-      }));
-    })(); 
+
+      await Promise.all([
+        locationsList.length === 0 && dispatch(getLocationsOnly()),
+        dispatch(getEnrollmentsExpiring({
+          sessionDate: dateFormated,
+          locationId: date?.locationId || undefined
+        }))
+      ]);
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date]);
-  useEffect(() => { 
-    locationsList.length === 0 && dispatch(getLocationsOnly())
-  }, [])
+  }, []);
   
   return (
     <>

@@ -263,14 +263,14 @@ console.log("-updateSession-newDate--", newDate)
 console.log("-updateSession-objFilter--", objFilter)
 console.log("-updateSession-date-parts--", { day, month, year, dateString })
 
-    // sessionDetailStudentId es requerido (ID!) según el schema, no puede ser null
-    const sessionDetailStudentId = objFilter?.sessionDetailStudentId || objFilter?.studentId;
-    if (!sessionDetailStudentId) {
-      const errorMsg = "sessionDetailStudentId es requerido y no puede ser null";
+    // studentId es requerido (ID!) según el schema, no puede ser null
+    const studentId = objFilter?.studentId;
+    if (!studentId) {
+      const errorMsg = "studentId es requerido y no puede ser null";
       console.error(errorMsg, objFilter);
       reject({
         errorMessage: errorMsg,
-        details: "El campo sessionDetailStudentId (o studentId) es obligatorio para crear una sesión"
+        details: "El campo studentId es obligatorio para crear una sesión"
       });
       return;
     }
@@ -281,12 +281,12 @@ console.log("-updateSession-date-parts--", { day, month, year, dateString })
       locationIdUsed: String(objFilter?.locationIdUsed),
       locationId: String(objFilter?.locationId),
       date:String(`${objFilter?.date}`),
-    
+
       modifiedByDate: getAWSDateStgoChile(),
       modifiedBy: String(objFilter?.modifiedBy || ""),
-      
-      sessionDetailStudentId: String(sessionDetailStudentId), // Requerido, no puede ser null
-      enrollmentSessionDetailsId: objFilter?.enrollmentSessionDetailsId || objFilter?.enrollmentId || null,
+
+      studentId: String(studentId), // Requerido, no puede ser null
+      enrollmentId: objFilter?.enrollmentId || null,
       day: day,
       month: month,
       year: year,
@@ -328,7 +328,7 @@ console.log("-updateSession-date-parts--", { day, month, year, dateString })
         return;
       }
       
-      createdId = setData.data.createSessionDetail.id;
+      createdId = setData.data.createV2SessionDetail.id;
       console.log(">> Sesión creada correctamente con ID:", createdId);
       
     } catch (createError: any) {
@@ -373,7 +373,7 @@ console.log("-updateSession-date-parts--", { day, month, year, dateString })
           details: removeData
         };
       } else {
-        console.log(">> Sesión antigua eliminada correctamente con ID:", removeData.data.deleteSessionDetail.id);
+        console.log(">> Sesión antigua eliminada correctamente con ID:", removeData.data.deleteV2SessionDetail.id);
       }
       
     } catch (err: any) {
@@ -427,7 +427,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
     
     const filterEnrollment= typeof objFilter?.enrollmentId === 'undefined'
       ? {}
-      : { enrollmentSessionDetailsId: { eq: String(objFilter?.enrollmentId) } };
+      : { enrollmentId: { eq: String(objFilter?.enrollmentId) } };
       
     const filterLocation= typeof objFilter?.locationId === 'undefined' || objFilter?.locationId === ""
       ? {}
@@ -435,7 +435,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       
     const filterStudent = typeof objFilter?.studentId === 'undefined'
       ? {}
-      : { sessionDetailStudentId: { eq: String(objFilter?.studentId) } };
+      : { studentId: { eq: String(objFilter?.studentId) } };
       
     const filterSessionDate = typeof objFilter?.sessionDate === 'undefined'
       ? {}
@@ -504,7 +504,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       // console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data)
       // data.listSessionDetails.items.length > 0 && console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data.listSessionDetails)
       
-        resolve({ ...data.listSessionDetails } as any);
+        resolve({ ...data.listV2SessionDetails } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -554,7 +554,7 @@ export const fetchSessionsByStudent = async (objFilter: FilterOptions): Promise<
     
     // Construir las variables de la query
     const queryVariables: any = {
-      sessionDetailStudentId: String(objFilter?.studentId),
+      studentId: String(objFilter?.studentId),
       limit: 1000000000
     };
     
@@ -607,7 +607,7 @@ export const fetchSessionsByLocationAndDate = async (objFilter: FilterOptions): 
 
        console.log(">>> getData.data  >>>", getData.data )
     const data:any = getData.data;
-    resolve({ ...data.sessionDetailsByLocationIdAndDate } as any); // CORRECCIÓN AQUÍ
+    resolve({ ...data.listV2SessionDetailByLocationIdAndDate } as any);
         
     } catch (err) {
       console.log(">> err >>", err)
@@ -646,7 +646,7 @@ export const fetchSessionsByLocationAndDatev2 = async (objFilter: FilterOptions)
 
        console.log(">>> fetchSessionsByLocationAndDatev2.data  >>>", getData.data )
     const data:any = getData.data;
-    resolve({ ...data.sessionDetailsByLocationIdAndDate } as any); // CORRECCIÓN AQUÍ
+    resolve({ ...data.listV2SessionDetailByLocationIdAndDate } as any);
         
     } catch (err) {
       console.log(">> err >>", err)
