@@ -20,7 +20,7 @@ Amplify.configure(outputs);
 // CookieStorage solo en producción — en localhost interfiere con el flujo SRP de Cognito
 if (window.location.hostname !== 'localhost') {
   cognitoUserPoolsTokenProvider.setKeyValueStorage(new CookieStorage({
-    domain: 'app.miniswimmer.cl',
+    domain: '.miniswimmer.cl',
     expires: 365,
     secure: true,
     sameSite: 'strict',
