@@ -65,7 +65,7 @@ const DELETE_PERMISSION = /* GraphQL */`
 `;
 
 const LIST_ROL_PERMISSIONS = /* GraphQL */`
-  query ListV2RolPermissions($filter: Modelv2RolPermissionsFilterInput, $limit: Int) {
+  query ListV2RolPermissions($filter: ModelV2RolPermissionsFilterInput, $limit: Int) {
     listV2RolPermissions(filter: $filter, limit: $limit) {
       items { id roleId permissionId createdAt updatedAt }
     }
@@ -222,7 +222,7 @@ export const revokePermission = async (
 // ─── Fetch permissions for a role (used in login flow) ───────────────────────
 
 const LIST_ROL_PERMISSIONS_WITH_DETAIL = /* GraphQL */`
-  query ListV2RolPermissionsWithDetail($filter: Modelv2RolPermissionsFilterInput, $limit: Int) {
+  query ListV2RolPermissionsWithDetail($filter: ModelV2RolPermissionsFilterInput, $limit: Int) {
     listV2RolPermissions(filter: $filter, limit: $limit) {
       items {
         roleId

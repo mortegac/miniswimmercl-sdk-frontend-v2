@@ -184,9 +184,11 @@ export type v2Users = {
   emailSend?: Modelv2EmailSendConnection | null,
   enrollments?: Modelv2EnrollmentConnection | null,
   firstContact?: boolean | null,
+  gmailMessages?: Modelv2GmailInboxConnection | null,
   id: string,
   ig?: string | null,
   isAcademyStudent?: boolean | null,
+  isActive?: boolean | null,
   isEmployed?: boolean | null,
   latitude?: number | null,
   longitude?: number | null,
@@ -872,6 +874,37 @@ export enum v2typeofPlans {
 }
 
 
+export type Modelv2GmailInboxConnection = {
+  __typename: "Modelv2GmailInboxConnection",
+  items:  Array<v2GmailInbox | null >,
+  nextToken?: string | null,
+};
+
+export type v2GmailInbox = {
+  __typename: "v2GmailInbox",
+  attachments?: string | null,
+  bodyHtml?: string | null,
+  bodyText?: string | null,
+  createdAt: string,
+  dateSent: string,
+  dateStr: string,
+  fromEmail?: string | null,
+  fromName?: string | null,
+  gmailAccount: string,
+  hasAttachments?: boolean | null,
+  id: string,
+  isRead?: boolean | null,
+  labels?: Array< string | null > | null,
+  messageId: string,
+  snippet?: string | null,
+  subject?: string | null,
+  threadId: string,
+  toEmails?: Array< string | null > | null,
+  updatedAt: string,
+  user?: v2Users | null,
+  userId?: string | null,
+};
+
 export type v2Roles = {
   __typename: "v2Roles",
   createdAt: string,
@@ -1552,6 +1585,20 @@ export type ModelV2CorrelativesConnection = {
   nextToken?: string | null,
 };
 
+export type Modelv2CorrelativesFilterInput = {
+  and?: Array< Modelv2CorrelativesFilterInput | null > | null,
+  correlative?: ModelFloatInput | null,
+  not?: Modelv2CorrelativesFilterInput | null,
+  or?: Array< Modelv2CorrelativesFilterInput | null > | null,
+  type?: Modelv2ParametersTypeInput | null,
+};
+
+export type Modelv2CorrelativesConnection = {
+  __typename: "Modelv2CorrelativesConnection",
+  items:  Array<v2Correlatives | null >,
+  nextToken?: string | null,
+};
+
 export type ModelV2CourseSessionTypeFilterInput = {
   and?: Array< ModelV2CourseSessionTypeFilterInput | null > | null,
   courseId?: ModelIDInput | null,
@@ -1773,6 +1820,61 @@ export type Modelv2ExpenseTypeInput = {
 export type ModelV2ExpenseConnection = {
   __typename: "ModelV2ExpenseConnection",
   items:  Array<v2Expense | null >,
+  nextToken?: string | null,
+};
+
+export type Modelv2GmailInboxFilterInput = {
+  and?: Array< Modelv2GmailInboxFilterInput | null > | null,
+  attachments?: ModelStringInput | null,
+  bodyHtml?: ModelStringInput | null,
+  bodyText?: ModelStringInput | null,
+  dateSent?: ModelStringInput | null,
+  dateStr?: ModelStringInput | null,
+  fromEmail?: ModelStringInput | null,
+  fromName?: ModelStringInput | null,
+  gmailAccount?: ModelStringInput | null,
+  hasAttachments?: ModelBooleanInput | null,
+  isRead?: ModelBooleanInput | null,
+  labels?: ModelStringInput | null,
+  messageId?: ModelStringInput | null,
+  not?: Modelv2GmailInboxFilterInput | null,
+  or?: Array< Modelv2GmailInboxFilterInput | null > | null,
+  snippet?: ModelStringInput | null,
+  subject?: ModelStringInput | null,
+  threadId?: ModelStringInput | null,
+  toEmails?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+};
+
+export type ModelV2GmailInboxFilterInput = {
+  and?: Array< ModelV2GmailInboxFilterInput | null > | null,
+  attachments?: ModelStringInput | null,
+  bodyHtml?: ModelStringInput | null,
+  bodyText?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  dateSent?: ModelStringInput | null,
+  dateStr?: ModelStringInput | null,
+  fromEmail?: ModelStringInput | null,
+  fromName?: ModelStringInput | null,
+  gmailAccount?: ModelStringInput | null,
+  hasAttachments?: ModelBooleanInput | null,
+  id?: ModelIDInput | null,
+  isRead?: ModelBooleanInput | null,
+  labels?: ModelStringInput | null,
+  messageId?: ModelStringInput | null,
+  not?: ModelV2GmailInboxFilterInput | null,
+  or?: Array< ModelV2GmailInboxFilterInput | null > | null,
+  snippet?: ModelStringInput | null,
+  subject?: ModelStringInput | null,
+  threadId?: ModelStringInput | null,
+  toEmails?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+};
+
+export type ModelV2GmailInboxConnection = {
+  __typename: "ModelV2GmailInboxConnection",
+  items:  Array<v2GmailInbox | null >,
   nextToken?: string | null,
 };
 
@@ -2374,6 +2476,22 @@ export type ModelV2SessionTypeConnection = {
   nextToken?: string | null,
 };
 
+export type Modelv2ShoppingCartDetailFilterInput = {
+  academyEnrollmentId?: ModelIDInput | null,
+  amount?: ModelFloatInput | null,
+  and?: Array< Modelv2ShoppingCartDetailFilterInput | null > | null,
+  cartId?: ModelIDInput | null,
+  createdById?: ModelIDInput | null,
+  detail?: ModelStringInput | null,
+  enrollmentId?: ModelIDInput | null,
+  not?: Modelv2ShoppingCartDetailFilterInput | null,
+  or?: Array< Modelv2ShoppingCartDetailFilterInput | null > | null,
+  privateEnrollmentId?: ModelIDInput | null,
+  quantity?: ModelIntInput | null,
+  type?: Modelv2TypeDetailInput | null,
+  wasDeleted?: ModelBooleanInput | null,
+};
+
 export type ModelV2ShoppingCartDetailFilterInput = {
   academyEnrollmentId?: ModelIDInput | null,
   amount?: ModelFloatInput | null,
@@ -2728,6 +2846,7 @@ export type ModelV2UsersFilterInput = {
   id?: ModelIDInput | null,
   ig?: ModelStringInput | null,
   isAcademyStudent?: ModelBooleanInput | null,
+  isActive?: ModelBooleanInput | null,
   isEmployed?: ModelBooleanInput | null,
   latitude?: ModelFloatInput | null,
   longitude?: ModelFloatInput | null,
@@ -2759,6 +2878,7 @@ export type Modelv2UsersFilterInput = {
   firstContact?: ModelBooleanInput | null,
   ig?: ModelStringInput | null,
   isAcademyStudent?: ModelBooleanInput | null,
+  isActive?: ModelBooleanInput | null,
   isEmployed?: ModelBooleanInput | null,
   latitude?: ModelFloatInput | null,
   longitude?: ModelFloatInput | null,
@@ -3286,6 +3406,52 @@ export type CreateV2ExpenseInput = {
   locationId: string,
   month: number,
   year: number,
+};
+
+export type ModelV2GmailInboxConditionInput = {
+  and?: Array< ModelV2GmailInboxConditionInput | null > | null,
+  attachments?: ModelStringInput | null,
+  bodyHtml?: ModelStringInput | null,
+  bodyText?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  dateSent?: ModelStringInput | null,
+  dateStr?: ModelStringInput | null,
+  fromEmail?: ModelStringInput | null,
+  fromName?: ModelStringInput | null,
+  gmailAccount?: ModelStringInput | null,
+  hasAttachments?: ModelBooleanInput | null,
+  isRead?: ModelBooleanInput | null,
+  labels?: ModelStringInput | null,
+  messageId?: ModelStringInput | null,
+  not?: ModelV2GmailInboxConditionInput | null,
+  or?: Array< ModelV2GmailInboxConditionInput | null > | null,
+  snippet?: ModelStringInput | null,
+  subject?: ModelStringInput | null,
+  threadId?: ModelStringInput | null,
+  toEmails?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+};
+
+export type CreateV2GmailInboxInput = {
+  attachments?: string | null,
+  bodyHtml?: string | null,
+  bodyText?: string | null,
+  dateSent: string,
+  dateStr: string,
+  fromEmail?: string | null,
+  fromName?: string | null,
+  gmailAccount: string,
+  hasAttachments?: boolean | null,
+  id?: string | null,
+  isRead?: boolean | null,
+  labels?: Array< string | null > | null,
+  messageId: string,
+  snippet?: string | null,
+  subject?: string | null,
+  threadId: string,
+  toEmails?: Array< string | null > | null,
+  userId?: string | null,
 };
 
 export type ModelV2LocationConditionInput = {
@@ -4113,6 +4279,7 @@ export type ModelV2UsersConditionInput = {
   firstContact?: ModelBooleanInput | null,
   ig?: ModelStringInput | null,
   isAcademyStudent?: ModelBooleanInput | null,
+  isActive?: ModelBooleanInput | null,
   isEmployed?: ModelBooleanInput | null,
   latitude?: ModelFloatInput | null,
   longitude?: ModelFloatInput | null,
@@ -4138,6 +4305,7 @@ export type CreateV2UsersInput = {
   id?: string | null,
   ig?: string | null,
   isAcademyStudent?: boolean | null,
+  isActive?: boolean | null,
   isEmployed?: boolean | null,
   latitude?: number | null,
   longitude?: number | null,
@@ -4250,6 +4418,10 @@ export type DeleteV2EvaluationObjetivesInput = {
 };
 
 export type DeleteV2ExpenseInput = {
+  id: string,
+};
+
+export type DeleteV2GmailInboxInput = {
   id: string,
 };
 
@@ -4559,6 +4731,27 @@ export type UpdateV2ExpenseInput = {
   locationId?: string | null,
   month?: number | null,
   year?: number | null,
+};
+
+export type UpdateV2GmailInboxInput = {
+  attachments?: string | null,
+  bodyHtml?: string | null,
+  bodyText?: string | null,
+  dateSent?: string | null,
+  dateStr?: string | null,
+  fromEmail?: string | null,
+  fromName?: string | null,
+  gmailAccount?: string | null,
+  hasAttachments?: boolean | null,
+  id: string,
+  isRead?: boolean | null,
+  labels?: Array< string | null > | null,
+  messageId?: string | null,
+  snippet?: string | null,
+  subject?: string | null,
+  threadId?: string | null,
+  toEmails?: Array< string | null > | null,
+  userId?: string | null,
 };
 
 export type UpdateV2LocationInput = {
@@ -4920,6 +5113,7 @@ export type UpdateV2UsersInput = {
   id: string,
   ig?: string | null,
   isAcademyStudent?: boolean | null,
+  isActive?: boolean | null,
   isEmployed?: boolean | null,
   latitude?: number | null,
   longitude?: number | null,
@@ -4950,6 +5144,44 @@ export type UpdateV2WorkdayReportsInput = {
   totalSales?: number | null,
   userId?: string | null,
   year?: string | null,
+};
+
+export type v2CognitoCreateUserResult = {
+  __typename: "v2CognitoCreateUserResult",
+  email: string,
+  name?: string | null,
+  roleId?: string | null,
+};
+
+export type v2GmailReplyResult = {
+  __typename: "v2GmailReplyResult",
+  error?: string | null,
+  messageId?: string | null,
+  success: boolean,
+};
+
+export type v2WebpayTransactionResult = {
+  __typename: "v2WebpayTransactionResult",
+  accounting_date?: string | null,
+  amount?: number | null,
+  authorization_code?: string | null,
+  buy_order?: string | null,
+  card_number?: string | null,
+  installments_amount?: number | null,
+  installments_number?: number | null,
+  payment_type_code?: string | null,
+  response_code?: number | null,
+  session_id?: string | null,
+  status?: string | null,
+  transaction_date?: string | null,
+  vci?: string | null,
+};
+
+export type v2WebpayStartResult = {
+  __typename: "v2WebpayStartResult",
+  orden: number,
+  token: string,
+  url: string,
 };
 
 export type ModelSubscriptionV2AcademyCoursesFilterInput = {
@@ -5253,6 +5485,31 @@ export type ModelSubscriptionV2ExpenseFilterInput = {
   or?: Array< ModelSubscriptionV2ExpenseFilterInput | null > | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   year?: ModelSubscriptionIntInput | null,
+};
+
+export type ModelSubscriptionV2GmailInboxFilterInput = {
+  and?: Array< ModelSubscriptionV2GmailInboxFilterInput | null > | null,
+  attachments?: ModelSubscriptionStringInput | null,
+  bodyHtml?: ModelSubscriptionStringInput | null,
+  bodyText?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  dateSent?: ModelSubscriptionStringInput | null,
+  dateStr?: ModelSubscriptionStringInput | null,
+  fromEmail?: ModelSubscriptionStringInput | null,
+  fromName?: ModelSubscriptionStringInput | null,
+  gmailAccount?: ModelSubscriptionStringInput | null,
+  hasAttachments?: ModelSubscriptionBooleanInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  isRead?: ModelSubscriptionBooleanInput | null,
+  labels?: ModelSubscriptionStringInput | null,
+  messageId?: ModelSubscriptionStringInput | null,
+  or?: Array< ModelSubscriptionV2GmailInboxFilterInput | null > | null,
+  snippet?: ModelSubscriptionStringInput | null,
+  subject?: ModelSubscriptionStringInput | null,
+  threadId?: ModelSubscriptionStringInput | null,
+  toEmails?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  userId?: ModelSubscriptionIDInput | null,
 };
 
 export type ModelSubscriptionV2LocationFilterInput = {
@@ -5731,6 +5988,7 @@ export type ModelSubscriptionV2UsersFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   ig?: ModelSubscriptionStringInput | null,
   isAcademyStudent?: ModelSubscriptionBooleanInput | null,
+  isActive?: ModelSubscriptionBooleanInput | null,
   isEmployed?: ModelSubscriptionBooleanInput | null,
   latitude?: ModelSubscriptionFloatInput | null,
   longitude?: ModelSubscriptionFloatInput | null,
@@ -6342,6 +6600,7 @@ export type GetV2EmailSendQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -6475,6 +6734,7 @@ export type GetV2EnrollmentQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -6593,6 +6853,61 @@ export type GetV2ExpenseQuery = {
     month: number,
     updatedAt: string,
     year: number,
+  } | null,
+};
+
+export type GetV2GmailInboxQueryVariables = {
+  id: string,
+};
+
+export type GetV2GmailInboxQuery = {
+  getV2GmailInbox?:  {
+    __typename: "v2GmailInbox",
+    attachments?: string | null,
+    bodyHtml?: string | null,
+    bodyText?: string | null,
+    createdAt: string,
+    dateSent: string,
+    dateStr: string,
+    fromEmail?: string | null,
+    fromName?: string | null,
+    gmailAccount: string,
+    hasAttachments?: boolean | null,
+    id: string,
+    isRead?: boolean | null,
+    labels?: Array< string | null > | null,
+    messageId: string,
+    snippet?: string | null,
+    subject?: string | null,
+    threadId: string,
+    toEmails?: Array< string | null > | null,
+    updatedAt: string,
+    user?:  {
+      __typename: "v2Users",
+      city?: string | null,
+      contactPhone?: string | null,
+      country?: string | null,
+      createdAt: string,
+      email: string,
+      firstContact?: boolean | null,
+      id: string,
+      ig?: string | null,
+      isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
+      isEmployed?: boolean | null,
+      latitude?: number | null,
+      longitude?: number | null,
+      name: string,
+      roleId?: string | null,
+      salesCommission?: number | null,
+      state?: string | null,
+      streetAddress?: string | null,
+      updatedAt: string,
+      validated?: boolean | null,
+      zipCode?: string | null,
+      zoomLevel?: number | null,
+    } | null,
+    userId?: string | null,
   } | null,
 };
 
@@ -6796,6 +7111,7 @@ export type GetV2PaymentTransactionsQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -6880,6 +7196,7 @@ export type GetV2PrivateEnrollmentQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -7005,6 +7322,7 @@ export type GetV2PrivateEnrollmentQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -7138,6 +7456,7 @@ export type GetV2RelationshipQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -7318,6 +7637,7 @@ export type GetV2SellersCommissionQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -7368,6 +7688,7 @@ export type GetV2SessionDetailQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -7577,6 +7898,7 @@ export type GetV2ShoppingCartQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -7619,6 +7941,7 @@ export type GetV2ShoppingCartQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -7683,6 +8006,7 @@ export type GetV2ShoppingCartDetailQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -7915,6 +8239,7 @@ export type GetV2StudentEvaluationsQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -8141,6 +8466,7 @@ export type GetV2TicketUserQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -8226,6 +8552,7 @@ export type GetV2UserPermissionsQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -8272,9 +8599,14 @@ export type GetV2UsersQuery = {
       nextToken?: string | null,
     } | null,
     firstContact?: boolean | null,
+    gmailMessages?:  {
+      __typename: "Modelv2GmailInboxConnection",
+      nextToken?: string | null,
+    } | null,
     id: string,
     ig?: string | null,
     isAcademyStudent?: boolean | null,
+    isActive?: boolean | null,
     isEmployed?: boolean | null,
     latitude?: number | null,
     longitude?: number | null,
@@ -8377,6 +8709,7 @@ export type GetV2WorkdayReportsQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -8735,6 +9068,29 @@ export type ListV2CorrelativesQuery = {
   } | null,
 };
 
+export type ListV2CorrelativesByTypeQueryVariables = {
+  filter?: Modelv2CorrelativesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  type: v2ParametersType,
+};
+
+export type ListV2CorrelativesByTypeQuery = {
+  listV2CorrelativesByType?:  {
+    __typename: "Modelv2CorrelativesConnection",
+    items:  Array< {
+      __typename: "v2Correlatives",
+      correlative?: number | null,
+      createdAt: string,
+      id: string,
+      type?: v2ParametersType | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type ListV2CourseSessionTypesQueryVariables = {
   filter?: ModelV2CourseSessionTypeFilterInput | null,
   limit?: number | null,
@@ -9025,6 +9381,235 @@ export type ListV2ExpensesQuery = {
       month: number,
       updatedAt: string,
       year: number,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListV2GmailInboxByDateStrQueryVariables = {
+  dateStr: string,
+  filter?: Modelv2GmailInboxFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListV2GmailInboxByDateStrQuery = {
+  listV2GmailInboxByDateStr?:  {
+    __typename: "Modelv2GmailInboxConnection",
+    items:  Array< {
+      __typename: "v2GmailInbox",
+      attachments?: string | null,
+      bodyHtml?: string | null,
+      bodyText?: string | null,
+      createdAt: string,
+      dateSent: string,
+      dateStr: string,
+      fromEmail?: string | null,
+      fromName?: string | null,
+      gmailAccount: string,
+      hasAttachments?: boolean | null,
+      id: string,
+      isRead?: boolean | null,
+      labels?: Array< string | null > | null,
+      messageId: string,
+      snippet?: string | null,
+      subject?: string | null,
+      threadId: string,
+      toEmails?: Array< string | null > | null,
+      updatedAt: string,
+      userId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListV2GmailInboxByFromEmailAndDateSentQueryVariables = {
+  dateSent?: ModelStringKeyConditionInput | null,
+  filter?: Modelv2GmailInboxFilterInput | null,
+  fromEmail: string,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListV2GmailInboxByFromEmailAndDateSentQuery = {
+  listV2GmailInboxByFromEmailAndDateSent?:  {
+    __typename: "Modelv2GmailInboxConnection",
+    items:  Array< {
+      __typename: "v2GmailInbox",
+      attachments?: string | null,
+      bodyHtml?: string | null,
+      bodyText?: string | null,
+      createdAt: string,
+      dateSent: string,
+      dateStr: string,
+      fromEmail?: string | null,
+      fromName?: string | null,
+      gmailAccount: string,
+      hasAttachments?: boolean | null,
+      id: string,
+      isRead?: boolean | null,
+      labels?: Array< string | null > | null,
+      messageId: string,
+      snippet?: string | null,
+      subject?: string | null,
+      threadId: string,
+      toEmails?: Array< string | null > | null,
+      updatedAt: string,
+      userId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListV2GmailInboxByGmailAccountAndDateSentQueryVariables = {
+  dateSent?: ModelStringKeyConditionInput | null,
+  filter?: Modelv2GmailInboxFilterInput | null,
+  gmailAccount: string,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListV2GmailInboxByGmailAccountAndDateSentQuery = {
+  listV2GmailInboxByGmailAccountAndDateSent?:  {
+    __typename: "Modelv2GmailInboxConnection",
+    items:  Array< {
+      __typename: "v2GmailInbox",
+      attachments?: string | null,
+      bodyHtml?: string | null,
+      bodyText?: string | null,
+      createdAt: string,
+      dateSent: string,
+      dateStr: string,
+      fromEmail?: string | null,
+      fromName?: string | null,
+      gmailAccount: string,
+      hasAttachments?: boolean | null,
+      id: string,
+      isRead?: boolean | null,
+      labels?: Array< string | null > | null,
+      messageId: string,
+      snippet?: string | null,
+      subject?: string | null,
+      threadId: string,
+      toEmails?: Array< string | null > | null,
+      updatedAt: string,
+      userId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListV2GmailInboxByMessageIdQueryVariables = {
+  filter?: Modelv2GmailInboxFilterInput | null,
+  limit?: number | null,
+  messageId: string,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListV2GmailInboxByMessageIdQuery = {
+  listV2GmailInboxByMessageId?:  {
+    __typename: "Modelv2GmailInboxConnection",
+    items:  Array< {
+      __typename: "v2GmailInbox",
+      attachments?: string | null,
+      bodyHtml?: string | null,
+      bodyText?: string | null,
+      createdAt: string,
+      dateSent: string,
+      dateStr: string,
+      fromEmail?: string | null,
+      fromName?: string | null,
+      gmailAccount: string,
+      hasAttachments?: boolean | null,
+      id: string,
+      isRead?: boolean | null,
+      labels?: Array< string | null > | null,
+      messageId: string,
+      snippet?: string | null,
+      subject?: string | null,
+      threadId: string,
+      toEmails?: Array< string | null > | null,
+      updatedAt: string,
+      userId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListV2GmailInboxByUserIdAndDateSentQueryVariables = {
+  dateSent?: ModelStringKeyConditionInput | null,
+  filter?: Modelv2GmailInboxFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  userId: string,
+};
+
+export type ListV2GmailInboxByUserIdAndDateSentQuery = {
+  listV2GmailInboxByUserIdAndDateSent?:  {
+    __typename: "Modelv2GmailInboxConnection",
+    items:  Array< {
+      __typename: "v2GmailInbox",
+      attachments?: string | null,
+      bodyHtml?: string | null,
+      bodyText?: string | null,
+      createdAt: string,
+      dateSent: string,
+      dateStr: string,
+      fromEmail?: string | null,
+      fromName?: string | null,
+      gmailAccount: string,
+      hasAttachments?: boolean | null,
+      id: string,
+      isRead?: boolean | null,
+      labels?: Array< string | null > | null,
+      messageId: string,
+      snippet?: string | null,
+      subject?: string | null,
+      threadId: string,
+      toEmails?: Array< string | null > | null,
+      updatedAt: string,
+      userId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListV2GmailInboxesQueryVariables = {
+  filter?: ModelV2GmailInboxFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListV2GmailInboxesQuery = {
+  listV2GmailInboxes?:  {
+    __typename: "ModelV2GmailInboxConnection",
+    items:  Array< {
+      __typename: "v2GmailInbox",
+      attachments?: string | null,
+      bodyHtml?: string | null,
+      bodyText?: string | null,
+      createdAt: string,
+      dateSent: string,
+      dateStr: string,
+      fromEmail?: string | null,
+      fromName?: string | null,
+      gmailAccount: string,
+      hasAttachments?: boolean | null,
+      id: string,
+      isRead?: boolean | null,
+      labels?: Array< string | null > | null,
+      messageId: string,
+      snippet?: string | null,
+      subject?: string | null,
+      threadId: string,
+      toEmails?: Array< string | null > | null,
+      updatedAt: string,
+      userId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -9881,6 +10466,37 @@ export type ListV2SessionTypesQuery = {
   } | null,
 };
 
+export type ListV2ShoppingCartDetailByCartIdQueryVariables = {
+  cartId: string,
+  filter?: Modelv2ShoppingCartDetailFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListV2ShoppingCartDetailByCartIdQuery = {
+  listV2ShoppingCartDetailByCartId?:  {
+    __typename: "Modelv2ShoppingCartDetailConnection",
+    items:  Array< {
+      __typename: "v2ShoppingCartDetail",
+      academyEnrollmentId?: string | null,
+      amount: number,
+      cartId: string,
+      createdAt: string,
+      createdById?: string | null,
+      detail: string,
+      enrollmentId?: string | null,
+      id: string,
+      privateEnrollmentId?: string | null,
+      quantity: number,
+      type: v2TypeDetail,
+      updatedAt: string,
+      wasDeleted?: boolean | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type ListV2ShoppingCartDetailsQueryVariables = {
   filter?: ModelV2ShoppingCartDetailFilterInput | null,
   limit?: number | null,
@@ -10297,6 +10913,7 @@ export type ListV2UsersQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -10336,6 +10953,47 @@ export type ListV2UsersByCountryQuery = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
+      isEmployed?: boolean | null,
+      latitude?: number | null,
+      longitude?: number | null,
+      name: string,
+      roleId?: string | null,
+      salesCommission?: number | null,
+      state?: string | null,
+      streetAddress?: string | null,
+      updatedAt: string,
+      validated?: boolean | null,
+      zipCode?: string | null,
+      zoomLevel?: number | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListV2UsersByEmailQueryVariables = {
+  email: string,
+  filter?: Modelv2UsersFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListV2UsersByEmailQuery = {
+  listV2UsersByEmail?:  {
+    __typename: "Modelv2UsersConnection",
+    items:  Array< {
+      __typename: "v2Users",
+      city?: string | null,
+      contactPhone?: string | null,
+      country?: string | null,
+      createdAt: string,
+      email: string,
+      firstContact?: boolean | null,
+      id: string,
+      ig?: string | null,
+      isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -11089,6 +11747,7 @@ export type CreateV2EmailSendMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -11223,6 +11882,7 @@ export type CreateV2EnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -11344,6 +12004,62 @@ export type CreateV2ExpenseMutation = {
     month: number,
     updatedAt: string,
     year: number,
+  } | null,
+};
+
+export type CreateV2GmailInboxMutationVariables = {
+  condition?: ModelV2GmailInboxConditionInput | null,
+  input: CreateV2GmailInboxInput,
+};
+
+export type CreateV2GmailInboxMutation = {
+  createV2GmailInbox?:  {
+    __typename: "v2GmailInbox",
+    attachments?: string | null,
+    bodyHtml?: string | null,
+    bodyText?: string | null,
+    createdAt: string,
+    dateSent: string,
+    dateStr: string,
+    fromEmail?: string | null,
+    fromName?: string | null,
+    gmailAccount: string,
+    hasAttachments?: boolean | null,
+    id: string,
+    isRead?: boolean | null,
+    labels?: Array< string | null > | null,
+    messageId: string,
+    snippet?: string | null,
+    subject?: string | null,
+    threadId: string,
+    toEmails?: Array< string | null > | null,
+    updatedAt: string,
+    user?:  {
+      __typename: "v2Users",
+      city?: string | null,
+      contactPhone?: string | null,
+      country?: string | null,
+      createdAt: string,
+      email: string,
+      firstContact?: boolean | null,
+      id: string,
+      ig?: string | null,
+      isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
+      isEmployed?: boolean | null,
+      latitude?: number | null,
+      longitude?: number | null,
+      name: string,
+      roleId?: string | null,
+      salesCommission?: number | null,
+      state?: string | null,
+      streetAddress?: string | null,
+      updatedAt: string,
+      validated?: boolean | null,
+      zipCode?: string | null,
+      zoomLevel?: number | null,
+    } | null,
+    userId?: string | null,
   } | null,
 };
 
@@ -11553,6 +12269,7 @@ export type CreateV2PaymentTransactionsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -11639,6 +12356,7 @@ export type CreateV2PrivateEnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -11764,6 +12482,7 @@ export type CreateV2PrivateEnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -11900,6 +12619,7 @@ export type CreateV2RelationshipMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -12084,6 +12804,7 @@ export type CreateV2SellersCommissionMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -12136,6 +12857,7 @@ export type CreateV2SessionDetailMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -12347,6 +13069,7 @@ export type CreateV2ShoppingCartMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -12389,6 +13112,7 @@ export type CreateV2ShoppingCartMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -12454,6 +13178,7 @@ export type CreateV2ShoppingCartDetailMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -12688,6 +13413,7 @@ export type CreateV2StudentEvaluationsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -12919,6 +13645,7 @@ export type CreateV2TicketUserMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -13006,6 +13733,7 @@ export type CreateV2UserPermissionsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -13053,9 +13781,14 @@ export type CreateV2UsersMutation = {
       nextToken?: string | null,
     } | null,
     firstContact?: boolean | null,
+    gmailMessages?:  {
+      __typename: "Modelv2GmailInboxConnection",
+      nextToken?: string | null,
+    } | null,
     id: string,
     ig?: string | null,
     isAcademyStudent?: boolean | null,
+    isActive?: boolean | null,
     isEmployed?: boolean | null,
     latitude?: number | null,
     longitude?: number | null,
@@ -13159,6 +13892,7 @@ export type CreateV2WorkdayReportsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -13761,6 +14495,7 @@ export type DeleteV2EmailSendMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -13895,6 +14630,7 @@ export type DeleteV2EnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -14016,6 +14752,62 @@ export type DeleteV2ExpenseMutation = {
     month: number,
     updatedAt: string,
     year: number,
+  } | null,
+};
+
+export type DeleteV2GmailInboxMutationVariables = {
+  condition?: ModelV2GmailInboxConditionInput | null,
+  input: DeleteV2GmailInboxInput,
+};
+
+export type DeleteV2GmailInboxMutation = {
+  deleteV2GmailInbox?:  {
+    __typename: "v2GmailInbox",
+    attachments?: string | null,
+    bodyHtml?: string | null,
+    bodyText?: string | null,
+    createdAt: string,
+    dateSent: string,
+    dateStr: string,
+    fromEmail?: string | null,
+    fromName?: string | null,
+    gmailAccount: string,
+    hasAttachments?: boolean | null,
+    id: string,
+    isRead?: boolean | null,
+    labels?: Array< string | null > | null,
+    messageId: string,
+    snippet?: string | null,
+    subject?: string | null,
+    threadId: string,
+    toEmails?: Array< string | null > | null,
+    updatedAt: string,
+    user?:  {
+      __typename: "v2Users",
+      city?: string | null,
+      contactPhone?: string | null,
+      country?: string | null,
+      createdAt: string,
+      email: string,
+      firstContact?: boolean | null,
+      id: string,
+      ig?: string | null,
+      isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
+      isEmployed?: boolean | null,
+      latitude?: number | null,
+      longitude?: number | null,
+      name: string,
+      roleId?: string | null,
+      salesCommission?: number | null,
+      state?: string | null,
+      streetAddress?: string | null,
+      updatedAt: string,
+      validated?: boolean | null,
+      zipCode?: string | null,
+      zoomLevel?: number | null,
+    } | null,
+    userId?: string | null,
   } | null,
 };
 
@@ -14225,6 +15017,7 @@ export type DeleteV2PaymentTransactionsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -14311,6 +15104,7 @@ export type DeleteV2PrivateEnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -14436,6 +15230,7 @@ export type DeleteV2PrivateEnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -14572,6 +15367,7 @@ export type DeleteV2RelationshipMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -14756,6 +15552,7 @@ export type DeleteV2SellersCommissionMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -14808,6 +15605,7 @@ export type DeleteV2SessionDetailMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -15019,6 +15817,7 @@ export type DeleteV2ShoppingCartMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -15061,6 +15860,7 @@ export type DeleteV2ShoppingCartMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -15126,6 +15926,7 @@ export type DeleteV2ShoppingCartDetailMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -15360,6 +16161,7 @@ export type DeleteV2StudentEvaluationsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -15591,6 +16393,7 @@ export type DeleteV2TicketUserMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -15678,6 +16481,7 @@ export type DeleteV2UserPermissionsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -15725,9 +16529,14 @@ export type DeleteV2UsersMutation = {
       nextToken?: string | null,
     } | null,
     firstContact?: boolean | null,
+    gmailMessages?:  {
+      __typename: "Modelv2GmailInboxConnection",
+      nextToken?: string | null,
+    } | null,
     id: string,
     ig?: string | null,
     isAcademyStudent?: boolean | null,
+    isActive?: boolean | null,
     isEmployed?: boolean | null,
     latitude?: number | null,
     longitude?: number | null,
@@ -15831,6 +16640,7 @@ export type DeleteV2WorkdayReportsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -16433,6 +17243,7 @@ export type UpdateV2EmailSendMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -16567,6 +17378,7 @@ export type UpdateV2EnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -16688,6 +17500,62 @@ export type UpdateV2ExpenseMutation = {
     month: number,
     updatedAt: string,
     year: number,
+  } | null,
+};
+
+export type UpdateV2GmailInboxMutationVariables = {
+  condition?: ModelV2GmailInboxConditionInput | null,
+  input: UpdateV2GmailInboxInput,
+};
+
+export type UpdateV2GmailInboxMutation = {
+  updateV2GmailInbox?:  {
+    __typename: "v2GmailInbox",
+    attachments?: string | null,
+    bodyHtml?: string | null,
+    bodyText?: string | null,
+    createdAt: string,
+    dateSent: string,
+    dateStr: string,
+    fromEmail?: string | null,
+    fromName?: string | null,
+    gmailAccount: string,
+    hasAttachments?: boolean | null,
+    id: string,
+    isRead?: boolean | null,
+    labels?: Array< string | null > | null,
+    messageId: string,
+    snippet?: string | null,
+    subject?: string | null,
+    threadId: string,
+    toEmails?: Array< string | null > | null,
+    updatedAt: string,
+    user?:  {
+      __typename: "v2Users",
+      city?: string | null,
+      contactPhone?: string | null,
+      country?: string | null,
+      createdAt: string,
+      email: string,
+      firstContact?: boolean | null,
+      id: string,
+      ig?: string | null,
+      isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
+      isEmployed?: boolean | null,
+      latitude?: number | null,
+      longitude?: number | null,
+      name: string,
+      roleId?: string | null,
+      salesCommission?: number | null,
+      state?: string | null,
+      streetAddress?: string | null,
+      updatedAt: string,
+      validated?: boolean | null,
+      zipCode?: string | null,
+      zoomLevel?: number | null,
+    } | null,
+    userId?: string | null,
   } | null,
 };
 
@@ -16897,6 +17765,7 @@ export type UpdateV2PaymentTransactionsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -16983,6 +17852,7 @@ export type UpdateV2PrivateEnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -17108,6 +17978,7 @@ export type UpdateV2PrivateEnrollmentMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -17244,6 +18115,7 @@ export type UpdateV2RelationshipMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -17428,6 +18300,7 @@ export type UpdateV2SellersCommissionMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -17480,6 +18353,7 @@ export type UpdateV2SessionDetailMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -17691,6 +18565,7 @@ export type UpdateV2ShoppingCartMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -17733,6 +18608,7 @@ export type UpdateV2ShoppingCartMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -17798,6 +18674,7 @@ export type UpdateV2ShoppingCartDetailMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -18032,6 +18909,7 @@ export type UpdateV2StudentEvaluationsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -18263,6 +19141,7 @@ export type UpdateV2TicketUserMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -18350,6 +19229,7 @@ export type UpdateV2UserPermissionsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -18397,9 +19277,14 @@ export type UpdateV2UsersMutation = {
       nextToken?: string | null,
     } | null,
     firstContact?: boolean | null,
+    gmailMessages?:  {
+      __typename: "Modelv2GmailInboxConnection",
+      nextToken?: string | null,
+    } | null,
     id: string,
     ig?: string | null,
     isAcademyStudent?: boolean | null,
+    isActive?: boolean | null,
     isEmployed?: boolean | null,
     latitude?: number | null,
     longitude?: number | null,
@@ -18503,6 +19388,7 @@ export type UpdateV2WorkdayReportsMutation = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -18521,6 +19407,43 @@ export type UpdateV2WorkdayReportsMutation = {
   } | null,
 };
 
+export type V2CognitoCreateUserMutationVariables = {
+  contactPhone?: string | null,
+  email: string,
+  isEmployed?: boolean | null,
+  name: string,
+  roleId?: string | null,
+  temporaryPassword: string,
+};
+
+export type V2CognitoCreateUserMutation = {
+  v2CognitoCreateUser?:  {
+    __typename: "v2CognitoCreateUserResult",
+    email: string,
+    name?: string | null,
+    roleId?: string | null,
+  } | null,
+};
+
+export type V2CognitoSetPasswordMutationVariables = {
+  email: string,
+  password: string,
+  permanent?: boolean | null,
+};
+
+export type V2CognitoSetPasswordMutation = {
+  v2CognitoSetPassword?: boolean | null,
+};
+
+export type V2CognitoSetStatusMutationVariables = {
+  email: string,
+  enabled: boolean,
+};
+
+export type V2CognitoSetStatusMutation = {
+  v2CognitoSetStatus?: boolean | null,
+};
+
 export type V2GenerateEnrollmentMutationVariables = {
   courseId: string,
   scheduleId: string,
@@ -18532,6 +19455,31 @@ export type V2GenerateEnrollmentMutationVariables = {
 
 export type V2GenerateEnrollmentMutation = {
   v2GenerateEnrollment?: string | null,
+};
+
+export type V2GmailReplyMutationVariables = {
+  body: string,
+  fromAccount: string,
+  inReplyToMessageId?: string | null,
+  subject: string,
+  threadId?: string | null,
+  toEmail: string,
+};
+
+export type V2GmailReplyMutation = {
+  v2GmailReply?:  {
+    __typename: "v2GmailReplyResult",
+    error?: string | null,
+    messageId?: string | null,
+    success: boolean,
+  } | null,
+};
+
+export type V2GmailSyncMutationVariables = {
+};
+
+export type V2GmailSyncMutation = {
+  v2GmailSync?: string | null,
 };
 
 export type V2RemoveEnrollmentMutationVariables = {
@@ -18571,14 +19519,6 @@ export type V2SendWhatsappMutation = {
   v2SendWhatsapp?: string | null,
 };
 
-export type V2SetCommitMutationVariables = {
-  token: string,
-};
-
-export type V2SetCommitMutation = {
-  v2SetCommit?: string | null,
-};
-
 export type V2SetCreateEvaluationMutationVariables = {
   age: string,
   evaluationDetails?: Array< string | null > | null,
@@ -18594,23 +19534,66 @@ export type V2SetCreateEvaluationMutation = {
   v2SetCreateEvaluation?: string | null,
 };
 
-export type V2SetStartMutationVariables = {
+export type V2WebpayCommitMutationVariables = {
+  token: string,
+};
+
+export type V2WebpayCommitMutation = {
+  v2WebpayCommit?:  {
+    __typename: "v2WebpayTransactionResult",
+    accounting_date?: string | null,
+    amount?: number | null,
+    authorization_code?: string | null,
+    buy_order?: string | null,
+    card_number?: string | null,
+    installments_amount?: number | null,
+    installments_number?: number | null,
+    payment_type_code?: string | null,
+    response_code?: number | null,
+    session_id?: string | null,
+    status?: string | null,
+    transaction_date?: string | null,
+    vci?: string | null,
+  } | null,
+};
+
+export type V2WebpayStartMutationVariables = {
   amount: number,
   cartId: string,
   glosa: string,
   userId: string,
 };
 
-export type V2SetStartMutation = {
-  v2SetStart?: string | null,
+export type V2WebpayStartMutation = {
+  v2WebpayStart?:  {
+    __typename: "v2WebpayStartResult",
+    orden: number,
+    token: string,
+    url: string,
+  } | null,
 };
 
-export type V2SetStatusMutationVariables = {
+export type V2WebpayStatusMutationVariables = {
   token: string,
 };
 
-export type V2SetStatusMutation = {
-  v2SetStatus?: string | null,
+export type V2WebpayStatusMutation = {
+  v2WebpayStatus?:  {
+    __typename: "v2WebpayTransactionResult",
+    accounting_date?: string | null,
+    amount?: number | null,
+    authorization_code?: string | null,
+    buy_order?: string | null,
+    card_number?: string | null,
+    installments_amount?: number | null,
+    installments_number?: number | null,
+    payment_type_code?: string | null,
+    response_code?: number | null,
+    session_id?: string | null,
+    status?: string | null,
+    transaction_date?: string | null,
+    vci?: string | null,
+  } | null,
 };
 
 export type OnCreateV2AcademyCoursesSubscriptionVariables = {
@@ -19186,6 +20169,7 @@ export type OnCreateV2EmailSendSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -19319,6 +20303,7 @@ export type OnCreateV2EnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -19437,6 +20422,61 @@ export type OnCreateV2ExpenseSubscription = {
     month: number,
     updatedAt: string,
     year: number,
+  } | null,
+};
+
+export type OnCreateV2GmailInboxSubscriptionVariables = {
+  filter?: ModelSubscriptionV2GmailInboxFilterInput | null,
+};
+
+export type OnCreateV2GmailInboxSubscription = {
+  onCreateV2GmailInbox?:  {
+    __typename: "v2GmailInbox",
+    attachments?: string | null,
+    bodyHtml?: string | null,
+    bodyText?: string | null,
+    createdAt: string,
+    dateSent: string,
+    dateStr: string,
+    fromEmail?: string | null,
+    fromName?: string | null,
+    gmailAccount: string,
+    hasAttachments?: boolean | null,
+    id: string,
+    isRead?: boolean | null,
+    labels?: Array< string | null > | null,
+    messageId: string,
+    snippet?: string | null,
+    subject?: string | null,
+    threadId: string,
+    toEmails?: Array< string | null > | null,
+    updatedAt: string,
+    user?:  {
+      __typename: "v2Users",
+      city?: string | null,
+      contactPhone?: string | null,
+      country?: string | null,
+      createdAt: string,
+      email: string,
+      firstContact?: boolean | null,
+      id: string,
+      ig?: string | null,
+      isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
+      isEmployed?: boolean | null,
+      latitude?: number | null,
+      longitude?: number | null,
+      name: string,
+      roleId?: string | null,
+      salesCommission?: number | null,
+      state?: string | null,
+      streetAddress?: string | null,
+      updatedAt: string,
+      validated?: boolean | null,
+      zipCode?: string | null,
+      zoomLevel?: number | null,
+    } | null,
+    userId?: string | null,
   } | null,
 };
 
@@ -19640,6 +20680,7 @@ export type OnCreateV2PaymentTransactionsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -19724,6 +20765,7 @@ export type OnCreateV2PrivateEnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -19849,6 +20891,7 @@ export type OnCreateV2PrivateEnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -19982,6 +21025,7 @@ export type OnCreateV2RelationshipSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -20162,6 +21206,7 @@ export type OnCreateV2SellersCommissionSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -20212,6 +21257,7 @@ export type OnCreateV2SessionDetailSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -20421,6 +21467,7 @@ export type OnCreateV2ShoppingCartSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -20463,6 +21510,7 @@ export type OnCreateV2ShoppingCartSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -20527,6 +21575,7 @@ export type OnCreateV2ShoppingCartDetailSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -20759,6 +21808,7 @@ export type OnCreateV2StudentEvaluationsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -20985,6 +22035,7 @@ export type OnCreateV2TicketUserSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -21070,6 +22121,7 @@ export type OnCreateV2UserPermissionsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -21116,9 +22168,14 @@ export type OnCreateV2UsersSubscription = {
       nextToken?: string | null,
     } | null,
     firstContact?: boolean | null,
+    gmailMessages?:  {
+      __typename: "Modelv2GmailInboxConnection",
+      nextToken?: string | null,
+    } | null,
     id: string,
     ig?: string | null,
     isAcademyStudent?: boolean | null,
+    isActive?: boolean | null,
     isEmployed?: boolean | null,
     latitude?: number | null,
     longitude?: number | null,
@@ -21221,6 +22278,7 @@ export type OnCreateV2WorkdayReportsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -21812,6 +22870,7 @@ export type OnDeleteV2EmailSendSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -21945,6 +23004,7 @@ export type OnDeleteV2EnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -22063,6 +23123,61 @@ export type OnDeleteV2ExpenseSubscription = {
     month: number,
     updatedAt: string,
     year: number,
+  } | null,
+};
+
+export type OnDeleteV2GmailInboxSubscriptionVariables = {
+  filter?: ModelSubscriptionV2GmailInboxFilterInput | null,
+};
+
+export type OnDeleteV2GmailInboxSubscription = {
+  onDeleteV2GmailInbox?:  {
+    __typename: "v2GmailInbox",
+    attachments?: string | null,
+    bodyHtml?: string | null,
+    bodyText?: string | null,
+    createdAt: string,
+    dateSent: string,
+    dateStr: string,
+    fromEmail?: string | null,
+    fromName?: string | null,
+    gmailAccount: string,
+    hasAttachments?: boolean | null,
+    id: string,
+    isRead?: boolean | null,
+    labels?: Array< string | null > | null,
+    messageId: string,
+    snippet?: string | null,
+    subject?: string | null,
+    threadId: string,
+    toEmails?: Array< string | null > | null,
+    updatedAt: string,
+    user?:  {
+      __typename: "v2Users",
+      city?: string | null,
+      contactPhone?: string | null,
+      country?: string | null,
+      createdAt: string,
+      email: string,
+      firstContact?: boolean | null,
+      id: string,
+      ig?: string | null,
+      isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
+      isEmployed?: boolean | null,
+      latitude?: number | null,
+      longitude?: number | null,
+      name: string,
+      roleId?: string | null,
+      salesCommission?: number | null,
+      state?: string | null,
+      streetAddress?: string | null,
+      updatedAt: string,
+      validated?: boolean | null,
+      zipCode?: string | null,
+      zoomLevel?: number | null,
+    } | null,
+    userId?: string | null,
   } | null,
 };
 
@@ -22266,6 +23381,7 @@ export type OnDeleteV2PaymentTransactionsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -22350,6 +23466,7 @@ export type OnDeleteV2PrivateEnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -22475,6 +23592,7 @@ export type OnDeleteV2PrivateEnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -22608,6 +23726,7 @@ export type OnDeleteV2RelationshipSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -22788,6 +23907,7 @@ export type OnDeleteV2SellersCommissionSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -22838,6 +23958,7 @@ export type OnDeleteV2SessionDetailSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -23047,6 +24168,7 @@ export type OnDeleteV2ShoppingCartSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -23089,6 +24211,7 @@ export type OnDeleteV2ShoppingCartSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -23153,6 +24276,7 @@ export type OnDeleteV2ShoppingCartDetailSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -23385,6 +24509,7 @@ export type OnDeleteV2StudentEvaluationsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -23611,6 +24736,7 @@ export type OnDeleteV2TicketUserSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -23696,6 +24822,7 @@ export type OnDeleteV2UserPermissionsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -23742,9 +24869,14 @@ export type OnDeleteV2UsersSubscription = {
       nextToken?: string | null,
     } | null,
     firstContact?: boolean | null,
+    gmailMessages?:  {
+      __typename: "Modelv2GmailInboxConnection",
+      nextToken?: string | null,
+    } | null,
     id: string,
     ig?: string | null,
     isAcademyStudent?: boolean | null,
+    isActive?: boolean | null,
     isEmployed?: boolean | null,
     latitude?: number | null,
     longitude?: number | null,
@@ -23847,6 +24979,7 @@ export type OnDeleteV2WorkdayReportsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -24438,6 +25571,7 @@ export type OnUpdateV2EmailSendSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -24571,6 +25705,7 @@ export type OnUpdateV2EnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -24689,6 +25824,61 @@ export type OnUpdateV2ExpenseSubscription = {
     month: number,
     updatedAt: string,
     year: number,
+  } | null,
+};
+
+export type OnUpdateV2GmailInboxSubscriptionVariables = {
+  filter?: ModelSubscriptionV2GmailInboxFilterInput | null,
+};
+
+export type OnUpdateV2GmailInboxSubscription = {
+  onUpdateV2GmailInbox?:  {
+    __typename: "v2GmailInbox",
+    attachments?: string | null,
+    bodyHtml?: string | null,
+    bodyText?: string | null,
+    createdAt: string,
+    dateSent: string,
+    dateStr: string,
+    fromEmail?: string | null,
+    fromName?: string | null,
+    gmailAccount: string,
+    hasAttachments?: boolean | null,
+    id: string,
+    isRead?: boolean | null,
+    labels?: Array< string | null > | null,
+    messageId: string,
+    snippet?: string | null,
+    subject?: string | null,
+    threadId: string,
+    toEmails?: Array< string | null > | null,
+    updatedAt: string,
+    user?:  {
+      __typename: "v2Users",
+      city?: string | null,
+      contactPhone?: string | null,
+      country?: string | null,
+      createdAt: string,
+      email: string,
+      firstContact?: boolean | null,
+      id: string,
+      ig?: string | null,
+      isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
+      isEmployed?: boolean | null,
+      latitude?: number | null,
+      longitude?: number | null,
+      name: string,
+      roleId?: string | null,
+      salesCommission?: number | null,
+      state?: string | null,
+      streetAddress?: string | null,
+      updatedAt: string,
+      validated?: boolean | null,
+      zipCode?: string | null,
+      zoomLevel?: number | null,
+    } | null,
+    userId?: string | null,
   } | null,
 };
 
@@ -24892,6 +26082,7 @@ export type OnUpdateV2PaymentTransactionsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -24976,6 +26167,7 @@ export type OnUpdateV2PrivateEnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -25101,6 +26293,7 @@ export type OnUpdateV2PrivateEnrollmentSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -25234,6 +26427,7 @@ export type OnUpdateV2RelationshipSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -25414,6 +26608,7 @@ export type OnUpdateV2SellersCommissionSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -25464,6 +26659,7 @@ export type OnUpdateV2SessionDetailSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -25673,6 +26869,7 @@ export type OnUpdateV2ShoppingCartSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -25715,6 +26912,7 @@ export type OnUpdateV2ShoppingCartSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -25779,6 +26977,7 @@ export type OnUpdateV2ShoppingCartDetailSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -26011,6 +27210,7 @@ export type OnUpdateV2StudentEvaluationsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -26237,6 +27437,7 @@ export type OnUpdateV2TicketUserSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -26322,6 +27523,7 @@ export type OnUpdateV2UserPermissionsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,
@@ -26368,9 +27570,14 @@ export type OnUpdateV2UsersSubscription = {
       nextToken?: string | null,
     } | null,
     firstContact?: boolean | null,
+    gmailMessages?:  {
+      __typename: "Modelv2GmailInboxConnection",
+      nextToken?: string | null,
+    } | null,
     id: string,
     ig?: string | null,
     isAcademyStudent?: boolean | null,
+    isActive?: boolean | null,
     isEmployed?: boolean | null,
     latitude?: number | null,
     longitude?: number | null,
@@ -26473,6 +27680,7 @@ export type OnUpdateV2WorkdayReportsSubscription = {
       id: string,
       ig?: string | null,
       isAcademyStudent?: boolean | null,
+      isActive?: boolean | null,
       isEmployed?: boolean | null,
       latitude?: number | null,
       longitude?: number | null,

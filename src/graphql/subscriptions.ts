@@ -583,6 +583,7 @@ export const onCreateV2EmailSend = /* GraphQL */ `subscription OnCreateV2EmailSe
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -717,6 +718,7 @@ export const onCreateV2Enrollment = /* GraphQL */ `subscription OnCreateV2Enroll
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -843,6 +845,62 @@ export const onCreateV2Expense = /* GraphQL */ `subscription OnCreateV2Expense($
 ` as GeneratedSubscription<
   APITypes.OnCreateV2ExpenseSubscriptionVariables,
   APITypes.OnCreateV2ExpenseSubscription
+>;
+export const onCreateV2GmailInbox = /* GraphQL */ `subscription OnCreateV2GmailInbox(
+  $filter: ModelSubscriptionV2GmailInboxFilterInput
+) {
+  onCreateV2GmailInbox(filter: $filter) {
+    attachments
+    bodyHtml
+    bodyText
+    createdAt
+    dateSent
+    dateStr
+    fromEmail
+    fromName
+    gmailAccount
+    hasAttachments
+    id
+    isRead
+    labels
+    messageId
+    snippet
+    subject
+    threadId
+    toEmails
+    updatedAt
+    user {
+      city
+      contactPhone
+      country
+      createdAt
+      email
+      firstContact
+      id
+      ig
+      isAcademyStudent
+      isActive
+      isEmployed
+      latitude
+      longitude
+      name
+      roleId
+      salesCommission
+      state
+      streetAddress
+      updatedAt
+      validated
+      zipCode
+      zoomLevel
+      __typename
+    }
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateV2GmailInboxSubscriptionVariables,
+  APITypes.OnCreateV2GmailInboxSubscription
 >;
 export const onCreateV2Location = /* GraphQL */ `subscription OnCreateV2Location(
   $filter: ModelSubscriptionV2LocationFilterInput
@@ -1045,6 +1103,7 @@ export const onCreateV2PaymentTransactions = /* GraphQL */ `subscription OnCreat
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1131,6 +1190,7 @@ export const onCreateV2PrivateEnrollment = /* GraphQL */ `subscription OnCreateV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1256,6 +1316,7 @@ export const onCreateV2PrivateEnrollment = /* GraphQL */ `subscription OnCreateV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1390,6 +1451,7 @@ export const onCreateV2Relationship = /* GraphQL */ `subscription OnCreateV2Rela
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1572,6 +1634,7 @@ export const onCreateV2SellersCommission = /* GraphQL */ `subscription OnCreateV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1624,6 +1687,7 @@ export const onCreateV2SessionDetail = /* GraphQL */ `subscription OnCreateV2Ses
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1835,6 +1899,7 @@ export const onCreateV2ShoppingCart = /* GraphQL */ `subscription OnCreateV2Shop
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1877,6 +1942,7 @@ export const onCreateV2ShoppingCart = /* GraphQL */ `subscription OnCreateV2Shop
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1942,6 +2008,7 @@ export const onCreateV2ShoppingCartDetail = /* GraphQL */ `subscription OnCreate
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2174,6 +2241,7 @@ export const onCreateV2StudentEvaluations = /* GraphQL */ `subscription OnCreate
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2405,6 +2473,7 @@ export const onCreateV2TicketUser = /* GraphQL */ `subscription OnCreateV2Ticket
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2492,6 +2561,7 @@ export const onCreateV2UserPermissions = /* GraphQL */ `subscription OnCreateV2U
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2538,9 +2608,14 @@ export const onCreateV2Users = /* GraphQL */ `subscription OnCreateV2Users($filt
       __typename
     }
     firstContact
+    gmailMessages {
+      nextToken
+      __typename
+    }
     id
     ig
     isAcademyStudent
+    isActive
     isEmployed
     latitude
     longitude
@@ -2643,6 +2718,7 @@ export const onCreateV2WorkdayReports = /* GraphQL */ `subscription OnCreateV2Wo
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3241,6 +3317,7 @@ export const onDeleteV2EmailSend = /* GraphQL */ `subscription OnDeleteV2EmailSe
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3375,6 +3452,7 @@ export const onDeleteV2Enrollment = /* GraphQL */ `subscription OnDeleteV2Enroll
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3501,6 +3579,62 @@ export const onDeleteV2Expense = /* GraphQL */ `subscription OnDeleteV2Expense($
 ` as GeneratedSubscription<
   APITypes.OnDeleteV2ExpenseSubscriptionVariables,
   APITypes.OnDeleteV2ExpenseSubscription
+>;
+export const onDeleteV2GmailInbox = /* GraphQL */ `subscription OnDeleteV2GmailInbox(
+  $filter: ModelSubscriptionV2GmailInboxFilterInput
+) {
+  onDeleteV2GmailInbox(filter: $filter) {
+    attachments
+    bodyHtml
+    bodyText
+    createdAt
+    dateSent
+    dateStr
+    fromEmail
+    fromName
+    gmailAccount
+    hasAttachments
+    id
+    isRead
+    labels
+    messageId
+    snippet
+    subject
+    threadId
+    toEmails
+    updatedAt
+    user {
+      city
+      contactPhone
+      country
+      createdAt
+      email
+      firstContact
+      id
+      ig
+      isAcademyStudent
+      isActive
+      isEmployed
+      latitude
+      longitude
+      name
+      roleId
+      salesCommission
+      state
+      streetAddress
+      updatedAt
+      validated
+      zipCode
+      zoomLevel
+      __typename
+    }
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteV2GmailInboxSubscriptionVariables,
+  APITypes.OnDeleteV2GmailInboxSubscription
 >;
 export const onDeleteV2Location = /* GraphQL */ `subscription OnDeleteV2Location(
   $filter: ModelSubscriptionV2LocationFilterInput
@@ -3703,6 +3837,7 @@ export const onDeleteV2PaymentTransactions = /* GraphQL */ `subscription OnDelet
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3789,6 +3924,7 @@ export const onDeleteV2PrivateEnrollment = /* GraphQL */ `subscription OnDeleteV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3914,6 +4050,7 @@ export const onDeleteV2PrivateEnrollment = /* GraphQL */ `subscription OnDeleteV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4048,6 +4185,7 @@ export const onDeleteV2Relationship = /* GraphQL */ `subscription OnDeleteV2Rela
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4230,6 +4368,7 @@ export const onDeleteV2SellersCommission = /* GraphQL */ `subscription OnDeleteV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4282,6 +4421,7 @@ export const onDeleteV2SessionDetail = /* GraphQL */ `subscription OnDeleteV2Ses
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4493,6 +4633,7 @@ export const onDeleteV2ShoppingCart = /* GraphQL */ `subscription OnDeleteV2Shop
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4535,6 +4676,7 @@ export const onDeleteV2ShoppingCart = /* GraphQL */ `subscription OnDeleteV2Shop
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4600,6 +4742,7 @@ export const onDeleteV2ShoppingCartDetail = /* GraphQL */ `subscription OnDelete
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4832,6 +4975,7 @@ export const onDeleteV2StudentEvaluations = /* GraphQL */ `subscription OnDelete
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -5063,6 +5207,7 @@ export const onDeleteV2TicketUser = /* GraphQL */ `subscription OnDeleteV2Ticket
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -5150,6 +5295,7 @@ export const onDeleteV2UserPermissions = /* GraphQL */ `subscription OnDeleteV2U
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -5196,9 +5342,14 @@ export const onDeleteV2Users = /* GraphQL */ `subscription OnDeleteV2Users($filt
       __typename
     }
     firstContact
+    gmailMessages {
+      nextToken
+      __typename
+    }
     id
     ig
     isAcademyStudent
+    isActive
     isEmployed
     latitude
     longitude
@@ -5301,6 +5452,7 @@ export const onDeleteV2WorkdayReports = /* GraphQL */ `subscription OnDeleteV2Wo
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -5899,6 +6051,7 @@ export const onUpdateV2EmailSend = /* GraphQL */ `subscription OnUpdateV2EmailSe
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6033,6 +6186,7 @@ export const onUpdateV2Enrollment = /* GraphQL */ `subscription OnUpdateV2Enroll
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6159,6 +6313,62 @@ export const onUpdateV2Expense = /* GraphQL */ `subscription OnUpdateV2Expense($
 ` as GeneratedSubscription<
   APITypes.OnUpdateV2ExpenseSubscriptionVariables,
   APITypes.OnUpdateV2ExpenseSubscription
+>;
+export const onUpdateV2GmailInbox = /* GraphQL */ `subscription OnUpdateV2GmailInbox(
+  $filter: ModelSubscriptionV2GmailInboxFilterInput
+) {
+  onUpdateV2GmailInbox(filter: $filter) {
+    attachments
+    bodyHtml
+    bodyText
+    createdAt
+    dateSent
+    dateStr
+    fromEmail
+    fromName
+    gmailAccount
+    hasAttachments
+    id
+    isRead
+    labels
+    messageId
+    snippet
+    subject
+    threadId
+    toEmails
+    updatedAt
+    user {
+      city
+      contactPhone
+      country
+      createdAt
+      email
+      firstContact
+      id
+      ig
+      isAcademyStudent
+      isActive
+      isEmployed
+      latitude
+      longitude
+      name
+      roleId
+      salesCommission
+      state
+      streetAddress
+      updatedAt
+      validated
+      zipCode
+      zoomLevel
+      __typename
+    }
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateV2GmailInboxSubscriptionVariables,
+  APITypes.OnUpdateV2GmailInboxSubscription
 >;
 export const onUpdateV2Location = /* GraphQL */ `subscription OnUpdateV2Location(
   $filter: ModelSubscriptionV2LocationFilterInput
@@ -6361,6 +6571,7 @@ export const onUpdateV2PaymentTransactions = /* GraphQL */ `subscription OnUpdat
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6447,6 +6658,7 @@ export const onUpdateV2PrivateEnrollment = /* GraphQL */ `subscription OnUpdateV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6572,6 +6784,7 @@ export const onUpdateV2PrivateEnrollment = /* GraphQL */ `subscription OnUpdateV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6706,6 +6919,7 @@ export const onUpdateV2Relationship = /* GraphQL */ `subscription OnUpdateV2Rela
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6888,6 +7102,7 @@ export const onUpdateV2SellersCommission = /* GraphQL */ `subscription OnUpdateV
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6940,6 +7155,7 @@ export const onUpdateV2SessionDetail = /* GraphQL */ `subscription OnUpdateV2Ses
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7151,6 +7367,7 @@ export const onUpdateV2ShoppingCart = /* GraphQL */ `subscription OnUpdateV2Shop
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7193,6 +7410,7 @@ export const onUpdateV2ShoppingCart = /* GraphQL */ `subscription OnUpdateV2Shop
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7258,6 +7476,7 @@ export const onUpdateV2ShoppingCartDetail = /* GraphQL */ `subscription OnUpdate
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7490,6 +7709,7 @@ export const onUpdateV2StudentEvaluations = /* GraphQL */ `subscription OnUpdate
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7721,6 +7941,7 @@ export const onUpdateV2TicketUser = /* GraphQL */ `subscription OnUpdateV2Ticket
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7808,6 +8029,7 @@ export const onUpdateV2UserPermissions = /* GraphQL */ `subscription OnUpdateV2U
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7854,9 +8076,14 @@ export const onUpdateV2Users = /* GraphQL */ `subscription OnUpdateV2Users($filt
       __typename
     }
     firstContact
+    gmailMessages {
+      nextToken
+      __typename
+    }
     id
     ig
     isAcademyStudent
+    isActive
     isEmployed
     latitude
     longitude
@@ -7959,6 +8186,7 @@ export const onUpdateV2WorkdayReports = /* GraphQL */ `subscription OnUpdateV2Wo
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude

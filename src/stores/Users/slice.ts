@@ -2,7 +2,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchAuthUser, handleLogin, fetchData, fetchDataSearchName, createApoderado, updateApoderado} from "./services"
+import {
+  fetchAuthUser,
+  handleLogin,
+  fetchData,
+  fetchDataSearchName,
+  createApoderado,
+  updateApoderado,
+  handleForgotPassword,
+  handleConfirmForgotPassword,
+  handleConfirmNewPasswordChallenge,
+} from "./services"
 
 import { Roles } from "../Roles/types";
 import { UserPermissions } from "../UserPermissions/types";
@@ -26,6 +36,7 @@ export interface UserState {
   users?: Users;
   apoderados: Users[];
   UserPermissions?: UserPermissions[];
+  requiresNewPassword: boolean;
   errorMessage?: string;
 }
 
@@ -43,6 +54,7 @@ export const initialState: UserState = {
   status: "idle",
   apoderados: [emptyUser],
   step: "initial",
+  requiresNewPassword: false,
   errorMessage: "",
 };
 
@@ -130,13 +142,49 @@ export const getAuthUser = createAsyncThunk(
 );
 
 
+export const confirmNewPassword = createAsyncThunk(
+  "auth/confirmNewPassword",
+  async (params: { newPassword: string }, { rejectWithValue }) => {
+    try {
+      return await handleConfirmNewPasswordChallenge(params.newPassword);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (params: { email: string }, { rejectWithValue }) => {
+    try {
+      return await handleForgotPassword(params.email);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const confirmForgotPassword = createAsyncThunk(
+  "auth/confirmForgotPassword",
+  async (params: { email: string; code: string; newPassword: string }, { rejectWithValue }) => {
+    try {
+      return await handleConfirmForgotPassword(params.email, params.code, params.newPassword);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     cleanDataUser: (state) => {
-      state.users = emptyUser
-      
+      state.users = emptyUser;
+    },
+    resetNewPasswordFlag: (state) => {
+      state.requiresNewPassword = false;
+      state.errorMessage = "";
     },
   },
   extraReducers: (builder) => {
@@ -246,7 +294,7 @@ export const authSlice = createSlice({
         const objPayload: any = action.payload;
         state.status = "failed";
         state.errorMessage = objPayload.errorMessage;
-        
+
       })
       .addCase(getLoginUser.pending, (state) => {
         state.status = "loading";
@@ -257,12 +305,70 @@ export const authSlice = createSlice({
         state.status = "idle";
         state.authChecked = true;
 
-        state.isAuthenticated = objPayload?.userId ? true:false;
+        if (objPayload?.requiresNewPassword === true) {
+          state.requiresNewPassword = true;
+          return;
+        }
+
+        state.isAuthenticated = objPayload?.userId ? true : false;
         state.id = objPayload?.id || objPayload?.email || "";
         state.name = objPayload?.name || "";
         state.emailAuth = objPayload?.email || "";
         state.usersRolesId = objPayload?.usersRolesId || "";
         state.permissions = objPayload?.permissions || [];
+      })
+
+      // confirmNewPassword
+      .addCase(confirmNewPassword.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload?.errorMessage || "Error al cambiar contraseña";
+      })
+      .addCase(confirmNewPassword.pending, (state) => {
+        state.status = "loading";
+        state.errorMessage = "";
+      })
+      .addCase(confirmNewPassword.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "idle";
+        state.authChecked = true;
+        state.requiresNewPassword = false;
+        state.isAuthenticated = objPayload?.userId ? true : false;
+        state.id = objPayload?.id || objPayload?.email || "";
+        state.name = objPayload?.name || "";
+        state.emailAuth = objPayload?.email || "";
+        state.usersRolesId = objPayload?.usersRolesId || "";
+        state.permissions = objPayload?.permissions || [];
+      })
+
+      // forgotPassword
+      .addCase(forgotPassword.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload?.errorMessage || "Error al enviar el código";
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.status = "loading";
+        state.errorMessage = "";
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.status = "idle";
+        state.errorMessage = "";
+      })
+
+      // confirmForgotPassword
+      .addCase(confirmForgotPassword.rejected, (state, action) => {
+        const objPayload: any = action.payload;
+        state.status = "failed";
+        state.errorMessage = objPayload?.errorMessage || "Error al confirmar la nueva contraseña";
+      })
+      .addCase(confirmForgotPassword.pending, (state) => {
+        state.status = "loading";
+        state.errorMessage = "";
+      })
+      .addCase(confirmForgotPassword.fulfilled, (state) => {
+        state.status = "idle";
+        state.errorMessage = "";
       })
       
       // GET LOGIN USER
@@ -291,6 +397,7 @@ export const selectAuth = (state: RootState) => state.auth;
 
 export const {
   cleanDataUser,
+  resetNewPasswordFlag,
 } = authSlice.actions;
 
 export default authSlice.reducer;

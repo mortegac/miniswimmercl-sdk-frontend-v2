@@ -35,6 +35,8 @@ import {
   ADMIN_DASHBOARD,
   ANFITRION_DASHBOARD,
   NONE_DASHBOARD,
+  GMAIL_INBOX_ADMIN,
+  USERS_ADMIN,
 } from "@/router/paths";
 
 export interface Menu {
@@ -81,7 +83,9 @@ const adminRolePermissions: string[] = [
   SHOPPING_CART,
   REPORT_COURSES,
   ADMIN_STUDENT,
-  DOCUMENTATION
+  DOCUMENTATION,
+  GMAIL_INBOX_ADMIN,
+  USERS_ADMIN,
 ];
 
 const AnfitrionesPermissions: string[] = [
@@ -207,6 +211,11 @@ const getMenuByRole = (roleId: string): Array<Menu | string> => {
           title: "Administrador Alumno",
         },
         {
+          icon: "Mail",
+          pathname: GMAIL_INBOX_ADMIN,
+          title: "Emails Apoderados",
+        },
+        {
           icon: "Send",
           pathname: ENROLLMENTS,
           title: "Envío de email",
@@ -237,6 +246,11 @@ const getMenuByRole = (roleId: string): Array<Menu | string> => {
           icon: "MapPin",
           pathname: EVALUATIONS_ADMIN,
           title: "Evaluaciones",
+        },
+        {
+          icon: "Users",
+          pathname: USERS_ADMIN,
+          title: "Usuarios",
         },
         "Ingresos - Egresos",
         {

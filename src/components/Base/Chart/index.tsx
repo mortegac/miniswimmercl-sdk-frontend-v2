@@ -70,8 +70,8 @@ function Chart({
   return (
     <div
       style={{
-        width: `${width}px`,
-        height: `${height}px`,
+        width: width === "auto" ? "100%" : `${width}px`,
+        height: height === "auto" ? "100%" : `${height}px`,
       }}
     >
       <canvas {...computedProps} ref={chartRef}></canvas>

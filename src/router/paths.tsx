@@ -30,6 +30,8 @@ export const NONE_DASHBOARD = "/start";
 
 // ADMINISTRATOR
 export const ADMIN_STUDENT = "/admin-student";
+export const GMAIL_INBOX_ADMIN = "/gmail-inbox-admin";
+export const USERS_ADMIN = "/users-admin";
 
 export const REPORT_COURSES = "/report-courses";
 

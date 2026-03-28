@@ -598,6 +598,7 @@ export const createV2EmailSend = /* GraphQL */ `mutation CreateV2EmailSend(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -733,6 +734,7 @@ export const createV2Enrollment = /* GraphQL */ `mutation CreateV2Enrollment(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -864,6 +866,63 @@ export const createV2Expense = /* GraphQL */ `mutation CreateV2Expense(
 ` as GeneratedMutation<
   APITypes.CreateV2ExpenseMutationVariables,
   APITypes.CreateV2ExpenseMutation
+>;
+export const createV2GmailInbox = /* GraphQL */ `mutation CreateV2GmailInbox(
+  $condition: ModelV2GmailInboxConditionInput
+  $input: CreateV2GmailInboxInput!
+) {
+  createV2GmailInbox(condition: $condition, input: $input) {
+    attachments
+    bodyHtml
+    bodyText
+    createdAt
+    dateSent
+    dateStr
+    fromEmail
+    fromName
+    gmailAccount
+    hasAttachments
+    id
+    isRead
+    labels
+    messageId
+    snippet
+    subject
+    threadId
+    toEmails
+    updatedAt
+    user {
+      city
+      contactPhone
+      country
+      createdAt
+      email
+      firstContact
+      id
+      ig
+      isAcademyStudent
+      isActive
+      isEmployed
+      latitude
+      longitude
+      name
+      roleId
+      salesCommission
+      state
+      streetAddress
+      updatedAt
+      validated
+      zipCode
+      zoomLevel
+      __typename
+    }
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateV2GmailInboxMutationVariables,
+  APITypes.CreateV2GmailInboxMutation
 >;
 export const createV2Location = /* GraphQL */ `mutation CreateV2Location(
   $condition: ModelV2LocationConditionInput
@@ -1072,6 +1131,7 @@ export const createV2PaymentTransactions = /* GraphQL */ `mutation CreateV2Payme
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1160,6 +1220,7 @@ export const createV2PrivateEnrollment = /* GraphQL */ `mutation CreateV2Private
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1285,6 +1346,7 @@ export const createV2PrivateEnrollment = /* GraphQL */ `mutation CreateV2Private
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1424,6 +1486,7 @@ export const createV2Relationship = /* GraphQL */ `mutation CreateV2Relationship
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1612,6 +1675,7 @@ export const createV2SellersCommission = /* GraphQL */ `mutation CreateV2Sellers
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1666,6 +1730,7 @@ export const createV2SessionDetail = /* GraphQL */ `mutation CreateV2SessionDeta
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1879,6 +1944,7 @@ export const createV2ShoppingCart = /* GraphQL */ `mutation CreateV2ShoppingCart
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1921,6 +1987,7 @@ export const createV2ShoppingCart = /* GraphQL */ `mutation CreateV2ShoppingCart
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1987,6 +2054,7 @@ export const createV2ShoppingCartDetail = /* GraphQL */ `mutation CreateV2Shoppi
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2223,6 +2291,7 @@ export const createV2StudentEvaluations = /* GraphQL */ `mutation CreateV2Studen
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2459,6 +2528,7 @@ export const createV2TicketUser = /* GraphQL */ `mutation CreateV2TicketUser(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2548,6 +2618,7 @@ export const createV2UserPermissions = /* GraphQL */ `mutation CreateV2UserPermi
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2597,9 +2668,14 @@ export const createV2Users = /* GraphQL */ `mutation CreateV2Users(
       __typename
     }
     firstContact
+    gmailMessages {
+      nextToken
+      __typename
+    }
     id
     ig
     isAcademyStudent
+    isActive
     isEmployed
     latitude
     longitude
@@ -2703,6 +2779,7 @@ export const createV2WorkdayReports = /* GraphQL */ `mutation CreateV2WorkdayRep
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3316,6 +3393,7 @@ export const deleteV2EmailSend = /* GraphQL */ `mutation DeleteV2EmailSend(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3451,6 +3529,7 @@ export const deleteV2Enrollment = /* GraphQL */ `mutation DeleteV2Enrollment(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3582,6 +3661,63 @@ export const deleteV2Expense = /* GraphQL */ `mutation DeleteV2Expense(
 ` as GeneratedMutation<
   APITypes.DeleteV2ExpenseMutationVariables,
   APITypes.DeleteV2ExpenseMutation
+>;
+export const deleteV2GmailInbox = /* GraphQL */ `mutation DeleteV2GmailInbox(
+  $condition: ModelV2GmailInboxConditionInput
+  $input: DeleteV2GmailInboxInput!
+) {
+  deleteV2GmailInbox(condition: $condition, input: $input) {
+    attachments
+    bodyHtml
+    bodyText
+    createdAt
+    dateSent
+    dateStr
+    fromEmail
+    fromName
+    gmailAccount
+    hasAttachments
+    id
+    isRead
+    labels
+    messageId
+    snippet
+    subject
+    threadId
+    toEmails
+    updatedAt
+    user {
+      city
+      contactPhone
+      country
+      createdAt
+      email
+      firstContact
+      id
+      ig
+      isAcademyStudent
+      isActive
+      isEmployed
+      latitude
+      longitude
+      name
+      roleId
+      salesCommission
+      state
+      streetAddress
+      updatedAt
+      validated
+      zipCode
+      zoomLevel
+      __typename
+    }
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteV2GmailInboxMutationVariables,
+  APITypes.DeleteV2GmailInboxMutation
 >;
 export const deleteV2Location = /* GraphQL */ `mutation DeleteV2Location(
   $condition: ModelV2LocationConditionInput
@@ -3790,6 +3926,7 @@ export const deleteV2PaymentTransactions = /* GraphQL */ `mutation DeleteV2Payme
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -3878,6 +4015,7 @@ export const deleteV2PrivateEnrollment = /* GraphQL */ `mutation DeleteV2Private
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4003,6 +4141,7 @@ export const deleteV2PrivateEnrollment = /* GraphQL */ `mutation DeleteV2Private
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4142,6 +4281,7 @@ export const deleteV2Relationship = /* GraphQL */ `mutation DeleteV2Relationship
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4330,6 +4470,7 @@ export const deleteV2SellersCommission = /* GraphQL */ `mutation DeleteV2Sellers
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4384,6 +4525,7 @@ export const deleteV2SessionDetail = /* GraphQL */ `mutation DeleteV2SessionDeta
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4597,6 +4739,7 @@ export const deleteV2ShoppingCart = /* GraphQL */ `mutation DeleteV2ShoppingCart
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4639,6 +4782,7 @@ export const deleteV2ShoppingCart = /* GraphQL */ `mutation DeleteV2ShoppingCart
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4705,6 +4849,7 @@ export const deleteV2ShoppingCartDetail = /* GraphQL */ `mutation DeleteV2Shoppi
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4941,6 +5086,7 @@ export const deleteV2StudentEvaluations = /* GraphQL */ `mutation DeleteV2Studen
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -5177,6 +5323,7 @@ export const deleteV2TicketUser = /* GraphQL */ `mutation DeleteV2TicketUser(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -5266,6 +5413,7 @@ export const deleteV2UserPermissions = /* GraphQL */ `mutation DeleteV2UserPermi
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -5315,9 +5463,14 @@ export const deleteV2Users = /* GraphQL */ `mutation DeleteV2Users(
       __typename
     }
     firstContact
+    gmailMessages {
+      nextToken
+      __typename
+    }
     id
     ig
     isAcademyStudent
+    isActive
     isEmployed
     latitude
     longitude
@@ -5421,6 +5574,7 @@ export const deleteV2WorkdayReports = /* GraphQL */ `mutation DeleteV2WorkdayRep
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6034,6 +6188,7 @@ export const updateV2EmailSend = /* GraphQL */ `mutation UpdateV2EmailSend(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6169,6 +6324,7 @@ export const updateV2Enrollment = /* GraphQL */ `mutation UpdateV2Enrollment(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6300,6 +6456,63 @@ export const updateV2Expense = /* GraphQL */ `mutation UpdateV2Expense(
 ` as GeneratedMutation<
   APITypes.UpdateV2ExpenseMutationVariables,
   APITypes.UpdateV2ExpenseMutation
+>;
+export const updateV2GmailInbox = /* GraphQL */ `mutation UpdateV2GmailInbox(
+  $condition: ModelV2GmailInboxConditionInput
+  $input: UpdateV2GmailInboxInput!
+) {
+  updateV2GmailInbox(condition: $condition, input: $input) {
+    attachments
+    bodyHtml
+    bodyText
+    createdAt
+    dateSent
+    dateStr
+    fromEmail
+    fromName
+    gmailAccount
+    hasAttachments
+    id
+    isRead
+    labels
+    messageId
+    snippet
+    subject
+    threadId
+    toEmails
+    updatedAt
+    user {
+      city
+      contactPhone
+      country
+      createdAt
+      email
+      firstContact
+      id
+      ig
+      isAcademyStudent
+      isActive
+      isEmployed
+      latitude
+      longitude
+      name
+      roleId
+      salesCommission
+      state
+      streetAddress
+      updatedAt
+      validated
+      zipCode
+      zoomLevel
+      __typename
+    }
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateV2GmailInboxMutationVariables,
+  APITypes.UpdateV2GmailInboxMutation
 >;
 export const updateV2Location = /* GraphQL */ `mutation UpdateV2Location(
   $condition: ModelV2LocationConditionInput
@@ -6508,6 +6721,7 @@ export const updateV2PaymentTransactions = /* GraphQL */ `mutation UpdateV2Payme
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6596,6 +6810,7 @@ export const updateV2PrivateEnrollment = /* GraphQL */ `mutation UpdateV2Private
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6721,6 +6936,7 @@ export const updateV2PrivateEnrollment = /* GraphQL */ `mutation UpdateV2Private
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -6860,6 +7076,7 @@ export const updateV2Relationship = /* GraphQL */ `mutation UpdateV2Relationship
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7048,6 +7265,7 @@ export const updateV2SellersCommission = /* GraphQL */ `mutation UpdateV2Sellers
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7102,6 +7320,7 @@ export const updateV2SessionDetail = /* GraphQL */ `mutation UpdateV2SessionDeta
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7315,6 +7534,7 @@ export const updateV2ShoppingCart = /* GraphQL */ `mutation UpdateV2ShoppingCart
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7357,6 +7577,7 @@ export const updateV2ShoppingCart = /* GraphQL */ `mutation UpdateV2ShoppingCart
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7423,6 +7644,7 @@ export const updateV2ShoppingCartDetail = /* GraphQL */ `mutation UpdateV2Shoppi
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7659,6 +7881,7 @@ export const updateV2StudentEvaluations = /* GraphQL */ `mutation UpdateV2Studen
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7895,6 +8118,7 @@ export const updateV2TicketUser = /* GraphQL */ `mutation UpdateV2TicketUser(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -7984,6 +8208,7 @@ export const updateV2UserPermissions = /* GraphQL */ `mutation UpdateV2UserPermi
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -8033,9 +8258,14 @@ export const updateV2Users = /* GraphQL */ `mutation UpdateV2Users(
       __typename
     }
     firstContact
+    gmailMessages {
+      nextToken
+      __typename
+    }
     id
     ig
     isAcademyStudent
+    isActive
     isEmployed
     latitude
     longitude
@@ -8139,6 +8369,7 @@ export const updateV2WorkdayReports = /* GraphQL */ `mutation UpdateV2WorkdayRep
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -8162,6 +8393,54 @@ export const updateV2WorkdayReports = /* GraphQL */ `mutation UpdateV2WorkdayRep
   APITypes.UpdateV2WorkdayReportsMutationVariables,
   APITypes.UpdateV2WorkdayReportsMutation
 >;
+export const v2CognitoCreateUser = /* GraphQL */ `mutation V2CognitoCreateUser(
+  $contactPhone: String
+  $email: String!
+  $isEmployed: Boolean
+  $name: String!
+  $roleId: String
+  $temporaryPassword: String!
+) {
+  v2CognitoCreateUser(
+    contactPhone: $contactPhone
+    email: $email
+    isEmployed: $isEmployed
+    name: $name
+    roleId: $roleId
+    temporaryPassword: $temporaryPassword
+  ) {
+    email
+    name
+    roleId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.V2CognitoCreateUserMutationVariables,
+  APITypes.V2CognitoCreateUserMutation
+>;
+export const v2CognitoSetPassword = /* GraphQL */ `mutation V2CognitoSetPassword(
+  $email: String!
+  $password: String!
+  $permanent: Boolean
+) {
+  v2CognitoSetPassword(
+    email: $email
+    password: $password
+    permanent: $permanent
+  )
+}
+` as GeneratedMutation<
+  APITypes.V2CognitoSetPasswordMutationVariables,
+  APITypes.V2CognitoSetPasswordMutation
+>;
+export const v2CognitoSetStatus = /* GraphQL */ `mutation V2CognitoSetStatus($email: String!, $enabled: Boolean!) {
+  v2CognitoSetStatus(email: $email, enabled: $enabled)
+}
+` as GeneratedMutation<
+  APITypes.V2CognitoSetStatusMutationVariables,
+  APITypes.V2CognitoSetStatusMutation
+>;
 export const v2GenerateEnrollment = /* GraphQL */ `mutation V2GenerateEnrollment(
   $courseId: String!
   $scheduleId: String!
@@ -8182,6 +8461,39 @@ export const v2GenerateEnrollment = /* GraphQL */ `mutation V2GenerateEnrollment
 ` as GeneratedMutation<
   APITypes.V2GenerateEnrollmentMutationVariables,
   APITypes.V2GenerateEnrollmentMutation
+>;
+export const v2GmailReply = /* GraphQL */ `mutation V2GmailReply(
+  $body: String!
+  $fromAccount: String!
+  $inReplyToMessageId: String
+  $subject: String!
+  $threadId: String
+  $toEmail: String!
+) {
+  v2GmailReply(
+    body: $body
+    fromAccount: $fromAccount
+    inReplyToMessageId: $inReplyToMessageId
+    subject: $subject
+    threadId: $threadId
+    toEmail: $toEmail
+  ) {
+    error
+    messageId
+    success
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.V2GmailReplyMutationVariables,
+  APITypes.V2GmailReplyMutation
+>;
+export const v2GmailSync = /* GraphQL */ `mutation V2GmailSync {
+  v2GmailSync
+}
+` as GeneratedMutation<
+  APITypes.V2GmailSyncMutationVariables,
+  APITypes.V2GmailSyncMutation
 >;
 export const v2RemoveEnrollment = /* GraphQL */ `mutation V2RemoveEnrollment($employeeId: String!, $enrollId: String!) {
   v2RemoveEnrollment(employeeId: $employeeId, enrollId: $enrollId)
@@ -8215,13 +8527,6 @@ export const v2SendWhatsapp = /* GraphQL */ `mutation V2SendWhatsapp(
   APITypes.V2SendWhatsappMutationVariables,
   APITypes.V2SendWhatsappMutation
 >;
-export const v2SetCommit = /* GraphQL */ `mutation V2SetCommit($token: String!) {
-  v2SetCommit(token: $token)
-}
-` as GeneratedMutation<
-  APITypes.V2SetCommitMutationVariables,
-  APITypes.V2SetCommitMutation
->;
 export const v2SetCreateEvaluation = /* GraphQL */ `mutation V2SetCreateEvaluation(
   $age: String!
   $evaluationDetails: [AWSJSON]
@@ -8247,22 +8552,69 @@ export const v2SetCreateEvaluation = /* GraphQL */ `mutation V2SetCreateEvaluati
   APITypes.V2SetCreateEvaluationMutationVariables,
   APITypes.V2SetCreateEvaluationMutation
 >;
-export const v2SetStart = /* GraphQL */ `mutation V2SetStart(
+export const v2WebpayCommit = /* GraphQL */ `mutation V2WebpayCommit($token: String!) {
+  v2WebpayCommit(token: $token) {
+    accounting_date
+    amount
+    authorization_code
+    buy_order
+    card_number
+    installments_amount
+    installments_number
+    payment_type_code
+    response_code
+    session_id
+    status
+    transaction_date
+    vci
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.V2WebpayCommitMutationVariables,
+  APITypes.V2WebpayCommitMutation
+>;
+export const v2WebpayStart = /* GraphQL */ `mutation V2WebpayStart(
   $amount: Float!
   $cartId: String!
   $glosa: String!
   $userId: String!
 ) {
-  v2SetStart(amount: $amount, cartId: $cartId, glosa: $glosa, userId: $userId)
+  v2WebpayStart(
+    amount: $amount
+    cartId: $cartId
+    glosa: $glosa
+    userId: $userId
+  ) {
+    orden
+    token
+    url
+    __typename
+  }
 }
 ` as GeneratedMutation<
-  APITypes.V2SetStartMutationVariables,
-  APITypes.V2SetStartMutation
+  APITypes.V2WebpayStartMutationVariables,
+  APITypes.V2WebpayStartMutation
 >;
-export const v2SetStatus = /* GraphQL */ `mutation V2SetStatus($token: String!) {
-  v2SetStatus(token: $token)
+export const v2WebpayStatus = /* GraphQL */ `mutation V2WebpayStatus($token: String!) {
+  v2WebpayStatus(token: $token) {
+    accounting_date
+    amount
+    authorization_code
+    buy_order
+    card_number
+    installments_amount
+    installments_number
+    payment_type_code
+    response_code
+    session_id
+    status
+    transaction_date
+    vci
+    __typename
+  }
 }
 ` as GeneratedMutation<
-  APITypes.V2SetStatusMutationVariables,
-  APITypes.V2SetStatusMutation
+  APITypes.V2WebpayStatusMutationVariables,
+  APITypes.V2WebpayStatusMutation
 >;

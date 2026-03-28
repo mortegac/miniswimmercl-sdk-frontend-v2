@@ -7,11 +7,13 @@ import { selectAuth, getAuthUser} from "@/stores/Users/slice";
 import {
     PUBLIC,
     PRIVATE,
+    PUBLIC_FORGOTTEN_PASSWORD,
   } from "./paths";
-  
+
   // import Layout from "../themes";
-  
+
   const Login = lazy(() => import("../pages/public/Login"));
+  const ForgotPassword = lazy(() => import("../pages/public/ForgotPassword"));
 
 
   function PublicValidation() {
@@ -76,7 +78,9 @@ export const publicRoutes = {
           path: PUBLIC,
           element: <Login />,
         },
-      
-        
+        {
+          path: PUBLIC_FORGOTTEN_PASSWORD,
+          element: <ForgotPassword />,
+        },
       ],
   };

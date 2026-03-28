@@ -32,8 +32,8 @@ import {
     ATTENDANCE,
     PAYMENTS,
     TICKETS,
-    NEW_EXPENSE, 
-    EXPENSES, 
+    NEW_EXPENSE,
+    EXPENSES,
     INCOME,
     ACADEMYSTUDENTS,
     TRANSACTIONS,
@@ -42,6 +42,8 @@ import {
     ADMIN_STUDENT,
     DOCUMENTATION,
     ROLE_PERMISSIONS,
+    GMAIL_INBOX_ADMIN,
+    USERS_ADMIN,
   } from "./paths";
 
   import Layout from "../themes";
@@ -90,6 +92,8 @@ import {
   const ReportCourseStudent = lazy(() => import("../pages/private/ReportCourseStudent"));
   const Documentation = lazy(() => import("../pages/private/Documentation"));
   const RolePermissions = lazy(() => import("../pages/private/RolePermissions"));
+  const GmailInboxAdmin = lazy(() => import("../pages/private/GmailInboxAdmin"));
+  const UsersAdmin = lazy(() => import("../pages/private/UsersAdmin"));
   const AdminDashboard = lazy(() => import("../pages/private/DashboardAdmin"));
   const AnfitrionDashboard = lazy(() => import("../pages/private/DashboardAnfitrion"));
   const NoneDashboard = lazy(() => import("../pages/private/DashboardNone"));
@@ -126,7 +130,9 @@ import {
     SHOPPING_CART,
     REPORT_COURSES,
     ADMIN_STUDENT,
-    DOCUMENTATION
+    DOCUMENTATION,
+    GMAIL_INBOX_ADMIN,
+    USERS_ADMIN,
   ];
 
   const AnfitrionesPermissions: string[] = [
@@ -464,6 +470,22 @@ export const privateRoutes = {
           element: (
             <ProtectedRoute requiredPath={ROLE_PERMISSIONS}>
               <RolePermissions />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: GMAIL_INBOX_ADMIN,
+          element: (
+            <ProtectedRoute requiredPath={GMAIL_INBOX_ADMIN}>
+              <GmailInboxAdmin />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: USERS_ADMIN,
+          element: (
+            <ProtectedRoute requiredPath={USERS_ADMIN}>
+              <UsersAdmin />
             </ProtectedRoute>
           ),
         },

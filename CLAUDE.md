@@ -21,8 +21,8 @@ There are no test or lint scripts configured.
 **MiniSwimmer** is a React 18 + TypeScript + Vite PWA for managing a swimming academy (Chilean market). It uses AWS Amplify as its backend (AppSync GraphQL, Cognito auth, S3 storage).
 
 ### Key Stack
-- **Routing**: React Router v6 with lazy-loaded pages. Routes split into `PrivateRoute` (RBAC) and `PublicRoute`. Roles: admin, anfitrion, standard user.
-- **State**: Redux Toolkit. Each feature domain has its own folder under `src/stores/` with `slice.ts`, `services.ts`, `types.ts`, and GraphQL `queries.ts`/`mutation.ts`.
+- **Routing**: React Router v6 with lazy-loaded pages. Routes split into `PrivateRoute` (RBAC) and `PublicRoute`.
+- **State**: Redux Toolkit. Each feature domain has its own folder under `src/stores/` with `slice.ts`, `services.ts`, `types.ts`, and GraphQL `queries.ts`/`mutation.ts`. Use typed hooks from `src/stores/hooks.ts` (`useAppSelector`, `useAppDispatch`) — never raw Redux hooks.
 - **API**: AWS Amplify `generateClient()` for all GraphQL calls. Services layer in each store's `services.ts` wraps the Amplify client; Redux async thunks call those services.
 - **Styling**: Tailwind CSS 3.4 with CSS variables for dynamic color themes (dark mode support). Path alias `@` → `./src`.
 
@@ -57,11 +57,23 @@ Amplify.configure(outputs);
 
 The only `.env` variable is `VITE_GOOGLE_MAPS_API_KEY` in `.env.local`.
 
+### RBAC
+`PrivateRoute.tsx` contains `ProtectedRoute` which checks route permissions by role. Role IDs used in auth state:
+- `adminRole` — full access to all routes
+- `anfitrion` — attendance, documentation, student profile
+- `coach` / `parents` / `academyRole` — `NONE_DASHBOARD` only
+
+Permissions are defined as static arrays (`adminRolePermissions`, `AnfitrionesPermissions`, `NonePermissions`) mapping role → allowed path constants. Path constants live in `src/router/paths.tsx`.
+
 ### Redux Store Pattern
 Every domain (e.g., Courses) follows this pattern:
 1. `queries.ts` / `mutation.ts` — raw GraphQL strings
 2. `services.ts` — calls `generateClient().graphql(...)`, returns typed data
 3. `slice.ts` — `createAsyncThunk` calls the service; slice handles pending/fulfilled/rejected
 
-### Vite Dev Proxy
-`/api/*` requests are proxied to `https://api.whaticket.com` in `vite.config.ts`.
+**Note:** newer stores (`AppUsers/`, `GmailInbox/`) use `mutations.ts` (plural) instead of `mutation.ts`. This inconsistency exists in the codebase.
+
+Active Redux slices: auth, location, student, course, sessionDetail, sessionType, enrollment, parameters, relationships, academyStudents, emailSend, paymentTransactions, shoppingCartDetails, schedules, shoppingCarts, WP, supportTickets, evaluations, studentEvaluations, product, quickResponse, rolePermissions, gmailInbox, appUsers, plus UI slices (darkMode, colorScheme, sideMenu, theme, compactMenu, pageLoader, breadcrumb).
+
+### WP Store / WhatsApp Integration
+The `WP` store and `/api/*` proxy to `https://api.whaticket.com` handle WhatsApp messaging (WhatTicket platform). This is a separate integration from the Amplify backend.

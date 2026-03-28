@@ -48,7 +48,7 @@ export const getUsers = /* GraphQL */ `
 `;
 export const listUsers = /* GraphQL */ `
   query ListV2Users(
-    $filter: Modelv2UsersFilterInput
+    $filter: ModelV2UsersFilterInput
     $limit: Int
     $nextToken: String
   ) {
@@ -73,6 +73,19 @@ export const listUsers = /* GraphQL */ `
         isEmployed
         isAcademyStudent
         __typename
+        relationships {
+          items {
+            id
+            relationType
+            student {
+              id
+              name
+              lastName
+              birthdate
+              isActive
+            }
+          }
+        }
       }
       nextToken
       __typename

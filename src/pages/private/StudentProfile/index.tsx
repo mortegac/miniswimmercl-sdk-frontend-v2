@@ -11,6 +11,7 @@ import { ResumenPage } from "./components/ResumenPage";
 import { ResumenTransactions } from "./components/ResumenTransactions";
 import { SessionsPage } from "./components/SessionsPage";
 import { EvaluacionesPage } from "./components/EvaluacionesPage";
+import { GmailInboxPage } from "./components/GmailInboxPage";
 // import { MessagesPage } from "./components/MessagesPage";
 // import { ModifyPage } from "./components/ModifyPage";
 
@@ -43,6 +44,7 @@ function Content(props:any) {
   const {selectedIndex, setSelectedIndex, fnUpdateState } = props;
   const { student, status } = useAppSelector(selectStudent);
   const dataGuardian:any = student?.relationships;
+  const guardianEmail: string = dataGuardian?.items?.[0]?.user?.id ?? "";
   const edad:any = student?.birthdate && calcularEdad(String(student?.birthdate === "" ? "1800/01/01":student?.birthdate));
   
   
@@ -283,12 +285,20 @@ function Content(props:any) {
               >
                 <div className="min-w-[1.15rem] rounded-full bg-white flex items-center justify-center text-xs mr-2">
                   <div className="w-full h-full px-1.5 py-0.5 leading-none rounded-full bg-theme-1/[0.75] text-white">
-                    Nuevo 
+                    Nuevo
                   </div>
                 </div>Evaluaciones
               </Tab.Button>
             </Tab>
-            
+            <Tab className="bg-slate-50 first:rounded-l-[0.6rem] last:rounded-r-[0.6rem] [&[aria-selected='true']_button]:text-current">
+              <Tab.Button
+                className="w-full xl:w-48 py-2.5 text-slate-500 whitespace-nowrap rounded-[0.6rem] flex items-center justify-center text-[0.94rem]"
+                as="button"
+              >
+                Emails Apoderado
+              </Tab.Button>
+            </Tab>
+
           </Tab.List>
         
         </div>
@@ -332,7 +342,7 @@ function Content(props:any) {
           
           {/* Evaluaciones */}
           <Tab.Panel>
-          { student && 
+          { student &&
             <EvaluacionesPage
               studentId={student?.id}
               studentBirthdate={student?.birthdate}
@@ -342,7 +352,12 @@ function Content(props:any) {
             />
           }
           </Tab.Panel>
-          
+
+          {/* Emails Apoderado */}
+          <Tab.Panel>
+            <GmailInboxPage guardianEmail={guardianEmail} />
+          </Tab.Panel>
+
         </Tab.Panels>
       </Tab.Group>
   </div>

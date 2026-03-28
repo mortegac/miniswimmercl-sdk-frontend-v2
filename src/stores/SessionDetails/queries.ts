@@ -75,7 +75,7 @@ export const sessionDetailsByLocationIdAndDate = /* GraphQL */ `
 
 export const listSessionDetails = /* GraphQL */ `
   query ListSessionDetails(
-    $filter: Modelv2SessionDetailFilterInput
+    $filter: ModelV2SessionDetailFilterInput
     $limit: Int
     $nextToken: String
   ) {

@@ -2,7 +2,7 @@ import { generateClient } from 'aws-amplify/api';
 import { getCurrentUser } from "aws-amplify/auth";
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import { signOut } from "aws-amplify/auth";
-import { signIn, confirmSignIn, resetPassword, signUp, confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
+import { signIn, confirmSignIn, resetPassword, confirmResetPassword, signUp, confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
 import { getUsers, listUsers } from './queries';
 import { createUsers, updateUsers } from './mutation';
@@ -335,20 +335,7 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
             switch (nextStep.signInStep) {
               case 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED':
                 console.log('Se requiere cambio de contraseña');
-                // Aquí podrías mostrar un formulario para que el usuario ingrese una nueva contraseña
-                // y luego llamar a handleNewPasswordRequired
-                    //   // El usuario necesita cambiar su contraseña
-                    // const newPassword = 'lvdp1980'; // Idealmente, esto vendría de un input del usuario
-                    // const newPassword = 'Andre.,1800'; // Idealmente, esto vendría de un input del usuario
-                //     const newPassword = 'Lvdp.,1980'; // Idealmente, esto vendría de un input del usuario
-                // const { isSignedIn: isSignedInAfterConfirm } = await confirmSignIn({ challengeResponse: newPassword });
-                
-                // if (isSignedInAfterConfirm) { console.log("--Cambio confirmado ---: ", isSignedInAfterConfirm) }
-                
-                reject({
-                  errorMessage: "Se requiere cambio de contraseña. contacte a su administrador",
-                  });
-                  
+                resolve({ requiresNewPassword: true } as any);
                 break;
               case 'RESET_PASSWORD':
                 console.log('Se requiere restablecer la contraseña');
@@ -386,6 +373,44 @@ export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
   });
 };
 
+
+export const handleForgotPassword = async (email: string): Promise<{ success: true }> => {
+  try {
+    await resetPassword({ username: email });
+    return { success: true };
+  } catch (error) {
+    throw { errorMessage: error instanceof Error ? error.message : "Error al enviar código de recuperación" };
+  }
+};
+
+export const handleConfirmForgotPassword = async (
+  email: string,
+  code: string,
+  newPassword: string
+): Promise<{ success: true }> => {
+  try {
+    await confirmResetPassword({ username: email, confirmationCode: code, newPassword });
+    return { success: true };
+  } catch (error) {
+    throw { errorMessage: error instanceof Error ? error.message : "Error al confirmar la nueva contraseña" };
+  }
+};
+
+export const handleConfirmNewPasswordChallenge = async (newPassword: string): Promise<any> => {
+  const { isSignedIn } = await confirmSignIn({ challengeResponse: newPassword });
+  if (!isSignedIn) {
+    throw { errorMessage: "No se pudo completar el cambio de contraseña" };
+  }
+  const auth = await getCurrentUser();
+  const { username, userId } = auth;
+  if (!userId) {
+    throw { errorMessage: "Usuario no encontrado tras cambio de contraseña" };
+  }
+  const attributes = await fetchUserAttributes();
+  const email = attributes?.email || "";
+  const req = await fetchUserData(email);
+  return { username, userId, email, ...req };
+};
 
 async function handleNewPasswordRequired(username: string, newPassword: string) {
   try {

@@ -565,6 +565,7 @@ export const getV2EmailSend = /* GraphQL */ `query GetV2EmailSend($id: ID!) {
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -697,6 +698,7 @@ export const getV2Enrollment = /* GraphQL */ `query GetV2Enrollment($id: ID!) {
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -819,6 +821,60 @@ export const getV2Expense = /* GraphQL */ `query GetV2Expense($id: ID!) {
 ` as GeneratedQuery<
   APITypes.GetV2ExpenseQueryVariables,
   APITypes.GetV2ExpenseQuery
+>;
+export const getV2GmailInbox = /* GraphQL */ `query GetV2GmailInbox($id: ID!) {
+  getV2GmailInbox(id: $id) {
+    attachments
+    bodyHtml
+    bodyText
+    createdAt
+    dateSent
+    dateStr
+    fromEmail
+    fromName
+    gmailAccount
+    hasAttachments
+    id
+    isRead
+    labels
+    messageId
+    snippet
+    subject
+    threadId
+    toEmails
+    updatedAt
+    user {
+      city
+      contactPhone
+      country
+      createdAt
+      email
+      firstContact
+      id
+      ig
+      isAcademyStudent
+      isActive
+      isEmployed
+      latitude
+      longitude
+      name
+      roleId
+      salesCommission
+      state
+      streetAddress
+      updatedAt
+      validated
+      zipCode
+      zoomLevel
+      __typename
+    }
+    userId
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetV2GmailInboxQueryVariables,
+  APITypes.GetV2GmailInboxQuery
 >;
 export const getV2Location = /* GraphQL */ `query GetV2Location($id: ID!) {
   getV2Location(id: $id) {
@@ -1009,6 +1065,7 @@ export const getV2PaymentTransactions = /* GraphQL */ `query GetV2PaymentTransac
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1091,6 +1148,7 @@ export const getV2PrivateEnrollment = /* GraphQL */ `query GetV2PrivateEnrollmen
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1216,6 +1274,7 @@ export const getV2PrivateEnrollment = /* GraphQL */ `query GetV2PrivateEnrollmen
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1346,6 +1405,7 @@ export const getV2Relationship = /* GraphQL */ `query GetV2Relationship($id: ID!
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1522,6 +1582,7 @@ export const getV2SellersCommission = /* GraphQL */ `query GetV2SellersCommissio
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1570,6 +1631,7 @@ export const getV2SessionDetail = /* GraphQL */ `query GetV2SessionDetail($id: I
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1777,6 +1839,7 @@ export const getV2ShoppingCart = /* GraphQL */ `query GetV2ShoppingCart($id: ID!
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1819,6 +1882,7 @@ export const getV2ShoppingCart = /* GraphQL */ `query GetV2ShoppingCart($id: ID!
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -1882,6 +1946,7 @@ export const getV2ShoppingCartDetail = /* GraphQL */ `query GetV2ShoppingCartDet
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2112,6 +2177,7 @@ export const getV2StudentEvaluations = /* GraphQL */ `query GetV2StudentEvaluati
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2333,6 +2399,7 @@ export const getV2TicketUser = /* GraphQL */ `query GetV2TicketUser($id: ID!) {
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2416,6 +2483,7 @@ export const getV2UserPermissions = /* GraphQL */ `query GetV2UserPermissions($i
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2462,9 +2530,14 @@ export const getV2Users = /* GraphQL */ `query GetV2Users($id: ID!) {
       __typename
     }
     firstContact
+    gmailMessages {
+      nextToken
+      __typename
+    }
     id
     ig
     isAcademyStudent
+    isActive
     isEmployed
     latitude
     longitude
@@ -2565,6 +2638,7 @@ export const getV2WorkdayReports = /* GraphQL */ `query GetV2WorkdayReports($id:
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -2972,6 +3046,36 @@ export const listV2Correlatives = /* GraphQL */ `query ListV2Correlatives(
   APITypes.ListV2CorrelativesQueryVariables,
   APITypes.ListV2CorrelativesQuery
 >;
+export const listV2CorrelativesByType = /* GraphQL */ `query ListV2CorrelativesByType(
+  $filter: Modelv2CorrelativesFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+  $type: v2ParametersType!
+) {
+  listV2CorrelativesByType(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+    type: $type
+  ) {
+    items {
+      correlative
+      createdAt
+      id
+      type
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2CorrelativesByTypeQueryVariables,
+  APITypes.ListV2CorrelativesByTypeQuery
+>;
 export const listV2CourseSessionTypes = /* GraphQL */ `query ListV2CourseSessionTypes(
   $filter: ModelV2CourseSessionTypeFilterInput
   $limit: Int
@@ -3306,6 +3410,274 @@ export const listV2Expenses = /* GraphQL */ `query ListV2Expenses(
 ` as GeneratedQuery<
   APITypes.ListV2ExpensesQueryVariables,
   APITypes.ListV2ExpensesQuery
+>;
+export const listV2GmailInboxByDateStr = /* GraphQL */ `query ListV2GmailInboxByDateStr(
+  $dateStr: String!
+  $filter: Modelv2GmailInboxFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listV2GmailInboxByDateStr(
+    dateStr: $dateStr
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      attachments
+      bodyHtml
+      bodyText
+      createdAt
+      dateSent
+      dateStr
+      fromEmail
+      fromName
+      gmailAccount
+      hasAttachments
+      id
+      isRead
+      labels
+      messageId
+      snippet
+      subject
+      threadId
+      toEmails
+      updatedAt
+      userId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2GmailInboxByDateStrQueryVariables,
+  APITypes.ListV2GmailInboxByDateStrQuery
+>;
+export const listV2GmailInboxByFromEmailAndDateSent = /* GraphQL */ `query ListV2GmailInboxByFromEmailAndDateSent(
+  $dateSent: ModelStringKeyConditionInput
+  $filter: Modelv2GmailInboxFilterInput
+  $fromEmail: String!
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listV2GmailInboxByFromEmailAndDateSent(
+    dateSent: $dateSent
+    filter: $filter
+    fromEmail: $fromEmail
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      attachments
+      bodyHtml
+      bodyText
+      createdAt
+      dateSent
+      dateStr
+      fromEmail
+      fromName
+      gmailAccount
+      hasAttachments
+      id
+      isRead
+      labels
+      messageId
+      snippet
+      subject
+      threadId
+      toEmails
+      updatedAt
+      userId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2GmailInboxByFromEmailAndDateSentQueryVariables,
+  APITypes.ListV2GmailInboxByFromEmailAndDateSentQuery
+>;
+export const listV2GmailInboxByGmailAccountAndDateSent = /* GraphQL */ `query ListV2GmailInboxByGmailAccountAndDateSent(
+  $dateSent: ModelStringKeyConditionInput
+  $filter: Modelv2GmailInboxFilterInput
+  $gmailAccount: String!
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listV2GmailInboxByGmailAccountAndDateSent(
+    dateSent: $dateSent
+    filter: $filter
+    gmailAccount: $gmailAccount
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      attachments
+      bodyHtml
+      bodyText
+      createdAt
+      dateSent
+      dateStr
+      fromEmail
+      fromName
+      gmailAccount
+      hasAttachments
+      id
+      isRead
+      labels
+      messageId
+      snippet
+      subject
+      threadId
+      toEmails
+      updatedAt
+      userId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2GmailInboxByGmailAccountAndDateSentQueryVariables,
+  APITypes.ListV2GmailInboxByGmailAccountAndDateSentQuery
+>;
+export const listV2GmailInboxByMessageId = /* GraphQL */ `query ListV2GmailInboxByMessageId(
+  $filter: Modelv2GmailInboxFilterInput
+  $limit: Int
+  $messageId: String!
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listV2GmailInboxByMessageId(
+    filter: $filter
+    limit: $limit
+    messageId: $messageId
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      attachments
+      bodyHtml
+      bodyText
+      createdAt
+      dateSent
+      dateStr
+      fromEmail
+      fromName
+      gmailAccount
+      hasAttachments
+      id
+      isRead
+      labels
+      messageId
+      snippet
+      subject
+      threadId
+      toEmails
+      updatedAt
+      userId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2GmailInboxByMessageIdQueryVariables,
+  APITypes.ListV2GmailInboxByMessageIdQuery
+>;
+export const listV2GmailInboxByUserIdAndDateSent = /* GraphQL */ `query ListV2GmailInboxByUserIdAndDateSent(
+  $dateSent: ModelStringKeyConditionInput
+  $filter: Modelv2GmailInboxFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+  $userId: ID!
+) {
+  listV2GmailInboxByUserIdAndDateSent(
+    dateSent: $dateSent
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+    userId: $userId
+  ) {
+    items {
+      attachments
+      bodyHtml
+      bodyText
+      createdAt
+      dateSent
+      dateStr
+      fromEmail
+      fromName
+      gmailAccount
+      hasAttachments
+      id
+      isRead
+      labels
+      messageId
+      snippet
+      subject
+      threadId
+      toEmails
+      updatedAt
+      userId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2GmailInboxByUserIdAndDateSentQueryVariables,
+  APITypes.ListV2GmailInboxByUserIdAndDateSentQuery
+>;
+export const listV2GmailInboxes = /* GraphQL */ `query ListV2GmailInboxes(
+  $filter: ModelV2GmailInboxFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listV2GmailInboxes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      attachments
+      bodyHtml
+      bodyText
+      createdAt
+      dateSent
+      dateStr
+      fromEmail
+      fromName
+      gmailAccount
+      hasAttachments
+      id
+      isRead
+      labels
+      messageId
+      snippet
+      subject
+      threadId
+      toEmails
+      updatedAt
+      userId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2GmailInboxesQueryVariables,
+  APITypes.ListV2GmailInboxesQuery
 >;
 export const listV2LocationByCountry = /* GraphQL */ `query ListV2LocationByCountry(
   $country: String!
@@ -4262,6 +4634,44 @@ export const listV2SessionTypes = /* GraphQL */ `query ListV2SessionTypes(
   APITypes.ListV2SessionTypesQueryVariables,
   APITypes.ListV2SessionTypesQuery
 >;
+export const listV2ShoppingCartDetailByCartId = /* GraphQL */ `query ListV2ShoppingCartDetailByCartId(
+  $cartId: ID!
+  $filter: Modelv2ShoppingCartDetailFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listV2ShoppingCartDetailByCartId(
+    cartId: $cartId
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      academyEnrollmentId
+      amount
+      cartId
+      createdAt
+      createdById
+      detail
+      enrollmentId
+      id
+      privateEnrollmentId
+      quantity
+      type
+      updatedAt
+      wasDeleted
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2ShoppingCartDetailByCartIdQueryVariables,
+  APITypes.ListV2ShoppingCartDetailByCartIdQuery
+>;
 export const listV2ShoppingCartDetails = /* GraphQL */ `query ListV2ShoppingCartDetails(
   $filter: ModelV2ShoppingCartDetailFilterInput
   $limit: Int
@@ -4719,6 +5129,7 @@ export const listV2Users = /* GraphQL */ `query ListV2Users(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4765,6 +5176,7 @@ export const listV2UsersByCountry = /* GraphQL */ `query ListV2UsersByCountry(
       id
       ig
       isAcademyStudent
+      isActive
       isEmployed
       latitude
       longitude
@@ -4786,6 +5198,53 @@ export const listV2UsersByCountry = /* GraphQL */ `query ListV2UsersByCountry(
 ` as GeneratedQuery<
   APITypes.ListV2UsersByCountryQueryVariables,
   APITypes.ListV2UsersByCountryQuery
+>;
+export const listV2UsersByEmail = /* GraphQL */ `query ListV2UsersByEmail(
+  $email: String!
+  $filter: Modelv2UsersFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listV2UsersByEmail(
+    email: $email
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      city
+      contactPhone
+      country
+      createdAt
+      email
+      firstContact
+      id
+      ig
+      isAcademyStudent
+      isActive
+      isEmployed
+      latitude
+      longitude
+      name
+      roleId
+      salesCommission
+      state
+      streetAddress
+      updatedAt
+      validated
+      zipCode
+      zoomLevel
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListV2UsersByEmailQueryVariables,
+  APITypes.ListV2UsersByEmailQuery
 >;
 export const listV2WorkdayReports = /* GraphQL */ `query ListV2WorkdayReports(
   $filter: ModelV2WorkdayReportsFilterInput
