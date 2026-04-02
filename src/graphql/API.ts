@@ -210,7 +210,6 @@ export type v2Users = {
   updatedAt: string,
   userPermissions?: Modelv2UserPermissionsConnection | null,
   validated?: boolean | null,
-  workdayReports?: Modelv2WorkdayReportsConnection | null,
   zipCode?: string | null,
   zoomLevel?: number | null,
 };
@@ -583,7 +582,6 @@ export type v2Location = {
   courses?: Modelv2CourseConnection | null,
   createdAt: string,
   directions?: string | null,
-  expenses?: Modelv2ExpenseConnection | null,
   group?: string | null,
   id: string,
   imageMap?: string | null,
@@ -604,49 +602,6 @@ export type Modelv2CourseConnection = {
   items:  Array<v2Course | null >,
   nextToken?: string | null,
 };
-
-export type Modelv2ExpenseConnection = {
-  __typename: "Modelv2ExpenseConnection",
-  items:  Array<v2Expense | null >,
-  nextToken?: string | null,
-};
-
-export type v2Expense = {
-  __typename: "v2Expense",
-  amount: number,
-  costCenterType: v2CostCenterType,
-  createdAt: string,
-  date: string,
-  day: number,
-  description?: string | null,
-  expenseType: v2ExpenseType,
-  id: string,
-  location?: v2Location | null,
-  locationId: string,
-  month: number,
-  updatedAt: string,
-  year: number,
-};
-
-export enum v2CostCenterType {
-  ADS = "ADS",
-  LA_REINA_PISCINA_MUNICIPAL = "LA_REINA_PISCINA_MUNICIPAL",
-  MATERIALS = "MATERIALS",
-  OTHERS = "OTHERS",
-  RRHH = "RRHH",
-  VITACURA_PISCINA_MUNICIPAL = "VITACURA_PISCINA_MUNICIPAL",
-}
-
-
-export enum v2ExpenseType {
-  ADS_IG = "ADS_IG",
-  ASSISTANT = "ASSISTANT",
-  MATERIALS = "MATERIALS",
-  OTHERS = "OTHERS",
-  POOL_COURT_RENTAL = "POOL_COURT_RENTAL",
-  TEACHER = "TEACHER",
-}
-
 
 export type Modelv2ScheduleConnection = {
   __typename: "Modelv2ScheduleConnection",
@@ -1025,43 +980,6 @@ export type Modelv2ShoppingCartConnection = {
   items:  Array<v2ShoppingCart | null >,
   nextToken?: string | null,
 };
-
-export type Modelv2WorkdayReportsConnection = {
-  __typename: "Modelv2WorkdayReportsConnection",
-  items:  Array<v2WorkdayReports | null >,
-  nextToken?: string | null,
-};
-
-export type v2WorkdayReports = {
-  __typename: "v2WorkdayReports",
-  createdAt: string,
-  customersSatisfaction?: number | null,
-  date: string,
-  day: string,
-  endTime?: string | null,
-  endingTemperature?: number | null,
-  id: string,
-  month: string,
-  notes?: string | null,
-  startTime: string,
-  startingTemperature?: number | null,
-  status: v2WorkdayStatus,
-  totalHoursWorked?: number | null,
-  totalIssues?: number | null,
-  totalSales?: number | null,
-  updatedAt: string,
-  user?: v2Users | null,
-  userId: string,
-  year: string,
-};
-
-export enum v2WorkdayStatus {
-  CANCELLED = "CANCELLED",
-  COMPLETED = "COMPLETED",
-  IN_PROGRESS = "IN_PROGRESS",
-  PENDING_REVIEW = "PENDING_REVIEW",
-}
-
 
 export enum v2TypeOfPresence {
   HYBRID = "HYBRID",
@@ -1786,40 +1704,6 @@ export type ModelV2EvaluationObjetivesFilterInput = {
 export type ModelV2EvaluationObjetivesConnection = {
   __typename: "ModelV2EvaluationObjetivesConnection",
   items:  Array<v2EvaluationObjetives | null >,
-  nextToken?: string | null,
-};
-
-export type ModelV2ExpenseFilterInput = {
-  amount?: ModelFloatInput | null,
-  and?: Array< ModelV2ExpenseFilterInput | null > | null,
-  costCenterType?: Modelv2CostCenterTypeInput | null,
-  createdAt?: ModelStringInput | null,
-  date?: ModelStringInput | null,
-  day?: ModelIntInput | null,
-  description?: ModelStringInput | null,
-  expenseType?: Modelv2ExpenseTypeInput | null,
-  id?: ModelIDInput | null,
-  locationId?: ModelIDInput | null,
-  month?: ModelIntInput | null,
-  not?: ModelV2ExpenseFilterInput | null,
-  or?: Array< ModelV2ExpenseFilterInput | null > | null,
-  updatedAt?: ModelStringInput | null,
-  year?: ModelIntInput | null,
-};
-
-export type Modelv2CostCenterTypeInput = {
-  eq?: v2CostCenterType | null,
-  ne?: v2CostCenterType | null,
-};
-
-export type Modelv2ExpenseTypeInput = {
-  eq?: v2ExpenseType | null,
-  ne?: v2ExpenseType | null,
-};
-
-export type ModelV2ExpenseConnection = {
-  __typename: "ModelV2ExpenseConnection",
-  items:  Array<v2Expense | null >,
   nextToken?: string | null,
 };
 
@@ -2894,62 +2778,6 @@ export type Modelv2UsersFilterInput = {
   zoomLevel?: ModelIntInput | null,
 };
 
-export type ModelV2WorkdayReportsFilterInput = {
-  and?: Array< ModelV2WorkdayReportsFilterInput | null > | null,
-  createdAt?: ModelStringInput | null,
-  customersSatisfaction?: ModelFloatInput | null,
-  date?: ModelStringInput | null,
-  day?: ModelStringInput | null,
-  endTime?: ModelStringInput | null,
-  endingTemperature?: ModelFloatInput | null,
-  id?: ModelIDInput | null,
-  month?: ModelStringInput | null,
-  not?: ModelV2WorkdayReportsFilterInput | null,
-  notes?: ModelStringInput | null,
-  or?: Array< ModelV2WorkdayReportsFilterInput | null > | null,
-  startTime?: ModelStringInput | null,
-  startingTemperature?: ModelFloatInput | null,
-  status?: Modelv2WorkdayStatusInput | null,
-  totalHoursWorked?: ModelFloatInput | null,
-  totalIssues?: ModelIntInput | null,
-  totalSales?: ModelFloatInput | null,
-  updatedAt?: ModelStringInput | null,
-  userId?: ModelIDInput | null,
-  year?: ModelStringInput | null,
-};
-
-export type Modelv2WorkdayStatusInput = {
-  eq?: v2WorkdayStatus | null,
-  ne?: v2WorkdayStatus | null,
-};
-
-export type ModelV2WorkdayReportsConnection = {
-  __typename: "ModelV2WorkdayReportsConnection",
-  items:  Array<v2WorkdayReports | null >,
-  nextToken?: string | null,
-};
-
-export type Modelv2WorkdayReportsFilterInput = {
-  and?: Array< Modelv2WorkdayReportsFilterInput | null > | null,
-  customersSatisfaction?: ModelFloatInput | null,
-  date?: ModelStringInput | null,
-  day?: ModelStringInput | null,
-  endTime?: ModelStringInput | null,
-  endingTemperature?: ModelFloatInput | null,
-  month?: ModelStringInput | null,
-  not?: Modelv2WorkdayReportsFilterInput | null,
-  notes?: ModelStringInput | null,
-  or?: Array< Modelv2WorkdayReportsFilterInput | null > | null,
-  startTime?: ModelStringInput | null,
-  startingTemperature?: ModelFloatInput | null,
-  status?: Modelv2WorkdayStatusInput | null,
-  totalHoursWorked?: ModelFloatInput | null,
-  totalIssues?: ModelIntInput | null,
-  totalSales?: ModelFloatInput | null,
-  userId?: ModelIDInput | null,
-  year?: ModelStringInput | null,
-};
-
 export type Modelv2ScheduleFilterInput = {
   and?: Array< Modelv2ScheduleFilterInput | null > | null,
   courseSchedulesId?: ModelIDInput | null,
@@ -3376,36 +3204,6 @@ export type CreateV2EvaluationObjetivesInput = {
   isActive?: boolean | null,
   isMandatory?: boolean | null,
   texto?: string | null,
-};
-
-export type ModelV2ExpenseConditionInput = {
-  amount?: ModelFloatInput | null,
-  and?: Array< ModelV2ExpenseConditionInput | null > | null,
-  costCenterType?: Modelv2CostCenterTypeInput | null,
-  createdAt?: ModelStringInput | null,
-  date?: ModelStringInput | null,
-  day?: ModelIntInput | null,
-  description?: ModelStringInput | null,
-  expenseType?: Modelv2ExpenseTypeInput | null,
-  locationId?: ModelIDInput | null,
-  month?: ModelIntInput | null,
-  not?: ModelV2ExpenseConditionInput | null,
-  or?: Array< ModelV2ExpenseConditionInput | null > | null,
-  updatedAt?: ModelStringInput | null,
-  year?: ModelIntInput | null,
-};
-
-export type CreateV2ExpenseInput = {
-  amount: number,
-  costCenterType: v2CostCenterType,
-  date: string,
-  day: number,
-  description?: string | null,
-  expenseType: v2ExpenseType,
-  id?: string | null,
-  locationId: string,
-  month: number,
-  year: number,
 };
 
 export type ModelV2GmailInboxConditionInput = {
@@ -4319,48 +4117,6 @@ export type CreateV2UsersInput = {
   zoomLevel?: number | null,
 };
 
-export type ModelV2WorkdayReportsConditionInput = {
-  and?: Array< ModelV2WorkdayReportsConditionInput | null > | null,
-  createdAt?: ModelStringInput | null,
-  customersSatisfaction?: ModelFloatInput | null,
-  date?: ModelStringInput | null,
-  day?: ModelStringInput | null,
-  endTime?: ModelStringInput | null,
-  endingTemperature?: ModelFloatInput | null,
-  month?: ModelStringInput | null,
-  not?: ModelV2WorkdayReportsConditionInput | null,
-  notes?: ModelStringInput | null,
-  or?: Array< ModelV2WorkdayReportsConditionInput | null > | null,
-  startTime?: ModelStringInput | null,
-  startingTemperature?: ModelFloatInput | null,
-  status?: Modelv2WorkdayStatusInput | null,
-  totalHoursWorked?: ModelFloatInput | null,
-  totalIssues?: ModelIntInput | null,
-  totalSales?: ModelFloatInput | null,
-  updatedAt?: ModelStringInput | null,
-  userId?: ModelIDInput | null,
-  year?: ModelStringInput | null,
-};
-
-export type CreateV2WorkdayReportsInput = {
-  customersSatisfaction?: number | null,
-  date: string,
-  day: string,
-  endTime?: string | null,
-  endingTemperature?: number | null,
-  id?: string | null,
-  month: string,
-  notes?: string | null,
-  startTime: string,
-  startingTemperature?: number | null,
-  status: v2WorkdayStatus,
-  totalHoursWorked?: number | null,
-  totalIssues?: number | null,
-  totalSales?: number | null,
-  userId: string,
-  year: string,
-};
-
 export type DeleteV2AcademyCoursesInput = {
   id: string,
 };
@@ -4414,10 +4170,6 @@ export type DeleteV2EvaluationLevelInput = {
 };
 
 export type DeleteV2EvaluationObjetivesInput = {
-  id: string,
-};
-
-export type DeleteV2ExpenseInput = {
   id: string,
 };
 
@@ -4542,10 +4294,6 @@ export type DeleteV2UserPermissionsInput = {
 };
 
 export type DeleteV2UsersInput = {
-  id: string,
-};
-
-export type DeleteV2WorkdayReportsInput = {
   id: string,
 };
 
@@ -4718,19 +4466,6 @@ export type UpdateV2EvaluationObjetivesInput = {
   isActive?: boolean | null,
   isMandatory?: boolean | null,
   texto?: string | null,
-};
-
-export type UpdateV2ExpenseInput = {
-  amount?: number | null,
-  costCenterType?: v2CostCenterType | null,
-  date?: string | null,
-  day?: number | null,
-  description?: string | null,
-  expenseType?: v2ExpenseType | null,
-  id: string,
-  locationId?: string | null,
-  month?: number | null,
-  year?: number | null,
 };
 
 export type UpdateV2GmailInboxInput = {
@@ -5127,25 +4862,6 @@ export type UpdateV2UsersInput = {
   zoomLevel?: number | null,
 };
 
-export type UpdateV2WorkdayReportsInput = {
-  customersSatisfaction?: number | null,
-  date?: string | null,
-  day?: string | null,
-  endTime?: string | null,
-  endingTemperature?: number | null,
-  id: string,
-  month?: string | null,
-  notes?: string | null,
-  startTime?: string | null,
-  startingTemperature?: number | null,
-  status?: v2WorkdayStatus | null,
-  totalHoursWorked?: number | null,
-  totalIssues?: number | null,
-  totalSales?: number | null,
-  userId?: string | null,
-  year?: string | null,
-};
-
 export type v2CognitoCreateUserResult = {
   __typename: "v2CognitoCreateUserResult",
   email: string,
@@ -5468,23 +5184,6 @@ export type ModelSubscriptionV2EvaluationObjetivesFilterInput = {
   or?: Array< ModelSubscriptionV2EvaluationObjetivesFilterInput | null > | null,
   texto?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-};
-
-export type ModelSubscriptionV2ExpenseFilterInput = {
-  amount?: ModelSubscriptionFloatInput | null,
-  and?: Array< ModelSubscriptionV2ExpenseFilterInput | null > | null,
-  costCenterType?: ModelSubscriptionStringInput | null,
-  createdAt?: ModelSubscriptionStringInput | null,
-  date?: ModelSubscriptionStringInput | null,
-  day?: ModelSubscriptionIntInput | null,
-  description?: ModelSubscriptionStringInput | null,
-  expenseType?: ModelSubscriptionStringInput | null,
-  id?: ModelSubscriptionIDInput | null,
-  locationId?: ModelSubscriptionIDInput | null,
-  month?: ModelSubscriptionIntInput | null,
-  or?: Array< ModelSubscriptionV2ExpenseFilterInput | null > | null,
-  updatedAt?: ModelSubscriptionStringInput | null,
-  year?: ModelSubscriptionIntInput | null,
 };
 
 export type ModelSubscriptionV2GmailInboxFilterInput = {
@@ -6002,29 +5701,6 @@ export type ModelSubscriptionV2UsersFilterInput = {
   validated?: ModelSubscriptionBooleanInput | null,
   zipCode?: ModelSubscriptionStringInput | null,
   zoomLevel?: ModelSubscriptionIntInput | null,
-};
-
-export type ModelSubscriptionV2WorkdayReportsFilterInput = {
-  and?: Array< ModelSubscriptionV2WorkdayReportsFilterInput | null > | null,
-  createdAt?: ModelSubscriptionStringInput | null,
-  customersSatisfaction?: ModelSubscriptionFloatInput | null,
-  date?: ModelSubscriptionStringInput | null,
-  day?: ModelSubscriptionStringInput | null,
-  endTime?: ModelSubscriptionStringInput | null,
-  endingTemperature?: ModelSubscriptionFloatInput | null,
-  id?: ModelSubscriptionIDInput | null,
-  month?: ModelSubscriptionStringInput | null,
-  notes?: ModelSubscriptionStringInput | null,
-  or?: Array< ModelSubscriptionV2WorkdayReportsFilterInput | null > | null,
-  startTime?: ModelSubscriptionStringInput | null,
-  startingTemperature?: ModelSubscriptionFloatInput | null,
-  status?: ModelSubscriptionStringInput | null,
-  totalHoursWorked?: ModelSubscriptionFloatInput | null,
-  totalIssues?: ModelSubscriptionIntInput | null,
-  totalSales?: ModelSubscriptionFloatInput | null,
-  updatedAt?: ModelSubscriptionStringInput | null,
-  userId?: ModelSubscriptionIDInput | null,
-  year?: ModelSubscriptionStringInput | null,
 };
 
 export type GetV2AcademyCoursesQueryVariables = {
@@ -6814,48 +6490,6 @@ export type GetV2EvaluationObjetivesQuery = {
   } | null,
 };
 
-export type GetV2ExpenseQueryVariables = {
-  id: string,
-};
-
-export type GetV2ExpenseQuery = {
-  getV2Expense?:  {
-    __typename: "v2Expense",
-    amount: number,
-    costCenterType: v2CostCenterType,
-    createdAt: string,
-    date: string,
-    day: number,
-    description?: string | null,
-    expenseType: v2ExpenseType,
-    id: string,
-    location?:  {
-      __typename: "v2Location",
-      address?: string | null,
-      city?: string | null,
-      country?: string | null,
-      createdAt: string,
-      directions?: string | null,
-      group?: string | null,
-      id: string,
-      imageMap?: string | null,
-      isActive?: boolean | null,
-      isVisible?: boolean | null,
-      maximumTemperature?: number | null,
-      minimumTemperature?: number | null,
-      name?: string | null,
-      phone?: string | null,
-      region?: string | null,
-      updatedAt: string,
-      urlMap?: string | null,
-    } | null,
-    locationId: string,
-    month: number,
-    updatedAt: string,
-    year: number,
-  } | null,
-};
-
 export type GetV2GmailInboxQueryVariables = {
   id: string,
 };
@@ -6931,10 +6565,6 @@ export type GetV2LocationQuery = {
     } | null,
     createdAt: string,
     directions?: string | null,
-    expenses?:  {
-      __typename: "Modelv2ExpenseConnection",
-      nextToken?: string | null,
-    } | null,
     group?: string | null,
     id: string,
     imageMap?: string | null,
@@ -8666,65 +8296,8 @@ export type GetV2UsersQuery = {
       nextToken?: string | null,
     } | null,
     validated?: boolean | null,
-    workdayReports?:  {
-      __typename: "Modelv2WorkdayReportsConnection",
-      nextToken?: string | null,
-    } | null,
     zipCode?: string | null,
     zoomLevel?: number | null,
-  } | null,
-};
-
-export type GetV2WorkdayReportsQueryVariables = {
-  id: string,
-};
-
-export type GetV2WorkdayReportsQuery = {
-  getV2WorkdayReports?:  {
-    __typename: "v2WorkdayReports",
-    createdAt: string,
-    customersSatisfaction?: number | null,
-    date: string,
-    day: string,
-    endTime?: string | null,
-    endingTemperature?: number | null,
-    id: string,
-    month: string,
-    notes?: string | null,
-    startTime: string,
-    startingTemperature?: number | null,
-    status: v2WorkdayStatus,
-    totalHoursWorked?: number | null,
-    totalIssues?: number | null,
-    totalSales?: number | null,
-    updatedAt: string,
-    user?:  {
-      __typename: "v2Users",
-      city?: string | null,
-      contactPhone?: string | null,
-      country?: string | null,
-      createdAt: string,
-      email: string,
-      firstContact?: boolean | null,
-      id: string,
-      ig?: string | null,
-      isAcademyStudent?: boolean | null,
-      isActive?: boolean | null,
-      isEmployed?: boolean | null,
-      latitude?: number | null,
-      longitude?: number | null,
-      name: string,
-      roleId?: string | null,
-      salesCommission?: number | null,
-      state?: string | null,
-      streetAddress?: string | null,
-      updatedAt: string,
-      validated?: boolean | null,
-      zipCode?: string | null,
-      zoomLevel?: number | null,
-    } | null,
-    userId: string,
-    year: string,
   } | null,
 };
 
@@ -9353,34 +8926,6 @@ export type ListV2EvaluationObjetivesQuery = {
       isMandatory?: boolean | null,
       texto?: string | null,
       updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListV2ExpensesQueryVariables = {
-  filter?: ModelV2ExpenseFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListV2ExpensesQuery = {
-  listV2Expenses?:  {
-    __typename: "ModelV2ExpenseConnection",
-    items:  Array< {
-      __typename: "v2Expense",
-      amount: number,
-      costCenterType: v2CostCenterType,
-      createdAt: string,
-      date: string,
-      day: number,
-      description?: string | null,
-      expenseType: v2ExpenseType,
-      id: string,
-      locationId: string,
-      month: number,
-      updatedAt: string,
-      year: number,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -11011,77 +10556,6 @@ export type ListV2UsersByEmailQuery = {
   } | null,
 };
 
-export type ListV2WorkdayReportsQueryVariables = {
-  filter?: ModelV2WorkdayReportsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListV2WorkdayReportsQuery = {
-  listV2WorkdayReports?:  {
-    __typename: "ModelV2WorkdayReportsConnection",
-    items:  Array< {
-      __typename: "v2WorkdayReports",
-      createdAt: string,
-      customersSatisfaction?: number | null,
-      date: string,
-      day: string,
-      endTime?: string | null,
-      endingTemperature?: number | null,
-      id: string,
-      month: string,
-      notes?: string | null,
-      startTime: string,
-      startingTemperature?: number | null,
-      status: v2WorkdayStatus,
-      totalHoursWorked?: number | null,
-      totalIssues?: number | null,
-      totalSales?: number | null,
-      updatedAt: string,
-      userId: string,
-      year: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListV2WorkdayReportsByDateAndUserIdQueryVariables = {
-  date: string,
-  filter?: Modelv2WorkdayReportsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  sortDirection?: ModelSortDirection | null,
-  userId?: ModelIDKeyConditionInput | null,
-};
-
-export type ListV2WorkdayReportsByDateAndUserIdQuery = {
-  listV2WorkdayReportsByDateAndUserId?:  {
-    __typename: "Modelv2WorkdayReportsConnection",
-    items:  Array< {
-      __typename: "v2WorkdayReports",
-      createdAt: string,
-      customersSatisfaction?: number | null,
-      date: string,
-      day: string,
-      endTime?: string | null,
-      endingTemperature?: number | null,
-      id: string,
-      month: string,
-      notes?: string | null,
-      startTime: string,
-      startingTemperature?: number | null,
-      status: v2WorkdayStatus,
-      totalHoursWorked?: number | null,
-      totalIssues?: number | null,
-      totalSales?: number | null,
-      updatedAt: string,
-      userId: string,
-      year: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
 export type SchedulesByCourseQueryVariables = {
   courseSchedulesId: string,
   filter?: Modelv2ScheduleFilterInput | null,
@@ -11964,49 +11438,6 @@ export type CreateV2EvaluationObjetivesMutation = {
   } | null,
 };
 
-export type CreateV2ExpenseMutationVariables = {
-  condition?: ModelV2ExpenseConditionInput | null,
-  input: CreateV2ExpenseInput,
-};
-
-export type CreateV2ExpenseMutation = {
-  createV2Expense?:  {
-    __typename: "v2Expense",
-    amount: number,
-    costCenterType: v2CostCenterType,
-    createdAt: string,
-    date: string,
-    day: number,
-    description?: string | null,
-    expenseType: v2ExpenseType,
-    id: string,
-    location?:  {
-      __typename: "v2Location",
-      address?: string | null,
-      city?: string | null,
-      country?: string | null,
-      createdAt: string,
-      directions?: string | null,
-      group?: string | null,
-      id: string,
-      imageMap?: string | null,
-      isActive?: boolean | null,
-      isVisible?: boolean | null,
-      maximumTemperature?: number | null,
-      minimumTemperature?: number | null,
-      name?: string | null,
-      phone?: string | null,
-      region?: string | null,
-      updatedAt: string,
-      urlMap?: string | null,
-    } | null,
-    locationId: string,
-    month: number,
-    updatedAt: string,
-    year: number,
-  } | null,
-};
-
 export type CreateV2GmailInboxMutationVariables = {
   condition?: ModelV2GmailInboxConditionInput | null,
   input: CreateV2GmailInboxInput,
@@ -12084,10 +11515,6 @@ export type CreateV2LocationMutation = {
     } | null,
     createdAt: string,
     directions?: string | null,
-    expenses?:  {
-      __typename: "Modelv2ExpenseConnection",
-      nextToken?: string | null,
-    } | null,
     group?: string | null,
     id: string,
     imageMap?: string | null,
@@ -13848,66 +13275,8 @@ export type CreateV2UsersMutation = {
       nextToken?: string | null,
     } | null,
     validated?: boolean | null,
-    workdayReports?:  {
-      __typename: "Modelv2WorkdayReportsConnection",
-      nextToken?: string | null,
-    } | null,
     zipCode?: string | null,
     zoomLevel?: number | null,
-  } | null,
-};
-
-export type CreateV2WorkdayReportsMutationVariables = {
-  condition?: ModelV2WorkdayReportsConditionInput | null,
-  input: CreateV2WorkdayReportsInput,
-};
-
-export type CreateV2WorkdayReportsMutation = {
-  createV2WorkdayReports?:  {
-    __typename: "v2WorkdayReports",
-    createdAt: string,
-    customersSatisfaction?: number | null,
-    date: string,
-    day: string,
-    endTime?: string | null,
-    endingTemperature?: number | null,
-    id: string,
-    month: string,
-    notes?: string | null,
-    startTime: string,
-    startingTemperature?: number | null,
-    status: v2WorkdayStatus,
-    totalHoursWorked?: number | null,
-    totalIssues?: number | null,
-    totalSales?: number | null,
-    updatedAt: string,
-    user?:  {
-      __typename: "v2Users",
-      city?: string | null,
-      contactPhone?: string | null,
-      country?: string | null,
-      createdAt: string,
-      email: string,
-      firstContact?: boolean | null,
-      id: string,
-      ig?: string | null,
-      isAcademyStudent?: boolean | null,
-      isActive?: boolean | null,
-      isEmployed?: boolean | null,
-      latitude?: number | null,
-      longitude?: number | null,
-      name: string,
-      roleId?: string | null,
-      salesCommission?: number | null,
-      state?: string | null,
-      streetAddress?: string | null,
-      updatedAt: string,
-      validated?: boolean | null,
-      zipCode?: string | null,
-      zoomLevel?: number | null,
-    } | null,
-    userId: string,
-    year: string,
   } | null,
 };
 
@@ -14712,49 +14081,6 @@ export type DeleteV2EvaluationObjetivesMutation = {
   } | null,
 };
 
-export type DeleteV2ExpenseMutationVariables = {
-  condition?: ModelV2ExpenseConditionInput | null,
-  input: DeleteV2ExpenseInput,
-};
-
-export type DeleteV2ExpenseMutation = {
-  deleteV2Expense?:  {
-    __typename: "v2Expense",
-    amount: number,
-    costCenterType: v2CostCenterType,
-    createdAt: string,
-    date: string,
-    day: number,
-    description?: string | null,
-    expenseType: v2ExpenseType,
-    id: string,
-    location?:  {
-      __typename: "v2Location",
-      address?: string | null,
-      city?: string | null,
-      country?: string | null,
-      createdAt: string,
-      directions?: string | null,
-      group?: string | null,
-      id: string,
-      imageMap?: string | null,
-      isActive?: boolean | null,
-      isVisible?: boolean | null,
-      maximumTemperature?: number | null,
-      minimumTemperature?: number | null,
-      name?: string | null,
-      phone?: string | null,
-      region?: string | null,
-      updatedAt: string,
-      urlMap?: string | null,
-    } | null,
-    locationId: string,
-    month: number,
-    updatedAt: string,
-    year: number,
-  } | null,
-};
-
 export type DeleteV2GmailInboxMutationVariables = {
   condition?: ModelV2GmailInboxConditionInput | null,
   input: DeleteV2GmailInboxInput,
@@ -14832,10 +14158,6 @@ export type DeleteV2LocationMutation = {
     } | null,
     createdAt: string,
     directions?: string | null,
-    expenses?:  {
-      __typename: "Modelv2ExpenseConnection",
-      nextToken?: string | null,
-    } | null,
     group?: string | null,
     id: string,
     imageMap?: string | null,
@@ -16596,66 +15918,8 @@ export type DeleteV2UsersMutation = {
       nextToken?: string | null,
     } | null,
     validated?: boolean | null,
-    workdayReports?:  {
-      __typename: "Modelv2WorkdayReportsConnection",
-      nextToken?: string | null,
-    } | null,
     zipCode?: string | null,
     zoomLevel?: number | null,
-  } | null,
-};
-
-export type DeleteV2WorkdayReportsMutationVariables = {
-  condition?: ModelV2WorkdayReportsConditionInput | null,
-  input: DeleteV2WorkdayReportsInput,
-};
-
-export type DeleteV2WorkdayReportsMutation = {
-  deleteV2WorkdayReports?:  {
-    __typename: "v2WorkdayReports",
-    createdAt: string,
-    customersSatisfaction?: number | null,
-    date: string,
-    day: string,
-    endTime?: string | null,
-    endingTemperature?: number | null,
-    id: string,
-    month: string,
-    notes?: string | null,
-    startTime: string,
-    startingTemperature?: number | null,
-    status: v2WorkdayStatus,
-    totalHoursWorked?: number | null,
-    totalIssues?: number | null,
-    totalSales?: number | null,
-    updatedAt: string,
-    user?:  {
-      __typename: "v2Users",
-      city?: string | null,
-      contactPhone?: string | null,
-      country?: string | null,
-      createdAt: string,
-      email: string,
-      firstContact?: boolean | null,
-      id: string,
-      ig?: string | null,
-      isAcademyStudent?: boolean | null,
-      isActive?: boolean | null,
-      isEmployed?: boolean | null,
-      latitude?: number | null,
-      longitude?: number | null,
-      name: string,
-      roleId?: string | null,
-      salesCommission?: number | null,
-      state?: string | null,
-      streetAddress?: string | null,
-      updatedAt: string,
-      validated?: boolean | null,
-      zipCode?: string | null,
-      zoomLevel?: number | null,
-    } | null,
-    userId: string,
-    year: string,
   } | null,
 };
 
@@ -17460,49 +16724,6 @@ export type UpdateV2EvaluationObjetivesMutation = {
   } | null,
 };
 
-export type UpdateV2ExpenseMutationVariables = {
-  condition?: ModelV2ExpenseConditionInput | null,
-  input: UpdateV2ExpenseInput,
-};
-
-export type UpdateV2ExpenseMutation = {
-  updateV2Expense?:  {
-    __typename: "v2Expense",
-    amount: number,
-    costCenterType: v2CostCenterType,
-    createdAt: string,
-    date: string,
-    day: number,
-    description?: string | null,
-    expenseType: v2ExpenseType,
-    id: string,
-    location?:  {
-      __typename: "v2Location",
-      address?: string | null,
-      city?: string | null,
-      country?: string | null,
-      createdAt: string,
-      directions?: string | null,
-      group?: string | null,
-      id: string,
-      imageMap?: string | null,
-      isActive?: boolean | null,
-      isVisible?: boolean | null,
-      maximumTemperature?: number | null,
-      minimumTemperature?: number | null,
-      name?: string | null,
-      phone?: string | null,
-      region?: string | null,
-      updatedAt: string,
-      urlMap?: string | null,
-    } | null,
-    locationId: string,
-    month: number,
-    updatedAt: string,
-    year: number,
-  } | null,
-};
-
 export type UpdateV2GmailInboxMutationVariables = {
   condition?: ModelV2GmailInboxConditionInput | null,
   input: UpdateV2GmailInboxInput,
@@ -17580,10 +16801,6 @@ export type UpdateV2LocationMutation = {
     } | null,
     createdAt: string,
     directions?: string | null,
-    expenses?:  {
-      __typename: "Modelv2ExpenseConnection",
-      nextToken?: string | null,
-    } | null,
     group?: string | null,
     id: string,
     imageMap?: string | null,
@@ -19344,66 +18561,8 @@ export type UpdateV2UsersMutation = {
       nextToken?: string | null,
     } | null,
     validated?: boolean | null,
-    workdayReports?:  {
-      __typename: "Modelv2WorkdayReportsConnection",
-      nextToken?: string | null,
-    } | null,
     zipCode?: string | null,
     zoomLevel?: number | null,
-  } | null,
-};
-
-export type UpdateV2WorkdayReportsMutationVariables = {
-  condition?: ModelV2WorkdayReportsConditionInput | null,
-  input: UpdateV2WorkdayReportsInput,
-};
-
-export type UpdateV2WorkdayReportsMutation = {
-  updateV2WorkdayReports?:  {
-    __typename: "v2WorkdayReports",
-    createdAt: string,
-    customersSatisfaction?: number | null,
-    date: string,
-    day: string,
-    endTime?: string | null,
-    endingTemperature?: number | null,
-    id: string,
-    month: string,
-    notes?: string | null,
-    startTime: string,
-    startingTemperature?: number | null,
-    status: v2WorkdayStatus,
-    totalHoursWorked?: number | null,
-    totalIssues?: number | null,
-    totalSales?: number | null,
-    updatedAt: string,
-    user?:  {
-      __typename: "v2Users",
-      city?: string | null,
-      contactPhone?: string | null,
-      country?: string | null,
-      createdAt: string,
-      email: string,
-      firstContact?: boolean | null,
-      id: string,
-      ig?: string | null,
-      isAcademyStudent?: boolean | null,
-      isActive?: boolean | null,
-      isEmployed?: boolean | null,
-      latitude?: number | null,
-      longitude?: number | null,
-      name: string,
-      roleId?: string | null,
-      salesCommission?: number | null,
-      state?: string | null,
-      streetAddress?: string | null,
-      updatedAt: string,
-      validated?: boolean | null,
-      zipCode?: string | null,
-      zoomLevel?: number | null,
-    } | null,
-    userId: string,
-    year: string,
   } | null,
 };
 
@@ -19444,19 +18603,6 @@ export type V2CognitoSetStatusMutation = {
   v2CognitoSetStatus?: boolean | null,
 };
 
-export type V2GenerateEnrollmentMutationVariables = {
-  courseId: string,
-  scheduleId: string,
-  sessionTypeId: string,
-  startDate: string,
-  studentId: string,
-  userId: string,
-};
-
-export type V2GenerateEnrollmentMutation = {
-  v2GenerateEnrollment?: string | null,
-};
-
 export type V2GmailReplyMutationVariables = {
   body: string,
   fromAccount: string,
@@ -19480,58 +18626,6 @@ export type V2GmailSyncMutationVariables = {
 
 export type V2GmailSyncMutation = {
   v2GmailSync?: string | null,
-};
-
-export type V2RemoveEnrollmentMutationVariables = {
-  employeeId: string,
-  enrollId: string,
-};
-
-export type V2RemoveEnrollmentMutation = {
-  v2RemoveEnrollment?: string | null,
-};
-
-export type V2RenovationEnrollmentMutationVariables = {
-  enrollId: string,
-  startDate: string,
-};
-
-export type V2RenovationEnrollmentMutation = {
-  v2RenovationEnrollment?: string | null,
-};
-
-export type V2SendEmailMutationVariables = {
-  templateParams: string,
-  type: string,
-};
-
-export type V2SendEmailMutation = {
-  v2SendEmail?: string | null,
-};
-
-export type V2SendWhatsappMutationVariables = {
-  message: string,
-  name: string,
-  phoneNumber: string,
-};
-
-export type V2SendWhatsappMutation = {
-  v2SendWhatsapp?: string | null,
-};
-
-export type V2SetCreateEvaluationMutationVariables = {
-  age: string,
-  evaluationDetails?: Array< string | null > | null,
-  evaluationLevelId: string,
-  observations: string,
-  sessionsCarriedOut: string,
-  studentId: string,
-  userId: string,
-  wasApproved?: boolean | null,
-};
-
-export type V2SetCreateEvaluationMutation = {
-  v2SetCreateEvaluation?: string | null,
 };
 
 export type V2WebpayCommitMutationVariables = {
@@ -20383,48 +19477,6 @@ export type OnCreateV2EvaluationObjetivesSubscription = {
   } | null,
 };
 
-export type OnCreateV2ExpenseSubscriptionVariables = {
-  filter?: ModelSubscriptionV2ExpenseFilterInput | null,
-};
-
-export type OnCreateV2ExpenseSubscription = {
-  onCreateV2Expense?:  {
-    __typename: "v2Expense",
-    amount: number,
-    costCenterType: v2CostCenterType,
-    createdAt: string,
-    date: string,
-    day: number,
-    description?: string | null,
-    expenseType: v2ExpenseType,
-    id: string,
-    location?:  {
-      __typename: "v2Location",
-      address?: string | null,
-      city?: string | null,
-      country?: string | null,
-      createdAt: string,
-      directions?: string | null,
-      group?: string | null,
-      id: string,
-      imageMap?: string | null,
-      isActive?: boolean | null,
-      isVisible?: boolean | null,
-      maximumTemperature?: number | null,
-      minimumTemperature?: number | null,
-      name?: string | null,
-      phone?: string | null,
-      region?: string | null,
-      updatedAt: string,
-      urlMap?: string | null,
-    } | null,
-    locationId: string,
-    month: number,
-    updatedAt: string,
-    year: number,
-  } | null,
-};
-
 export type OnCreateV2GmailInboxSubscriptionVariables = {
   filter?: ModelSubscriptionV2GmailInboxFilterInput | null,
 };
@@ -20500,10 +19552,6 @@ export type OnCreateV2LocationSubscription = {
     } | null,
     createdAt: string,
     directions?: string | null,
-    expenses?:  {
-      __typename: "Modelv2ExpenseConnection",
-      nextToken?: string | null,
-    } | null,
     group?: string | null,
     id: string,
     imageMap?: string | null,
@@ -22235,65 +21283,8 @@ export type OnCreateV2UsersSubscription = {
       nextToken?: string | null,
     } | null,
     validated?: boolean | null,
-    workdayReports?:  {
-      __typename: "Modelv2WorkdayReportsConnection",
-      nextToken?: string | null,
-    } | null,
     zipCode?: string | null,
     zoomLevel?: number | null,
-  } | null,
-};
-
-export type OnCreateV2WorkdayReportsSubscriptionVariables = {
-  filter?: ModelSubscriptionV2WorkdayReportsFilterInput | null,
-};
-
-export type OnCreateV2WorkdayReportsSubscription = {
-  onCreateV2WorkdayReports?:  {
-    __typename: "v2WorkdayReports",
-    createdAt: string,
-    customersSatisfaction?: number | null,
-    date: string,
-    day: string,
-    endTime?: string | null,
-    endingTemperature?: number | null,
-    id: string,
-    month: string,
-    notes?: string | null,
-    startTime: string,
-    startingTemperature?: number | null,
-    status: v2WorkdayStatus,
-    totalHoursWorked?: number | null,
-    totalIssues?: number | null,
-    totalSales?: number | null,
-    updatedAt: string,
-    user?:  {
-      __typename: "v2Users",
-      city?: string | null,
-      contactPhone?: string | null,
-      country?: string | null,
-      createdAt: string,
-      email: string,
-      firstContact?: boolean | null,
-      id: string,
-      ig?: string | null,
-      isAcademyStudent?: boolean | null,
-      isActive?: boolean | null,
-      isEmployed?: boolean | null,
-      latitude?: number | null,
-      longitude?: number | null,
-      name: string,
-      roleId?: string | null,
-      salesCommission?: number | null,
-      state?: string | null,
-      streetAddress?: string | null,
-      updatedAt: string,
-      validated?: boolean | null,
-      zipCode?: string | null,
-      zoomLevel?: number | null,
-    } | null,
-    userId: string,
-    year: string,
   } | null,
 };
 
@@ -23084,48 +22075,6 @@ export type OnDeleteV2EvaluationObjetivesSubscription = {
   } | null,
 };
 
-export type OnDeleteV2ExpenseSubscriptionVariables = {
-  filter?: ModelSubscriptionV2ExpenseFilterInput | null,
-};
-
-export type OnDeleteV2ExpenseSubscription = {
-  onDeleteV2Expense?:  {
-    __typename: "v2Expense",
-    amount: number,
-    costCenterType: v2CostCenterType,
-    createdAt: string,
-    date: string,
-    day: number,
-    description?: string | null,
-    expenseType: v2ExpenseType,
-    id: string,
-    location?:  {
-      __typename: "v2Location",
-      address?: string | null,
-      city?: string | null,
-      country?: string | null,
-      createdAt: string,
-      directions?: string | null,
-      group?: string | null,
-      id: string,
-      imageMap?: string | null,
-      isActive?: boolean | null,
-      isVisible?: boolean | null,
-      maximumTemperature?: number | null,
-      minimumTemperature?: number | null,
-      name?: string | null,
-      phone?: string | null,
-      region?: string | null,
-      updatedAt: string,
-      urlMap?: string | null,
-    } | null,
-    locationId: string,
-    month: number,
-    updatedAt: string,
-    year: number,
-  } | null,
-};
-
 export type OnDeleteV2GmailInboxSubscriptionVariables = {
   filter?: ModelSubscriptionV2GmailInboxFilterInput | null,
 };
@@ -23201,10 +22150,6 @@ export type OnDeleteV2LocationSubscription = {
     } | null,
     createdAt: string,
     directions?: string | null,
-    expenses?:  {
-      __typename: "Modelv2ExpenseConnection",
-      nextToken?: string | null,
-    } | null,
     group?: string | null,
     id: string,
     imageMap?: string | null,
@@ -24936,65 +23881,8 @@ export type OnDeleteV2UsersSubscription = {
       nextToken?: string | null,
     } | null,
     validated?: boolean | null,
-    workdayReports?:  {
-      __typename: "Modelv2WorkdayReportsConnection",
-      nextToken?: string | null,
-    } | null,
     zipCode?: string | null,
     zoomLevel?: number | null,
-  } | null,
-};
-
-export type OnDeleteV2WorkdayReportsSubscriptionVariables = {
-  filter?: ModelSubscriptionV2WorkdayReportsFilterInput | null,
-};
-
-export type OnDeleteV2WorkdayReportsSubscription = {
-  onDeleteV2WorkdayReports?:  {
-    __typename: "v2WorkdayReports",
-    createdAt: string,
-    customersSatisfaction?: number | null,
-    date: string,
-    day: string,
-    endTime?: string | null,
-    endingTemperature?: number | null,
-    id: string,
-    month: string,
-    notes?: string | null,
-    startTime: string,
-    startingTemperature?: number | null,
-    status: v2WorkdayStatus,
-    totalHoursWorked?: number | null,
-    totalIssues?: number | null,
-    totalSales?: number | null,
-    updatedAt: string,
-    user?:  {
-      __typename: "v2Users",
-      city?: string | null,
-      contactPhone?: string | null,
-      country?: string | null,
-      createdAt: string,
-      email: string,
-      firstContact?: boolean | null,
-      id: string,
-      ig?: string | null,
-      isAcademyStudent?: boolean | null,
-      isActive?: boolean | null,
-      isEmployed?: boolean | null,
-      latitude?: number | null,
-      longitude?: number | null,
-      name: string,
-      roleId?: string | null,
-      salesCommission?: number | null,
-      state?: string | null,
-      streetAddress?: string | null,
-      updatedAt: string,
-      validated?: boolean | null,
-      zipCode?: string | null,
-      zoomLevel?: number | null,
-    } | null,
-    userId: string,
-    year: string,
   } | null,
 };
 
@@ -25785,48 +24673,6 @@ export type OnUpdateV2EvaluationObjetivesSubscription = {
   } | null,
 };
 
-export type OnUpdateV2ExpenseSubscriptionVariables = {
-  filter?: ModelSubscriptionV2ExpenseFilterInput | null,
-};
-
-export type OnUpdateV2ExpenseSubscription = {
-  onUpdateV2Expense?:  {
-    __typename: "v2Expense",
-    amount: number,
-    costCenterType: v2CostCenterType,
-    createdAt: string,
-    date: string,
-    day: number,
-    description?: string | null,
-    expenseType: v2ExpenseType,
-    id: string,
-    location?:  {
-      __typename: "v2Location",
-      address?: string | null,
-      city?: string | null,
-      country?: string | null,
-      createdAt: string,
-      directions?: string | null,
-      group?: string | null,
-      id: string,
-      imageMap?: string | null,
-      isActive?: boolean | null,
-      isVisible?: boolean | null,
-      maximumTemperature?: number | null,
-      minimumTemperature?: number | null,
-      name?: string | null,
-      phone?: string | null,
-      region?: string | null,
-      updatedAt: string,
-      urlMap?: string | null,
-    } | null,
-    locationId: string,
-    month: number,
-    updatedAt: string,
-    year: number,
-  } | null,
-};
-
 export type OnUpdateV2GmailInboxSubscriptionVariables = {
   filter?: ModelSubscriptionV2GmailInboxFilterInput | null,
 };
@@ -25902,10 +24748,6 @@ export type OnUpdateV2LocationSubscription = {
     } | null,
     createdAt: string,
     directions?: string | null,
-    expenses?:  {
-      __typename: "Modelv2ExpenseConnection",
-      nextToken?: string | null,
-    } | null,
     group?: string | null,
     id: string,
     imageMap?: string | null,
@@ -27637,64 +26479,7 @@ export type OnUpdateV2UsersSubscription = {
       nextToken?: string | null,
     } | null,
     validated?: boolean | null,
-    workdayReports?:  {
-      __typename: "Modelv2WorkdayReportsConnection",
-      nextToken?: string | null,
-    } | null,
     zipCode?: string | null,
     zoomLevel?: number | null,
-  } | null,
-};
-
-export type OnUpdateV2WorkdayReportsSubscriptionVariables = {
-  filter?: ModelSubscriptionV2WorkdayReportsFilterInput | null,
-};
-
-export type OnUpdateV2WorkdayReportsSubscription = {
-  onUpdateV2WorkdayReports?:  {
-    __typename: "v2WorkdayReports",
-    createdAt: string,
-    customersSatisfaction?: number | null,
-    date: string,
-    day: string,
-    endTime?: string | null,
-    endingTemperature?: number | null,
-    id: string,
-    month: string,
-    notes?: string | null,
-    startTime: string,
-    startingTemperature?: number | null,
-    status: v2WorkdayStatus,
-    totalHoursWorked?: number | null,
-    totalIssues?: number | null,
-    totalSales?: number | null,
-    updatedAt: string,
-    user?:  {
-      __typename: "v2Users",
-      city?: string | null,
-      contactPhone?: string | null,
-      country?: string | null,
-      createdAt: string,
-      email: string,
-      firstContact?: boolean | null,
-      id: string,
-      ig?: string | null,
-      isAcademyStudent?: boolean | null,
-      isActive?: boolean | null,
-      isEmployed?: boolean | null,
-      latitude?: number | null,
-      longitude?: number | null,
-      name: string,
-      roleId?: string | null,
-      salesCommission?: number | null,
-      state?: string | null,
-      streetAddress?: string | null,
-      updatedAt: string,
-      validated?: boolean | null,
-      zipCode?: string | null,
-      zoomLevel?: number | null,
-    } | null,
-    userId: string,
-    year: string,
   } | null,
 };

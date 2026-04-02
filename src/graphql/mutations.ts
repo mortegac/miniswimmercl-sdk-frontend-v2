@@ -823,50 +823,6 @@ export const createV2EvaluationObjetives = /* GraphQL */ `mutation CreateV2Evalu
   APITypes.CreateV2EvaluationObjetivesMutationVariables,
   APITypes.CreateV2EvaluationObjetivesMutation
 >;
-export const createV2Expense = /* GraphQL */ `mutation CreateV2Expense(
-  $condition: ModelV2ExpenseConditionInput
-  $input: CreateV2ExpenseInput!
-) {
-  createV2Expense(condition: $condition, input: $input) {
-    amount
-    costCenterType
-    createdAt
-    date
-    day
-    description
-    expenseType
-    id
-    location {
-      address
-      city
-      country
-      createdAt
-      directions
-      group
-      id
-      imageMap
-      isActive
-      isVisible
-      maximumTemperature
-      minimumTemperature
-      name
-      phone
-      region
-      updatedAt
-      urlMap
-      __typename
-    }
-    locationId
-    month
-    updatedAt
-    year
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateV2ExpenseMutationVariables,
-  APITypes.CreateV2ExpenseMutation
->;
 export const createV2GmailInbox = /* GraphQL */ `mutation CreateV2GmailInbox(
   $condition: ModelV2GmailInboxConditionInput
   $input: CreateV2GmailInboxInput!
@@ -942,10 +898,6 @@ export const createV2Location = /* GraphQL */ `mutation CreateV2Location(
     }
     createdAt
     directions
-    expenses {
-      nextToken
-      __typename
-    }
     group
     id
     imageMap
@@ -2735,10 +2687,6 @@ export const createV2Users = /* GraphQL */ `mutation CreateV2Users(
       __typename
     }
     validated
-    workdayReports {
-      nextToken
-      __typename
-    }
     zipCode
     zoomLevel
     __typename
@@ -2747,61 +2695,6 @@ export const createV2Users = /* GraphQL */ `mutation CreateV2Users(
 ` as GeneratedMutation<
   APITypes.CreateV2UsersMutationVariables,
   APITypes.CreateV2UsersMutation
->;
-export const createV2WorkdayReports = /* GraphQL */ `mutation CreateV2WorkdayReports(
-  $condition: ModelV2WorkdayReportsConditionInput
-  $input: CreateV2WorkdayReportsInput!
-) {
-  createV2WorkdayReports(condition: $condition, input: $input) {
-    createdAt
-    customersSatisfaction
-    date
-    day
-    endTime
-    endingTemperature
-    id
-    month
-    notes
-    startTime
-    startingTemperature
-    status
-    totalHoursWorked
-    totalIssues
-    totalSales
-    updatedAt
-    user {
-      city
-      contactPhone
-      country
-      createdAt
-      email
-      firstContact
-      id
-      ig
-      isAcademyStudent
-      isActive
-      isEmployed
-      latitude
-      longitude
-      name
-      roleId
-      salesCommission
-      state
-      streetAddress
-      updatedAt
-      validated
-      zipCode
-      zoomLevel
-      __typename
-    }
-    userId
-    year
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateV2WorkdayReportsMutationVariables,
-  APITypes.CreateV2WorkdayReportsMutation
 >;
 export const deleteV2AcademyCourses = /* GraphQL */ `mutation DeleteV2AcademyCourses(
   $condition: ModelV2AcademyCoursesConditionInput
@@ -3618,50 +3511,6 @@ export const deleteV2EvaluationObjetives = /* GraphQL */ `mutation DeleteV2Evalu
   APITypes.DeleteV2EvaluationObjetivesMutationVariables,
   APITypes.DeleteV2EvaluationObjetivesMutation
 >;
-export const deleteV2Expense = /* GraphQL */ `mutation DeleteV2Expense(
-  $condition: ModelV2ExpenseConditionInput
-  $input: DeleteV2ExpenseInput!
-) {
-  deleteV2Expense(condition: $condition, input: $input) {
-    amount
-    costCenterType
-    createdAt
-    date
-    day
-    description
-    expenseType
-    id
-    location {
-      address
-      city
-      country
-      createdAt
-      directions
-      group
-      id
-      imageMap
-      isActive
-      isVisible
-      maximumTemperature
-      minimumTemperature
-      name
-      phone
-      region
-      updatedAt
-      urlMap
-      __typename
-    }
-    locationId
-    month
-    updatedAt
-    year
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteV2ExpenseMutationVariables,
-  APITypes.DeleteV2ExpenseMutation
->;
 export const deleteV2GmailInbox = /* GraphQL */ `mutation DeleteV2GmailInbox(
   $condition: ModelV2GmailInboxConditionInput
   $input: DeleteV2GmailInboxInput!
@@ -3737,10 +3586,6 @@ export const deleteV2Location = /* GraphQL */ `mutation DeleteV2Location(
     }
     createdAt
     directions
-    expenses {
-      nextToken
-      __typename
-    }
     group
     id
     imageMap
@@ -5530,10 +5375,6 @@ export const deleteV2Users = /* GraphQL */ `mutation DeleteV2Users(
       __typename
     }
     validated
-    workdayReports {
-      nextToken
-      __typename
-    }
     zipCode
     zoomLevel
     __typename
@@ -5542,61 +5383,6 @@ export const deleteV2Users = /* GraphQL */ `mutation DeleteV2Users(
 ` as GeneratedMutation<
   APITypes.DeleteV2UsersMutationVariables,
   APITypes.DeleteV2UsersMutation
->;
-export const deleteV2WorkdayReports = /* GraphQL */ `mutation DeleteV2WorkdayReports(
-  $condition: ModelV2WorkdayReportsConditionInput
-  $input: DeleteV2WorkdayReportsInput!
-) {
-  deleteV2WorkdayReports(condition: $condition, input: $input) {
-    createdAt
-    customersSatisfaction
-    date
-    day
-    endTime
-    endingTemperature
-    id
-    month
-    notes
-    startTime
-    startingTemperature
-    status
-    totalHoursWorked
-    totalIssues
-    totalSales
-    updatedAt
-    user {
-      city
-      contactPhone
-      country
-      createdAt
-      email
-      firstContact
-      id
-      ig
-      isAcademyStudent
-      isActive
-      isEmployed
-      latitude
-      longitude
-      name
-      roleId
-      salesCommission
-      state
-      streetAddress
-      updatedAt
-      validated
-      zipCode
-      zoomLevel
-      __typename
-    }
-    userId
-    year
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteV2WorkdayReportsMutationVariables,
-  APITypes.DeleteV2WorkdayReportsMutation
 >;
 export const updateV2AcademyCourses = /* GraphQL */ `mutation UpdateV2AcademyCourses(
   $condition: ModelV2AcademyCoursesConditionInput
@@ -6413,50 +6199,6 @@ export const updateV2EvaluationObjetives = /* GraphQL */ `mutation UpdateV2Evalu
   APITypes.UpdateV2EvaluationObjetivesMutationVariables,
   APITypes.UpdateV2EvaluationObjetivesMutation
 >;
-export const updateV2Expense = /* GraphQL */ `mutation UpdateV2Expense(
-  $condition: ModelV2ExpenseConditionInput
-  $input: UpdateV2ExpenseInput!
-) {
-  updateV2Expense(condition: $condition, input: $input) {
-    amount
-    costCenterType
-    createdAt
-    date
-    day
-    description
-    expenseType
-    id
-    location {
-      address
-      city
-      country
-      createdAt
-      directions
-      group
-      id
-      imageMap
-      isActive
-      isVisible
-      maximumTemperature
-      minimumTemperature
-      name
-      phone
-      region
-      updatedAt
-      urlMap
-      __typename
-    }
-    locationId
-    month
-    updatedAt
-    year
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateV2ExpenseMutationVariables,
-  APITypes.UpdateV2ExpenseMutation
->;
 export const updateV2GmailInbox = /* GraphQL */ `mutation UpdateV2GmailInbox(
   $condition: ModelV2GmailInboxConditionInput
   $input: UpdateV2GmailInboxInput!
@@ -6532,10 +6274,6 @@ export const updateV2Location = /* GraphQL */ `mutation UpdateV2Location(
     }
     createdAt
     directions
-    expenses {
-      nextToken
-      __typename
-    }
     group
     id
     imageMap
@@ -8325,10 +8063,6 @@ export const updateV2Users = /* GraphQL */ `mutation UpdateV2Users(
       __typename
     }
     validated
-    workdayReports {
-      nextToken
-      __typename
-    }
     zipCode
     zoomLevel
     __typename
@@ -8337,61 +8071,6 @@ export const updateV2Users = /* GraphQL */ `mutation UpdateV2Users(
 ` as GeneratedMutation<
   APITypes.UpdateV2UsersMutationVariables,
   APITypes.UpdateV2UsersMutation
->;
-export const updateV2WorkdayReports = /* GraphQL */ `mutation UpdateV2WorkdayReports(
-  $condition: ModelV2WorkdayReportsConditionInput
-  $input: UpdateV2WorkdayReportsInput!
-) {
-  updateV2WorkdayReports(condition: $condition, input: $input) {
-    createdAt
-    customersSatisfaction
-    date
-    day
-    endTime
-    endingTemperature
-    id
-    month
-    notes
-    startTime
-    startingTemperature
-    status
-    totalHoursWorked
-    totalIssues
-    totalSales
-    updatedAt
-    user {
-      city
-      contactPhone
-      country
-      createdAt
-      email
-      firstContact
-      id
-      ig
-      isAcademyStudent
-      isActive
-      isEmployed
-      latitude
-      longitude
-      name
-      roleId
-      salesCommission
-      state
-      streetAddress
-      updatedAt
-      validated
-      zipCode
-      zoomLevel
-      __typename
-    }
-    userId
-    year
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateV2WorkdayReportsMutationVariables,
-  APITypes.UpdateV2WorkdayReportsMutation
 >;
 export const v2CognitoCreateUser = /* GraphQL */ `mutation V2CognitoCreateUser(
   $contactPhone: String
@@ -8441,27 +8120,6 @@ export const v2CognitoSetStatus = /* GraphQL */ `mutation V2CognitoSetStatus($em
   APITypes.V2CognitoSetStatusMutationVariables,
   APITypes.V2CognitoSetStatusMutation
 >;
-export const v2GenerateEnrollment = /* GraphQL */ `mutation V2GenerateEnrollment(
-  $courseId: String!
-  $scheduleId: String!
-  $sessionTypeId: String!
-  $startDate: String!
-  $studentId: String!
-  $userId: String!
-) {
-  v2GenerateEnrollment(
-    courseId: $courseId
-    scheduleId: $scheduleId
-    sessionTypeId: $sessionTypeId
-    startDate: $startDate
-    studentId: $studentId
-    userId: $userId
-  )
-}
-` as GeneratedMutation<
-  APITypes.V2GenerateEnrollmentMutationVariables,
-  APITypes.V2GenerateEnrollmentMutation
->;
 export const v2GmailReply = /* GraphQL */ `mutation V2GmailReply(
   $body: String!
   $fromAccount: String!
@@ -8494,63 +8152,6 @@ export const v2GmailSync = /* GraphQL */ `mutation V2GmailSync {
 ` as GeneratedMutation<
   APITypes.V2GmailSyncMutationVariables,
   APITypes.V2GmailSyncMutation
->;
-export const v2RemoveEnrollment = /* GraphQL */ `mutation V2RemoveEnrollment($employeeId: String!, $enrollId: String!) {
-  v2RemoveEnrollment(employeeId: $employeeId, enrollId: $enrollId)
-}
-` as GeneratedMutation<
-  APITypes.V2RemoveEnrollmentMutationVariables,
-  APITypes.V2RemoveEnrollmentMutation
->;
-export const v2RenovationEnrollment = /* GraphQL */ `mutation V2RenovationEnrollment($enrollId: String!, $startDate: AWSDateTime!) {
-  v2RenovationEnrollment(enrollId: $enrollId, startDate: $startDate)
-}
-` as GeneratedMutation<
-  APITypes.V2RenovationEnrollmentMutationVariables,
-  APITypes.V2RenovationEnrollmentMutation
->;
-export const v2SendEmail = /* GraphQL */ `mutation V2SendEmail($templateParams: AWSJSON!, $type: String!) {
-  v2SendEmail(templateParams: $templateParams, type: $type)
-}
-` as GeneratedMutation<
-  APITypes.V2SendEmailMutationVariables,
-  APITypes.V2SendEmailMutation
->;
-export const v2SendWhatsapp = /* GraphQL */ `mutation V2SendWhatsapp(
-  $message: String!
-  $name: String!
-  $phoneNumber: String!
-) {
-  v2SendWhatsapp(message: $message, name: $name, phoneNumber: $phoneNumber)
-}
-` as GeneratedMutation<
-  APITypes.V2SendWhatsappMutationVariables,
-  APITypes.V2SendWhatsappMutation
->;
-export const v2SetCreateEvaluation = /* GraphQL */ `mutation V2SetCreateEvaluation(
-  $age: String!
-  $evaluationDetails: [AWSJSON]
-  $evaluationLevelId: String!
-  $observations: String!
-  $sessionsCarriedOut: String!
-  $studentId: String!
-  $userId: String!
-  $wasApproved: Boolean
-) {
-  v2SetCreateEvaluation(
-    age: $age
-    evaluationDetails: $evaluationDetails
-    evaluationLevelId: $evaluationLevelId
-    observations: $observations
-    sessionsCarriedOut: $sessionsCarriedOut
-    studentId: $studentId
-    userId: $userId
-    wasApproved: $wasApproved
-  )
-}
-` as GeneratedMutation<
-  APITypes.V2SetCreateEvaluationMutationVariables,
-  APITypes.V2SetCreateEvaluationMutation
 >;
 export const v2WebpayCommit = /* GraphQL */ `mutation V2WebpayCommit($token: String!) {
   v2WebpayCommit(token: $token) {

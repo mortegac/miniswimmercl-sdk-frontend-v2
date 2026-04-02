@@ -781,47 +781,6 @@ export const getV2EvaluationObjetives = /* GraphQL */ `query GetV2EvaluationObje
   APITypes.GetV2EvaluationObjetivesQueryVariables,
   APITypes.GetV2EvaluationObjetivesQuery
 >;
-export const getV2Expense = /* GraphQL */ `query GetV2Expense($id: ID!) {
-  getV2Expense(id: $id) {
-    amount
-    costCenterType
-    createdAt
-    date
-    day
-    description
-    expenseType
-    id
-    location {
-      address
-      city
-      country
-      createdAt
-      directions
-      group
-      id
-      imageMap
-      isActive
-      isVisible
-      maximumTemperature
-      minimumTemperature
-      name
-      phone
-      region
-      updatedAt
-      urlMap
-      __typename
-    }
-    locationId
-    month
-    updatedAt
-    year
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.GetV2ExpenseQueryVariables,
-  APITypes.GetV2ExpenseQuery
->;
 export const getV2GmailInbox = /* GraphQL */ `query GetV2GmailInbox($id: ID!) {
   getV2GmailInbox(id: $id) {
     attachments
@@ -891,10 +850,6 @@ export const getV2Location = /* GraphQL */ `query GetV2Location($id: ID!) {
     }
     createdAt
     directions
-    expenses {
-      nextToken
-      __typename
-    }
     group
     id
     imageMap
@@ -2597,10 +2552,6 @@ export const getV2Users = /* GraphQL */ `query GetV2Users($id: ID!) {
       __typename
     }
     validated
-    workdayReports {
-      nextToken
-      __typename
-    }
     zipCode
     zoomLevel
     __typename
@@ -2609,58 +2560,6 @@ export const getV2Users = /* GraphQL */ `query GetV2Users($id: ID!) {
 ` as GeneratedQuery<
   APITypes.GetV2UsersQueryVariables,
   APITypes.GetV2UsersQuery
->;
-export const getV2WorkdayReports = /* GraphQL */ `query GetV2WorkdayReports($id: ID!) {
-  getV2WorkdayReports(id: $id) {
-    createdAt
-    customersSatisfaction
-    date
-    day
-    endTime
-    endingTemperature
-    id
-    month
-    notes
-    startTime
-    startingTemperature
-    status
-    totalHoursWorked
-    totalIssues
-    totalSales
-    updatedAt
-    user {
-      city
-      contactPhone
-      country
-      createdAt
-      email
-      firstContact
-      id
-      ig
-      isAcademyStudent
-      isActive
-      isEmployed
-      latitude
-      longitude
-      name
-      roleId
-      salesCommission
-      state
-      streetAddress
-      updatedAt
-      validated
-      zipCode
-      zoomLevel
-      __typename
-    }
-    userId
-    year
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.GetV2WorkdayReportsQueryVariables,
-  APITypes.GetV2WorkdayReportsQuery
 >;
 export const listV2AcademyCourses = /* GraphQL */ `query ListV2AcademyCourses(
   $filter: ModelV2AcademyCoursesFilterInput
@@ -3381,35 +3280,6 @@ export const listV2EvaluationObjetives = /* GraphQL */ `query ListV2EvaluationOb
 ` as GeneratedQuery<
   APITypes.ListV2EvaluationObjetivesQueryVariables,
   APITypes.ListV2EvaluationObjetivesQuery
->;
-export const listV2Expenses = /* GraphQL */ `query ListV2Expenses(
-  $filter: ModelV2ExpenseFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listV2Expenses(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      amount
-      costCenterType
-      createdAt
-      date
-      day
-      description
-      expenseType
-      id
-      locationId
-      month
-      updatedAt
-      year
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListV2ExpensesQueryVariables,
-  APITypes.ListV2ExpensesQuery
 >;
 export const listV2GmailInboxByDateStr = /* GraphQL */ `query ListV2GmailInboxByDateStr(
   $dateStr: String!
@@ -5245,86 +5115,6 @@ export const listV2UsersByEmail = /* GraphQL */ `query ListV2UsersByEmail(
 ` as GeneratedQuery<
   APITypes.ListV2UsersByEmailQueryVariables,
   APITypes.ListV2UsersByEmailQuery
->;
-export const listV2WorkdayReports = /* GraphQL */ `query ListV2WorkdayReports(
-  $filter: ModelV2WorkdayReportsFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listV2WorkdayReports(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      createdAt
-      customersSatisfaction
-      date
-      day
-      endTime
-      endingTemperature
-      id
-      month
-      notes
-      startTime
-      startingTemperature
-      status
-      totalHoursWorked
-      totalIssues
-      totalSales
-      updatedAt
-      userId
-      year
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListV2WorkdayReportsQueryVariables,
-  APITypes.ListV2WorkdayReportsQuery
->;
-export const listV2WorkdayReportsByDateAndUserId = /* GraphQL */ `query ListV2WorkdayReportsByDateAndUserId(
-  $date: AWSDateTime!
-  $filter: Modelv2WorkdayReportsFilterInput
-  $limit: Int
-  $nextToken: String
-  $sortDirection: ModelSortDirection
-  $userId: ModelIDKeyConditionInput
-) {
-  listV2WorkdayReportsByDateAndUserId(
-    date: $date
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-    userId: $userId
-  ) {
-    items {
-      createdAt
-      customersSatisfaction
-      date
-      day
-      endTime
-      endingTemperature
-      id
-      month
-      notes
-      startTime
-      startingTemperature
-      status
-      totalHoursWorked
-      totalIssues
-      totalSales
-      updatedAt
-      userId
-      year
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListV2WorkdayReportsByDateAndUserIdQueryVariables,
-  APITypes.ListV2WorkdayReportsByDateAndUserIdQuery
 >;
 export const schedulesByCourse = /* GraphQL */ `query SchedulesByCourse(
   $courseSchedulesId: ID!

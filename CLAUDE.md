@@ -42,6 +42,16 @@ src/
 └── fakers/         # Mock data for development
 ```
 
+### AWS CLI Profile
+
+**Always use profile `MINISWIMMER-05FEB2026`** for all AWS CLI commands in this project:
+
+```bash
+aws <command> --profile MINISWIMMER-05FEB2026
+# or
+export AWS_PROFILE=MINISWIMMER-05FEB2026
+```
+
 ### AWS Configuration (Amplify Gen 2)
 Amplify is configured in `src/main.tsx` using `amplify_outputs.json` (at the project root):
 ```ts

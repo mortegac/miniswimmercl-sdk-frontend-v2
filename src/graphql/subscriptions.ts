@@ -805,47 +805,6 @@ export const onCreateV2EvaluationObjetives = /* GraphQL */ `subscription OnCreat
   APITypes.OnCreateV2EvaluationObjetivesSubscriptionVariables,
   APITypes.OnCreateV2EvaluationObjetivesSubscription
 >;
-export const onCreateV2Expense = /* GraphQL */ `subscription OnCreateV2Expense($filter: ModelSubscriptionV2ExpenseFilterInput) {
-  onCreateV2Expense(filter: $filter) {
-    amount
-    costCenterType
-    createdAt
-    date
-    day
-    description
-    expenseType
-    id
-    location {
-      address
-      city
-      country
-      createdAt
-      directions
-      group
-      id
-      imageMap
-      isActive
-      isVisible
-      maximumTemperature
-      minimumTemperature
-      name
-      phone
-      region
-      updatedAt
-      urlMap
-      __typename
-    }
-    locationId
-    month
-    updatedAt
-    year
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnCreateV2ExpenseSubscriptionVariables,
-  APITypes.OnCreateV2ExpenseSubscription
->;
 export const onCreateV2GmailInbox = /* GraphQL */ `subscription OnCreateV2GmailInbox(
   $filter: ModelSubscriptionV2GmailInboxFilterInput
 ) {
@@ -919,10 +878,6 @@ export const onCreateV2Location = /* GraphQL */ `subscription OnCreateV2Location
     }
     createdAt
     directions
-    expenses {
-      nextToken
-      __typename
-    }
     group
     id
     imageMap
@@ -2675,10 +2630,6 @@ export const onCreateV2Users = /* GraphQL */ `subscription OnCreateV2Users($filt
       __typename
     }
     validated
-    workdayReports {
-      nextToken
-      __typename
-    }
     zipCode
     zoomLevel
     __typename
@@ -2687,60 +2638,6 @@ export const onCreateV2Users = /* GraphQL */ `subscription OnCreateV2Users($filt
 ` as GeneratedSubscription<
   APITypes.OnCreateV2UsersSubscriptionVariables,
   APITypes.OnCreateV2UsersSubscription
->;
-export const onCreateV2WorkdayReports = /* GraphQL */ `subscription OnCreateV2WorkdayReports(
-  $filter: ModelSubscriptionV2WorkdayReportsFilterInput
-) {
-  onCreateV2WorkdayReports(filter: $filter) {
-    createdAt
-    customersSatisfaction
-    date
-    day
-    endTime
-    endingTemperature
-    id
-    month
-    notes
-    startTime
-    startingTemperature
-    status
-    totalHoursWorked
-    totalIssues
-    totalSales
-    updatedAt
-    user {
-      city
-      contactPhone
-      country
-      createdAt
-      email
-      firstContact
-      id
-      ig
-      isAcademyStudent
-      isActive
-      isEmployed
-      latitude
-      longitude
-      name
-      roleId
-      salesCommission
-      state
-      streetAddress
-      updatedAt
-      validated
-      zipCode
-      zoomLevel
-      __typename
-    }
-    userId
-    year
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnCreateV2WorkdayReportsSubscriptionVariables,
-  APITypes.OnCreateV2WorkdayReportsSubscription
 >;
 export const onDeleteV2AcademyCourses = /* GraphQL */ `subscription OnDeleteV2AcademyCourses(
   $filter: ModelSubscriptionV2AcademyCoursesFilterInput
@@ -3539,47 +3436,6 @@ export const onDeleteV2EvaluationObjetives = /* GraphQL */ `subscription OnDelet
   APITypes.OnDeleteV2EvaluationObjetivesSubscriptionVariables,
   APITypes.OnDeleteV2EvaluationObjetivesSubscription
 >;
-export const onDeleteV2Expense = /* GraphQL */ `subscription OnDeleteV2Expense($filter: ModelSubscriptionV2ExpenseFilterInput) {
-  onDeleteV2Expense(filter: $filter) {
-    amount
-    costCenterType
-    createdAt
-    date
-    day
-    description
-    expenseType
-    id
-    location {
-      address
-      city
-      country
-      createdAt
-      directions
-      group
-      id
-      imageMap
-      isActive
-      isVisible
-      maximumTemperature
-      minimumTemperature
-      name
-      phone
-      region
-      updatedAt
-      urlMap
-      __typename
-    }
-    locationId
-    month
-    updatedAt
-    year
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnDeleteV2ExpenseSubscriptionVariables,
-  APITypes.OnDeleteV2ExpenseSubscription
->;
 export const onDeleteV2GmailInbox = /* GraphQL */ `subscription OnDeleteV2GmailInbox(
   $filter: ModelSubscriptionV2GmailInboxFilterInput
 ) {
@@ -3653,10 +3509,6 @@ export const onDeleteV2Location = /* GraphQL */ `subscription OnDeleteV2Location
     }
     createdAt
     directions
-    expenses {
-      nextToken
-      __typename
-    }
     group
     id
     imageMap
@@ -5409,10 +5261,6 @@ export const onDeleteV2Users = /* GraphQL */ `subscription OnDeleteV2Users($filt
       __typename
     }
     validated
-    workdayReports {
-      nextToken
-      __typename
-    }
     zipCode
     zoomLevel
     __typename
@@ -5421,60 +5269,6 @@ export const onDeleteV2Users = /* GraphQL */ `subscription OnDeleteV2Users($filt
 ` as GeneratedSubscription<
   APITypes.OnDeleteV2UsersSubscriptionVariables,
   APITypes.OnDeleteV2UsersSubscription
->;
-export const onDeleteV2WorkdayReports = /* GraphQL */ `subscription OnDeleteV2WorkdayReports(
-  $filter: ModelSubscriptionV2WorkdayReportsFilterInput
-) {
-  onDeleteV2WorkdayReports(filter: $filter) {
-    createdAt
-    customersSatisfaction
-    date
-    day
-    endTime
-    endingTemperature
-    id
-    month
-    notes
-    startTime
-    startingTemperature
-    status
-    totalHoursWorked
-    totalIssues
-    totalSales
-    updatedAt
-    user {
-      city
-      contactPhone
-      country
-      createdAt
-      email
-      firstContact
-      id
-      ig
-      isAcademyStudent
-      isActive
-      isEmployed
-      latitude
-      longitude
-      name
-      roleId
-      salesCommission
-      state
-      streetAddress
-      updatedAt
-      validated
-      zipCode
-      zoomLevel
-      __typename
-    }
-    userId
-    year
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnDeleteV2WorkdayReportsSubscriptionVariables,
-  APITypes.OnDeleteV2WorkdayReportsSubscription
 >;
 export const onUpdateV2AcademyCourses = /* GraphQL */ `subscription OnUpdateV2AcademyCourses(
   $filter: ModelSubscriptionV2AcademyCoursesFilterInput
@@ -6273,47 +6067,6 @@ export const onUpdateV2EvaluationObjetives = /* GraphQL */ `subscription OnUpdat
   APITypes.OnUpdateV2EvaluationObjetivesSubscriptionVariables,
   APITypes.OnUpdateV2EvaluationObjetivesSubscription
 >;
-export const onUpdateV2Expense = /* GraphQL */ `subscription OnUpdateV2Expense($filter: ModelSubscriptionV2ExpenseFilterInput) {
-  onUpdateV2Expense(filter: $filter) {
-    amount
-    costCenterType
-    createdAt
-    date
-    day
-    description
-    expenseType
-    id
-    location {
-      address
-      city
-      country
-      createdAt
-      directions
-      group
-      id
-      imageMap
-      isActive
-      isVisible
-      maximumTemperature
-      minimumTemperature
-      name
-      phone
-      region
-      updatedAt
-      urlMap
-      __typename
-    }
-    locationId
-    month
-    updatedAt
-    year
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnUpdateV2ExpenseSubscriptionVariables,
-  APITypes.OnUpdateV2ExpenseSubscription
->;
 export const onUpdateV2GmailInbox = /* GraphQL */ `subscription OnUpdateV2GmailInbox(
   $filter: ModelSubscriptionV2GmailInboxFilterInput
 ) {
@@ -6387,10 +6140,6 @@ export const onUpdateV2Location = /* GraphQL */ `subscription OnUpdateV2Location
     }
     createdAt
     directions
-    expenses {
-      nextToken
-      __typename
-    }
     group
     id
     imageMap
@@ -8143,10 +7892,6 @@ export const onUpdateV2Users = /* GraphQL */ `subscription OnUpdateV2Users($filt
       __typename
     }
     validated
-    workdayReports {
-      nextToken
-      __typename
-    }
     zipCode
     zoomLevel
     __typename
@@ -8155,58 +7900,4 @@ export const onUpdateV2Users = /* GraphQL */ `subscription OnUpdateV2Users($filt
 ` as GeneratedSubscription<
   APITypes.OnUpdateV2UsersSubscriptionVariables,
   APITypes.OnUpdateV2UsersSubscription
->;
-export const onUpdateV2WorkdayReports = /* GraphQL */ `subscription OnUpdateV2WorkdayReports(
-  $filter: ModelSubscriptionV2WorkdayReportsFilterInput
-) {
-  onUpdateV2WorkdayReports(filter: $filter) {
-    createdAt
-    customersSatisfaction
-    date
-    day
-    endTime
-    endingTemperature
-    id
-    month
-    notes
-    startTime
-    startingTemperature
-    status
-    totalHoursWorked
-    totalIssues
-    totalSales
-    updatedAt
-    user {
-      city
-      contactPhone
-      country
-      createdAt
-      email
-      firstContact
-      id
-      ig
-      isAcademyStudent
-      isActive
-      isEmployed
-      latitude
-      longitude
-      name
-      roleId
-      salesCommission
-      state
-      streetAddress
-      updatedAt
-      validated
-      zipCode
-      zoomLevel
-      __typename
-    }
-    userId
-    year
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnUpdateV2WorkdayReportsSubscriptionVariables,
-  APITypes.OnUpdateV2WorkdayReportsSubscription
 >;

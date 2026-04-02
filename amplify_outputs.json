@@ -1,9 +1,9 @@
 {
   "auth": {
-    "user_pool_id": "us-east-2_vmnEEwi3E",
+    "user_pool_id": "us-east-2_xtGftFnff",
     "aws_region": "us-east-2",
-    "user_pool_client_id": "1l6ll60p3bjd6q4uo2cpshtrc5",
-    "identity_pool_id": "us-east-2:e8388c36-3b29-48de-a714-f64f68642da4",
+    "user_pool_client_id": "6o3gk8krb9m6jb0kqkrrj86u77",
+    "identity_pool_id": "us-east-2:6cc5d5a9-1507-4620-adc3-44ee8c4c1522",
     "mfa_methods": [],
     "standard_required_attributes": [
       "email"
@@ -26,10 +26,12 @@
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://4awnoywdgnbidh4drditfrb5bq.appsync-api.us-east-2.amazonaws.com/graphql",
+    "url": "https://qpkai7hiqjewdkmonvb272iucy.appsync-api.us-east-2.amazonaws.com/graphql",
     "aws_region": "us-east-2",
+    "api_key": "da2-sgxmlrhyxzbctc2fal33yxefy4",
     "default_authorization_type": "AMAZON_COGNITO_USER_POOLS",
     "authorization_types": [
+      "API_KEY",
       "AWS_IAM"
     ],
     "model_introspection": {
@@ -1342,8 +1344,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -1904,145 +1905,6 @@
             "sortKeyFieldNames": []
           }
         },
-        "v2Expense": {
-          "name": "v2Expense",
-          "fields": {
-            "id": {
-              "name": "id",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
-            "amount": {
-              "name": "amount",
-              "isArray": false,
-              "type": "Float",
-              "isRequired": true,
-              "attributes": []
-            },
-            "description": {
-              "name": "description",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "date": {
-              "name": "date",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": true,
-              "attributes": []
-            },
-            "day": {
-              "name": "day",
-              "isArray": false,
-              "type": "Int",
-              "isRequired": true,
-              "attributes": []
-            },
-            "month": {
-              "name": "month",
-              "isArray": false,
-              "type": "Int",
-              "isRequired": true,
-              "attributes": []
-            },
-            "year": {
-              "name": "year",
-              "isArray": false,
-              "type": "Int",
-              "isRequired": true,
-              "attributes": []
-            },
-            "expenseType": {
-              "name": "expenseType",
-              "isArray": false,
-              "type": {
-                "enum": "v2ExpenseType"
-              },
-              "isRequired": true,
-              "attributes": []
-            },
-            "costCenterType": {
-              "name": "costCenterType",
-              "isArray": false,
-              "type": {
-                "enum": "v2CostCenterType"
-              },
-              "isRequired": true,
-              "attributes": []
-            },
-            "locationId": {
-              "name": "locationId",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
-            "location": {
-              "name": "location",
-              "isArray": false,
-              "type": {
-                "model": "v2Location"
-              },
-              "isRequired": false,
-              "attributes": [],
-              "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "locationId"
-                ]
-              }
-            },
-            "createdAt": {
-              "name": "createdAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
-            },
-            "updatedAt": {
-              "name": "updatedAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
-            }
-          },
-          "syncable": true,
-          "pluralName": "v2Expenses",
-          "attributes": [
-            {
-              "type": "model",
-              "properties": {}
-            },
-            {
-              "type": "auth",
-              "properties": {
-                "rules": [
-                  {
-                    "allow": "private",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
-                  }
-                ]
-              }
-            }
-          ],
-          "primaryKeyInfo": {
-            "isCustomPrimaryKey": false,
-            "primaryKeyFieldName": "id",
-            "sortKeyFieldNames": []
-          }
-        },
         "v2ParametersEnc": {
           "name": "v2ParametersEnc",
           "fields": {
@@ -2105,8 +1967,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -2240,8 +2101,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -2334,8 +2194,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -2795,8 +2654,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -2965,8 +2823,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -3067,8 +2924,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -3169,8 +3025,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -3325,22 +3180,6 @@
                 "connectionType": "HAS_MANY",
                 "associatedWith": [
                   "locationSchedulesId"
-                ]
-              }
-            },
-            "expenses": {
-              "name": "expenses",
-              "isArray": true,
-              "type": {
-                "model": "v2Expense"
-              },
-              "isRequired": false,
-              "attributes": [],
-              "isArrayNullable": true,
-              "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "locationId"
                 ]
               }
             },
@@ -4237,6 +4076,27 @@
               "isArray": false,
               "type": "String",
               "isRequired": true,
+              "attributes": []
+            },
+            "evaluationLevelId": {
+              "name": "evaluationLevelId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "evaluationIcon": {
+              "name": "evaluationIcon",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "evaluationDescription": {
+              "name": "evaluationDescription",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
               "attributes": []
             },
             "enrollments": {
@@ -5299,8 +5159,17 @@
               "properties": {
                 "rules": [
                   {
+                    "allow": "private",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  },
+                  {
                     "allow": "public",
-                    "provider": "iam",
+                    "provider": "apiKey",
                     "operations": [
                       "create",
                       "update",
@@ -5500,12 +5369,31 @@
               "properties": {}
             },
             {
+              "type": "key",
+              "properties": {
+                "name": "byCartId",
+                "queryField": "listV2ShoppingCartDetailByCartId",
+                "fields": [
+                  "cartId"
+                ]
+              }
+            },
+            {
               "type": "auth",
               "properties": {
                 "rules": [
                   {
+                    "allow": "private",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  },
+                  {
                     "allow": "public",
-                    "provider": "iam",
+                    "provider": "apiKey",
                     "operations": [
                       "create",
                       "update",
@@ -5627,8 +5515,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -5773,8 +5660,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -5976,8 +5862,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -6071,8 +5956,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -6173,8 +6057,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -6275,8 +6158,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -6345,12 +6227,21 @@
               "properties": {}
             },
             {
+              "type": "key",
+              "properties": {
+                "name": "byType",
+                "queryField": "listV2CorrelativesByType",
+                "fields": [
+                  "type"
+                ]
+              }
+            },
+            {
               "type": "auth",
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -6628,8 +6519,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -6770,8 +6660,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -6914,8 +6803,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -7032,8 +6920,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -7084,6 +6971,13 @@
             },
             "isEmployed": {
               "name": "isEmployed",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
+            "isActive": {
+              "name": "isActive",
               "isArray": false,
               "type": "Boolean",
               "isRequired": false,
@@ -7410,22 +7304,6 @@
                 ]
               }
             },
-            "workdayReports": {
-              "name": "workdayReports",
-              "isArray": true,
-              "type": {
-                "model": "v2WorkdayReports"
-              },
-              "isRequired": false,
-              "attributes": [],
-              "isArrayNullable": true,
-              "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "userId"
-                ]
-              }
-            },
             "shoppingCartDetails": {
               "name": "shoppingCartDetails",
               "isArray": true,
@@ -7439,6 +7317,22 @@
                 "connectionType": "HAS_MANY",
                 "associatedWith": [
                   "createdById"
+                ]
+              }
+            },
+            "gmailMessages": {
+              "name": "gmailMessages",
+              "isArray": true,
+              "type": {
+                "model": "v2GmailInbox"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "userId"
                 ]
               }
             },
@@ -7465,6 +7359,16 @@
             {
               "type": "model",
               "properties": {}
+            },
+            {
+              "type": "key",
+              "properties": {
+                "name": "byEmail",
+                "queryField": "listV2UsersByEmail",
+                "fields": [
+                  "email"
+                ]
+              }
             },
             {
               "type": "key",
@@ -7609,8 +7513,8 @@
             "sortKeyFieldNames": []
           }
         },
-        "v2WorkdayReports": {
-          "name": "v2WorkdayReports",
+        "v2GmailInbox": {
+          "name": "v2GmailInbox",
           "fields": {
             "id": {
               "name": "id",
@@ -7619,111 +7523,125 @@
               "isRequired": true,
               "attributes": []
             },
-            "date": {
-              "name": "date",
+            "messageId": {
+              "name": "messageId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "threadId": {
+              "name": "threadId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "subject": {
+              "name": "subject",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "fromEmail": {
+              "name": "fromEmail",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "fromName": {
+              "name": "fromName",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "toEmails": {
+              "name": "toEmails",
+              "isArray": true,
+              "type": "String",
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true
+            },
+            "dateSent": {
+              "name": "dateSent",
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": true,
               "attributes": []
             },
-            "day": {
-              "name": "day",
+            "dateStr": {
+              "name": "dateStr",
               "isArray": false,
               "type": "String",
               "isRequired": true,
               "attributes": []
             },
-            "month": {
-              "name": "month",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true,
-              "attributes": []
-            },
-            "year": {
-              "name": "year",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true,
-              "attributes": []
-            },
-            "startTime": {
-              "name": "startTime",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": true,
-              "attributes": []
-            },
-            "endTime": {
-              "name": "endTime",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": []
-            },
-            "startingTemperature": {
-              "name": "startingTemperature",
-              "isArray": false,
-              "type": "Float",
-              "isRequired": false,
-              "attributes": []
-            },
-            "endingTemperature": {
-              "name": "endingTemperature",
-              "isArray": false,
-              "type": "Float",
-              "isRequired": false,
-              "attributes": []
-            },
-            "notes": {
-              "name": "notes",
+            "snippet": {
+              "name": "snippet",
               "isArray": false,
               "type": "String",
               "isRequired": false,
               "attributes": []
             },
-            "status": {
-              "name": "status",
+            "bodyText": {
+              "name": "bodyText",
               "isArray": false,
-              "type": {
-                "enum": "v2WorkdayStatus"
-              },
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "bodyHtml": {
+              "name": "bodyHtml",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "labels": {
+              "name": "labels",
+              "isArray": true,
+              "type": "String",
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true
+            },
+            "isRead": {
+              "name": "isRead",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
+            "hasAttachments": {
+              "name": "hasAttachments",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
+            "attachments": {
+              "name": "attachments",
+              "isArray": false,
+              "type": "AWSJSON",
+              "isRequired": false,
+              "attributes": []
+            },
+            "gmailAccount": {
+              "name": "gmailAccount",
+              "isArray": false,
+              "type": "String",
               "isRequired": true,
-              "attributes": []
-            },
-            "totalHoursWorked": {
-              "name": "totalHoursWorked",
-              "isArray": false,
-              "type": "Float",
-              "isRequired": false,
-              "attributes": []
-            },
-            "totalSales": {
-              "name": "totalSales",
-              "isArray": false,
-              "type": "Float",
-              "isRequired": false,
-              "attributes": []
-            },
-            "totalIssues": {
-              "name": "totalIssues",
-              "isArray": false,
-              "type": "Int",
-              "isRequired": false,
-              "attributes": []
-            },
-            "customersSatisfaction": {
-              "name": "customersSatisfaction",
-              "isArray": false,
-              "type": "Float",
-              "isRequired": false,
               "attributes": []
             },
             "userId": {
               "name": "userId",
               "isArray": false,
               "type": "ID",
-              "isRequired": true,
+              "isRequired": false,
               "attributes": []
             },
             "user": {
@@ -7759,7 +7677,7 @@
             }
           },
           "syncable": true,
-          "pluralName": "v2WorkdayReports",
+          "pluralName": "v2GmailInboxes",
           "attributes": [
             {
               "type": "model",
@@ -7768,11 +7686,53 @@
             {
               "type": "key",
               "properties": {
-                "name": "byDate",
-                "queryField": "listV2WorkdayReportsByDateAndUserId",
+                "name": "byMessageId",
+                "queryField": "listV2GmailInboxByMessageId",
                 "fields": [
-                  "date",
-                  "userId"
+                  "messageId"
+                ]
+              }
+            },
+            {
+              "type": "key",
+              "properties": {
+                "name": "byFromEmail",
+                "queryField": "listV2GmailInboxByFromEmailAndDateSent",
+                "fields": [
+                  "fromEmail",
+                  "dateSent"
+                ]
+              }
+            },
+            {
+              "type": "key",
+              "properties": {
+                "name": "byDate",
+                "queryField": "listV2GmailInboxByDateStr",
+                "fields": [
+                  "dateStr"
+                ]
+              }
+            },
+            {
+              "type": "key",
+              "properties": {
+                "name": "byAccountDate",
+                "queryField": "listV2GmailInboxByGmailAccountAndDateSent",
+                "fields": [
+                  "gmailAccount",
+                  "dateSent"
+                ]
+              }
+            },
+            {
+              "type": "key",
+              "properties": {
+                "name": "byUserId",
+                "queryField": "listV2GmailInboxByUserIdAndDateSent",
+                "fields": [
+                  "userId",
+                  "dateSent"
                 ]
               }
             },
@@ -7781,8 +7741,7 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "iam",
+                    "allow": "private",
                     "operations": [
                       "create",
                       "update",
@@ -7858,28 +7817,6 @@
             "CLICK",
             "RENDERING_FAILURE",
             "BOUNCE"
-          ]
-        },
-        "v2CostCenterType": {
-          "name": "v2CostCenterType",
-          "values": [
-            "VITACURA_PISCINA_MUNICIPAL",
-            "LA_REINA_PISCINA_MUNICIPAL",
-            "MATERIALS",
-            "RRHH",
-            "ADS",
-            "OTHERS"
-          ]
-        },
-        "v2ExpenseType": {
-          "name": "v2ExpenseType",
-          "values": [
-            "POOL_COURT_RENTAL",
-            "MATERIALS",
-            "TEACHER",
-            "ASSISTANT",
-            "ADS_IG",
-            "OTHERS"
           ]
         },
         "v2AgeGroupType": {
@@ -7997,153 +7934,290 @@
             "FAMILYS_FRIEND",
             "COUSIN"
           ]
-        },
-        "v2WorkdayStatus": {
-          "name": "v2WorkdayStatus",
-          "values": [
-            "IN_PROGRESS",
-            "COMPLETED",
-            "CANCELLED",
-            "PENDING_REVIEW"
-          ]
         }
       },
-      "nonModels": {},
-      "mutations": {
-        "v2GenerateEnrollment": {
-          "name": "v2GenerateEnrollment",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "userId": {
-              "name": "userId",
+      "nonModels": {
+        "v2CognitoUser": {
+          "name": "v2CognitoUser",
+          "fields": {
+            "sub": {
+              "name": "sub",
               "isArray": false,
               "type": "String",
-              "isRequired": true
+              "isRequired": true,
+              "attributes": []
             },
-            "studentId": {
-              "name": "studentId",
+            "email": {
+              "name": "email",
               "isArray": false,
               "type": "String",
-              "isRequired": true
-            },
-            "startDate": {
-              "name": "startDate",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "sessionTypeId": {
-              "name": "sessionTypeId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "scheduleId": {
-              "name": "scheduleId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "courseId": {
-              "name": "courseId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            }
-          }
-        },
-        "v2RemoveEnrollment": {
-          "name": "v2RemoveEnrollment",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "enrollId": {
-              "name": "enrollId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "employeeId": {
-              "name": "employeeId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            }
-          }
-        },
-        "v2RenovationEnrollment": {
-          "name": "v2RenovationEnrollment",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "enrollId": {
-              "name": "enrollId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "startDate": {
-              "name": "startDate",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": true
-            }
-          }
-        },
-        "v2SendWhatsapp": {
-          "name": "v2SendWhatsapp",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "message": {
-              "name": "message",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "phoneNumber": {
-              "name": "phoneNumber",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
+              "isRequired": true,
+              "attributes": []
             },
             "name": {
               "name": "name",
               "isArray": false,
               "type": "String",
-              "isRequired": true
-            }
-          }
-        },
-        "v2SendEmail": {
-          "name": "v2SendEmail",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "templateParams": {
-              "name": "templateParams",
-              "isArray": false,
-              "type": "AWSJSON",
-              "isRequired": true
+              "isRequired": false,
+              "attributes": []
             },
-            "type": {
-              "name": "type",
+            "enabled": {
+              "name": "enabled",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": true,
+              "attributes": []
+            },
+            "status": {
+              "name": "status",
               "isArray": false,
               "type": "String",
-              "isRequired": true
+              "isRequired": true,
+              "attributes": []
+            },
+            "createdAt": {
+              "name": "createdAt",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
             }
           }
         },
-        "v2SetStart": {
-          "name": "v2SetStart",
+        "v2WebpayStartResult": {
+          "name": "v2WebpayStartResult",
+          "fields": {
+            "token": {
+              "name": "token",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "url": {
+              "name": "url",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "orden": {
+              "name": "orden",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": true,
+              "attributes": []
+            }
+          }
+        },
+        "v2WebpayTransactionResult": {
+          "name": "v2WebpayTransactionResult",
+          "fields": {
+            "status": {
+              "name": "status",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "buy_order": {
+              "name": "buy_order",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "session_id": {
+              "name": "session_id",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "amount": {
+              "name": "amount",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": false,
+              "attributes": []
+            },
+            "transaction_date": {
+              "name": "transaction_date",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "accounting_date": {
+              "name": "accounting_date",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "authorization_code": {
+              "name": "authorization_code",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "payment_type_code": {
+              "name": "payment_type_code",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "response_code": {
+              "name": "response_code",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": false,
+              "attributes": []
+            },
+            "installments_number": {
+              "name": "installments_number",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": false,
+              "attributes": []
+            },
+            "installments_amount": {
+              "name": "installments_amount",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": false,
+              "attributes": []
+            },
+            "vci": {
+              "name": "vci",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "card_number": {
+              "name": "card_number",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        },
+        "v2CognitoCreateUserResult": {
+          "name": "v2CognitoCreateUserResult",
+          "fields": {
+            "email": {
+              "name": "email",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "name": {
+              "name": "name",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "roleId": {
+              "name": "roleId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        },
+        "v2GmailReplyResult": {
+          "name": "v2GmailReplyResult",
+          "fields": {
+            "success": {
+              "name": "success",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": true,
+              "attributes": []
+            },
+            "messageId": {
+              "name": "messageId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "error": {
+              "name": "error",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        },
+        "V2ListCognitoUsersReturnType": {
+          "name": "V2ListCognitoUsersReturnType",
+          "fields": {
+            "users": {
+              "name": "users",
+              "isArray": true,
+              "type": {
+                "nonModel": "v2CognitoUser"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": false
+            },
+            "nextToken": {
+              "name": "nextToken",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        }
+      },
+      "queries": {
+        "v2ListCognitoUsers": {
+          "name": "v2ListCognitoUsers",
           "isArray": false,
-          "type": "String",
+          "type": {
+            "nonModel": "V2ListCognitoUsersReturnType"
+          },
+          "isRequired": false,
+          "arguments": {
+            "limit": {
+              "name": "limit",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": false
+            },
+            "nextToken": {
+              "name": "nextToken",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
+            },
+            "filter": {
+              "name": "filter",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
+            }
+          }
+        }
+      },
+      "mutations": {
+        "v2WebpayStart": {
+          "name": "v2WebpayStart",
+          "isArray": false,
+          "type": {
+            "nonModel": "v2WebpayStartResult"
+          },
           "isRequired": false,
           "arguments": {
             "amount": {
@@ -8172,10 +8246,12 @@
             }
           }
         },
-        "v2SetCommit": {
-          "name": "v2SetCommit",
+        "v2WebpayCommit": {
+          "name": "v2WebpayCommit",
           "isArray": false,
-          "type": "String",
+          "type": {
+            "nonModel": "v2WebpayTransactionResult"
+          },
           "isRequired": false,
           "arguments": {
             "token": {
@@ -8186,10 +8262,12 @@
             }
           }
         },
-        "v2SetStatus": {
-          "name": "v2SetStatus",
+        "v2WebpayStatus": {
+          "name": "v2WebpayStatus",
           "isArray": false,
-          "type": "String",
+          "type": {
+            "nonModel": "v2WebpayTransactionResult"
+          },
           "isRequired": false,
           "arguments": {
             "token": {
@@ -8200,60 +8278,147 @@
             }
           }
         },
-        "v2SetCreateEvaluation": {
-          "name": "v2SetCreateEvaluation",
+        "v2CognitoSetPassword": {
+          "name": "v2CognitoSetPassword",
           "isArray": false,
-          "type": "String",
+          "type": "Boolean",
           "isRequired": false,
           "arguments": {
-            "sessionsCarriedOut": {
-              "name": "sessionsCarriedOut",
+            "email": {
+              "name": "email",
               "isArray": false,
               "type": "String",
               "isRequired": true
             },
-            "age": {
-              "name": "age",
+            "password": {
+              "name": "password",
               "isArray": false,
               "type": "String",
               "isRequired": true
             },
-            "wasApproved": {
-              "name": "wasApproved",
+            "permanent": {
+              "name": "permanent",
               "isArray": false,
               "type": "Boolean",
               "isRequired": false
-            },
-            "observations": {
-              "name": "observations",
+            }
+          }
+        },
+        "v2CognitoSetStatus": {
+          "name": "v2CognitoSetStatus",
+          "isArray": false,
+          "type": "Boolean",
+          "isRequired": false,
+          "arguments": {
+            "email": {
+              "name": "email",
               "isArray": false,
               "type": "String",
               "isRequired": true
             },
-            "studentId": {
-              "name": "studentId",
+            "enabled": {
+              "name": "enabled",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": true
+            }
+          }
+        },
+        "v2CognitoCreateUser": {
+          "name": "v2CognitoCreateUser",
+          "isArray": false,
+          "type": {
+            "nonModel": "v2CognitoCreateUserResult"
+          },
+          "isRequired": false,
+          "arguments": {
+            "email": {
+              "name": "email",
               "isArray": false,
               "type": "String",
               "isRequired": true
             },
-            "evaluationLevelId": {
-              "name": "evaluationLevelId",
+            "name": {
+              "name": "name",
               "isArray": false,
               "type": "String",
               "isRequired": true
             },
-            "userId": {
-              "name": "userId",
+            "temporaryPassword": {
+              "name": "temporaryPassword",
               "isArray": false,
               "type": "String",
               "isRequired": true
             },
-            "evaluationDetails": {
-              "name": "evaluationDetails",
-              "isArray": true,
-              "type": "AWSJSON",
-              "isRequired": false,
-              "isArrayNullable": true
+            "contactPhone": {
+              "name": "contactPhone",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
+            },
+            "roleId": {
+              "name": "roleId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
+            },
+            "isEmployed": {
+              "name": "isEmployed",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false
+            }
+          }
+        },
+        "v2GmailSync": {
+          "name": "v2GmailSync",
+          "isArray": false,
+          "type": "AWSJSON",
+          "isRequired": false
+        },
+        "v2GmailReply": {
+          "name": "v2GmailReply",
+          "isArray": false,
+          "type": {
+            "nonModel": "v2GmailReplyResult"
+          },
+          "isRequired": false,
+          "arguments": {
+            "fromAccount": {
+              "name": "fromAccount",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "toEmail": {
+              "name": "toEmail",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "subject": {
+              "name": "subject",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "body": {
+              "name": "body",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "threadId": {
+              "name": "threadId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
+            },
+            "inReplyToMessageId": {
+              "name": "inReplyToMessageId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
             }
           }
         }

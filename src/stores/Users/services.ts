@@ -298,6 +298,9 @@ async function resendConfirmationCode(username: string) {
 export const handleLogin = async (params: loginType): Promise<AuthResponse> => {
   return new Promise(async (resolve, reject) => {
     try {
+      // Ensure no active session before signing in
+      try { await signOut(); } catch (_) { /* no active session, continue */ }
+
       const { isSignedIn, nextStep } = await signIn({
         username: params.email,
         password: params.password,
