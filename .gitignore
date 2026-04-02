@@ -48,3 +48,8 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 .codegpt
+# Claude Code / Agent files
+.claude/
+.trae/
+.agents/
+skills-lock.json
