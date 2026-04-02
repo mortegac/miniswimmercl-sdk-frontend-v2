@@ -45,6 +45,7 @@ export type Course = {
 
   schedules: {items: Schedule[]};
   sessionTypes: {items: SessionType[]};
+  courseSessionTypes: {items: SessionType[]};
 
 }
 
@@ -61,6 +62,7 @@ export const emptyCourse: Course = {
   locationCoursesId:"",
   schedules: {items: [emptySchedules]},
   sessionTypes: {items: [emptySessionTypes]},
+  courseSessionTypes: {items: [emptySessionTypes]},
 };
 
 
