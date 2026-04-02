@@ -87,8 +87,8 @@ export const createShoppinCartDetail = async (objInput: InputOptions): Promise<a
       console.log("<<< EMAIL CREADO <<<<< ", setData)
       const data = setData.data;
       
-      if(data?.createShoppingCartDetail?.id !== undefined){
-        resolve({ ...data.createShoppingCartDetail } as any);
+      if(data?.createV2ShoppingCartDetail?.id !== undefined){
+        resolve({ ...data.createV2ShoppingCartDetail } as any);
       }else{
           reject({
             errorMessage: "Fallo al crear el email",
@@ -126,8 +126,8 @@ export const removeShoppinCartDetail = async (objInput: InputOptions): Promise<a
       console.log("<<< removeShoppinCartDetail ELIMINADO <<<<< ", setData)
       const data = setData.data;
       
-      if(data?.deleteShoppingCartDetail?.id !== undefined){
-        resolve({ ...data.deleteShoppingCartDetail } as any);
+      if(data?.deleteV2ShoppingCartDetail?.id !== undefined){
+        resolve({ ...data.deleteV2ShoppingCartDetail } as any);
       }else{
           reject({
             errorMessage: "Fallo al eliminar removeShoppinCartDetail",

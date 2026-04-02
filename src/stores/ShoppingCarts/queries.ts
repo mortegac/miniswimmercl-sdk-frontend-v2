@@ -43,6 +43,22 @@ export const getShoppingCart = /* GraphQL */ `
         __typename
       }
       cartDetails {
+        items {
+          id
+          type
+          quantity
+          amount
+          detail
+          wasDeleted
+          enrollment {
+            id
+            student {
+              id
+              name
+              lastName
+            }
+          }
+        }
         nextToken
         __typename
       }

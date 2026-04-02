@@ -663,7 +663,7 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
                                                                   ],
                                                                 packFilter: [
                                                                   ...schedule
-                                                                    ?.sessionTypes
+                                                                    ?.courseSessionTypes
                                                                     ?.items,
                                                                 ],
                                                               });
