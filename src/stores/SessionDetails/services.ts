@@ -138,8 +138,8 @@ export const updateSessionsBySchedulesProcess = async (
     
     const results = await client.graphql({
       query: `
-        mutation ACTUALIZAR_SESSION_STATUS($input: UpdateSessionDetailInput!) {
-          updateSessionDetail(input: $input) {
+        mutation ACTUALIZAR_SESSION_STATUS($input: UpdateV2SessionDetailInput!) {
+          updateV2SessionDetail(input: $input) {
            id
           }
         }
@@ -198,8 +198,8 @@ export const updateSessionsMasive = async (
       calendarsArray.map((item, index) =>
         client.graphql({
           query: `
-            mutation MODIFICAR_SESIONES_POR_HORARIO($input: UpdateSessionDetailInput!) {
-              updateSessionDetail(input: $input) {
+            mutation MODIFICAR_SESIONES_POR_HORARIO($input: UpdateV2SessionDetailInput!) {
+              updateV2SessionDetail(input: $input) {
                id
               }
             }

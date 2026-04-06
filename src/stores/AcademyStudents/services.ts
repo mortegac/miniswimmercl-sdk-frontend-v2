@@ -10,15 +10,22 @@ const client = generateClient();
 
 
 
-export const fetchData = async (): Promise<any> => {
+export const fetchData = async (options?: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
-     
+      const filter: Record<string, any> = {};
+      if (options?.year) {
+        const y = parseInt(options.year, 10);
+        filter.createdAt = {
+          between: [`${y}-01-01T00:00:00.000Z`, `${y}-12-31T23:59:59.999Z`],
+        };
+      }
+
       const getData:any = await client.graphql({
         query: listAcademyStudents,
-        variables: { 
-          filter:{}
-          , limit:100000000
+        variables: {
+          filter,
+          limit:100000000
         },
         // variables: { id: userId },
       });
@@ -26,7 +33,7 @@ export const fetchData = async (): Promise<any> => {
       // console.log("<<< listAcademyStudents DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listAcademyStudents } as any);
+        resolve({ ...data.listV2AcademyStudents } as any);
         
         // ...userData.data.getUsers
       // } else {

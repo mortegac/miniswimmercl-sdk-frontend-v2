@@ -373,44 +373,10 @@ export const enrollmentSlice = createSlice({
       })
       .addCase(setEnrollment.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
-        // state.status = "idle";
-        
-        // console.log("---setEnrollment --action---", objPayload)
-        
-          
-        function transformApiResponse(apiResponse:any) {
-          // Remove the surrounding curly braces
-          const cleanedResponse = apiResponse.slice(1, -1);
-        
-          // Split the response into key-value pairs
-          const pairs = cleanedResponse.split(', ');
-        
-          // Create an object from the key-value pairs
-          const responseObj:any = {};
-          for (const pair of pairs) {
-            const [key, value] = pair.split('=');
-            responseObj[key] = value.startsWith('{') ? JSON.parse(value) : value;
-          }
-        
-          console.log("---responseObj--", responseObj)
-          // console.log("---responseObj?.body?.sessions--", responseObj?.body?.sessions)
-          
-          const { statusCode, body } = responseObj;
-    
-          return {
-            statusCode: parseInt(statusCode),
-            sessions: responseObj?.body?.sessions,
-            cartId: responseObj?.body?.cartId
-            // ...JSON.parse(body)
-          };
-        }
+        const result = objPayload?.data || {};
 
-        const jsonResponse = transformApiResponse(objPayload?.data);
-        console.log("jsonResponse>>  ", jsonResponse);
-        
-          
-        state.sessions = jsonResponse?.sessions || [];
-        state.cartId = jsonResponse?.cartId || [];
+        state.sessions = result?.sessions || [];
+        state.cartId = result?.cartId || '';
       })
       
       

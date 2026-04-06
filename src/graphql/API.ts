@@ -4869,6 +4869,20 @@ export type v2CognitoCreateUserResult = {
   roleId?: string | null,
 };
 
+export type v2GenerateEnrollmentResult = {
+  __typename: "v2GenerateEnrollmentResult",
+  cartId: string,
+  enrollmentId: string,
+  sessions:  Array<v2EnrollmentSession | null >,
+};
+
+export type v2EnrollmentSession = {
+  __typename: "v2EnrollmentSession",
+  date: string,
+  id: string,
+  sesionNumber: number,
+};
+
 export type v2GmailReplyResult = {
   __typename: "v2GmailReplyResult",
   error?: string | null,
@@ -18601,6 +18615,29 @@ export type V2CognitoSetStatusMutationVariables = {
 
 export type V2CognitoSetStatusMutation = {
   v2CognitoSetStatus?: boolean | null,
+};
+
+export type V2GenerateEnrollmentMutationVariables = {
+  courseId: string,
+  scheduleId: string,
+  sessionTypeId: string,
+  startDate: string,
+  studentId: string,
+  userId: string,
+};
+
+export type V2GenerateEnrollmentMutation = {
+  v2GenerateEnrollment?:  {
+    __typename: "v2GenerateEnrollmentResult",
+    cartId: string,
+    enrollmentId: string,
+    sessions:  Array< {
+      __typename: "v2EnrollmentSession",
+      date: string,
+      id: string,
+      sesionNumber: number,
+    } | null >,
+  } | null,
 };
 
 export type V2GmailReplyMutationVariables = {

@@ -43,4 +43,5 @@ export const emptyAcademyStudents: AcademyStudents = {
 
 export type FilterOptions  = {
   isPaid: boolean;
+  year?: string;
 }

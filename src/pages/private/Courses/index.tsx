@@ -427,16 +427,16 @@ function FormCourse(props: any) {
         
               <h3 className="text-xl my-4">Pack de sesiones creadas</h3>
               <div className="relative overflow-auto w-full h-96">
-                  {/* <pre>{JSON.stringify(data?.sessionTypes?.items, null, 2)}</pre> */}
+                  {/* <pre>{JSON.stringify(data?.courseSessionTypes?.items, null, 2)}</pre> */}
                 <div className="overflow-y-auto flex p-2">
                 <div className="overflow-x-auto">
                   <Table className="w-full">
                     <Table.Tbody>        
-                    {/* {Array.isArray(data?.sessionTypes?.items) &&
-                    data?.sessionTypes?.items.map((sessions: any, i: number) =>  */}
+                    {/* {Array.isArray(data?.courseSessionTypes?.items) &&
+                    data?.courseSessionTypes?.items.map((sessions: any, i: number) =>  */}
                     {
-                    Array.isArray(data?.sessionTypes?.items) &&
-                           [...data?.sessionTypes?.items].sort((a, b) => {
+                    Array.isArray(data?.courseSessionTypes?.items) &&
+                           [...data?.courseSessionTypes?.items].sort((a, b) => {
                             return a?.sessionType?.totalSessions - b?.sessionType?.totalSessions;
                           })
                           .map((sessions:any, i:number)=>{
@@ -759,8 +759,8 @@ function List(props: any) {
                       <Table.Td className="w-20 py-4 border-dashed">
                         <div className="w-56 flex  items-start justify-center flex-wrap">
                           <div className="text-xs text-slate-500">
-                           {Array.isArray(item?.sessionTypes?.items) &&
-                           [...item?.sessionTypes?.items].sort((a:any, b:any) => {
+                           {Array.isArray(item?.courseSessionTypes?.items) &&
+                           [...item?.courseSessionTypes?.items].sort((a:any, b:any) => {
                             const ad = Number(a.sessionType.totalSessions);
                             const bd = Number(b.sessionType.totalSessions);
                             return ad > bd ? -1 : ad < bd ? 1 : 0;

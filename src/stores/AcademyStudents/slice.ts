@@ -50,9 +50,9 @@ export const initialState: UserState = {
 // );
 export const getAcademyStudents = createAsyncThunk(
   "AcademyStudentss/list",
-  async () => {
+  async (options?: FilterOptions) => {
     try {
-      const response:any = await fetchData();
+      const response:any = await fetchData(options);
       return response;
     } catch (error) {
       console.error(">>>>ERROR FETCH AcademyStudentsS", error)

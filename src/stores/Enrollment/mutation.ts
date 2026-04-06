@@ -15,7 +15,15 @@ export const generateEnrollment = /* GraphQL */ `
       sessionTypeId: $sessionTypeId
       scheduleId: $scheduleId
       courseId: $courseId
-    )
+    ) {
+      cartId
+      enrollmentId
+      sessions {
+        id
+        date
+        sesionNumber
+      }
+    }
   }
 `;
 

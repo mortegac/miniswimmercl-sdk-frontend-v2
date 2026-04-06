@@ -21,19 +21,15 @@ export const getAcademyStudents = /* GraphQL */ `
   }
 `;
 export const listAcademyStudents = /* GraphQL */ `
-  query ListAcademyStudents(
-    $id: ID
-    $filter: ModelAcademyStudentsFilterInput
+  query ListV2AcademyStudents(
+    $filter: ModelV2AcademyStudentsFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listAcademyStudents(
-      id: $id
+    listV2AcademyStudents(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
@@ -53,9 +49,10 @@ export const listAcademyStudents = /* GraphQL */ `
         emergencyContact
         isPaid
         isSponsored
+        companyAgreement
+        hasAgreement
         createdAt
         updatedAt
-        academyStudentsCertificateId
       }
       nextToken
       __typename

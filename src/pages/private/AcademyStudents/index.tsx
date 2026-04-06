@@ -1,10 +1,14 @@
 import {useEffect, useState, useCallback, Fragment} from "react";
 import debounce from 'lodash/debounce';
 import { Tab } from "@/components/Base/Headless";
-import { FormInput, InputGroup } from "@/components/Base/Form";
+import { FormInput, FormSelect, InputGroup } from "@/components/Base/Form";
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
 import clsx from "clsx";
+import { generateYearsArray, calculateCurrentDate } from "@/utils/helper";
+
+const yearsDate = generateYearsArray();
+const currentYear = String(calculateCurrentDate().year);
 
 
 
@@ -308,33 +312,22 @@ function Content(props: any) {
 
 
 function Main() {
-  
+
   const {academyStudents, status } = useAppSelector(selectAcademyStudents);
   const dispatch = useAppDispatch();
-  
-  // dispatch(setBreadcrumb({first:"Listado de inscritos academia", firstURL:"academy-students"}));
 
-  
-  
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredacademyStudents, setFilteredacademyStudents] = useState(academyStudents);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
 
-  
-  // Manejador para el cambio en el input
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value;
-    setSearchTerm(term);
-    // debouncedFilter(term);
+  useEffect(() => {
+    dispatch(getAcademyStudents({ isPaid: false, year: selectedYear }));
+  }, [selectedYear]);
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear(e.target.value);
   };
-  
-  useEffect(() => { (async () => await dispatch(getAcademyStudents()))(); }, []);
-  // useEffect(() => { setFilteredacademyStudents( [...academyStudents].sort(sortacademyStudents)); }, [academyStudents]);
-
-  
 
   return (
     <>
-     {/* <pre>{JSON.stringify(academyStudents, null, 2)}</pre> */}
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         <div className="col-span-12">
           <div className="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row mb-4">
@@ -342,14 +335,18 @@ function Main() {
               Inscritos certificaciones academia
             </div>
             <div className="flex flex-col sm:flex-row gap-x-3 gap-y-2 md:ml-auto">
-              {/* <Button
-                rounded
-                variant="primary"
-                className="px-8 py-3 border border-slate-200"
+              <FormSelect
+                className="!box min-w-24"
+                value={selectedYear}
+                onChange={handleYearChange}
               >
-                <Lucide icon="Plus" className="w-6 h-6 mr-2" />{" "}
-                <span className="text-border-slate-200">Nuevo Alumno</span>
-              </Button> */}
+                <option value="">-Año-</option>
+                {yearsDate.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </FormSelect>
             </div>
           </div>
 
@@ -359,9 +356,9 @@ function Main() {
                     className="w-10 h-10 mt-10"
                   /></div>}
               { status === "idle" && <Content data={academyStudents}/>}
-              
+
               </div>
-              
+
             </div>
     </>
   );

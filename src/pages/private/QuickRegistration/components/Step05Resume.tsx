@@ -6,7 +6,6 @@ import './phone.css'
 
 import CopyButton from '@/components/CopyButton';
 import { FormInput, FormSelect, FormTextarea } from "@/components/Base/Form";
-import { SendJwtWhatsapp } from "@/components/SendJwtWhatsapp";
 
 import Lucide from "@/components/Base/Lucide";
 import Button from "@/components/Base/Button";
@@ -427,42 +426,18 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
                 {"Se detallan las fechas agendadas:"}
               </h3>
               
-              {Array.isArray(sessions ) &&
-              sessions.map((item: any, i: number) => {
-                
-                const date = item?.date.replace(/\s/g, '').split('-');
-                
-              return <span className="text-base font-light mt-2  text-primary m-4">
-                {`- (${item?.sesionNumber || "0"}) `}
-                <b><span className="uppercase">{courseDay[0] || ""}</span> {date[0]} {typeOfMonth[date[1]]}</b>
-              </span>
-              }
+              {Array.isArray(sessions) && sessions.length > 0 && (
+                <div className="flex flex-col gap-1 mt-2">
+                  {sessions.map((item: any) => (
+                    <span key={item?.id} className="text-base font-light text-primary ml-4">
+                      {`(${item?.sesionNumber || "0"}) `}
+                      <b className="uppercase">{item?.date || ""}</b>
+                    </span>
+                  ))}
+                </div>
               )}
-              
-              {!cartId && "No existe el carro de compra"}
-              {/* <h1>cartId={cartId}</h1>
-              <h1>JWT={JWT}</h1> */}
-              <SendJwtWhatsapp 
-                phoneNumber={guardianPhone}
-                clientName={guardianName}
-                clientId={guardianId}
-                courseName={String(enrollment.enrollmentCourseName).toUpperCase()}
-                locationName={String(enrollment.enrollmentLocationName).toUpperCase()} 
-                sessions={sessions} 
-                courseDay={courseDay[0]}
-                typeMessage="enrollment"  //paymentLink
-                JWT={JWT}
-                
-                // cartId={""} 
-                // clientId={guardianId} 
-                // phoneNumber={guardianPhone}
-                // sessions={sessions} 
-                // clientName={guardianName}
-                // courseDay={courseDay[0]}
-                // courseName={String(enrollment.enrollmentCourseName).toUpperCase()}
-                // locationName={String(enrollment.enrollmentLocationName).toUpperCase()}
-                // JWT={JWT}
-              />
+
+              {!cartId && <span className="text-sm text-slate-400 mt-2">No existe el carro de compra</span>}
               
               <div className="flex items-center justify-between w-full border-t pt-4 border-slate-200/60 mt-4"></div>
               <div className="font-light text-base text-slate-500 text-left ">

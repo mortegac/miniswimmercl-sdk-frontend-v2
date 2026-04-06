@@ -7984,6 +7984,33 @@
             }
           }
         },
+        "v2GenerateEnrollmentResult": {
+          "name": "v2GenerateEnrollmentResult",
+          "fields": {
+            "enrollmentId": {
+              "name": "enrollmentId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "sessionIds": {
+              "name": "sessionIds",
+              "isArray": true,
+              "type": "String",
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": false
+            },
+            "cartId": {
+              "name": "cartId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            }
+          }
+        },
         "v2WebpayStartResult": {
           "name": "v2WebpayStartResult",
           "fields": {
@@ -8212,6 +8239,52 @@
         }
       },
       "mutations": {
+        "v2GenerateEnrollment": {
+          "name": "v2GenerateEnrollment",
+          "isArray": false,
+          "type": {
+            "nonModel": "v2GenerateEnrollmentResult"
+          },
+          "isRequired": false,
+          "arguments": {
+            "studentId": {
+              "name": "studentId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "userId": {
+              "name": "userId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "startDate": {
+              "name": "startDate",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "sessionTypeId": {
+              "name": "sessionTypeId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "scheduleId": {
+              "name": "scheduleId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "courseId": {
+              "name": "courseId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            }
+          }
+        },
         "v2WebpayStart": {
           "name": "v2WebpayStart",
           "isArray": false,

@@ -61,6 +61,9 @@ Amplify.configure(outputs);
 - Backend: `miniswimmercl-sdk-backend-v2` (Amplify Gen 2, separate repo)
 - CloudFormation stack: `amplify-backoffice-manu-sandbox-0b1ca78abf`
 - AppSync endpoint: `us-east-2` — auth mode: `AMAZON_COGNITO_USER_POOLS` (no OAuth/Google)
+- Cognito User Pool ID: `us-east-2_xtGftFnff`
+- Cognito User Pool Client ID: `6o3gk8krb9m6jb0kqkrrj86u77`
+- AppSync API ID: `ggfytzhgxvd3pcnyj2mjkfenre` (stack: `amplify-backoffice-v2sdkbackend-sandbox-2d9df2bc3d`)
 - All GraphQL models use the `v2` prefix (e.g., `v2Users`, `v2AcademyCourses`)
 - `amplify_outputs.json` is **not a secret** and should be committed
 - To regenerate after backend changes, run `npm run generate:config` (requires Node 20)

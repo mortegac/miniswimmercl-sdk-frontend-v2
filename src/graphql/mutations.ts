@@ -8120,6 +8120,37 @@ export const v2CognitoSetStatus = /* GraphQL */ `mutation V2CognitoSetStatus($em
   APITypes.V2CognitoSetStatusMutationVariables,
   APITypes.V2CognitoSetStatusMutation
 >;
+export const v2GenerateEnrollment = /* GraphQL */ `mutation V2GenerateEnrollment(
+  $courseId: String!
+  $scheduleId: String!
+  $sessionTypeId: String!
+  $startDate: String!
+  $studentId: String!
+  $userId: String!
+) {
+  v2GenerateEnrollment(
+    courseId: $courseId
+    scheduleId: $scheduleId
+    sessionTypeId: $sessionTypeId
+    startDate: $startDate
+    studentId: $studentId
+    userId: $userId
+  ) {
+    cartId
+    enrollmentId
+    sessions {
+      date
+      id
+      sesionNumber
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.V2GenerateEnrollmentMutationVariables,
+  APITypes.V2GenerateEnrollmentMutation
+>;
 export const v2GmailReply = /* GraphQL */ `mutation V2GmailReply(
   $body: String!
   $fromAccount: String!

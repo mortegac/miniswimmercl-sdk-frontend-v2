@@ -176,8 +176,9 @@ export const createEnrollment = async (objFilter: FilterOptions): Promise<any> =
       // const data = setData.data;
       // resolve({ ...data.generateEnrollment } as any);
       
-      const data = setData?.data?.generateEnrollment || {};
-      resolve({ data } as any);
+      const result = setData?.data?.v2GenerateEnrollment || {};
+      // sessions ya vienen del backend con date formateada "LUNES-07-ABR" y sesionNumber
+      resolve({ data: result } as any);
         
       // ...userData.data.getUsers
       // } else {
