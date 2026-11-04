@@ -253,29 +253,32 @@ function FormCourse(props: any) {
   };
 
   const  handleDataSChedule = async (schedule:any) => {
-    
+
     setDataSchedule({...schedule})
-    
-    !data?.id && alert("NO EXISTE course")
-    
-    data?.id && await Promise.all([
-      await dispatch(
-        setSchedules(
-          {
-            courseId: data?.id,
-            locationId: locationIdSelected,
-            day: schedule?.day,
-            startHour: schedule?.startHour,
-            endHour: schedule?.endHour,
-            minimumQuotas: schedule?.minimumQuotas,
-            maximumQuotas: schedule?.maximumQuotas,
-          }
-          
-        )
-      ),
-      await dispatch(getCourses({isActive:true, locationId:locationIdSelected}))
-    ])
-    
+
+    if (!data?.id) {
+      alert("NO EXISTE course");
+      return;
+    }
+
+    const result: any = await dispatch(
+      setSchedules({
+        courseId: data?.id,
+        locationId: locationIdSelected,
+        day: schedule?.day,
+        startHour: schedule?.startHour,
+        endHour: schedule?.endHour,
+        minimumQuotas: schedule?.minimumQuotas,
+        maximumQuotas: schedule?.maximumQuotas,
+      })
+    );
+
+    await dispatch(getCourses({isActive:true, locationId:locationIdSelected}));
+
+    // Horario creado OK: cerrar el panel y volver a la pantalla anterior
+    if (result?.meta?.requestStatus === 'fulfilled') {
+      setNewSlideover?.(false);
+    }
   }
   
   
@@ -856,15 +859,17 @@ function Main() {
   
   
   const {locations, status } = useAppSelector(selectLocation);
+  const {locationIdSelected: mainLocationId } = useAppSelector(selectCourse);
   const dispatch = useAppDispatch();
 
-  
+
   const  handleCreateCourse = async (course: any) => {
-    
-    // setDataSchedule({...schedule})
-    
-    
-    
+    const locationId = course?.locationId || mainLocationId;
+    if (!locationId) {
+      alert("Debe seleccionar una sede antes de crear el curso");
+      return;
+    }
+
     course && await Promise.all([
       await dispatch(
         setCourse({
@@ -876,12 +881,12 @@ function Main() {
           ageType: course?.ageType,
           AgeGroupType: course?.AgeGroupType,
           duration: course?.duration,
-          locationCoursesId: course?.locationId,
+          locationCoursesId: locationId,
           isActive: true // ✅ Set default value to true for new courses
         })
       ),
-      await dispatch(setLocationIdSelected(course?.locationId)),
-      await dispatch(getCourses({isActive:true, locationId:course?.locationId})),
+      await dispatch(setLocationIdSelected(locationId)),
+      await dispatch(getCourses({isActive:true, locationId:locationId})),
       setNewCourseSlideover(false)
     ])
     

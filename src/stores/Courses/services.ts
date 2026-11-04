@@ -13,24 +13,23 @@ export const createCourses = async (objFilter: InputCourse): Promise<any> => {
       const setData:any = await client.graphql({
         query: createCourse,
         variables: {
-          input: {     
-            // courseSchedulesId: objFilter.courseId,
+          input: {
             id: objFilter.id,
             title: objFilter.title,
             description: objFilter.description,
             startingAge: objFilter.startingAge,
             endingAge: objFilter.endingAge,
             ageType: objFilter.ageType,
-            AgeGroupType: objFilter.AgeGroupType,
-            duration: objFilter.duration,
-            locationId: objFilter.locationCoursesId,
+            ageGroupType: objFilter.AgeGroupType ?? (objFilter as any).ageGroupType,
+            duration: String(objFilter.duration ?? ""),
+            locationId: objFilter.locationCoursesId ?? (objFilter as any).locationId,
             isActive: true,
           }
         }
       });
-      
-      console.log("<<< HORARIO CREADO <<<<< ", setData)
-      const data = setData?.data?.createSchedule || {};
+
+      console.log("<<< CURSO CREADO <<<<< ", setData)
+      const data = setData?.data?.createV2Course || {};
       resolve({ data } as any);
         
       // ...userData.data.getUsers

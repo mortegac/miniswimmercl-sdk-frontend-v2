@@ -3,50 +3,44 @@
 *                    QUERIES
 ********************************************************/
 export const listEmailSends = /* GraphQL */ `
-  query ListEmailSends(
-    $id: ID
-    $filter: ModelEmailSendFilterInput
+  query ListV2EmailSends(
+    $filter: ModelV2EmailSendFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listEmailSends(
-      id: $id
+    listV2EmailSends(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
-      id
-      date
-      type
-      # contentEmail
-      contentMessage
-      phone
-      phoneState
-      email
-      emailState
-      userSend{
-        id 
-        name
+        id
+        date
+        type
+        contentMessage
+        phone
+        phoneState
+        email
+        emailState
+        studentId
+        userSendId
+        enrollmentId
+        userSend {
+          id
+          name
+        }
+        student {
+          id
+          name
+          lastName
+        }
+        enrollment {
+          courseId
+          scheduleId
+          scheduleName
+        }
+        createdAt
       }
-      student{ 
-        id 
-        name 
-        lastName
-      }
-      enrollment{
-        courseEnrollmentsId
-        scheduleId
-        scheduleName
-      }
-      createdAt
-      # updatedAt
-      studentEmailSendId
-      # enrollmentEmailSendsId
-      # usersEmailSendId
-    }
       nextToken
       __typename
     }

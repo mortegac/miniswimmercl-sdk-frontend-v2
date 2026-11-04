@@ -67,7 +67,7 @@ export const setCourse = createAsyncThunk(
       const response:any = await createCourses({ ...objFilter });
       return response;
     } catch (error) {
-      console.error(">>>>ERROR FETCH setEnrollment", error)
+      console.error(">>>>ERROR FETCH setCourse", error)
       return Promise.reject(error);
     }
   }
@@ -232,7 +232,7 @@ export const CourseSlice = createSlice({
        .addCase(setCourse.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage ?? action.error?.message ?? "Error al crear el curso";
       })
       .addCase(setCourse.pending, (state) => {
         state.status = "loading";

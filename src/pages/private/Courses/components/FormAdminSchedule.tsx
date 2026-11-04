@@ -434,8 +434,6 @@ const scheduleValidationSchema = yup.object({
                     <p><strong>Errores:</strong> {Object.keys(errors).length > 0 ? Object.keys(errors).join(', ') : 'Ninguno'}</p>
                 </div> */}
                 
-                <pre>locationIdSelected = {JSON.stringify(locationIdSelected, null, 2)}</pre>
-                <pre>Data = {JSON.stringify(data, null, 2)}</pre>
             </div>
         </>
     );

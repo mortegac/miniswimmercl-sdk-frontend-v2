@@ -76,18 +76,18 @@ export const createEmailSent = async (objFilter: FilterOptions): Promise<any> =>
             phone: objFilter?.phone,
             phoneState: objFilter?.phoneState,
             
-            studentEmailSendId: objFilter?.studentEmailSendId,
-            // usersEmailSendId: objFilter?.usersEmailSendId,
-            // enrollmentEmailSendsId :objFilter?.enrollmentEmailSendsId,    
+            studentId: objFilter?.studentEmailSendId ?? (objFilter as any)?.studentId,
+            userSendId: (objFilter as any)?.usersEmailSendId ?? (objFilter as any)?.userSendId,
+            enrollmentId: (objFilter as any)?.enrollmentEmailSendsId ?? (objFilter as any)?.enrollmentId ?? undefined,
           }
         }
       });
-      
+
       console.log("<<< EMAIL CREADO <<<<< ", setData)
       const data = setData.data;
-      
-      if(data?.createEmailSend?.id !== undefined){
-        resolve({ ...data.createEmailSend } as any);
+
+      if(data?.createV2EmailSend?.id !== undefined){
+        resolve({ ...data.createV2EmailSend } as any);
       }else{
           reject({
             errorMessage: "Fallo al crear el email",
@@ -191,20 +191,19 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       const getData:any = await client.graphql({
         query: listEmailSends,
         // variables: { studentEmailSendId: objFilter.studentEmailSendId },
-        variables: { 
+        variables: {
           filter:{
-            // email: {eq: String(objFilter.studentEmailSendId)},
-            studentEmailSendId: {eq: String(objFilter.studentEmailSendId)},
+            studentId: {eq: String(objFilter.studentEmailSendId)},
           }
           , limit:100000000
         }
-           
+
       });
-      
+
       const data = getData.data;
-      console.log("<<< EMAILS DATA <<<<< ", data.listEmailSends.items)
-      
-        resolve([ ...data.listEmailSends.items] as any);
+      console.log("<<< EMAILS DATA <<<<< ", data.listV2EmailSends.items)
+
+        resolve([ ...data.listV2EmailSends.items] as any);
         
         // ...userData.data.getUsers
       // } else {

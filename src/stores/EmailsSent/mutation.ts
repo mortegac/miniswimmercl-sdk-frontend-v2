@@ -1,9 +1,9 @@
 export const createEmailSend = /* GraphQL */ `
-  mutation CreateEmailSend(
-    $input: CreateEmailSendInput!
-    $condition: ModelEmailSendConditionInput
+  mutation CreateV2EmailSend(
+    $input: CreateV2EmailSendInput!
+    $condition: ModelV2EmailSendConditionInput
   ) {
-    createEmailSend(input: $input, condition: $condition) {id}
+    createV2EmailSend(input: $input, condition: $condition) {id}
   }
 `;
 
