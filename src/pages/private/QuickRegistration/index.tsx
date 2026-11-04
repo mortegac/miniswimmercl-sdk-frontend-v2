@@ -312,49 +312,40 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
 }
 
   async function setEnrollmentCourse() {
-    setIsSaved({ state: true });
-    enrollment?.guardianId &&
-      enrollment?.studentId &&
-      enrollment?.enrollmentStartDate &&
-      enrollment?.enrollmentSessionTypeId &&
-      enrollment?.enrollmentScheduleId &&
-      enrollment?.enrollmentCourseId &&
-      (await Promise.all([
-        await dispatch(
-          setEnrollment({
-            userId: enrollment?.guardianId,
-            studentId: enrollment?.studentId,
-            enrollmentStartDate: enrollment?.enrollmentStartDate,
-            enrollmentSessionTypeId: enrollment?.enrollmentSessionTypeId,
-            enrollmentScheduleId: enrollment?.enrollmentScheduleId,
-            enrollmentCourseId: enrollment?.enrollmentCourseId,
-          })
-        ),
-        // cartId && doesNotPayRegistration===true && await dispatch(setShoppingCartDetail({
-        //   type: "COURSE_REGISTRATION",
-        //   amount: "30000",
-        //   detail: "Matricula",
-        //   shoppingCartId: cartId
-        // })),
-        await dispatch(getUser({ userEmail: enrollment?.guardianId })),
-        // dispatch(setStep(4))
-      ]));
+    const requiredFields = [
+      enrollment?.guardianId,
+      enrollment?.studentId,
+      enrollment?.enrollmentStartDate,
+      enrollment?.enrollmentSessionTypeId,
+      enrollment?.enrollmentScheduleId,
+      enrollment?.enrollmentCourseId,
+    ];
 
-    
-    !enrollment?.guardianId &&
-      !enrollment?.studentId &&
-      !enrollment?.enrollmentStartDate &&
-      !enrollment?.enrollmentSessionTypeId &&
-      !enrollment?.enrollmentScheduleId &&
-      !enrollment?.enrollmentCourseId && alert("Debe seleccionar todos los datos para continuar");
-      
-      
+    if (requiredFields.some((f) => !f)) {
+      alert("Debe seleccionar todos los datos para continuar");
+      return;
+    }
+
+    setIsSaved({ state: true });
+    try {
+      await dispatch(
+        setEnrollment({
+          userId: enrollment!.guardianId,
+          studentId: enrollment!.studentId,
+          enrollmentStartDate: enrollment!.enrollmentStartDate,
+          enrollmentSessionTypeId: enrollment!.enrollmentSessionTypeId,
+          enrollmentScheduleId: enrollment!.enrollmentScheduleId,
+          enrollmentCourseId: enrollment!.enrollmentCourseId,
+        })
+      );
+      await dispatch(getUser({ userEmail: enrollment!.guardianId }));
+      dispatch(setStep(5));
+    } catch (error) {
+      console.error("--setEnrollmentCourse error--", error);
+      alert("Error al inscribir el curso. Por favor intente nuevamente.");
+    } finally {
       setIsSaved({ state: false });
-      
-      console.log("--enrollment--", );
-      
-      dispatch(setStep(5));enrollment
-    // setSelectedModal(false);
+    }
   }
 
   useEffect(() => {
@@ -607,7 +598,7 @@ function handleDateSelection(date1: Date, date2: Date | undefined): void {
                                               {status === "loading" && (
                                                 <div className="flex justify-center items-center w-full h-12">
                                                   <LoadingIcon
-                                                    color="#AE5EAB"
+                                                    color="#7E4996"
                                                     icon="three-dots"
                                                     className="w-10 h-10 mt-10"
                                                   />
@@ -1237,7 +1228,7 @@ enrollmentCourseId?: string */}
               {status === "loading" && (
                 <div className="flex justify-center items-center w-full h-48">
                   <LoadingIcon
-                    color="#AE5EAB"
+                    color="#7E4996"
                     icon="oval"
                     className="w-10 h-10 mt-10"
                   />

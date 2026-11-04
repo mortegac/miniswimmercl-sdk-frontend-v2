@@ -72,7 +72,7 @@ export function ResumenPage(props: any) {
   }
   
   const dispatch = useAppDispatch();
-  const { email } = useAppSelector(selectAuth);
+  const { email, emailAuth } = useAppSelector(selectAuth);
   const { locations } = useAppSelector(selectLocation);
 
   async function deleteEnrollment(enrollmentId: string) {
@@ -81,7 +81,7 @@ export function ResumenPage(props: any) {
       await dispatch(
         removeEnrollment({
           enrollmentId: enrollmentId,
-          employeeId: email,
+          employeeId: emailAuth,
         })
       ),
       await dispatch(getStudent({ studentId: studentId || "" })),

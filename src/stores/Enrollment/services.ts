@@ -285,7 +285,7 @@ export const createUpdateStep01 = async (data: FilterOptions): Promise<any> => {
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listCourses } as any);
+        resolve({ ...data.listV2Enrollments } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -314,7 +314,7 @@ export const createUpdateStep02 = async (data: FilterOptions): Promise<any> => {
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listCourses } as any);
+        resolve({ ...data.listV2Enrollments } as any);
         
         // ...userData.data.getUsers
       // } else {
@@ -343,7 +343,7 @@ export const createUpdateStep03 = async (data: FilterOptions): Promise<any> => {
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
       
-        resolve({ ...data.listCourses } as any);
+        resolve({ ...data.listV2Enrollments } as any);
         
         // ...userData.data.getUsers
       // } else {

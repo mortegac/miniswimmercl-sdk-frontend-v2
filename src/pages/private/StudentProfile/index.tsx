@@ -364,51 +364,50 @@ function Content(props:any) {
   )
 }
 
+const STUDENT_ID_KEY = "miniswimmer_student_id";
+
+function resolveStudentId(search: string, routeStateId?: string): string | null {
+  // Priority 1: URL query param ?studentId=xxx
+  const queryParams = new URLSearchParams(search);
+  const paramId = queryParams.get("studentId");
+  if (paramId) {
+    localStorage.setItem(STUDENT_ID_KEY, paramId);
+    return paramId;
+  }
+
+  // Priority 2: React Router navigation state (e.g. navigate with { state: { id } })
+  if (routeStateId) {
+    localStorage.setItem(STUDENT_ID_KEY, routeStateId);
+    return routeStateId;
+  }
+
+  // Priority 3: Persisted value from a previous visit (survives page refresh)
+  const persisted = localStorage.getItem(STUDENT_ID_KEY);
+  return persisted ?? null;
+}
+
 function Main() {
   const { search, state } = useLocation();
-  // const queryParams = new URLSearchParams(search);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(selectStudent);
 
-  // Memoizamos la función para evitar recreaciones
-  const fnUpdateState = useCallback(async (studentId: string) => {
-    if (studentId) {
-      await dispatch(getStudent({ studentId }));
+  const studentId = resolveStudentId(search, state?.id);
+
+  const fnUpdateState = useCallback(async (id: string) => {
+    if (id) {
+      await dispatch(getStudent({ studentId: id }));
     }
   }, [dispatch]);
 
-  // Efecto para manejar los cambios en la URL
-  // useEffect(() => {
-  //   if (queryParams.get("page") === "resume") {
-  //     setSelectedIndex(0);
-  //   } else if (queryParams.get("page") === "sessions") {
-  //     setSelectedIndex(1);
-  //   } else if (queryParams.get("page") === "transactions") {
-  //     setSelectedIndex(2);
-  //   } else if (queryParams.get("page") === "messages") {
-  //     setSelectedIndex(3);
-  //   } else if (queryParams.get("page") === "modify") {
-  //     setSelectedIndex(4);
-  //   } else {
-  //     setSelectedIndex(0);
-  //   }
-  // }, [search]);
-
-  // Efecto para cargar los datos del estudiante
   useEffect(() => {
-    const loadStudentData = async () => {
-      if (state?.id) {
-        await dispatch(getStudent({ studentId: state.id }));
-      }
-    };
-    
-    loadStudentData();
-  }, [state?.id, dispatch]);
+    if (studentId) {
+      dispatch(getStudent({ studentId }));
+    }
+  }, [studentId, dispatch]);
 
-  // Memoizamos el contenido para evitar re-renderizados
   const content = useMemo(() => {
-    if (!state?.id) {
+    if (!studentId) {
       return (
         <div className="p-1.5 box flex flex-col">
           <div className="flex flex-col items-center justify-center pt-20 pb-28">
@@ -430,7 +429,7 @@ function Main() {
     return (
       <div className="grid grid-cols-12 gap-y-10 gap-x-6">
         {status === "idle" && (
-          <Content 
+          <Content
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
             fnUpdateState={fnUpdateState}
@@ -438,7 +437,7 @@ function Main() {
         )}
       </div>
     );
-  }, [state?.id, status, selectedIndex, fnUpdateState]);
+  }, [studentId, status, selectedIndex, fnUpdateState]);
 
   return content;
 }

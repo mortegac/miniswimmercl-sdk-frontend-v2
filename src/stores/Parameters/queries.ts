@@ -3,25 +3,21 @@
 *                    QUERIES
 ********************************************************/
 export const listParameters = /* GraphQL */ `
-  query ListParameters(
-    $id: ID
-    $filter: ModelParametersFilterInput
+  query ListV2Parameters(
+    $filter: ModelV2ParametersFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listParameters(
-      id: $id
+    listV2Parameters(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      sortDirection: $sortDirection
     ) {
       items {
         id
         label
         value
-        parametersEncTypeOfParameterId
+        typeOfParameterId
         idParent
         __typename
       }

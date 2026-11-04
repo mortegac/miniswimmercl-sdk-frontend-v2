@@ -55,7 +55,7 @@ const ListParams: React.FC<Props> = ({
               target: {
                 type: "list",
                 name: name,
-                value: e.value,
+                value: e?.value ?? "",
               },
             })
           }

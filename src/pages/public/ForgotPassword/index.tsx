@@ -112,7 +112,7 @@ function EmailStep({ onSuccess }: EmailStepProps) {
         <Button
           rounded
           type="submit"
-          className="mb-4 w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB] px-12 py-4 border-[1px] border-[#F194EE]"
+          className="mb-4 w-full bg-gradient-to-r from-[#F194EE] to-[#7E4996] px-12 py-4 border-[1px] border-[#F194EE]"
         >
           <span className="ml-2 text-white text-lg">Enviar codigo</span>
         </Button>
@@ -254,7 +254,7 @@ function ConfirmStep({ email, onSuccess }: ConfirmStepProps) {
         <Button
           rounded
           type="submit"
-          className="mb-4 w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB] px-12 py-4 border-[1px] border-[#F194EE]"
+          className="mb-4 w-full bg-gradient-to-r from-[#F194EE] to-[#7E4996] px-12 py-4 border-[1px] border-[#F194EE]"
         >
           <span className="ml-2 text-white text-lg">Cambiar contraseña</span>
         </Button>
@@ -280,7 +280,7 @@ function SuccessStep() {
           <Button
             rounded
             type="button"
-            className="w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB] px-12 py-4 border-[1px] border-[#F194EE]"
+            className="w-full bg-gradient-to-r from-[#F194EE] to-[#7E4996] px-12 py-4 border-[1px] border-[#F194EE]"
           >
             <span className="ml-2 text-white text-lg">Ir al inicio de sesion</span>
           </Button>

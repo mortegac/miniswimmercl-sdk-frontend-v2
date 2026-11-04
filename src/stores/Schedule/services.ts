@@ -1,8 +1,9 @@
 import { generateClient } from 'aws-amplify/api';
 
 
-import { schedulesByLocationAndCourse } from './queries';
-import { createSchedule, updateScheduleActive } from './mutation';
+import { schedulesByLocationAndCourse } from '@/graphql/queries';
+import { createV2Schedule } from '@/graphql/mutations';
+import { updateScheduleActive } from './mutation';
 import { FilterOptions } from './types';
 import { LIMIT_FILTER } from '../../utils/config';
 const client = generateClient();
@@ -12,10 +13,10 @@ export const createSchedules = async (objFilter: FilterOptions): Promise<any> =>
   return new Promise(async (resolve, reject) => {
     try {
      
-      const setData:any = await client.graphql({
-        query: createSchedule,
+      const setData:any = await (client.graphql as any)({
+        query: createV2Schedule,
         variables: {
-          input: {     
+          input: {
             courseSchedulesId: objFilter.courseId,
             locationSchedulesId: objFilter.locationId,
             day: objFilter.day,
@@ -29,7 +30,7 @@ export const createSchedules = async (objFilter: FilterOptions): Promise<any> =>
       });
       
       console.log("<<< HORARIO CREADO <<<<< ", setData)
-      const data = setData?.data?.createSchedule || {};
+      const data = setData?.data?.createV2Schedule || {};
       resolve({ data } as any);
         
       // ...userData.data.getUsers
@@ -66,11 +67,11 @@ export const deactivateScheduleService = async (scheduleId: string): Promise<any
 export const getSchedulesByLocationAndCourse = async (objFilter: FilterOptions): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const setData:any = await client.graphql({
+      const setData:any = await (client.graphql as any)({
         query: schedulesByLocationAndCourse,
-        variables: { 
-          locationSchedulesId: objFilter?.locationId 
-        }, 
+        variables: {
+          locationSchedulesId: objFilter?.locationId
+        },
         // limit: LIMIT_FILTER
       });
       const data = setData?.data?.schedulesByLocationAndCourse || {};

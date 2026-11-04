@@ -117,6 +117,36 @@ export function formatDateUTCFull(dateString: string): string {
 
   return `${day}-${typeOfMonth[month]} ${hours}:${minutes}`;
 }
+
+/**
+ * Converts a UTC ISO timestamp to America/Santiago timezone.
+ * Returns "DD-MMM-YYYY HH:mm" (e.g. "15-ABR-2026 14:32").
+ * es-CL locale formats as "dd/mm/yyyy, hh:mm" which we parse reliably.
+ */
+export function formatDateSantiago(dateString: string): string {
+  if (!dateString) return "—";
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "—";
+
+  const formatted = new Intl.DateTimeFormat("es-CL", {
+    timeZone: "America/Santiago",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(date);
+
+  // es-CL produces "dd/mm/yyyy, hh:mm" or "dd-mm-yyyy hh:mm" depending on runtime
+  const match = formatted.match(/(\d{2})[\/\-](\d{2})[\/\-](\d{4})[,\s]+(\d{2}):(\d{2})/);
+  if (!match) return formatted;
+
+  const [, day, month, year, hour, minute] = match;
+  const monthAbbr = typeOfMonth[month] ?? month;
+  return `${day}-${monthAbbr}-${year} ${hour}:${minute}`;
+}
+
 export function formatDateUTC(dateString: string): string {
   const date = new Date(dateString);
 

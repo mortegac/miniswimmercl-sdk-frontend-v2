@@ -1,9 +1,9 @@
 {
   "auth": {
-    "user_pool_id": "us-east-2_xtGftFnff",
+    "user_pool_id": "us-east-2_SAkrMOGEN",
     "aws_region": "us-east-2",
-    "user_pool_client_id": "6o3gk8krb9m6jb0kqkrrj86u77",
-    "identity_pool_id": "us-east-2:6cc5d5a9-1507-4620-adc3-44ee8c4c1522",
+    "user_pool_client_id": "7ffvh1vqfmqhl36pjv3ugdsfg6",
+    "identity_pool_id": "us-east-2:efb0e656-4b7d-476c-9f16-3246cf3af97a",
     "mfa_methods": [],
     "standard_required_attributes": [
       "email"
@@ -26,9 +26,9 @@
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://qpkai7hiqjewdkmonvb272iucy.appsync-api.us-east-2.amazonaws.com/graphql",
+    "url": "https://vibghdaimbgfnlypijdjpufbgu.appsync-api.us-east-2.amazonaws.com/graphql",
     "aws_region": "us-east-2",
-    "api_key": "da2-sgxmlrhyxzbctc2fal33yxefy4",
+    "api_key": "da2-y5mbqnzliraotj2zgojiatx34a",
     "default_authorization_type": "AMAZON_COGNITO_USER_POOLS",
     "authorization_types": [
       "API_KEY",
@@ -6526,6 +6526,16 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -7984,6 +7994,32 @@
             }
           }
         },
+        "v2EnrollmentSession": {
+          "name": "v2EnrollmentSession",
+          "fields": {
+            "id": {
+              "name": "id",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "date": {
+              "name": "date",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "sesionNumber": {
+              "name": "sesionNumber",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": true,
+              "attributes": []
+            }
+          }
+        },
         "v2GenerateEnrollmentResult": {
           "name": "v2GenerateEnrollmentResult",
           "fields": {
@@ -7994,10 +8030,12 @@
               "isRequired": true,
               "attributes": []
             },
-            "sessionIds": {
-              "name": "sessionIds",
+            "sessions": {
+              "name": "sessions",
               "isArray": true,
-              "type": "String",
+              "type": {
+                "nonModel": "v2EnrollmentSession"
+              },
               "isRequired": false,
               "attributes": [],
               "isArrayNullable": false

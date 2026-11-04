@@ -13,12 +13,12 @@ export const fetchData = async (objFilter: {key: String,}): Promise<any> => {
       const getData:any = await client.graphql({
         query: listParameters,
         variables: {
-            filter: { parametersEncTypeOfParameterId: { eq: objFilter.key } },
+            filter: { typeOfParameterId: { eq: objFilter.key } },
             limit: 100000000
         }
       });
-      
-      const data = [...getData.data.listParameters.items];
+
+      const data = [...getData.data.listV2Parameters.items];
       
       const _parameters = Array.isArray(data) ? data.sort((a, b) => a.id.localeCompare(b.id)) : data;
       // console.log("key: ", objFilter.key, ' >List: ', _parameters)

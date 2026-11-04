@@ -15,16 +15,20 @@ export interface ParameterState {
   relationship: [],
   genders: [],
   cityOfResidence: [],
+  regions: [],
+  groups: [],
 }
 
 export const initialState: ParameterState = {
   status: "idle",
   Parameter: emptyParameters,
   errorMessage:"",
-  
+
   relationship: [],
   genders: [],
   cityOfResidence: [],
+  regions: [],
+  groups: [],
 };
 
 
@@ -57,6 +61,12 @@ export const handlePayload = <T extends ParameterState>(state: T, payload: any) 
       break;
     case 'CITYOFRESIDENCE':
       state.cityOfResidence = payload.list;
+      break;
+    case 'REGIONS':
+      state.regions = payload.list;
+      break;
+    case 'GROUPS':
+      state.groups = payload.list;
       break;
 
   }

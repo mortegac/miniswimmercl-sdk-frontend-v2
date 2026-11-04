@@ -255,7 +255,7 @@ export const authSlice = createSlice({
       .addCase(setApoderado.rejected, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "failed";
-        state.errorMessage = objPayload.errorMessage;
+        state.errorMessage = objPayload?.errorMessage ?? String(action.error.message ?? "Error al crear usuario");
       })
       .addCase(setApoderado.pending, (state) => {
         state.status = "loading";

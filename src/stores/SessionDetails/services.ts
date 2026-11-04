@@ -696,7 +696,7 @@ export const fetchDataCourseQuote = async (objFilter: FilterOptions): Promise<an
       // console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data)
       // data.listSessionDetails.items.length > 0 && console.log(objFilter?.studentId, " <<< SESSIONS DETAIL DATA <<<<< ", data.listSessionDetails)
       
-        resolve({ ...data?.listSessionDetails } as any);
+        resolve({ ...data?.listV2SessionDetails } as any);
         
         // ...userData.data.getUsers
       // } else {

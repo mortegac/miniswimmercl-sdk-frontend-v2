@@ -433,11 +433,6 @@ function Main() {
 
         if (cancelled) return;
 
-        // Determine the year with the most data across all sources BEFORE rendering
-        const bestYear = computeBestYear(paymentItems, enrollmentItems, sessionItems, currentYear);
-
-        // Both state updates are synchronous — React 18 batches them into one render
-        setSelectedYear(bestYear);
         setRawData({ payments: paymentItems, enrollments: enrollmentItems, sessions: sessionItems });
       } catch (err: unknown) {
         if (!cancelled) {
@@ -920,7 +915,7 @@ function Main() {
             </div>
           ))}
           <div
-            className="flex flex-col items-center justify-center p-4 rounded-lg border border-[#ae5eab]"
+            className="flex flex-col items-center justify-center p-4 rounded-lg border border-[#7E4996]"
             style={{ backgroundColor: "rgb(174 94 171 / 1)" }}
           >
             <span className="text-2xl font-bold text-white">

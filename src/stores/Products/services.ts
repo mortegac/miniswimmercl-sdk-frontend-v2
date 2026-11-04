@@ -1,7 +1,7 @@
 import { generateClient } from 'aws-amplify/api';
 
 import { createCourse, updateCourse } from './mutation';
-import { listProducts } from './queries';
+import { listV2Products } from '@/graphql/queries';
 import { FilterOptions, } from './types';
 const client = generateClient();
 
@@ -50,7 +50,7 @@ export const fetchData = async (): Promise<any> => {
       };
 
       const getData: any = await client.graphql({
-        query: listProducts,
+        query: listV2Products,
         variables: {
           filter: { ...filter }
           , limit: 100000000
@@ -60,7 +60,7 @@ export const fetchData = async (): Promise<any> => {
       // console.log("<<< STUDENTS DATA <<<<< ", getData)
       const data = getData.data;
 
-      resolve([ ...data?.listProducts?.items ] as any);
+      resolve([ ...data?.listV2Products?.items ] as any);
 
       // ...userData.data.getUsers
       // } else {

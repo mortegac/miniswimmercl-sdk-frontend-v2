@@ -383,7 +383,7 @@ function Main() {
             <div className="flex flex-col box min-h-screen">
               {status === "loading" && (
                 <div className="flex justify-center py-10">
-                  <LoadingIcon color="#AE5EAB" icon="oval" className="w-10 h-10" />
+                  <LoadingIcon color="#7E4996" icon="oval" className="w-10 h-10" />
                 </div>
               )}
 

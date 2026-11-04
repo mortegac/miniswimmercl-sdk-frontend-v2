@@ -90,3 +90,112 @@ Active Redux slices: auth, location, student, course, sessionDetail, sessionType
 
 ### WP Store / WhatsApp Integration
 The `WP` store and `/api/*` proxy to `https://api.whaticket.com` handle WhatsApp messaging (WhatTicket platform). This is a separate integration from the Amplify backend.
+
+
+
+### AWS CLI Profile
+
+> **CRITICAL:** Always use profile `MINISWIMMER-05FEB2026` for every AWS CLI command. Never run AWS CLI commands without this profile.
+
+```bash
+aws <command> --profile MINISWIMMER-05FEB2026
+```
+
+### AppSync GraphQL API — Endpoint Canónico
+
+> **CRITICAL — ÚNICO ENDPOINT VÁLIDO PARA LOS 3 PROYECTOS**
+>
+> Los 3 proyectos Miniswimmer (Pagos, Backend, Backoffice) comparten el mismo endpoint AppSync.
+> **NUNCA** usar ningún otro endpoint. Los archivos `aws-exports.ts` y `aws-exports.js` que existen
+> en el proyecto son **código muerto** (no importados en ningún archivo) con endpoints legacy obsoletos — ignorarlos.
+> El directorio `amplify-gen1-legacy/` también contiene endpoints antiguos — solo referencia histórica.
+
+| Campo | Valor |
+|---|---|
+| **GraphQL URL** | `https://vibghdaimbgfnlypijdjpufbgu.appsync-api.us-east-2.amazonaws.com/graphql` |
+| **API Key** | `da2-y5mbqnzliraotj2zgojiatx34a` |
+| **Región** | `us-east-2` |
+| **Auth modes** | `apiKey` (operaciones públicas), `userPool` (operaciones admin con Cognito) |
+| **Fuente de verdad** | `amplify_outputs.json` (raíz del repo) → campo `data.url` |
+
+```bash
+# Verificar que amplify_outputs.json usa el endpoint correcto
+grep "url" amplify_outputs.json
+# Debe mostrar: vibghdaimbgfnlypijdjpufbgu.appsync-api.us-east-2.amazonaws.com/graphql
+```
+
+**Endpoints legacy a ignorar (código muerto):**
+- `src/aws-exports.ts` → `https://https://m2hmnszh4je2rk3mdemcrudxw4...` — URL malformada, NO USAR
+- `src/aws-exports.js` → endpoint `m2hmnszh4je2rk3mdemcrudxw4` — NO USAR
+- `amplify-gen1-legacy/` → endpoints Amplify Gen 1 — solo referencia histórica
+
+### AWS Cognito User Pools
+
+> **CRITICAL — LEER ANTES DE CUALQUIER OPERACIÓN EN COGNITO**
+>
+> - **NUNCA** modificar, crear usuarios, ni hacer ningún cambio en el pool `us-east-2_RnbT7nPr9`.
+>   Es el pool de clientes de pago legacy (11 usuarios reales) y cualquier cambio puede romper flujos de pago en producción.
+> - **SIEMPRE** usar el pool `us-east-2_SAkrMOGEN` para todas las operaciones. Es el pool activo referenciado en `amplify_outputs.json`.
+
+Este proyecto (backoffice frontend) se autentica contra el backend Amplify Gen 2 compartido. Región: `us-east-2`.
+
+| Pool | ID | Client ID | Estado |
+|---|---|---|---|
+| **✅ USAR SIEMPRE** | `us-east-2_SAkrMOGEN` | `7ffvh1vqfmqhl36pjv3ugdsfg6` | Producción activa — referenciado en `amplify_outputs.json` |
+| **⚠️ Solo lectura** | `us-east-2_xtGftFnff` | `6o3gk8krb9m6jb0kqkrrj86u77` | Deploy anterior — usuarios admin (`hola@miniswimmer.cl`, `hi@manuelo.dev`) |
+| **🚫 NUNCA TOCAR** | `us-east-2_RnbT7nPr9` | — | Pool legacy de clientes de pago. 11 usuarios reales. Solo lectura. |
+| **Dev (vacío)** | `us-east-2_g5cMGeymr` | — | Pool de desarrollo del frontend. Sin usuarios. |
+
+```bash
+# Perfil AWS a usar siempre
+aws <command> --profile MINISWIMMER-05FEB2026
+
+# Listar usuarios del pool activo
+aws cognito-idp list-users --user-pool-id us-east-2_SAkrMOGEN --profile MINISWIMMER-05FEB2026
+
+# Cambiar contraseña de usuario admin
+aws cognito-idp admin-set-user-password \
+  --user-pool-id us-east-2_SAkrMOGEN \
+  --username <sub-del-usuario> \
+  --password '<nueva-contraseña>' \
+  --permanent \
+  --profile MINISWIMMER-05FEB2026
+```
+
+## Proyectos Relacionados
+
+Todos los proyectos comparten el mismo backend Amplify Gen 2 y el pool Cognito `us-east-2_SAkrMOGEN`.
+
+| Proyecto | Ruta local | CLAUDE.md |
+|---|---|---|
+| **Frontend/Backoffice (este proyecto)** | `/Users/manu/_CODE/MINISWIMMER.us/_CODE/miniswimmercl-sdk-frontend-v2` | `CLAUDE.md` |
+| **Backend (Amplify Gen 2)** | `/Users/manu/_CODE/MINISWIMMER.us/_CODE/miniswimmercl-sdk-backend-v2` | `CLAUDE.md` |
+| **Pagos** | `/Users/manu/_CODE/MINISWIMMER.us/_CODE/miniswimmercl_paymentsV2` | `CLAUDE.md` |
+
+### amplify_outputs.json (compartido entre proyectos)
+
+Los 3 proyectos usan el mismo `amplify_outputs.json`. Si el backend se redespliega, copiar el nuevo archivo a los otros dos proyectos.
+
+```bash
+# Después de un redeploy del backend, actualizar los otros proyectos:
+cp /Users/manu/_CODE/MINISWIMMER.us/_CODE/miniswimmercl-sdk-backend-v2/amplify_outputs.json \
+   /Users/manu/_CODE/MINISWIMMER.us/_CODE/miniswimmercl-sdk-frontend-v2/amplify_outputs.json
+
+cp /Users/manu/_CODE/MINISWIMMER.us/_CODE/miniswimmercl-sdk-backend-v2/amplify_outputs.json \
+   /Users/manu/_CODE/MINISWIMMER.us/_CODE/miniswimmercl_paymentsV2/amplify_outputs.json
+```
+
+
+## CRITICAL
+- Think before acting. Read files before writing code.
+- Edit only the changes; do not rewrite entire files.
+- Do not re-read files you have already read unless they have changed.
+- Do not repeat unchanged code in your responses.
+- No preambles, no summaries at the end, and do not explain the obvious.
+- Test before completing the task.
+<!-- - Piensa antes de actuar. Lee los archivos antes de escribir código
+- Edita solo lo que cambia, no reescribas archivos enteros
+- No releas archivos que ya hayas leído salvo que hayan cambiado
+- No repitas código sin cambios en tus respuestas
+- Sin preámbulos, sin resúmenes al final, sin explicar lo obvio
+- Testea antes de dar por terminado -->

@@ -390,9 +390,6 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
       .setExpirationTime('2h') // El token expira en 2 horas
       .sign(secretKey);
       setJWT(jwt)
-      
-    console.log(jwt)
-      
     return jwt;
   }
   
@@ -450,27 +447,19 @@ export const Step05Resume = ({ onChangeSetStore }: any) => {
               
             </div>
             
-            {/* STEP 04 - CARRO DE COMPRAS */}
-            {/* <div className="flex flex-col mb-20 ">
-              <h3 className="text-xl font-medium text-primary">
-                {"Link de pago"}
-              </h3>
-             
-              <span className="text-base font-light mt-2  text-primary">
-              {"Id Carro:"} <b>{cartId}</b>
-              </span>
-              <span className="text-base font-light overflow-auto text-primary mt-8 border border-primary p-4 rounded-xl bg-purple-100">
-              {
-                cartId &&
-                  <a target="_blank" href={`https://pagos.miniswimmer.cl/${JWT}`}>
-                    {
-                    `Para completar su inscripción por favor ingrese en el siguiente link de pago https://pagos.miniswimmer.cl/${JWT}   El link de pago tiene una vigencia de 48 horas.`
-                    }
-                  </a>
-              }
-              </span>
-            </div>
-             */}
+            {cartId && JWT && (
+              <div className="flex flex-col mb-8 mt-2">
+                <h3 className="text-sm font-medium text-primary mb-2">Link de pago</h3>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://pagos.miniswimmer.cl/${JWT}`}
+                  className="text-sm overflow-auto text-primary border border-primary p-4 rounded-xl bg-purple-100 break-all hover:bg-purple-200 transition-colors"
+                >
+                  {`https://pagos.miniswimmer.cl/${JWT}`}
+                </a>
+              </div>
+            )}
 
         </div>
       </div>

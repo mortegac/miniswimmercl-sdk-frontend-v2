@@ -2,22 +2,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-import {fetchData} from "./services"
+import {fetchData, fetchDataByCart} from "./services"
 import {PaymentTransactions, emptyPaymentTransactions, FilterOptions} from "./types"
 
 
 
 export interface PaymentTransactionsState {
   status: "idle" | "loading" | "failed";
+  cartStatus: "idle" | "loading" | "failed";
   paymentTransaction: PaymentTransactions;
   paymentTransactions: PaymentTransactions[];
- errorMessage:string;
+  cartTransactions: PaymentTransactions[];
+  errorMessage:string;
 }
 
 export const initialState: PaymentTransactionsState = {
   status: "idle",
+  cartStatus: "idle",
   paymentTransaction: emptyPaymentTransactions,
   paymentTransactions: [emptyPaymentTransactions],
+  cartTransactions: [],
   errorMessage:"",
 };
 
@@ -37,6 +41,18 @@ export const getPaymentTransactions = createAsyncThunk(
 
 
 
+export const getPaymentTransactionsByCart = createAsyncThunk(
+  "PaymentTransactionsState/listByCart",
+  async (cartId: string) => {
+    try {
+      const response: any = await fetchDataByCart(cartId);
+      return response;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+);
+
 export const PaymentTransactionsSlice = createSlice({
   name: "auth",
   initialState,
@@ -55,29 +71,21 @@ export const PaymentTransactionsSlice = createSlice({
       .addCase(getPaymentTransactions.fulfilled, (state, action) => {
         const objPayload: any = action.payload;
         state.status = "idle";
-        
-        // console.log("---getPaymentTransactions --action---", objPayload)
-         
-        // const sortedArray = objPayload?.items.sort((a:any, b:any) => {
-        //   // Primero, comparamos por locationCoursesId
-        //   if (a.locationCoursesId < b.locationCoursesId) return -1;
-        //   if (a.locationCoursesId > b.locationCoursesId) return 1;
-          
-        //   // Si locationCoursesId es igual, comparamos por AgeGroupType
-        //   if (a.AgeGroupType < b.AgeGroupType) return -1;
-        //   if (a.AgeGroupType > b.AgeGroupType) return 1;
-          
-        //   // Si ambos son iguales, no cambiamos el orden
-        //   return 0;
-        // });
-  
-        // state.courses = objPayload?.items || [];
         state.paymentTransactions = objPayload?.items || [];
-        
       })
-      
-      
-    
+
+      .addCase(getPaymentTransactionsByCart.pending, (state) => {
+        state.cartStatus = "loading";
+      })
+      .addCase(getPaymentTransactionsByCart.rejected, (state) => {
+        state.cartStatus = "failed";
+      })
+      .addCase(getPaymentTransactionsByCart.fulfilled, (state, action) => {
+        const objPayload: any = action.payload;
+        state.cartStatus = "idle";
+        state.cartTransactions = objPayload?.items || [];
+      })
+
   },
 });
 

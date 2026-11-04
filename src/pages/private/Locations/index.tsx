@@ -10,6 +10,7 @@ import { Slideover } from "@/components/Base/Headless";
 import { FormInput, FormLabel, FormSwitch } from "@/components/Base/Form";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 
+import ListParams from "@/components/ListParams";
 import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import { setBreadcrumb } from "@/stores/breadcrumb";
 import {
@@ -18,6 +19,7 @@ import {
   updateLocationThunk,
   selectLocation,
 } from "@/stores/Locations/slice";
+import { getParameters, selectParameters } from "@/stores/Parameters/slice";
 
 // ── Validation schema ──────────────────────────────────────────
 const schema = yup.object({
@@ -57,6 +59,13 @@ function LocationForm({
 }) {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(selectLocation);
+  const { cityOfResidence, regions, groups } = useAppSelector(selectParameters);
+
+  useEffect(() => {
+    dispatch(getParameters({ key: "CITYOFRESIDENCE" }));
+    dispatch(getParameters({ key: "REGIONS" }));
+    dispatch(getParameters({ key: "GROUPS" }));
+  }, []);
 
   const {
     register,
@@ -106,7 +115,15 @@ function LocationForm({
 
   const isActiveVal = watch("isActive");
   const isVisibleVal = watch("isVisible");
+  const cityVal = watch("city");
+  const regionVal = watch("region");
+  const groupVal = watch("group");
   const isLoading = status === "loading";
+
+  // ListParams emite {target:{name,value}} — lo mapeamos a react-hook-form
+  const onParamChange = (e: any) => {
+    setValue(e.target.name, e.target.value ?? "", { shouldValidate: true });
+  };
 
   const onSubmit = async (values: FormValues) => {
     if (isNew) {
@@ -133,12 +150,26 @@ function LocationForm({
         <div className="grid grid-cols-2 gap-4">
           <div>
             <FormLabel htmlFor="city">Ciudad *</FormLabel>
-            <FormInput id="city" type="text" {...register("city")} className={errors.city ? "border-red-500" : ""} />
+            <ListParams
+              list={cityOfResidence}
+              value={cityVal || ""}
+              name="city"
+              isLoading={false}
+              fn={onParamChange}
+              handleCreate={() => null}
+            />
             {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city.message}</p>}
           </div>
           <div>
             <FormLabel htmlFor="region">Región *</FormLabel>
-            <FormInput id="region" type="text" {...register("region")} className={errors.region ? "border-red-500" : ""} />
+            <ListParams
+              list={regions}
+              value={regionVal || ""}
+              name="region"
+              isLoading={false}
+              fn={onParamChange}
+              handleCreate={() => null}
+            />
             {errors.region && <p className="text-red-500 text-xs mt-1">{errors.region.message}</p>}
           </div>
         </div>
@@ -146,7 +177,14 @@ function LocationForm({
         <div className="grid grid-cols-2 gap-4">
           <div>
             <FormLabel htmlFor="group">Grupo *</FormLabel>
-            <FormInput id="group" type="text" {...register("group")} className={errors.group ? "border-red-500" : ""} />
+            <ListParams
+              list={groups}
+              value={groupVal || ""}
+              name="group"
+              isLoading={false}
+              fn={onParamChange}
+              handleCreate={() => null}
+            />
             {errors.group && <p className="text-red-500 text-xs mt-1">{errors.group.message}</p>}
           </div>
           <div>
@@ -373,7 +411,7 @@ function Main() {
           {/* Table */}
           {status === "loading" && (
             <div className="flex justify-center py-10">
-              <LoadingIcon color="#AE5EAB" icon="three-dots" className="w-10 h-10" />
+              <LoadingIcon color="#7E4996" icon="three-dots" className="w-10 h-10" />
             </div>
           )}
 

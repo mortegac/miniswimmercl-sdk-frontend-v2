@@ -144,7 +144,7 @@ function NewPasswordForm() {
         <Button
           rounded
           type="submit"
-          className="mb-4 w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB] px-12 py-4 border-[1px] border-[#F194EE]"
+          className="mb-4 w-full bg-gradient-to-r from-[#F194EE] to-[#7E4996] px-12 py-4 border-[1px] border-[#F194EE]"
         >
           <span className="ml-2 text-white text-lg">Cambiar contraseña</span>
         </Button>
@@ -273,7 +273,7 @@ function Main() {
                       <Button
                         rounded
                         type="submit"
-                        className="mb-6 w-full bg-gradient-to-r from-[#F194EE] to-[#AE5EAB] px-12 py-4 border-[1px] border-[#F194EE] "
+                        className="mb-6 w-full bg-gradient-to-r from-[#F194EE] to-[#7E4996] px-12 py-4 border-[1px] border-[#F194EE] "
                       >
                         <span className="ml-2 text-white text-lg">Ingresar</span>
                       </Button>

@@ -205,13 +205,13 @@ const Card: React.FC<Props> = ({student}) => {
                 {/* <h3>{student?.usersRelationshipsId}</h3> */}
               <div className="w-full border-t border-dashed border-primary my-2 mt-1"></div>                   
               { numberSessions > 0 &&
-                // <Alert className="flex items-center justify-center rounded-full mb-2 w-full border border-[#ae5eab]">
+                // <Alert className="flex items-center justify-center rounded-full mb-2 w-full border border-[#7E4996]">
                 <div className="flex items-center flex-col justify-center mb-2 w-full p-4">
                   {/* <div className=" uppercase font-thin text-slate-900"> */}
-                  <p className={`${numberSessions > 0 && "text-center uppercase mt-3 text-4xl font-medium leading-none text-[#ae5eab]  w-full"}`}>
+                  <p className={`${numberSessions > 0 && "text-center uppercase mt-3 text-4xl font-medium leading-none text-[#7E4996]  w-full"}`}>
                         {`${numberSessions}`}  
                   </p>
-                  <p className={`${numberSessions > 0 && "text-center uppercase mt-3 text-sm leading-none text-[#ae5eab]  w-full"}`}>
+                  <p className={`${numberSessions > 0 && "text-center uppercase mt-3 text-sm leading-none text-[#7E4996]  w-full"}`}>
                         Sessiones vigentes
                   </p>
                   {/* </div> */}

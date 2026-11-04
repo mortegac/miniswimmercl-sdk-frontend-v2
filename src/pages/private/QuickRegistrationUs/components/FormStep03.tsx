@@ -55,7 +55,7 @@ export const FormStep03 = ({ onChangeSetStore }: any) => {
       
       { status === "loading" &&
                 <div className="flex justify-center items-center w-full h-48"><LoadingIcon
-                  color="#AE5EAB"
+                  color="#7E4996"
                   icon="oval"
                   className="w-10 h-10 mt-10"
                 /></div>

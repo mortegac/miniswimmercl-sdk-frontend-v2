@@ -1,8 +1,38 @@
 import { useState, useEffect, useCallback } from "react";
 import clsx from "clsx";
 import _ from "lodash";
+import * as jose from "jose";
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import { Link } from "react-router-dom";
+
+const JWT_SECRET = new TextEncoder().encode("tu_clave_secreta_super_segura_min_32_caracteres");
+
+function PaymentLinkButton({ cartId }: { cartId: string }) {
+  const [paymentUrl, setPaymentUrl] = useState("");
+  useEffect(() => {
+    new jose.SignJWT({ sub: cartId })
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("2h")
+      .sign(JWT_SECRET)
+      .then(jwt => setPaymentUrl(`https://pagos.miniswimmer.cl/${jwt}`));
+  }, [cartId]);
+
+  if (!paymentUrl) return <div className="w-full" />;
+  return (
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href={paymentUrl}
+      className="flex flex-col items-center justify-center border border-primary px-4 py-4 w-full rounded-2xl bg-primary/10 hover:bg-primary/20 transition-colors gap-2"
+    >
+      <div className="flex items-center justify-center w-8 h-8 overflow-hidden border rounded-lg border-theme-1/10 box bg-theme-1/10">
+        <Lucide icon="ExternalLink" className="w-4 h-4 stroke-[1.3] text-theme-1" />
+      </div>
+      <p className="font-medium text-sm">Ir a pagar</p>
+    </a>
+  );
+}
 
 
 import Lucide from "@/components/Base/Lucide";
@@ -46,7 +76,7 @@ export function ResumenTransactions(props:any) {
     return <>              
       { status === "loading" &&   <div className="flex justify-center items-center w-full h-10">
         <LoadingIcon
-          color="#AE5EAB"
+          color="#7E4996"
           icon="three-dots"
           className="w-10 h-10 mt-10"
         />
@@ -139,30 +169,19 @@ export function ResumenTransactions(props:any) {
                   </div> */}
                   {/* <pre>{JSON.stringify(item?.id, null, 2 )}</pre> */}
                   
-                  <Link
-              to="/shopping-cart"
-              state={{ shoppingCartId: item?.id }}
-              // onClick={()=>simulateEscKey()}
-              className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y "
-            >
-            
-            <div className="flex flex-col">
-              <div className="flex items-center justify-start border border-primary px-4 py-3 focus:z-2 w-full rounded-full mt-6 bg-primary/15">
-                <div className="flex items-center justify-center w-6 h-6 overflow-hidden border rounded-md zoom-in border-theme-1/10 box bg-theme-1/10">
-                <Lucide
-                  icon="DollarSign"
-                  className="w-3.5 h-3.5 stroke-[1.3] text-theme-1"
-                />
-                </div>
-                {/* <div className="font-medium truncate"> */}
-                  <p className="font-medium text-lg truncate ml-3">Ir al carro</p>
-               
-              </div>
-              
-            
-              
-            </div>
-            </Link>
+                  <div className="flex flex-row gap-3 mt-4">
+                    <PaymentLinkButton cartId={item?.id} />
+                    <Link
+                      to="/shopping-cart"
+                      state={{ shoppingCartId: item?.id }}
+                      className="flex flex-col items-center justify-center border border-primary px-4 py-4 w-full rounded-2xl bg-primary/15 hover:bg-primary/25 transition-colors gap-2"
+                    >
+                      <div className="flex items-center justify-center w-8 h-8 overflow-hidden border rounded-lg border-theme-1/10 box bg-theme-1/10">
+                        <Lucide icon="DollarSign" className="w-4 h-4 stroke-[1.3] text-theme-1" />
+                      </div>
+                      <p className="font-medium text-sm">Ir al carro</p>
+                    </Link>
+                  </div>
                   
                 
                   

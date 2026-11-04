@@ -27,21 +27,21 @@ export const createApoderado = async (objFilter: FilterOptions): Promise<any> =>
         query: createUsers,
         variables: {
           input: {
-            id: objFilter?.userEmail, 
-            name: objFilter?.name, 
-            email: objFilter?.userEmail, 
-            validated: true, 
-            contactPhone: objFilter?.userPhone, 
-            ig: "", 
-            firstContact: false, 
-            usersRolesId: "parents",
+            id: objFilter?.userEmail,
+            name: objFilter?.name,
+            email: objFilter?.userEmail,
+            validated: true,
+            contactPhone: objFilter?.userPhone,
+            ig: "",
+            firstContact: false,
+            roleId: "parents",
             streetAddress: objFilter?.streetAddress || "" ,
             city: objFilter?.city || "",
             state: objFilter?.state || "",
             zipCode: objFilter?.zipCode || "",
-            country: objFilter?.country || "",
-            latitude: objFilter?.latitude || "",
-            longitude: objFilter?.longitude || "",
+            country: objFilter?.country || "CHILE",
+            latitude: objFilter?.latitude ? parseFloat(objFilter.latitude) : null,
+            longitude: objFilter?.longitude ? parseFloat(objFilter.longitude) : null,
           }
         }
       });

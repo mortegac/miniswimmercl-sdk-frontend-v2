@@ -602,7 +602,7 @@ function Content(props: any) {
                    <div className="flex justify-center w-full">
                      <div className="w-16 h-16">
                        <LoadingIcon
-                         color="#AE5EAB"
+                         color="#7E4996"
                          icon="three-dots"
                          className="w-10 h-10 mt-10"
                        />
@@ -830,7 +830,7 @@ function Main(props: any) {
         <div className="flex justify-center">
           <div className="w-16 h-16">
             <LoadingIcon
-              color="#AE5EAB"
+              color="#7E4996"
               icon="three-dots"
               className="w-10 h-10 mt-10"
             />

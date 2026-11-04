@@ -82,6 +82,52 @@ export const listPaymentTransactions = /* GraphQL */ `
   }
 `;
 
+export const listPaymentTransactionsByCart = /* GraphQL */ `
+  query ListPaymentTransactionsByCart(
+    $shoppingCartId: ID!
+    $limit: Int
+    $nextToken: String
+  ) {
+    listV2PaymentTransactions(
+      filter: { shoppingCartId: { eq: $shoppingCartId } }
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        token
+        amount
+        buy_order
+        card_number
+        transaction_date
+        accounting_date
+        installments_number
+        payment_type_code
+        session_id
+        card_detail
+        installments_amount
+        authorization_code
+        response_code
+        vci
+        day
+        month
+        year
+        hour
+        glosa
+        hasRefund
+        shoppingCartId
+        usersId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
 /********************************************************
 *                    MUTATIONS
 ********************************************************/

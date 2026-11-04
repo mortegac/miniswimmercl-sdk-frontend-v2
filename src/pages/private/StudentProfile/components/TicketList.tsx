@@ -141,7 +141,7 @@ function Main(props: any) {
                 <div className="flex justify-center items-center text-center py-20 mx-auto">
                   <div className="w-16 h-16">
                     <LoadingIcon
-                      color="#AE5EAB"
+                      color="#7E4996"
                       icon="puff"
                       className="w-10 h-10 mt-10"
                     />

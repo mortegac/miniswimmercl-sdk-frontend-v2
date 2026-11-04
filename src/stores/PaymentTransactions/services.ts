@@ -1,7 +1,7 @@
 import { generateClient } from 'aws-amplify/api';
 
 
-import { listPaymentTransactions } from './queries';
+import { listPaymentTransactions, listPaymentTransactionsByCart } from './queries';
 import { FilterOptions } from './types';
 const client = generateClient();
 
@@ -15,7 +15,7 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       
   
       const filterUserId = (typeof objFilter?.userId === 'undefined') ?
-      {} : { usersPaymentTransactionsId: { eq: String(objFilter.userId) } };
+      {} : { usersId: { eq: String(objFilter.userId) } };
       
       const filterStatus = (typeof objFilter?.status === 'undefined') ?
       {} : { status: { eq: String(objFilter.status) } };
@@ -55,4 +55,12 @@ export const fetchData = async (objFilter: FilterOptions): Promise<any> => {
       );
     }
   });
+};
+
+export const fetchDataByCart = async (cartId: string): Promise<any> => {
+  const res: any = await client.graphql({
+    query: listPaymentTransactionsByCart,
+    variables: { shoppingCartId: cartId, limit: 100 },
+  });
+  return res.data.listV2PaymentTransactions;
 };
