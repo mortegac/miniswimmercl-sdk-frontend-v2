@@ -11,7 +11,7 @@ dayjs.locale("es");
 dayjs.tz.setDefault("America/Santiago");
 
 const EMAILJS_SERVICE = "service_ucb8wga";
-const EMAILJS_TEMPLATE_EVALUACION = "template_evaluacion";
+const EMAILJS_TEMPLATE_EVALUACION = "template_eedooa7";
 init("Csc41asZklkk5HTWk");
 
 import { FormCheck, FormLabel, FormInput } from "@/components/Base/Form";
@@ -54,15 +54,77 @@ function buildObjectivesText(details: DetailRow[]): string {
     .join("\n");
 }
 
+// Email de evaluación (template_eedooa7: from_email / asunto / html_content)
+async function sendEvaluationEmail(p: {
+  to: string;
+  studentName: string;
+  levelName: string;
+  levelDescription: string;
+  levelIco: string;
+  dateStr: string;
+  wasApproved: boolean;
+  observations: string;
+  objectives: { texto: string; wasAchieved: boolean; isMandatory: boolean }[];
+  sessionsCarriedOut: number;
+  previousLevel: string;
+}) {
+  const objetivosHtml = p.objectives
+    .map(
+      (o) => `
+      <tr>
+        <td style="padding:6px 8px;width:24px;font-size:15px;">${o.wasAchieved ? "✅" : "⬜"}</td>
+        <td style="padding:6px 0;color:#334155;font-size:14px;">${o.texto}${o.isMandatory ? ' <span style="color:#e11d48;font-size:11px;">(Obligatorio)</span>' : ""}</td>
+      </tr>`
+    )
+    .join("");
+
+  const htmlContent = `
+    <div style="font-family:'DM Sans',Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;">
+      <div style="text-align:center;margin-bottom:16px;">
+        ${p.levelIco ? `<img src="${p.levelIco}" alt="${p.levelName}" width="90" style="height:auto;margin:0 auto 8px;display:block;" />` : ""}
+        <h2 style="color:#6821A1;margin:0;">${p.levelName}</h2>
+        ${p.levelDescription ? `<p style="color:#64748b;font-size:13px;margin:4px 0 0;">${p.levelDescription}</p>` : ""}
+      </div>
+      <p style="color:#334155;font-size:15px;">
+        Compartimos la evaluación de <b style="color:#6821A1;">${p.studentName}</b> realizada el ${p.dateStr}.
+      </p>
+      <div style="text-align:center;margin:18px 0;">
+        <span style="display:inline-block;background:${p.wasApproved ? "#6821A1" : "#f1f5f9"};color:${p.wasApproved ? "#ffffff" : "#64748b"};font-size:15px;font-weight:bold;padding:10px 24px;border-radius:999px;">
+          ${p.wasApproved ? "✅ NIVEL APROBADO" : "⏳ Nivel en proceso"}
+        </span>
+      </div>
+      <p style="color:#6821A1;font-weight:bold;font-size:14px;margin-bottom:4px;">Objetivos del nivel</p>
+      <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:12px;">${objetivosHtml}</table>
+      <table style="width:100%;font-size:14px;color:#334155;border-collapse:collapse;margin-top:16px;">
+        <tr><td style="padding:5px 0;color:#94a3b8;width:150px;">Sesiones realizadas</td><td style="padding:5px 0;font-weight:bold;">${p.sessionsCarriedOut}</td></tr>
+        ${p.previousLevel ? `<tr><td style="padding:5px 0;color:#94a3b8;">Nivel anterior</td><td style="padding:5px 0;font-weight:bold;">${p.previousLevel}</td></tr>` : ""}
+        <tr><td style="padding:5px 0;color:#94a3b8;vertical-align:top;">Observaciones</td><td style="padding:5px 0;">${p.observations || "Sin observaciones"}</td></tr>
+      </table>
+      <p style="color:#94a3b8;font-size:12px;margin-top:28px;">
+        Si tienes dudas sobre la evaluación, responde este correo o escríbenos a hola@miniswimmer.cl
+      </p>
+    </div>`;
+
+  return emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_EVALUACION, {
+    from_email: p.to,
+    asunto: `Evaluacion Miniswimmer de ${p.studentName}`,
+    html_content: htmlContent,
+  });
+}
+
 // ── NuevaEvaluacionForm ──────────────────────────────────────────
 function NuevaEvaluacionForm({
   studentId,
   studentBirthdate,
+  studentName,
+  guardianEmail,
   onClose,
   onSaved,
 }: {
   studentId: string;
   studentBirthdate?: string;
+  studentName?: string;
+  guardianEmail?: string;
   onClose: () => void;
   onSaved: () => void;
 }) {
@@ -73,6 +135,7 @@ function NuevaEvaluacionForm({
   const userId = authId || emailAuth;
 
   const [selectedLevelId, setSelectedLevelId] = useState("");
+  const [sendEmail, setSendEmail] = useState(false);
   const [selectedLevelIcon, setSelectedLevelIcon] = useState("");
   const [selectedLevelDescription, setSelectedLevelDescription] = useState("");
   const [objectives, setObjectives] = useState<ObjectiveRow[]>([]);
@@ -140,6 +203,28 @@ function NuevaEvaluacionForm({
           })),
         })
       ).unwrap();
+
+      // Envío de email al apoderado si el check está activo
+      if (sendEmail && guardianEmail) {
+        try {
+          const level = sortedLevels.find((l: any) => l.id === selectedLevelId);
+          await sendEvaluationEmail({
+            to: guardianEmail,
+            studentName: studentName || "",
+            levelName: level?.name || "",
+            levelDescription: level?.description || selectedLevelDescription,
+            levelIco: level?.ico || selectedLevelIcon,
+            dateStr: dayjs().format("DD [de] MMMM [de] YYYY"),
+            wasApproved,
+            observations,
+            objectives,
+            sessionsCarriedOut: Number(sessionsCarriedOut),
+            previousLevel,
+          });
+        } catch (emailErr) {
+          console.error(">>> Error enviando email de evaluación >>>", emailErr);
+        }
+      }
       onSaved();
     } catch (err: any) {
       setSaveError(typeof err === "string" ? err : err?.message || JSON.stringify(err));
@@ -237,6 +322,21 @@ function NuevaEvaluacionForm({
                 onChange={(e) => setWasApproved(e.target.checked)} className="w-5 h-5 cursor-pointer" />
               <FormLabel htmlFor="nv-approved" className="mb-0 cursor-pointer font-medium">Alumno aprobó el nivel</FormLabel>
             </div>
+            <div
+              className={`flex items-start gap-3 px-4 py-4 rounded-xl border-2 transition-all cursor-pointer ${sendEmail ? "border-blue-400 bg-blue-50" : "border-slate-200 bg-white hover:border-slate-300"}`}
+              onClick={() => setSendEmail(!sendEmail)}
+            >
+              <div className={`flex-shrink-0 w-6 h-6 rounded flex items-center justify-center border-2 mt-0.5 transition-all ${sendEmail ? "bg-blue-500 border-blue-500" : "border-slate-300 bg-white"}`}>
+                {sendEmail && <Lucide icon="Check" className="w-3.5 h-3.5 text-white stroke-[2.5]" />}
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-slate-800">Enviar email al apoderado</p>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Se enviará un resumen de la evaluación a <strong>{guardianEmail || "email no disponible"}</strong>
+                </p>
+              </div>
+              <Lucide icon="Mail" className={`w-5 h-5 mt-0.5 ${sendEmail ? "text-blue-500" : "text-slate-300"}`} />
+            </div>
           </div>
         )}
       </div>
@@ -265,12 +365,14 @@ function EditEvaluacionForm({
   evaluation,
   studentName,
   studentEmail,
+  guardianEmail,
   onClose,
   onSaved,
 }: {
   evaluation: any;
   studentName: string;
   studentEmail: string;
+  guardianEmail?: string;
   onClose: () => void;
   onSaved: () => void;
 }) {
@@ -329,27 +431,20 @@ function EditEvaluacionForm({
 
   const handleSendEmail = async () => {
     setEmailSending(true);
-    const levelName = evaluation?.evaluationLevel?.name || "";
-    const levelDescription = evaluation?.evaluationLevel?.description || "";
-    const objectivesText = buildObjectivesText(details);
-    const approvedText = wasApproved ? "✅ APROBADO" : "⏳ En proceso";
-
-    const templateParams = {
-      to_email: studentEmail,
-      to_name: studentName,
-      student_name: studentName,
-      level_name: levelName,
-      level_description: levelDescription,
-      evaluation_date: dayjs(evaluation?.date).format("DD [de] MMMM [de] YYYY"),
-      was_approved: approvedText,
-      observations: observations || "Sin observaciones",
-      objectives_list: objectivesText,
-      sessions_carried_out: String(sessionsCarriedOut),
-    };
-
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_EVALUACION, templateParams);
-      console.log(">>> Email de evaluación enviado >>>", templateParams);
+      await sendEvaluationEmail({
+        to: guardianEmail || studentEmail,
+        studentName,
+        levelName: evaluation?.evaluationLevel?.name || "",
+        levelDescription: evaluation?.evaluationLevel?.description || "",
+        levelIco: evaluation?.evaluationLevel?.ico || "",
+        dateStr: dayjs(evaluation?.date).format("DD [de] MMMM [de] YYYY"),
+        wasApproved,
+        observations,
+        objectives: details,
+        sessionsCarriedOut: Number(sessionsCarriedOut),
+        previousLevel,
+      });
     } catch (err) {
       console.error(">>> Error enviando email de evaluación >>>", err);
       throw new Error("La evaluación se guardó pero hubo un error al enviar el email.");
@@ -450,7 +545,7 @@ function EditEvaluacionForm({
           <div className="flex-1">
             <p className="text-sm font-medium text-slate-800">Enviar email al apoderado</p>
             <p className="text-xs text-slate-500 mt-0.5">
-              Se enviará un resumen de la evaluación a <strong>{studentEmail || "email no disponible"}</strong>
+              Se enviará un resumen de la evaluación a <strong>{guardianEmail || studentEmail || "email no disponible"}</strong>
             </p>
           </div>
           <Lucide icon="Mail" className={`w-5 h-5 mt-0.5 ${sendEmail ? "text-blue-500" : "text-slate-300"}`} />
@@ -583,12 +678,14 @@ export function EvaluacionesPage({
   studentBirthdate,
   studentName,
   studentEmail,
+  guardianEmail,
   onStudentUpdated,
 }: {
   studentId: string;
   studentBirthdate?: string;
   studentName?: string;
   studentEmail?: string;
+  guardianEmail?: string;
   onStudentUpdated?: () => void;
 }) {
   const dispatch = useAppDispatch();
@@ -637,6 +734,8 @@ export function EvaluacionesPage({
               <NuevaEvaluacionForm
                 studentId={studentId}
                 studentBirthdate={studentBirthdate}
+                studentName={studentName || ""}
+                guardianEmail={guardianEmail || ""}
                 onClose={() => setSlideoverMode(null)}
                 onSaved={handleSaved}
               />
@@ -646,6 +745,7 @@ export function EvaluacionesPage({
                 evaluation={selectedEvaluation}
                 studentName={studentName || ""}
                 studentEmail={studentEmail || ""}
+                guardianEmail={guardianEmail || ""}
                 onClose={() => setSlideoverMode(null)}
                 onSaved={handleSaved}
               />

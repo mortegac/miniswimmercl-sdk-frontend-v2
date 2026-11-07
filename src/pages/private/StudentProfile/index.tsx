@@ -348,6 +348,7 @@ function Content(props:any) {
               studentBirthdate={student?.birthdate}
               studentName={`${student?.name || ""} ${student?.lastName || ""}`.trim()}
               studentEmail={student?.emailPhone || ""}
+              guardianEmail={guardianEmail}
               onStudentUpdated={() => fnUpdateState(student?.id)}
             />
           }
