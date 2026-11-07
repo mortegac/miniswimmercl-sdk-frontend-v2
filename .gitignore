@@ -53,3 +53,4 @@ amplifytools.xcconfig
 .trae/
 .agents/
 skills-lock.json
+e2e/.auth/

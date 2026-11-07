@@ -54,6 +54,15 @@ function buildObjectivesText(details: DetailRow[]): string {
     .join("\n");
 }
 
+// Escape de valores interpolados en HTML (previene inyección en el correo)
+const esc = (v: unknown) =>
+  String(v ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
 // Email de evaluación (template_eedooa7: from_email / asunto / html_content)
 async function sendEvaluationEmail(p: {
   to: string;
@@ -73,7 +82,7 @@ async function sendEvaluationEmail(p: {
       (o) => `
       <tr>
         <td style="padding:6px 8px;width:24px;font-size:15px;">${o.wasAchieved ? "✅" : "⬜"}</td>
-        <td style="padding:6px 0;color:#334155;font-size:14px;">${o.texto}${o.isMandatory ? ' <span style="color:#e11d48;font-size:11px;">(Obligatorio)</span>' : ""}</td>
+        <td style="padding:6px 0;color:#334155;font-size:14px;">${esc(o.texto)}${o.isMandatory ? ' <span style="color:#e11d48;font-size:11px;">(Obligatorio)</span>' : ""}</td>
       </tr>`
     )
     .join("");
@@ -81,12 +90,12 @@ async function sendEvaluationEmail(p: {
   const htmlContent = `
     <div style="font-family:'DM Sans',Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;">
       <div style="text-align:center;margin-bottom:16px;">
-        ${p.levelIco ? `<img src="${p.levelIco}" alt="${p.levelName}" width="90" style="height:auto;margin:0 auto 8px;display:block;" />` : ""}
-        <h2 style="color:#6821A1;margin:0;">${p.levelName}</h2>
-        ${p.levelDescription ? `<p style="color:#64748b;font-size:13px;margin:4px 0 0;">${p.levelDescription}</p>` : ""}
+        ${p.levelIco && /^https:\/\//.test(p.levelIco) ? `<img src="${esc(p.levelIco)}" alt="${esc(p.levelName)}" width="90" style="height:auto;margin:0 auto 8px;display:block;" />` : ""}
+        <h2 style="color:#6821A1;margin:0;">${esc(p.levelName)}</h2>
+        ${p.levelDescription ? `<p style="color:#64748b;font-size:13px;margin:4px 0 0;">${esc(p.levelDescription)}</p>` : ""}
       </div>
       <p style="color:#334155;font-size:15px;">
-        Compartimos la evaluación de <b style="color:#6821A1;">${p.studentName}</b> realizada el ${p.dateStr}.
+        Compartimos la evaluación de <b style="color:#6821A1;">${esc(p.studentName)}</b> realizada el ${esc(p.dateStr)}.
       </p>
       <div style="text-align:center;margin:18px 0;">
         <span style="display:inline-block;background:${p.wasApproved ? "#6821A1" : "#f1f5f9"};color:${p.wasApproved ? "#ffffff" : "#64748b"};font-size:15px;font-weight:bold;padding:10px 24px;border-radius:999px;">
@@ -97,8 +106,8 @@ async function sendEvaluationEmail(p: {
       <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:12px;">${objetivosHtml}</table>
       <table style="width:100%;font-size:14px;color:#334155;border-collapse:collapse;margin-top:16px;">
         <tr><td style="padding:5px 0;color:#94a3b8;width:150px;">Sesiones realizadas</td><td style="padding:5px 0;font-weight:bold;">${p.sessionsCarriedOut}</td></tr>
-        ${p.previousLevel ? `<tr><td style="padding:5px 0;color:#94a3b8;">Nivel anterior</td><td style="padding:5px 0;font-weight:bold;">${p.previousLevel}</td></tr>` : ""}
-        <tr><td style="padding:5px 0;color:#94a3b8;vertical-align:top;">Observaciones</td><td style="padding:5px 0;">${p.observations || "Sin observaciones"}</td></tr>
+        ${p.previousLevel ? `<tr><td style="padding:5px 0;color:#94a3b8;">Nivel anterior</td><td style="padding:5px 0;font-weight:bold;">${esc(p.previousLevel)}</td></tr>` : ""}
+        <tr><td style="padding:5px 0;color:#94a3b8;vertical-align:top;">Observaciones</td><td style="padding:5px 0;">${esc(p.observations) || "Sin observaciones"}</td></tr>
       </table>
       <p style="color:#94a3b8;font-size:12px;margin-top:28px;">
         Si tienes dudas sobre la evaluación, responde este correo o escríbenos a hola@miniswimmer.cl
@@ -107,7 +116,7 @@ async function sendEvaluationEmail(p: {
 
   return emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_EVALUACION, {
     from_email: p.to,
-    asunto: `Evaluacion Miniswimmer de ${p.studentName}`,
+    asunto: `Evaluacion Miniswimmer de ${p.studentName}`.replace(/[\r\n]/g, " "),
     html_content: htmlContent,
   });
 }
