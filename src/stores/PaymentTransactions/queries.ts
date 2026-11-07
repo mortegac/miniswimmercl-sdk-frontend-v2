@@ -7,6 +7,7 @@ export const getPaymentTransactions = /* GraphQL */ `
     getV2PaymentTransactions(id: $id) {
       id
       status
+      paymentProvider
       token
       amount
       buy_order
@@ -52,6 +53,8 @@ export const listPaymentTransactions = /* GraphQL */ `
       items {
         id
         status
+        paymentProvider
+      paymentProvider
         token
         amount
         buy_order
@@ -96,6 +99,8 @@ export const listPaymentTransactionsByCart = /* GraphQL */ `
       items {
         id
         status
+        paymentProvider
+      paymentProvider
         token
         amount
         buy_order

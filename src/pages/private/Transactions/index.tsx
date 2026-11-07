@@ -42,7 +42,17 @@ const typeOfName:any = {
   ["AUTHORIZED"]: "PAGADA",
   ["FAILED"]: "FALLIDA",
   ["INITIALIZED"]: "INICIALIZADA",
+  ["PENDING"]: "PENDIENTE",
+  ["PENDING_MP"]: "PENDIENTE MP",
   [""]: "-",
+};
+
+// Etiqueta de estado: si la app no reconoce el estado, mostrar el valor real de la API
+const statusLabel = (status?: string) => typeOfName[status ?? ""] ?? status ?? "-";
+
+const PROVIDER_LABEL: any = {
+  MERCADOPAGO: "MercadoPago",
+  WEBPAY: "Webpay",
 };
 
 function Content(props: any) {
@@ -98,6 +108,9 @@ const dispatch = useAppDispatch();
               <Table.Td className=" py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
                 Estado
               </Table.Td>
+              <Table.Td className="py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500 text-center">
+                Medio de pago
+              </Table.Td>
               <Table.Td className="text-left py-4 font-medium border-t bg-slate-50 border-slate-200/60 text-slate-500">
                 Glosa
               </Table.Td>
@@ -134,8 +147,23 @@ const dispatch = useAppDispatch();
                     ${item?.status === "INITIALIZED" && "text-gray-600 bg-gray-200 font-thin "}
                     `}>
                     <span className="-mt-px">
-                    {typeOfName[item?.status]}
+                    {statusLabel(item?.status)}
                     </span>
+                  </div>
+                </Table.Td>
+                <Table.Td className=" py-4 border-dashed">
+                  <div className="flex justify-center">
+                    {item?.paymentProvider ? (
+                      <span className={`text-xs rounded-full px-3 py-1 font-medium ${
+                        item.paymentProvider === "MERCADOPAGO"
+                          ? "bg-sky-100 text-sky-700"
+                          : "bg-violet-100 text-violet-700"
+                      }`}>
+                        {PROVIDER_LABEL[item.paymentProvider] ?? item.paymentProvider}
+                      </span>
+                    ) : (
+                      <span className="text-slate-300 text-xs">—</span>
+                    )}
                   </div>
                 </Table.Td>
                 <Table.Td className=" py-4 border-dashed">

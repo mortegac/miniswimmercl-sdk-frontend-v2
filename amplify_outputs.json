@@ -3245,6 +3245,13 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -3464,6 +3471,13 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -3662,6 +3676,13 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -3830,6 +3851,13 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -3929,6 +3957,13 @@
                       "create",
                       "update",
                       "delete",
+                      "read"
+                    ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
                       "read"
                     ]
                   }
@@ -4257,6 +4292,13 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -4541,6 +4583,13 @@
                       "create",
                       "update",
                       "delete",
+                      "read"
+                    ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
                       "read"
                     ]
                   }
@@ -4856,6 +4905,14 @@
                       "update",
                       "delete",
                       "read"
+                    ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "read",
+                      "update"
                     ]
                   }
                 ]
@@ -6276,6 +6333,15 @@
               "isRequired": false,
               "attributes": []
             },
+            "paymentProvider": {
+              "name": "paymentProvider",
+              "isArray": false,
+              "type": {
+                "enum": "v2PaymentProvider"
+              },
+              "isRequired": false,
+              "attributes": []
+            },
             "token": {
               "name": "token",
               "isArray": false,
@@ -6498,6 +6564,16 @@
                 "queryField": "listV2PaymentTransactionsByToken",
                 "fields": [
                   "token"
+                ]
+              }
+            },
+            {
+              "type": "key",
+              "properties": {
+                "name": "byBuyOrder",
+                "queryField": "listV2PaymentTransactionsByBuy_order",
+                "fields": [
+                  "buy_order"
                 ]
               }
             },
@@ -7346,6 +7422,22 @@
                 ]
               }
             },
+            "parentsAuthorizations": {
+              "name": "parentsAuthorizations",
+              "isArray": true,
+              "type": {
+                "model": "v2ParentsAuthorization"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "userId"
+                ]
+              }
+            },
             "createdAt": {
               "name": "createdAt",
               "isArray": false,
@@ -7400,6 +7492,13 @@
                       "create",
                       "update",
                       "delete",
+                      "read"
+                    ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
                       "read"
                     ]
                   }
@@ -7501,11 +7600,153 @@
               "properties": {}
             },
             {
+              "type": "key",
+              "properties": {
+                "name": "byUser",
+                "queryField": "relationshipsByUserId",
+                "fields": [
+                  "userId"
+                ]
+              }
+            },
+            {
               "type": "auth",
               "properties": {
                 "rules": [
                   {
                     "allow": "private",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "read"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "primaryKeyInfo": {
+            "isCustomPrimaryKey": false,
+            "primaryKeyFieldName": "id",
+            "sortKeyFieldNames": []
+          }
+        },
+        "v2ParentsAuthorization": {
+          "name": "v2ParentsAuthorization",
+          "fields": {
+            "id": {
+              "name": "id",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "code": {
+              "name": "code",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "status": {
+              "name": "status",
+              "isArray": false,
+              "type": {
+                "enum": "v2ParentsAuthorizationStatus"
+              },
+              "isRequired": true,
+              "attributes": []
+            },
+            "userId": {
+              "name": "userId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "user": {
+              "name": "user",
+              "isArray": false,
+              "type": {
+                "model": "v2Users"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "userId"
+                ]
+              }
+            },
+            "createdAt": {
+              "name": "createdAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            },
+            "updatedAt": {
+              "name": "updatedAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            }
+          },
+          "syncable": true,
+          "pluralName": "v2ParentsAuthorizations",
+          "attributes": [
+            {
+              "type": "model",
+              "properties": {}
+            },
+            {
+              "type": "key",
+              "properties": {
+                "name": "byCode",
+                "queryField": "parentsAuthorizationsByCode",
+                "fields": [
+                  "code"
+                ]
+              }
+            },
+            {
+              "type": "key",
+              "properties": {
+                "name": "byUser",
+                "queryField": "parentsAuthorizationsByUserId",
+                "fields": [
+                  "userId"
+                ]
+              }
+            },
+            {
+              "type": "auth",
+              "properties": {
+                "rules": [
+                  {
+                    "allow": "private",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  },
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
                     "operations": [
                       "create",
                       "update",
@@ -7930,6 +8171,13 @@
             "INGRESO"
           ]
         },
+        "v2PaymentProvider": {
+          "name": "v2PaymentProvider",
+          "values": [
+            "WEBPAY",
+            "MERCADOPAGO"
+          ]
+        },
         "v2RelationType": {
           "name": "v2RelationType",
           "values": [
@@ -7943,6 +8191,14 @@
             "AUNT",
             "FAMILYS_FRIEND",
             "COUSIN"
+          ]
+        },
+        "v2ParentsAuthorizationStatus": {
+          "name": "v2ParentsAuthorizationStatus",
+          "values": [
+            "PENDING",
+            "AUTHORIZED",
+            "EXPIRED"
           ]
         }
       },
@@ -8171,6 +8427,119 @@
             }
           }
         },
+        "v2WebpayTimeoutResult": {
+          "name": "v2WebpayTimeoutResult",
+          "fields": {
+            "updated": {
+              "name": "updated",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": true,
+              "attributes": []
+            },
+            "buy_order": {
+              "name": "buy_order",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        },
+        "v2MercadopagoPreference": {
+          "name": "v2MercadopagoPreference",
+          "fields": {
+            "preferenceId": {
+              "name": "preferenceId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "initPoint": {
+              "name": "initPoint",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "sandboxInitPoint": {
+              "name": "sandboxInitPoint",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            }
+          }
+        },
+        "v2MercadopagoStatusResult": {
+          "name": "v2MercadopagoStatusResult",
+          "fields": {
+            "paymentId": {
+              "name": "paymentId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "status": {
+              "name": "status",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "statusDetail": {
+              "name": "statusDetail",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "amount": {
+              "name": "amount",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": false,
+              "attributes": []
+            },
+            "glosa": {
+              "name": "glosa",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "externalReference": {
+              "name": "externalReference",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "payerEmail": {
+              "name": "payerEmail",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "paymentMethodId": {
+              "name": "paymentMethodId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "dateApproved": {
+              "name": "dateApproved",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        },
         "v2CognitoCreateUserResult": {
           "name": "v2CognitoCreateUserResult",
           "fields": {
@@ -8274,6 +8643,22 @@
               "isRequired": false
             }
           }
+        },
+        "v2MercadopagoStatus": {
+          "name": "v2MercadopagoStatus",
+          "isArray": false,
+          "type": {
+            "nonModel": "v2MercadopagoStatusResult"
+          },
+          "isRequired": false,
+          "arguments": {
+            "paymentId": {
+              "name": "paymentId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            }
+          }
         }
       },
       "mutations": {
@@ -8317,6 +8702,26 @@
             },
             "courseId": {
               "name": "courseId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            }
+          }
+        },
+        "v2RemoveEnrollment": {
+          "name": "v2RemoveEnrollment",
+          "isArray": false,
+          "type": "Boolean",
+          "isRequired": false,
+          "arguments": {
+            "enrollId": {
+              "name": "enrollId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "employeeId": {
+              "name": "employeeId",
               "isArray": false,
               "type": "String",
               "isRequired": true
@@ -8383,6 +8788,56 @@
           "arguments": {
             "token": {
               "name": "token",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            }
+          }
+        },
+        "v2WebpayTimeout": {
+          "name": "v2WebpayTimeout",
+          "isArray": false,
+          "type": {
+            "nonModel": "v2WebpayTimeoutResult"
+          },
+          "isRequired": false,
+          "arguments": {
+            "ordenCompra": {
+              "name": "ordenCompra",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
+            }
+          }
+        },
+        "v2MercadopagoStart": {
+          "name": "v2MercadopagoStart",
+          "isArray": false,
+          "type": {
+            "nonModel": "v2MercadopagoPreference"
+          },
+          "isRequired": false,
+          "arguments": {
+            "amount": {
+              "name": "amount",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": true
+            },
+            "userId": {
+              "name": "userId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "glosa": {
+              "name": "glosa",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "cartId": {
+              "name": "cartId",
               "isArray": false,
               "type": "String",
               "isRequired": true
