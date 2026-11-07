@@ -43,7 +43,7 @@ const typeOfName:any = {
   ["FAILED"]: "FALLIDA",
   ["INITIALIZED"]: "INICIALIZADA",
   ["PENDING"]: "PENDIENTE",
-  ["PENDING_MP"]: "PENDIENTE MP",
+  ["PENDING_MP"]: "Pendiente Mercadopago",
   [""]: "-",
 };
 
