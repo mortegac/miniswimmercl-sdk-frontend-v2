@@ -367,31 +367,33 @@ function Main() {
               Seleccione la sede para continuar
             </div>
           <div className=" flex flex-wrap justify-center items-center mt-8">
-            { Array.isArray(locationsList) && locationsList.map((location:any, index:number)=>
+            { Array.isArray(locationsList) && locationsList.map((location:any, index:number)=> {
+              const locationName = locations.find((loc: any) => loc.id === location?.value)?.name || location?.value;
+              return (
               <>
               {/* <pre>{JSON.stringify(location, null, 2)}</pre> */}
-              { location?.value !== "" && 
+              { location?.value !== "" &&
                   <Button
                   key={`BUTTON-LOCATION${index}`}
                         onClick={() => {
                           setDate({...date, locationId:location?.value})
-                          localStorage.setItem("selectedLocation", JSON.stringify({ locationId: location?.value, name: location?.value }));
+                          localStorage.setItem("selectedLocation", JSON.stringify({ locationId: location?.value, name: locationName }));
                             // Invocar dispatch para actualizar el estado en Redux
-                          dispatch(setSelectLocationId({ locationId: location?.value, name: location?.value }));}
+                          dispatch(setSelectLocationId({ locationId: location?.value, name: locationName }));}
                         }
-                        
+
                         className={` mx-1 my-1 rounded-full p-0 w-80 h-16 mr-6 mb-6
                           bg-slate-200 border-slate-300 text-slate-700
                         `}
                       >
                         <div className={`text-center px-2`}>
-                          {location?.value}
+                          {locationName}
                         </div>
                   </Button>
               }
-              
+
               </>
-            )}
+            )})}
                           </div>
         </div>
       </div>

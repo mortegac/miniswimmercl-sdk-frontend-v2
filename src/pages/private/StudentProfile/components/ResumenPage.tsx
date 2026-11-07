@@ -19,6 +19,7 @@ import { typeOfMonth, addDaysToDate } from "@/utils/dateHandler";
 
 import LoadingIcon from "@/components/Base/LoadingIcon";
 import { Slideover } from "@/components/Base/Headless";
+import { PayEnrollmentSlideover } from "./PayEnrollmentSlideover";
 
 import { CourseModify } from "../components/CourseModify";
 import {
@@ -56,6 +57,7 @@ function formatDate(dateString: string): string {
 export function ResumenPage(props: any) {
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [sessionSlideover, setSessionSlideover] = useState(false);
+  const [payEnrollmentId, setPayEnrollmentId] = useState("");
   const { data, edad, status, studentId, studentEmail, studentName } = props;
   const [dataCourse, setDataCourse] = useState({
     id: data?.id,
@@ -269,6 +271,16 @@ export function ResumenPage(props: any) {
       </Notification>
 
       {/* SESIONES */}
+      <PayEnrollmentSlideover
+        open={!!payEnrollmentId}
+        enrollmentId={payEnrollmentId}
+        empleadoId={emailAuth}
+        onClose={() => setPayEnrollmentId("")}
+        onPaid={async () => {
+          setPayEnrollmentId("");
+          await dispatch(getStudent({ studentId: studentId || "" }));
+        }}
+      />
       <Slideover
         size="xl"
         key="Slide-sessions333"
@@ -428,7 +440,17 @@ export function ResumenPage(props: any) {
                                         <b>{item?.scheduleName}</b>
                                       </p>
 
-                                      <div className="flex flex-end -mr-6">
+                                      <div className="flex flex-end items-center -mr-6">
+                                        {!item?.wasPaid && (
+                                          <Button
+                                            variant="primary"
+                                            rounded
+                                            className="mr-2 px-5 h-12"
+                                            onClick={() => setPayEnrollmentId(item?.id)}
+                                          >
+                                            Pagar
+                                          </Button>
+                                        )}
                                         <Button
                                           variant="soft-primary"
                                           // className=""
