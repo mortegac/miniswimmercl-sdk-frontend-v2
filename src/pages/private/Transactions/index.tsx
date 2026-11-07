@@ -141,12 +141,13 @@ const dispatch = useAppDispatch();
                   </div>
                 </Table.Td>
                 <Table.Td className=" py-4 border-dashed">
-                  <div className={`flex justify-center items-center text-xs border rounded-full px-2 py-2 
+                  <div className={`flex justify-center items-center text-center text-xs border rounded-full px-2 py-2 
                     ${item?.status === "CREATE" && "text-success bg-success/10 font-thin "}
                     ${item?.status === "AUTHORIZED" && "text-primary border-primary font-black font-dm-sans "}
                     ${item?.status === "INITIALIZED" && "text-gray-600 bg-gray-200 font-thin "}
+                    ${!["CREATE", "AUTHORIZED", "INITIALIZED"].includes(item?.status) && "text-gray-500 bg-gray-100 font-thin "}
                     `}>
-                    <span className="-mt-px">
+                    <span className="-mt-px text-center">
                     {statusLabel(item?.status)}
                     </span>
                   </div>
