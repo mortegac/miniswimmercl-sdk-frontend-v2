@@ -24,6 +24,8 @@ test("botón Pagar abre slideover con selección única de forma de pago", async
   const transferencia = page.locator('button[data-method="TRANSFERENCIA"]');
   await expect(efectivo).toBeVisible();
   await expect(transferencia).toBeVisible();
+  await expect(page.locator('button[data-method="DEBITO"]')).toBeVisible();
+  await expect(page.locator('button[data-method="CREDITO"]')).toBeVisible();
 
   // Botón de confirmación deshabilitado sin selección
   const confirmar = page.locator('[role="dialog"]').getByRole("button", { name: "Pagar", exact: true });

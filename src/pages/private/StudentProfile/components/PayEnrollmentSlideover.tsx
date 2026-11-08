@@ -12,6 +12,8 @@ const client = generateClient();
 const PAYMENT_METHODS = [
   { value: "EFECTIVO", label: "Efectivo", icon: "Banknote" as const },
   { value: "TRANSFERENCIA", label: "Transferencia", icon: "Landmark" as const },
+  { value: "DEBITO", label: "Débito", icon: "CreditCard" as const },
+  { value: "CREDITO", label: "Crédito", icon: "Wallet" as const },
 ];
 
 const findCartByEnrollment = /* GraphQL */ `
