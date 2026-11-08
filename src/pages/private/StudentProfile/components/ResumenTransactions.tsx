@@ -373,6 +373,21 @@ export function ResumenTransactions(props: any) {
 
                     {!cart?.status && <PaymentLinkButton cartId={cart.id} />}
 
+                    {/* Botón Pagar: registra pago manual de todo el carro (admin, carro no autorizado) */}
+                    {isAdmin && cart?.status !== "AUTHORIZED" && (
+                      <Button
+                        variant="primary"
+                        rounded
+                        className="w-full mt-2 py-2.5"
+                        onClick={(e: any) => {
+                          e.stopPropagation();
+                          setPayTarget({ enrollmentId: "", cartId: cart?.id });
+                        }}
+                      >
+                        Pagar
+                      </Button>
+                    )}
+
                     {/* Cart total + tx count */}
                     <div className="flex justify-between items-center mt-2 pt-1.5 border-t border-slate-200/70 dark:border-darkmode-400">
                       <div className="flex items-center gap-1 text-slate-400">

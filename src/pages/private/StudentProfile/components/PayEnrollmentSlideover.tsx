@@ -27,6 +27,19 @@ const findCartByEnrollment = /* GraphQL */ `
   }
 `;
 
+const detailsByCart = /* GraphQL */ `
+  query ShoppingCartDetailsByCart($cartId: ID!, $limit: Int) {
+    listV2ShoppingCartDetailByCartId(cartId: $cartId, limit: $limit) {
+      items {
+        id
+        enrollmentId
+        academyEnrollmentId
+        privateEnrollmentId
+      }
+    }
+  }
+`;
+
 const updateCartPayment = /* GraphQL */ `
   mutation UpdateV2ShoppingCart($input: UpdateV2ShoppingCartInput!) {
     updateV2ShoppingCart(input: $input) {
@@ -49,7 +62,7 @@ const updateEnrollmentPaid = /* GraphQL */ `
 
 interface Props {
   open: boolean;
-  enrollmentId: string;
+  enrollmentId?: string; // si no viene, se pagan todos los enrollments del carro
   cartId?: string; // si se conoce el carro, se usa directo (evita el lookup)
   empleadoId: string; // email del usuario autenticado
   onClose: () => void;
@@ -72,14 +85,17 @@ export function PayEnrollmentSlideover({ open, enrollmentId, cartId: cartIdProp,
     onClose();
   };
 
+  const markEnrollmentPaid = (id: string) =>
+    client.graphql({ query: updateEnrollmentPaid, variables: { input: { id, wasPaid: true } } });
+
   const handlePay = async () => {
-    if (!method || !enrollmentId) return;
+    if (!method || (!enrollmentId && !cartIdProp)) return;
     setSaving(true);
     setError("");
     try {
       // 1. Carro asociado: usar el provisto o buscarlo vía ShoppingCartDetail
       let cartId = cartIdProp;
-      if (!cartId) {
+      if (!cartId && enrollmentId) {
         const detailRes: any = await client.graphql({
           query: findCartByEnrollment,
           variables: { filter: { enrollmentId: { eq: enrollmentId } }, limit: 1000 },
@@ -87,26 +103,30 @@ export function PayEnrollmentSlideover({ open, enrollmentId, cartId: cartIdProp,
         cartId = detailRes?.data?.listV2ShoppingCartDetails?.items?.[0]?.cartId;
       }
 
-      // 2. Forma de pago + empleado en el carro (si existe)
+      // 2. Forma de pago + empleado en el carro
       if (cartId) {
         await client.graphql({
           query: updateCartPayment,
           variables: {
-            input: {
-              id: cartId,
-              paymentMethod: method,
-              empleadoId,
-              status: "AUTHORIZED",
-            },
+            input: { id: cartId, paymentMethod: method, empleadoId, status: "AUTHORIZED" },
           },
         });
       }
 
-      // 3. Enrollment pagado
-      await client.graphql({
-        query: updateEnrollmentPaid,
-        variables: { input: { id: enrollmentId, wasPaid: true } },
-      });
+      // 3. Enrollments pagados: el indicado, o TODOS los del carro
+      if (enrollmentId) {
+        await markEnrollmentPaid(enrollmentId);
+      } else if (cartId) {
+        const detRes: any = await client.graphql({
+          query: detailsByCart,
+          variables: { cartId, limit: 1000 },
+        });
+        const items = detRes?.data?.listV2ShoppingCartDetailByCartId?.items || [];
+        const ids = items
+          .map((d: any) => d.enrollmentId || d.academyEnrollmentId || d.privateEnrollmentId)
+          .filter(Boolean);
+        await Promise.all(ids.map((id: string) => markEnrollmentPaid(id)));
+      }
 
       reset();
       onPaid();
