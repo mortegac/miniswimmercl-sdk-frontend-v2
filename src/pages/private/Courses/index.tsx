@@ -240,19 +240,45 @@ function FormCourse(props: any) {
   // const {courses } = useAppSelector(selectCourse);
   const {locations, status } = useAppSelector(selectLocation);
   const {locationIdSelected } = useAppSelector(selectCourse);
-  
+
+  // Lista local de horarios del curso: se muestra desde aquí para poder
+  // actualizarla al instante tras eliminar (el prop `data` es un snapshot).
+  const [scheduleItems, setScheduleItems] = useState<any[]>(
+    Array.isArray(data?.schedules?.items) ? data.schedules.items : []
+  );
+  const [scheduleMsg, setScheduleMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  useEffect(() => {
+    setScheduleItems(Array.isArray(data?.schedules?.items) ? data.schedules.items : []);
+  }, [data?.schedules?.items]);
+
   const dispatch = useAppDispatch();
-  
-  
+
+
   const handleRemoveSchedule = async (scheduleId: string): Promise<boolean> => {
-    if (!window.confirm('¿Eliminar este horario?')) return false;
-    const result: any = await dispatch(removeSchedule(scheduleId));
-    const ok = result?.meta?.requestStatus === 'fulfilled';
-    if (ok) {
-      // Actualizar la tabla general de cursos y horarios de la sede seleccionada
-      await dispatch(getCourses({ isActive: true, locationId: locationIdSelected }));
+    if (!scheduleId) {
+      setScheduleMsg({ ok: false, text: "No se pudo identificar el horario a eliminar." });
+      return false;
     }
-    return ok;
+    if (!window.confirm('¿Eliminar este horario?')) return false;
+    setScheduleMsg(null);
+    try {
+      const result: any = await dispatch(removeSchedule(scheduleId));
+      const ok = result?.meta?.requestStatus === 'fulfilled';
+      if (ok) {
+        // Quitar el horario de la lista visible de inmediato
+        setScheduleItems((prev) => prev.filter((s: any) => s?.id !== scheduleId));
+        // Actualizar la tabla general de cursos y horarios de la sede seleccionada
+        await dispatch(getCourses({ isActive: true, locationId: locationIdSelected }));
+        setScheduleMsg({ ok: true, text: "Horario eliminado correctamente." });
+      } else {
+        setScheduleMsg({ ok: false, text: "No se pudo eliminar el horario. Intenta nuevamente." });
+      }
+      return ok;
+    } catch {
+      setScheduleMsg({ ok: false, text: "Ocurrió un error al eliminar el horario." });
+      return false;
+    }
   };
 
   const  handleDataSChedule = async (schedule:any) => {
@@ -365,6 +391,17 @@ function FormCourse(props: any) {
            
         
             <h3 className="text-xl my-4">Horarios creados</h3>
+            {scheduleMsg && (
+              <div
+                className={`mb-3 px-3 py-2 rounded-lg text-sm border ${
+                  scheduleMsg.ok
+                    ? "bg-success/10 border-success/30 text-success"
+                    : "bg-red-50 border-red-200 text-red-600"
+                }`}
+              >
+                {scheduleMsg.text}
+              </div>
+            )}
             <div className="relative overflow-auto w-full h-96">
               <div className="overflow-y-auto flex p-2">
                 <div className="overflow-x-auto">
@@ -372,8 +409,8 @@ function FormCourse(props: any) {
                     <Table.Tbody>        
                     {/* {Array.isArray(data?.schedules?.items) &&
                     data?.schedules?.items.map((item: any, i: number) =>  */}
-                    {Array.isArray(data?.schedules?.items) && 
-                           [...data?.schedules?.items].sort((a, b) => {
+                    {Array.isArray(scheduleItems) &&
+                           [...scheduleItems].sort((a, b) => {
                             const dayComparison = (dayOrder[a.day] || 0) - (dayOrder[b.day] || 0);
                             if (dayComparison === 0) {
                               const timeA = a.startHour || '';
