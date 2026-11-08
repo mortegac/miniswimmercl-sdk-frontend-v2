@@ -351,21 +351,6 @@ export function ResumenTransactions(props: any) {
                               <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
                                 ${formatCurrency(detail?.amount)}
                               </span>
-                              {isAdmin && (
-                                <Button
-                                  variant="soft-primary"
-                                  className="flex items-center justify-center w-6 h-6 border rounded-full border-success/20 bg-success/10"
-                                  onClick={(e: any) => {
-                                    e.stopPropagation();
-                                    setPayTarget({
-                                      enrollmentId: detail?.enrollment?.id,
-                                      cartId: cart?.id,
-                                    });
-                                  }}
-                                >
-                                  <Lucide icon="DollarSign" className="w-3 h-3 text-success" />
-                                </Button>
-                              )}
                             </div>
                           </div>
                         );

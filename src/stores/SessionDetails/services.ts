@@ -571,7 +571,7 @@ export const fetchSessionsByStudent = async (objFilter: FilterOptions): Promise<
   
        console.log(">>> getData.data  >>>", getData.data )
     const data:any = getData.data;
-    resolve({ ...data.sessionDetailsBySessionDetailStudentId } as any);
+    resolve({ ...data.listV2SessionDetailByStudentId } as any);
         
     } catch (err) {
       console.log(">> err >>", err)
