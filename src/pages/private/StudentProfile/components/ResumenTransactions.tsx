@@ -53,6 +53,15 @@ import {
 import { selectAuth } from "@/stores/Users/slice";
 import { PayEnrollmentSlideover } from "./PayEnrollmentSlideover";
 
+const PAYMENT_METHOD_LABEL: Record<string, string> = {
+  EFECTIVO: "Efectivo",
+  TRANSFERENCIA: "Transferencia",
+  DEBITO: "Débito",
+  CREDITO: "Crédito",
+  WEBPAY: "Webpay",
+  MERCADOPAGO: "MercadoPago",
+};
+
 const PAYMENT_TYPE_LABELS: Record<string, string> = {
   VD: "Débito",
   VN: "Crédito sin cuotas",
@@ -299,16 +308,24 @@ export function ResumenTransactions(props: any) {
                         />
                         <span className="text-xs text-slate-500">{formatDateUTC(cart?.createdAt)}</span>
                       </div>
-                      <span
-                        className={clsx(
-                          "text-xs px-2 py-0.5 rounded-full font-medium",
-                          cart?.status
-                            ? "bg-success/10 text-success"
-                            : "bg-red-100 text-red-600"
+                      <div className="flex items-center gap-1.5">
+                        {cart?.paymentMethod && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-sky-100 text-sky-700 flex items-center gap-1">
+                            <Lucide icon="Wallet" className="w-3 h-3" />
+                            {PAYMENT_METHOD_LABEL[cart.paymentMethod] ?? cart.paymentMethod}
+                          </span>
                         )}
-                      >
-                        {cart?.status || "PENDIENTE"}
-                      </span>
+                        <span
+                          className={clsx(
+                            "text-xs px-2 py-0.5 rounded-full font-medium",
+                            cart?.status
+                              ? "bg-success/10 text-success"
+                              : "bg-red-100 text-red-600"
+                          )}
+                        >
+                          {cart?.status || "PENDIENTE"}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Cart detail items */}

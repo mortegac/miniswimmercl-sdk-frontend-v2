@@ -4,6 +4,7 @@ export const getShoppingCart = /* GraphQL */ `
       id
       totalPrice
       status
+      paymentMethod
       createdAt
       user {
         id
@@ -84,6 +85,7 @@ export const listShoppingCarts = /* GraphQL */ `
         id
         totalPrice
         status
+        paymentMethod
         createdAt
         userId
         sellerId
