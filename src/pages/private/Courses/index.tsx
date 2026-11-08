@@ -244,12 +244,15 @@ function FormCourse(props: any) {
   const dispatch = useAppDispatch();
   
   
-  const handleRemoveSchedule = async (scheduleId: string) => {
-    if (!window.confirm('¿Eliminar este horario?')) return;
+  const handleRemoveSchedule = async (scheduleId: string): Promise<boolean> => {
+    if (!window.confirm('¿Eliminar este horario?')) return false;
     const result: any = await dispatch(removeSchedule(scheduleId));
-    if (result?.meta?.requestStatus === 'fulfilled') {
+    const ok = result?.meta?.requestStatus === 'fulfilled';
+    if (ok) {
+      // Actualizar la tabla general de cursos y horarios de la sede seleccionada
       await dispatch(getCourses({ isActive: true, locationId: locationIdSelected }));
     }
+    return ok;
   };
 
   const  handleDataSChedule = async (schedule:any) => {
@@ -353,6 +356,7 @@ function FormCourse(props: any) {
                 // setData={setDataSchedule}
                 setData={handleDataSChedule}
                 setCleanData={setDataSchedule}
+                onDelete={handleRemoveSchedule}
                 locationIdSelected ={locationIdSelected}
                 couseId={data?.id}
                 duration={data?.duration}

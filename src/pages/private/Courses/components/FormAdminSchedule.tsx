@@ -73,7 +73,9 @@ const scheduleValidationSchema = yup.object({
   }
   
   export function FormAdminSchedule(props: any) {
-    const { data, setData, setCleanData, duration, couseId, locationIdSelected } = props;
+    const { data, setData, setCleanData, onDelete, duration, couseId, locationIdSelected } = props;
+    const [deleting, setDeleting] = React.useState(false);
+    const [deleteMsg, setDeleteMsg] = React.useState<{ ok: boolean; text: string } | null>(null);
     
     // Configuración de React Hook Form con Yup
     const {
@@ -211,10 +213,25 @@ const scheduleValidationSchema = yup.object({
         // Opcional: disparar validación para limpiar errores
         trigger();
       };
-    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
       e.preventDefault();
-      if (data?.id) {
-        console.log('Eliminar horario:', data.id);
+      if (!data?.id || !onDelete) return;
+      setDeleteMsg(null);
+      setDeleting(true);
+      try {
+        const ok = await onDelete(data.id);
+        if (ok) {
+          setDeleteMsg({ ok: true, text: "Horario eliminado correctamente" });
+          // limpiar el formulario tras eliminar
+          setCleanData({ day: "", startHour: "", endHour: "", minimumQuotas: "", maximumQuotas: "" });
+          reset();
+        } else {
+          setDeleteMsg({ ok: false, text: "No se pudo eliminar el horario. Intenta nuevamente." });
+        }
+      } catch {
+        setDeleteMsg({ ok: false, text: "Ocurrió un error al eliminar el horario." });
+      } finally {
+        setDeleting(false);
       }
     };
   
@@ -394,19 +411,31 @@ const scheduleValidationSchema = yup.object({
                         {isSubmitting ? 'Creando...' : 'Crear Horario'}
                     </Button>
                     
-                    <Button 
+                    <Button
                         type="button"
-                        variant="soft-danger" 
+                        variant="soft-danger"
                         className="mr-2"
                         onClick={(e: React.MouseEvent<HTMLButtonElement>)=>{
                           e.preventDefault();
                           handleDelete(e)
                       }}
-                        disabled={!data?.id}
+                        disabled={!data?.id || deleting}
                     >
-                        Eliminar
+                        {deleting ? 'Eliminando...' : 'Eliminar'}
                     </Button>
                     </div>
+
+                    {deleteMsg && (
+                      <div
+                        className={`mt-2 px-3 py-2 rounded-lg text-sm border ${
+                          deleteMsg.ok
+                            ? "bg-success/10 border-success/30 text-success"
+                            : "bg-red-50 border-red-200 text-red-600"
+                        }`}
+                      >
+                        {deleteMsg.text}
+                      </div>
+                    )}
                 </form>
                 
                 {/* Botón de limpiar fuera del formulario */}
