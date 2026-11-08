@@ -51,6 +51,7 @@ import {
   updatePayment,
 } from "@/stores/ShoppingCarts/slice";
 import { selectAuth } from "@/stores/Users/slice";
+import { PayEnrollmentSlideover } from "./PayEnrollmentSlideover";
 
 const PAYMENT_TYPE_LABELS: Record<string, string> = {
   VD: "Débito",
@@ -103,13 +104,14 @@ const CURRENT_YEAR = new Date().getFullYear();
 export function ResumenTransactions(props: any) {
   const { data, studentId, fnUpdateState } = props;
 
-  const { emailAuth } = useAppSelector(selectAuth);
+  const { emailAuth, usersRolesId } = useAppSelector(selectAuth);
   const { shoppingCarts } = useAppSelector(selectShoppingCarts);
   const { paymentTransactions, cartTransactions: reduxCartTransactions } = useAppSelector(selectPaymentTransactions);
 
   const dispatch = useAppDispatch();
 
   const [selectedCartId, setSelectedCartId] = useState<string | null>(null);
+  const [payTarget, setPayTarget] = useState<{ enrollmentId: string; cartId: string } | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(CURRENT_YEAR);
 
   async function handleCartDoubleClick(cartId: string) {
@@ -151,7 +153,11 @@ export function ResumenTransactions(props: any) {
   const cartTransactions = [...(reduxCartTransactions ?? [])]
     .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-  const isAdmin = emailAuth === "hi@manuelo.dev" || emailAuth === "loreto.gonzález.or@gmail.com";
+  const isAdmin =
+    usersRolesId === "adminRole" ||
+    emailAuth === "hi@manuelo.dev" ||
+    emailAuth === "hola@miniswimmer.cl" ||
+    emailAuth === "loreto.gonzález.or@gmail.com";
 
   async function handleUpdatePayment(payload: any) {
     const { enrollmentId, shoppingCartId } = payload;
@@ -199,6 +205,17 @@ export function ResumenTransactions(props: any) {
 
   return (
     <>
+      <PayEnrollmentSlideover
+        open={!!payTarget}
+        enrollmentId={payTarget?.enrollmentId || ""}
+        cartId={payTarget?.cartId}
+        empleadoId={emailAuth}
+        onClose={() => setPayTarget(null)}
+        onPaid={() => {
+          setPayTarget(null);
+          fnUpdateState(studentId);
+        }}
+      />
       <Notification id="update-payment" className="flex hidden">
         <Lucide icon="CheckCircle" className="text-green-600" />
         <div className="ml-4 mr-4">
@@ -323,9 +340,9 @@ export function ResumenTransactions(props: any) {
                                   className="flex items-center justify-center w-6 h-6 border rounded-full border-success/20 bg-success/10"
                                   onClick={(e: any) => {
                                     e.stopPropagation();
-                                    handleUpdatePayment({
+                                    setPayTarget({
                                       enrollmentId: detail?.enrollment?.id,
-                                      shoppingCartId: cart?.id,
+                                      cartId: cart?.id,
                                     });
                                   }}
                                 >

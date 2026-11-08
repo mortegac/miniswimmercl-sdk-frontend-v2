@@ -50,12 +50,13 @@ const updateEnrollmentPaid = /* GraphQL */ `
 interface Props {
   open: boolean;
   enrollmentId: string;
+  cartId?: string; // si se conoce el carro, se usa directo (evita el lookup)
   empleadoId: string; // email del usuario autenticado
   onClose: () => void;
   onPaid: () => void; // refrescar datos del estudiante
 }
 
-export function PayEnrollmentSlideover({ open, enrollmentId, empleadoId, onClose, onPaid }: Props) {
+export function PayEnrollmentSlideover({ open, enrollmentId, cartId: cartIdProp, empleadoId, onClose, onPaid }: Props) {
   const [method, setMethod] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -76,12 +77,15 @@ export function PayEnrollmentSlideover({ open, enrollmentId, empleadoId, onClose
     setSaving(true);
     setError("");
     try {
-      // 1. Carro asociado al enrollment (vía ShoppingCartDetail)
-      const detailRes: any = await client.graphql({
-        query: findCartByEnrollment,
-        variables: { filter: { enrollmentId: { eq: enrollmentId } }, limit: 1000 },
-      });
-      const cartId = detailRes?.data?.listV2ShoppingCartDetails?.items?.[0]?.cartId;
+      // 1. Carro asociado: usar el provisto o buscarlo vía ShoppingCartDetail
+      let cartId = cartIdProp;
+      if (!cartId) {
+        const detailRes: any = await client.graphql({
+          query: findCartByEnrollment,
+          variables: { filter: { enrollmentId: { eq: enrollmentId } }, limit: 1000 },
+        });
+        cartId = detailRes?.data?.listV2ShoppingCartDetails?.items?.[0]?.cartId;
+      }
 
       // 2. Forma de pago + empleado en el carro (si existe)
       if (cartId) {
