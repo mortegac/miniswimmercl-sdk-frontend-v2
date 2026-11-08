@@ -11,20 +11,20 @@ test("checkbox de email en Nueva y Editar Evaluación", async ({ page }) => {
   // Bloquear envíos reales de EmailJS durante el test
   await page.route("**/api.emailjs.com/**", (r) => r.fulfill({ status: 200, body: "OK" }));
 
-  // Perfil del estudiante → tab Evaluaciones
+  // Perfil del estudiante → tab Evaluaciones (esperar a que el perfil cargue)
   await page.goto(`/admin-student?studentId=${STUDENT_ID}`);
+  await page.getByText("Alma Ortega").first().waitFor({ timeout: 60000 });
   const evalTab = page.getByRole("tablist").getByRole("button", { name: /Evaluaciones/i });
-  await evalTab.waitFor({ timeout: 60000 });
   await evalTab.click();
   await page.waitForTimeout(2000);
 
   // Nueva Evaluación → seleccionar un nivel para ver las secciones
   await page.getByRole("button", { name: /Nueva Evaluación/i }).click();
   await expect(page.getByText("Nueva Evaluación").first()).toBeVisible({ timeout: 10000 });
-  await page.getByRole("button", { name: /LEVEL 1/i }).first().click();
-  await page.waitForTimeout(1000);
+  await page.getByRole("button", { name: /LEVEL 2/i }).first().click();
   const emailCheck = page.getByText("Enviar email al apoderado").first();
-  await expect(emailCheck).toBeVisible();
+  await emailCheck.waitFor({ timeout: 20000 });
+  await emailCheck.scrollIntoViewIfNeeded();
   await expect(page.getByText("mortegac@gmail.com").first()).toBeVisible(); // apoderado correcto
 
   // Toggle visual del check
